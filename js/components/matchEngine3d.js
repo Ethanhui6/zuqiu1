@@ -1,26 +1,16 @@
-// Football Career Simulator V11.0 - 2.5D Interactive Match Engine (xG, Weather, MVP)
+// Football Career Simulator V12.0 - 2.5D Tactical Field & Live Commentary Stream
 
 class MatchEngine3D {
   static simulateMatch(player, opponentTeam) {
-    const weatherList = [
-      { name: "☀️ 晴朗舒适 (夜场大灯)", impact: "适合灵动传控与远射" },
-      { name: "🌧️ 狂风暴雨", impact: "场地湿滑，远射与失误率剧增" },
-      { name: "❄️ 漫天大雪", impact: "体能消耗加倍，对抗优势凸显" }
-    ];
+    const weatherList = ["☀️ 晴朗舒适 (夜场)", "🌧️ 狂风暴雨", "❄️ 漫天大雪"];
     const weather = weatherList[Math.floor(Math.random() * weatherList.length)];
 
-    // xG (Expected Goals) calculation
-    const baseShooting = player.stats.SHO;
-    const basePace = player.stats.PAC;
-    const xG = ((baseShooting * 0.02) + (basePace * 0.015) + (Math.random() * 0.5)).toFixed(2);
-
-    // Score & Performance Simulation
+    const xG = ((player.stats.SHO * 0.02) + (player.stats.PAC * 0.015) + (Math.random() * 0.5)).toFixed(2);
     const teamScore = Math.floor(Math.random() * 3) + (player.ovr > 75 ? 1 : 0);
     const oppScore = Math.floor(Math.random() * 3);
     const goalsScored = (Math.random() < parseFloat(xG)) ? Math.floor(Math.random() * 2) + 1 : 0;
     const assistsMade = (Math.random() < (player.stats.PAS * 0.012)) ? 1 : 0;
     const rating = (6.0 + goalsScored * 1.8 + assistsMade * 1.1 + (Math.random() * 0.8)).toFixed(1);
-
     const isMVP = parseFloat(rating) >= 8.5;
 
     return {
@@ -41,16 +31,13 @@ class MatchEngine3D {
     <div class="match-overlay">
       <div class="match-modal glass-panel">
         <div class="match-header">
-          <span class="brand-badge">${result.weather.name}</span>
-          <h2>🏟️ 本月焦点对决：母队 VS ${result.opponent}</h2>
+          <span class="brand-badge">${result.weather}</span>
+          <h2>🏟️ 本月焦点大战：母队 VS ${result.opponent}</h2>
         </div>
 
-        <!-- 2.5D Pitch Radar View -->
         <div class="pitch-25d-view">
           <div class="pitch-lines">
-            <div class="penalty-box-left"></div>
             <div class="center-circle"></div>
-            <div class="penalty-box-right"></div>
           </div>
           <div class="player-radar-dot" style="top: 45%; left: 60%;">⚽ 你 (${result.rating}分)</div>
         </div>

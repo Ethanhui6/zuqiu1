@@ -1,7 +1,7 @@
-// Football Career Simulator V11.0 - Main SPA Controller
+// Football Career Simulator V12.0 - Apple Music Edition Main Controller
 
 document.addEventListener("DOMContentLoaded", () => {
-  window.game = new GameEngine();
+  window.game = new GameEngine("20260801");
   
   // Navigation Tabs
   const tabBtns = document.querySelectorAll(".tab-btn");
@@ -17,13 +17,12 @@ document.addEventListener("DOMContentLoaded", () => {
   // Advance Month Button
   document.getElementById("advanceMonthBtn").addEventListener("click", () => {
     if (window.game.state.age >= GAME_CONFIG.RETIRE_AGE) {
-      renderRetirementSummary();
+      renderSecondCareerOrSummary();
       return;
     }
 
     window.game.advanceMonth();
     
-    // Every 3 months trigger match simulation modal
     if (window.game.state.month % 3 === 0) {
       triggerMatchPopup();
     } else {
@@ -36,16 +35,17 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 function switchTab(tabName) {
-  const views = ["careerTab", "setupTab", "transferTab", "lifeTab", "mapTab", "trophyTab"];
+  const views = ["careerTab", "talentTab", "socialTab", "transferTab", "lifeTab", "galleryTab"];
   views.forEach(v => {
     const el = document.getElementById(v);
     if (el) el.style.display = (v === tabName) ? "block" : "none";
   });
 
+  if (tabName === "talentTab") renderTalentsView();
+  if (tabName === "socialTab") renderSocialFeed();
   if (tabName === "transferTab") renderTransferMarket();
   if (tabName === "lifeTab") renderLifeSimulator();
-  if (tabName === "mapTab") renderWorldMap();
-  if (tabName === "trophyTab") renderTrophyRoom();
+  if (tabName === "galleryTab") renderGallery();
 }
 
 function renderAll() {
@@ -67,14 +67,13 @@ function renderStatusBar() {
   document.getElementById("statusDate").innerText = `${s.year}年${s.month}月`;
   document.getElementById("statusAge").innerText = `${s.age} 岁`;
   document.getElementById("statusTeam").innerText = s.team.name;
-  document.getElementById("statusWage").innerText = `€${s.weeklyWage.toLocaleString()}/周`;
+  document.getElementById("statusWage").innerText = `€${s.weeklyWage.toLocaleString()}`;
   document.getElementById("statusMoney").innerText = `€${s.money.toLocaleString()}`;
   document.getElementById("statusFame").innerText = s.fame;
   document.getElementById("statusFans").innerText = s.fans.toLocaleString();
-  
-  // 修复 Bug 1：准确国足出场显示
   document.getElementById("statusNational").innerText = s.nationalApps > 0 ? `🇨🇳 国足 ${s.nationalApps} 场` : '未进国足';
   document.getElementById("statusInnocence").innerText = `${s.innocence}%`;
+  document.getElementById("currentSeedText").innerText = s.seed;
 }
 
 function renderMonthlyEvent() {
@@ -84,8 +83,8 @@ function renderMonthlyEvent() {
   if (!event) {
     eventContainer.innerHTML = `
       <div class="glass-panel event-card">
-        <h3 class="event-title">📅 月度战术训练与例行备战中</h3>
-        <p class="event-desc">全队在基地训练准备下场比赛，请点击“模拟下个月”推进剧情。</p>
+        <h3 class="event-title">📅 月度战术训练与备战中</h3>
+        <p class="event-desc">全队在基地准备下场比赛，请点击“模拟下个月”推进进程。</p>
       </div>
     `;
     return;
@@ -136,9 +135,38 @@ function triggerMatchPopup() {
 
   document.getElementById("closeMatchBtn").addEventListener("click", () => {
     container.innerHTML = "";
-    window.game.addLog(`🏟️ 比赛哨响：母队 ${result.teamScore}-${result.oppScore} ${opp.name}，个人评分 ${result.rating}（进球 ${result.goals} / 助攻 ${result.assists}）`);
+    window.game.addLog(`🏟️ 比赛哨响：母队 ${result.teamScore}-${result.oppScore} ${opp.name}，评分 ${result.rating}（进球 ${result.goals} / 助攻 ${result.assists}）`);
     renderAll();
   });
+}
+
+function renderTalentsView() {
+  const container = document.getElementById("talentListContainer");
+  container.innerHTML = GAME_CONFIG.STARTING_TALENTS.map(t => {
+    const isSelected = window.game.state.talents.some(x => x.id === t.id);
+    return `
+      <div class="option-btn" style="cursor: default; display: flex; justify-content: space-between; align-items: center;">
+        <div>
+          <span class="opt-tag" style="background: ${t.quality === 'GOLD' ? 'var(--gold-primary)' : 'var(--apple-red)'}; color:#000;">${t.quality} 品质</span>
+          <span class="opt-text" style="margin-top: 4px; display: block;">${t.name}</span>
+          <p class="opt-effect" style="color: #cbd5e1;">${t.desc}</p>
+        </div>
+        ${isSelected ? '<span class="brand-badge" style="background:#10b981; color:#000;">已激活</span>' : `<button class="btn-primary" style="padding: 6px 14px; font-size: 0.85rem;" onclick="activateTalent('${t.id}')">选择激活</button>`}
+      </div>
+    `;
+  }).join('');
+}
+
+function activateTalent(id) {
+  window.game.addTalent(id);
+  alert("已激活该天赋词条属性加成！");
+  renderTalentsView();
+  renderAll();
+}
+
+function renderSocialFeed() {
+  const container = document.getElementById("socialTab");
+  container.innerHTML = SocialFeed.renderFeed(window.game.state);
 }
 
 function renderTransferMarket() {
@@ -148,10 +176,7 @@ function renderTransferMarket() {
   container.innerHTML = `
     <div class="glass-panel">
       <h2>💼 全球转会市场 (Global Transfer Market)</h2>
-      <p class="scout-label" style="margin-bottom: 20px;">基于你当前的 OVR (${window.game.state.ovr}) 与声望接收发来的真诚报价</p>
-
-      <div class="options-container">
-        ${offers.length === 0 ? '<p class="event-desc">暂无求购报价，请继续出彩表现。</p>' : ''}
+      <div class="options-container" style="margin-top: 15px;">
         ${offers.map(off => `
           <div class="option-btn" style="cursor: default;">
             <div style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
@@ -159,7 +184,7 @@ function renderTransferMarket() {
                 <span class="brand-badge" style="background: #38bdf8; color: #000;">${off.team.league} · ${off.team.tier}级</span>
                 <h3 style="margin-top: 5px; color: var(--gold-primary);">${off.team.country} ${off.team.name}</h3>
               </div>
-              <button class="btn-primary" style="padding: 8px 16px; font-size: 0.9rem;" onclick="acceptTransfer('${off.team.id}', ${off.weeklyWage})">同意签约加盟</button>
+              <button class="btn-primary" style="padding: 8px 16px; font-size: 0.9rem;" onclick="acceptTransfer('${off.team.id}', ${off.weeklyWage})">同意加盟</button>
             </div>
             <p class="opt-effect" style="color: #cbd5e1; margin-top: 8px;">定位：${off.role} | 周薪：€${off.weeklyWage.toLocaleString()}</p>
           </div>
@@ -175,16 +200,12 @@ function acceptTransfer(teamId, wage) {
 
   window.game.state.team = newTeam;
   window.game.state.teamName = newTeam.name;
-  window.game.state.teamColor = newTeam.color;
-  window.game.state.teamAccent = newTeam.accent;
   window.game.state.weeklyWage = wage;
-  
-  // 修复 Bug 2：俱乐部精准加入，避免重复/未出场过度统计
   if (!window.game.state.clubList.includes(newTeam.name)) {
     window.game.state.clubList.push(newTeam.name);
   }
 
-  window.game.addLog(`🎉 官宣加盟【${newTeam.name}】，签约新周薪 €${wage.toLocaleString()}！`);
+  window.game.addLog(`🎉 转会官宣：加盟【${newTeam.name}】，签署新周薪 €${wage.toLocaleString()}！`);
   alert(`成功加盟 ${newTeam.name}！`);
   
   switchTab("careerTab");
@@ -192,10 +213,9 @@ function acceptTransfer(teamId, wage) {
   renderAll();
 }
 
-function selectBirthplace(code) {
-  window.game.setBirthplace(code);
-  alert(`角色已更新出生地！`);
-  renderAll();
+function renderLifeSimulator() {
+  const container = document.getElementById("lifeTab");
+  container.innerHTML = LifeSimulator.render(window.game.state);
 }
 
 function buyProperty(propId, cost) {
@@ -207,28 +227,9 @@ function buyProperty(propId, cost) {
   renderAll();
 }
 
-function buyVehicle(carId, cost) {
-  if (window.game.state.money < cost) return;
-  window.game.state.money -= cost;
-  window.game.state.vehicleId = carId;
-  alert("购入成功！座驾已停入私人车库！");
-  renderLifeSimulator();
-  renderAll();
-}
-
-function renderLifeSimulator() {
-  const container = document.getElementById("lifeTab");
-  container.innerHTML = LifeSimulator.render(window.game.state);
-}
-
-function renderWorldMap() {
-  const container = document.getElementById("mapTab");
-  container.innerHTML = WorldMap.render(window.game.state.careerLogs.filter(l => l.text.includes("加盟")));
-}
-
-function renderTrophyRoom() {
-  const container = document.getElementById("trophyTab");
-  container.innerHTML = TrophyCabinet3D.render(window.game.state.trophiesWon);
+function renderGallery() {
+  const container = document.getElementById("galleryTab");
+  container.innerHTML = AchievementGallery.render();
 }
 
 function renderLogs() {
@@ -240,11 +241,27 @@ function renderLogs() {
   `).join('');
 }
 
-function renderRetirementSummary() {
+function renderSecondCareerOrSummary() {
+  const container = document.getElementById("careerTab");
+  container.innerHTML = SecondCareer.renderOptions(window.game.state);
+}
+
+function startSecondCareer(careerId) {
+  const career = GAME_CONFIG.SECOND_LIFE_CAREERS.find(c => c.id === careerId);
+  alert(`开启第二人生：${career.name}！`);
   const container = document.getElementById("careerTab");
   container.innerHTML = SummaryCard.renderSummary(window.game.state);
 }
 
+function promptCustomSeed() {
+  const input = prompt("请输入您想使用的游戏 Seed 种子（例如 20260801）：", window.game.state.seed);
+  if (input) {
+    window.game = new GameEngine(input);
+    alert(`已重置为 Seed 种子：${input}`);
+    renderAll();
+  }
+}
+
 function exportSummaryCardImage() {
-  alert("已生成总结卡！可截图保存分享至社交平台。");
+  alert("已生成 Apple 拟态终极总结卡！可截图保存分享至社交平台。");
 }

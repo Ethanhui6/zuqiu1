@@ -3,45 +3,43 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-  <title>足球生涯模拟器 V11.0 终极版 | Football Career Simulator</title>
+  <title>足球生涯模拟器 V12.0 Apple 重构版 | Football Career Simulator</title>
   
-  <!-- PWA & Mobile Web App Meta -->
   <link rel="manifest" href="manifest.json">
-  <meta name="theme-color" content="#e5c158">
+  <meta name="theme-color" content="#fa2d48">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <link rel="apple-touch-icon" href="assets/icon-192.png">
 
-  <!-- Open Graph & Social Sharing -->
-  <meta property="og:title" content="足球生涯模拟器 V11.0 终极重构进化版">
-  <meta property="og:description" content="中国足球版人生重开模拟器，体验从青训小将到全球球王传奇的璀璨职业生涯！">
+  <meta property="og:title" content="足球生涯模拟器 V12.0 Apple Music 拟态版">
+  <meta property="og:description" content="中国足球版人生重开模拟器 + Roguelike 天赋抽卡 + 懂球圈舆论风波 + 退役二次人生！">
   <meta property="og:image" content="assets/icon-192.png">
 
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
 
-  <!-- App Header & Navigation -->
+  <!-- Apple Music Style Header -->
   <header class="app-header glass-panel">
     <div class="brand-logo">
-      ⚽ 足球生涯模拟器 <span class="brand-badge">V11.0 终极版</span>
+      ⚽ 足球生涯模拟器 <span class="brand-badge">V12.0 Apple 重构版</span>
     </div>
     <nav class="nav-tabs">
       <button class="tab-btn active" data-tab="careerTab">🎮 职业主页</button>
-      <button class="tab-btn" data-tab="setupTab">⚙️ 角色建模</button>
+      <button class="tab-btn" data-tab="talentTab">⚡ 天赋抽卡</button>
+      <button class="tab-btn" data-tab="socialTab">📱 懂球圈</button>
       <button class="tab-btn" data-tab="transferTab">💼 转会市场</button>
       <button class="tab-btn" data-tab="lifeTab">🏠 奢华生活</button>
-      <button class="tab-btn" data-tab="mapTab">🗺️ 生涯地图</button>
-      <button class="tab-btn" data-tab="trophyTab">🏛️ 荣耀展厅</button>
+      <button class="tab-btn" data-tab="galleryTab">🏆 50+成就墙</button>
     </nav>
   </header>
 
-  <!-- Main SPA View -->
+  <!-- Main SPA Layout -->
   <main class="main-dashboard">
 
     <!-- Left Column: FUT Card & Scouting Report -->
     <aside id="playerCardContainer">
-      <!-- FUT Gold Card & Scout Report Rendered Here -->
+      <!-- Card Rendered Here -->
     </aside>
 
     <!-- Right Column: Control Views -->
@@ -50,10 +48,16 @@
       <!-- View 1: Main Career Dashboard -->
       <div id="careerTab" class="view-content">
 
+        <!-- Seed & Controls -->
+        <div class="glass-panel" style="margin-bottom: 12px; padding: 12px 20px; display: flex; justify-content: space-between; align-items: center;">
+          <span style="font-size: 0.88rem; color: var(--text-muted);">🌱 游戏 Seed 种子：<strong id="currentSeedText" style="color: var(--gold-primary);">20260801</strong></span>
+          <button class="btn-primary" style="padding: 4px 12px; font-size: 0.8rem;" onclick="promptCustomSeed()">输入/重置 Seed</button>
+        </div>
+
         <!-- Top Status Bar Metrics -->
         <div class="top-status-bar glass-panel">
           <div class="status-card">
-            <span class="label">📅 当前时间</span>
+            <span class="label">📅 时间</span>
             <span class="val" id="statusDate">2026年9月</span>
           </div>
           <div class="status-card">
@@ -61,27 +65,27 @@
             <span class="val" id="statusAge">15 岁</span>
           </div>
           <div class="status-card">
-            <span class="label">🛡️ 当前效力</span>
+            <span class="label">🛡️ 效力</span>
             <span class="val" id="statusTeam">浙江队</span>
           </div>
           <div class="status-card">
-            <span class="label">💵 签约周薪</span>
-            <span class="val" id="statusWage">€3,000/周</span>
+            <span class="label">💵 周薪</span>
+            <span class="val" id="statusWage">€3,000</span>
           </div>
           <div class="status-card">
-            <span class="label">💰 个人资产</span>
+            <span class="label">💰 资产</span>
             <span class="val" id="statusMoney">€50,000</span>
           </div>
           <div class="status-card">
-            <span class="label">🌟 声望值</span>
+            <span class="label">🌟 声望</span>
             <span class="val" id="statusFame">10</span>
           </div>
           <div class="status-card">
-            <span class="label">👥 球迷数量</span>
+            <span class="label">👥 粉丝</span>
             <span class="val" id="statusFans">5,000</span>
           </div>
           <div class="status-card">
-            <span class="label">🇨🇳 国足履历</span>
+            <span class="label">🇨🇳 国足出场</span>
             <span class="val" id="statusNational">0 场</span>
           </div>
           <div class="status-card">
@@ -98,7 +102,7 @@
         <!-- Advance Month Action Box -->
         <div class="advance-month-box" style="margin-top: 15px;">
           <div>
-            <h3 style="color: var(--gold-primary);">📅 推进时间线</h3>
+            <h3 style="color: #fff;">⏩ 时间轮盘</h3>
             <p style="font-size: 0.88rem; color: var(--text-muted);">模拟下个月比赛剧情，触发转会与随机事件</p>
           </div>
           <button id="advanceMonthBtn" class="btn-primary">⏩ 模拟下个月</button>
@@ -106,45 +110,35 @@
 
         <!-- Career History Logs -->
         <div class="glass-panel" style="margin-top: 15px;">
-          <h3 style="margin-bottom: 10px; color: var(--gold-primary);">📜 生涯动向履历 (Career Logs)</h3>
+          <h3 style="margin-bottom: 10px; color: #fff;">📜 生涯履历动态 (Career Logs)</h3>
           <div id="logsFeed" class="logs-feed"></div>
         </div>
 
       </div>
 
-      <!-- View 2: Player & Birthplace Setup Tab -->
-      <div id="setupTab" class="view-content" style="display: none;">
+      <!-- View 2: Talent Perks Gacha Tab -->
+      <div id="talentTab" class="view-content" style="display: none;">
         <div class="glass-panel">
-          <h2>⚙️ 新人建模与出生地特质设置</h2>
-          <p class="scout-label" style="margin-bottom: 20px;">明示不同出生地与位置加成（解决老版本信息不透明问题）</p>
+          <h2>⚡ Roguelike 初始天赋/词条抽卡</h2>
+          <p class="scout-label" style="margin-bottom: 20px;">抽取金/紫/蓝高阶天赋词条，赋予每局游戏不一样的特殊加成</p>
 
-          <h3 style="color: var(--gold-primary); margin-bottom: 10px;">1. 选择出生地 (Birthplace)</h3>
-          <div class="options-container" style="margin-bottom: 20px;">
-            ${GAME_CONFIG.BIRTHPLACES.map(bp => `
-              <button class="option-btn" onclick="selectBirthplace('${bp.code}')">
-                <span class="opt-tag">${bp.flag} ${bp.name}</span>
-                <span class="opt-text">特质：${bp.trait}</span>
-                <span class="opt-effect">✦ 初始加成：${bp.desc}</span>
-              </button>
-            `).join('')}
+          <div id="talentListContainer" class="options-container">
+            <!-- Talent Cards -->
           </div>
-
-          <h3 style="color: var(--gold-primary); margin-bottom: 10px;">2. 节奏模式与难度模式（独立配置）</h3>
-          <p class="scout-label">节奏：逐年 / 标准 / 电影模式 | 难度：新星 / 职业 / 残酷模式</p>
         </div>
       </div>
 
-      <!-- View 3: Transfer Market Tab -->
+      <!-- View 3: Social Feed Tab -->
+      <div id="socialTab" class="view-content" style="display: none;"></div>
+
+      <!-- View 4: Transfer Market Tab -->
       <div id="transferTab" class="view-content" style="display: none;"></div>
 
-      <!-- View 4: Lifestyle Tab -->
+      <!-- View 5: Lifestyle Tab -->
       <div id="lifeTab" class="view-content" style="display: none;"></div>
 
-      <!-- View 5: World Map Tab -->
-      <div id="mapTab" class="view-content" style="display: none;"></div>
-
-      <!-- View 6: Trophy Cabinet Tab -->
-      <div id="trophyTab" class="view-content" style="display: none;"></div>
+      <!-- View 6: Achievements Gallery Tab -->
+      <div id="galleryTab" class="view-content" style="display: none;"></div>
 
     </section>
 
@@ -159,19 +153,22 @@
   <script src="js/data/teams.js"></script>
   <script src="js/data/players.js"></script>
   <script src="js/data/events.js"></script>
+  <script src="js/data/achievements.js"></script>
   <script src="js/components/avatar3d.js"></script>
   <script src="js/components/playerCard.js"></script>
   <script src="js/components/matchEngine3d.js"></script>
   <script src="js/components/trophyCabinet3d.js"></script>
   <script src="js/components/worldMap.js"></script>
   <script src="js/components/lifeSimulator.js"></script>
+  <script src="js/components/socialFeed.js"></script>
+  <script src="js/components/secondCareer.js"></script>
+  <script src="js/components/achievementGallery.js"></script>
   <script src="js/components/roulette.js"></script>
   <script src="js/components/summaryCard.js"></script>
   <script src="js/engine/transferEngine.js"></script>
   <script src="js/engine/gameEngine.js"></script>
   <script src="js/app.js"></script>
 
-  <!-- Service Worker Registration -->
   <script>
     if ('serviceWorker' in navigator) {
       navigator.serviceWorker.register('sw.js').catch(err => console.log(err));

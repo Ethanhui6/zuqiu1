@@ -1,11 +1,11 @@
 {
-  "name": "足球生涯模拟器 V11.0 终极版",
-  "short_name": "足球模拟器V11",
-  "description": "中国足球版人生重开模拟器 + EA FC 球员卡 + 3D球场/生活体验",
+  "name": "足球生涯模拟器 V12.0 苹果重构版",
+  "short_name": "足球模拟器V12",
+  "description": "Apple Music 风格拟态视觉 + Roguelike 天赋抽卡 + 懂球帝社交风波 + 3D球场/退役二次人生",
   "start_url": "./index.html",
   "display": "standalone",
-  "background_color": "#090b0e",
-  "theme_color": "#e5c158",
+  "background_color": "#000000",
+  "theme_color": "#fa2d48",
   "icons": [
     {
       "src": "assets/icon-192.png",
