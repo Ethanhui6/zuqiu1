@@ -1,1 +1,2033 @@
-[{"clubId":"ESP1-RMA","cn":"基利安·姆巴佩","name":"Kylian Mbappé","wiki":"Kylian Mbappé","pos":"ST","ovr":91,"attrs":{"pac":97,"sho":90,"pas":81,"dri":92,"def":37,"phy":76},"nation":"法国","awards":[["世界杯",1],["欧国联",1],["法国甲级联赛",7],["法国杯",4],["欧洲超级杯",1],["世俱杯",1]]},{"clubId":"ESP1-RMA","cn":"裘德·贝林厄姆","name":"Jude Bellingham","wiki":"Jude Bellingham","pos":"CAM","ovr":90,"attrs":{"pac":82,"sho":88,"pas":85,"dri":90,"def":78,"phy":84},"nation":"英格兰","awards":[["欧洲冠军联赛",1],["西班牙甲级联赛",1],["金童奖",1]]},{"clubId":"ESP1-RMA","cn":"维尼修斯·儒尼奥尔","name":"Vinícius Júnior","wiki":"Vinícius Júnior","pos":"LW","ovr":89,"attrs":{"pac":95,"sho":84,"pas":81,"dri":91,"def":29,"phy":69},"nation":"巴西","awards":[["欧洲冠军联赛",2],["西班牙甲级联赛",3],["世俱杯",2]]},{"clubId":"ESP1-RMA","cn":"蒂博·库尔图瓦","name":"Thibaut Courtois","wiki":"Thibaut Courtois","pos":"GK","ovr":89,"attrs":{"pac":62,"sho":30,"pas":79,"dri":65,"def":91,"phy":88},"nation":"比利时","awards":[["欧洲冠军联赛",2],["西班牙甲级联赛",4],["雅辛奖",1]]},{"clubId":"ESP1-RMA","cn":"费德里科·巴尔韦德","name":"Federico Valverde","wiki":"Federico Valverde","pos":"CM","ovr":88,"attrs":{"pac":88,"sho":83,"pas":85,"dri":86,"def":83,"phy":87},"nation":"乌拉圭","awards":[["欧洲冠军联赛",2],["西班牙甲级联赛",3]]},{"clubId":"ESP1-RMA","cn":"奥雷利安·楚阿梅尼","name":"Aurélien Tchouaméni","wiki":"Aurélien Tchouaméni","pos":"CDM","ovr":86,"attrs":{"pac":73,"sho":73,"pas":82,"dri":81,"def":87,"phy":86},"nation":"法国","awards":[["欧洲冠军联赛",1],["西班牙甲级联赛",2]]},{"clubId":"ESP1-BAR","cn":"拉明·亚马尔","name":"Lamine Yamal","wiki":"Lamine Yamal","pos":"RW","ovr":89,"attrs":{"pac":91,"sho":85,"pas":87,"dri":92,"def":31,"phy":67},"nation":"西班牙","awards":[["欧洲杯",1],["西班牙甲级联赛",2],["科帕奖",1]]},{"clubId":"ESP1-BAR","cn":"佩德里","name":"Pedri","wiki":"Pedri","pos":"CM","ovr":89,"attrs":{"pac":82,"sho":80,"pas":89,"dri":91,"def":75,"phy":74},"nation":"西班牙","awards":[["欧洲杯",1],["西班牙甲级联赛",2],["金童奖",1]]},{"clubId":"ESP1-BAR","cn":"拉菲尼亚","name":"Raphinha","wiki":"Raphinha","pos":"LW","ovr":89,"attrs":{"pac":91,"sho":88,"pas":85,"dri":89,"def":55,"phy":75},"nation":"巴西","awards":[["西班牙甲级联赛",2],["西班牙国王杯",1]]},{"clubId":"ESP1-BAR","cn":"罗伯特·莱万多夫斯基","name":"Robert Lewandowski","wiki":"Robert Lewandowski","pos":"ST","ovr":88,"attrs":{"pac":74,"sho":89,"pas":79,"dri":86,"def":44,"phy":83},"nation":"波兰","awards":[["欧洲冠军联赛",1],["德国甲级联赛",10],["西班牙甲级联赛",2],["世界足球先生",2]]},{"clubId":"ESP1-BAR","cn":"加维","name":"Gavi","wiki":"Gavi (footballer)","pos":"CM","ovr":85,"attrs":{"pac":81,"sho":73,"pas":84,"dri":88,"def":78,"phy":82},"nation":"西班牙","awards":[["西班牙甲级联赛",2],["金童奖",1]]},{"clubId":"ESP1-BAR","cn":"保·库巴西","name":"Pau Cubarsí","wiki":"Pau Cubarsí","pos":"CB","ovr":84,"attrs":{"pac":76,"sho":47,"pas":82,"dri":78,"def":87,"phy":80},"nation":"西班牙","awards":[["西班牙甲级联赛",1]]},{"clubId":"ENG1-MCI","cn":"埃尔林·哈兰德","name":"Erling Haaland","wiki":"Erling Haaland","pos":"ST","ovr":90,"attrs":{"pac":86,"sho":91,"pas":70,"dri":80,"def":45,"phy":88},"nation":"挪威","awards":[["欧洲冠军联赛",1],["英格兰超级联赛",3],["欧洲金靴",2]]},{"clubId":"ENG1-MCI","cn":"罗德里","name":"Rodri","wiki":"Rodri (footballer, born 1996)","pos":"CDM","ovr":90,"attrs":{"pac":65,"sho":80,"pas":86,"dri":84,"def":86,"phy":85},"nation":"西班牙","awards":[["欧洲杯",1],["欧洲冠军联赛",1],["英格兰超级联赛",4],["金球奖",1]]},{"clubId":"ENG1-MCI","cn":"菲尔·福登","name":"Phil Foden","wiki":"Phil Foden","pos":"RW","ovr":88,"attrs":{"pac":86,"sho":86,"pas":85,"dri":90,"def":58,"phy":74},"nation":"英格兰","awards":[["欧洲冠军联赛",1],["英格兰超级联赛",6]]},{"clubId":"ENG1-MCI","cn":"贝尔纳多·席尔瓦","name":"Bernardo Silva","wiki":"Bernardo Silva","pos":"CM","ovr":87,"attrs":{"pac":77,"sho":80,"pas":88,"dri":91,"def":72,"phy":70},"nation":"葡萄牙","awards":[["欧洲冠军联赛",1],["英格兰超级联赛",6]]},{"clubId":"ENG1-MCI","cn":"约什科·格瓦迪奥尔","name":"Joško Gvardiol","wiki":"Joško Gvardiol","pos":"CB","ovr":86,"attrs":{"pac":82,"sho":69,"pas":80,"dri":81,"def":86,"phy":85},"nation":"克罗地亚","awards":[["英格兰超级联赛",1]]},{"clubId":"ENG1-MCI","cn":"鲁本·迪亚斯","name":"Rúben Dias","wiki":"Rúben Dias","pos":"CB","ovr":87,"attrs":{"pac":68,"sho":40,"pas":76,"dri":72,"def":88,"phy":87},"nation":"葡萄牙","awards":[["欧洲冠军联赛",1],["英格兰超级联赛",5]]},{"clubId":"ENG1-LIV","cn":"穆罕默德·萨拉赫","name":"Mohamed Salah","wiki":"Mohamed Salah","pos":"RW","ovr":91,"attrs":{"pac":89,"sho":88,"pas":86,"dri":90,"def":45,"phy":76},"nation":"埃及","awards":[["欧洲冠军联赛",1],["英格兰超级联赛",2],["英格兰金靴",4]]},{"clubId":"ENG1-LIV","cn":"维吉尔·范戴克","name":"Virgil van Dijk","wiki":"Virgil van Dijk","pos":"CB","ovr":90,"attrs":{"pac":77,"sho":60,"pas":74,"dri":72,"def":90,"phy":86},"nation":"荷兰","awards":[["欧洲冠军联赛",1],["英格兰超级联赛",2],["欧洲最佳球员",1]]},{"clubId":"ENG1-LIV","cn":"阿利松","name":"Alisson Becker","wiki":"Alisson Becker","pos":"GK","ovr":89,"attrs":{"pac":61,"sho":26,"pas":84,"dri":68,"def":90,"phy":86},"nation":"巴西","awards":[["欧洲冠军联赛",1],["英格兰超级联赛",2],["美洲杯",1]]},{"clubId":"ENG1-LIV","cn":"弗洛里安·维尔茨","name":"Florian Wirtz","wiki":"Florian Wirtz","pos":"CAM","ovr":89,"attrs":{"pac":82,"sho":85,"pas":88,"dri":91,"def":52,"phy":70},"nation":"德国","awards":[["德国甲级联赛",1],["德国杯",1]]},{"clubId":"ENG1-LIV","cn":"亚历克西斯·麦卡利斯特","name":"Alexis Mac Allister","wiki":"Alexis Mac Allister","pos":"CM","ovr":86,"attrs":{"pac":76,"sho":82,"pas":87,"dri":86,"def":78,"phy":79},"nation":"阿根廷","awards":[["世界杯",1],["英格兰超级联赛",1]]},{"clubId":"ENG1-LIV","cn":"多米尼克·索博斯洛伊","name":"Dominik Szoboszlai","wiki":"Dominik Szoboszlai","pos":"CM","ovr":85,"attrs":{"pac":83,"sho":84,"pas":86,"dri":85,"def":70,"phy":82},"nation":"匈牙利","awards":[["英格兰超级联赛",1]]},{"clubId":"ENG1-ARS","cn":"布卡约·萨卡","name":"Bukayo Saka","wiki":"Bukayo Saka","pos":"RW","ovr":89,"attrs":{"pac":86,"sho":87,"pas":86,"dri":90,"def":62,"phy":73},"nation":"英格兰","awards":[["英格兰足总杯",1]]},{"clubId":"ENG1-ARS","cn":"德克兰·赖斯","name":"Declan Rice","wiki":"Declan Rice","pos":"CDM","ovr":89,"attrs":{"pac":75,"sho":78,"pas":86,"dri":83,"def":88,"phy":88},"nation":"英格兰","awards":[["欧足联欧洲协会联赛",1]]},{"clubId":"ENG1-ARS","cn":"威廉·萨利巴","name":"William Saliba","wiki":"William Saliba","pos":"CB","ovr":88,"attrs":{"pac":82,"sho":41,"pas":78,"dri":77,"def":89,"phy":86},"nation":"法国","awards":[["法国国家联赛",1]]},{"clubId":"ENG1-ARS","cn":"加布里埃尔·马加良斯","name":"Gabriel Magalhães","wiki":"Gabriel Magalhães","pos":"CB","ovr":88,"attrs":{"pac":76,"sho":53,"pas":72,"dri":70,"def":88,"phy":87},"nation":"巴西","awards":[]},{"clubId":"ENG1-ARS","cn":"马丁·厄德高","name":"Martin Ødegaard","wiki":"Martin Ødegaard","pos":"CAM","ovr":88,"attrs":{"pac":72,"sho":83,"pas":90,"dri":90,"def":62,"phy":69},"nation":"挪威","awards":[]},{"clubId":"ENG1-ARS","cn":"维克托·哲凯赖什","name":"Viktor Gyökeres","wiki":"Viktor Gyökeres","pos":"ST","ovr":87,"attrs":{"pac":89,"sho":88,"pas":75,"dri":84,"def":42,"phy":91},"nation":"瑞典","awards":[["葡萄牙甲级联赛",2],["葡萄牙杯",1]]},{"clubId":"ENG1-CHE","cn":"科尔·帕尔默","name":"Cole Palmer","wiki":"Cole Palmer","pos":"CAM","ovr":88,"attrs":{"pac":83,"sho":87,"pas":88,"dri":90,"def":48,"phy":70},"nation":"英格兰","awards":[["欧洲冠军联赛",1],["世俱杯",1]]},{"clubId":"ENG1-CHE","cn":"莫伊塞斯·凯塞多","name":"Moisés Caicedo","wiki":"Moisés Caicedo","pos":"CDM","ovr":87,"attrs":{"pac":78,"sho":66,"pas":83,"dri":82,"def":88,"phy":87},"nation":"厄瓜多尔","awards":[["世俱杯",1]]},{"clubId":"ENG1-CHE","cn":"恩佐·费尔南德斯","name":"Enzo Fernández","wiki":"Enzo Fernández","pos":"CM","ovr":86,"attrs":{"pac":74,"sho":80,"pas":88,"dri":86,"def":77,"phy":79},"nation":"阿根廷","awards":[["世界杯",1],["世俱杯",1]]},{"clubId":"ENG1-CHE","cn":"佩德罗·内托","name":"Pedro Neto","wiki":"Pedro Neto","pos":"RW","ovr":84,"attrs":{"pac":91,"sho":79,"pas":80,"dri":87,"def":43,"phy":68},"nation":"葡萄牙","awards":[["世俱杯",1]]},{"clubId":"ENG1-CHE","cn":"列维·科尔威尔","name":"Levi Colwill","wiki":"Levi Colwill","pos":"CB","ovr":83,"attrs":{"pac":74,"sho":44,"pas":79,"dri":76,"def":84,"phy":82},"nation":"英格兰","awards":[["世俱杯",1]]},{"clubId":"ENG1-CHE","cn":"马克·库库雷利亚","name":"Marc Cucurella","wiki":"Marc Cucurella","pos":"LB","ovr":84,"attrs":{"pac":82,"sho":70,"pas":81,"dri":84,"def":82,"phy":78},"nation":"西班牙","awards":[["欧洲杯",1],["世俱杯",1]]},{"clubId":"ENG1-MUN","cn":"布鲁诺·费尔南德斯","name":"Bruno Fernandes","wiki":"Bruno Fernandes","pos":"CAM","ovr":87,"attrs":{"pac":74,"sho":86,"pas":89,"dri":86,"def":68,"phy":78},"nation":"葡萄牙","awards":[["英格兰足总杯",1],["英格兰联赛杯",1]]},{"clubId":"ENG1-MUN","cn":"马特乌斯·库尼亚","name":"Matheus Cunha","wiki":"Matheus Cunha","pos":"ST","ovr":84,"attrs":{"pac":85,"sho":83,"pas":79,"dri":86,"def":45,"phy":79},"nation":"巴西","awards":[["奥运会",1]]},{"clubId":"ENG1-MUN","cn":"布莱恩·姆伯莫","name":"Bryan Mbeumo","wiki":"Bryan Mbeumo","pos":"RW","ovr":84,"attrs":{"pac":87,"sho":84,"pas":80,"dri":85,"def":52,"phy":78},"nation":"喀麦隆","awards":[]},{"clubId":"ENG1-MUN","cn":"科比·梅努","name":"Kobbie Mainoo","wiki":"Kobbie Mainoo","pos":"CM","ovr":82,"attrs":{"pac":74,"sho":75,"pas":82,"dri":85,"def":77,"phy":75},"nation":"英格兰","awards":[["英格兰足总杯",1]]},{"clubId":"ENG1-MUN","cn":"莱尼·约罗","name":"Leny Yoro","wiki":"Leny Yoro","pos":"CB","ovr":82,"attrs":{"pac":77,"sho":38,"pas":73,"dri":72,"def":84,"phy":82},"nation":"法国","awards":[]},{"clubId":"ENG1-MUN","cn":"马泰斯·德利赫特","name":"Matthijs de Ligt","wiki":"Matthijs de Ligt","pos":"CB","ovr":85,"attrs":{"pac":68,"sho":55,"pas":76,"dri":74,"def":86,"phy":87},"nation":"荷兰","awards":[["荷兰甲级联赛",3],["德国甲级联赛",1]]},{"clubId":"FRA1-PSG","cn":"奥斯曼·登贝莱","name":"Ousmane Dembélé","wiki":"Ousmane Dembélé","pos":"ST","ovr":90,"attrs":{"pac":91,"sho":88,"pas":83,"dri":93,"def":50,"phy":69},"nation":"法国","awards":[["欧洲冠军联赛",1],["法国甲级联赛",5]]},{"clubId":"FRA1-PSG","cn":"阿什拉夫·哈基米","name":"Achraf Hakimi","wiki":"Achraf Hakimi","pos":"RB","ovr":89,"attrs":{"pac":93,"sho":82,"pas":85,"dri":88,"def":82,"phy":80},"nation":"摩洛哥","awards":[["欧洲冠军联赛",1],["法国甲级联赛",4]]},{"clubId":"FRA1-PSG","cn":"赫维恰·克瓦拉茨赫利亚","name":"Khvicha Kvaratskhelia","wiki":"Khvicha Kvaratskhelia","pos":"LW","ovr":87,"attrs":{"pac":87,"sho":83,"pas":82,"dri":90,"def":43,"phy":71},"nation":"格鲁吉亚","awards":[["欧洲冠军联赛",1],["意大利甲级联赛",1]]},{"clubId":"FRA1-PSG","cn":"马尔基尼奥斯","name":"Marquinhos","wiki":"Marquinhos","pos":"CB","ovr":89,"attrs":{"pac":74,"sho":55,"pas":78,"dri":75,"def":89,"phy":83},"nation":"巴西","awards":[["欧洲冠军联赛",1],["法国甲级联赛",10]]},{"clubId":"FRA1-PSG","cn":"维蒂尼亚","name":"Vitinha","wiki":"Vitinha (footballer, born February 2000)","pos":"CM","ovr":88,"attrs":{"pac":79,"sho":81,"pas":89,"dri":91,"def":75,"phy":72},"nation":"葡萄牙","awards":[["欧洲冠军联赛",1],["法国甲级联赛",3]]},{"clubId":"FRA1-PSG","cn":"若昂·内维斯","name":"João Neves","wiki":"João Neves","pos":"CM","ovr":86,"attrs":{"pac":78,"sho":72,"pas":87,"dri":88,"def":82,"phy":78},"nation":"葡萄牙","awards":[["欧洲冠军联赛",1],["法国甲级联赛",1]]},{"clubId":"GER1-FCB","cn":"哈里·凯恩","name":"Harry Kane","wiki":"Harry Kane","pos":"ST","ovr":89,"attrs":{"pac":71,"sho":92,"pas":83,"dri":82,"def":47,"phy":83},"nation":"英格兰","awards":[["德国甲级联赛",1],["欧洲金靴",1],["世界杯金靴",1]]},{"clubId":"GER1-FCB","cn":"贾马尔·穆西亚拉","name":"Jamal Musiala","wiki":"Jamal Musiala","pos":"CAM","ovr":89,"attrs":{"pac":85,"sho":85,"pas":86,"dri":92,"def":52,"phy":70},"nation":"德国","awards":[["德国甲级联赛",5]]},{"clubId":"GER1-FCB","cn":"约书亚·基米希","name":"Joshua Kimmich","wiki":"Joshua Kimmich","pos":"CDM","ovr":89,"attrs":{"pac":70,"sho":78,"pas":89,"dri":86,"def":86,"phy":82},"nation":"德国","awards":[["欧洲冠军联赛",1],["德国甲级联赛",9]]},{"clubId":"GER1-FCB","cn":"迈克尔·奥利塞","name":"Michael Olise","wiki":"Michael Olise","pos":"RW","ovr":88,"attrs":{"pac":87,"sho":86,"pas":87,"dri":91,"def":48,"phy":74},"nation":"法国","awards":[["德国甲级联赛",1],["奥运会银牌",1]]},{"clubId":"GER1-FCB","cn":"阿方索·戴维斯","name":"Alphonso Davies","wiki":"Alphonso Davies","pos":"LB","ovr":86,"attrs":{"pac":95,"sho":72,"pas":80,"dri":88,"def":80,"phy":79},"nation":"加拿大","awards":[["欧洲冠军联赛",1],["德国甲级联赛",6]]},{"clubId":"GER1-FCB","cn":"曼努埃尔·诺伊尔","name":"Manuel Neuer","wiki":"Manuel Neuer","pos":"GK","ovr":87,"attrs":{"pac":60,"sho":25,"pas":87,"dri":70,"def":88,"phy":82},"nation":"德国","awards":[["世界杯",1],["欧洲冠军联赛",2],["德国甲级联赛",12]]},{"clubId":"ITA1-INT","cn":"劳塔罗·马丁内斯","name":"Lautaro Martínez","wiki":"Lautaro Martínez","pos":"ST","ovr":88,"attrs":{"pac":83,"sho":88,"pas":78,"dri":87,"def":52,"phy":82},"nation":"阿根廷","awards":[["世界杯",1],["美洲杯",2],["意大利甲级联赛",2]]},{"clubId":"ITA1-INT","cn":"亚历山德罗·巴斯托尼","name":"Alessandro Bastoni","wiki":"Alessandro Bastoni","pos":"CB","ovr":88,"attrs":{"pac":76,"sho":58,"pas":84,"dri":79,"def":88,"phy":85},"nation":"意大利","awards":[["欧洲杯",1],["意大利甲级联赛",2]]},{"clubId":"ITA1-INT","cn":"尼科洛·巴雷拉","name":"Nicolò Barella","wiki":"Nicolò Barella","pos":"CM","ovr":87,"attrs":{"pac":80,"sho":81,"pas":87,"dri":88,"def":82,"phy":84},"nation":"意大利","awards":[["欧洲杯",1],["意大利甲级联赛",2]]},{"clubId":"ITA1-INT","cn":"哈坎·恰尔汗奥卢","name":"Hakan Çalhanoğlu","wiki":"Hakan Çalhanoğlu","pos":"CDM","ovr":86,"attrs":{"pac":67,"sho":84,"pas":88,"dri":84,"def":80,"phy":77},"nation":"土耳其","awards":[["意大利甲级联赛",1]]},{"clubId":"ITA1-INT","cn":"马库斯·图拉姆","name":"Marcus Thuram","wiki":"Marcus Thuram","pos":"ST","ovr":86,"attrs":{"pac":89,"sho":84,"pas":78,"dri":86,"def":45,"phy":86},"nation":"法国","awards":[["意大利甲级联赛",1]]},{"clubId":"ITA1-INT","cn":"扬·索默","name":"Yann Sommer","wiki":"Yann Sommer","pos":"GK","ovr":85,"attrs":{"pac":56,"sho":22,"pas":82,"dri":66,"def":87,"phy":79},"nation":"瑞士","awards":[["意大利甲级联赛",1]]},{"clubId":"ITA1-NAP","cn":"凯文·德布劳内","name":"Kevin De Bruyne","wiki":"Kevin De Bruyne","pos":"CM","ovr":88,"attrs":{"pac":67,"sho":85,"pas":92,"dri":87,"def":65,"phy":74},"nation":"比利时","awards":[["欧洲冠军联赛",1],["英格兰超级联赛",6]]},{"clubId":"ITA1-NAP","cn":"斯科特·麦克托米奈","name":"Scott McTominay","wiki":"Scott McTominay","pos":"CM","ovr":85,"attrs":{"pac":76,"sho":82,"pas":79,"dri":80,"def":79,"phy":89},"nation":"苏格兰","awards":[["意大利甲级联赛",1],["英格兰足总杯",1]]},{"clubId":"ITA1-NAP","cn":"罗梅卢·卢卡库","name":"Romelu Lukaku","wiki":"Romelu Lukaku","pos":"ST","ovr":84,"attrs":{"pac":75,"sho":84,"pas":73,"dri":79,"def":40,"phy":90},"nation":"比利时","awards":[["意大利甲级联赛",2],["世俱杯",1]]},{"clubId":"ITA1-NAP","cn":"乔瓦尼·迪洛伦佐","name":"Giovanni Di Lorenzo","wiki":"Giovanni Di Lorenzo","pos":"RB","ovr":84,"attrs":{"pac":79,"sho":68,"pas":80,"dri":81,"def":84,"phy":83},"nation":"意大利","awards":[["欧洲杯",1],["意大利甲级联赛",2]]},{"clubId":"ITA1-NAP","cn":"亚历山德罗·布翁焦尔诺","name":"Alessandro Buongiorno","wiki":"Alessandro Buongiorno","pos":"CB","ovr":84,"attrs":{"pac":73,"sho":48,"pas":72,"dri":71,"def":86,"phy":87},"nation":"意大利","awards":[["意大利甲级联赛",1]]},{"clubId":"ITA1-NAP","cn":"亚历克斯·梅雷特","name":"Alex Meret","wiki":"Alex Meret","pos":"GK","ovr":83,"attrs":{"pac":55,"sho":20,"pas":78,"dri":63,"def":85,"phy":80},"nation":"意大利","awards":[["意大利甲级联赛",2]]},{"clubId":"KSA1-NAS","cn":"克里斯蒂亚诺·罗纳尔多","name":"Cristiano Ronaldo","wiki":"Cristiano Ronaldo","pos":"ST","ovr":86,"attrs":{"pac":77,"sho":90,"pas":78,"dri":85,"def":34,"phy":78},"nation":"葡萄牙","awards":[["欧洲冠军联赛",5],["欧洲杯",1],["金球奖",5],["国家联赛",2]]},{"clubId":"USA1-MIA","cn":"利昂内尔·梅西","name":"Lionel Messi","wiki":"Lionel Messi","pos":"CAM","ovr":88,"attrs":{"pac":78,"sho":88,"pas":91,"dri":92,"def":38,"phy":65},"nation":"阿根廷","awards":[["世界杯",1],["美洲杯",2],["欧洲冠军联赛",4],["金球奖",8]]},{"clubId":"ESP1-ATM","cn":"胡利安·阿尔瓦雷斯","name":"Julián Álvarez","wiki":"Julián Álvarez","pos":"ST","ovr":87,"attrs":{"pac":86,"sho":87,"pas":82,"dri":88,"def":56,"phy":81},"nation":"阿根廷","awards":[["世界杯",1],["美洲杯",1],["欧洲冠军联赛",1],["英格兰超级联赛",2]]},{"clubId":"ESP1-ATM","cn":"扬·奥布拉克","name":"Jan Oblak","wiki":"Jan Oblak","pos":"GK","ovr":88,"attrs":{"pac":58,"sho":20,"pas":79,"dri":62,"def":90,"phy":84},"nation":"斯洛文尼亚","awards":[["西班牙甲级联赛",1],["萨莫拉奖",5]]},{"clubId":"GER1-BVB","cn":"塞鲁·吉拉西","name":"Serhou Guirassy","wiki":"Serhou Guirassy","pos":"ST","ovr":86,"attrs":{"pac":82,"sho":88,"pas":72,"dri":80,"def":41,"phy":86},"nation":"几内亚","awards":[]},{"clubId":"GER1-BVB","cn":"卡里姆·阿德耶米","name":"Karim Adeyemi","wiki":"Karim Adeyemi","pos":"LW","ovr":81,"attrs":{"pac":96,"sho":76,"pas":72,"dri":82,"def":36,"phy":69},"nation":"德国","awards":[["德国甲级联赛",1]]},{"clubId":"ITA1-JUV","cn":"凯南·伊尔迪兹","name":"Kenan Yıldız","wiki":"Kenan Yıldız","pos":"LW","ovr":84,"attrs":{"pac":85,"sho":83,"pas":80,"dri":88,"def":45,"phy":72},"nation":"土耳其","awards":[]},{"clubId":"ITA1-MIL","cn":"拉斐尔·莱奥","name":"Rafael Leão","wiki":"Rafael Leão","pos":"LW","ovr":86,"attrs":{"pac":94,"sho":83,"pas":80,"dri":89,"def":31,"phy":78},"nation":"葡萄牙","awards":[["意大利甲级联赛",1]]},{"clubId":"ITA1-MIL","cn":"克里斯蒂安·普利希奇","name":"Christian Pulisic","wiki":"Christian Pulisic","pos":"RW","ovr":85,"attrs":{"pac":88,"sho":84,"pas":82,"dri":87,"def":45,"phy":68},"nation":"美国","awards":[["欧洲冠军联赛",1],["国家联赛",3]]},{"clubId":"POR1-SLB","cn":"安纳托利·特鲁宾","name":"Anatoliy Trubin","wiki":"Anatoliy Trubin","pos":"GK","ovr":84,"attrs":{"pac":57,"sho":22,"pas":79,"dri":64,"def":86,"phy":83},"nation":"乌克兰","awards":[]}]
+[
+  {
+    "clubId": "ESP1-RMA",
+    "cn": "基利安·姆巴佩",
+    "name": "Kylian Mbappé",
+    "wiki": "Kylian Mbappé",
+    "pos": "ST",
+    "ovr": 91,
+    "attrs": {
+      "pac": 97,
+      "sho": 90,
+      "pas": 81,
+      "dri": 92,
+      "def": 37,
+      "phy": 76
+    },
+    "nation": "法国",
+    "awards": [
+      [
+        "世界杯",
+        1
+      ],
+      [
+        "欧国联",
+        1
+      ],
+      [
+        "法国甲级联赛",
+        7
+      ],
+      [
+        "法国杯",
+        4
+      ],
+      [
+        "欧洲超级杯",
+        1
+      ],
+      [
+        "世俱杯",
+        1
+      ]
+    ],
+    "ratingSource": "EA SPORTS FC 26 official ratings"
+  },
+  {
+    "clubId": "ESP1-RMA",
+    "cn": "裘德·贝林厄姆",
+    "name": "Jude Bellingham",
+    "wiki": "Jude Bellingham",
+    "pos": "CAM",
+    "ovr": 90,
+    "attrs": {
+      "pac": 80,
+      "sho": 86,
+      "pas": 83,
+      "dri": 90,
+      "def": 78,
+      "phy": 85
+    },
+    "nation": "英格兰",
+    "awards": [
+      [
+        "欧洲冠军联赛",
+        1
+      ],
+      [
+        "西班牙甲级联赛",
+        1
+      ],
+      [
+        "金童奖",
+        1
+      ]
+    ],
+    "ratingSource": "EA SPORTS FC 26 official ratings"
+  },
+  {
+    "clubId": "ESP1-RMA",
+    "cn": "维尼修斯·儒尼奥尔",
+    "name": "Vinícius Júnior",
+    "wiki": "Vinícius Júnior",
+    "pos": "LW",
+    "ovr": 89,
+    "attrs": {
+      "pac": 95,
+      "sho": 84,
+      "pas": 81,
+      "dri": 91,
+      "def": 29,
+      "phy": 69
+    },
+    "nation": "巴西",
+    "awards": [
+      [
+        "欧洲冠军联赛",
+        2
+      ],
+      [
+        "西班牙甲级联赛",
+        3
+      ],
+      [
+        "世俱杯",
+        2
+      ]
+    ],
+    "ratingSource": "EA SPORTS FC 26 official ratings"
+  },
+  {
+    "clubId": "ESP1-RMA",
+    "cn": "蒂博·库尔图瓦",
+    "name": "Thibaut Courtois",
+    "wiki": "Thibaut Courtois",
+    "pos": "GK",
+    "ovr": 89,
+    "attrs": {
+      "pac": 62,
+      "sho": 30,
+      "pas": 79,
+      "dri": 65,
+      "def": 91,
+      "phy": 88
+    },
+    "nation": "比利时",
+    "awards": [
+      [
+        "欧洲冠军联赛",
+        2
+      ],
+      [
+        "西班牙甲级联赛",
+        4
+      ],
+      [
+        "雅辛奖",
+        1
+      ]
+    ]
+  },
+  {
+    "clubId": "ESP1-RMA",
+    "cn": "费德里科·巴尔韦德",
+    "name": "Federico Valverde",
+    "wiki": "Federico Valverde",
+    "pos": "CM",
+    "ovr": 89,
+    "attrs": {
+      "pac": 88,
+      "sho": 84,
+      "pas": 84,
+      "dri": 84,
+      "def": 83,
+      "phy": 85
+    },
+    "nation": "乌拉圭",
+    "awards": [
+      [
+        "欧洲冠军联赛",
+        2
+      ],
+      [
+        "西班牙甲级联赛",
+        3
+      ]
+    ],
+    "ratingSource": "EA SPORTS FC 26 official ratings"
+  },
+  {
+    "clubId": "ESP1-RMA",
+    "cn": "奥雷利安·楚阿梅尼",
+    "name": "Aurélien Tchouaméni",
+    "wiki": "Aurélien Tchouaméni",
+    "pos": "CDM",
+    "ovr": 86,
+    "attrs": {
+      "pac": 73,
+      "sho": 73,
+      "pas": 82,
+      "dri": 81,
+      "def": 87,
+      "phy": 86
+    },
+    "nation": "法国",
+    "awards": [
+      [
+        "欧洲冠军联赛",
+        1
+      ],
+      [
+        "西班牙甲级联赛",
+        2
+      ]
+    ]
+  },
+  {
+    "clubId": "ESP1-BAR",
+    "cn": "拉明·亚马尔",
+    "name": "Lamine Yamal",
+    "wiki": "Lamine Yamal",
+    "pos": "RW",
+    "ovr": 89,
+    "attrs": {
+      "pac": 85,
+      "sho": 81,
+      "pas": 86,
+      "dri": 90,
+      "def": 23,
+      "phy": 53
+    },
+    "nation": "西班牙",
+    "awards": [
+      [
+        "欧洲杯",
+        1
+      ],
+      [
+        "西班牙甲级联赛",
+        2
+      ],
+      [
+        "科帕奖",
+        1
+      ]
+    ],
+    "ratingSource": "EA SPORTS FC 26 official ratings"
+  },
+  {
+    "clubId": "ESP1-BAR",
+    "cn": "佩德里",
+    "name": "Pedri",
+    "wiki": "Pedri",
+    "pos": "CM",
+    "ovr": 89,
+    "attrs": {
+      "pac": 77,
+      "sho": 73,
+      "pas": 85,
+      "dri": 91,
+      "def": 78,
+      "phy": 77
+    },
+    "nation": "西班牙",
+    "awards": [
+      [
+        "欧洲杯",
+        1
+      ],
+      [
+        "西班牙甲级联赛",
+        2
+      ],
+      [
+        "金童奖",
+        1
+      ]
+    ],
+    "ratingSource": "EA SPORTS FC 26 official ratings"
+  },
+  {
+    "clubId": "ESP1-BAR",
+    "cn": "拉菲尼亚",
+    "name": "Raphinha",
+    "wiki": "Raphinha",
+    "pos": "LW",
+    "ovr": 89,
+    "attrs": {
+      "pac": 91,
+      "sho": 84,
+      "pas": 85,
+      "dri": 87,
+      "def": 53,
+      "phy": 75
+    },
+    "nation": "巴西",
+    "awards": [
+      [
+        "西班牙甲级联赛",
+        2
+      ],
+      [
+        "西班牙国王杯",
+        1
+      ]
+    ],
+    "ratingSource": "EA SPORTS FC 26 official ratings"
+  },
+  {
+    "clubId": "ESP1-BAR",
+    "cn": "罗伯特·莱万多夫斯基",
+    "name": "Robert Lewandowski",
+    "wiki": "Robert Lewandowski",
+    "pos": "ST",
+    "ovr": 88,
+    "attrs": {
+      "pac": 74,
+      "sho": 89,
+      "pas": 79,
+      "dri": 85,
+      "def": 44,
+      "phy": 84
+    },
+    "nation": "波兰",
+    "awards": [
+      [
+        "欧洲冠军联赛",
+        1
+      ],
+      [
+        "德国甲级联赛",
+        10
+      ],
+      [
+        "西班牙甲级联赛",
+        2
+      ],
+      [
+        "世界足球先生",
+        2
+      ]
+    ],
+    "ratingSource": "EA SPORTS FC 26 official ratings"
+  },
+  {
+    "clubId": "ESP1-BAR",
+    "cn": "加维",
+    "name": "Gavi",
+    "wiki": "Gavi (footballer)",
+    "pos": "CM",
+    "ovr": 85,
+    "attrs": {
+      "pac": 81,
+      "sho": 73,
+      "pas": 84,
+      "dri": 88,
+      "def": 78,
+      "phy": 82
+    },
+    "nation": "西班牙",
+    "awards": [
+      [
+        "西班牙甲级联赛",
+        2
+      ],
+      [
+        "金童奖",
+        1
+      ]
+    ]
+  },
+  {
+    "clubId": "ESP1-BAR",
+    "cn": "保·库巴西",
+    "name": "Pau Cubarsí",
+    "wiki": "Pau Cubarsí",
+    "pos": "CB",
+    "ovr": 84,
+    "attrs": {
+      "pac": 76,
+      "sho": 47,
+      "pas": 82,
+      "dri": 78,
+      "def": 87,
+      "phy": 80
+    },
+    "nation": "西班牙",
+    "awards": [
+      [
+        "西班牙甲级联赛",
+        1
+      ]
+    ]
+  },
+  {
+    "clubId": "ENG1-MCI",
+    "cn": "埃尔林·哈兰德",
+    "name": "Erling Haaland",
+    "wiki": "Erling Haaland",
+    "pos": "ST",
+    "ovr": 90,
+    "attrs": {
+      "pac": 86,
+      "sho": 91,
+      "pas": 70,
+      "dri": 80,
+      "def": 45,
+      "phy": 88
+    },
+    "nation": "挪威",
+    "awards": [
+      [
+        "欧洲冠军联赛",
+        1
+      ],
+      [
+        "英格兰超级联赛",
+        3
+      ],
+      [
+        "欧洲金靴",
+        2
+      ]
+    ],
+    "ratingSource": "EA SPORTS FC 26 official ratings"
+  },
+  {
+    "clubId": "ENG1-MCI",
+    "cn": "罗德里",
+    "name": "Rodri",
+    "wiki": "Rodri (footballer, born 1996)",
+    "pos": "CDM",
+    "ovr": 90,
+    "attrs": {
+      "pac": 65,
+      "sho": 80,
+      "pas": 86,
+      "dri": 84,
+      "def": 86,
+      "phy": 85
+    },
+    "nation": "西班牙",
+    "awards": [
+      [
+        "欧洲杯",
+        1
+      ],
+      [
+        "欧洲冠军联赛",
+        1
+      ],
+      [
+        "英格兰超级联赛",
+        4
+      ],
+      [
+        "金球奖",
+        1
+      ]
+    ],
+    "ratingSource": "EA SPORTS FC 26 official ratings"
+  },
+  {
+    "clubId": "ENG1-MCI",
+    "cn": "菲尔·福登",
+    "name": "Phil Foden",
+    "wiki": "Phil Foden",
+    "pos": "RW",
+    "ovr": 88,
+    "attrs": {
+      "pac": 86,
+      "sho": 86,
+      "pas": 85,
+      "dri": 90,
+      "def": 58,
+      "phy": 74
+    },
+    "nation": "英格兰",
+    "awards": [
+      [
+        "欧洲冠军联赛",
+        1
+      ],
+      [
+        "英格兰超级联赛",
+        6
+      ]
+    ]
+  },
+  {
+    "clubId": "ENG1-MCI",
+    "cn": "贝尔纳多·席尔瓦",
+    "name": "Bernardo Silva",
+    "wiki": "Bernardo Silva",
+    "pos": "CM",
+    "ovr": 87,
+    "attrs": {
+      "pac": 77,
+      "sho": 80,
+      "pas": 88,
+      "dri": 91,
+      "def": 72,
+      "phy": 70
+    },
+    "nation": "葡萄牙",
+    "awards": [
+      [
+        "欧洲冠军联赛",
+        1
+      ],
+      [
+        "英格兰超级联赛",
+        6
+      ]
+    ]
+  },
+  {
+    "clubId": "ENG1-MCI",
+    "cn": "约什科·格瓦迪奥尔",
+    "name": "Joško Gvardiol",
+    "wiki": "Joško Gvardiol",
+    "pos": "CB",
+    "ovr": 86,
+    "attrs": {
+      "pac": 82,
+      "sho": 69,
+      "pas": 80,
+      "dri": 81,
+      "def": 86,
+      "phy": 85
+    },
+    "nation": "克罗地亚",
+    "awards": [
+      [
+        "英格兰超级联赛",
+        1
+      ]
+    ]
+  },
+  {
+    "clubId": "ENG1-MCI",
+    "cn": "鲁本·迪亚斯",
+    "name": "Rúben Dias",
+    "wiki": "Rúben Dias",
+    "pos": "CB",
+    "ovr": 86,
+    "attrs": {
+      "pac": 59,
+      "sho": 39,
+      "pas": 69,
+      "dri": 69,
+      "def": 86,
+      "phy": 84
+    },
+    "nation": "葡萄牙",
+    "awards": [
+      [
+        "欧洲冠军联赛",
+        1
+      ],
+      [
+        "英格兰超级联赛",
+        5
+      ]
+    ],
+    "ratingSource": "EA SPORTS FC 26 official ratings"
+  },
+  {
+    "clubId": "ENG1-LIV",
+    "cn": "穆罕默德·萨拉赫",
+    "name": "Mohamed Salah",
+    "wiki": "Mohamed Salah",
+    "pos": "RW",
+    "ovr": 91,
+    "attrs": {
+      "pac": 89,
+      "sho": 88,
+      "pas": 86,
+      "dri": 90,
+      "def": 45,
+      "phy": 76
+    },
+    "nation": "埃及",
+    "awards": [
+      [
+        "欧洲冠军联赛",
+        1
+      ],
+      [
+        "英格兰超级联赛",
+        2
+      ],
+      [
+        "英格兰金靴",
+        4
+      ]
+    ]
+  },
+  {
+    "clubId": "ENG1-LIV",
+    "cn": "维吉尔·范戴克",
+    "name": "Virgil van Dijk",
+    "wiki": "Virgil van Dijk",
+    "pos": "CB",
+    "ovr": 90,
+    "attrs": {
+      "pac": 77,
+      "sho": 60,
+      "pas": 74,
+      "dri": 72,
+      "def": 90,
+      "phy": 86
+    },
+    "nation": "荷兰",
+    "awards": [
+      [
+        "欧洲冠军联赛",
+        1
+      ],
+      [
+        "英格兰超级联赛",
+        2
+      ],
+      [
+        "欧洲最佳球员",
+        1
+      ]
+    ]
+  },
+  {
+    "clubId": "ENG1-LIV",
+    "cn": "阿利松",
+    "name": "Alisson Becker",
+    "wiki": "Alisson Becker",
+    "pos": "GK",
+    "ovr": 89,
+    "attrs": {
+      "pac": 61,
+      "sho": 26,
+      "pas": 84,
+      "dri": 68,
+      "def": 90,
+      "phy": 86
+    },
+    "nation": "巴西",
+    "awards": [
+      [
+        "欧洲冠军联赛",
+        1
+      ],
+      [
+        "英格兰超级联赛",
+        2
+      ],
+      [
+        "美洲杯",
+        1
+      ]
+    ]
+  },
+  {
+    "clubId": "ENG1-LIV",
+    "cn": "弗洛里安·维尔茨",
+    "name": "Florian Wirtz",
+    "wiki": "Florian Wirtz",
+    "pos": "CAM",
+    "ovr": 89,
+    "attrs": {
+      "pac": 82,
+      "sho": 85,
+      "pas": 88,
+      "dri": 91,
+      "def": 52,
+      "phy": 70
+    },
+    "nation": "德国",
+    "awards": [
+      [
+        "德国甲级联赛",
+        1
+      ],
+      [
+        "德国杯",
+        1
+      ]
+    ]
+  },
+  {
+    "clubId": "ENG1-LIV",
+    "cn": "亚历克西斯·麦卡利斯特",
+    "name": "Alexis Mac Allister",
+    "wiki": "Alexis Mac Allister",
+    "pos": "CM",
+    "ovr": 86,
+    "attrs": {
+      "pac": 76,
+      "sho": 82,
+      "pas": 87,
+      "dri": 86,
+      "def": 78,
+      "phy": 79
+    },
+    "nation": "阿根廷",
+    "awards": [
+      [
+        "世界杯",
+        1
+      ],
+      [
+        "英格兰超级联赛",
+        1
+      ]
+    ]
+  },
+  {
+    "clubId": "ENG1-LIV",
+    "cn": "多米尼克·索博斯洛伊",
+    "name": "Dominik Szoboszlai",
+    "wiki": "Dominik Szoboszlai",
+    "pos": "CM",
+    "ovr": 85,
+    "attrs": {
+      "pac": 83,
+      "sho": 84,
+      "pas": 86,
+      "dri": 85,
+      "def": 70,
+      "phy": 82
+    },
+    "nation": "匈牙利",
+    "awards": [
+      [
+        "英格兰超级联赛",
+        1
+      ]
+    ]
+  },
+  {
+    "clubId": "ENG1-ARS",
+    "cn": "布卡约·萨卡",
+    "name": "Bukayo Saka",
+    "wiki": "Bukayo Saka",
+    "pos": "RW",
+    "ovr": 89,
+    "attrs": {
+      "pac": 86,
+      "sho": 87,
+      "pas": 86,
+      "dri": 90,
+      "def": 62,
+      "phy": 73
+    },
+    "nation": "英格兰",
+    "awards": [
+      [
+        "英格兰足总杯",
+        1
+      ]
+    ]
+  },
+  {
+    "clubId": "ENG1-ARS",
+    "cn": "德克兰·赖斯",
+    "name": "Declan Rice",
+    "wiki": "Declan Rice",
+    "pos": "CDM",
+    "ovr": 89,
+    "attrs": {
+      "pac": 75,
+      "sho": 78,
+      "pas": 86,
+      "dri": 83,
+      "def": 88,
+      "phy": 88
+    },
+    "nation": "英格兰",
+    "awards": [
+      [
+        "欧足联欧洲协会联赛",
+        1
+      ]
+    ]
+  },
+  {
+    "clubId": "ENG1-ARS",
+    "cn": "威廉·萨利巴",
+    "name": "William Saliba",
+    "wiki": "William Saliba",
+    "pos": "CB",
+    "ovr": 88,
+    "attrs": {
+      "pac": 82,
+      "sho": 41,
+      "pas": 78,
+      "dri": 77,
+      "def": 89,
+      "phy": 86
+    },
+    "nation": "法国",
+    "awards": [
+      [
+        "法国国家联赛",
+        1
+      ]
+    ]
+  },
+  {
+    "clubId": "ENG1-ARS",
+    "cn": "加布里埃尔·马加良斯",
+    "name": "Gabriel Magalhães",
+    "wiki": "Gabriel Magalhães",
+    "pos": "CB",
+    "ovr": 88,
+    "attrs": {
+      "pac": 76,
+      "sho": 53,
+      "pas": 72,
+      "dri": 70,
+      "def": 88,
+      "phy": 87
+    },
+    "nation": "巴西",
+    "awards": []
+  },
+  {
+    "clubId": "ENG1-ARS",
+    "cn": "马丁·厄德高",
+    "name": "Martin Ødegaard",
+    "wiki": "Martin Ødegaard",
+    "pos": "CAM",
+    "ovr": 88,
+    "attrs": {
+      "pac": 72,
+      "sho": 83,
+      "pas": 90,
+      "dri": 90,
+      "def": 62,
+      "phy": 69
+    },
+    "nation": "挪威",
+    "awards": []
+  },
+  {
+    "clubId": "ENG1-ARS",
+    "cn": "维克托·哲凯赖什",
+    "name": "Viktor Gyökeres",
+    "wiki": "Viktor Gyökeres",
+    "pos": "ST",
+    "ovr": 87,
+    "attrs": {
+      "pac": 89,
+      "sho": 88,
+      "pas": 75,
+      "dri": 84,
+      "def": 42,
+      "phy": 91
+    },
+    "nation": "瑞典",
+    "awards": [
+      [
+        "葡萄牙甲级联赛",
+        2
+      ],
+      [
+        "葡萄牙杯",
+        1
+      ]
+    ]
+  },
+  {
+    "clubId": "ENG1-CHE",
+    "cn": "科尔·帕尔默",
+    "name": "Cole Palmer",
+    "wiki": "Cole Palmer",
+    "pos": "CAM",
+    "ovr": 88,
+    "attrs": {
+      "pac": 83,
+      "sho": 87,
+      "pas": 88,
+      "dri": 90,
+      "def": 48,
+      "phy": 70
+    },
+    "nation": "英格兰",
+    "awards": [
+      [
+        "欧洲冠军联赛",
+        1
+      ],
+      [
+        "世俱杯",
+        1
+      ]
+    ]
+  },
+  {
+    "clubId": "ENG1-CHE",
+    "cn": "莫伊塞斯·凯塞多",
+    "name": "Moisés Caicedo",
+    "wiki": "Moisés Caicedo",
+    "pos": "CDM",
+    "ovr": 87,
+    "attrs": {
+      "pac": 78,
+      "sho": 66,
+      "pas": 83,
+      "dri": 82,
+      "def": 88,
+      "phy": 87
+    },
+    "nation": "厄瓜多尔",
+    "awards": [
+      [
+        "世俱杯",
+        1
+      ]
+    ]
+  },
+  {
+    "clubId": "ENG1-CHE",
+    "cn": "恩佐·费尔南德斯",
+    "name": "Enzo Fernández",
+    "wiki": "Enzo Fernández",
+    "pos": "CM",
+    "ovr": 86,
+    "attrs": {
+      "pac": 74,
+      "sho": 80,
+      "pas": 88,
+      "dri": 86,
+      "def": 77,
+      "phy": 79
+    },
+    "nation": "阿根廷",
+    "awards": [
+      [
+        "世界杯",
+        1
+      ],
+      [
+        "世俱杯",
+        1
+      ]
+    ]
+  },
+  {
+    "clubId": "ENG1-CHE",
+    "cn": "佩德罗·内托",
+    "name": "Pedro Neto",
+    "wiki": "Pedro Neto",
+    "pos": "RW",
+    "ovr": 84,
+    "attrs": {
+      "pac": 91,
+      "sho": 79,
+      "pas": 80,
+      "dri": 87,
+      "def": 43,
+      "phy": 68
+    },
+    "nation": "葡萄牙",
+    "awards": [
+      [
+        "世俱杯",
+        1
+      ]
+    ]
+  },
+  {
+    "clubId": "ENG1-CHE",
+    "cn": "列维·科尔威尔",
+    "name": "Levi Colwill",
+    "wiki": "Levi Colwill",
+    "pos": "CB",
+    "ovr": 83,
+    "attrs": {
+      "pac": 74,
+      "sho": 44,
+      "pas": 79,
+      "dri": 76,
+      "def": 84,
+      "phy": 82
+    },
+    "nation": "英格兰",
+    "awards": [
+      [
+        "世俱杯",
+        1
+      ]
+    ]
+  },
+  {
+    "clubId": "ENG1-CHE",
+    "cn": "马克·库库雷利亚",
+    "name": "Marc Cucurella",
+    "wiki": "Marc Cucurella",
+    "pos": "LB",
+    "ovr": 84,
+    "attrs": {
+      "pac": 82,
+      "sho": 70,
+      "pas": 81,
+      "dri": 84,
+      "def": 82,
+      "phy": 78
+    },
+    "nation": "西班牙",
+    "awards": [
+      [
+        "欧洲杯",
+        1
+      ],
+      [
+        "世俱杯",
+        1
+      ]
+    ]
+  },
+  {
+    "clubId": "ENG1-MUN",
+    "cn": "布鲁诺·费尔南德斯",
+    "name": "Bruno Fernandes",
+    "wiki": "Bruno Fernandes",
+    "pos": "CAM",
+    "ovr": 87,
+    "attrs": {
+      "pac": 74,
+      "sho": 86,
+      "pas": 89,
+      "dri": 86,
+      "def": 68,
+      "phy": 78
+    },
+    "nation": "葡萄牙",
+    "awards": [
+      [
+        "英格兰足总杯",
+        1
+      ],
+      [
+        "英格兰联赛杯",
+        1
+      ]
+    ]
+  },
+  {
+    "clubId": "ENG1-MUN",
+    "cn": "马特乌斯·库尼亚",
+    "name": "Matheus Cunha",
+    "wiki": "Matheus Cunha",
+    "pos": "ST",
+    "ovr": 84,
+    "attrs": {
+      "pac": 85,
+      "sho": 83,
+      "pas": 79,
+      "dri": 86,
+      "def": 45,
+      "phy": 79
+    },
+    "nation": "巴西",
+    "awards": [
+      [
+        "奥运会",
+        1
+      ]
+    ]
+  },
+  {
+    "clubId": "ENG1-MUN",
+    "cn": "布莱恩·姆伯莫",
+    "name": "Bryan Mbeumo",
+    "wiki": "Bryan Mbeumo",
+    "pos": "RW",
+    "ovr": 84,
+    "attrs": {
+      "pac": 87,
+      "sho": 84,
+      "pas": 80,
+      "dri": 85,
+      "def": 52,
+      "phy": 78
+    },
+    "nation": "喀麦隆",
+    "awards": []
+  },
+  {
+    "clubId": "ENG1-MUN",
+    "cn": "科比·梅努",
+    "name": "Kobbie Mainoo",
+    "wiki": "Kobbie Mainoo",
+    "pos": "CM",
+    "ovr": 82,
+    "attrs": {
+      "pac": 74,
+      "sho": 75,
+      "pas": 82,
+      "dri": 85,
+      "def": 77,
+      "phy": 75
+    },
+    "nation": "英格兰",
+    "awards": [
+      [
+        "英格兰足总杯",
+        1
+      ]
+    ]
+  },
+  {
+    "clubId": "ENG1-MUN",
+    "cn": "莱尼·约罗",
+    "name": "Leny Yoro",
+    "wiki": "Leny Yoro",
+    "pos": "CB",
+    "ovr": 82,
+    "attrs": {
+      "pac": 77,
+      "sho": 38,
+      "pas": 73,
+      "dri": 72,
+      "def": 84,
+      "phy": 82
+    },
+    "nation": "法国",
+    "awards": []
+  },
+  {
+    "clubId": "ENG1-MUN",
+    "cn": "马泰斯·德利赫特",
+    "name": "Matthijs de Ligt",
+    "wiki": "Matthijs de Ligt",
+    "pos": "CB",
+    "ovr": 85,
+    "attrs": {
+      "pac": 68,
+      "sho": 55,
+      "pas": 76,
+      "dri": 74,
+      "def": 86,
+      "phy": 87
+    },
+    "nation": "荷兰",
+    "awards": [
+      [
+        "荷兰甲级联赛",
+        3
+      ],
+      [
+        "德国甲级联赛",
+        1
+      ]
+    ]
+  },
+  {
+    "clubId": "FRA1-PSG",
+    "cn": "奥斯曼·登贝莱",
+    "name": "Ousmane Dembélé",
+    "wiki": "Ousmane Dembélé",
+    "pos": "ST",
+    "ovr": 90,
+    "attrs": {
+      "pac": 91,
+      "sho": 88,
+      "pas": 83,
+      "dri": 93,
+      "def": 50,
+      "phy": 69
+    },
+    "nation": "法国",
+    "awards": [
+      [
+        "欧洲冠军联赛",
+        1
+      ],
+      [
+        "法国甲级联赛",
+        5
+      ]
+    ]
+  },
+  {
+    "clubId": "FRA1-PSG",
+    "cn": "阿什拉夫·哈基米",
+    "name": "Achraf Hakimi",
+    "wiki": "Achraf Hakimi",
+    "pos": "RB",
+    "ovr": 89,
+    "attrs": {
+      "pac": 93,
+      "sho": 82,
+      "pas": 85,
+      "dri": 88,
+      "def": 82,
+      "phy": 80
+    },
+    "nation": "摩洛哥",
+    "awards": [
+      [
+        "欧洲冠军联赛",
+        1
+      ],
+      [
+        "法国甲级联赛",
+        4
+      ]
+    ]
+  },
+  {
+    "clubId": "FRA1-PSG",
+    "cn": "赫维恰·克瓦拉茨赫利亚",
+    "name": "Khvicha Kvaratskhelia",
+    "wiki": "Khvicha Kvaratskhelia",
+    "pos": "LW",
+    "ovr": 87,
+    "attrs": {
+      "pac": 87,
+      "sho": 83,
+      "pas": 82,
+      "dri": 90,
+      "def": 43,
+      "phy": 71
+    },
+    "nation": "格鲁吉亚",
+    "awards": [
+      [
+        "欧洲冠军联赛",
+        1
+      ],
+      [
+        "意大利甲级联赛",
+        1
+      ]
+    ]
+  },
+  {
+    "clubId": "FRA1-PSG",
+    "cn": "马尔基尼奥斯",
+    "name": "Marquinhos",
+    "wiki": "Marquinhos",
+    "pos": "CB",
+    "ovr": 89,
+    "attrs": {
+      "pac": 74,
+      "sho": 55,
+      "pas": 78,
+      "dri": 75,
+      "def": 89,
+      "phy": 83
+    },
+    "nation": "巴西",
+    "awards": [
+      [
+        "欧洲冠军联赛",
+        1
+      ],
+      [
+        "法国甲级联赛",
+        10
+      ]
+    ]
+  },
+  {
+    "clubId": "FRA1-PSG",
+    "cn": "维蒂尼亚",
+    "name": "Vitinha",
+    "wiki": "Vitinha (footballer, born February 2000)",
+    "pos": "CM",
+    "ovr": 88,
+    "attrs": {
+      "pac": 79,
+      "sho": 81,
+      "pas": 89,
+      "dri": 91,
+      "def": 75,
+      "phy": 72
+    },
+    "nation": "葡萄牙",
+    "awards": [
+      [
+        "欧洲冠军联赛",
+        1
+      ],
+      [
+        "法国甲级联赛",
+        3
+      ]
+    ]
+  },
+  {
+    "clubId": "FRA1-PSG",
+    "cn": "若昂·内维斯",
+    "name": "João Neves",
+    "wiki": "João Neves",
+    "pos": "CM",
+    "ovr": 86,
+    "attrs": {
+      "pac": 78,
+      "sho": 72,
+      "pas": 87,
+      "dri": 88,
+      "def": 82,
+      "phy": 78
+    },
+    "nation": "葡萄牙",
+    "awards": [
+      [
+        "欧洲冠军联赛",
+        1
+      ],
+      [
+        "法国甲级联赛",
+        1
+      ]
+    ]
+  },
+  {
+    "clubId": "GER1-FCB",
+    "cn": "哈里·凯恩",
+    "name": "Harry Kane",
+    "wiki": "Harry Kane",
+    "pos": "ST",
+    "ovr": 89,
+    "attrs": {
+      "pac": 64,
+      "sho": 92,
+      "pas": 83,
+      "dri": 82,
+      "def": 48,
+      "phy": 82
+    },
+    "nation": "英格兰",
+    "awards": [
+      [
+        "德国甲级联赛",
+        1
+      ],
+      [
+        "欧洲金靴",
+        1
+      ],
+      [
+        "世界杯金靴",
+        1
+      ]
+    ],
+    "ratingSource": "EA SPORTS FC 26 official ratings"
+  },
+  {
+    "clubId": "GER1-FCB",
+    "cn": "贾马尔·穆西亚拉",
+    "name": "Jamal Musiala",
+    "wiki": "Jamal Musiala",
+    "pos": "CAM",
+    "ovr": 88,
+    "attrs": {
+      "pac": 80,
+      "sho": 82,
+      "pas": 80,
+      "dri": 90,
+      "def": 66,
+      "phy": 65
+    },
+    "nation": "德国",
+    "awards": [
+      [
+        "德国甲级联赛",
+        5
+      ]
+    ],
+    "ratingSource": "EA SPORTS FC 26 official ratings"
+  },
+  {
+    "clubId": "GER1-FCB",
+    "cn": "约书亚·基米希",
+    "name": "Joshua Kimmich",
+    "wiki": "Joshua Kimmich",
+    "pos": "CDM",
+    "ovr": 89,
+    "attrs": {
+      "pac": 72,
+      "sho": 74,
+      "pas": 89,
+      "dri": 84,
+      "def": 83,
+      "phy": 79
+    },
+    "nation": "德国",
+    "awards": [
+      [
+        "欧洲冠军联赛",
+        1
+      ],
+      [
+        "德国甲级联赛",
+        9
+      ]
+    ],
+    "ratingSource": "EA SPORTS FC 26 official ratings"
+  },
+  {
+    "clubId": "GER1-FCB",
+    "cn": "迈克尔·奥利塞",
+    "name": "Michael Olise",
+    "wiki": "Michael Olise",
+    "pos": "RW",
+    "ovr": 88,
+    "attrs": {
+      "pac": 87,
+      "sho": 86,
+      "pas": 87,
+      "dri": 91,
+      "def": 48,
+      "phy": 74
+    },
+    "nation": "法国",
+    "awards": [
+      [
+        "德国甲级联赛",
+        1
+      ],
+      [
+        "奥运会银牌",
+        1
+      ]
+    ]
+  },
+  {
+    "clubId": "GER1-FCB",
+    "cn": "阿方索·戴维斯",
+    "name": "Alphonso Davies",
+    "wiki": "Alphonso Davies",
+    "pos": "LB",
+    "ovr": 86,
+    "attrs": {
+      "pac": 95,
+      "sho": 72,
+      "pas": 80,
+      "dri": 88,
+      "def": 80,
+      "phy": 79
+    },
+    "nation": "加拿大",
+    "awards": [
+      [
+        "欧洲冠军联赛",
+        1
+      ],
+      [
+        "德国甲级联赛",
+        6
+      ]
+    ]
+  },
+  {
+    "clubId": "GER1-FCB",
+    "cn": "曼努埃尔·诺伊尔",
+    "name": "Manuel Neuer",
+    "wiki": "Manuel Neuer",
+    "pos": "GK",
+    "ovr": 87,
+    "attrs": {
+      "pac": 60,
+      "sho": 25,
+      "pas": 87,
+      "dri": 70,
+      "def": 88,
+      "phy": 82
+    },
+    "nation": "德国",
+    "awards": [
+      [
+        "世界杯",
+        1
+      ],
+      [
+        "欧洲冠军联赛",
+        2
+      ],
+      [
+        "德国甲级联赛",
+        12
+      ]
+    ]
+  },
+  {
+    "clubId": "ITA1-INT",
+    "cn": "劳塔罗·马丁内斯",
+    "name": "Lautaro Martínez",
+    "wiki": "Lautaro Martínez",
+    "pos": "ST",
+    "ovr": 88,
+    "attrs": {
+      "pac": 83,
+      "sho": 88,
+      "pas": 78,
+      "dri": 87,
+      "def": 52,
+      "phy": 82
+    },
+    "nation": "阿根廷",
+    "awards": [
+      [
+        "世界杯",
+        1
+      ],
+      [
+        "美洲杯",
+        2
+      ],
+      [
+        "意大利甲级联赛",
+        2
+      ]
+    ]
+  },
+  {
+    "clubId": "ITA1-INT",
+    "cn": "亚历山德罗·巴斯托尼",
+    "name": "Alessandro Bastoni",
+    "wiki": "Alessandro Bastoni",
+    "pos": "CB",
+    "ovr": 88,
+    "attrs": {
+      "pac": 76,
+      "sho": 58,
+      "pas": 84,
+      "dri": 79,
+      "def": 88,
+      "phy": 85
+    },
+    "nation": "意大利",
+    "awards": [
+      [
+        "欧洲杯",
+        1
+      ],
+      [
+        "意大利甲级联赛",
+        2
+      ]
+    ]
+  },
+  {
+    "clubId": "ITA1-INT",
+    "cn": "尼科洛·巴雷拉",
+    "name": "Nicolò Barella",
+    "wiki": "Nicolò Barella",
+    "pos": "CM",
+    "ovr": 87,
+    "attrs": {
+      "pac": 80,
+      "sho": 81,
+      "pas": 87,
+      "dri": 88,
+      "def": 82,
+      "phy": 84
+    },
+    "nation": "意大利",
+    "awards": [
+      [
+        "欧洲杯",
+        1
+      ],
+      [
+        "意大利甲级联赛",
+        2
+      ]
+    ]
+  },
+  {
+    "clubId": "ITA1-INT",
+    "cn": "哈坎·恰尔汗奥卢",
+    "name": "Hakan Çalhanoğlu",
+    "wiki": "Hakan Çalhanoğlu",
+    "pos": "CDM",
+    "ovr": 86,
+    "attrs": {
+      "pac": 67,
+      "sho": 84,
+      "pas": 88,
+      "dri": 84,
+      "def": 80,
+      "phy": 77
+    },
+    "nation": "土耳其",
+    "awards": [
+      [
+        "意大利甲级联赛",
+        1
+      ]
+    ]
+  },
+  {
+    "clubId": "ITA1-INT",
+    "cn": "马库斯·图拉姆",
+    "name": "Marcus Thuram",
+    "wiki": "Marcus Thuram",
+    "pos": "ST",
+    "ovr": 86,
+    "attrs": {
+      "pac": 89,
+      "sho": 84,
+      "pas": 78,
+      "dri": 86,
+      "def": 45,
+      "phy": 86
+    },
+    "nation": "法国",
+    "awards": [
+      [
+        "意大利甲级联赛",
+        1
+      ]
+    ]
+  },
+  {
+    "clubId": "ITA1-INT",
+    "cn": "扬·索默",
+    "name": "Yann Sommer",
+    "wiki": "Yann Sommer",
+    "pos": "GK",
+    "ovr": 85,
+    "attrs": {
+      "pac": 56,
+      "sho": 22,
+      "pas": 82,
+      "dri": 66,
+      "def": 87,
+      "phy": 79
+    },
+    "nation": "瑞士",
+    "awards": [
+      [
+        "意大利甲级联赛",
+        1
+      ]
+    ]
+  },
+  {
+    "clubId": "ITA1-NAP",
+    "cn": "凯文·德布劳内",
+    "name": "Kevin De Bruyne",
+    "wiki": "Kevin De Bruyne",
+    "pos": "CM",
+    "ovr": 88,
+    "attrs": {
+      "pac": 67,
+      "sho": 85,
+      "pas": 92,
+      "dri": 87,
+      "def": 65,
+      "phy": 74
+    },
+    "nation": "比利时",
+    "awards": [
+      [
+        "欧洲冠军联赛",
+        1
+      ],
+      [
+        "英格兰超级联赛",
+        6
+      ]
+    ]
+  },
+  {
+    "clubId": "ITA1-NAP",
+    "cn": "斯科特·麦克托米奈",
+    "name": "Scott McTominay",
+    "wiki": "Scott McTominay",
+    "pos": "CM",
+    "ovr": 85,
+    "attrs": {
+      "pac": 76,
+      "sho": 82,
+      "pas": 79,
+      "dri": 80,
+      "def": 79,
+      "phy": 89
+    },
+    "nation": "苏格兰",
+    "awards": [
+      [
+        "意大利甲级联赛",
+        1
+      ],
+      [
+        "英格兰足总杯",
+        1
+      ]
+    ]
+  },
+  {
+    "clubId": "ITA1-NAP",
+    "cn": "罗梅卢·卢卡库",
+    "name": "Romelu Lukaku",
+    "wiki": "Romelu Lukaku",
+    "pos": "ST",
+    "ovr": 84,
+    "attrs": {
+      "pac": 75,
+      "sho": 84,
+      "pas": 73,
+      "dri": 79,
+      "def": 40,
+      "phy": 90
+    },
+    "nation": "比利时",
+    "awards": [
+      [
+        "意大利甲级联赛",
+        2
+      ],
+      [
+        "世俱杯",
+        1
+      ]
+    ]
+  },
+  {
+    "clubId": "ITA1-NAP",
+    "cn": "乔瓦尼·迪洛伦佐",
+    "name": "Giovanni Di Lorenzo",
+    "wiki": "Giovanni Di Lorenzo",
+    "pos": "RB",
+    "ovr": 84,
+    "attrs": {
+      "pac": 79,
+      "sho": 68,
+      "pas": 80,
+      "dri": 81,
+      "def": 84,
+      "phy": 83
+    },
+    "nation": "意大利",
+    "awards": [
+      [
+        "欧洲杯",
+        1
+      ],
+      [
+        "意大利甲级联赛",
+        2
+      ]
+    ]
+  },
+  {
+    "clubId": "ITA1-NAP",
+    "cn": "亚历山德罗·布翁焦尔诺",
+    "name": "Alessandro Buongiorno",
+    "wiki": "Alessandro Buongiorno",
+    "pos": "CB",
+    "ovr": 84,
+    "attrs": {
+      "pac": 73,
+      "sho": 48,
+      "pas": 72,
+      "dri": 71,
+      "def": 86,
+      "phy": 87
+    },
+    "nation": "意大利",
+    "awards": [
+      [
+        "意大利甲级联赛",
+        1
+      ]
+    ]
+  },
+  {
+    "clubId": "ITA1-NAP",
+    "cn": "亚历克斯·梅雷特",
+    "name": "Alex Meret",
+    "wiki": "Alex Meret",
+    "pos": "GK",
+    "ovr": 83,
+    "attrs": {
+      "pac": 55,
+      "sho": 20,
+      "pas": 78,
+      "dri": 63,
+      "def": 85,
+      "phy": 80
+    },
+    "nation": "意大利",
+    "awards": [
+      [
+        "意大利甲级联赛",
+        2
+      ]
+    ]
+  },
+  {
+    "clubId": "KSA1-NAS",
+    "cn": "克里斯蒂亚诺·罗纳尔多",
+    "name": "Cristiano Ronaldo",
+    "wiki": "Cristiano Ronaldo",
+    "pos": "ST",
+    "ovr": 86,
+    "attrs": {
+      "pac": 77,
+      "sho": 90,
+      "pas": 78,
+      "dri": 85,
+      "def": 34,
+      "phy": 78
+    },
+    "nation": "葡萄牙",
+    "awards": [
+      [
+        "欧洲冠军联赛",
+        5
+      ],
+      [
+        "欧洲杯",
+        1
+      ],
+      [
+        "金球奖",
+        5
+      ],
+      [
+        "国家联赛",
+        2
+      ]
+    ]
+  },
+  {
+    "clubId": "USA1-MIA",
+    "cn": "利昂内尔·梅西",
+    "name": "Lionel Messi",
+    "wiki": "Lionel Messi",
+    "pos": "CAM",
+    "ovr": 88,
+    "attrs": {
+      "pac": 78,
+      "sho": 88,
+      "pas": 91,
+      "dri": 92,
+      "def": 38,
+      "phy": 65
+    },
+    "nation": "阿根廷",
+    "awards": [
+      [
+        "世界杯",
+        1
+      ],
+      [
+        "美洲杯",
+        2
+      ],
+      [
+        "欧洲冠军联赛",
+        4
+      ],
+      [
+        "金球奖",
+        8
+      ]
+    ]
+  },
+  {
+    "clubId": "ESP1-ATM",
+    "cn": "胡利安·阿尔瓦雷斯",
+    "name": "Julián Álvarez",
+    "wiki": "Julián Álvarez",
+    "pos": "ST",
+    "ovr": 87,
+    "attrs": {
+      "pac": 86,
+      "sho": 87,
+      "pas": 82,
+      "dri": 88,
+      "def": 56,
+      "phy": 81
+    },
+    "nation": "阿根廷",
+    "awards": [
+      [
+        "世界杯",
+        1
+      ],
+      [
+        "美洲杯",
+        1
+      ],
+      [
+        "欧洲冠军联赛",
+        1
+      ],
+      [
+        "英格兰超级联赛",
+        2
+      ]
+    ]
+  },
+  {
+    "clubId": "ESP1-ATM",
+    "cn": "扬·奥布拉克",
+    "name": "Jan Oblak",
+    "wiki": "Jan Oblak",
+    "pos": "GK",
+    "ovr": 88,
+    "attrs": {
+      "pac": 58,
+      "sho": 20,
+      "pas": 79,
+      "dri": 62,
+      "def": 90,
+      "phy": 84
+    },
+    "nation": "斯洛文尼亚",
+    "awards": [
+      [
+        "西班牙甲级联赛",
+        1
+      ],
+      [
+        "萨莫拉奖",
+        5
+      ]
+    ]
+  },
+  {
+    "clubId": "GER1-BVB",
+    "cn": "塞鲁·吉拉西",
+    "name": "Serhou Guirassy",
+    "wiki": "Serhou Guirassy",
+    "pos": "ST",
+    "ovr": 86,
+    "attrs": {
+      "pac": 82,
+      "sho": 88,
+      "pas": 72,
+      "dri": 80,
+      "def": 41,
+      "phy": 86
+    },
+    "nation": "几内亚",
+    "awards": []
+  },
+  {
+    "clubId": "GER1-BVB",
+    "cn": "卡里姆·阿德耶米",
+    "name": "Karim Adeyemi",
+    "wiki": "Karim Adeyemi",
+    "pos": "LW",
+    "ovr": 81,
+    "attrs": {
+      "pac": 96,
+      "sho": 76,
+      "pas": 72,
+      "dri": 82,
+      "def": 36,
+      "phy": 69
+    },
+    "nation": "德国",
+    "awards": [
+      [
+        "德国甲级联赛",
+        1
+      ]
+    ]
+  },
+  {
+    "clubId": "ITA1-JUV",
+    "cn": "凯南·伊尔迪兹",
+    "name": "Kenan Yıldız",
+    "wiki": "Kenan Yıldız",
+    "pos": "LW",
+    "ovr": 84,
+    "attrs": {
+      "pac": 85,
+      "sho": 83,
+      "pas": 80,
+      "dri": 88,
+      "def": 45,
+      "phy": 72
+    },
+    "nation": "土耳其",
+    "awards": []
+  },
+  {
+    "clubId": "ITA1-MIL",
+    "cn": "拉斐尔·莱奥",
+    "name": "Rafael Leão",
+    "wiki": "Rafael Leão",
+    "pos": "LW",
+    "ovr": 86,
+    "attrs": {
+      "pac": 94,
+      "sho": 83,
+      "pas": 80,
+      "dri": 89,
+      "def": 31,
+      "phy": 78
+    },
+    "nation": "葡萄牙",
+    "awards": [
+      [
+        "意大利甲级联赛",
+        1
+      ]
+    ]
+  },
+  {
+    "clubId": "ITA1-MIL",
+    "cn": "克里斯蒂安·普利希奇",
+    "name": "Christian Pulisic",
+    "wiki": "Christian Pulisic",
+    "pos": "RW",
+    "ovr": 85,
+    "attrs": {
+      "pac": 88,
+      "sho": 84,
+      "pas": 82,
+      "dri": 87,
+      "def": 45,
+      "phy": 68
+    },
+    "nation": "美国",
+    "awards": [
+      [
+        "欧洲冠军联赛",
+        1
+      ],
+      [
+        "国家联赛",
+        3
+      ]
+    ]
+  },
+  {
+    "clubId": "POR1-SLB",
+    "cn": "安纳托利·特鲁宾",
+    "name": "Anatoliy Trubin",
+    "wiki": "Anatoliy Trubin",
+    "pos": "GK",
+    "ovr": 84,
+    "attrs": {
+      "pac": 57,
+      "sho": 22,
+      "pas": 79,
+      "dri": 64,
+      "def": 86,
+      "phy": 83
+    },
+    "nation": "乌克兰",
+    "awards": []
+  }
+]
