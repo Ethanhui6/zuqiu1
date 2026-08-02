@@ -1,26 +1,125 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no">
-  <meta name="theme-color" content="#0a0b0d">
-  <meta name="description" content="绿茵浮沉 10.0：以能力成长、真实阵容竞争、月度事件与豪门转会为核心的球员人生模拟器。">
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <link rel="manifest" href="manifest.webmanifest">
-  <link rel="icon" href="icon.svg">
-  <link rel="stylesheet" href="styles.css">
-  <title>绿茵浮沉 10.0</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>足球生涯模拟器 V10.0 | Football Career Simulator</title>
+  <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-  <div id="boot" class="boot"><div class="boot-orbit"><i></i></div><b>绿茵浮沉 10.0</b><span>正在载入球员、俱乐部与故事世界…</span></div>
-  <div id="app" class="app" hidden>
-    <header id="topbar" class="topbar"></header>
-    <main id="view" class="view"></main>
-    <nav id="nav" class="tabbar"></nav>
-  </div>
-  <div id="overlay" class="overlay" hidden><div id="sheet" class="sheet"></div></div>
-  <div id="toast" class="toast"></div>
-  <script src="app.js" defer></script>
+
+  <!-- Header / Navigation Bar -->
+  <header class="app-header glass-panel">
+    <div class="brand-logo">
+      ⚽ 足球生涯模拟器 <span class="brand-badge">V10.0 重构版</span>
+    </div>
+    <nav class="nav-tabs">
+      <button class="tab-btn active" data-tab="careerTab">🎮 职业主页</button>
+      <button class="tab-btn" data-tab="transferTab">💼 转会市场</button>
+      <button class="tab-btn" data-tab="trophyTab">🏛️ 奖杯陈列室</button>
+    </nav>
+  </header>
+
+  <!-- Main SPA View Layout -->
+  <main class="main-dashboard">
+
+    <!-- Left Column: FUT Card & Scouting Report -->
+    <aside id="playerCardContainer">
+      <!-- Dynamically Rendered PlayerCard & Scout Panel -->
+    </aside>
+
+    <!-- Right Column: Dashboard Controls & Views -->
+    <section class="controls-panel">
+
+      <!-- View 1: Main Career Dashboard -->
+      <div id="careerTab" class="view-content">
+
+        <!-- Top Player Status Metrics -->
+        <div class="top-status-bar glass-panel">
+          <div class="status-card">
+            <span class="label">📅 当前时间</span>
+            <span class="val" id="statusDate">2026年9月</span>
+          </div>
+          <div class="status-card">
+            <span class="label">🎂 年龄</span>
+            <span class="val" id="statusAge">17 岁</span>
+          </div>
+          <div class="status-card">
+            <span class="label">🛡️ 当前效力</span>
+            <span class="val" id="statusTeam">浙江队</span>
+          </div>
+          <div class="status-card">
+            <span class="label">💵 签约周薪</span>
+            <span class="val" id="statusWage">€3,000/周</span>
+          </div>
+          <div class="status-card">
+            <span class="label">💰 个人资产</span>
+            <span class="val" id="statusMoney">€50,000</span>
+          </div>
+          <div class="status-card">
+            <span class="label">🌟 声望值</span>
+            <span class="val" id="statusFame">10</span>
+          </div>
+          <div class="status-card">
+            <span class="label">👥 球迷数量</span>
+            <span class="val" id="statusFans">5,000</span>
+          </div>
+          <div class="status-card">
+            <span class="label">👔 主帅信任</span>
+            <span class="val" id="statusCoach">50%</span>
+          </div>
+          <div class="status-card">
+            <span class="label">😰 心态压力</span>
+            <span class="val" id="statusPressure">10%</span>
+          </div>
+        </div>
+
+        <!-- Monthly Event Card (5 Options) -->
+        <div id="eventContainer" style="margin-top: 20px;">
+          <!-- Rendered Event -->
+        </div>
+
+        <!-- Advance Month Action Box -->
+        <div class="advance-month-box" style="margin-top: 20px;">
+          <div>
+            <h3 style="color: var(--gold-primary);">📅 推进时间轮盘</h3>
+            <p style="font-size: 0.88rem; color: var(--text-muted);">点击模拟下个月比赛与训练剧情，触发转会与随机人生事件</p>
+          </div>
+          <button id="advanceMonthBtn" class="btn-primary">⏩ 模拟下个月</button>
+        </div>
+
+        <!-- Career History Logs -->
+        <div class="glass-panel" style="margin-top: 20px;">
+          <h3 style="margin-bottom: 12px; color: var(--gold-primary);">📜 履历动向动态 (Career Logs)</h3>
+          <div id="logsFeed" class="logs-feed"></div>
+        </div>
+
+      </div>
+
+      <!-- View 2: Transfer Market Tab -->
+      <div id="transferTab" class="view-content" style="display: none;"></div>
+
+      <!-- View 3: Trophy Cabinet Tab -->
+      <div id="trophyTab" class="view-content" style="display: none;"></div>
+
+    </section>
+
+  </main>
+
+  <!-- Roulette Modal Container -->
+  <div id="rouletteContainer"></div>
+
+  <!-- Scripts -->
+  <script src="js/config.js"></script>
+  <script src="js/data/teams.js"></script>
+  <script src="js/data/players.js"></script>
+  <script src="js/data/events.js"></script>
+  <script src="js/components/avatar.js"></script>
+  <script src="js/components/playerCard.js"></script>
+  <script src="js/components/roulette.js"></script>
+  <script src="js/components/trophyRoom.js"></script>
+  <script src="js/engine/transferEngine.js"></script>
+  <script src="js/engine/gameEngine.js"></script>
+  <script src="js/app.js"></script>
 </body>
 </html>
