@@ -1,4 +1,4 @@
-// Football Career Simulator V10.0 - Canvas Interactive Probability Roulette Wheel
+// Football Career Simulator V11.0 - Interactive Probability Roulette Wheel
 
 class RouletteWheel {
   constructor(containerId, onComplete) {
@@ -54,7 +54,6 @@ class RouletteWheel {
       const startA = angle + i * sliceAngle;
       const endA = startA + sliceAngle;
 
-      // Draw Sector
       ctx.beginPath();
       ctx.moveTo(cx, cy);
       ctx.arc(cx, cy, radius, startA, endA);
@@ -65,7 +64,6 @@ class RouletteWheel {
       ctx.strokeStyle = "#1e293b";
       ctx.stroke();
 
-      // Draw Label
       ctx.save();
       ctx.translate(cx, cy);
       ctx.rotate(startA + sliceAngle / 2);
@@ -78,7 +76,6 @@ class RouletteWheel {
       ctx.restore();
     }
 
-    // Draw Center Cap
     ctx.beginPath();
     ctx.arc(cx, cy, 25, 0, 2 * Math.PI);
     ctx.fillStyle = "#0f172a";
@@ -94,7 +91,6 @@ class RouletteWheel {
     this.spinBtn.disabled = true;
     this.spinBtn.innerText = "⏳ 命运转盘旋转中...";
 
-    // Weighted Random Selection
     const rand = Math.random();
     let cumulative = 0;
     let selectedIdx = 0;
@@ -108,7 +104,6 @@ class RouletteWheel {
     }
 
     const sliceAngle = (2 * Math.PI) / this.slices.length;
-    // Align target index with top pointer (pointer is at 270 degrees or -Math.PI/2)
     const targetAngle = 6 * Math.PI * 2 + (2 * Math.PI - (selectedIdx + 0.5) * sliceAngle) - Math.PI / 2;
 
     let startTime = null;
@@ -117,7 +112,6 @@ class RouletteWheel {
     const animate = (timestamp) => {
       if (!startTime) startTime = timestamp;
       const progress = Math.min((timestamp - startTime) / duration, 1);
-      // Ease out cubic
       const easeOut = 1 - Math.pow(1 - progress, 3);
       const currentAngle = targetAngle * easeOut;
 
@@ -127,7 +121,7 @@ class RouletteWheel {
         requestAnimationFrame(animate);
       } else {
         setTimeout(() => {
-          this.container.innerHTML = ""; // Close Modal
+          this.container.innerHTML = "";
           if (this.onComplete) this.onComplete(this.slices[selectedIdx]);
         }, 800);
       }

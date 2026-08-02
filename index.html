@@ -2,39 +2,55 @@
 <html lang="zh-CN">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>足球生涯模拟器 V10.0 | Football Career Simulator</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>足球生涯模拟器 V11.0 终极版 | Football Career Simulator</title>
+  
+  <!-- PWA & Mobile Web App Meta -->
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#e5c158">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <link rel="apple-touch-icon" href="assets/icon-192.png">
+
+  <!-- Open Graph & Social Sharing -->
+  <meta property="og:title" content="足球生涯模拟器 V11.0 终极重构进化版">
+  <meta property="og:description" content="中国足球版人生重开模拟器，体验从青训小将到全球球王传奇的璀璨职业生涯！">
+  <meta property="og:image" content="assets/icon-192.png">
+
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
 
-  <!-- Header / Navigation Bar -->
+  <!-- App Header & Navigation -->
   <header class="app-header glass-panel">
     <div class="brand-logo">
-      ⚽ 足球生涯模拟器 <span class="brand-badge">V10.0 重构版</span>
+      ⚽ 足球生涯模拟器 <span class="brand-badge">V11.0 终极版</span>
     </div>
     <nav class="nav-tabs">
       <button class="tab-btn active" data-tab="careerTab">🎮 职业主页</button>
+      <button class="tab-btn" data-tab="setupTab">⚙️ 角色建模</button>
       <button class="tab-btn" data-tab="transferTab">💼 转会市场</button>
-      <button class="tab-btn" data-tab="trophyTab">🏛️ 奖杯陈列室</button>
+      <button class="tab-btn" data-tab="lifeTab">🏠 奢华生活</button>
+      <button class="tab-btn" data-tab="mapTab">🗺️ 生涯地图</button>
+      <button class="tab-btn" data-tab="trophyTab">🏛️ 荣耀展厅</button>
     </nav>
   </header>
 
-  <!-- Main SPA View Layout -->
+  <!-- Main SPA View -->
   <main class="main-dashboard">
 
     <!-- Left Column: FUT Card & Scouting Report -->
     <aside id="playerCardContainer">
-      <!-- Dynamically Rendered PlayerCard & Scout Panel -->
+      <!-- FUT Gold Card & Scout Report Rendered Here -->
     </aside>
 
-    <!-- Right Column: Dashboard Controls & Views -->
+    <!-- Right Column: Control Views -->
     <section class="controls-panel">
 
       <!-- View 1: Main Career Dashboard -->
       <div id="careerTab" class="view-content">
 
-        <!-- Top Player Status Metrics -->
+        <!-- Top Status Bar Metrics -->
         <div class="top-status-bar glass-panel">
           <div class="status-card">
             <span class="label">📅 当前时间</span>
@@ -42,7 +58,7 @@
           </div>
           <div class="status-card">
             <span class="label">🎂 年龄</span>
-            <span class="val" id="statusAge">17 岁</span>
+            <span class="val" id="statusAge">15 岁</span>
           </div>
           <div class="status-card">
             <span class="label">🛡️ 当前效力</span>
@@ -65,61 +81,101 @@
             <span class="val" id="statusFans">5,000</span>
           </div>
           <div class="status-card">
-            <span class="label">👔 主帅信任</span>
-            <span class="val" id="statusCoach">50%</span>
+            <span class="label">🇨🇳 国足履历</span>
+            <span class="val" id="statusNational">0 场</span>
           </div>
           <div class="status-card">
-            <span class="label">😰 心态压力</span>
-            <span class="val" id="statusPressure">10%</span>
+            <span class="label">⚖️ 清白度</span>
+            <span class="val" id="statusInnocence">80%</span>
           </div>
         </div>
 
         <!-- Monthly Event Card (5 Options) -->
-        <div id="eventContainer" style="margin-top: 20px;">
-          <!-- Rendered Event -->
+        <div id="eventContainer" style="margin-top: 15px;">
+          <!-- Event Content -->
         </div>
 
         <!-- Advance Month Action Box -->
-        <div class="advance-month-box" style="margin-top: 20px;">
+        <div class="advance-month-box" style="margin-top: 15px;">
           <div>
-            <h3 style="color: var(--gold-primary);">📅 推进时间轮盘</h3>
-            <p style="font-size: 0.88rem; color: var(--text-muted);">点击模拟下个月比赛与训练剧情，触发转会与随机人生事件</p>
+            <h3 style="color: var(--gold-primary);">📅 推进时间线</h3>
+            <p style="font-size: 0.88rem; color: var(--text-muted);">模拟下个月比赛剧情，触发转会与随机事件</p>
           </div>
           <button id="advanceMonthBtn" class="btn-primary">⏩ 模拟下个月</button>
         </div>
 
         <!-- Career History Logs -->
-        <div class="glass-panel" style="margin-top: 20px;">
-          <h3 style="margin-bottom: 12px; color: var(--gold-primary);">📜 履历动向动态 (Career Logs)</h3>
+        <div class="glass-panel" style="margin-top: 15px;">
+          <h3 style="margin-bottom: 10px; color: var(--gold-primary);">📜 生涯动向履历 (Career Logs)</h3>
           <div id="logsFeed" class="logs-feed"></div>
         </div>
 
       </div>
 
-      <!-- View 2: Transfer Market Tab -->
+      <!-- View 2: Player & Birthplace Setup Tab -->
+      <div id="setupTab" class="view-content" style="display: none;">
+        <div class="glass-panel">
+          <h2>⚙️ 新人建模与出生地特质设置</h2>
+          <p class="scout-label" style="margin-bottom: 20px;">明示不同出生地与位置加成（解决老版本信息不透明问题）</p>
+
+          <h3 style="color: var(--gold-primary); margin-bottom: 10px;">1. 选择出生地 (Birthplace)</h3>
+          <div class="options-container" style="margin-bottom: 20px;">
+            ${GAME_CONFIG.BIRTHPLACES.map(bp => `
+              <button class="option-btn" onclick="selectBirthplace('${bp.code}')">
+                <span class="opt-tag">${bp.flag} ${bp.name}</span>
+                <span class="opt-text">特质：${bp.trait}</span>
+                <span class="opt-effect">✦ 初始加成：${bp.desc}</span>
+              </button>
+            `).join('')}
+          </div>
+
+          <h3 style="color: var(--gold-primary); margin-bottom: 10px;">2. 节奏模式与难度模式（独立配置）</h3>
+          <p class="scout-label">节奏：逐年 / 标准 / 电影模式 | 难度：新星 / 职业 / 残酷模式</p>
+        </div>
+      </div>
+
+      <!-- View 3: Transfer Market Tab -->
       <div id="transferTab" class="view-content" style="display: none;"></div>
 
-      <!-- View 3: Trophy Cabinet Tab -->
+      <!-- View 4: Lifestyle Tab -->
+      <div id="lifeTab" class="view-content" style="display: none;"></div>
+
+      <!-- View 5: World Map Tab -->
+      <div id="mapTab" class="view-content" style="display: none;"></div>
+
+      <!-- View 6: Trophy Cabinet Tab -->
       <div id="trophyTab" class="view-content" style="display: none;"></div>
 
     </section>
 
   </main>
 
-  <!-- Roulette Modal Container -->
+  <!-- Modals Containers -->
   <div id="rouletteContainer"></div>
+  <div id="matchModalContainer"></div>
 
   <!-- Scripts -->
   <script src="js/config.js"></script>
   <script src="js/data/teams.js"></script>
   <script src="js/data/players.js"></script>
   <script src="js/data/events.js"></script>
-  <script src="js/components/avatar.js"></script>
+  <script src="js/components/avatar3d.js"></script>
   <script src="js/components/playerCard.js"></script>
+  <script src="js/components/matchEngine3d.js"></script>
+  <script src="js/components/trophyCabinet3d.js"></script>
+  <script src="js/components/worldMap.js"></script>
+  <script src="js/components/lifeSimulator.js"></script>
   <script src="js/components/roulette.js"></script>
-  <script src="js/components/trophyRoom.js"></script>
+  <script src="js/components/summaryCard.js"></script>
   <script src="js/engine/transferEngine.js"></script>
   <script src="js/engine/gameEngine.js"></script>
   <script src="js/app.js"></script>
+
+  <!-- Service Worker Registration -->
+  <script>
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('sw.js').catch(err => console.log(err));
+    }
+  </script>
 </body>
 </html>

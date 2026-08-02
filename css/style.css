@@ -1,9 +1,8 @@
-/* Football Career Simulator V10.0 - Dark EA FC / FIFA Style Theme */
+/* Football Career Simulator V11.0 - Dark EA FC Theme & Glassmorphism */
 
 :root {
-  --bg-dark: #090b0e;
-  --bg-card: #131720;
-  --bg-panel: rgba(22, 28, 38, 0.85);
+  --bg-dark: #080a0e;
+  --bg-panel: rgba(18, 24, 35, 0.88);
   --gold-primary: #e5c158;
   --gold-gradient: linear-gradient(135deg, #fce080 0%, #c9932b 100%);
   --accent-purple: #8b5cf6;
@@ -16,74 +15,76 @@
 
 * {
   box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  margin: 0; padding: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+  -webkit-tap-highlight-color: transparent;
 }
 
 body {
   background-color: var(--bg-dark);
   color: var(--text-main);
   background-image: 
-    radial-gradient(circle at 10% 20%, rgba(229, 193, 88, 0.08) 0%, transparent 40%),
-    radial-gradient(circle at 90% 80%, rgba(139, 92, 246, 0.08) 0%, transparent 40%);
+    radial-gradient(circle at 10% 15%, rgba(229, 193, 88, 0.09) 0%, transparent 45%),
+    radial-gradient(circle at 90% 85%, rgba(139, 92, 246, 0.09) 0%, transparent 45%);
   min-height: 100vh;
-  padding: 15px;
+  padding: 12px;
+  padding-bottom: env(safe-area-inset-bottom, 20px);
 }
 
-/* Glassmorphism Panel */
 .glass-panel {
   background: var(--bg-panel);
-  backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(14px);
+  border: 1px solid rgba(255, 255, 255, 0.09);
   border-radius: var(--radius-card);
   padding: 20px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
 }
 
-/* Header Navbar */
 .app-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
   margin-bottom: 20px;
-  padding: 15px 25px;
+  padding: 15px 20px;
   border-bottom: 2px solid var(--gold-primary);
 }
 
 .brand-logo {
-  font-size: 1.4rem;
-  font-weight: 800;
+  font-size: 1.3rem;
+  font-weight: 900;
   background: var(--gold-gradient);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 8px;
 }
 
 .brand-badge {
   background: var(--gold-primary);
   color: #000;
   font-size: 0.75rem;
-  padding: 3px 8px;
+  padding: 2px 8px;
   border-radius: 20px;
   font-weight: 800;
 }
 
 .nav-tabs {
   display: flex;
-  gap: 10px;
+  gap: 8px;
+  overflow-x: auto;
+  padding-bottom: 4px;
 }
 
 .tab-btn {
   background: rgba(255, 255, 255, 0.05);
   border: 1px solid rgba(255, 255, 255, 0.1);
   color: var(--text-muted);
-  padding: 8px 16px;
+  padding: 8px 14px;
   border-radius: 12px;
   cursor: pointer;
   font-weight: 600;
+  white-space: nowrap;
   transition: all 0.2s ease;
 }
 
@@ -91,10 +92,9 @@ body {
   background: var(--gold-gradient);
   color: #000;
   border-color: var(--gold-primary);
-  box-shadow: 0 0 15px rgba(229, 193, 88, 0.3);
+  box-shadow: 0 0 15px rgba(229, 193, 88, 0.35);
 }
 
-/* Main Dashboard Grid */
 .main-dashboard {
   display: grid;
   grid-template-columns: 360px 1fr;
@@ -103,13 +103,13 @@ body {
   margin: 0 auto;
 }
 
-@media (max-width: 900px) {
+@media (max-width: 920px) {
   .main-dashboard {
     grid-template-columns: 1fr;
   }
 }
 
-/* FUT Card Styling */
+/* FUT Gold Card & Peak OVR Badge */
 .fut-card-wrapper {
   display: flex;
   flex-direction: column;
@@ -130,36 +130,37 @@ body {
   color: #2b1e06;
 }
 
+.peak-ovr-tag {
+  position: absolute;
+  top: 18px;
+  right: 20px;
+  background: rgba(0, 0, 0, 0.75);
+  color: var(--gold-primary);
+  border: 1px solid var(--gold-primary);
+  padding: 3px 8px;
+  border-radius: 10px;
+  font-size: 0.75rem;
+  font-weight: 900;
+}
+
 .fut-top-meta {
   position: absolute;
-  top: 25px;
-  left: 25px;
+  top: 22px;
+  left: 22px;
   display: flex;
   flex-direction: column;
   align-items: center;
   font-weight: 900;
 }
 
-.fut-ovr {
-  font-size: 2.8rem;
-  line-height: 1;
-}
-
-.fut-pos {
-  font-size: 1.2rem;
-  text-transform: uppercase;
-}
-
-.fut-flag {
-  font-size: 1.5rem;
-  margin-top: 5px;
-}
-
+.fut-ovr { font-size: 2.8rem; line-height: 1; }
+.fut-pos { font-size: 1.2rem; text-transform: uppercase; }
+.fut-flag { font-size: 1.5rem; margin-top: 4px; }
 .fut-badge {
-  font-size: 0.75rem;
+  font-size: 0.72rem;
   font-weight: 800;
-  margin-top: 5px;
-  background: rgba(0,0,0,0.15);
+  margin-top: 4px;
+  background: rgba(0,0,0,0.2);
   padding: 2px 6px;
   border-radius: 6px;
 }
@@ -172,12 +173,11 @@ body {
 
 .fut-player-name {
   text-align: center;
-  font-size: 1.4rem;
+  font-size: 1.35rem;
   font-weight: 900;
   text-transform: uppercase;
   letter-spacing: 1px;
-  margin-top: 5px;
-  text-shadow: 0 2px 4px rgba(255, 255, 255, 0.3);
+  margin-top: 4px;
 }
 
 .fut-card-divider {
@@ -195,22 +195,11 @@ body {
   font-size: 1.05rem;
 }
 
-.fut-stat {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
+.fut-stat { display: flex; align-items: center; gap: 8px; }
+.fut-stat .num { font-size: 1.2rem; }
+.fut-stat .label { font-size: 0.85rem; opacity: 0.85; }
 
-.fut-stat .num {
-  font-size: 1.2rem;
-}
-
-.fut-stat .label {
-  font-size: 0.85rem;
-  opacity: 0.85;
-}
-
-/* Scout Report Styling */
+/* Scout Report & Highlights */
 .scout-header {
   display: flex;
   align-items: center;
@@ -220,19 +209,9 @@ body {
   margin-bottom: 12px;
 }
 
-.scout-row {
-  margin-bottom: 10px;
-  font-size: 0.92rem;
-}
-
-.scout-label {
-  color: var(--text-muted);
-}
-
-.highlight-gold {
-  color: var(--gold-primary);
-  font-weight: 700;
-}
+.scout-row { margin-bottom: 10px; font-size: 0.92rem; }
+.scout-label { color: var(--text-muted); }
+.highlight-gold { color: var(--gold-primary); font-weight: 700; }
 
 .scout-traits-list {
   list-style: none;
@@ -250,73 +229,47 @@ body {
   font-weight: 700;
 }
 
-.weakness-text {
-  color: #f87171;
-}
+.weakness-text { color: #f87171; }
 
-/* Event & Action Control Panel */
-.controls-panel {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-}
-
+/* Status Bar Grid */
 .top-status-bar {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-  gap: 12px;
+  grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
+  gap: 10px;
 }
 
 .status-card {
   background: rgba(255, 255, 255, 0.03);
   border: 1px solid rgba(255, 255, 255, 0.06);
-  padding: 12px;
+  padding: 10px;
   border-radius: 12px;
   text-align: center;
 }
 
 .status-card .label {
-  font-size: 0.75rem;
+  font-size: 0.72rem;
   color: var(--text-muted);
   display: block;
-  margin-bottom: 4px;
+  margin-bottom: 3px;
 }
 
 .status-card .val {
-  font-size: 1.1rem;
+  font-size: 1.05rem;
   font-weight: 800;
   color: var(--gold-primary);
 }
 
-/* Event Panel & 5 Options */
-.event-card {
-  border-left: 4px solid var(--gold-primary);
-}
+/* Event & Options */
+.event-card { border-left: 4px solid var(--gold-primary); }
+.event-title { font-size: 1.25rem; font-weight: 800; margin-bottom: 10px; color: var(--gold-primary); }
+.event-desc { line-height: 1.6; color: #cbd5e1; margin-bottom: 20px; font-size: 0.98rem; }
 
-.event-title {
-  font-size: 1.3rem;
-  font-weight: 800;
-  margin-bottom: 10px;
-  color: var(--gold-primary);
-}
-
-.event-desc {
-  line-height: 1.6;
-  color: #cbd5e1;
-  margin-bottom: 20px;
-  font-size: 1rem;
-}
-
-.options-container {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
+.options-container { display: flex; flex-direction: column; gap: 10px; }
 
 .option-btn {
   background: rgba(255, 255, 255, 0.04);
   border: 1px solid rgba(255, 255, 255, 0.1);
-  padding: 14px 18px;
+  padding: 12px 16px;
   border-radius: 12px;
   color: var(--text-main);
   text-align: left;
@@ -324,18 +277,18 @@ body {
   transition: all 0.2s ease;
   display: flex;
   flex-direction: column;
-  gap: 5px;
+  gap: 4px;
 }
 
 .option-btn:hover {
   background: rgba(229, 193, 88, 0.15);
   border-color: var(--gold-primary);
-  transform: translateX(5px);
+  transform: translateX(4px);
 }
 
 .option-btn .opt-tag {
   align-self: flex-start;
-  font-size: 0.75rem;
+  font-size: 0.72rem;
   background: var(--gold-primary);
   color: #000;
   padding: 2px 6px;
@@ -343,22 +296,14 @@ body {
   font-weight: 800;
 }
 
-.option-btn .opt-text {
-  font-size: 0.98rem;
-  font-weight: 600;
-}
+.option-btn .opt-text { font-size: 0.95rem; font-weight: 600; }
+.option-btn .opt-effect { font-size: 0.8rem; color: #34d399; }
 
-.option-btn .opt-effect {
-  font-size: 0.8rem;
-  color: #34d399;
-}
-
-/* Advance Month Action Button */
 .advance-month-box {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 20px;
+  padding: 18px;
   background: linear-gradient(90deg, rgba(229,193,88,0.1) 0%, rgba(139,92,246,0.1) 100%);
   border-radius: var(--radius-card);
   border: 1px solid var(--border-gold);
@@ -368,8 +313,8 @@ body {
   background: var(--gold-gradient);
   color: #000;
   border: none;
-  padding: 14px 28px;
-  font-size: 1.1rem;
+  padding: 12px 24px;
+  font-size: 1.05rem;
   font-weight: 800;
   border-radius: 12px;
   cursor: pointer;
@@ -382,8 +327,108 @@ body {
   box-shadow: 0 8px 25px rgba(229, 193, 88, 0.5);
 }
 
-/* Roulette Overlay Modal */
-.roulette-overlay {
+/* 2.5D Tactical Match Field */
+.pitch-25d-view {
+  position: relative;
+  width: 100%;
+  height: 180px;
+  background: linear-gradient(180deg, #15803d 0%, #166534 100%);
+  border-radius: 12px;
+  border: 2px solid #86efac;
+  margin: 15px 0;
+  overflow: hidden;
+}
+
+.pitch-lines {
+  position: absolute;
+  width: 100%; height: 100%;
+  border: 1px solid rgba(255,255,255,0.4);
+}
+
+.center-circle {
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  width: 80px; height: 80px;
+  border: 2px solid rgba(255,255,255,0.5);
+  border-radius: 50%;
+}
+
+.player-radar-dot {
+  position: absolute;
+  background: var(--gold-primary);
+  color: #000;
+  font-weight: 900;
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  box-shadow: 0 0 15px rgba(229, 193, 88, 0.8);
+}
+
+.match-stats-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-top: 15px;
+}
+
+.m-stat {
+  background: rgba(255,255,255,0.03);
+  padding: 10px;
+  border-radius: 8px;
+  text-align: center;
+}
+
+.m-stat .label { font-size: 0.75rem; color: var(--text-muted); display: block; }
+.m-stat .val { font-size: 1.1rem; font-weight: 800; }
+
+/* Trophy Cabinet */
+.trophy-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 15px;
+  margin-top: 15px;
+}
+
+.trophy-card {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 16px;
+  padding: 16px;
+  text-align: center;
+}
+
+.trophy-card.unlocked { border-color: var(--border-gold); background: rgba(229, 193, 88, 0.05); }
+.trophy-card.locked { opacity: 0.35; filter: grayscale(1); }
+.trophy-icon-wrapper { position: relative; font-size: 3rem; margin-bottom: 8px; }
+.trophy-count-badge {
+  position: absolute; top: 0; right: 20%;
+  background: var(--gold-primary); color: #000;
+  font-size: 0.8rem; font-weight: 900; padding: 2px 6px; border-radius: 10px;
+}
+
+.unlocked-tag { color: #34d399; font-size: 0.82rem; font-weight: 700; }
+.locked-tag { color: var(--text-muted); font-size: 0.82rem; }
+
+.logs-feed {
+  max-height: 220px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.log-item {
+  font-size: 0.85rem;
+  color: #cbd5e1;
+  padding: 6px 10px;
+  background: rgba(255, 255, 255, 0.02);
+  border-left: 2px solid var(--gold-primary);
+  border-radius: 4px;
+}
+
+/* Modals Overlay */
+.roulette-overlay, .match-overlay {
   position: fixed;
   top: 0; left: 0; right: 0; bottom: 0;
   background: rgba(0, 0, 0, 0.85);
@@ -394,112 +439,6 @@ body {
   z-index: 1000;
 }
 
-.roulette-modal {
-  width: 90%;
-  max-width: 420px;
-  text-align: center;
-}
-
-.canvas-wrapper {
-  position: relative;
-  width: 300px;
-  height: 300px;
-  margin: 20px auto;
-}
-
-.roulette-pointer {
-  position: absolute;
-  top: -15px;
-  left: 50%;
-  transform: translateX(-50%);
-  font-size: 2rem;
-  color: var(--gold-primary);
-  z-index: 10;
-}
-
-/* Trophy Cabinet Styling */
-.trophy-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-  gap: 20px;
-  margin-top: 20px;
-}
-
-.trophy-card {
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 16px;
-  padding: 20px;
-  text-align: center;
-  transition: all 0.3s ease;
-}
-
-.trophy-card.unlocked {
-  border-color: var(--border-gold);
-  background: rgba(229, 193, 88, 0.05);
-}
-
-.trophy-card.locked {
-  opacity: 0.4;
-  filter: grayscale(1);
-}
-
-.trophy-icon-wrapper {
-  position: relative;
-  font-size: 3.5rem;
-  margin-bottom: 10px;
-}
-
-.trophy-count-badge {
-  position: absolute;
-  top: 0;
-  right: 20%;
-  background: var(--gold-primary);
-  color: #000;
-  font-size: 0.8rem;
-  font-weight: 900;
-  padding: 2px 6px;
-  border-radius: 10px;
-}
-
-.trophy-name {
-  font-weight: 800;
-  margin-bottom: 8px;
-}
-
-.unlocked-tag {
-  color: #34d399;
-  font-size: 0.85rem;
-  font-weight: 700;
-}
-
-.locked-tag {
-  color: var(--text-muted);
-  font-size: 0.85rem;
-}
-
-.trophy-history-list {
-  margin-top: 10px;
-  font-size: 0.78rem;
-  color: var(--text-muted);
-  border-top: 1px solid rgba(255,255,255,0.08);
-  padding-top: 8px;
-}
-
-/* Career Logs Feed */
-.logs-feed {
-  max-height: 250px;
-  overflow-y: auto;
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-
-.log-item {
-  font-size: 0.88rem;
-  color: #cbd5e1;
-  padding: 8px 12px;
-  background: rgba(255, 255, 255, 0.02);
-  border-left: 2px solid var(--gold-primary);
-  border-radius: 4px;
-}
+.roulette-modal, .match-modal { width: 90%; max-width: 440px; text-align: center; }
+.canvas-wrapper { position: relative; width: 300px; height: 300px; margin: 15px auto; }
+.roulette-pointer { position: absolute; top: -15px; left: 50%; transform: translateX(-50%); font-size: 2rem; color: var(--gold-primary); z-index: 10; }

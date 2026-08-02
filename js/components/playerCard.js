@@ -1,8 +1,8 @@
-// Football Career Simulator V10.0 - FUT Gold Card & Scouting Report Renderer
+// Football Career Simulator V11.0 - FUT Card & Peak OVR Distinction Badge
 
 class PlayerCard {
   static render(player) {
-    const avatarSvg = AvatarGenerator.createSVG(player);
+    const avatarSvg = Avatar3D.createSVG(player);
     const scoutReport = PlayerCard.generateScoutReport(player);
 
     return `
@@ -16,6 +16,11 @@ class PlayerCard {
             <div class="fut-pos">${player.position}</div>
             <div class="fut-flag">${player.flag}</div>
             <div class="fut-badge">${player.teamName || '自由球员'}</div>
+          </div>
+
+          <!-- Peak OVR Distinction Badge -->
+          <div class="peak-ovr-tag">
+            <span>巅峰 OVR: ${player.peakOvr}</span>
           </div>
 
           <!-- Player Avatar Image -->
@@ -74,8 +79,6 @@ class PlayerCard {
 
   static generateScoutReport(player) {
     const matchedTemplate = GAME_CONFIG.SCOUT_TEMPLATES.find(t => t.condition(player)) || GAME_CONFIG.SCOUT_TEMPLATES[GAME_CONFIG.SCOUT_TEMPLATES.length - 1];
-    
-    // Calculate potential range based on current OVR and age
     const currentAge = player.age || 17;
     const maxGrowth = Math.max(5, (30 - currentAge) * 2.5);
     const potentialMin = Math.min(99, Math.round(player.ovr + maxGrowth * 0.7));
