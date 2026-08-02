@@ -1,22 +1,23 @@
-// Football Career Simulator V13.0 - Clean Multi-Step Character Creation Wizard
+// Football Career Simulator V14.0 - Clean Character Onboarding Wizard
 
 class CharacterWizard {
   static renderWizard(currentStep = 1, formData = {}) {
     return `
     <div class="wizard-overlay">
       <div class="wizard-modal glass-panel">
-        <div class="wizard-header">
-          <span class="brand-badge">✨ 足球生涯 V13.0 角色建模向导 (${currentStep}/4)</span>
-          <h2 style="margin-top: 8px;">${CharacterWizard.getStepTitle(currentStep)}</h2>
+        <div class="wizard-header" style="display: flex; justify-content: space-between; align-items: center;">
+          <span class="brand-badge">✨ 角色建模 (${currentStep}/4)</span>
+          <span class="scout-label">V14.0 优雅版</span>
         </div>
+        <h2 style="margin-top: 10px; color: #1c1c1e; font-size: 1.25rem;">${CharacterWizard.getStepTitle(currentStep)}</h2>
 
-        <div class="wizard-body" style="margin: 20px 0;">
+        <div class="wizard-body" style="margin: 18px 0;">
           ${CharacterWizard.renderStepContent(currentStep, formData)}
         </div>
 
-        <div class="wizard-footer" style="display: flex; justify-content: space-between; align-items: center;">
+        <div class="wizard-footer" style="display: flex; justify-content: space-between; align-items: center; border-top: 1px solid rgba(0,0,0,0.06); padding-top: 14px;">
           ${currentStep > 1 ? `<button class="tab-btn" onclick="prevWizardStep(${currentStep})">◀ 上一步</button>` : '<div></div>'}
-          ${currentStep < 4 ? `<button class="btn-primary" onclick="nextWizardStep(${currentStep})">下一步 ▶</button>` : `<button class="btn-primary" onclick="finishCharacterCreation()">🚀 正式开启全新足球生涯</button>`}
+          ${currentStep < 4 ? `<button class="btn-primary" onclick="nextWizardStep(${currentStep})">下一步 ▶</button>` : `<button class="btn-primary" onclick="finishCharacterCreation()">🚀 踏上生涯征程</button>`}
         </div>
       </div>
     </div>
@@ -24,10 +25,10 @@ class CharacterWizard {
   }
 
   static getStepTitle(step) {
-    if (step === 1) return "1. 基础信息与随机 Seed 种子";
-    if (step === 2) return "2. 选择出身地与球场位置";
-    if (step === 3) return "3. Roguelike 初始天赋抽卡";
-    if (step === 4) return "4. 游戏节奏与难度模式配置";
+    if (step === 1) return "基础资料与随机 Seed 种子";
+    if (step === 2) return "选择出身地与球场位置";
+    if (step === 3) return "抽选 Roguelike 初始天赋";
+    if (step === 4) return "六边形雷达图与数值预览";
     return "";
   }
 
@@ -52,7 +53,10 @@ class CharacterWizard {
             <input type="number" id="wizNumber" class="ios-input" value="${formData.number || 10}">
           </div>
           <div class="form-group">
-            <label class="scout-label">随机 Seed 种子：</label>
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+              <label class="scout-label">Seed 种子：</label>
+              <button class="tab-btn" style="padding: 2px 8px; font-size: 0.75rem;" onclick="rerollWizSeed()">🎲 随机刷新 Seed</button>
+            </div>
             <input type="text" id="wizSeed" class="ios-input" value="${formData.seed || '20260801'}">
           </div>
         </div>
@@ -62,16 +66,16 @@ class CharacterWizard {
     if (step === 2) {
       return `
         <div class="options-container">
-          <label class="scout-label">选择出身地 (加成已明示)：</label>
+          <label class="scout-label">选择出身地 (属性加成明示)：</label>
           ${GAME_CONFIG.BIRTHPLACES.map(bp => `
-            <div class="option-btn ${formData.birthplace === bp.code ? 'active-opt' : ''}" onclick="wizSelectBirthplace('${bp.code}')">
+            <div class="option-btn ${(formData.birthplace || 'GD') === bp.code ? 'active-opt' : ''}" onclick="wizSelectBirthplace('${bp.code}')">
               <span class="opt-tag">${bp.flag} ${bp.name}</span>
               <span class="opt-text">${bp.trait}</span>
-              <span class="opt-effect">✦ 明示加成：${bp.desc}</span>
+              <span class="opt-effect">✦ ${bp.desc}</span>
             </div>
           `).join('')}
 
-          <label class="scout-label" style="margin-top: 15px;">选择场上位置：</label>
+          <label class="scout-label" style="margin-top: 12px;">选择场上位置：</label>
           <select id="wizPosition" class="ios-input">
             ${GAME_CONFIG.POSITIONS.map(p => `<option value="${p.code}">${p.name} - ${p.desc}</option>`).join('')}
           </select>
@@ -82,10 +86,10 @@ class CharacterWizard {
     if (step === 3) {
       return `
         <div class="options-container">
-          <label class="scout-label">抽取 3 个初始高阶天赋词条（点击选择）：</label>
+          <label class="scout-label">抽选 Roguelike 天赋词条（点击选择）：</label>
           ${GAME_CONFIG.STARTING_TALENTS.map(t => `
             <div class="option-btn ${(formData.talents || []).includes(t.id) ? 'active-opt' : ''}" onclick="wizToggleTalent('${t.id}')">
-              <span class="opt-tag" style="background: ${t.quality === 'GOLD' ? 'var(--gold-primary)' : 'var(--apple-red)'}; color:#000;">${t.quality} 品质</span>
+              <span class="opt-tag" style="background: ${t.quality === 'GOLD' ? 'var(--gold-primary)' : 'var(--apple-red)'}; color:#fff;">${t.quality}</span>
               <span class="opt-text">${t.name}</span>
               <span class="opt-effect">${t.desc}</span>
             </div>
@@ -96,20 +100,12 @@ class CharacterWizard {
 
     if (step === 4) {
       return `
-        <div class="options-container">
-          <label class="scout-label">选择游戏节奏：</label>
-          <select id="wizPacing" class="ios-input">
-            <option value="STANDARD">标准模式 (月进度 - 深度沉浸)</option>
-            <option value="ANNUAL">逐年模式 (年进度 - 极速快进)</option>
-            <option value="CINEMA">电影模式 (全自动演播)</option>
-          </select>
-
-          <label class="scout-label" style="margin-top: 15px;">选择游戏难度：</label>
-          <select id="wizDifficulty" class="ios-input">
-            <option value="PRO">职业模式 (标准平衡)</option>
-            <option value="ROOKIE">新星模式 (简单顺风)</option>
-            <option value="HARDCORE">残酷模式 (硬核反腐与伤病)</option>
-          </select>
+        <div class="options-container" style="text-align: center;">
+          <p class="scout-label" style="margin-bottom: 10px;">初始六边形属性雷达图评估</p>
+          <div style="width: 220px; height: 220px; margin: 0 auto;">
+            <canvas id="wizRadarCanvas" width="220" height="220"></canvas>
+          </div>
+          <p class="opt-effect" style="margin-top: 10px; color: var(--apple-blue);">基于你的出身地、位置与激活天赋生成预估模板</p>
         </div>
       `;
     }

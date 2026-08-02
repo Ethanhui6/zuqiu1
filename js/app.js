@@ -1,11 +1,11 @@
-// Football Career Simulator V13.0 - Main SPA Controller
+// Football Career Simulator V14.0 - Main SPA Controller
 
 let wizardState = { step: 1, data: { name: '自建新星', foot: '右脚', number: 10, seed: '20260801', birthplace: 'GD', talents: [] } };
 
 document.addEventListener("DOMContentLoaded", () => {
   window.game = new GameEngine("20260801");
   
-  // Tabs Navigation
+  // Navigation Tabs
   const tabBtns = document.querySelectorAll(".tab-btn");
   tabBtns.forEach(btn => {
     btn.addEventListener("click", (e) => {
@@ -32,7 +32,8 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-  renderAll();
+  // Auto Launch Character Wizard on Open
+  openWizardModal();
 });
 
 function switchTab(tabName) {
@@ -67,13 +68,17 @@ function renderStatusBar() {
   document.getElementById("statusDate").innerText = `${s.year}年${s.month}月`;
   document.getElementById("statusAge").innerText = `${s.age} 岁`;
   document.getElementById("statusTeam").innerText = s.team.name;
+  document.getElementById("statusRole").innerText = window.game.getSquadRoleText();
   document.getElementById("statusWage").innerText = `€${s.weeklyWage.toLocaleString()}`;
   document.getElementById("statusMoney").innerText = `€${s.money.toLocaleString()}`;
   document.getElementById("statusFame").innerText = s.fame;
   document.getElementById("statusFans").innerText = s.fans.toLocaleString();
   document.getElementById("statusNational").innerText = s.nationalApps > 0 ? `🇨🇳 国足 ${s.nationalApps} 场` : '未进国足';
-  document.getElementById("statusInnocence").innerText = `${s.innocence}%`;
   document.getElementById("currentSeedText").innerText = s.seed;
+
+  // EXP Progress
+  document.getElementById("statusExp").innerText = `${s.exp}/100`;
+  document.getElementById("expBarFill").style.width = `${s.exp}%`;
 }
 
 function renderMonthlyEvent() {
@@ -84,7 +89,7 @@ function renderMonthlyEvent() {
     eventContainer.innerHTML = `
       <div class="glass-panel event-card">
         <h3 class="event-title">📅 月度战术备战中</h3>
-        <p class="event-desc">全队在基地准备下场比赛，请点击“模拟下个月”。</p>
+        <p class="event-desc">全队在基地备战，请点击“模拟下个月”。</p>
       </div>
     `;
     return;
@@ -136,6 +141,7 @@ function triggerMatchPopup() {
   document.getElementById("closeMatchBtn").addEventListener("click", () => {
     container.innerHTML = "";
     window.game.addLog(`🏟️ 比赛哨响：母队 ${result.teamScore}-${result.oppScore} ${opp.name}，评分 ${result.rating}（进球 ${result.goals} / 助攻 ${result.assists}）`);
+    window.game.unlockAdvance();
     renderAll();
   });
 }
@@ -157,12 +163,12 @@ function renderTransferMarket() {
           <div class="option-btn" style="cursor: default;">
             <div style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
               <div>
-                <span class="brand-badge" style="background: #38bdf8; color: #000;">${off.team.league} · ${off.team.tier}级</span>
-                <h3 style="margin-top: 4px; color: var(--gold-primary);">${off.team.country} ${off.team.name}</h3>
+                <span class="brand-badge" style="background: var(--apple-blue); color: #fff;">${off.team.league} · ${off.team.tier}级</span>
+                <h3 style="margin-top: 4px; color: #1c1c1e;">${off.team.name} <small style="font-size:0.75rem; color: var(--text-muted);">${off.team.nativeName}</small></h3>
               </div>
               <button class="btn-primary" style="padding: 6px 14px; font-size: 0.85rem;" onclick="acceptTransfer('${off.team.id}', ${off.weeklyWage})">同意加盟</button>
             </div>
-            <p class="opt-effect" style="color: #cbd5e1; margin-top: 6px;">定位：${off.role} | 周薪：€${off.weeklyWage.toLocaleString()}</p>
+            <p class="opt-effect" style="color: #3a3a3c; margin-top: 6px;">定位：${off.role} | 周薪：€${off.weeklyWage.toLocaleString()}</p>
           </div>
         `).join('')}
       </div>
@@ -229,11 +235,17 @@ function startSecondCareer(careerId) {
   container.innerHTML = SummaryCard.renderSummary(window.game.state);
 }
 
-// Wizard Modal Methods
+// Wizard Methods
 function openWizardModal() {
-  wizardState = { step: 1, data: { name: window.game.state.name, foot: window.game.state.foot || '右脚', number: window.game.state.number || 10, seed: window.game.state.seed, birthplace: 'GD', talents: [] } };
+  wizardState = { step: 1, data: { name: '自建新星', foot: '右脚', number: 10, seed: '20260801', birthplace: 'GD', talents: [] } };
   const container = document.getElementById("wizardContainer");
   container.innerHTML = CharacterWizard.renderWizard(wizardState.step, wizardState.data);
+}
+
+function rerollWizSeed() {
+  const randSeed = Math.floor(Math.random() * 89999999 + 10000000).toString();
+  wizardState.data.seed = randSeed;
+  document.getElementById("wizSeed").value = randSeed;
 }
 
 function nextWizardStep(step) {
@@ -247,6 +259,12 @@ function nextWizardStep(step) {
   wizardState.step = step + 1;
   const container = document.getElementById("wizardContainer");
   container.innerHTML = CharacterWizard.renderWizard(wizardState.step, wizardState.data);
+
+  if (wizardState.step === 4) {
+    setTimeout(() => {
+      RadarChart.drawRadar("wizRadarCanvas", { PAC: 70, SHO: 68, PAS: 65, DRI: 72, DEF: 45, PHY: 62 });
+    }, 100);
+  }
 }
 
 function prevWizardStep(step) {
@@ -288,5 +306,5 @@ function finishCharacterCreation() {
 }
 
 function exportSummaryCardImage() {
-  alert("已生成 Apple 风格终极总结卡！可截图保存分享至社交平台。");
+  alert("已生成 优雅 Apple 风格终极总结卡！可截图保存分享。");
 }

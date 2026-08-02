@@ -1,11 +1,11 @@
 {
-  "name": "足球生涯模拟器 V13.0 iOS版",
-  "short_name": "足球模拟器V13",
-  "description": "极简 Apple 风格 iOS 极客体验 + 开局角色捏脸/选人 + 三站精华融合",
+  "name": "足球生涯模拟器 V14.0 优雅浅色版",
+  "short_name": "足球模拟器V14",
+  "description": "优雅浅色 Apple 风格 + EXP属性成长 + 剧情体验 + 六边形雷达图 + 真实租借/主力轮换体系",
   "start_url": "./index.html",
   "display": "standalone",
-  "background_color": "#000000",
-  "theme_color": "#fa2d48",
+  "background_color": "#f2f2f7",
+  "theme_color": "#007aff",
   "icons": [
     {
       "src": "assets/icon-192.png",

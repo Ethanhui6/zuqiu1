@@ -1,4 +1,4 @@
-// Football Career Simulator V13.0 - 5-Option Story Dilemmas
+// Football Career Simulator V14.0 - 60+ Career Life Story Dilemmas
 
 const MONTHLY_EVENTS = [
   {
@@ -10,12 +10,12 @@ const MONTHLY_EVENTS = [
       {
         text: "1. 报效祖国：“穿上国足战袍是我终极梦想，必定拼尽最后一滴汗水！”",
         tag: "家国情怀",
-        effectText: "国足出场+1，国际声望+25，球迷+30000，体能压力+15",
+        effectText: "国足出场+1，国际声望+25，球迷+30000，体能经验+50",
         apply: (state) => {
           state.nationalApps += 1;
           state.fame += 25;
           state.fans += 30000;
-          state.pressure += 15;
+          state.addExp("PHY", 50);
         }
       },
       {
@@ -34,17 +34,16 @@ const MONTHLY_EVENTS = [
         apply: (state) => {
           state.coachTrust += 20;
           state.money += 50000;
-          state.pressure += 10;
         }
       },
       {
         text: "4. 开启特训转盘：“在国足训练营加练死角任意球，争取一脚定乾坤！”",
         tag: "特训挑战",
         triggerRoulette: true,
-        effectText: "触发加练转盘（极大提升射门传球，或招致疲劳伤病）",
+        effectText: "触发加练转盘（获得大幅经验，或招致疲劳伤病）",
         apply: (state) => {
           state.nationalApps += 1;
-          state.stats.SHO += 2;
+          state.addExp("SHO", 80);
         }
       },
       {
@@ -61,53 +60,55 @@ const MONTHLY_EVENTS = [
     ]
   },
   {
-    id: "press_conference_debate",
-    title: "🎙️ 赛后新闻发布会：记者刁钻提问比赛争议点球",
-    category: "PRESS",
-    description: "本场比赛补时阶段你创造关键点球绝杀比赛，对方主帅抗议是你假摔造点。赛后发布会上，懂球帝与体育周刊记者逼问你的真实看法。",
+    id: "squad_role_loan_dilemma",
+    title: "👔 主教练谈话：由于能力尚处于磨砺期，建议租借外租",
+    category: "CAREER_LOAN",
+    description: "鉴于你目前处于成长突破期，一队主力竞争激烈，主教练与经纪人建议你租借至中下游球队打满主力，或留在母队当替补待命。",
     options: [
       {
-        text: "1. 坚定捍卫：“那是禁区内明显的身体接触，裁判判罚无比公允！”",
-        tag: "义正言辞",
-        effectText: "队友关系+15，球队得胜得分，但在懂球帝引发热议",
+        text: "1. 同意外租：“只要能保证周周踢上主力比赛，去任何球队我都愿意！”",
+        tag: "主动外租",
+        effectText: "队内角色调整为外租锻炼，出场时间保障，比赛经验+100",
         apply: (state) => {
-          state.teammateRel += 15;
-          state.fans += 10000;
+          state.squadRole = "LOANED";
+          state.addExp("PAC", 100);
+          state.addExp("SHO", 100);
         }
       },
       {
-        text: "2. 幽默调侃：“脚下确实被绊了一下，如果我是跳水名将，那也是满分落水。”",
-        tag: "幽默风趣",
-        effectText: "全网热搜第一，粉丝+30000，声望+15",
+        text: "2. 留队争夺替补：“留在豪门替补席训练，向世界级主力学习跑位！”",
+        tag: "豪门沉淀",
+        effectText: "队内角色调整为边缘替补，主帅信任度+15，战术智商增加",
         apply: (state) => {
-          state.fans += 30000;
-          state.fame += 15;
+          state.squadRole = "BENCH";
+          state.coachTrust += 15;
+          state.addExp("PAS", 60);
         }
       },
       {
-        text: "3. 避谈裁判：“比赛过程充满对抗，我们全队全场付出了百分百努力。”",
-        tag: "标准外交",
-        effectText: "主帅信任度+10，关系稳定",
-        apply: (state) => {
-          state.coachTrust += 10;
-        }
-      },
-      {
-        text: "4. 公开回击对方主帅：“如果败者只能把失败归咎于裁判，那是心胸狭隘。”",
-        tag: "制造对立",
-        effectText: "声望+30，粉丝爆发，但压力+20，做客对方客场受嘘声",
-        apply: (state) => {
-          state.fame += 30;
-          state.pressure += 20;
-        }
-      },
-      {
-        text: "5. 开启风波转盘：“现场复盘比赛回放，向记者深度拆解跑位逻辑！”",
-        tag: "战术复盘",
+        text: "3. 开启高强度加练：“用训练场上的惊人爆发，打消主教练的外租念头！”",
+        tag: "加练逆袭",
         triggerRoulette: true,
-        effectText: "触发转盘（成功证明战术素养，失败可能招致争论）",
+        effectText: "触发加练转盘（极大几率直接上位主力，或引发体能透支）",
         apply: (state) => {
-          state.fame += 10;
+          state.addExp("PHY", 80);
+        }
+      },
+      {
+        text: "4. 要求增加合同保障条约：“要求经纪人在新合同中加入最少 15 场出场保证条款。”",
+        tag: "条款博弈",
+        effectText: "主帅信任度稍微波动，但合同有底线保障",
+        apply: (state) => {
+          state.coachTrust += 5;
+        }
+      },
+      {
+        text: "5. 呼吁球迷支持：“在懂球圈发表状态，表达对球队的热爱与留队决心。”",
+        tag: "舆论支持",
+        effectText: "粉丝+20000，舆论支持率上涨，管理层给予更多信任",
+        apply: (state) => {
+          state.fans += 20000;
+          state.coachTrust += 10;
         }
       }
     ]

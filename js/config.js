@@ -1,11 +1,20 @@
-// Football Career Simulator V13.0 - Game Config, Seed & Perks
+// Football Career Simulator V14.0 - Config & Game Constants
 
 const GAME_CONFIG = {
-  TITLE: "足球生涯模拟器 V13.0 iOS 极简重构版",
-  VERSION: "13.0.0",
+  TITLE: "足球生涯模拟器 V14.0",
+  VERSION: "14.0.0",
   START_YEAR: 2026,
   START_MONTH: 9,
   RETIRE_AGE: 40,
+
+  EXP_PER_STAT_LEVEL: 100, // 100 EXP needed for 1 stat point boost
+
+  SQUAD_ROLES: {
+    STAR: { name: "核心主力", minOvrDiff: 2, desc: "每场首发出战，战术绝对核心" },
+    ROTATION: { name: "轮换球员", minOvrDiff: -3, desc: "经常获得替补出场与轮换首发" },
+    BENCH: { name: "边缘替补", minOvrDiff: -8, desc: "出场时间受限，主帅信任度极低" },
+    LOANED: { name: "外租锻炼", minOvrDiff: -99, desc: "租借至中下游球队积累经验成长" }
+  },
 
   STARTING_TALENTS: [
     { id: "golden_leader", name: "🌟 天生领袖", quality: "GOLD", desc: "更衣室威望+30，队长首选，主帅信任度飙升", effect: { coachTrust: 25, teammateRel: 25, fame: 20 } },
@@ -28,7 +37,7 @@ const GAME_CONFIG = {
     { code: "ST", name: "中锋 (ST)", category: "FW", desc: "高进球率与金靴奖，身价受进球驱动" },
     { code: "RW", name: "右边锋 (RW)", category: "FW", desc: "高突破率与助攻，易吸引豪门球探" },
     { code: "LW", name: "左边锋 (LW)", category: "FW", desc: "爆破内切得分，高商业价值" },
-    { code: "CAM", name: "前腰 (CAM)", category: "MF", desc: "掌控进攻节拍与手术刀直塞助攻" },
+    { code: "CAM", name: "前腰 (CAM)", category: "MF", desc: "掌控进攻节拍与关键穿针引线助攻" },
     { code: "CM", name: "中场 (CM)", category: "MF", desc: "攻防转换枢纽，队长首选位置" },
     { code: "CDM", name: "后腰 (CDM)", category: "MF", desc: "防线屏障与拦截抢断" },
     { code: "CB", name: "中卫 (CB)", category: "DF", desc: "防空卡位制空权，降低失球数" },

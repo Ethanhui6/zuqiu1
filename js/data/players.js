@@ -1,4 +1,4 @@
-// Football Career Simulator V13.0 - Players DB
+// Football Career Simulator V14.0 - Players DB
 
 const FC26_STAR_PLAYERS = [
   { name: "姆巴佩", team: "real_madrid", pos: "ST", ovr: 91, pac: 97, sho: 90, pas: 80, dri: 92, def: 36, phy: 78, nat: "🇫🇷" },

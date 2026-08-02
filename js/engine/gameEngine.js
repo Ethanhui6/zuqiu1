@@ -1,9 +1,10 @@
-// Football Career Simulator V13.0 - V13 Engine
+// Football Career Simulator V14.0 - Core Engine (EXP Growth & Single Advance Lock)
 
 class GameEngine {
   constructor(seed = "20260801") {
     this.seed = seed;
     this.rng = new SeedRNG(seed);
+    this.isAdvanceLocked = false; // Prevents duplicate/infinite clicks
     this.resetState();
   }
 
@@ -34,17 +35,13 @@ class GameEngine {
       teamColor: startingTeam.color,
       teamAccent: startingTeam.accent,
       clubList: [startingTeam.name],
+      squadRole: "ROTATION", // 阵容角色 (STAR / ROTATION / BENCH / LOANED)
 
       talents: [],
 
-      stats: {
-        PAC: 66,
-        SHO: 65,
-        PAS: 62,
-        DRI: 66,
-        DEF: 42,
-        PHY: 60
-      },
+      // Stats and EXP
+      stats: { PAC: 66, SHO: 65, PAS: 62, DRI: 66, DEF: 42, PHY: 60 },
+      exp: 0, // EXP toward next stat level
       ovr: 64,
       peakOvr: 64,
 
@@ -83,6 +80,20 @@ class GameEngine {
     this.recalculateOVR();
   }
 
+  addExp(statKey, amount) {
+    this.state.exp += amount;
+    while (this.state.exp >= GAME_CONFIG.EXP_PER_STAT_LEVEL) {
+      this.state.exp -= GAME_CONFIG.EXP_PER_STAT_LEVEL;
+      if (statKey && this.state.stats[statKey]) {
+        this.state.stats[statKey] = Math.min(99, this.state.stats[statKey] + 1);
+        this.addLog(`⭐ 累计经验爆发：【${statKey}】属性提升 +1！`);
+      } else {
+        this.boostRandomStat(1);
+      }
+    }
+    this.recalculateOVR();
+  }
+
   recalculateOVR() {
     const s = this.state.stats;
     if (this.state.position.includes("W") || this.state.position === "ST") {
@@ -96,10 +107,24 @@ class GameEngine {
     if (this.state.ovr > this.state.peakOvr) {
       this.state.peakOvr = this.state.ovr;
     }
+
+    // Evaluate Squad Role
+    const ovrDiff = this.state.ovr - this.state.team.rating;
+    if (ovrDiff >= 2) this.state.squadRole = "STAR";
+    else if (ovrDiff >= -5) this.state.squadRole = "ROTATION";
+    else this.state.squadRole = "BENCH";
+  }
+
+  boostRandomStat(amount = 1) {
+    const statKeys = ["PAC", "SHO", "PAS", "DRI", "DEF", "PHY"];
+    const key = statKeys[Math.floor(Math.random() * statKeys.length)];
+    this.state.stats[key] = Math.min(99, this.state.stats[key] + amount);
+    this.recalculateOVR();
   }
 
   advanceMonth() {
-    if (this.state.age >= GAME_CONFIG.RETIRE_AGE) return;
+    if (this.isAdvanceLocked || this.state.age >= GAME_CONFIG.RETIRE_AGE) return;
+    this.isAdvanceLocked = true;
 
     this.state.month++;
     if (this.state.month > 12) {
@@ -118,7 +143,11 @@ class GameEngine {
     const randomEvent = MONTHLY_EVENTS[Math.floor(this.rng.next() * MONTHLY_EVENTS.length)];
     this.state.currentMonthEvent = randomEvent;
 
-    this.addLog(`进入 ${this.state.year}年${this.state.month}月 - 效力：${this.state.team.name} (OVR: ${this.state.ovr} / 巅峰: ${this.state.peakOvr})`);
+    this.addLog(`进入 ${this.state.year}年${this.state.month}月 - 效力：${this.state.team.name} (${this.getSquadRoleText()})`);
+  }
+
+  unlockAdvance() {
+    this.isAdvanceLocked = false;
   }
 
   selectEventOption(optionIndex, rouletteResult = null) {
@@ -130,6 +159,15 @@ class GameEngine {
 
     this.recalculateOVR();
     this.state.currentMonthEvent = null;
+    this.unlockAdvance();
+  }
+
+  getSquadRoleText() {
+    if (this.state.squadRole === "STAR") return "核心主力";
+    if (this.state.squadRole === "ROTATION") return "轮换球员";
+    if (this.state.squadRole === "BENCH") return "边缘替补";
+    if (this.state.squadRole === "LOANED") return "外租锻炼";
+    return "主力";
   }
 
   addLog(text) {
