@@ -1,1 +1,74 @@
-[{"id":"worldcup","cn":"世界杯","native":"FIFA World Cup","wiki":"FIFA World Cup Trophy","fallback":"assets/trophies/trophy_00.png"},{"id":"ucl","cn":"欧洲冠军联赛","native":"UEFA Champions League","wiki":"European Champion Clubs' Cup","fallback":"assets/trophies/trophy_01.png"},{"id":"ballondor","cn":"金球奖","native":"Ballon d'Or","wiki":"Ballon d'Or","fallback":"assets/trophies/trophy_02.png"},{"id":"league","cn":"顶级联赛冠军","native":"League Champion","wiki":"Premier League Trophy","fallback":"assets/trophies/trophy_03.png"},{"id":"cup","cn":"国内杯赛冠军","native":"Domestic Cup","wiki":"FA Cup Trophy","fallback":"assets/trophies/trophy_04.png"},{"id":"continental","cn":"洲际冠军","native":"Continental Champion","wiki":"UEFA European Championship Trophy","fallback":"assets/trophies/trophy_05.png"},{"id":"goldenboot","cn":"金靴奖","native":"Golden Boot","wiki":"European Golden Shoe","fallback":"assets/trophies/trophy_06.png"},{"id":"young","cn":"最佳年轻球员","native":"Young Player Award","wiki":"Kopa Trophy","fallback":"assets/trophies/trophy_07.png"},{"id":"national","cn":"国家队杯赛","native":"National Team Trophy","wiki":"Copa América trophy","fallback":"assets/trophies/trophy_08.png"},{"id":"clubworld","cn":"世界俱乐部冠军","native":"FIFA Club World Cup","wiki":"FIFA Club World Cup trophy","fallback":"assets/trophies/trophy_09.png"}]
+[
+  {
+    "id": "world-cup",
+    "cn": "世界杯",
+    "native": "FIFA World Cup",
+    "image": "assets/trophies/world-cup.svg"
+  },
+  {
+    "id": "champions",
+    "cn": "欧洲冠军联赛",
+    "native": "UEFA Champions League",
+    "image": "assets/trophies/champions.svg"
+  },
+  {
+    "id": "ballon",
+    "cn": "金球奖",
+    "native": "Ballon d’Or",
+    "image": "assets/trophies/ballon.svg"
+  },
+  {
+    "id": "league",
+    "cn": "顶级联赛冠军",
+    "native": "League Champion",
+    "image": "assets/trophies/league.svg"
+  },
+  {
+    "id": "domestic",
+    "cn": "国内杯冠军",
+    "native": "Domestic Cup",
+    "image": "assets/trophies/domestic.svg"
+  },
+  {
+    "id": "golden-boot",
+    "cn": "金靴奖",
+    "native": "Golden Boot",
+    "image": "assets/trophies/golden-boot.svg"
+  },
+  {
+    "id": "young",
+    "cn": "最佳年轻球员",
+    "native": "Young Player of the Year",
+    "image": "assets/trophies/young.svg"
+  },
+  {
+    "id": "national",
+    "cn": "洲际国家队冠军",
+    "native": "Continental Champion",
+    "image": "assets/trophies/national.svg"
+  },
+  {
+    "id": "club-world",
+    "cn": "世俱杯",
+    "native": "FIFA Club World Cup",
+    "image": "assets/trophies/club-world.svg"
+  },
+  {
+    "id": "supercup",
+    "cn": "超级杯",
+    "native": "Super Cup",
+    "image": "assets/trophies/supercup.svg"
+  },
+  {
+    "id": "player-year",
+    "cn": "年度最佳球员",
+    "native": "Player of the Year",
+    "image": "assets/trophies/player-year.svg"
+  },
+  {
+    "id": "legend",
+    "cn": "传奇名人堂",
+    "native": "Hall of Fame",
+    "image": "assets/trophies/legend.svg"
+  }
+]
