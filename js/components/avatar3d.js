@@ -1,4 +1,4 @@
-// Football Career Simulator V12.0 - 3D Vector Player Customizer
+// Football Career Simulator V13.0 - Vector Avatar Customizer
 
 class Avatar3D {
   static createSVG(player) {

@@ -1,12 +1,11 @@
-/* Football Career Simulator V12.0 - Apple Music Glassmorphism Theme */
+/* Football Career Simulator V13.0 - Apple iOS Minimalist Theme */
 
 :root {
   --bg-dark: #000000;
-  --bg-panel: rgba(28, 28, 30, 0.78);
+  --bg-panel: rgba(28, 28, 30, 0.68);
   --apple-red: #fa2d48;
-  --apple-red-gradient: linear-gradient(135deg, #ff3b30 0%, #fa2d48 100%);
+  --apple-green: #34c759;
   --gold-primary: #f5c518;
-  --gold-gradient: linear-gradient(135deg, #ffe066 0%, #d4af37 100%);
   --text-main: #ffffff;
   --text-muted: #8e8e93;
   --border-glass: rgba(255, 255, 255, 0.12);
@@ -16,16 +15,13 @@
 * {
   box-sizing: border-box;
   margin: 0; padding: 0;
-  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Segoe UI", Roboto, sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", sans-serif;
   -webkit-tap-highlight-color: transparent;
 }
 
 body {
   background-color: var(--bg-dark);
   color: var(--text-main);
-  background-image: 
-    radial-gradient(circle at 20% 20%, rgba(250, 45, 72, 0.18) 0%, transparent 50%),
-    radial-gradient(circle at 80% 80%, rgba(245, 197, 24, 0.15) 0%, transparent 50%);
   min-height: 100vh;
   padding: 12px;
   padding-bottom: env(safe-area-inset-bottom, 25px);
@@ -33,101 +29,52 @@ body {
 
 .glass-panel {
   background: var(--bg-panel);
-  backdrop-filter: blur(25px) saturate(180%);
-  -webkit-backdrop-filter: blur(25px) saturate(180%);
+  backdrop-filter: blur(30px) saturate(180%);
+  -webkit-backdrop-filter: blur(30px) saturate(180%);
   border: 1px solid var(--border-glass);
   border-radius: var(--radius-ios);
-  padding: 20px;
-  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.6);
+  padding: 18px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.8);
 }
 
 .app-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 20px;
-  padding: 15px 20px;
+  margin-bottom: 16px;
+  padding: 14px 18px;
   border-bottom: 1px solid var(--border-glass);
 }
 
-.brand-logo {
-  font-size: 1.35rem;
-  font-weight: 800;
-  color: #fff;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
+.brand-logo { font-size: 1.2rem; font-weight: 800; color: #fff; display: flex; align-items: center; gap: 8px; }
+.brand-badge { background: var(--apple-red); color: #fff; font-size: 0.72rem; padding: 3px 8px; border-radius: 12px; font-weight: 700; }
 
-.brand-badge {
-  background: var(--apple-red);
-  color: #fff;
-  font-size: 0.72rem;
-  padding: 3px 8px;
-  border-radius: 12px;
-  font-weight: 700;
-}
-
-.nav-tabs {
-  display: flex;
-  gap: 8px;
-  overflow-x: auto;
-  padding-bottom: 4px;
-}
-
+.nav-tabs { display: flex; gap: 8px; overflow-x: auto; }
 .tab-btn {
   background: rgba(255, 255, 255, 0.08);
-  border: none;
-  color: var(--text-muted);
-  padding: 8px 16px;
-  border-radius: 20px;
-  cursor: pointer;
-  font-weight: 600;
-  white-space: nowrap;
-  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  border: none; color: var(--text-muted);
+  padding: 8px 16px; border-radius: 20px; cursor: pointer;
+  font-weight: 600; white-space: nowrap; transition: all 0.2s ease;
 }
+.tab-btn:hover, .tab-btn.active { background: #ffffff; color: #000000; }
 
-.tab-btn:hover, .tab-btn.active {
-  background: #ffffff;
-  color: #000000;
-  box-shadow: 0 4px 15px rgba(255, 255, 255, 0.25);
-}
+.main-dashboard { display: grid; grid-template-columns: 350px 1fr; gap: 16px; max-width: 1400px; margin: 0 auto; }
+@media (max-width: 920px) { .main-dashboard { grid-template-columns: 1fr; } }
 
-.main-dashboard {
-  display: grid;
-  grid-template-columns: 360px 1fr;
-  gap: 20px;
-  max-width: 1400px;
-  margin: 0 auto;
-}
-
-@media (max-width: 920px) {
-  .main-dashboard { grid-template-columns: 1fr; }
-}
-
-/* FUT Gold Card Apple Ambient Glow */
-.fut-card-wrapper { display: flex; flex-direction: column; gap: 20px; }
-
+/* FUT Gold Card */
+.fut-card-wrapper { display: flex; flex-direction: column; gap: 16px; }
 .fut-card.gold-card {
-  width: 100%;
-  aspect-ratio: 1 / 1.5;
-  max-width: 340px;
-  margin: 0 auto;
+  width: 100%; aspect-ratio: 1 / 1.5; max-width: 330px; margin: 0 auto;
   background: linear-gradient(145deg, #fbe897 0%, #c19129 50%, #4a3406 100%);
-  border-radius: 24px;
-  padding: 18px;
-  position: relative;
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.7), 0 0 30px rgba(245, 197, 24, 0.25);
-  border: 1px solid rgba(255, 255, 255, 0.4);
-  color: #2b1e06;
+  border-radius: 24px; padding: 18px; position: relative;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.8);
+  border: 1px solid rgba(255, 255, 255, 0.4); color: #2b1e06;
 }
 
 .peak-ovr-tag {
   position: absolute; top: 18px; right: 20px;
   background: rgba(0, 0, 0, 0.85); color: var(--gold-primary);
-  border: 1px solid var(--gold-primary);
-  padding: 3px 10px; border-radius: 12px;
-  font-size: 0.75rem; font-weight: 900;
+  border: 1px solid var(--gold-primary); padding: 3px 10px; border-radius: 12px; font-size: 0.75rem; font-weight: 900;
 }
 
 .fut-top-meta { position: absolute; top: 22px; left: 22px; display: flex; flex-direction: column; align-items: center; font-weight: 900; }
@@ -136,78 +83,53 @@ body {
 .fut-flag { font-size: 1.5rem; margin-top: 4px; }
 .fut-badge { font-size: 0.72rem; font-weight: 800; margin-top: 4px; background: rgba(0,0,0,0.2); padding: 2px 6px; border-radius: 6px; }
 
-.fut-avatar-box { width: 180px; height: 180px; margin: 10px auto 0 auto; }
-.fut-player-name { text-align: center; font-size: 1.35rem; font-weight: 900; text-transform: uppercase; margin-top: 4px; }
+.fut-avatar-box { width: 170px; height: 170px; margin: 10px auto 0 auto; }
+.fut-player-name { text-align: center; font-size: 1.3rem; font-weight: 900; text-transform: uppercase; margin-top: 4px; }
 .fut-card-divider { height: 2px; background: rgba(43, 30, 6, 0.25); margin: 10px 15px; }
-
 .fut-stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 6px 20px; padding: 0 20px; font-weight: 800; font-size: 1.05rem; }
 .fut-stat { display: flex; align-items: center; gap: 8px; }
 
-/* Apple Status Cards */
-.top-status-bar { display: grid; grid-template-columns: repeat(auto-fit, minmax(110px, 1fr)); gap: 10px; }
-
-.status-card {
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  padding: 12px;
-  border-radius: 16px;
-  text-align: center;
-}
-
-.status-card .label { font-size: 0.72rem; color: var(--text-muted); display: block; margin-bottom: 4px; }
-.status-card .val { font-size: 1.08rem; font-weight: 800; color: var(--text-main); }
+/* Status Bar Grid */
+.top-status-bar { display: grid; grid-template-columns: repeat(auto-fit, minmax(105px, 1fr)); gap: 8px; }
+.status-card { background: rgba(255, 255, 255, 0.05); padding: 10px; border-radius: 14px; text-align: center; }
+.status-card .label { font-size: 0.7rem; color: var(--text-muted); display: block; margin-bottom: 2px; }
+.status-card .val { font-size: 1.02rem; font-weight: 800; color: #fff; }
 
 .event-card { border-left: 4px solid var(--apple-red); }
-.event-title { font-size: 1.25rem; font-weight: 800; margin-bottom: 10px; color: #fff; }
-.event-desc { line-height: 1.6; color: #d1d1d6; margin-bottom: 20px; font-size: 0.98rem; }
+.event-title { font-size: 1.2rem; font-weight: 800; margin-bottom: 8px; color: #fff; }
+.event-desc { line-height: 1.5; color: #d1d1d6; margin-bottom: 16px; font-size: 0.95rem; }
 
-.options-container { display: flex; flex-direction: column; gap: 10px; }
-
+.options-container { display: flex; flex-direction: column; gap: 8px; }
 .option-btn {
-  background: rgba(255, 255, 255, 0.06);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  padding: 14px 18px;
-  border-radius: 16px;
-  color: var(--text-main);
-  text-align: left;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  display: flex; flex-direction: column; gap: 4px;
+  background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.08);
+  padding: 12px 16px; border-radius: 14px; color: #fff; text-align: left; cursor: pointer;
+  transition: all 0.2s ease; display: flex; flex-direction: column; gap: 4px;
+}
+.option-btn:hover, .option-btn.active-opt {
+  background: rgba(250, 45, 72, 0.2); border-color: var(--apple-red);
 }
 
-.option-btn:hover {
-  background: rgba(250, 45, 72, 0.18);
-  border-color: var(--apple-red);
-  transform: translateX(4px);
-}
+.option-btn .opt-tag { align-self: flex-start; font-size: 0.72rem; background: var(--apple-red); color: #fff; padding: 2px 6px; border-radius: 4px; font-weight: 800; }
+.option-btn .opt-text { font-size: 0.92rem; font-weight: 600; }
+.option-btn .opt-effect { font-size: 0.78rem; color: #34c759; }
 
 .btn-primary {
-  background: var(--apple-red-gradient);
-  color: #ffffff;
-  border: none;
-  padding: 12px 24px;
-  font-size: 1.05rem;
-  font-weight: 700;
-  border-radius: 20px;
-  cursor: pointer;
-  box-shadow: 0 5px 20px rgba(250, 45, 72, 0.4);
-  transition: all 0.2s ease;
+  background: var(--apple-red); color: #ffffff; border: none;
+  padding: 12px 22px; font-size: 1rem; font-weight: 700; border-radius: 18px; cursor: pointer;
+  box-shadow: 0 4px 15px rgba(250, 45, 72, 0.4); transition: all 0.2s ease;
+}
+.btn-primary:hover { transform: translateY(-1px); box-shadow: 0 6px 20px rgba(250, 45, 72, 0.6); }
+
+.ios-input {
+  width: 100%; background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15);
+  color: #fff; padding: 10px 14px; border-radius: 12px; font-size: 0.95rem; margin-top: 4px;
 }
 
-.btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(250, 45, 72, 0.6); }
-
-.hot-search-box { display: flex; flex-direction: column; gap: 6px; }
-.hot-tag { background: rgba(255,255,255,0.06); padding: 8px 12px; border-radius: 10px; font-size: 0.88rem; color: #38bdf8; }
-
-.logs-feed { max-height: 220px; overflow-y: auto; display: flex; flex-direction: column; gap: 6px; }
-.log-item { font-size: 0.85rem; color: #e5e5ea; padding: 8px 12px; background: rgba(255, 255, 255, 0.03); border-left: 3px solid var(--apple-red); border-radius: 6px; }
-
-.roulette-overlay, .match-overlay {
+.wizard-overlay, .roulette-overlay, .match-overlay {
   position: fixed; top: 0; left: 0; right: 0; bottom: 0;
-  background: rgba(0, 0, 0, 0.88); backdrop-filter: blur(12px);
+  background: rgba(0, 0, 0, 0.88); backdrop-filter: blur(20px);
   display: flex; justify-content: center; align-items: center; z-index: 1000;
 }
-
-.roulette-modal, .match-modal { width: 90%; max-width: 440px; text-align: center; }
-.canvas-wrapper { position: relative; width: 300px; height: 300px; margin: 15px auto; }
-.roulette-pointer { position: absolute; top: -15px; left: 50%; transform: translateX(-50%); font-size: 2rem; color: var(--gold-primary); z-index: 10; }
+.wizard-modal, .roulette-modal, .match-modal { width: 92%; max-width: 460px; text-align: left; }
+.logs-feed { max-height: 200px; overflow-y: auto; display: flex; flex-direction: column; gap: 6px; }
+.log-item { font-size: 0.82rem; color: #e5e5ea; padding: 6px 10px; background: rgba(255, 255, 255, 0.03); border-left: 3px solid var(--apple-red); border-radius: 4px; }

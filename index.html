@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-  <title>足球生涯模拟器 V12.0 Apple 重构版 | Football Career Simulator</title>
+  <title>足球生涯模拟器 V13.0 iOS重构版 | Football Career Simulator</title>
   
   <link rel="manifest" href="manifest.json">
   <meta name="theme-color" content="#fa2d48">
@@ -11,22 +11,17 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <link rel="apple-touch-icon" href="assets/icon-192.png">
 
-  <meta property="og:title" content="足球生涯模拟器 V12.0 Apple Music 拟态版">
-  <meta property="og:description" content="中国足球版人生重开模拟器 + Roguelike 天赋抽卡 + 懂球圈舆论风波 + 退役二次人生！">
-  <meta property="og:image" content="assets/icon-192.png">
-
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
 
-  <!-- Apple Music Style Header -->
+  <!-- Apple Header -->
   <header class="app-header glass-panel">
     <div class="brand-logo">
-      ⚽ 足球生涯模拟器 <span class="brand-badge">V12.0 Apple 重构版</span>
+      ⚽ 足球生涯模拟器 <span class="brand-badge">V13.0 iOS版</span>
     </div>
     <nav class="nav-tabs">
       <button class="tab-btn active" data-tab="careerTab">🎮 职业主页</button>
-      <button class="tab-btn" data-tab="talentTab">⚡ 天赋抽卡</button>
       <button class="tab-btn" data-tab="socialTab">📱 懂球圈</button>
       <button class="tab-btn" data-tab="transferTab">💼 转会市场</button>
       <button class="tab-btn" data-tab="lifeTab">🏠 奢华生活</button>
@@ -39,7 +34,7 @@
 
     <!-- Left Column: FUT Card & Scouting Report -->
     <aside id="playerCardContainer">
-      <!-- Card Rendered Here -->
+      <!-- FUT Gold Card Rendered Here -->
     </aside>
 
     <!-- Right Column: Control Views -->
@@ -48,101 +43,65 @@
       <!-- View 1: Main Career Dashboard -->
       <div id="careerTab" class="view-content">
 
-        <!-- Seed & Controls -->
-        <div class="glass-panel" style="margin-bottom: 12px; padding: 12px 20px; display: flex; justify-content: space-between; align-items: center;">
-          <span style="font-size: 0.88rem; color: var(--text-muted);">🌱 游戏 Seed 种子：<strong id="currentSeedText" style="color: var(--gold-primary);">20260801</strong></span>
-          <button class="btn-primary" style="padding: 4px 12px; font-size: 0.8rem;" onclick="promptCustomSeed()">输入/重置 Seed</button>
+        <!-- Header Quick Bar -->
+        <div class="glass-panel" style="margin-bottom: 10px; padding: 10px 16px; display: flex; justify-content: space-between; align-items: center;">
+          <span style="font-size: 0.82rem; color: var(--text-muted);">🌱 Seed 种子：<strong id="currentSeedText" style="color: var(--gold-primary);">20260801</strong></span>
+          <button class="btn-primary" style="padding: 4px 10px; font-size: 0.78rem;" onclick="openWizardModal()">⚙️ 重新捏脸/选人</button>
         </div>
 
         <!-- Top Status Bar Metrics -->
         <div class="top-status-bar glass-panel">
-          <div class="status-card">
-            <span class="label">📅 时间</span>
-            <span class="val" id="statusDate">2026年9月</span>
-          </div>
-          <div class="status-card">
-            <span class="label">🎂 年龄</span>
-            <span class="val" id="statusAge">15 岁</span>
-          </div>
-          <div class="status-card">
-            <span class="label">🛡️ 效力</span>
-            <span class="val" id="statusTeam">浙江队</span>
-          </div>
-          <div class="status-card">
-            <span class="label">💵 周薪</span>
-            <span class="val" id="statusWage">€3,000</span>
-          </div>
-          <div class="status-card">
-            <span class="label">💰 资产</span>
-            <span class="val" id="statusMoney">€50,000</span>
-          </div>
-          <div class="status-card">
-            <span class="label">🌟 声望</span>
-            <span class="val" id="statusFame">10</span>
-          </div>
-          <div class="status-card">
-            <span class="label">👥 粉丝</span>
-            <span class="val" id="statusFans">5,000</span>
-          </div>
-          <div class="status-card">
-            <span class="label">🇨🇳 国足出场</span>
-            <span class="val" id="statusNational">0 场</span>
-          </div>
-          <div class="status-card">
-            <span class="label">⚖️ 清白度</span>
-            <span class="val" id="statusInnocence">80%</span>
-          </div>
+          <div class="status-card"><span class="label">📅 时间</span><span class="val" id="statusDate">2026年9月</span></div>
+          <div class="status-card"><span class="label">🎂 年龄</span><span class="val" id="statusAge">15 岁</span></div>
+          <div class="status-card"><span class="label">🛡️ 效力</span><span class="val" id="statusTeam">浙江队</span></div>
+          <div class="status-card"><span class="label">💵 周薪</span><span class="val" id="statusWage">€3,000</span></div>
+          <div class="status-card"><span class="label">💰 资产</span><span class="val" id="statusMoney">€50,000</span></div>
+          <div class="status-card"><span class="label">🌟 声望</span><span class="val" id="statusFame">10</span></div>
+          <div class="status-card"><span class="label">👥 粉丝</span><span class="val" id="statusFans">5,000</span></div>
+          <div class="status-card"><span class="label">🇨🇳 国足出场</span><span class="val" id="statusNational">0 场</span></div>
+          <div class="status-card"><span class="label">⚖️ 清白度</span><span class="val" id="statusInnocence">80%</span></div>
         </div>
 
         <!-- Monthly Event Card (5 Options) -->
-        <div id="eventContainer" style="margin-top: 15px;">
+        <div id="eventContainer" style="margin-top: 12px;">
           <!-- Event Content -->
         </div>
 
         <!-- Advance Month Action Box -->
-        <div class="advance-month-box" style="margin-top: 15px;">
+        <div class="glass-panel" style="margin-top: 12px; display: flex; justify-content: space-between; align-items: center; padding: 14px 18px;">
           <div>
-            <h3 style="color: #fff;">⏩ 时间轮盘</h3>
-            <p style="font-size: 0.88rem; color: var(--text-muted);">模拟下个月比赛剧情，触发转会与随机事件</p>
+            <h3 style="color: #fff; font-size: 1.05rem;">⏩ 时间轮盘推进</h3>
+            <p style="font-size: 0.8rem; color: var(--text-muted);">模拟下月剧情与转会动态</p>
           </div>
           <button id="advanceMonthBtn" class="btn-primary">⏩ 模拟下个月</button>
         </div>
 
         <!-- Career History Logs -->
-        <div class="glass-panel" style="margin-top: 15px;">
-          <h3 style="margin-bottom: 10px; color: #fff;">📜 生涯履历动态 (Career Logs)</h3>
+        <div class="glass-panel" style="margin-top: 12px;">
+          <h3 style="margin-bottom: 8px; color: #fff; font-size: 1.05rem;">📜 生涯动向动态 (Career Logs)</h3>
           <div id="logsFeed" class="logs-feed"></div>
         </div>
 
       </div>
 
-      <!-- View 2: Talent Perks Gacha Tab -->
-      <div id="talentTab" class="view-content" style="display: none;">
-        <div class="glass-panel">
-          <h2>⚡ Roguelike 初始天赋/词条抽卡</h2>
-          <p class="scout-label" style="margin-bottom: 20px;">抽取金/紫/蓝高阶天赋词条，赋予每局游戏不一样的特殊加成</p>
-
-          <div id="talentListContainer" class="options-container">
-            <!-- Talent Cards -->
-          </div>
-        </div>
-      </div>
-
-      <!-- View 3: Social Feed Tab -->
+      <!-- View 2: Social Feed Tab -->
       <div id="socialTab" class="view-content" style="display: none;"></div>
 
-      <!-- View 4: Transfer Market Tab -->
+      <!-- View 3: Transfer Market Tab -->
       <div id="transferTab" class="view-content" style="display: none;"></div>
 
-      <!-- View 5: Lifestyle Tab -->
+      <!-- View 4: Lifestyle Tab -->
       <div id="lifeTab" class="view-content" style="display: none;"></div>
 
-      <!-- View 6: Achievements Gallery Tab -->
+      <!-- View 5: Achievements Gallery Tab -->
       <div id="galleryTab" class="view-content" style="display: none;"></div>
 
     </section>
 
   </main>
+
+  <!-- Wizard Modal Container -->
+  <div id="wizardContainer"></div>
 
   <!-- Modals Containers -->
   <div id="rouletteContainer"></div>
@@ -154,6 +113,7 @@
   <script src="js/data/players.js"></script>
   <script src="js/data/events.js"></script>
   <script src="js/data/achievements.js"></script>
+  <script src="js/components/wizard.js"></script>
   <script src="js/components/avatar3d.js"></script>
   <script src="js/components/playerCard.js"></script>
   <script src="js/components/matchEngine3d.js"></script>

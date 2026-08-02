@@ -1,4 +1,4 @@
-// Football Career Simulator V12.0 - Properties, Vehicles & Lifestyle Engine
+// Football Career Simulator V13.0 - Life Simulator Component
 
 class LifeSimulator {
   static render(player) {
@@ -7,20 +7,12 @@ class LifeSimulator {
 
     return `
     <div class="glass-panel">
-      <h2>🏠 奢华生活与车库展示 (Properties & Lifestyle)</h2>
-
+      <h2>🏠 奢华生活与车库 (Lifestyle & Garage)</h2>
       <div class="top-status-bar" style="margin-bottom: 20px;">
-        <div class="status-card">
-          <span class="label">名下房产</span>
-          <span class="val">${currentProp.icon} ${currentProp.name}</span>
-        </div>
-        <div class="status-card">
-          <span class="label">私人座驾</span>
-          <span class="val">${currentCar.icon} ${currentCar.name}</span>
-        </div>
+        <div class="status-card"><span class="label">名下房产</span><span class="val">${currentProp.icon} ${currentProp.name}</span></div>
+        <div class="status-card"><span class="label">私人座驾</span><span class="val">${currentCar.icon} ${currentCar.name}</span></div>
       </div>
 
-      <h3 style="color: var(--gold-primary); margin-bottom: 10px;">🏢 房产购置升级</h3>
       <div class="options-container">
         ${GAME_CONFIG.PROPERTIES.map(prop => `
           <div class="option-btn" style="cursor: default; display: flex; justify-content: space-between; align-items: center;">

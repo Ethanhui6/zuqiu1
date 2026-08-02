@@ -1,7 +1,7 @@
 {
-  "name": "足球生涯模拟器 V12.0 苹果重构版",
-  "short_name": "足球模拟器V12",
-  "description": "Apple Music 风格拟态视觉 + Roguelike 天赋抽卡 + 懂球帝社交风波 + 3D球场/退役二次人生",
+  "name": "足球生涯模拟器 V13.0 iOS版",
+  "short_name": "足球模拟器V13",
+  "description": "极简 Apple 风格 iOS 极客体验 + 开局角色捏脸/选人 + 三站精华融合",
   "start_url": "./index.html",
   "display": "standalone",
   "background_color": "#000000",

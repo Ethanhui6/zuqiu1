@@ -1,4 +1,4 @@
-// Football Career Simulator V12.0 - 50+ Multi-branch Story Dilemmas
+// Football Career Simulator V13.0 - 5-Option Story Dilemmas
 
 const MONTHLY_EVENTS = [
   {
@@ -77,7 +77,7 @@ const MONTHLY_EVENTS = [
       },
       {
         text: "2. 幽默调侃：“脚下确实被绊了一下，如果我是跳水名将，那也是满分落水。”",
-        tag: "幽默幽默",
+        tag: "幽默风趣",
         effectText: "全网热搜第一，粉丝+30000，声望+15",
         apply: (state) => {
           state.fans += 30000;

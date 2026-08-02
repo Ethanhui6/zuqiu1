@@ -1,4 +1,4 @@
-// Football Career Simulator V12.0 - Core Engine
+// Football Career Simulator V13.0 - V13 Engine
 
 class GameEngine {
   constructor(seed = "20260801") {
@@ -14,6 +14,8 @@ class GameEngine {
     this.state = {
       seed: this.seed,
       name: "自建新星",
+      foot: "右脚",
+      number: 10,
       age: 15,
       year: GAME_CONFIG.START_YEAR,
       month: GAME_CONFIG.START_MONTH,
@@ -33,7 +35,7 @@ class GameEngine {
       teamAccent: startingTeam.accent,
       clubList: [startingTeam.name],
 
-      talents: [], // Selected Talent Perks
+      talents: [],
 
       stats: {
         PAC: 66,
@@ -70,19 +72,14 @@ class GameEngine {
     this.recalculateOVR();
   }
 
-  addTalent(talentId) {
-    const t = GAME_CONFIG.STARTING_TALENTS.find(x => x.id === talentId);
-    if (!t) return;
-    this.state.talents.push(t);
-
-    if (t.effect.SHO) this.state.stats.SHO += t.effect.SHO;
-    if (t.effect.PHY) this.state.stats.PHY += t.effect.PHY;
-    if (t.effect.PAC) this.state.stats.PAC += t.effect.PAC;
-    if (t.effect.DRI) this.state.stats.DRI += t.effect.DRI;
-    if (t.effect.fans) this.state.fans += t.effect.fans;
-    if (t.effect.money) this.state.money += t.effect.money;
-    if (t.effect.fame) this.state.fame += t.effect.fame;
-
+  setBirthplace(code) {
+    const bp = GAME_CONFIG.BIRTHPLACES.find(b => b.code === code) || GAME_CONFIG.BIRTHPLACES[0];
+    this.state.birthplace = bp.name;
+    if (bp.bonus.DRI) this.state.stats.DRI += bp.bonus.DRI;
+    if (bp.bonus.PHY) this.state.stats.PHY += bp.bonus.PHY;
+    if (bp.bonus.PAC) this.state.stats.PAC += bp.bonus.PAC;
+    if (bp.bonus.money) this.state.money += bp.bonus.money;
+    if (bp.bonus.fame) this.state.fame += bp.bonus.fame;
     this.recalculateOVR();
   }
 
@@ -121,7 +118,7 @@ class GameEngine {
     const randomEvent = MONTHLY_EVENTS[Math.floor(this.rng.next() * MONTHLY_EVENTS.length)];
     this.state.currentMonthEvent = randomEvent;
 
-    this.addLog(`进入 ${this.state.year}年${this.state.month}月 - 效力：${this.state.team.name} (当前OVR: ${this.state.ovr} / 巅峰OVR: ${this.state.peakOvr})`);
+    this.addLog(`进入 ${this.state.year}年${this.state.month}月 - 效力：${this.state.team.name} (OVR: ${this.state.ovr} / 巅峰: ${this.state.peakOvr})`);
   }
 
   selectEventOption(optionIndex, rouletteResult = null) {

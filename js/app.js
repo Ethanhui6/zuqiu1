@@ -1,9 +1,11 @@
-// Football Career Simulator V12.0 - Apple Music Edition Main Controller
+// Football Career Simulator V13.0 - Main SPA Controller
+
+let wizardState = { step: 1, data: { name: '自建新星', foot: '右脚', number: 10, seed: '20260801', birthplace: 'GD', talents: [] } };
 
 document.addEventListener("DOMContentLoaded", () => {
   window.game = new GameEngine("20260801");
   
-  // Navigation Tabs
+  // Tabs Navigation
   const tabBtns = document.querySelectorAll(".tab-btn");
   tabBtns.forEach(btn => {
     btn.addEventListener("click", (e) => {
@@ -30,18 +32,16 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-  // Initial Render
   renderAll();
 });
 
 function switchTab(tabName) {
-  const views = ["careerTab", "talentTab", "socialTab", "transferTab", "lifeTab", "galleryTab"];
+  const views = ["careerTab", "socialTab", "transferTab", "lifeTab", "galleryTab"];
   views.forEach(v => {
     const el = document.getElementById(v);
     if (el) el.style.display = (v === tabName) ? "block" : "none";
   });
 
-  if (tabName === "talentTab") renderTalentsView();
   if (tabName === "socialTab") renderSocialFeed();
   if (tabName === "transferTab") renderTransferMarket();
   if (tabName === "lifeTab") renderLifeSimulator();
@@ -83,8 +83,8 @@ function renderMonthlyEvent() {
   if (!event) {
     eventContainer.innerHTML = `
       <div class="glass-panel event-card">
-        <h3 class="event-title">📅 月度战术训练与备战中</h3>
-        <p class="event-desc">全队在基地准备下场比赛，请点击“模拟下个月”推进进程。</p>
+        <h3 class="event-title">📅 月度战术备战中</h3>
+        <p class="event-desc">全队在基地准备下场比赛，请点击“模拟下个月”。</p>
       </div>
     `;
     return;
@@ -94,7 +94,7 @@ function renderMonthlyEvent() {
     <div class="glass-panel event-card">
       <div class="event-header">
         <span class="brand-badge">${event.category}</span>
-        <h3 class="event-title" style="margin-top: 8px;">${event.title}</h3>
+        <h3 class="event-title" style="margin-top: 6px;">${event.title}</h3>
       </div>
       <p class="event-desc">${event.description}</p>
 
@@ -140,30 +140,6 @@ function triggerMatchPopup() {
   });
 }
 
-function renderTalentsView() {
-  const container = document.getElementById("talentListContainer");
-  container.innerHTML = GAME_CONFIG.STARTING_TALENTS.map(t => {
-    const isSelected = window.game.state.talents.some(x => x.id === t.id);
-    return `
-      <div class="option-btn" style="cursor: default; display: flex; justify-content: space-between; align-items: center;">
-        <div>
-          <span class="opt-tag" style="background: ${t.quality === 'GOLD' ? 'var(--gold-primary)' : 'var(--apple-red)'}; color:#000;">${t.quality} 品质</span>
-          <span class="opt-text" style="margin-top: 4px; display: block;">${t.name}</span>
-          <p class="opt-effect" style="color: #cbd5e1;">${t.desc}</p>
-        </div>
-        ${isSelected ? '<span class="brand-badge" style="background:#10b981; color:#000;">已激活</span>' : `<button class="btn-primary" style="padding: 6px 14px; font-size: 0.85rem;" onclick="activateTalent('${t.id}')">选择激活</button>`}
-      </div>
-    `;
-  }).join('');
-}
-
-function activateTalent(id) {
-  window.game.addTalent(id);
-  alert("已激活该天赋词条属性加成！");
-  renderTalentsView();
-  renderAll();
-}
-
 function renderSocialFeed() {
   const container = document.getElementById("socialTab");
   container.innerHTML = SocialFeed.renderFeed(window.game.state);
@@ -175,18 +151,18 @@ function renderTransferMarket() {
 
   container.innerHTML = `
     <div class="glass-panel">
-      <h2>💼 全球转会市场 (Global Transfer Market)</h2>
-      <div class="options-container" style="margin-top: 15px;">
+      <h2>💼 全球转会市场 (Transfer Market)</h2>
+      <div class="options-container" style="margin-top: 12px;">
         ${offers.map(off => `
           <div class="option-btn" style="cursor: default;">
             <div style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
               <div>
                 <span class="brand-badge" style="background: #38bdf8; color: #000;">${off.team.league} · ${off.team.tier}级</span>
-                <h3 style="margin-top: 5px; color: var(--gold-primary);">${off.team.country} ${off.team.name}</h3>
+                <h3 style="margin-top: 4px; color: var(--gold-primary);">${off.team.country} ${off.team.name}</h3>
               </div>
-              <button class="btn-primary" style="padding: 8px 16px; font-size: 0.9rem;" onclick="acceptTransfer('${off.team.id}', ${off.weeklyWage})">同意加盟</button>
+              <button class="btn-primary" style="padding: 6px 14px; font-size: 0.85rem;" onclick="acceptTransfer('${off.team.id}', ${off.weeklyWage})">同意加盟</button>
             </div>
-            <p class="opt-effect" style="color: #cbd5e1; margin-top: 8px;">定位：${off.role} | 周薪：€${off.weeklyWage.toLocaleString()}</p>
+            <p class="opt-effect" style="color: #cbd5e1; margin-top: 6px;">定位：${off.role} | 周薪：€${off.weeklyWage.toLocaleString()}</p>
           </div>
         `).join('')}
       </div>
@@ -253,15 +229,64 @@ function startSecondCareer(careerId) {
   container.innerHTML = SummaryCard.renderSummary(window.game.state);
 }
 
-function promptCustomSeed() {
-  const input = prompt("请输入您想使用的游戏 Seed 种子（例如 20260801）：", window.game.state.seed);
-  if (input) {
-    window.game = new GameEngine(input);
-    alert(`已重置为 Seed 种子：${input}`);
-    renderAll();
+// Wizard Modal Methods
+function openWizardModal() {
+  wizardState = { step: 1, data: { name: window.game.state.name, foot: window.game.state.foot || '右脚', number: window.game.state.number || 10, seed: window.game.state.seed, birthplace: 'GD', talents: [] } };
+  const container = document.getElementById("wizardContainer");
+  container.innerHTML = CharacterWizard.renderWizard(wizardState.step, wizardState.data);
+}
+
+function nextWizardStep(step) {
+  if (step === 1) {
+    const name = document.getElementById("wizName").value;
+    const foot = document.getElementById("wizFoot").value;
+    const number = document.getElementById("wizNumber").value;
+    const seed = document.getElementById("wizSeed").value;
+    wizardState.data = { ...wizardState.data, name, foot, number, seed };
   }
+  wizardState.step = step + 1;
+  const container = document.getElementById("wizardContainer");
+  container.innerHTML = CharacterWizard.renderWizard(wizardState.step, wizardState.data);
+}
+
+function prevWizardStep(step) {
+  wizardState.step = step - 1;
+  const container = document.getElementById("wizardContainer");
+  container.innerHTML = CharacterWizard.renderWizard(wizardState.step, wizardState.data);
+}
+
+function wizSelectBirthplace(code) {
+  wizardState.data.birthplace = code;
+  const container = document.getElementById("wizardContainer");
+  container.innerHTML = CharacterWizard.renderWizard(wizardState.step, wizardState.data);
+}
+
+function wizToggleTalent(id) {
+  if (!wizardState.data.talents) wizardState.data.talents = [];
+  if (wizardState.data.talents.includes(id)) {
+    wizardState.data.talents = wizardState.data.talents.filter(x => x !== id);
+  } else {
+    wizardState.data.talents.push(id);
+  }
+  const container = document.getElementById("wizardContainer");
+  container.innerHTML = CharacterWizard.renderWizard(wizardState.step, wizardState.data);
+}
+
+function finishCharacterCreation() {
+  const d = wizardState.data;
+  window.game = new GameEngine(d.seed || "20260801");
+  window.game.state.name = d.name || "自建新星";
+  window.game.state.foot = d.foot || "右脚";
+  window.game.state.number = d.number || 10;
+  
+  if (d.birthplace) window.game.setBirthplace(d.birthplace);
+  if (d.talents) d.talents.forEach(tId => window.game.addTalent(tId));
+
+  document.getElementById("wizardContainer").innerHTML = "";
+  alert("角色建模与初始设定完成！开始全新职业生涯！");
+  renderAll();
 }
 
 function exportSummaryCardImage() {
-  alert("已生成 Apple 拟态终极总结卡！可截图保存分享至社交平台。");
+  alert("已生成 Apple 风格终极总结卡！可截图保存分享至社交平台。");
 }

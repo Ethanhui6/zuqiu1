@@ -1,5 +1,5 @@
-// Service Worker for Football Career Simulator V12.0
-const CACHE_NAME = 'football-career-v12-cache-v1';
+// Service Worker for Football Career Simulator V13.0
+const CACHE_NAME = 'football-career-v13-cache-v1';
 const urlsToCache = [
   './',
   './index.html',

@@ -1,64 +1,62 @@
-// Football Career Simulator V12.0 - Game Config, Seed RNG & Talent Perks
+// Football Career Simulator V13.0 - Game Config, Seed & Perks
 
 const GAME_CONFIG = {
-  TITLE: "足球生涯模拟器 V12.0 Apple Music 拟态重构版",
-  VERSION: "12.0.0",
+  TITLE: "足球生涯模拟器 V13.0 iOS 极简重构版",
+  VERSION: "13.0.0",
   START_YEAR: 2026,
   START_MONTH: 9,
   RETIRE_AGE: 40,
 
-  // Roguelike Starting Talent Perks (Gold / Purple / Blue)
   STARTING_TALENTS: [
-    { id: "golden_leader", name: "🌟 天生领袖 (金色)", quality: "GOLD", desc: "更衣室威望+30，队长袖标首选，主帅信任度极易提升", effect: { coachTrust: 25, teammateRel: 25, fame: 20 } },
-    { id: "golden_stamina", name: "⚡ 钢铁体能怪 (金色)", quality: "GOLD", desc: "体能消耗降低 50%，伤病概率极低，体能回复加快", effect: { PHY: 6, PAC: 4 } },
-    { id: "golden_sniper", name: "🎯 禁区死角杀手 (金色)", quality: "GOLD", desc: "射门属性+8，关键绝杀概率翻倍，极易解锁金靴", effect: { SHO: 8 } },
-    { id: "purple_social", name: "📱 社交牛逼症 (紫色)", quality: "PURPLE", desc: "初始粉丝+20000，商业代言提成+30%，声望获取快", effect: { fans: 20000, fame: 15, money: 50000 } },
-    { id: "purple_dribbler", name: "🕺 桑巴桑巴盘带者 (紫色)", quality: "PURPLE", desc: "盘带属性+6，边路大趟过人成功率提升", effect: { DRI: 6, PAC: 2 } },
-    { id: "blue_clean", name: "🛡️ 绝对清白正人君子 (蓝色)", quality: "BLUE", desc: "初始清白度 100%，免疫反腐阴阳合同舆论冲击", effect: { innocence: 20 } }
+    { id: "golden_leader", name: "🌟 天生领袖", quality: "GOLD", desc: "更衣室威望+30，队长首选，主帅信任度飙升", effect: { coachTrust: 25, teammateRel: 25, fame: 20 } },
+    { id: "golden_stamina", name: "⚡ 跑不死体能怪", quality: "GOLD", desc: "体能消耗降低 50%，极低伤病率", effect: { PHY: 6, PAC: 4 } },
+    { id: "golden_sniper", name: "🎯 禁区死角杀手", quality: "GOLD", desc: "射门+8，绝杀概率翻倍，冲击金靴", effect: { SHO: 8 } },
+    { id: "purple_social", name: "📱 社交大V", quality: "PURPLE", desc: "初始粉丝+20000，代言提成+30%", effect: { fans: 20000, fame: 15, money: 50000 } },
+    { id: "purple_dribbler", name: "🕺 桑巴过人狂", quality: "PURPLE", desc: "盘带+6，边路爆破过人大幅提升", effect: { DRI: 6, PAC: 2 } },
+    { id: "blue_clean", name: "🛡️ 绝对清白君子", quality: "BLUE", desc: "清白度 100%，免疫反腐阴阳合同风波", effect: { innocence: 20 } }
   ],
 
-  // Birthplaces with explicit trait disclosures
   BIRTHPLACES: [
-    { code: "GD", name: "广东", flag: "🏮", trait: "小灵快/家族商业基因", bonus: { DRI: 4, PAS: 2, money: 100000 }, desc: "初始盘带+4，资金+10万，受南派足球灵动影响" },
-    { code: "SD", name: "山东", flag: "🏔️", trait: "高大体能/顽强作风", bonus: { PHY: 4, DEF: 2, coachTrust: 15 }, desc: "初始身体+4，信任度+15%，对抗与制空权强" },
-    { code: "LN", name: "辽宁", flag: "⚽", trait: "爆发速度/大心脏", bonus: { PAC: 4, SHO: 2, fame: 10 }, desc: "初始速度+4，射门+2，声望+10，大赛爆发" },
-    { code: "BJ", name: "北京", flag: "🏛️", trait: "首都曝光/社交焦点", bonus: { fame: 20, fans: 15000, money: 50000 }, desc: "初始声望+20，粉丝+15000，自带高社交热度" },
-    { code: "SH", name: "上海", flag: "🏙️", trait: "国际化视野/高战术素养", bonus: { PAS: 3, DRI: 3, scoutInterest: 20 }, desc: "初始传球+3，豪门关注度+20%，战术智商高" }
+    { code: "GD", name: "广东", flag: "🏮", trait: "小灵快/家族商业基因", bonus: { DRI: 4, PAS: 2, money: 100000 }, desc: "盘带+4，资金+10万" },
+    { code: "SD", name: "山东", flag: "🏔️", trait: "高大体能/顽强作风", bonus: { PHY: 4, DEF: 2, coachTrust: 15 }, desc: "身体+4，主帅信任+15%" },
+    { code: "LN", name: "辽宁", flag: "⚽", trait: "爆发速度/大心脏", bonus: { PAC: 4, SHO: 2, fame: 10 }, desc: "速度+4，射门+2，声望+10" },
+    { code: "BJ", name: "北京", flag: "🏛️", trait: "首都曝光/社交焦点", bonus: { fame: 20, fans: 15000, money: 50000 }, desc: "声望+20，粉丝+15000" },
+    { code: "SH", name: "上海", flag: "🏙️", trait: "国际视野/高战术素养", bonus: { PAS: 3, DRI: 3, scoutInterest: 20 }, desc: "传球+3，豪门关注+20%" }
   ],
 
   POSITIONS: [
-    { code: "ST", name: "中锋 (ST)", category: "FW", impact: "高进球率与金靴奖，身价受进球直接驱动" },
-    { code: "RW", name: "右边锋 (RW)", category: "FW", impact: "高突破率与助攻进球兼备，吸引豪门关注" },
-    { code: "LW", name: "左边锋 (LW)", category: "FW", impact: "爆破内切得分能力，高商业代言价值" },
-    { code: "CAM", name: "前腰 (CAM)", category: "MF", impact: "掌控进攻节拍与关键穿针引线助攻" },
-    { code: "CM", name: "中场 (CM)", category: "MF", impact: "全场攻防枢纽，队长袖标首选位置" },
-    { code: "CDM", name: "后腰 (CDM)", category: "MF", impact: "防线屏障与拦截抢断，教练信任度极高" },
-    { code: "CB", name: "中卫 (CB)", category: "DF", impact: "防空卡位制空权，降低失球数，不易受伤" },
-    { code: "RB", name: "右后卫 (RB)", category: "DF", impact: "边路攻防套边插上，体能消耗较大" },
-    { code: "LB", name: "左后卫 (LB)", category: "DF", impact: "左路走廊助攻，战术稀缺位置" }
+    { code: "ST", name: "中锋 (ST)", category: "FW", desc: "高进球率与金靴奖，身价受进球驱动" },
+    { code: "RW", name: "右边锋 (RW)", category: "FW", desc: "高突破率与助攻，易吸引豪门球探" },
+    { code: "LW", name: "左边锋 (LW)", category: "FW", desc: "爆破内切得分，高商业价值" },
+    { code: "CAM", name: "前腰 (CAM)", category: "MF", desc: "掌控进攻节拍与手术刀直塞助攻" },
+    { code: "CM", name: "中场 (CM)", category: "MF", desc: "攻防转换枢纽，队长首选位置" },
+    { code: "CDM", name: "后腰 (CDM)", category: "MF", desc: "防线屏障与拦截抢断" },
+    { code: "CB", name: "中卫 (CB)", category: "DF", desc: "防空卡位制空权，降低失球数" },
+    { code: "RB", name: "右后卫 (RB)", category: "DF", desc: "边路攻防套边插上" },
+    { code: "LB", name: "左后卫 (LB)", category: "DF", desc: "左路走廊助攻" }
   ],
 
-  PACING_MODES: {
-    ANNUAL: { code: "ANNUAL", name: "逐年模式", desc: "仅在关键转会与大赛年决策，快速完结一生" },
-    STANDARD: { code: "STANDARD", name: "标准模式", desc: "逐月推进，深度参与教练沟通、训练与离场生活" },
-    CINEMA: { code: "CINEMA", name: "电影模式", desc: "全自动 AI 决策演播，如电影般观赏职业生涯" }
-  },
+  PROPERTIES: [
+    { id: "flat", name: "市区青年公寓", cost: 0, icon: "🏢", bonus: "基本住所", prestige: 5 },
+    { id: "condo", name: "江景高档大平层", cost: 500000, icon: "🏙️", bonus: "体能恢复更快，粉丝+10000", prestige: 25 },
+    { id: "villa", name: "郊区独栋别墅", cost: 2500000, icon: "🏡", bonus: "训练效率+15%，声望+50", prestige: 60 },
+    { id: "manor", name: "顶奢海景庄园", cost: 10000000, icon: "🏰", bonus: "豪门关注+30%，极奢生活", prestige: 100 }
+  ],
 
-  DIFFICULTY_MODES: {
-    ROOKIE: { code: "ROOKIE", name: "新星模式 (简单)", desc: "伤病概率极低，顺风成长" },
-    PRO: { code: "PRO", name: "职业模式 (标准)", desc: "逼真足球生态，平衡的成长与伤病挑战" },
-    HARDCORE: { code: "HARDCORE", name: "残酷模式 (硬核)", desc: "严格反腐查税，高伤病与挑剔舆论" }
-  },
+  VEHICLES: [
+    { id: "sedan", name: "家用实用轿车", cost: 30000, icon: "🚗" },
+    { id: "sports", name: "保时捷 911 跑车", cost: 200000, icon: "🏎️" },
+    { id: "supercar", name: "法拉利旗舰超跑", cost: 800000, icon: "🏎️💨" }
+  ],
 
   SECOND_LIFE_CAREERS: [
-    { id: "manager", name: "👔 豪门主教练 / 国家队掌门人", desc: "开启教练生涯，带领国足或豪门征战世界杯与欧冠" },
-    { id: "pundit", name: "🎙️ 顶级体育电视台签约解说员", desc: "创办个人足球自媒体与节目，点评足坛风云" },
-    { id: "owner", name: "💼 足球俱乐部主席 / 体坛投资人", desc: "收购职业球队，作为老板打造全球豪门" },
-    { id: "youth_director", name: "🌱 全国青训青训总监", desc: "深耕青训基地，培养下一代中国球星" }
+    { id: "manager", name: "👔 豪门主教练 / 国家队掌门人", desc: "执教球队征战世界杯与欧冠" },
+    { id: "pundit", name: "🎙️ 顶级电视台签约解说员", desc: "自媒体节目，点评足坛风云" },
+    { id: "owner", name: "💼 俱乐部主席 / 体坛投资人", desc: "收购球队，打造全球豪门" },
+    { id: "youth_director", name: "🌱 全国青训总监", desc: "深耕基地，培养下一代球星" }
   ]
 };
 
-// Seed PRNG Engine
 class SeedRNG {
   constructor(seed = "20260801") {
     this.seed = this.hashSeed(seed);

@@ -1,9 +1,8 @@
-// Football Career Simulator V12.0 - FUT Card & Peak OVR Badge
+// Football Career Simulator V13.0 - FUT Gold Card & Scout Report Component
 
 class PlayerCard {
   static render(player) {
     const avatarSvg = Avatar3D.createSVG(player);
-    const scoutReport = PlayerCard.generateScoutReport(player);
 
     return `
     <div class="fut-card-wrapper">
@@ -41,34 +40,20 @@ class PlayerCard {
       <div class="scout-report-panel glass-panel">
         <div class="scout-header">
           <span class="scout-icon">📋</span>
-          <h3>权威球探报告 (Scouting Report)</h3>
+          <h3>球探报告 (Scouting Report)</h3>
         </div>
         <div class="scout-content">
           <div class="scout-row">
-            <span class="scout-label">球风模板：</span>
-            <span class="scout-value highlight-gold">${scoutReport.template.name}</span>
+            <span class="scout-label">特质：</span>
+            <span class="scout-value highlight-gold">${player.birthplace || '广东'}派系 · ${player.foot || '右脚'}</span>
           </div>
           <div class="scout-row">
-            <span class="scout-label">预测潜能范围：</span>
-            <span class="scout-value potential-badge">POT ${scoutReport.potentialMin} - ${scoutReport.potentialMax}</span>
+            <span class="scout-label">激活天赋：</span>
+            <span class="scout-value">${player.talents && player.talents.length > 0 ? player.talents.map(t => t.name).join(', ') : '无'}</span>
           </div>
         </div>
       </div>
     </div>
     `;
-  }
-
-  static generateScoutReport(player) {
-    const matchedTemplate = GAME_CONFIG.SCOUT_TEMPLATES ? GAME_CONFIG.SCOUT_TEMPLATES[0] : { name: "全能型建队基石", traits: ["基本功扎实"] };
-    const currentAge = player.age || 15;
-    const maxGrowth = Math.max(5, (30 - currentAge) * 2.5);
-    const potentialMin = Math.min(99, Math.round(player.ovr + maxGrowth * 0.7));
-    const potentialMax = Math.min(99, Math.round(player.ovr + maxGrowth * 1.3));
-
-    return {
-      template: matchedTemplate,
-      potentialMin: potentialMin,
-      potentialMax: potentialMax
-    };
   }
 }
