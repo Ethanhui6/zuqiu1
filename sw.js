@@ -1,1 +1,15 @@
-const VERSION='career-v10.0.0-20260803-2';const SHELL=['./','./index.html','./styles.css','./app.js','./manifest.webmanifest','./icon.svg','./data/version.json','./data/positions.json','./data/clubs.json','./data/events.json','./js/engine/rng.js','./js/engine/growth.js','./js/engine/season.js','./js/engine/transfer.js','./js/ui/hex-chart.js'];self.addEventListener('install',e=>e.waitUntil(caches.open(VERSION).then(c=>c.addAll(SHELL))));self.addEventListener('activate',e=>e.waitUntil(caches.keys().then(keys=>Promise.all(keys.filter(k=>k!==VERSION).map(k=>caches.delete(k))))));self.addEventListener('fetch',e=>{if(e.request.method!=='GET')return;const u=new URL(e.request.url);if(u.origin!==location.origin)return;if(e.request.mode==='navigate'){e.respondWith(fetch(e.request).then(r=>{const copy=r.clone();caches.open(VERSION).then(c=>c.put('./index.html',copy));return r}).catch(()=>caches.match('./index.html')));return}e.respondWith(caches.match(e.request).then(cached=>cached||fetch(e.request).then(r=>{const copy=r.clone();caches.open(VERSION).then(c=>c.put(e.request,copy));return r})))})
+/* V18 legacy-cache cleanup worker. It intentionally keeps no offline cache. */
+self.addEventListener('install', event => {
+  self.skipWaiting();
+});
+self.addEventListener('activate', event => {
+  event.waitUntil((async () => {
+    const keys = await caches.keys();
+    await Promise.all(keys.map(key => caches.delete(key)));
+    await self.clients.claim();
+    await self.registration.unregister();
+  })());
+});
+self.addEventListener('fetch', event => {
+  event.respondWith(fetch(event.request));
+});

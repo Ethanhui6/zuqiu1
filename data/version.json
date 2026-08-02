@@ -1,8 +1,1 @@
-{
-  "version": "10.0.0",
-  "build": "2026-08-03.2",
-  "schemaVersion": 4,
-  "saveSchemaVersion": 4,
-  "title": "绿茵浮沉 V10.0",
-  "mode": "十分钟完整职业生涯"
-}
+{"version":"18.0.0","build":"2026-08-03","clubs":500,"legendTemplates":500,"eventChoices":3200,"achievements":330}
