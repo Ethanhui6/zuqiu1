@@ -1,9 +1,15 @@
 {
-  "name":"绿茵浮沉 10.0",
-  "short_name":"绿茵浮沉",
-  "start_url":"./",
-  "display":"standalone",
-  "background_color":"#0a0b0d",
-  "theme_color":"#0a0b0d",
-  "icons":[{"src":"icon.svg","sizes":"any","type":"image/svg+xml"}]
+  "name": "绿茵浮沉 V10.0",
+  "short_name": "绿茵浮沉",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#06100c",
+  "theme_color": "#07110d",
+  "icons": [
+    {
+      "src": "./icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    }
+  ]
 }

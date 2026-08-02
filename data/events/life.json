@@ -1,11 +1,11 @@
 [
   {
-    "id": "agent-001",
+    "id": "life-001",
     "version": 1,
-    "category": "agent",
-    "categoryName": "经纪团队",
-    "title": "更换经纪人提议",
-    "text": "经纪人带来了一份新的职业建议。 这次变化与“更换经纪人提议”有关。选择不仅影响当前结果，还会改变能力成长、教练信任、队内地位和未来转会评价。",
+    "category": "life",
+    "categoryName": "生活与商业",
+    "title": "家人希望你回国",
+    "text": "场外事务正在影响你的职业节奏。 这次变化与“家人希望你回国”有关。选择不仅影响当前结果，还会改变能力成长、教练信任、队内地位和未来转会评价。",
     "stage": [
       "youth",
       "rotation",
@@ -32,10 +32,10 @@
             "id": "great",
             "probability": 0.28,
             "tier": "great",
-            "result": "你在“更换经纪人提议”中把握住了机会，职业评价和成长收益都高于预期。",
+            "result": "你在“家人希望你回国”中把握住了机会，职业评价和成长收益都高于预期。",
             "effects": {
               "xp": {
-                "PAS": 32
+                "PHY": 32
               },
               "morale": 4,
               "clubInterest": 2,
@@ -46,10 +46,10 @@
             "id": "normal",
             "probability": 0.62,
             "tier": "normal",
-            "result": "“更换经纪人提议”基本按预期发展，没有失控，但也没有出现奇迹。",
+            "result": "“家人希望你回国”基本按预期发展，没有失控，但也没有出现奇迹。",
             "effects": {
               "xp": {
-                "PAS": 14
+                "PHY": 14
               },
               "morale": 1
             }
@@ -58,10 +58,10 @@
             "id": "bad",
             "probability": 0.1,
             "tier": "bad",
-            "result": "“更换经纪人提议”的结果不理想，你需要在之后的赛季承担代价。",
+            "result": "“家人希望你回国”的结果不理想，你需要在之后的赛季承担代价。",
             "effects": {
               "xp": {
-                "PAS": 4
+                "PHY": 4
               },
               "morale": -3,
               "injuryRisk": 2
@@ -79,10 +79,10 @@
             "id": "great",
             "probability": 0.34,
             "tier": "great",
-            "result": "你在“更换经纪人提议”中把握住了机会，职业评价和成长收益都高于预期。",
+            "result": "你在“家人希望你回国”中把握住了机会，职业评价和成长收益都高于预期。",
             "effects": {
               "xp": {
-                "DRI": 35
+                "PAS": 35
               },
               "morale": 4,
               "clubInterest": 2,
@@ -93,10 +93,10 @@
             "id": "normal",
             "probability": 0.46,
             "tier": "normal",
-            "result": "“更换经纪人提议”基本按预期发展，没有失控，但也没有出现奇迹。",
+            "result": "“家人希望你回国”基本按预期发展，没有失控，但也没有出现奇迹。",
             "effects": {
               "xp": {
-                "DRI": 16
+                "PAS": 16
               },
               "morale": 1
             }
@@ -105,10 +105,10 @@
             "id": "bad",
             "probability": 0.2,
             "tier": "bad",
-            "result": "“更换经纪人提议”的结果不理想，你需要在之后的赛季承担代价。",
+            "result": "“家人希望你回国”的结果不理想，你需要在之后的赛季承担代价。",
             "effects": {
               "xp": {
-                "DRI": 4
+                "PAS": 4
               },
               "morale": -3,
               "injuryRisk": 2,
@@ -127,10 +127,10 @@
             "id": "great",
             "probability": 0.38,
             "tier": "great",
-            "result": "你在“更换经纪人提议”中把握住了机会，职业评价和成长收益都高于预期。",
+            "result": "你在“家人希望你回国”中把握住了机会，职业评价和成长收益都高于预期。",
             "effects": {
               "xp": {
-                "PHY": 38
+                "DRI": 38
               },
               "morale": 4,
               "clubInterest": 2,
@@ -141,10 +141,10 @@
             "id": "normal",
             "probability": 0.52,
             "tier": "normal",
-            "result": "“更换经纪人提议”基本按预期发展，没有失控，但也没有出现奇迹。",
+            "result": "“家人希望你回国”基本按预期发展，没有失控，但也没有出现奇迹。",
             "effects": {
               "xp": {
-                "PHY": 18
+                "DRI": 18
               },
               "morale": 1
             }
@@ -153,10 +153,10 @@
             "id": "bad",
             "probability": 0.1,
             "tier": "bad",
-            "result": "“更换经纪人提议”的结果不理想，你需要在之后的赛季承担代价。",
+            "result": "“家人希望你回国”的结果不理想，你需要在之后的赛季承担代价。",
             "effects": {
               "xp": {
-                "PHY": 4
+                "DRI": 4
               },
               "morale": -3,
               "injuryRisk": 2
@@ -174,7 +174,7 @@
             "id": "great",
             "probability": 0.3,
             "tier": "great",
-            "result": "你在“更换经纪人提议”中把握住了机会，职业评价和成长收益都高于预期。",
+            "result": "你在“家人希望你回国”中把握住了机会，职业评价和成长收益都高于预期。",
             "effects": {
               "xp": {
                 "DEF": 41
@@ -189,7 +189,7 @@
             "id": "normal",
             "probability": 0.58,
             "tier": "normal",
-            "result": "“更换经纪人提议”基本按预期发展，没有失控，但也没有出现奇迹。",
+            "result": "“家人希望你回国”基本按预期发展，没有失控，但也没有出现奇迹。",
             "effects": {
               "xp": {
                 "DEF": 20
@@ -202,7 +202,7 @@
             "id": "bad",
             "probability": 0.12,
             "tier": "bad",
-            "result": "“更换经纪人提议”的结果不理想，你需要在之后的赛季承担代价。",
+            "result": "“家人希望你回国”的结果不理想，你需要在之后的赛季承担代价。",
             "effects": {
               "xp": {
                 "DEF": 4
@@ -224,7 +224,7 @@
             "id": "great",
             "probability": 0.3,
             "tier": "great",
-            "result": "你在“更换经纪人提议”中把握住了机会，职业评价和成长收益都高于预期。",
+            "result": "你在“家人希望你回国”中把握住了机会，职业评价和成长收益都高于预期。",
             "effects": {
               "xp": {
                 "SHO": 44
@@ -239,7 +239,7 @@
             "id": "normal",
             "probability": 0.3,
             "tier": "normal",
-            "result": "“更换经纪人提议”基本按预期发展，没有失控，但也没有出现奇迹。",
+            "result": "“家人希望你回国”基本按预期发展，没有失控，但也没有出现奇迹。",
             "effects": {
               "xp": {
                 "SHO": 22
@@ -251,7 +251,7 @@
             "id": "bad",
             "probability": 0.4,
             "tier": "bad",
-            "result": "“更换经纪人提议”的结果不理想，你需要在之后的赛季承担代价。",
+            "result": "“家人希望你回国”的结果不理想，你需要在之后的赛季承担代价。",
             "effects": {
               "xp": {
                 "SHO": 4
@@ -266,12 +266,12 @@
     ]
   },
   {
-    "id": "agent-002",
+    "id": "life-002",
     "version": 1,
-    "category": "agent",
-    "categoryName": "经纪团队",
-    "title": "豪门秘密接触",
-    "text": "经纪人带来了一份新的职业建议。 这次变化与“豪门秘密接触”有关。选择不仅影响当前结果，还会改变能力成长、教练信任、队内地位和未来转会评价。",
+    "category": "life",
+    "categoryName": "生活与商业",
+    "title": "赞助商拍摄撞期",
+    "text": "场外事务正在影响你的职业节奏。 这次变化与“赞助商拍摄撞期”有关。选择不仅影响当前结果，还会改变能力成长、教练信任、队内地位和未来转会评价。",
     "stage": [
       "youth",
       "rotation",
@@ -298,10 +298,10 @@
             "id": "great",
             "probability": 0.28,
             "tier": "great",
-            "result": "你在“豪门秘密接触”中把握住了机会，职业评价和成长收益都高于预期。",
+            "result": "你在“赞助商拍摄撞期”中把握住了机会，职业评价和成长收益都高于预期。",
             "effects": {
               "xp": {
-                "PAS": 32
+                "PHY": 32
               },
               "morale": 4,
               "clubInterest": 2,
@@ -312,10 +312,10 @@
             "id": "normal",
             "probability": 0.62,
             "tier": "normal",
-            "result": "“豪门秘密接触”基本按预期发展，没有失控，但也没有出现奇迹。",
+            "result": "“赞助商拍摄撞期”基本按预期发展，没有失控，但也没有出现奇迹。",
             "effects": {
               "xp": {
-                "PAS": 14
+                "PHY": 14
               },
               "morale": 1
             }
@@ -324,10 +324,10 @@
             "id": "bad",
             "probability": 0.1,
             "tier": "bad",
-            "result": "“豪门秘密接触”的结果不理想，你需要在之后的赛季承担代价。",
+            "result": "“赞助商拍摄撞期”的结果不理想，你需要在之后的赛季承担代价。",
             "effects": {
               "xp": {
-                "PAS": 4
+                "PHY": 4
               },
               "morale": -3,
               "injuryRisk": 2
@@ -345,10 +345,10 @@
             "id": "great",
             "probability": 0.34,
             "tier": "great",
-            "result": "你在“豪门秘密接触”中把握住了机会，职业评价和成长收益都高于预期。",
+            "result": "你在“赞助商拍摄撞期”中把握住了机会，职业评价和成长收益都高于预期。",
             "effects": {
               "xp": {
-                "DRI": 35
+                "PAS": 35
               },
               "morale": 4,
               "clubInterest": 2,
@@ -359,10 +359,10 @@
             "id": "normal",
             "probability": 0.46,
             "tier": "normal",
-            "result": "“豪门秘密接触”基本按预期发展，没有失控，但也没有出现奇迹。",
+            "result": "“赞助商拍摄撞期”基本按预期发展，没有失控，但也没有出现奇迹。",
             "effects": {
               "xp": {
-                "DRI": 16
+                "PAS": 16
               },
               "morale": 1
             }
@@ -371,10 +371,10 @@
             "id": "bad",
             "probability": 0.2,
             "tier": "bad",
-            "result": "“豪门秘密接触”的结果不理想，你需要在之后的赛季承担代价。",
+            "result": "“赞助商拍摄撞期”的结果不理想，你需要在之后的赛季承担代价。",
             "effects": {
               "xp": {
-                "DRI": 4
+                "PAS": 4
               },
               "morale": -3,
               "injuryRisk": 2,
@@ -393,10 +393,10 @@
             "id": "great",
             "probability": 0.38,
             "tier": "great",
-            "result": "你在“豪门秘密接触”中把握住了机会，职业评价和成长收益都高于预期。",
+            "result": "你在“赞助商拍摄撞期”中把握住了机会，职业评价和成长收益都高于预期。",
             "effects": {
               "xp": {
-                "PHY": 38
+                "DRI": 38
               },
               "morale": 4,
               "clubInterest": 2,
@@ -407,10 +407,10 @@
             "id": "normal",
             "probability": 0.52,
             "tier": "normal",
-            "result": "“豪门秘密接触”基本按预期发展，没有失控，但也没有出现奇迹。",
+            "result": "“赞助商拍摄撞期”基本按预期发展，没有失控，但也没有出现奇迹。",
             "effects": {
               "xp": {
-                "PHY": 18
+                "DRI": 18
               },
               "morale": 1
             }
@@ -419,10 +419,10 @@
             "id": "bad",
             "probability": 0.1,
             "tier": "bad",
-            "result": "“豪门秘密接触”的结果不理想，你需要在之后的赛季承担代价。",
+            "result": "“赞助商拍摄撞期”的结果不理想，你需要在之后的赛季承担代价。",
             "effects": {
               "xp": {
-                "PHY": 4
+                "DRI": 4
               },
               "morale": -3,
               "injuryRisk": 2
@@ -440,7 +440,7 @@
             "id": "great",
             "probability": 0.3,
             "tier": "great",
-            "result": "你在“豪门秘密接触”中把握住了机会，职业评价和成长收益都高于预期。",
+            "result": "你在“赞助商拍摄撞期”中把握住了机会，职业评价和成长收益都高于预期。",
             "effects": {
               "xp": {
                 "DEF": 41
@@ -455,7 +455,7 @@
             "id": "normal",
             "probability": 0.58,
             "tier": "normal",
-            "result": "“豪门秘密接触”基本按预期发展，没有失控，但也没有出现奇迹。",
+            "result": "“赞助商拍摄撞期”基本按预期发展，没有失控，但也没有出现奇迹。",
             "effects": {
               "xp": {
                 "DEF": 20
@@ -468,7 +468,7 @@
             "id": "bad",
             "probability": 0.12,
             "tier": "bad",
-            "result": "“豪门秘密接触”的结果不理想，你需要在之后的赛季承担代价。",
+            "result": "“赞助商拍摄撞期”的结果不理想，你需要在之后的赛季承担代价。",
             "effects": {
               "xp": {
                 "DEF": 4
@@ -490,7 +490,7 @@
             "id": "great",
             "probability": 0.3,
             "tier": "great",
-            "result": "你在“豪门秘密接触”中把握住了机会，职业评价和成长收益都高于预期。",
+            "result": "你在“赞助商拍摄撞期”中把握住了机会，职业评价和成长收益都高于预期。",
             "effects": {
               "xp": {
                 "SHO": 44
@@ -505,7 +505,7 @@
             "id": "normal",
             "probability": 0.3,
             "tier": "normal",
-            "result": "“豪门秘密接触”基本按预期发展，没有失控，但也没有出现奇迹。",
+            "result": "“赞助商拍摄撞期”基本按预期发展，没有失控，但也没有出现奇迹。",
             "effects": {
               "xp": {
                 "SHO": 22
@@ -517,7 +517,7 @@
             "id": "bad",
             "probability": 0.4,
             "tier": "bad",
-            "result": "“豪门秘密接触”的结果不理想，你需要在之后的赛季承担代价。",
+            "result": "“赞助商拍摄撞期”的结果不理想，你需要在之后的赛季承担代价。",
             "effects": {
               "xp": {
                 "SHO": 4
@@ -532,12 +532,12 @@
     ]
   },
   {
-    "id": "agent-003",
+    "id": "life-003",
     "version": 1,
-    "category": "agent",
-    "categoryName": "经纪团队",
-    "title": "商业代言报价",
-    "text": "经纪人带来了一份新的职业建议。 这次变化与“商业代言报价”有关。选择不仅影响当前结果，还会改变能力成长、教练信任、队内地位和未来转会评价。",
+    "category": "life",
+    "categoryName": "生活与商业",
+    "title": "慈善基金计划",
+    "text": "场外事务正在影响你的职业节奏。 这次变化与“慈善基金计划”有关。选择不仅影响当前结果，还会改变能力成长、教练信任、队内地位和未来转会评价。",
     "stage": [
       "youth",
       "rotation",
@@ -564,10 +564,10 @@
             "id": "great",
             "probability": 0.28,
             "tier": "great",
-            "result": "你在“商业代言报价”中把握住了机会，职业评价和成长收益都高于预期。",
+            "result": "你在“慈善基金计划”中把握住了机会，职业评价和成长收益都高于预期。",
             "effects": {
               "xp": {
-                "PAS": 32
+                "PHY": 32
               },
               "morale": 4,
               "clubInterest": 2,
@@ -578,10 +578,10 @@
             "id": "normal",
             "probability": 0.62,
             "tier": "normal",
-            "result": "“商业代言报价”基本按预期发展，没有失控，但也没有出现奇迹。",
+            "result": "“慈善基金计划”基本按预期发展，没有失控，但也没有出现奇迹。",
             "effects": {
               "xp": {
-                "PAS": 14
+                "PHY": 14
               },
               "morale": 1
             }
@@ -590,10 +590,10 @@
             "id": "bad",
             "probability": 0.1,
             "tier": "bad",
-            "result": "“商业代言报价”的结果不理想，你需要在之后的赛季承担代价。",
+            "result": "“慈善基金计划”的结果不理想，你需要在之后的赛季承担代价。",
             "effects": {
               "xp": {
-                "PAS": 4
+                "PHY": 4
               },
               "morale": -3,
               "injuryRisk": 2
@@ -611,10 +611,10 @@
             "id": "great",
             "probability": 0.34,
             "tier": "great",
-            "result": "你在“商业代言报价”中把握住了机会，职业评价和成长收益都高于预期。",
+            "result": "你在“慈善基金计划”中把握住了机会，职业评价和成长收益都高于预期。",
             "effects": {
               "xp": {
-                "DRI": 35
+                "PAS": 35
               },
               "morale": 4,
               "clubInterest": 2,
@@ -625,10 +625,10 @@
             "id": "normal",
             "probability": 0.46,
             "tier": "normal",
-            "result": "“商业代言报价”基本按预期发展，没有失控，但也没有出现奇迹。",
+            "result": "“慈善基金计划”基本按预期发展，没有失控，但也没有出现奇迹。",
             "effects": {
               "xp": {
-                "DRI": 16
+                "PAS": 16
               },
               "morale": 1
             }
@@ -637,10 +637,10 @@
             "id": "bad",
             "probability": 0.2,
             "tier": "bad",
-            "result": "“商业代言报价”的结果不理想，你需要在之后的赛季承担代价。",
+            "result": "“慈善基金计划”的结果不理想，你需要在之后的赛季承担代价。",
             "effects": {
               "xp": {
-                "DRI": 4
+                "PAS": 4
               },
               "morale": -3,
               "injuryRisk": 2,
@@ -659,10 +659,10 @@
             "id": "great",
             "probability": 0.38,
             "tier": "great",
-            "result": "你在“商业代言报价”中把握住了机会，职业评价和成长收益都高于预期。",
+            "result": "你在“慈善基金计划”中把握住了机会，职业评价和成长收益都高于预期。",
             "effects": {
               "xp": {
-                "PHY": 38
+                "DRI": 38
               },
               "morale": 4,
               "clubInterest": 2,
@@ -673,10 +673,10 @@
             "id": "normal",
             "probability": 0.52,
             "tier": "normal",
-            "result": "“商业代言报价”基本按预期发展，没有失控，但也没有出现奇迹。",
+            "result": "“慈善基金计划”基本按预期发展，没有失控，但也没有出现奇迹。",
             "effects": {
               "xp": {
-                "PHY": 18
+                "DRI": 18
               },
               "morale": 1
             }
@@ -685,10 +685,10 @@
             "id": "bad",
             "probability": 0.1,
             "tier": "bad",
-            "result": "“商业代言报价”的结果不理想，你需要在之后的赛季承担代价。",
+            "result": "“慈善基金计划”的结果不理想，你需要在之后的赛季承担代价。",
             "effects": {
               "xp": {
-                "PHY": 4
+                "DRI": 4
               },
               "morale": -3,
               "injuryRisk": 2
@@ -706,7 +706,7 @@
             "id": "great",
             "probability": 0.3,
             "tier": "great",
-            "result": "你在“商业代言报价”中把握住了机会，职业评价和成长收益都高于预期。",
+            "result": "你在“慈善基金计划”中把握住了机会，职业评价和成长收益都高于预期。",
             "effects": {
               "xp": {
                 "DEF": 41
@@ -721,7 +721,7 @@
             "id": "normal",
             "probability": 0.58,
             "tier": "normal",
-            "result": "“商业代言报价”基本按预期发展，没有失控，但也没有出现奇迹。",
+            "result": "“慈善基金计划”基本按预期发展，没有失控，但也没有出现奇迹。",
             "effects": {
               "xp": {
                 "DEF": 20
@@ -734,7 +734,7 @@
             "id": "bad",
             "probability": 0.12,
             "tier": "bad",
-            "result": "“商业代言报价”的结果不理想，你需要在之后的赛季承担代价。",
+            "result": "“慈善基金计划”的结果不理想，你需要在之后的赛季承担代价。",
             "effects": {
               "xp": {
                 "DEF": 4
@@ -756,7 +756,7 @@
             "id": "great",
             "probability": 0.3,
             "tier": "great",
-            "result": "你在“商业代言报价”中把握住了机会，职业评价和成长收益都高于预期。",
+            "result": "你在“慈善基金计划”中把握住了机会，职业评价和成长收益都高于预期。",
             "effects": {
               "xp": {
                 "SHO": 44
@@ -771,7 +771,7 @@
             "id": "normal",
             "probability": 0.3,
             "tier": "normal",
-            "result": "“商业代言报价”基本按预期发展，没有失控，但也没有出现奇迹。",
+            "result": "“慈善基金计划”基本按预期发展，没有失控，但也没有出现奇迹。",
             "effects": {
               "xp": {
                 "SHO": 22
@@ -783,7 +783,7 @@
             "id": "bad",
             "probability": 0.4,
             "tier": "bad",
-            "result": "“商业代言报价”的结果不理想，你需要在之后的赛季承担代价。",
+            "result": "“慈善基金计划”的结果不理想，你需要在之后的赛季承担代价。",
             "effects": {
               "xp": {
                 "SHO": 4
@@ -798,12 +798,12 @@
     ]
   },
   {
-    "id": "agent-004",
+    "id": "life-004",
     "version": 1,
-    "category": "agent",
-    "categoryName": "经纪团队",
-    "title": "合同谈判策略",
-    "text": "经纪人带来了一份新的职业建议。 这次变化与“合同谈判策略”有关。选择不仅影响当前结果，还会改变能力成长、教练信任、队内地位和未来转会评价。",
+    "category": "life",
+    "categoryName": "生活与商业",
+    "title": "房产投资建议",
+    "text": "场外事务正在影响你的职业节奏。 这次变化与“房产投资建议”有关。选择不仅影响当前结果，还会改变能力成长、教练信任、队内地位和未来转会评价。",
     "stage": [
       "youth",
       "rotation",
@@ -830,10 +830,10 @@
             "id": "great",
             "probability": 0.28,
             "tier": "great",
-            "result": "你在“合同谈判策略”中把握住了机会，职业评价和成长收益都高于预期。",
+            "result": "你在“房产投资建议”中把握住了机会，职业评价和成长收益都高于预期。",
             "effects": {
               "xp": {
-                "PAS": 32
+                "PHY": 32
               },
               "morale": 4,
               "clubInterest": 2,
@@ -844,10 +844,10 @@
             "id": "normal",
             "probability": 0.62,
             "tier": "normal",
-            "result": "“合同谈判策略”基本按预期发展，没有失控，但也没有出现奇迹。",
+            "result": "“房产投资建议”基本按预期发展，没有失控，但也没有出现奇迹。",
             "effects": {
               "xp": {
-                "PAS": 14
+                "PHY": 14
               },
               "morale": 1
             }
@@ -856,10 +856,10 @@
             "id": "bad",
             "probability": 0.1,
             "tier": "bad",
-            "result": "“合同谈判策略”的结果不理想，你需要在之后的赛季承担代价。",
+            "result": "“房产投资建议”的结果不理想，你需要在之后的赛季承担代价。",
             "effects": {
               "xp": {
-                "PAS": 4
+                "PHY": 4
               },
               "morale": -3,
               "injuryRisk": 2
@@ -877,10 +877,10 @@
             "id": "great",
             "probability": 0.34,
             "tier": "great",
-            "result": "你在“合同谈判策略”中把握住了机会，职业评价和成长收益都高于预期。",
+            "result": "你在“房产投资建议”中把握住了机会，职业评价和成长收益都高于预期。",
             "effects": {
               "xp": {
-                "DRI": 35
+                "PAS": 35
               },
               "morale": 4,
               "clubInterest": 2,
@@ -891,10 +891,10 @@
             "id": "normal",
             "probability": 0.46,
             "tier": "normal",
-            "result": "“合同谈判策略”基本按预期发展，没有失控，但也没有出现奇迹。",
+            "result": "“房产投资建议”基本按预期发展，没有失控，但也没有出现奇迹。",
             "effects": {
               "xp": {
-                "DRI": 16
+                "PAS": 16
               },
               "morale": 1
             }
@@ -903,10 +903,10 @@
             "id": "bad",
             "probability": 0.2,
             "tier": "bad",
-            "result": "“合同谈判策略”的结果不理想，你需要在之后的赛季承担代价。",
+            "result": "“房产投资建议”的结果不理想，你需要在之后的赛季承担代价。",
             "effects": {
               "xp": {
-                "DRI": 4
+                "PAS": 4
               },
               "morale": -3,
               "injuryRisk": 2,
@@ -925,10 +925,10 @@
             "id": "great",
             "probability": 0.38,
             "tier": "great",
-            "result": "你在“合同谈判策略”中把握住了机会，职业评价和成长收益都高于预期。",
+            "result": "你在“房产投资建议”中把握住了机会，职业评价和成长收益都高于预期。",
             "effects": {
               "xp": {
-                "PHY": 38
+                "DRI": 38
               },
               "morale": 4,
               "clubInterest": 2,
@@ -939,10 +939,10 @@
             "id": "normal",
             "probability": 0.52,
             "tier": "normal",
-            "result": "“合同谈判策略”基本按预期发展，没有失控，但也没有出现奇迹。",
+            "result": "“房产投资建议”基本按预期发展，没有失控，但也没有出现奇迹。",
             "effects": {
               "xp": {
-                "PHY": 18
+                "DRI": 18
               },
               "morale": 1
             }
@@ -951,10 +951,10 @@
             "id": "bad",
             "probability": 0.1,
             "tier": "bad",
-            "result": "“合同谈判策略”的结果不理想，你需要在之后的赛季承担代价。",
+            "result": "“房产投资建议”的结果不理想，你需要在之后的赛季承担代价。",
             "effects": {
               "xp": {
-                "PHY": 4
+                "DRI": 4
               },
               "morale": -3,
               "injuryRisk": 2
@@ -972,7 +972,7 @@
             "id": "great",
             "probability": 0.3,
             "tier": "great",
-            "result": "你在“合同谈判策略”中把握住了机会，职业评价和成长收益都高于预期。",
+            "result": "你在“房产投资建议”中把握住了机会，职业评价和成长收益都高于预期。",
             "effects": {
               "xp": {
                 "DEF": 41
@@ -987,7 +987,7 @@
             "id": "normal",
             "probability": 0.58,
             "tier": "normal",
-            "result": "“合同谈判策略”基本按预期发展，没有失控，但也没有出现奇迹。",
+            "result": "“房产投资建议”基本按预期发展，没有失控，但也没有出现奇迹。",
             "effects": {
               "xp": {
                 "DEF": 20
@@ -1000,7 +1000,7 @@
             "id": "bad",
             "probability": 0.12,
             "tier": "bad",
-            "result": "“合同谈判策略”的结果不理想，你需要在之后的赛季承担代价。",
+            "result": "“房产投资建议”的结果不理想，你需要在之后的赛季承担代价。",
             "effects": {
               "xp": {
                 "DEF": 4
@@ -1022,7 +1022,7 @@
             "id": "great",
             "probability": 0.3,
             "tier": "great",
-            "result": "你在“合同谈判策略”中把握住了机会，职业评价和成长收益都高于预期。",
+            "result": "你在“房产投资建议”中把握住了机会，职业评价和成长收益都高于预期。",
             "effects": {
               "xp": {
                 "SHO": 44
@@ -1037,7 +1037,7 @@
             "id": "normal",
             "probability": 0.3,
             "tier": "normal",
-            "result": "“合同谈判策略”基本按预期发展，没有失控，但也没有出现奇迹。",
+            "result": "“房产投资建议”基本按预期发展，没有失控，但也没有出现奇迹。",
             "effects": {
               "xp": {
                 "SHO": 22
@@ -1049,7 +1049,7 @@
             "id": "bad",
             "probability": 0.4,
             "tier": "bad",
-            "result": "“合同谈判策略”的结果不理想，你需要在之后的赛季承担代价。",
+            "result": "“房产投资建议”的结果不理想，你需要在之后的赛季承担代价。",
             "effects": {
               "xp": {
                 "SHO": 4
@@ -1064,12 +1064,12 @@
     ]
   },
   {
-    "id": "agent-005",
+    "id": "life-005",
     "version": 1,
-    "category": "agent",
-    "categoryName": "经纪团队",
-    "title": "要求公开施压",
-    "text": "经纪人带来了一份新的职业建议。 这次变化与“要求公开施压”有关。选择不仅影响当前结果，还会改变能力成长、教练信任、队内地位和未来转会评价。",
+    "category": "life",
+    "categoryName": "生活与商业",
+    "title": "私人生活被曝光",
+    "text": "场外事务正在影响你的职业节奏。 这次变化与“私人生活被曝光”有关。选择不仅影响当前结果，还会改变能力成长、教练信任、队内地位和未来转会评价。",
     "stage": [
       "youth",
       "rotation",
@@ -1096,10 +1096,10 @@
             "id": "great",
             "probability": 0.28,
             "tier": "great",
-            "result": "你在“要求公开施压”中把握住了机会，职业评价和成长收益都高于预期。",
+            "result": "你在“私人生活被曝光”中把握住了机会，职业评价和成长收益都高于预期。",
             "effects": {
               "xp": {
-                "PAS": 32
+                "PHY": 32
               },
               "morale": 4,
               "clubInterest": 2,
@@ -1110,10 +1110,10 @@
             "id": "normal",
             "probability": 0.62,
             "tier": "normal",
-            "result": "“要求公开施压”基本按预期发展，没有失控，但也没有出现奇迹。",
+            "result": "“私人生活被曝光”基本按预期发展，没有失控，但也没有出现奇迹。",
             "effects": {
               "xp": {
-                "PAS": 14
+                "PHY": 14
               },
               "morale": 1
             }
@@ -1122,10 +1122,10 @@
             "id": "bad",
             "probability": 0.1,
             "tier": "bad",
-            "result": "“要求公开施压”的结果不理想，你需要在之后的赛季承担代价。",
+            "result": "“私人生活被曝光”的结果不理想，你需要在之后的赛季承担代价。",
             "effects": {
               "xp": {
-                "PAS": 4
+                "PHY": 4
               },
               "morale": -3,
               "injuryRisk": 2
@@ -1143,10 +1143,10 @@
             "id": "great",
             "probability": 0.34,
             "tier": "great",
-            "result": "你在“要求公开施压”中把握住了机会，职业评价和成长收益都高于预期。",
+            "result": "你在“私人生活被曝光”中把握住了机会，职业评价和成长收益都高于预期。",
             "effects": {
               "xp": {
-                "DRI": 35
+                "PAS": 35
               },
               "morale": 4,
               "clubInterest": 2,
@@ -1157,10 +1157,10 @@
             "id": "normal",
             "probability": 0.46,
             "tier": "normal",
-            "result": "“要求公开施压”基本按预期发展，没有失控，但也没有出现奇迹。",
+            "result": "“私人生活被曝光”基本按预期发展，没有失控，但也没有出现奇迹。",
             "effects": {
               "xp": {
-                "DRI": 16
+                "PAS": 16
               },
               "morale": 1
             }
@@ -1169,10 +1169,10 @@
             "id": "bad",
             "probability": 0.2,
             "tier": "bad",
-            "result": "“要求公开施压”的结果不理想，你需要在之后的赛季承担代价。",
+            "result": "“私人生活被曝光”的结果不理想，你需要在之后的赛季承担代价。",
             "effects": {
               "xp": {
-                "DRI": 4
+                "PAS": 4
               },
               "morale": -3,
               "injuryRisk": 2,
@@ -1191,10 +1191,10 @@
             "id": "great",
             "probability": 0.38,
             "tier": "great",
-            "result": "你在“要求公开施压”中把握住了机会，职业评价和成长收益都高于预期。",
+            "result": "你在“私人生活被曝光”中把握住了机会，职业评价和成长收益都高于预期。",
             "effects": {
               "xp": {
-                "PHY": 38
+                "DRI": 38
               },
               "morale": 4,
               "clubInterest": 2,
@@ -1205,10 +1205,10 @@
             "id": "normal",
             "probability": 0.52,
             "tier": "normal",
-            "result": "“要求公开施压”基本按预期发展，没有失控，但也没有出现奇迹。",
+            "result": "“私人生活被曝光”基本按预期发展，没有失控，但也没有出现奇迹。",
             "effects": {
               "xp": {
-                "PHY": 18
+                "DRI": 18
               },
               "morale": 1
             }
@@ -1217,10 +1217,10 @@
             "id": "bad",
             "probability": 0.1,
             "tier": "bad",
-            "result": "“要求公开施压”的结果不理想，你需要在之后的赛季承担代价。",
+            "result": "“私人生活被曝光”的结果不理想，你需要在之后的赛季承担代价。",
             "effects": {
               "xp": {
-                "PHY": 4
+                "DRI": 4
               },
               "morale": -3,
               "injuryRisk": 2
@@ -1238,7 +1238,7 @@
             "id": "great",
             "probability": 0.3,
             "tier": "great",
-            "result": "你在“要求公开施压”中把握住了机会，职业评价和成长收益都高于预期。",
+            "result": "你在“私人生活被曝光”中把握住了机会，职业评价和成长收益都高于预期。",
             "effects": {
               "xp": {
                 "DEF": 41
@@ -1253,7 +1253,7 @@
             "id": "normal",
             "probability": 0.58,
             "tier": "normal",
-            "result": "“要求公开施压”基本按预期发展，没有失控，但也没有出现奇迹。",
+            "result": "“私人生活被曝光”基本按预期发展，没有失控，但也没有出现奇迹。",
             "effects": {
               "xp": {
                 "DEF": 20
@@ -1266,7 +1266,7 @@
             "id": "bad",
             "probability": 0.12,
             "tier": "bad",
-            "result": "“要求公开施压”的结果不理想，你需要在之后的赛季承担代价。",
+            "result": "“私人生活被曝光”的结果不理想，你需要在之后的赛季承担代价。",
             "effects": {
               "xp": {
                 "DEF": 4
@@ -1288,7 +1288,7 @@
             "id": "great",
             "probability": 0.3,
             "tier": "great",
-            "result": "你在“要求公开施压”中把握住了机会，职业评价和成长收益都高于预期。",
+            "result": "你在“私人生活被曝光”中把握住了机会，职业评价和成长收益都高于预期。",
             "effects": {
               "xp": {
                 "SHO": 44
@@ -1303,7 +1303,7 @@
             "id": "normal",
             "probability": 0.3,
             "tier": "normal",
-            "result": "“要求公开施压”基本按预期发展，没有失控，但也没有出现奇迹。",
+            "result": "“私人生活被曝光”基本按预期发展，没有失控，但也没有出现奇迹。",
             "effects": {
               "xp": {
                 "SHO": 22
@@ -1315,7 +1315,7 @@
             "id": "bad",
             "probability": 0.4,
             "tier": "bad",
-            "result": "“要求公开施压”的结果不理想，你需要在之后的赛季承担代价。",
+            "result": "“私人生活被曝光”的结果不理想，你需要在之后的赛季承担代价。",
             "effects": {
               "xp": {
                 "SHO": 4
@@ -1330,12 +1330,12 @@
     ]
   },
   {
-    "id": "agent-006",
+    "id": "life-006",
     "version": 1,
-    "category": "agent",
-    "categoryName": "经纪团队",
-    "title": "建议先租借",
-    "text": "经纪人带来了一份新的职业建议。 这次变化与“建议先租借”有关。选择不仅影响当前结果，还会改变能力成长、教练信任、队内地位和未来转会评价。",
+    "category": "life",
+    "categoryName": "生活与商业",
+    "title": "学习教练课程",
+    "text": "场外事务正在影响你的职业节奏。 这次变化与“学习教练课程”有关。选择不仅影响当前结果，还会改变能力成长、教练信任、队内地位和未来转会评价。",
     "stage": [
       "youth",
       "rotation",
@@ -1362,10 +1362,10 @@
             "id": "great",
             "probability": 0.28,
             "tier": "great",
-            "result": "你在“建议先租借”中把握住了机会，职业评价和成长收益都高于预期。",
+            "result": "你在“学习教练课程”中把握住了机会，职业评价和成长收益都高于预期。",
             "effects": {
               "xp": {
-                "PAS": 32
+                "PHY": 32
               },
               "morale": 4,
               "clubInterest": 2,
@@ -1376,10 +1376,10 @@
             "id": "normal",
             "probability": 0.62,
             "tier": "normal",
-            "result": "“建议先租借”基本按预期发展，没有失控，但也没有出现奇迹。",
+            "result": "“学习教练课程”基本按预期发展，没有失控，但也没有出现奇迹。",
             "effects": {
               "xp": {
-                "PAS": 14
+                "PHY": 14
               },
               "morale": 1
             }
@@ -1388,10 +1388,10 @@
             "id": "bad",
             "probability": 0.1,
             "tier": "bad",
-            "result": "“建议先租借”的结果不理想，你需要在之后的赛季承担代价。",
+            "result": "“学习教练课程”的结果不理想，你需要在之后的赛季承担代价。",
             "effects": {
               "xp": {
-                "PAS": 4
+                "PHY": 4
               },
               "morale": -3,
               "injuryRisk": 2
@@ -1409,10 +1409,10 @@
             "id": "great",
             "probability": 0.34,
             "tier": "great",
-            "result": "你在“建议先租借”中把握住了机会，职业评价和成长收益都高于预期。",
+            "result": "你在“学习教练课程”中把握住了机会，职业评价和成长收益都高于预期。",
             "effects": {
               "xp": {
-                "DRI": 35
+                "PAS": 35
               },
               "morale": 4,
               "clubInterest": 2,
@@ -1423,10 +1423,10 @@
             "id": "normal",
             "probability": 0.46,
             "tier": "normal",
-            "result": "“建议先租借”基本按预期发展，没有失控，但也没有出现奇迹。",
+            "result": "“学习教练课程”基本按预期发展，没有失控，但也没有出现奇迹。",
             "effects": {
               "xp": {
-                "DRI": 16
+                "PAS": 16
               },
               "morale": 1
             }
@@ -1435,10 +1435,10 @@
             "id": "bad",
             "probability": 0.2,
             "tier": "bad",
-            "result": "“建议先租借”的结果不理想，你需要在之后的赛季承担代价。",
+            "result": "“学习教练课程”的结果不理想，你需要在之后的赛季承担代价。",
             "effects": {
               "xp": {
-                "DRI": 4
+                "PAS": 4
               },
               "morale": -3,
               "injuryRisk": 2,
@@ -1457,10 +1457,10 @@
             "id": "great",
             "probability": 0.38,
             "tier": "great",
-            "result": "你在“建议先租借”中把握住了机会，职业评价和成长收益都高于预期。",
+            "result": "你在“学习教练课程”中把握住了机会，职业评价和成长收益都高于预期。",
             "effects": {
               "xp": {
-                "PHY": 38
+                "DRI": 38
               },
               "morale": 4,
               "clubInterest": 2,
@@ -1471,10 +1471,10 @@
             "id": "normal",
             "probability": 0.52,
             "tier": "normal",
-            "result": "“建议先租借”基本按预期发展，没有失控，但也没有出现奇迹。",
+            "result": "“学习教练课程”基本按预期发展，没有失控，但也没有出现奇迹。",
             "effects": {
               "xp": {
-                "PHY": 18
+                "DRI": 18
               },
               "morale": 1
             }
@@ -1483,10 +1483,10 @@
             "id": "bad",
             "probability": 0.1,
             "tier": "bad",
-            "result": "“建议先租借”的结果不理想，你需要在之后的赛季承担代价。",
+            "result": "“学习教练课程”的结果不理想，你需要在之后的赛季承担代价。",
             "effects": {
               "xp": {
-                "PHY": 4
+                "DRI": 4
               },
               "morale": -3,
               "injuryRisk": 2
@@ -1504,7 +1504,7 @@
             "id": "great",
             "probability": 0.3,
             "tier": "great",
-            "result": "你在“建议先租借”中把握住了机会，职业评价和成长收益都高于预期。",
+            "result": "你在“学习教练课程”中把握住了机会，职业评价和成长收益都高于预期。",
             "effects": {
               "xp": {
                 "DEF": 41
@@ -1519,7 +1519,7 @@
             "id": "normal",
             "probability": 0.58,
             "tier": "normal",
-            "result": "“建议先租借”基本按预期发展，没有失控，但也没有出现奇迹。",
+            "result": "“学习教练课程”基本按预期发展，没有失控，但也没有出现奇迹。",
             "effects": {
               "xp": {
                 "DEF": 20
@@ -1532,7 +1532,7 @@
             "id": "bad",
             "probability": 0.12,
             "tier": "bad",
-            "result": "“建议先租借”的结果不理想，你需要在之后的赛季承担代价。",
+            "result": "“学习教练课程”的结果不理想，你需要在之后的赛季承担代价。",
             "effects": {
               "xp": {
                 "DEF": 4
@@ -1554,7 +1554,7 @@
             "id": "great",
             "probability": 0.3,
             "tier": "great",
-            "result": "你在“建议先租借”中把握住了机会，职业评价和成长收益都高于预期。",
+            "result": "你在“学习教练课程”中把握住了机会，职业评价和成长收益都高于预期。",
             "effects": {
               "xp": {
                 "SHO": 44
@@ -1569,7 +1569,7 @@
             "id": "normal",
             "probability": 0.3,
             "tier": "normal",
-            "result": "“建议先租借”基本按预期发展，没有失控，但也没有出现奇迹。",
+            "result": "“学习教练课程”基本按预期发展，没有失控，但也没有出现奇迹。",
             "effects": {
               "xp": {
                 "SHO": 22
@@ -1581,7 +1581,7 @@
             "id": "bad",
             "probability": 0.4,
             "tier": "bad",
-            "result": "“建议先租借”的结果不理想，你需要在之后的赛季承担代价。",
+            "result": "“学习教练课程”的结果不理想，你需要在之后的赛季承担代价。",
             "effects": {
               "xp": {
                 "SHO": 4
@@ -1596,12 +1596,12 @@
     ]
   },
   {
-    "id": "agent-007",
+    "id": "life-007",
     "version": 1,
-    "category": "agent",
-    "categoryName": "经纪团队",
-    "title": "经纪团队内部冲突",
-    "text": "经纪人带来了一份新的职业建议。 这次变化与“经纪团队内部冲突”有关。选择不仅影响当前结果，还会改变能力成长、教练信任、队内地位和未来转会评价。",
+    "category": "life",
+    "categoryName": "生活与商业",
+    "title": "电竞合作邀请",
+    "text": "场外事务正在影响你的职业节奏。 这次变化与“电竞合作邀请”有关。选择不仅影响当前结果，还会改变能力成长、教练信任、队内地位和未来转会评价。",
     "stage": [
       "youth",
       "rotation",
@@ -1628,10 +1628,10 @@
             "id": "great",
             "probability": 0.28,
             "tier": "great",
-            "result": "你在“经纪团队内部冲突”中把握住了机会，职业评价和成长收益都高于预期。",
+            "result": "你在“电竞合作邀请”中把握住了机会，职业评价和成长收益都高于预期。",
             "effects": {
               "xp": {
-                "PAS": 32
+                "PHY": 32
               },
               "morale": 4,
               "clubInterest": 2,
@@ -1642,10 +1642,10 @@
             "id": "normal",
             "probability": 0.62,
             "tier": "normal",
-            "result": "“经纪团队内部冲突”基本按预期发展，没有失控，但也没有出现奇迹。",
+            "result": "“电竞合作邀请”基本按预期发展，没有失控，但也没有出现奇迹。",
             "effects": {
               "xp": {
-                "PAS": 14
+                "PHY": 14
               },
               "morale": 1
             }
@@ -1654,10 +1654,10 @@
             "id": "bad",
             "probability": 0.1,
             "tier": "bad",
-            "result": "“经纪团队内部冲突”的结果不理想，你需要在之后的赛季承担代价。",
+            "result": "“电竞合作邀请”的结果不理想，你需要在之后的赛季承担代价。",
             "effects": {
               "xp": {
-                "PAS": 4
+                "PHY": 4
               },
               "morale": -3,
               "injuryRisk": 2
@@ -1675,10 +1675,10 @@
             "id": "great",
             "probability": 0.34,
             "tier": "great",
-            "result": "你在“经纪团队内部冲突”中把握住了机会，职业评价和成长收益都高于预期。",
+            "result": "你在“电竞合作邀请”中把握住了机会，职业评价和成长收益都高于预期。",
             "effects": {
               "xp": {
-                "DRI": 35
+                "PAS": 35
               },
               "morale": 4,
               "clubInterest": 2,
@@ -1689,10 +1689,10 @@
             "id": "normal",
             "probability": 0.46,
             "tier": "normal",
-            "result": "“经纪团队内部冲突”基本按预期发展，没有失控，但也没有出现奇迹。",
+            "result": "“电竞合作邀请”基本按预期发展，没有失控，但也没有出现奇迹。",
             "effects": {
               "xp": {
-                "DRI": 16
+                "PAS": 16
               },
               "morale": 1
             }
@@ -1701,10 +1701,10 @@
             "id": "bad",
             "probability": 0.2,
             "tier": "bad",
-            "result": "“经纪团队内部冲突”的结果不理想，你需要在之后的赛季承担代价。",
+            "result": "“电竞合作邀请”的结果不理想，你需要在之后的赛季承担代价。",
             "effects": {
               "xp": {
-                "DRI": 4
+                "PAS": 4
               },
               "morale": -3,
               "injuryRisk": 2,
@@ -1723,10 +1723,10 @@
             "id": "great",
             "probability": 0.38,
             "tier": "great",
-            "result": "你在“经纪团队内部冲突”中把握住了机会，职业评价和成长收益都高于预期。",
+            "result": "你在“电竞合作邀请”中把握住了机会，职业评价和成长收益都高于预期。",
             "effects": {
               "xp": {
-                "PHY": 38
+                "DRI": 38
               },
               "morale": 4,
               "clubInterest": 2,
@@ -1737,10 +1737,10 @@
             "id": "normal",
             "probability": 0.52,
             "tier": "normal",
-            "result": "“经纪团队内部冲突”基本按预期发展，没有失控，但也没有出现奇迹。",
+            "result": "“电竞合作邀请”基本按预期发展，没有失控，但也没有出现奇迹。",
             "effects": {
               "xp": {
-                "PHY": 18
+                "DRI": 18
               },
               "morale": 1
             }
@@ -1749,10 +1749,10 @@
             "id": "bad",
             "probability": 0.1,
             "tier": "bad",
-            "result": "“经纪团队内部冲突”的结果不理想，你需要在之后的赛季承担代价。",
+            "result": "“电竞合作邀请”的结果不理想，你需要在之后的赛季承担代价。",
             "effects": {
               "xp": {
-                "PHY": 4
+                "DRI": 4
               },
               "morale": -3,
               "injuryRisk": 2
@@ -1770,7 +1770,7 @@
             "id": "great",
             "probability": 0.3,
             "tier": "great",
-            "result": "你在“经纪团队内部冲突”中把握住了机会，职业评价和成长收益都高于预期。",
+            "result": "你在“电竞合作邀请”中把握住了机会，职业评价和成长收益都高于预期。",
             "effects": {
               "xp": {
                 "DEF": 41
@@ -1785,7 +1785,7 @@
             "id": "normal",
             "probability": 0.58,
             "tier": "normal",
-            "result": "“经纪团队内部冲突”基本按预期发展，没有失控，但也没有出现奇迹。",
+            "result": "“电竞合作邀请”基本按预期发展，没有失控，但也没有出现奇迹。",
             "effects": {
               "xp": {
                 "DEF": 20
@@ -1798,7 +1798,7 @@
             "id": "bad",
             "probability": 0.12,
             "tier": "bad",
-            "result": "“经纪团队内部冲突”的结果不理想，你需要在之后的赛季承担代价。",
+            "result": "“电竞合作邀请”的结果不理想，你需要在之后的赛季承担代价。",
             "effects": {
               "xp": {
                 "DEF": 4
@@ -1820,7 +1820,7 @@
             "id": "great",
             "probability": 0.3,
             "tier": "great",
-            "result": "你在“经纪团队内部冲突”中把握住了机会，职业评价和成长收益都高于预期。",
+            "result": "你在“电竞合作邀请”中把握住了机会，职业评价和成长收益都高于预期。",
             "effects": {
               "xp": {
                 "SHO": 44
@@ -1835,7 +1835,7 @@
             "id": "normal",
             "probability": 0.3,
             "tier": "normal",
-            "result": "“经纪团队内部冲突”基本按预期发展，没有失控，但也没有出现奇迹。",
+            "result": "“电竞合作邀请”基本按预期发展，没有失控，但也没有出现奇迹。",
             "effects": {
               "xp": {
                 "SHO": 22
@@ -1847,7 +1847,7 @@
             "id": "bad",
             "probability": 0.4,
             "tier": "bad",
-            "result": "“经纪团队内部冲突”的结果不理想，你需要在之后的赛季承担代价。",
+            "result": "“电竞合作邀请”的结果不理想，你需要在之后的赛季承担代价。",
             "effects": {
               "xp": {
                 "SHO": 4
@@ -1862,12 +1862,12 @@
     ]
   },
   {
-    "id": "agent-008",
+    "id": "life-008",
     "version": 1,
-    "category": "agent",
-    "categoryName": "经纪团队",
-    "title": "家人参与谈判",
-    "text": "经纪人带来了一份新的职业建议。 这次变化与“家人参与谈判”有关。选择不仅影响当前结果，还会改变能力成长、教练信任、队内地位和未来转会评价。",
+    "category": "life",
+    "categoryName": "生活与商业",
+    "title": "纪录片拍摄",
+    "text": "场外事务正在影响你的职业节奏。 这次变化与“纪录片拍摄”有关。选择不仅影响当前结果，还会改变能力成长、教练信任、队内地位和未来转会评价。",
     "stage": [
       "youth",
       "rotation",
@@ -1894,10 +1894,10 @@
             "id": "great",
             "probability": 0.28,
             "tier": "great",
-            "result": "你在“家人参与谈判”中把握住了机会，职业评价和成长收益都高于预期。",
+            "result": "你在“纪录片拍摄”中把握住了机会，职业评价和成长收益都高于预期。",
             "effects": {
               "xp": {
-                "PAS": 32
+                "PHY": 32
               },
               "morale": 4,
               "clubInterest": 2,
@@ -1908,10 +1908,10 @@
             "id": "normal",
             "probability": 0.62,
             "tier": "normal",
-            "result": "“家人参与谈判”基本按预期发展，没有失控，但也没有出现奇迹。",
+            "result": "“纪录片拍摄”基本按预期发展，没有失控，但也没有出现奇迹。",
             "effects": {
               "xp": {
-                "PAS": 14
+                "PHY": 14
               },
               "morale": 1
             }
@@ -1920,10 +1920,10 @@
             "id": "bad",
             "probability": 0.1,
             "tier": "bad",
-            "result": "“家人参与谈判”的结果不理想，你需要在之后的赛季承担代价。",
+            "result": "“纪录片拍摄”的结果不理想，你需要在之后的赛季承担代价。",
             "effects": {
               "xp": {
-                "PAS": 4
+                "PHY": 4
               },
               "morale": -3,
               "injuryRisk": 2
@@ -1941,10 +1941,10 @@
             "id": "great",
             "probability": 0.34,
             "tier": "great",
-            "result": "你在“家人参与谈判”中把握住了机会，职业评价和成长收益都高于预期。",
+            "result": "你在“纪录片拍摄”中把握住了机会，职业评价和成长收益都高于预期。",
             "effects": {
               "xp": {
-                "DRI": 35
+                "PAS": 35
               },
               "morale": 4,
               "clubInterest": 2,
@@ -1955,10 +1955,10 @@
             "id": "normal",
             "probability": 0.46,
             "tier": "normal",
-            "result": "“家人参与谈判”基本按预期发展，没有失控，但也没有出现奇迹。",
+            "result": "“纪录片拍摄”基本按预期发展，没有失控，但也没有出现奇迹。",
             "effects": {
               "xp": {
-                "DRI": 16
+                "PAS": 16
               },
               "morale": 1
             }
@@ -1967,10 +1967,10 @@
             "id": "bad",
             "probability": 0.2,
             "tier": "bad",
-            "result": "“家人参与谈判”的结果不理想，你需要在之后的赛季承担代价。",
+            "result": "“纪录片拍摄”的结果不理想，你需要在之后的赛季承担代价。",
             "effects": {
               "xp": {
-                "DRI": 4
+                "PAS": 4
               },
               "morale": -3,
               "injuryRisk": 2,
@@ -1989,10 +1989,10 @@
             "id": "great",
             "probability": 0.38,
             "tier": "great",
-            "result": "你在“家人参与谈判”中把握住了机会，职业评价和成长收益都高于预期。",
+            "result": "你在“纪录片拍摄”中把握住了机会，职业评价和成长收益都高于预期。",
             "effects": {
               "xp": {
-                "PHY": 38
+                "DRI": 38
               },
               "morale": 4,
               "clubInterest": 2,
@@ -2003,10 +2003,10 @@
             "id": "normal",
             "probability": 0.52,
             "tier": "normal",
-            "result": "“家人参与谈判”基本按预期发展，没有失控，但也没有出现奇迹。",
+            "result": "“纪录片拍摄”基本按预期发展，没有失控，但也没有出现奇迹。",
             "effects": {
               "xp": {
-                "PHY": 18
+                "DRI": 18
               },
               "morale": 1
             }
@@ -2015,10 +2015,10 @@
             "id": "bad",
             "probability": 0.1,
             "tier": "bad",
-            "result": "“家人参与谈判”的结果不理想，你需要在之后的赛季承担代价。",
+            "result": "“纪录片拍摄”的结果不理想，你需要在之后的赛季承担代价。",
             "effects": {
               "xp": {
-                "PHY": 4
+                "DRI": 4
               },
               "morale": -3,
               "injuryRisk": 2
@@ -2036,7 +2036,7 @@
             "id": "great",
             "probability": 0.3,
             "tier": "great",
-            "result": "你在“家人参与谈判”中把握住了机会，职业评价和成长收益都高于预期。",
+            "result": "你在“纪录片拍摄”中把握住了机会，职业评价和成长收益都高于预期。",
             "effects": {
               "xp": {
                 "DEF": 41
@@ -2051,7 +2051,7 @@
             "id": "normal",
             "probability": 0.58,
             "tier": "normal",
-            "result": "“家人参与谈判”基本按预期发展，没有失控，但也没有出现奇迹。",
+            "result": "“纪录片拍摄”基本按预期发展，没有失控，但也没有出现奇迹。",
             "effects": {
               "xp": {
                 "DEF": 20
@@ -2064,7 +2064,7 @@
             "id": "bad",
             "probability": 0.12,
             "tier": "bad",
-            "result": "“家人参与谈判”的结果不理想，你需要在之后的赛季承担代价。",
+            "result": "“纪录片拍摄”的结果不理想，你需要在之后的赛季承担代价。",
             "effects": {
               "xp": {
                 "DEF": 4
@@ -2086,7 +2086,7 @@
             "id": "great",
             "probability": 0.3,
             "tier": "great",
-            "result": "你在“家人参与谈判”中把握住了机会，职业评价和成长收益都高于预期。",
+            "result": "你在“纪录片拍摄”中把握住了机会，职业评价和成长收益都高于预期。",
             "effects": {
               "xp": {
                 "SHO": 44
@@ -2101,7 +2101,7 @@
             "id": "normal",
             "probability": 0.3,
             "tier": "normal",
-            "result": "“家人参与谈判”基本按预期发展，没有失控，但也没有出现奇迹。",
+            "result": "“纪录片拍摄”基本按预期发展，没有失控，但也没有出现奇迹。",
             "effects": {
               "xp": {
                 "SHO": 22
@@ -2113,7 +2113,7 @@
             "id": "bad",
             "probability": 0.4,
             "tier": "bad",
-            "result": "“家人参与谈判”的结果不理想，你需要在之后的赛季承担代价。",
+            "result": "“纪录片拍摄”的结果不理想，你需要在之后的赛季承担代价。",
             "effects": {
               "xp": {
                 "SHO": 4
@@ -2128,12 +2128,12 @@
     ]
   },
   {
-    "id": "agent-009",
+    "id": "life-009",
     "version": 1,
-    "category": "agent",
-    "categoryName": "经纪团队",
-    "title": "高额佣金争议",
-    "text": "经纪人带来了一份新的职业建议。 这次变化与“高额佣金争议”有关。选择不仅影响当前结果，还会改变能力成长、教练信任、队内地位和未来转会评价。",
+    "category": "life",
+    "categoryName": "生活与商业",
+    "title": "朋友借钱",
+    "text": "场外事务正在影响你的职业节奏。 这次变化与“朋友借钱”有关。选择不仅影响当前结果，还会改变能力成长、教练信任、队内地位和未来转会评价。",
     "stage": [
       "youth",
       "rotation",
@@ -2160,10 +2160,10 @@
             "id": "great",
             "probability": 0.28,
             "tier": "great",
-            "result": "你在“高额佣金争议”中把握住了机会，职业评价和成长收益都高于预期。",
+            "result": "你在“朋友借钱”中把握住了机会，职业评价和成长收益都高于预期。",
             "effects": {
               "xp": {
-                "PAS": 32
+                "PHY": 32
               },
               "morale": 4,
               "clubInterest": 2,
@@ -2174,10 +2174,10 @@
             "id": "normal",
             "probability": 0.62,
             "tier": "normal",
-            "result": "“高额佣金争议”基本按预期发展，没有失控，但也没有出现奇迹。",
+            "result": "“朋友借钱”基本按预期发展，没有失控，但也没有出现奇迹。",
             "effects": {
               "xp": {
-                "PAS": 14
+                "PHY": 14
               },
               "morale": 1
             }
@@ -2186,10 +2186,10 @@
             "id": "bad",
             "probability": 0.1,
             "tier": "bad",
-            "result": "“高额佣金争议”的结果不理想，你需要在之后的赛季承担代价。",
+            "result": "“朋友借钱”的结果不理想，你需要在之后的赛季承担代价。",
             "effects": {
               "xp": {
-                "PAS": 4
+                "PHY": 4
               },
               "morale": -3,
               "injuryRisk": 2
@@ -2207,10 +2207,10 @@
             "id": "great",
             "probability": 0.34,
             "tier": "great",
-            "result": "你在“高额佣金争议”中把握住了机会，职业评价和成长收益都高于预期。",
+            "result": "你在“朋友借钱”中把握住了机会，职业评价和成长收益都高于预期。",
             "effects": {
               "xp": {
-                "DRI": 35
+                "PAS": 35
               },
               "morale": 4,
               "clubInterest": 2,
@@ -2221,10 +2221,10 @@
             "id": "normal",
             "probability": 0.46,
             "tier": "normal",
-            "result": "“高额佣金争议”基本按预期发展，没有失控，但也没有出现奇迹。",
+            "result": "“朋友借钱”基本按预期发展，没有失控，但也没有出现奇迹。",
             "effects": {
               "xp": {
-                "DRI": 16
+                "PAS": 16
               },
               "morale": 1
             }
@@ -2233,10 +2233,10 @@
             "id": "bad",
             "probability": 0.2,
             "tier": "bad",
-            "result": "“高额佣金争议”的结果不理想，你需要在之后的赛季承担代价。",
+            "result": "“朋友借钱”的结果不理想，你需要在之后的赛季承担代价。",
             "effects": {
               "xp": {
-                "DRI": 4
+                "PAS": 4
               },
               "morale": -3,
               "injuryRisk": 2,
@@ -2255,10 +2255,10 @@
             "id": "great",
             "probability": 0.38,
             "tier": "great",
-            "result": "你在“高额佣金争议”中把握住了机会，职业评价和成长收益都高于预期。",
+            "result": "你在“朋友借钱”中把握住了机会，职业评价和成长收益都高于预期。",
             "effects": {
               "xp": {
-                "PHY": 38
+                "DRI": 38
               },
               "morale": 4,
               "clubInterest": 2,
@@ -2269,10 +2269,10 @@
             "id": "normal",
             "probability": 0.52,
             "tier": "normal",
-            "result": "“高额佣金争议”基本按预期发展，没有失控，但也没有出现奇迹。",
+            "result": "“朋友借钱”基本按预期发展，没有失控，但也没有出现奇迹。",
             "effects": {
               "xp": {
-                "PHY": 18
+                "DRI": 18
               },
               "morale": 1
             }
@@ -2281,10 +2281,10 @@
             "id": "bad",
             "probability": 0.1,
             "tier": "bad",
-            "result": "“高额佣金争议”的结果不理想，你需要在之后的赛季承担代价。",
+            "result": "“朋友借钱”的结果不理想，你需要在之后的赛季承担代价。",
             "effects": {
               "xp": {
-                "PHY": 4
+                "DRI": 4
               },
               "morale": -3,
               "injuryRisk": 2
@@ -2302,7 +2302,7 @@
             "id": "great",
             "probability": 0.3,
             "tier": "great",
-            "result": "你在“高额佣金争议”中把握住了机会，职业评价和成长收益都高于预期。",
+            "result": "你在“朋友借钱”中把握住了机会，职业评价和成长收益都高于预期。",
             "effects": {
               "xp": {
                 "DEF": 41
@@ -2317,7 +2317,7 @@
             "id": "normal",
             "probability": 0.58,
             "tier": "normal",
-            "result": "“高额佣金争议”基本按预期发展，没有失控，但也没有出现奇迹。",
+            "result": "“朋友借钱”基本按预期发展，没有失控，但也没有出现奇迹。",
             "effects": {
               "xp": {
                 "DEF": 20
@@ -2330,7 +2330,7 @@
             "id": "bad",
             "probability": 0.12,
             "tier": "bad",
-            "result": "“高额佣金争议”的结果不理想，你需要在之后的赛季承担代价。",
+            "result": "“朋友借钱”的结果不理想，你需要在之后的赛季承担代价。",
             "effects": {
               "xp": {
                 "DEF": 4
@@ -2352,7 +2352,7 @@
             "id": "great",
             "probability": 0.3,
             "tier": "great",
-            "result": "你在“高额佣金争议”中把握住了机会，职业评价和成长收益都高于预期。",
+            "result": "你在“朋友借钱”中把握住了机会，职业评价和成长收益都高于预期。",
             "effects": {
               "xp": {
                 "SHO": 44
@@ -2367,7 +2367,7 @@
             "id": "normal",
             "probability": 0.3,
             "tier": "normal",
-            "result": "“高额佣金争议”基本按预期发展，没有失控，但也没有出现奇迹。",
+            "result": "“朋友借钱”基本按预期发展，没有失控，但也没有出现奇迹。",
             "effects": {
               "xp": {
                 "SHO": 22
@@ -2379,7 +2379,7 @@
             "id": "bad",
             "probability": 0.4,
             "tier": "bad",
-            "result": "“高额佣金争议”的结果不理想，你需要在之后的赛季承担代价。",
+            "result": "“朋友借钱”的结果不理想，你需要在之后的赛季承担代价。",
             "effects": {
               "xp": {
                 "SHO": 4
@@ -2394,12 +2394,12 @@
     ]
   },
   {
-    "id": "agent-010",
+    "id": "life-010",
     "version": 1,
-    "category": "agent",
-    "categoryName": "经纪团队",
-    "title": "海外联赛邀请",
-    "text": "经纪人带来了一份新的职业建议。 这次变化与“海外联赛邀请”有关。选择不仅影响当前结果，还会改变能力成长、教练信任、队内地位和未来转会评价。",
+    "category": "life",
+    "categoryName": "生活与商业",
+    "title": "失眠问题",
+    "text": "场外事务正在影响你的职业节奏。 这次变化与“失眠问题”有关。选择不仅影响当前结果，还会改变能力成长、教练信任、队内地位和未来转会评价。",
     "stage": [
       "youth",
       "rotation",
@@ -2426,10 +2426,10 @@
             "id": "great",
             "probability": 0.28,
             "tier": "great",
-            "result": "你在“海外联赛邀请”中把握住了机会，职业评价和成长收益都高于预期。",
+            "result": "你在“失眠问题”中把握住了机会，职业评价和成长收益都高于预期。",
             "effects": {
               "xp": {
-                "PAS": 32
+                "PHY": 32
               },
               "morale": 4,
               "clubInterest": 2,
@@ -2440,10 +2440,10 @@
             "id": "normal",
             "probability": 0.62,
             "tier": "normal",
-            "result": "“海外联赛邀请”基本按预期发展，没有失控，但也没有出现奇迹。",
+            "result": "“失眠问题”基本按预期发展，没有失控，但也没有出现奇迹。",
             "effects": {
               "xp": {
-                "PAS": 14
+                "PHY": 14
               },
               "morale": 1
             }
@@ -2452,10 +2452,10 @@
             "id": "bad",
             "probability": 0.1,
             "tier": "bad",
-            "result": "“海外联赛邀请”的结果不理想，你需要在之后的赛季承担代价。",
+            "result": "“失眠问题”的结果不理想，你需要在之后的赛季承担代价。",
             "effects": {
               "xp": {
-                "PAS": 4
+                "PHY": 4
               },
               "morale": -3,
               "injuryRisk": 2
@@ -2473,10 +2473,10 @@
             "id": "great",
             "probability": 0.34,
             "tier": "great",
-            "result": "你在“海外联赛邀请”中把握住了机会，职业评价和成长收益都高于预期。",
+            "result": "你在“失眠问题”中把握住了机会，职业评价和成长收益都高于预期。",
             "effects": {
               "xp": {
-                "DRI": 35
+                "PAS": 35
               },
               "morale": 4,
               "clubInterest": 2,
@@ -2487,10 +2487,10 @@
             "id": "normal",
             "probability": 0.46,
             "tier": "normal",
-            "result": "“海外联赛邀请”基本按预期发展，没有失控，但也没有出现奇迹。",
+            "result": "“失眠问题”基本按预期发展，没有失控，但也没有出现奇迹。",
             "effects": {
               "xp": {
-                "DRI": 16
+                "PAS": 16
               },
               "morale": 1
             }
@@ -2499,10 +2499,10 @@
             "id": "bad",
             "probability": 0.2,
             "tier": "bad",
-            "result": "“海外联赛邀请”的结果不理想，你需要在之后的赛季承担代价。",
+            "result": "“失眠问题”的结果不理想，你需要在之后的赛季承担代价。",
             "effects": {
               "xp": {
-                "DRI": 4
+                "PAS": 4
               },
               "morale": -3,
               "injuryRisk": 2,
@@ -2521,10 +2521,10 @@
             "id": "great",
             "probability": 0.38,
             "tier": "great",
-            "result": "你在“海外联赛邀请”中把握住了机会，职业评价和成长收益都高于预期。",
+            "result": "你在“失眠问题”中把握住了机会，职业评价和成长收益都高于预期。",
             "effects": {
               "xp": {
-                "PHY": 38
+                "DRI": 38
               },
               "morale": 4,
               "clubInterest": 2,
@@ -2535,10 +2535,10 @@
             "id": "normal",
             "probability": 0.52,
             "tier": "normal",
-            "result": "“海外联赛邀请”基本按预期发展，没有失控，但也没有出现奇迹。",
+            "result": "“失眠问题”基本按预期发展，没有失控，但也没有出现奇迹。",
             "effects": {
               "xp": {
-                "PHY": 18
+                "DRI": 18
               },
               "morale": 1
             }
@@ -2547,10 +2547,10 @@
             "id": "bad",
             "probability": 0.1,
             "tier": "bad",
-            "result": "“海外联赛邀请”的结果不理想，你需要在之后的赛季承担代价。",
+            "result": "“失眠问题”的结果不理想，你需要在之后的赛季承担代价。",
             "effects": {
               "xp": {
-                "PHY": 4
+                "DRI": 4
               },
               "morale": -3,
               "injuryRisk": 2
@@ -2568,7 +2568,7 @@
             "id": "great",
             "probability": 0.3,
             "tier": "great",
-            "result": "你在“海外联赛邀请”中把握住了机会，职业评价和成长收益都高于预期。",
+            "result": "你在“失眠问题”中把握住了机会，职业评价和成长收益都高于预期。",
             "effects": {
               "xp": {
                 "DEF": 41
@@ -2583,7 +2583,7 @@
             "id": "normal",
             "probability": 0.58,
             "tier": "normal",
-            "result": "“海外联赛邀请”基本按预期发展，没有失控，但也没有出现奇迹。",
+            "result": "“失眠问题”基本按预期发展，没有失控，但也没有出现奇迹。",
             "effects": {
               "xp": {
                 "DEF": 20
@@ -2596,7 +2596,7 @@
             "id": "bad",
             "probability": 0.12,
             "tier": "bad",
-            "result": "“海外联赛邀请”的结果不理想，你需要在之后的赛季承担代价。",
+            "result": "“失眠问题”的结果不理想，你需要在之后的赛季承担代价。",
             "effects": {
               "xp": {
                 "DEF": 4
@@ -2618,7 +2618,7 @@
             "id": "great",
             "probability": 0.3,
             "tier": "great",
-            "result": "你在“海外联赛邀请”中把握住了机会，职业评价和成长收益都高于预期。",
+            "result": "你在“失眠问题”中把握住了机会，职业评价和成长收益都高于预期。",
             "effects": {
               "xp": {
                 "SHO": 44
@@ -2633,7 +2633,7 @@
             "id": "normal",
             "probability": 0.3,
             "tier": "normal",
-            "result": "“海外联赛邀请”基本按预期发展，没有失控，但也没有出现奇迹。",
+            "result": "“失眠问题”基本按预期发展，没有失控，但也没有出现奇迹。",
             "effects": {
               "xp": {
                 "SHO": 22
@@ -2645,7 +2645,7 @@
             "id": "bad",
             "probability": 0.4,
             "tier": "bad",
-            "result": "“海外联赛邀请”的结果不理想，你需要在之后的赛季承担代价。",
+            "result": "“失眠问题”的结果不理想，你需要在之后的赛季承担代价。",
             "effects": {
               "xp": {
                 "SHO": 4
@@ -2660,12 +2660,12 @@
     ]
   },
   {
-    "id": "agent-011",
+    "id": "life-011",
     "version": 1,
-    "category": "agent",
-    "categoryName": "经纪团队",
-    "title": "肖像权合同",
-    "text": "经纪人带来了一份新的职业建议。 这次变化与“肖像权合同”有关。选择不仅影响当前结果，还会改变能力成长、教练信任、队内地位和未来转会评价。",
+    "category": "life",
+    "categoryName": "生活与商业",
+    "title": "饮食习惯改变",
+    "text": "场外事务正在影响你的职业节奏。 这次变化与“饮食习惯改变”有关。选择不仅影响当前结果，还会改变能力成长、教练信任、队内地位和未来转会评价。",
     "stage": [
       "youth",
       "rotation",
@@ -2692,10 +2692,10 @@
             "id": "great",
             "probability": 0.28,
             "tier": "great",
-            "result": "你在“肖像权合同”中把握住了机会，职业评价和成长收益都高于预期。",
+            "result": "你在“饮食习惯改变”中把握住了机会，职业评价和成长收益都高于预期。",
             "effects": {
               "xp": {
-                "PAS": 32
+                "PHY": 32
               },
               "morale": 4,
               "clubInterest": 2,
@@ -2706,10 +2706,10 @@
             "id": "normal",
             "probability": 0.62,
             "tier": "normal",
-            "result": "“肖像权合同”基本按预期发展，没有失控，但也没有出现奇迹。",
+            "result": "“饮食习惯改变”基本按预期发展，没有失控，但也没有出现奇迹。",
             "effects": {
               "xp": {
-                "PAS": 14
+                "PHY": 14
               },
               "morale": 1
             }
@@ -2718,10 +2718,10 @@
             "id": "bad",
             "probability": 0.1,
             "tier": "bad",
-            "result": "“肖像权合同”的结果不理想，你需要在之后的赛季承担代价。",
+            "result": "“饮食习惯改变”的结果不理想，你需要在之后的赛季承担代价。",
             "effects": {
               "xp": {
-                "PAS": 4
+                "PHY": 4
               },
               "morale": -3,
               "injuryRisk": 2
@@ -2739,10 +2739,10 @@
             "id": "great",
             "probability": 0.34,
             "tier": "great",
-            "result": "你在“肖像权合同”中把握住了机会，职业评价和成长收益都高于预期。",
+            "result": "你在“饮食习惯改变”中把握住了机会，职业评价和成长收益都高于预期。",
             "effects": {
               "xp": {
-                "DRI": 35
+                "PAS": 35
               },
               "morale": 4,
               "clubInterest": 2,
@@ -2753,10 +2753,10 @@
             "id": "normal",
             "probability": 0.46,
             "tier": "normal",
-            "result": "“肖像权合同”基本按预期发展，没有失控，但也没有出现奇迹。",
+            "result": "“饮食习惯改变”基本按预期发展，没有失控，但也没有出现奇迹。",
             "effects": {
               "xp": {
-                "DRI": 16
+                "PAS": 16
               },
               "morale": 1
             }
@@ -2765,10 +2765,10 @@
             "id": "bad",
             "probability": 0.2,
             "tier": "bad",
-            "result": "“肖像权合同”的结果不理想，你需要在之后的赛季承担代价。",
+            "result": "“饮食习惯改变”的结果不理想，你需要在之后的赛季承担代价。",
             "effects": {
               "xp": {
-                "DRI": 4
+                "PAS": 4
               },
               "morale": -3,
               "injuryRisk": 2,
@@ -2787,10 +2787,10 @@
             "id": "great",
             "probability": 0.38,
             "tier": "great",
-            "result": "你在“肖像权合同”中把握住了机会，职业评价和成长收益都高于预期。",
+            "result": "你在“饮食习惯改变”中把握住了机会，职业评价和成长收益都高于预期。",
             "effects": {
               "xp": {
-                "PHY": 38
+                "DRI": 38
               },
               "morale": 4,
               "clubInterest": 2,
@@ -2801,10 +2801,10 @@
             "id": "normal",
             "probability": 0.52,
             "tier": "normal",
-            "result": "“肖像权合同”基本按预期发展，没有失控，但也没有出现奇迹。",
+            "result": "“饮食习惯改变”基本按预期发展，没有失控，但也没有出现奇迹。",
             "effects": {
               "xp": {
-                "PHY": 18
+                "DRI": 18
               },
               "morale": 1
             }
@@ -2813,10 +2813,10 @@
             "id": "bad",
             "probability": 0.1,
             "tier": "bad",
-            "result": "“肖像权合同”的结果不理想，你需要在之后的赛季承担代价。",
+            "result": "“饮食习惯改变”的结果不理想，你需要在之后的赛季承担代价。",
             "effects": {
               "xp": {
-                "PHY": 4
+                "DRI": 4
               },
               "morale": -3,
               "injuryRisk": 2
@@ -2834,7 +2834,7 @@
             "id": "great",
             "probability": 0.3,
             "tier": "great",
-            "result": "你在“肖像权合同”中把握住了机会，职业评价和成长收益都高于预期。",
+            "result": "你在“饮食习惯改变”中把握住了机会，职业评价和成长收益都高于预期。",
             "effects": {
               "xp": {
                 "DEF": 41
@@ -2849,7 +2849,7 @@
             "id": "normal",
             "probability": 0.58,
             "tier": "normal",
-            "result": "“肖像权合同”基本按预期发展，没有失控，但也没有出现奇迹。",
+            "result": "“饮食习惯改变”基本按预期发展，没有失控，但也没有出现奇迹。",
             "effects": {
               "xp": {
                 "DEF": 20
@@ -2862,7 +2862,7 @@
             "id": "bad",
             "probability": 0.12,
             "tier": "bad",
-            "result": "“肖像权合同”的结果不理想，你需要在之后的赛季承担代价。",
+            "result": "“饮食习惯改变”的结果不理想，你需要在之后的赛季承担代价。",
             "effects": {
               "xp": {
                 "DEF": 4
@@ -2884,7 +2884,7 @@
             "id": "great",
             "probability": 0.3,
             "tier": "great",
-            "result": "你在“肖像权合同”中把握住了机会，职业评价和成长收益都高于预期。",
+            "result": "你在“饮食习惯改变”中把握住了机会，职业评价和成长收益都高于预期。",
             "effects": {
               "xp": {
                 "SHO": 44
@@ -2899,7 +2899,7 @@
             "id": "normal",
             "probability": 0.3,
             "tier": "normal",
-            "result": "“肖像权合同”基本按预期发展，没有失控，但也没有出现奇迹。",
+            "result": "“饮食习惯改变”基本按预期发展，没有失控，但也没有出现奇迹。",
             "effects": {
               "xp": {
                 "SHO": 22
@@ -2911,7 +2911,7 @@
             "id": "bad",
             "probability": 0.4,
             "tier": "bad",
-            "result": "“肖像权合同”的结果不理想，你需要在之后的赛季承担代价。",
+            "result": "“饮食习惯改变”的结果不理想，你需要在之后的赛季承担代价。",
             "effects": {
               "xp": {
                 "SHO": 4
@@ -2926,12 +2926,12 @@
     ]
   },
   {
-    "id": "agent-012",
+    "id": "life-012",
     "version": 1,
-    "category": "agent",
-    "categoryName": "经纪团队",
-    "title": "退休规划",
-    "text": "经纪人带来了一份新的职业建议。 这次变化与“退休规划”有关。选择不仅影响当前结果，还会改变能力成长、教练信任、队内地位和未来转会评价。",
+    "category": "life",
+    "categoryName": "生活与商业",
+    "title": "搬家影响训练",
+    "text": "场外事务正在影响你的职业节奏。 这次变化与“搬家影响训练”有关。选择不仅影响当前结果，还会改变能力成长、教练信任、队内地位和未来转会评价。",
     "stage": [
       "youth",
       "rotation",
@@ -2958,10 +2958,10 @@
             "id": "great",
             "probability": 0.28,
             "tier": "great",
-            "result": "你在“退休规划”中把握住了机会，职业评价和成长收益都高于预期。",
+            "result": "你在“搬家影响训练”中把握住了机会，职业评价和成长收益都高于预期。",
             "effects": {
               "xp": {
-                "PAS": 32
+                "PHY": 32
               },
               "morale": 4,
               "clubInterest": 2,
@@ -2972,10 +2972,10 @@
             "id": "normal",
             "probability": 0.62,
             "tier": "normal",
-            "result": "“退休规划”基本按预期发展，没有失控，但也没有出现奇迹。",
+            "result": "“搬家影响训练”基本按预期发展，没有失控，但也没有出现奇迹。",
             "effects": {
               "xp": {
-                "PAS": 14
+                "PHY": 14
               },
               "morale": 1
             }
@@ -2984,10 +2984,10 @@
             "id": "bad",
             "probability": 0.1,
             "tier": "bad",
-            "result": "“退休规划”的结果不理想，你需要在之后的赛季承担代价。",
+            "result": "“搬家影响训练”的结果不理想，你需要在之后的赛季承担代价。",
             "effects": {
               "xp": {
-                "PAS": 4
+                "PHY": 4
               },
               "morale": -3,
               "injuryRisk": 2
@@ -3005,10 +3005,10 @@
             "id": "great",
             "probability": 0.34,
             "tier": "great",
-            "result": "你在“退休规划”中把握住了机会，职业评价和成长收益都高于预期。",
+            "result": "你在“搬家影响训练”中把握住了机会，职业评价和成长收益都高于预期。",
             "effects": {
               "xp": {
-                "DRI": 35
+                "PAS": 35
               },
               "morale": 4,
               "clubInterest": 2,
@@ -3019,10 +3019,10 @@
             "id": "normal",
             "probability": 0.46,
             "tier": "normal",
-            "result": "“退休规划”基本按预期发展，没有失控，但也没有出现奇迹。",
+            "result": "“搬家影响训练”基本按预期发展，没有失控，但也没有出现奇迹。",
             "effects": {
               "xp": {
-                "DRI": 16
+                "PAS": 16
               },
               "morale": 1
             }
@@ -3031,10 +3031,10 @@
             "id": "bad",
             "probability": 0.2,
             "tier": "bad",
-            "result": "“退休规划”的结果不理想，你需要在之后的赛季承担代价。",
+            "result": "“搬家影响训练”的结果不理想，你需要在之后的赛季承担代价。",
             "effects": {
               "xp": {
-                "DRI": 4
+                "PAS": 4
               },
               "morale": -3,
               "injuryRisk": 2,
@@ -3053,10 +3053,10 @@
             "id": "great",
             "probability": 0.38,
             "tier": "great",
-            "result": "你在“退休规划”中把握住了机会，职业评价和成长收益都高于预期。",
+            "result": "你在“搬家影响训练”中把握住了机会，职业评价和成长收益都高于预期。",
             "effects": {
               "xp": {
-                "PHY": 38
+                "DRI": 38
               },
               "morale": 4,
               "clubInterest": 2,
@@ -3067,10 +3067,10 @@
             "id": "normal",
             "probability": 0.52,
             "tier": "normal",
-            "result": "“退休规划”基本按预期发展，没有失控，但也没有出现奇迹。",
+            "result": "“搬家影响训练”基本按预期发展，没有失控，但也没有出现奇迹。",
             "effects": {
               "xp": {
-                "PHY": 18
+                "DRI": 18
               },
               "morale": 1
             }
@@ -3079,10 +3079,10 @@
             "id": "bad",
             "probability": 0.1,
             "tier": "bad",
-            "result": "“退休规划”的结果不理想，你需要在之后的赛季承担代价。",
+            "result": "“搬家影响训练”的结果不理想，你需要在之后的赛季承担代价。",
             "effects": {
               "xp": {
-                "PHY": 4
+                "DRI": 4
               },
               "morale": -3,
               "injuryRisk": 2
@@ -3100,7 +3100,7 @@
             "id": "great",
             "probability": 0.3,
             "tier": "great",
-            "result": "你在“退休规划”中把握住了机会，职业评价和成长收益都高于预期。",
+            "result": "你在“搬家影响训练”中把握住了机会，职业评价和成长收益都高于预期。",
             "effects": {
               "xp": {
                 "DEF": 41
@@ -3115,7 +3115,7 @@
             "id": "normal",
             "probability": 0.58,
             "tier": "normal",
-            "result": "“退休规划”基本按预期发展，没有失控，但也没有出现奇迹。",
+            "result": "“搬家影响训练”基本按预期发展，没有失控，但也没有出现奇迹。",
             "effects": {
               "xp": {
                 "DEF": 20
@@ -3128,7 +3128,7 @@
             "id": "bad",
             "probability": 0.12,
             "tier": "bad",
-            "result": "“退休规划”的结果不理想，你需要在之后的赛季承担代价。",
+            "result": "“搬家影响训练”的结果不理想，你需要在之后的赛季承担代价。",
             "effects": {
               "xp": {
                 "DEF": 4
@@ -3150,7 +3150,7 @@
             "id": "great",
             "probability": 0.3,
             "tier": "great",
-            "result": "你在“退休规划”中把握住了机会，职业评价和成长收益都高于预期。",
+            "result": "你在“搬家影响训练”中把握住了机会，职业评价和成长收益都高于预期。",
             "effects": {
               "xp": {
                 "SHO": 44
@@ -3165,7 +3165,7 @@
             "id": "normal",
             "probability": 0.3,
             "tier": "normal",
-            "result": "“退休规划”基本按预期发展，没有失控，但也没有出现奇迹。",
+            "result": "“搬家影响训练”基本按预期发展，没有失控，但也没有出现奇迹。",
             "effects": {
               "xp": {
                 "SHO": 22
@@ -3177,7 +3177,7 @@
             "id": "bad",
             "probability": 0.4,
             "tier": "bad",
-            "result": "“退休规划”的结果不理想，你需要在之后的赛季承担代价。",
+            "result": "“搬家影响训练”的结果不理想，你需要在之后的赛季承担代价。",
             "effects": {
               "xp": {
                 "SHO": 4
@@ -3192,12 +3192,12 @@
     ]
   },
   {
-    "id": "agent-013",
+    "id": "life-013",
     "version": 1,
-    "category": "agent",
-    "categoryName": "经纪团队",
-    "title": "税务安排",
-    "text": "经纪人带来了一份新的职业建议。 这次变化与“税务安排”有关。选择不仅影响当前结果，还会改变能力成长、教练信任、队内地位和未来转会评价。",
+    "category": "life",
+    "categoryName": "生活与商业",
+    "title": "恋情传闻",
+    "text": "场外事务正在影响你的职业节奏。 这次变化与“恋情传闻”有关。选择不仅影响当前结果，还会改变能力成长、教练信任、队内地位和未来转会评价。",
     "stage": [
       "youth",
       "rotation",
@@ -3224,10 +3224,10 @@
             "id": "great",
             "probability": 0.28,
             "tier": "great",
-            "result": "你在“税务安排”中把握住了机会，职业评价和成长收益都高于预期。",
+            "result": "你在“恋情传闻”中把握住了机会，职业评价和成长收益都高于预期。",
             "effects": {
               "xp": {
-                "PAS": 32
+                "PHY": 32
               },
               "morale": 4,
               "clubInterest": 2,
@@ -3238,10 +3238,10 @@
             "id": "normal",
             "probability": 0.62,
             "tier": "normal",
-            "result": "“税务安排”基本按预期发展，没有失控，但也没有出现奇迹。",
+            "result": "“恋情传闻”基本按预期发展，没有失控，但也没有出现奇迹。",
             "effects": {
               "xp": {
-                "PAS": 14
+                "PHY": 14
               },
               "morale": 1
             }
@@ -3250,10 +3250,10 @@
             "id": "bad",
             "probability": 0.1,
             "tier": "bad",
-            "result": "“税务安排”的结果不理想，你需要在之后的赛季承担代价。",
+            "result": "“恋情传闻”的结果不理想，你需要在之后的赛季承担代价。",
             "effects": {
               "xp": {
-                "PAS": 4
+                "PHY": 4
               },
               "morale": -3,
               "injuryRisk": 2
@@ -3271,10 +3271,10 @@
             "id": "great",
             "probability": 0.34,
             "tier": "great",
-            "result": "你在“税务安排”中把握住了机会，职业评价和成长收益都高于预期。",
+            "result": "你在“恋情传闻”中把握住了机会，职业评价和成长收益都高于预期。",
             "effects": {
               "xp": {
-                "DRI": 35
+                "PAS": 35
               },
               "morale": 4,
               "clubInterest": 2,
@@ -3285,10 +3285,10 @@
             "id": "normal",
             "probability": 0.46,
             "tier": "normal",
-            "result": "“税务安排”基本按预期发展，没有失控，但也没有出现奇迹。",
+            "result": "“恋情传闻”基本按预期发展，没有失控，但也没有出现奇迹。",
             "effects": {
               "xp": {
-                "DRI": 16
+                "PAS": 16
               },
               "morale": 1
             }
@@ -3297,10 +3297,10 @@
             "id": "bad",
             "probability": 0.2,
             "tier": "bad",
-            "result": "“税务安排”的结果不理想，你需要在之后的赛季承担代价。",
+            "result": "“恋情传闻”的结果不理想，你需要在之后的赛季承担代价。",
             "effects": {
               "xp": {
-                "DRI": 4
+                "PAS": 4
               },
               "morale": -3,
               "injuryRisk": 2,
@@ -3319,10 +3319,10 @@
             "id": "great",
             "probability": 0.38,
             "tier": "great",
-            "result": "你在“税务安排”中把握住了机会，职业评价和成长收益都高于预期。",
+            "result": "你在“恋情传闻”中把握住了机会，职业评价和成长收益都高于预期。",
             "effects": {
               "xp": {
-                "PHY": 38
+                "DRI": 38
               },
               "morale": 4,
               "clubInterest": 2,
@@ -3333,10 +3333,10 @@
             "id": "normal",
             "probability": 0.52,
             "tier": "normal",
-            "result": "“税务安排”基本按预期发展，没有失控，但也没有出现奇迹。",
+            "result": "“恋情传闻”基本按预期发展，没有失控，但也没有出现奇迹。",
             "effects": {
               "xp": {
-                "PHY": 18
+                "DRI": 18
               },
               "morale": 1
             }
@@ -3345,10 +3345,10 @@
             "id": "bad",
             "probability": 0.1,
             "tier": "bad",
-            "result": "“税务安排”的结果不理想，你需要在之后的赛季承担代价。",
+            "result": "“恋情传闻”的结果不理想，你需要在之后的赛季承担代价。",
             "effects": {
               "xp": {
-                "PHY": 4
+                "DRI": 4
               },
               "morale": -3,
               "injuryRisk": 2
@@ -3366,7 +3366,7 @@
             "id": "great",
             "probability": 0.3,
             "tier": "great",
-            "result": "你在“税务安排”中把握住了机会，职业评价和成长收益都高于预期。",
+            "result": "你在“恋情传闻”中把握住了机会，职业评价和成长收益都高于预期。",
             "effects": {
               "xp": {
                 "DEF": 41
@@ -3381,7 +3381,7 @@
             "id": "normal",
             "probability": 0.58,
             "tier": "normal",
-            "result": "“税务安排”基本按预期发展，没有失控，但也没有出现奇迹。",
+            "result": "“恋情传闻”基本按预期发展，没有失控，但也没有出现奇迹。",
             "effects": {
               "xp": {
                 "DEF": 20
@@ -3394,7 +3394,7 @@
             "id": "bad",
             "probability": 0.12,
             "tier": "bad",
-            "result": "“税务安排”的结果不理想，你需要在之后的赛季承担代价。",
+            "result": "“恋情传闻”的结果不理想，你需要在之后的赛季承担代价。",
             "effects": {
               "xp": {
                 "DEF": 4
@@ -3416,7 +3416,7 @@
             "id": "great",
             "probability": 0.3,
             "tier": "great",
-            "result": "你在“税务安排”中把握住了机会，职业评价和成长收益都高于预期。",
+            "result": "你在“恋情传闻”中把握住了机会，职业评价和成长收益都高于预期。",
             "effects": {
               "xp": {
                 "SHO": 44
@@ -3431,7 +3431,7 @@
             "id": "normal",
             "probability": 0.3,
             "tier": "normal",
-            "result": "“税务安排”基本按预期发展，没有失控，但也没有出现奇迹。",
+            "result": "“恋情传闻”基本按预期发展，没有失控，但也没有出现奇迹。",
             "effects": {
               "xp": {
                 "SHO": 22
@@ -3443,7 +3443,7 @@
             "id": "bad",
             "probability": 0.4,
             "tier": "bad",
-            "result": "“税务安排”的结果不理想，你需要在之后的赛季承担代价。",
+            "result": "“恋情传闻”的结果不理想，你需要在之后的赛季承担代价。",
             "effects": {
               "xp": {
                 "SHO": 4
@@ -3458,12 +3458,12 @@
     ]
   },
   {
-    "id": "agent-014",
+    "id": "life-014",
     "version": 1,
-    "category": "agent",
-    "categoryName": "经纪团队",
-    "title": "社交媒体团队",
-    "text": "经纪人带来了一份新的职业建议。 这次变化与“社交媒体团队”有关。选择不仅影响当前结果，还会改变能力成长、教练信任、队内地位和未来转会评价。",
+    "category": "life",
+    "categoryName": "生活与商业",
+    "title": "公益比赛",
+    "text": "场外事务正在影响你的职业节奏。 这次变化与“公益比赛”有关。选择不仅影响当前结果，还会改变能力成长、教练信任、队内地位和未来转会评价。",
     "stage": [
       "youth",
       "rotation",
@@ -3490,10 +3490,10 @@
             "id": "great",
             "probability": 0.28,
             "tier": "great",
-            "result": "你在“社交媒体团队”中把握住了机会，职业评价和成长收益都高于预期。",
+            "result": "你在“公益比赛”中把握住了机会，职业评价和成长收益都高于预期。",
             "effects": {
               "xp": {
-                "PAS": 32
+                "PHY": 32
               },
               "morale": 4,
               "clubInterest": 2,
@@ -3504,10 +3504,10 @@
             "id": "normal",
             "probability": 0.62,
             "tier": "normal",
-            "result": "“社交媒体团队”基本按预期发展，没有失控，但也没有出现奇迹。",
+            "result": "“公益比赛”基本按预期发展，没有失控，但也没有出现奇迹。",
             "effects": {
               "xp": {
-                "PAS": 14
+                "PHY": 14
               },
               "morale": 1
             }
@@ -3516,10 +3516,10 @@
             "id": "bad",
             "probability": 0.1,
             "tier": "bad",
-            "result": "“社交媒体团队”的结果不理想，你需要在之后的赛季承担代价。",
+            "result": "“公益比赛”的结果不理想，你需要在之后的赛季承担代价。",
             "effects": {
               "xp": {
-                "PAS": 4
+                "PHY": 4
               },
               "morale": -3,
               "injuryRisk": 2
@@ -3537,10 +3537,10 @@
             "id": "great",
             "probability": 0.34,
             "tier": "great",
-            "result": "你在“社交媒体团队”中把握住了机会，职业评价和成长收益都高于预期。",
+            "result": "你在“公益比赛”中把握住了机会，职业评价和成长收益都高于预期。",
             "effects": {
               "xp": {
-                "DRI": 35
+                "PAS": 35
               },
               "morale": 4,
               "clubInterest": 2,
@@ -3551,10 +3551,10 @@
             "id": "normal",
             "probability": 0.46,
             "tier": "normal",
-            "result": "“社交媒体团队”基本按预期发展，没有失控，但也没有出现奇迹。",
+            "result": "“公益比赛”基本按预期发展，没有失控，但也没有出现奇迹。",
             "effects": {
               "xp": {
-                "DRI": 16
+                "PAS": 16
               },
               "morale": 1
             }
@@ -3563,10 +3563,10 @@
             "id": "bad",
             "probability": 0.2,
             "tier": "bad",
-            "result": "“社交媒体团队”的结果不理想，你需要在之后的赛季承担代价。",
+            "result": "“公益比赛”的结果不理想，你需要在之后的赛季承担代价。",
             "effects": {
               "xp": {
-                "DRI": 4
+                "PAS": 4
               },
               "morale": -3,
               "injuryRisk": 2,
@@ -3585,10 +3585,10 @@
             "id": "great",
             "probability": 0.38,
             "tier": "great",
-            "result": "你在“社交媒体团队”中把握住了机会，职业评价和成长收益都高于预期。",
+            "result": "你在“公益比赛”中把握住了机会，职业评价和成长收益都高于预期。",
             "effects": {
               "xp": {
-                "PHY": 38
+                "DRI": 38
               },
               "morale": 4,
               "clubInterest": 2,
@@ -3599,10 +3599,10 @@
             "id": "normal",
             "probability": 0.52,
             "tier": "normal",
-            "result": "“社交媒体团队”基本按预期发展，没有失控，但也没有出现奇迹。",
+            "result": "“公益比赛”基本按预期发展，没有失控，但也没有出现奇迹。",
             "effects": {
               "xp": {
-                "PHY": 18
+                "DRI": 18
               },
               "morale": 1
             }
@@ -3611,10 +3611,10 @@
             "id": "bad",
             "probability": 0.1,
             "tier": "bad",
-            "result": "“社交媒体团队”的结果不理想，你需要在之后的赛季承担代价。",
+            "result": "“公益比赛”的结果不理想，你需要在之后的赛季承担代价。",
             "effects": {
               "xp": {
-                "PHY": 4
+                "DRI": 4
               },
               "morale": -3,
               "injuryRisk": 2
@@ -3632,7 +3632,7 @@
             "id": "great",
             "probability": 0.3,
             "tier": "great",
-            "result": "你在“社交媒体团队”中把握住了机会，职业评价和成长收益都高于预期。",
+            "result": "你在“公益比赛”中把握住了机会，职业评价和成长收益都高于预期。",
             "effects": {
               "xp": {
                 "DEF": 41
@@ -3647,7 +3647,7 @@
             "id": "normal",
             "probability": 0.58,
             "tier": "normal",
-            "result": "“社交媒体团队”基本按预期发展，没有失控，但也没有出现奇迹。",
+            "result": "“公益比赛”基本按预期发展，没有失控，但也没有出现奇迹。",
             "effects": {
               "xp": {
                 "DEF": 20
@@ -3660,7 +3660,7 @@
             "id": "bad",
             "probability": 0.12,
             "tier": "bad",
-            "result": "“社交媒体团队”的结果不理想，你需要在之后的赛季承担代价。",
+            "result": "“公益比赛”的结果不理想，你需要在之后的赛季承担代价。",
             "effects": {
               "xp": {
                 "DEF": 4
@@ -3682,7 +3682,7 @@
             "id": "great",
             "probability": 0.3,
             "tier": "great",
-            "result": "你在“社交媒体团队”中把握住了机会，职业评价和成长收益都高于预期。",
+            "result": "你在“公益比赛”中把握住了机会，职业评价和成长收益都高于预期。",
             "effects": {
               "xp": {
                 "SHO": 44
@@ -3697,7 +3697,7 @@
             "id": "normal",
             "probability": 0.3,
             "tier": "normal",
-            "result": "“社交媒体团队”基本按预期发展，没有失控，但也没有出现奇迹。",
+            "result": "“公益比赛”基本按预期发展，没有失控，但也没有出现奇迹。",
             "effects": {
               "xp": {
                 "SHO": 22
@@ -3709,7 +3709,7 @@
             "id": "bad",
             "probability": 0.4,
             "tier": "bad",
-            "result": "“社交媒体团队”的结果不理想，你需要在之后的赛季承担代价。",
+            "result": "“公益比赛”的结果不理想，你需要在之后的赛季承担代价。",
             "effects": {
               "xp": {
                 "SHO": 4
@@ -3724,12 +3724,12 @@
     ]
   },
   {
-    "id": "agent-015",
+    "id": "life-015",
     "version": 1,
-    "category": "agent",
-    "categoryName": "经纪团队",
-    "title": "品牌定位",
-    "text": "经纪人带来了一份新的职业建议。 这次变化与“品牌定位”有关。选择不仅影响当前结果，还会改变能力成长、教练信任、队内地位和未来转会评价。",
+    "category": "life",
+    "categoryName": "生活与商业",
+    "title": "退役后创业",
+    "text": "场外事务正在影响你的职业节奏。 这次变化与“退役后创业”有关。选择不仅影响当前结果，还会改变能力成长、教练信任、队内地位和未来转会评价。",
     "stage": [
       "youth",
       "rotation",
@@ -3756,10 +3756,10 @@
             "id": "great",
             "probability": 0.28,
             "tier": "great",
-            "result": "你在“品牌定位”中把握住了机会，职业评价和成长收益都高于预期。",
+            "result": "你在“退役后创业”中把握住了机会，职业评价和成长收益都高于预期。",
             "effects": {
               "xp": {
-                "PAS": 32
+                "PHY": 32
               },
               "morale": 4,
               "clubInterest": 2,
@@ -3770,10 +3770,10 @@
             "id": "normal",
             "probability": 0.62,
             "tier": "normal",
-            "result": "“品牌定位”基本按预期发展，没有失控，但也没有出现奇迹。",
+            "result": "“退役后创业”基本按预期发展，没有失控，但也没有出现奇迹。",
             "effects": {
               "xp": {
-                "PAS": 14
+                "PHY": 14
               },
               "morale": 1
             }
@@ -3782,10 +3782,10 @@
             "id": "bad",
             "probability": 0.1,
             "tier": "bad",
-            "result": "“品牌定位”的结果不理想，你需要在之后的赛季承担代价。",
+            "result": "“退役后创业”的结果不理想，你需要在之后的赛季承担代价。",
             "effects": {
               "xp": {
-                "PAS": 4
+                "PHY": 4
               },
               "morale": -3,
               "injuryRisk": 2
@@ -3803,10 +3803,10 @@
             "id": "great",
             "probability": 0.34,
             "tier": "great",
-            "result": "你在“品牌定位”中把握住了机会，职业评价和成长收益都高于预期。",
+            "result": "你在“退役后创业”中把握住了机会，职业评价和成长收益都高于预期。",
             "effects": {
               "xp": {
-                "DRI": 35
+                "PAS": 35
               },
               "morale": 4,
               "clubInterest": 2,
@@ -3817,10 +3817,10 @@
             "id": "normal",
             "probability": 0.46,
             "tier": "normal",
-            "result": "“品牌定位”基本按预期发展，没有失控，但也没有出现奇迹。",
+            "result": "“退役后创业”基本按预期发展，没有失控，但也没有出现奇迹。",
             "effects": {
               "xp": {
-                "DRI": 16
+                "PAS": 16
               },
               "morale": 1
             }
@@ -3829,10 +3829,10 @@
             "id": "bad",
             "probability": 0.2,
             "tier": "bad",
-            "result": "“品牌定位”的结果不理想，你需要在之后的赛季承担代价。",
+            "result": "“退役后创业”的结果不理想，你需要在之后的赛季承担代价。",
             "effects": {
               "xp": {
-                "DRI": 4
+                "PAS": 4
               },
               "morale": -3,
               "injuryRisk": 2,
@@ -3851,10 +3851,10 @@
             "id": "great",
             "probability": 0.38,
             "tier": "great",
-            "result": "你在“品牌定位”中把握住了机会，职业评价和成长收益都高于预期。",
+            "result": "你在“退役后创业”中把握住了机会，职业评价和成长收益都高于预期。",
             "effects": {
               "xp": {
-                "PHY": 38
+                "DRI": 38
               },
               "morale": 4,
               "clubInterest": 2,
@@ -3865,10 +3865,10 @@
             "id": "normal",
             "probability": 0.52,
             "tier": "normal",
-            "result": "“品牌定位”基本按预期发展，没有失控，但也没有出现奇迹。",
+            "result": "“退役后创业”基本按预期发展，没有失控，但也没有出现奇迹。",
             "effects": {
               "xp": {
-                "PHY": 18
+                "DRI": 18
               },
               "morale": 1
             }
@@ -3877,10 +3877,10 @@
             "id": "bad",
             "probability": 0.1,
             "tier": "bad",
-            "result": "“品牌定位”的结果不理想，你需要在之后的赛季承担代价。",
+            "result": "“退役后创业”的结果不理想，你需要在之后的赛季承担代价。",
             "effects": {
               "xp": {
-                "PHY": 4
+                "DRI": 4
               },
               "morale": -3,
               "injuryRisk": 2
@@ -3898,7 +3898,7 @@
             "id": "great",
             "probability": 0.3,
             "tier": "great",
-            "result": "你在“品牌定位”中把握住了机会，职业评价和成长收益都高于预期。",
+            "result": "你在“退役后创业”中把握住了机会，职业评价和成长收益都高于预期。",
             "effects": {
               "xp": {
                 "DEF": 41
@@ -3913,7 +3913,7 @@
             "id": "normal",
             "probability": 0.58,
             "tier": "normal",
-            "result": "“品牌定位”基本按预期发展，没有失控，但也没有出现奇迹。",
+            "result": "“退役后创业”基本按预期发展，没有失控，但也没有出现奇迹。",
             "effects": {
               "xp": {
                 "DEF": 20
@@ -3926,7 +3926,7 @@
             "id": "bad",
             "probability": 0.12,
             "tier": "bad",
-            "result": "“品牌定位”的结果不理想，你需要在之后的赛季承担代价。",
+            "result": "“退役后创业”的结果不理想，你需要在之后的赛季承担代价。",
             "effects": {
               "xp": {
                 "DEF": 4
@@ -3948,7 +3948,7 @@
             "id": "great",
             "probability": 0.3,
             "tier": "great",
-            "result": "你在“品牌定位”中把握住了机会，职业评价和成长收益都高于预期。",
+            "result": "你在“退役后创业”中把握住了机会，职业评价和成长收益都高于预期。",
             "effects": {
               "xp": {
                 "SHO": 44
@@ -3963,7 +3963,7 @@
             "id": "normal",
             "probability": 0.3,
             "tier": "normal",
-            "result": "“品牌定位”基本按预期发展，没有失控，但也没有出现奇迹。",
+            "result": "“退役后创业”基本按预期发展，没有失控，但也没有出现奇迹。",
             "effects": {
               "xp": {
                 "SHO": 22
@@ -3975,7 +3975,7 @@
             "id": "bad",
             "probability": 0.4,
             "tier": "bad",
-            "result": "“品牌定位”的结果不理想，你需要在之后的赛季承担代价。",
+            "result": "“退役后创业”的结果不理想，你需要在之后的赛季承担代价。",
             "effects": {
               "xp": {
                 "SHO": 4
@@ -3990,12 +3990,12 @@
     ]
   },
   {
-    "id": "agent-016",
+    "id": "life-016",
     "version": 1,
-    "category": "agent",
-    "categoryName": "经纪团队",
-    "title": "拒绝不合适的赞助",
-    "text": "经纪人带来了一份新的职业建议。 这次变化与“拒绝不合适的赞助”有关。选择不仅影响当前结果，还会改变能力成长、教练信任、队内地位和未来转会评价。",
+    "category": "life",
+    "categoryName": "生活与商业",
+    "title": "个人品牌危机",
+    "text": "场外事务正在影响你的职业节奏。 这次变化与“个人品牌危机”有关。选择不仅影响当前结果，还会改变能力成长、教练信任、队内地位和未来转会评价。",
     "stage": [
       "youth",
       "rotation",
@@ -4022,10 +4022,10 @@
             "id": "great",
             "probability": 0.28,
             "tier": "great",
-            "result": "你在“拒绝不合适的赞助”中把握住了机会，职业评价和成长收益都高于预期。",
+            "result": "你在“个人品牌危机”中把握住了机会，职业评价和成长收益都高于预期。",
             "effects": {
               "xp": {
-                "PAS": 32
+                "PHY": 32
               },
               "morale": 4,
               "clubInterest": 2,
@@ -4036,10 +4036,10 @@
             "id": "normal",
             "probability": 0.62,
             "tier": "normal",
-            "result": "“拒绝不合适的赞助”基本按预期发展，没有失控，但也没有出现奇迹。",
+            "result": "“个人品牌危机”基本按预期发展，没有失控，但也没有出现奇迹。",
             "effects": {
               "xp": {
-                "PAS": 14
+                "PHY": 14
               },
               "morale": 1
             }
@@ -4048,10 +4048,10 @@
             "id": "bad",
             "probability": 0.1,
             "tier": "bad",
-            "result": "“拒绝不合适的赞助”的结果不理想，你需要在之后的赛季承担代价。",
+            "result": "“个人品牌危机”的结果不理想，你需要在之后的赛季承担代价。",
             "effects": {
               "xp": {
-                "PAS": 4
+                "PHY": 4
               },
               "morale": -3,
               "injuryRisk": 2
@@ -4069,10 +4069,10 @@
             "id": "great",
             "probability": 0.34,
             "tier": "great",
-            "result": "你在“拒绝不合适的赞助”中把握住了机会，职业评价和成长收益都高于预期。",
+            "result": "你在“个人品牌危机”中把握住了机会，职业评价和成长收益都高于预期。",
             "effects": {
               "xp": {
-                "DRI": 35
+                "PAS": 35
               },
               "morale": 4,
               "clubInterest": 2,
@@ -4083,10 +4083,10 @@
             "id": "normal",
             "probability": 0.46,
             "tier": "normal",
-            "result": "“拒绝不合适的赞助”基本按预期发展，没有失控，但也没有出现奇迹。",
+            "result": "“个人品牌危机”基本按预期发展，没有失控，但也没有出现奇迹。",
             "effects": {
               "xp": {
-                "DRI": 16
+                "PAS": 16
               },
               "morale": 1
             }
@@ -4095,10 +4095,10 @@
             "id": "bad",
             "probability": 0.2,
             "tier": "bad",
-            "result": "“拒绝不合适的赞助”的结果不理想，你需要在之后的赛季承担代价。",
+            "result": "“个人品牌危机”的结果不理想，你需要在之后的赛季承担代价。",
             "effects": {
               "xp": {
-                "DRI": 4
+                "PAS": 4
               },
               "morale": -3,
               "injuryRisk": 2,
@@ -4117,10 +4117,10 @@
             "id": "great",
             "probability": 0.38,
             "tier": "great",
-            "result": "你在“拒绝不合适的赞助”中把握住了机会，职业评价和成长收益都高于预期。",
+            "result": "你在“个人品牌危机”中把握住了机会，职业评价和成长收益都高于预期。",
             "effects": {
               "xp": {
-                "PHY": 38
+                "DRI": 38
               },
               "morale": 4,
               "clubInterest": 2,
@@ -4131,10 +4131,10 @@
             "id": "normal",
             "probability": 0.52,
             "tier": "normal",
-            "result": "“拒绝不合适的赞助”基本按预期发展，没有失控，但也没有出现奇迹。",
+            "result": "“个人品牌危机”基本按预期发展，没有失控，但也没有出现奇迹。",
             "effects": {
               "xp": {
-                "PHY": 18
+                "DRI": 18
               },
               "morale": 1
             }
@@ -4143,10 +4143,10 @@
             "id": "bad",
             "probability": 0.1,
             "tier": "bad",
-            "result": "“拒绝不合适的赞助”的结果不理想，你需要在之后的赛季承担代价。",
+            "result": "“个人品牌危机”的结果不理想，你需要在之后的赛季承担代价。",
             "effects": {
               "xp": {
-                "PHY": 4
+                "DRI": 4
               },
               "morale": -3,
               "injuryRisk": 2
@@ -4164,7 +4164,7 @@
             "id": "great",
             "probability": 0.3,
             "tier": "great",
-            "result": "你在“拒绝不合适的赞助”中把握住了机会，职业评价和成长收益都高于预期。",
+            "result": "你在“个人品牌危机”中把握住了机会，职业评价和成长收益都高于预期。",
             "effects": {
               "xp": {
                 "DEF": 41
@@ -4179,7 +4179,7 @@
             "id": "normal",
             "probability": 0.58,
             "tier": "normal",
-            "result": "“拒绝不合适的赞助”基本按预期发展，没有失控，但也没有出现奇迹。",
+            "result": "“个人品牌危机”基本按预期发展，没有失控，但也没有出现奇迹。",
             "effects": {
               "xp": {
                 "DEF": 20
@@ -4192,7 +4192,7 @@
             "id": "bad",
             "probability": 0.12,
             "tier": "bad",
-            "result": "“拒绝不合适的赞助”的结果不理想，你需要在之后的赛季承担代价。",
+            "result": "“个人品牌危机”的结果不理想，你需要在之后的赛季承担代价。",
             "effects": {
               "xp": {
                 "DEF": 4
@@ -4214,7 +4214,7 @@
             "id": "great",
             "probability": 0.3,
             "tier": "great",
-            "result": "你在“拒绝不合适的赞助”中把握住了机会，职业评价和成长收益都高于预期。",
+            "result": "你在“个人品牌危机”中把握住了机会，职业评价和成长收益都高于预期。",
             "effects": {
               "xp": {
                 "SHO": 44
@@ -4229,7 +4229,7 @@
             "id": "normal",
             "probability": 0.3,
             "tier": "normal",
-            "result": "“拒绝不合适的赞助”基本按预期发展，没有失控，但也没有出现奇迹。",
+            "result": "“个人品牌危机”基本按预期发展，没有失控，但也没有出现奇迹。",
             "effects": {
               "xp": {
                 "SHO": 22
@@ -4241,7 +4241,7 @@
             "id": "bad",
             "probability": 0.4,
             "tier": "bad",
-            "result": "“拒绝不合适的赞助”的结果不理想，你需要在之后的赛季承担代价。",
+            "result": "“个人品牌危机”的结果不理想，你需要在之后的赛季承担代价。",
             "effects": {
               "xp": {
                 "SHO": 4
