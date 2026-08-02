@@ -1,4 +1,4 @@
-// Football Career Simulator V14.0 - Hexagonal Attribute Radar Chart (Canvas)
+// Football Career Simulator - Hexagonal Attribute Radar Chart (Canvas)
 
 class RadarChart {
   static drawRadar(canvasId, stats) {
@@ -15,7 +15,6 @@ class RadarChart {
 
     ctx.clearRect(0, 0, w, h);
 
-    // Draw Background Grid (3 Concentric Hexagons)
     for (let level = 1; level <= 3; level++) {
       const r = (radius / 3) * level;
       ctx.beginPath();
@@ -31,7 +30,6 @@ class RadarChart {
       ctx.stroke();
     }
 
-    // Draw Spokes
     for (let i = 0; i < num; i++) {
       const a = i * angleStep - Math.PI / 2;
       ctx.beginPath();
@@ -40,7 +38,6 @@ class RadarChart {
       ctx.strokeStyle = "rgba(0,0,0,0.08)";
       ctx.stroke();
 
-      // Draw Labels
       const lx = cx + (radius + 15) * Math.cos(a);
       const ly = cy + (radius + 15) * Math.sin(a);
       ctx.textAlign = "center";
@@ -50,7 +47,6 @@ class RadarChart {
       ctx.fillText(`${labels[i]} (${stats[keys[i]] || 50})`, lx, ly);
     }
 
-    // Draw Player Stat Polygon
     ctx.beginPath();
     for (let i = 0; i < num; i++) {
       const val = Math.min(99, stats[keys[i]] || 50);

@@ -1,4 +1,4 @@
-// Football Career Simulator V13.0 - Social Feed Component
+// Football Career Simulator - Virtual Social Media Component
 
 class SocialFeed {
   static renderFeed(state) {
@@ -14,7 +14,7 @@ class SocialFeed {
         <h2 style="margin-top: 5px;">🔥 全网舆论热度 (Social Feed)</h2>
       </div>
 
-      <div class="hot-search-box" style="margin: 15px 0;">
+      <div class="hot-search-box" style="margin: 12px 0;">
         <div class="hot-tag">🔥 热搜 #1：${state.name} 场上表现强劲（热度 520万）</div>
       </div>
 
@@ -22,10 +22,10 @@ class SocialFeed {
         ${comments.map(c => `
           <div class="option-btn" style="cursor: default;">
             <div style="display: flex; justify-content: space-between; align-items: center;">
-              <strong style="color: var(--gold-primary); font-size: 0.9rem;">${c.user}</strong>
-              <span style="font-size: 0.78rem; color: var(--text-muted);">❤️ ${c.likes}</span>
+              <strong style="color: var(--apple-blue); font-size: 0.88rem;">${c.user}</strong>
+              <span style="font-size: 0.75rem; color: var(--text-muted);">❤️ ${c.likes}</span>
             </div>
-            <p style="font-size: 0.92rem; color: #e5e5ea; margin-top: 4px;">"${c.text}"</p>
+            <p style="font-size: 0.9rem; color: #1c1c1e; margin-top: 4px;">"${c.text}"</p>
           </div>
         `).join('')}
       </div>

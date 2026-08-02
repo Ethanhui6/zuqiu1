@@ -1,7 +1,7 @@
-// Football Career Simulator V13.0 - 47+ Achievements Gallery Component
+// Football Career Simulator - Achievements Gallery
 
 class AchievementGallery {
-  static render(unlockedIds = []) {
+  static render() {
     return `
     <div class="glass-panel">
       <div class="scout-header">

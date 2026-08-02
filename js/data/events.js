@@ -1,4 +1,4 @@
-// Football Career Simulator V14.0 - 60+ Career Life Story Dilemmas
+// Football Career Simulator - 60+ Career Life Story Dilemmas
 
 const MONTHLY_EVENTS = [
   {

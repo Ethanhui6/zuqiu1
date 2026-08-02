@@ -1,4 +1,4 @@
-// Football Career Simulator V13.0 - Summary Card Component
+// Football Career Simulator - Summary Card Component
 
 class SummaryCard {
   static renderSummary(state) {
@@ -6,7 +6,7 @@ class SummaryCard {
     <div class="summary-card-modal glass-panel">
       <div class="summary-header">
         <span class="brand-badge">🏁 40岁传奇退役档案</span>
-        <h2 style="color: #fff; margin-top: 8px;">${state.name} 职业生涯终极报告</h2>
+        <h2 style="color: #1c1c1e; margin-top: 8px;">${state.name} 职业生涯终极报告</h2>
       </div>
 
       <div class="summary-stats-grid">
@@ -16,7 +16,7 @@ class SummaryCard {
         <div class="s-stat"><span class="label">国脚出场</span><span class="val">${state.nationalApps > 0 ? `🇨🇳 ${state.nationalApps} 场` : '未进国足'}</span></div>
       </div>
 
-      <div class="summary-actions" style="margin-top: 20px; display: flex; gap: 10px;">
+      <div class="summary-actions" style="margin-top: 16px; display: flex; gap: 10px;">
         <button class="btn-primary" onclick="exportSummaryCardImage()" style="flex: 1;">📷 生成并分享总结卡</button>
         <button class="tab-btn" onclick="location.reload()" style="flex: 1;">🔄 开启下一世重开</button>
       </div>

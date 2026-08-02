@@ -1,28 +1,51 @@
-// Football Career Simulator V14.0 - Config & Game Constants
+// Football Career Simulator - Config & Scout Templates
 
 const GAME_CONFIG = {
-  TITLE: "足球生涯模拟器 V14.0",
-  VERSION: "14.0.0",
+  TITLE: "足球生涯模拟器 重构版",
+  VERSION: "14.2.0",
   START_YEAR: 2026,
   START_MONTH: 9,
   RETIRE_AGE: 40,
 
-  EXP_PER_STAT_LEVEL: 100, // 100 EXP needed for 1 stat point boost
+  EXP_PER_STAT_LEVEL: 100,
 
-  SQUAD_ROLES: {
-    STAR: { name: "核心主力", minOvrDiff: 2, desc: "每场首发出战，战术绝对核心" },
-    ROTATION: { name: "轮换球员", minOvrDiff: -3, desc: "经常获得替补出场与轮换首发" },
-    BENCH: { name: "边缘替补", minOvrDiff: -8, desc: "出场时间受限，主帅信任度极低" },
-    LOANED: { name: "外租锻炼", minOvrDiff: -99, desc: "租借至中下游球队积累经验成长" }
-  },
-
-  STARTING_TALENTS: [
-    { id: "golden_leader", name: "🌟 天生领袖", quality: "GOLD", desc: "更衣室威望+30，队长首选，主帅信任度飙升", effect: { coachTrust: 25, teammateRel: 25, fame: 20 } },
-    { id: "golden_stamina", name: "⚡ 跑不死体能怪", quality: "GOLD", desc: "体能消耗降低 50%，极低伤病率", effect: { PHY: 6, PAC: 4 } },
-    { id: "golden_sniper", name: "🎯 禁区死角杀手", quality: "GOLD", desc: "射门+8，绝杀概率翻倍，冲击金靴", effect: { SHO: 8 } },
-    { id: "purple_social", name: "📱 社交大V", quality: "PURPLE", desc: "初始粉丝+20000，代言提成+30%", effect: { fans: 20000, fame: 15, money: 50000 } },
-    { id: "purple_dribbler", name: "🕺 桑巴过人狂", quality: "PURPLE", desc: "盘带+6，边路爆破过人大幅提升", effect: { DRI: 6, PAC: 2 } },
-    { id: "blue_clean", name: "🛡️ 绝对清白君子", quality: "BLUE", desc: "清白度 100%，免疫反腐阴阳合同风波", effect: { innocence: 20 } }
+  SCOUT_TEMPLATES: [
+    {
+      name: "梅西型灵动边锋",
+      condition: (p) => p.position.includes("W") && p.stats.DRI >= 70 && p.stats.PAS >= 65,
+      traits: ["小范围超频盘带", "左脚精准内切弧线球", "手术刀式关键传球"],
+      weakness: "高强度对抗能力稍逊，头球争顶偏弱"
+    },
+    {
+      name: "哈兰德型冲击中锋",
+      condition: (p) => p.position === "ST" && p.stats.PHY >= 72 && p.stats.SHO >= 72,
+      traits: ["禁区绝对终结能力", "恐怖爆发力与跑位", "对抗中挂人推进破门"],
+      weakness: "密集防守下阵地盘带较一般"
+    },
+    {
+      name: "德布劳内型全能中场",
+      condition: (p) => p.category === "MF" && p.stats.PAS >= 75,
+      traits: ["视野广阔贴地视线传球", "禁区外重炮远射", "掌控比赛进攻节奏"],
+      weakness: "回追防守速度并非顶级"
+    },
+    {
+      name: "范戴克型钢铁中卫",
+      condition: (p) => p.category === "DF" && p.stats.DEF >= 72 && p.stats.PHY >= 72,
+      traits: ["空中卡位绝对制空权", "一对一防守预判", "后场精准长传发起反击"],
+      weakness: "面对超敏捷小个子突击手需提防"
+    },
+    {
+      name: "姆巴佩型速度爆破手",
+      condition: (p) => p.stats.PAC >= 80,
+      traits: ["边路无解直线大趟爆破", "反击中超高成功率单刀", "吸引防守拉开空间"],
+      weakness: "防守贡献较低，体能消耗较快"
+    },
+    {
+      name: "新星基石型全能战士",
+      condition: () => true,
+      traits: ["基本功扎实均衡", "战术执行力高", "拥有极高成长上限"],
+      weakness: "核心拿手绝技尚待进一步淬炼"
+    }
   ],
 
   BIRTHPLACES: [

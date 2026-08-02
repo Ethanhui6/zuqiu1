@@ -1,10 +1,10 @@
-// Football Career Simulator V14.0 - Core Engine (EXP Growth & Single Advance Lock)
+// Football Career Simulator - Core Engine (EXP Growth & Single Advance Lock)
 
 class GameEngine {
   constructor(seed = "20260801") {
     this.seed = seed;
     this.rng = new SeedRNG(seed);
-    this.isAdvanceLocked = false; // Prevents duplicate/infinite clicks
+    this.isAdvanceLocked = false;
     this.resetState();
   }
 
@@ -35,13 +35,12 @@ class GameEngine {
       teamColor: startingTeam.color,
       teamAccent: startingTeam.accent,
       clubList: [startingTeam.name],
-      squadRole: "ROTATION", // 阵容角色 (STAR / ROTATION / BENCH / LOANED)
+      squadRole: "ROTATION",
 
       talents: [],
 
-      // Stats and EXP
       stats: { PAC: 66, SHO: 65, PAS: 62, DRI: 66, DEF: 42, PHY: 60 },
-      exp: 0, // EXP toward next stat level
+      exp: 0,
       ovr: 64,
       peakOvr: 64,
 
@@ -86,7 +85,7 @@ class GameEngine {
       this.state.exp -= GAME_CONFIG.EXP_PER_STAT_LEVEL;
       if (statKey && this.state.stats[statKey]) {
         this.state.stats[statKey] = Math.min(99, this.state.stats[statKey] + 1);
-        this.addLog(`⭐ 累计经验爆发：【${statKey}】属性提升 +1！`);
+        this.addLog(`⭐ 经验突破：【${statKey}】属性提升 +1！`);
       } else {
         this.boostRandomStat(1);
       }
@@ -108,7 +107,6 @@ class GameEngine {
       this.state.peakOvr = this.state.ovr;
     }
 
-    // Evaluate Squad Role
     const ovrDiff = this.state.ovr - this.state.team.rating;
     if (ovrDiff >= 2) this.state.squadRole = "STAR";
     else if (ovrDiff >= -5) this.state.squadRole = "ROTATION";

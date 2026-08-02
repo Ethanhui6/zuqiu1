@@ -1,8 +1,9 @@
-// Football Career Simulator V13.0 - FUT Gold Card & Scout Report Component
+// Football Career Simulator - FC26 Gold Card & Scouting Report
 
 class PlayerCard {
   static render(player) {
     const avatarSvg = Avatar3D.createSVG(player);
+    const scoutReport = PlayerCard.generateScoutReport(player);
 
     return `
     <div class="fut-card-wrapper">
@@ -44,16 +45,40 @@ class PlayerCard {
         </div>
         <div class="scout-content">
           <div class="scout-row">
-            <span class="scout-label">特质：</span>
-            <span class="scout-value highlight-gold">${player.birthplace || '广东'}派系 · ${player.foot || '右脚'}</span>
+            <span class="scout-label">球风模板：</span>
+            <span class="scout-value highlight-gold">${scoutReport.template.name}</span>
           </div>
           <div class="scout-row">
-            <span class="scout-label">激活天赋：</span>
-            <span class="scout-value">${player.talents && player.talents.length > 0 ? player.talents.map(t => t.name).join(', ') : '无'}</span>
+            <span class="scout-label">核心特点：</span>
+            <ul class="scout-traits-list">
+              ${scoutReport.template.traits.map(t => `<li>✦ ${t}</li>`).join('')}
+            </ul>
+          </div>
+          <div class="scout-row">
+            <span class="scout-label">预测潜能范围：</span>
+            <span class="scout-value potential-badge">POT ${scoutReport.potentialMin} - ${scoutReport.potentialMax}</span>
+          </div>
+          <div class="scout-row">
+            <span class="scout-label">尚需提升：</span>
+            <span class="scout-value weakness-text">${scoutReport.template.weakness}</span>
           </div>
         </div>
       </div>
     </div>
     `;
+  }
+
+  static generateScoutReport(player) {
+    const matchedTemplate = GAME_CONFIG.SCOUT_TEMPLATES.find(t => t.condition(player)) || GAME_CONFIG.SCOUT_TEMPLATES[GAME_CONFIG.SCOUT_TEMPLATES.length - 1];
+    const currentAge = player.age || 15;
+    const maxGrowth = Math.max(5, (30 - currentAge) * 2.5);
+    const potentialMin = Math.min(99, Math.round(player.ovr + maxGrowth * 0.7));
+    const potentialMax = Math.min(99, Math.round(player.ovr + maxGrowth * 1.3));
+
+    return {
+      template: matchedTemplate,
+      potentialMin: potentialMin,
+      potentialMax: potentialMax
+    };
   }
 }

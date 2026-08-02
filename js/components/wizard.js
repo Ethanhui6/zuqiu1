@@ -1,4 +1,4 @@
-// Football Career Simulator V14.0 - Clean Character Onboarding Wizard
+// Football Career Simulator - Clean Onboarding Creation Wizard
 
 class CharacterWizard {
   static renderWizard(currentStep = 1, formData = {}) {
@@ -7,15 +7,15 @@ class CharacterWizard {
       <div class="wizard-modal glass-panel">
         <div class="wizard-header" style="display: flex; justify-content: space-between; align-items: center;">
           <span class="brand-badge">✨ 角色建模 (${currentStep}/4)</span>
-          <span class="scout-label">V14.0 优雅版</span>
+          <span class="scout-label">重构版</span>
         </div>
-        <h2 style="margin-top: 10px; color: #1c1c1e; font-size: 1.25rem;">${CharacterWizard.getStepTitle(currentStep)}</h2>
+        <h2 style="margin-top: 10px; color: #1c1c1e; font-size: 1.2rem;">${CharacterWizard.getStepTitle(currentStep)}</h2>
 
-        <div class="wizard-body" style="margin: 18px 0;">
+        <div class="wizard-body" style="margin: 16px 0;">
           ${CharacterWizard.renderStepContent(currentStep, formData)}
         </div>
 
-        <div class="wizard-footer" style="display: flex; justify-content: space-between; align-items: center; border-top: 1px solid rgba(0,0,0,0.06); padding-top: 14px;">
+        <div class="wizard-footer" style="display: flex; justify-content: space-between; align-items: center; border-top: 1px solid rgba(0,0,0,0.06); padding-top: 12px;">
           ${currentStep > 1 ? `<button class="tab-btn" onclick="prevWizardStep(${currentStep})">◀ 上一步</button>` : '<div></div>'}
           ${currentStep < 4 ? `<button class="btn-primary" onclick="nextWizardStep(${currentStep})">下一步 ▶</button>` : `<button class="btn-primary" onclick="finishCharacterCreation()">🚀 踏上生涯征程</button>`}
         </div>
@@ -25,10 +25,10 @@ class CharacterWizard {
   }
 
   static getStepTitle(step) {
-    if (step === 1) return "基础资料与随机 Seed 种子";
-    if (step === 2) return "选择出身地与球场位置";
-    if (step === 3) return "抽选 Roguelike 初始天赋";
-    if (step === 4) return "六边形雷达图与数值预览";
+    if (step === 1) return "1. 基础资料与随机 Seed 种子";
+    if (step === 2) return "2. 选择出身地与球场位置";
+    if (step === 3) return "3. 抽选 Roguelike 初始天赋";
+    if (step === 4) return "4. 六边形雷达图与数值预览";
     return "";
   }
 
@@ -101,11 +101,11 @@ class CharacterWizard {
     if (step === 4) {
       return `
         <div class="options-container" style="text-align: center;">
-          <p class="scout-label" style="margin-bottom: 10px;">初始六边形属性雷达图评估</p>
-          <div style="width: 220px; height: 220px; margin: 0 auto;">
-            <canvas id="wizRadarCanvas" width="220" height="220"></canvas>
+          <p class="scout-label" style="margin-bottom: 8px;">初始六边形属性雷达图评估</p>
+          <div style="width: 200px; height: 200px; margin: 0 auto;">
+            <canvas id="wizRadarCanvas" width="200" height="200"></canvas>
           </div>
-          <p class="opt-effect" style="margin-top: 10px; color: var(--apple-blue);">基于你的出身地、位置与激活天赋生成预估模板</p>
+          <p class="opt-effect" style="margin-top: 8px; color: var(--apple-blue);">基于出身地、位置与激活天赋生成预估模板</p>
         </div>
       `;
     }

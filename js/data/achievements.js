@@ -1,4 +1,4 @@
-// Football Career Simulator V14.0 - Achievements DB
+// Football Career Simulator - Achievements DB
 
 const ALL_ACHIEVEMENTS = [
   { id: "goat_legend", title: "⚽ GOAT 级球王传奇", icon: "👑", desc: "巅峰 OVR >= 90 且夺得金球奖" },

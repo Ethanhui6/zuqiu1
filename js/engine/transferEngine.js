@@ -1,4 +1,4 @@
-// Football Career Simulator V13.0 - Transfer Engine
+// Football Career Simulator - Transfer Engine
 
 class TransferEngine {
   static evaluateMarketOffers(playerState) {

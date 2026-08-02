@@ -1,4 +1,4 @@
-// Football Career Simulator V14.0 - Main SPA Controller
+// Football Career Simulator - Main SPA Controller
 
 let wizardState = { step: 1, data: { name: '自建新星', foot: '右脚', number: 10, seed: '20260801', birthplace: 'GD', talents: [] } };
 
