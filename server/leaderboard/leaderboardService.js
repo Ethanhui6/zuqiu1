@@ -1,4 +1,4 @@
-import {calculateCareerScore,stableEvidenceHash,validateScoreEvidence} from '../shared/scoringSystem.js';
+import {calculateCareerScore,stableEvidenceHash,validateScoreEvidence} from '../../src/systems/scoring/scoringSystem.js';
 import {validateCheckpointTransition,validateFinalSubmission} from '../antiCheat/validateSubmission.js';
 
 export class LeaderboardError extends Error{constructor(message,status=400,details=[]){super(message);this.status=status;this.details=details}}

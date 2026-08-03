@@ -1,0 +1,4418 @@
+[
+  {
+    "id": "match-prep-001",
+    "version": 1,
+    "category": "match-prep",
+    "categoryName": "比赛准备",
+    "title": "临时改打新位置",
+    "text": "赛前会议出现了与你位置直接相关的新安排。 这次变化与“临时改打新位置”有关。选择不仅影响当前结果，还会改变能力成长、教练信任、队内地位和未来转会评价。",
+    "stage": [
+      "youth",
+      "rotation",
+      "starter",
+      "star",
+      "veteran"
+    ],
+    "weight": 1.45,
+    "cooldownSeasons": 6,
+    "major": false,
+    "resolutionModes": [
+      "wheel",
+      "cards",
+      "dice"
+    ],
+    "options": [
+      {
+        "id": "opt-1",
+        "label": "稳步处理，优先保证职业稳定",
+        "risk": "稳健",
+        "hint": "风险最低，收益较稳定",
+        "outcomes": [
+          {
+            "id": "great",
+            "probability": 0.28,
+            "tier": "great",
+            "result": "你在“临时改打新位置”中把握住了机会，职业评价和成长收益都高于预期。",
+            "effects": {
+              "xp": {
+                "PAS": 32
+              },
+              "morale": 4,
+              "clubInterest": 2,
+              "coachTrust": 3
+            }
+          },
+          {
+            "id": "normal",
+            "probability": 0.62,
+            "tier": "normal",
+            "result": "“临时改打新位置”基本按预期发展，没有失控，但也没有出现奇迹。",
+            "effects": {
+              "xp": {
+                "PAS": 14
+              },
+              "morale": 1,
+              "coachTrust": 1
+            }
+          },
+          {
+            "id": "bad",
+            "probability": 0.1,
+            "tier": "bad",
+            "result": "“临时改打新位置”的结果不理想，你需要在之后的赛季承担代价。",
+            "effects": {
+              "xp": {
+                "PAS": 4
+              },
+              "morale": -3,
+              "injuryRisk": 2,
+              "coachTrust": -4
+            }
+          }
+        ]
+      },
+      {
+        "id": "opt-2",
+        "label": "主动争取更大机会",
+        "risk": "进取",
+        "hint": "收益更高，也会增加压力",
+        "outcomes": [
+          {
+            "id": "great",
+            "probability": 0.34,
+            "tier": "great",
+            "result": "你在“临时改打新位置”中把握住了机会，职业评价和成长收益都高于预期。",
+            "effects": {
+              "xp": {
+                "DRI": 35
+              },
+              "morale": 4,
+              "clubInterest": 2,
+              "coachTrust": 3
+            }
+          },
+          {
+            "id": "normal",
+            "probability": 0.46,
+            "tier": "normal",
+            "result": "“临时改打新位置”基本按预期发展，没有失控，但也没有出现奇迹。",
+            "effects": {
+              "xp": {
+                "DRI": 16
+              },
+              "morale": 1,
+              "coachTrust": 1
+            }
+          },
+          {
+            "id": "bad",
+            "probability": 0.2,
+            "tier": "bad",
+            "result": "“临时改打新位置”的结果不理想，你需要在之后的赛季承担代价。",
+            "effects": {
+              "xp": {
+                "DRI": 4
+              },
+              "morale": -3,
+              "injuryRisk": 2,
+              "coachTrust": -4,
+              "relationship": -5
+            }
+          }
+        ]
+      },
+      {
+        "id": "opt-3",
+        "label": "用训练、录像和数据解决问题",
+        "risk": "技术",
+        "hint": "强调长期能力成长",
+        "outcomes": [
+          {
+            "id": "great",
+            "probability": 0.38,
+            "tier": "great",
+            "result": "你在“临时改打新位置”中把握住了机会，职业评价和成长收益都高于预期。",
+            "effects": {
+              "xp": {
+                "DEF": 38
+              },
+              "morale": 4,
+              "clubInterest": 2,
+              "coachTrust": 3
+            }
+          },
+          {
+            "id": "normal",
+            "probability": 0.52,
+            "tier": "normal",
+            "result": "“临时改打新位置”基本按预期发展，没有失控，但也没有出现奇迹。",
+            "effects": {
+              "xp": {
+                "DEF": 18
+              },
+              "morale": 1,
+              "coachTrust": 1
+            }
+          },
+          {
+            "id": "bad",
+            "probability": 0.1,
+            "tier": "bad",
+            "result": "“临时改打新位置”的结果不理想，你需要在之后的赛季承担代价。",
+            "effects": {
+              "xp": {
+                "DEF": 4
+              },
+              "morale": -3,
+              "injuryRisk": 2,
+              "coachTrust": -4
+            }
+          }
+        ]
+      },
+      {
+        "id": "opt-4",
+        "label": "先处理队友、教练或家人的关系",
+        "risk": "关系",
+        "hint": "可能建立长期羁绊",
+        "outcomes": [
+          {
+            "id": "great",
+            "probability": 0.3,
+            "tier": "great",
+            "result": "你在“临时改打新位置”中把握住了机会，职业评价和成长收益都高于预期。",
+            "effects": {
+              "xp": {
+                "PHY": 41
+              },
+              "morale": 4,
+              "clubInterest": 2,
+              "coachTrust": 3,
+              "relationship": 6
+            }
+          },
+          {
+            "id": "normal",
+            "probability": 0.58,
+            "tier": "normal",
+            "result": "“临时改打新位置”基本按预期发展，没有失控，但也没有出现奇迹。",
+            "effects": {
+              "xp": {
+                "PHY": 20
+              },
+              "morale": 1,
+              "coachTrust": 1,
+              "relationship": 2
+            }
+          },
+          {
+            "id": "bad",
+            "probability": 0.12,
+            "tier": "bad",
+            "result": "“临时改打新位置”的结果不理想，你需要在之后的赛季承担代价。",
+            "effects": {
+              "xp": {
+                "PHY": 4
+              },
+              "morale": -3,
+              "injuryRisk": 2,
+              "coachTrust": -4,
+              "relationship": -5
+            }
+          }
+        ]
+      },
+      {
+        "id": "opt-5",
+        "label": "孤注一掷，选择最高风险路线",
+        "risk": "冒险",
+        "hint": "可能大成功，也可能遭遇严重后果",
+        "outcomes": [
+          {
+            "id": "great",
+            "probability": 0.3,
+            "tier": "great",
+            "result": "你在“临时改打新位置”中把握住了机会，职业评价和成长收益都高于预期。",
+            "effects": {
+              "xp": {
+                "SHO": 44
+              },
+              "morale": 4,
+              "clubInterest": 2,
+              "coachTrust": 3,
+              "potential": 1
+            }
+          },
+          {
+            "id": "normal",
+            "probability": 0.3,
+            "tier": "normal",
+            "result": "“临时改打新位置”基本按预期发展，没有失控，但也没有出现奇迹。",
+            "effects": {
+              "xp": {
+                "SHO": 22
+              },
+              "morale": 1,
+              "coachTrust": 1
+            }
+          },
+          {
+            "id": "bad",
+            "probability": 0.4,
+            "tier": "bad",
+            "result": "“临时改打新位置”的结果不理想，你需要在之后的赛季承担代价。",
+            "effects": {
+              "xp": {
+                "SHO": 4
+              },
+              "morale": -5,
+              "injuryRisk": 12,
+              "coachTrust": -4,
+              "relationship": -5
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "match-prep-002",
+    "version": 1,
+    "category": "match-prep",
+    "categoryName": "比赛准备",
+    "title": "关键对手盯防方案",
+    "text": "赛前会议出现了与你位置直接相关的新安排。 这次变化与“关键对手盯防方案”有关。选择不仅影响当前结果，还会改变能力成长、教练信任、队内地位和未来转会评价。",
+    "stage": [
+      "youth",
+      "rotation",
+      "starter",
+      "star",
+      "veteran"
+    ],
+    "weight": 1.25,
+    "cooldownSeasons": 7,
+    "major": false,
+    "resolutionModes": [
+      "wheel",
+      "cards",
+      "dice"
+    ],
+    "options": [
+      {
+        "id": "opt-1",
+        "label": "稳步处理，优先保证职业稳定",
+        "risk": "稳健",
+        "hint": "风险最低，收益较稳定",
+        "outcomes": [
+          {
+            "id": "great",
+            "probability": 0.28,
+            "tier": "great",
+            "result": "你在“关键对手盯防方案”中把握住了机会，职业评价和成长收益都高于预期。",
+            "effects": {
+              "xp": {
+                "PAS": 32
+              },
+              "morale": 4,
+              "clubInterest": 2,
+              "coachTrust": 3
+            }
+          },
+          {
+            "id": "normal",
+            "probability": 0.62,
+            "tier": "normal",
+            "result": "“关键对手盯防方案”基本按预期发展，没有失控，但也没有出现奇迹。",
+            "effects": {
+              "xp": {
+                "PAS": 14
+              },
+              "morale": 1,
+              "coachTrust": 1
+            }
+          },
+          {
+            "id": "bad",
+            "probability": 0.1,
+            "tier": "bad",
+            "result": "“关键对手盯防方案”的结果不理想，你需要在之后的赛季承担代价。",
+            "effects": {
+              "xp": {
+                "PAS": 4
+              },
+              "morale": -3,
+              "injuryRisk": 2,
+              "coachTrust": -4
+            }
+          }
+        ]
+      },
+      {
+        "id": "opt-2",
+        "label": "主动争取更大机会",
+        "risk": "进取",
+        "hint": "收益更高，也会增加压力",
+        "outcomes": [
+          {
+            "id": "great",
+            "probability": 0.34,
+            "tier": "great",
+            "result": "你在“关键对手盯防方案”中把握住了机会，职业评价和成长收益都高于预期。",
+            "effects": {
+              "xp": {
+                "DRI": 35
+              },
+              "morale": 4,
+              "clubInterest": 2,
+              "coachTrust": 3
+            }
+          },
+          {
+            "id": "normal",
+            "probability": 0.46,
+            "tier": "normal",
+            "result": "“关键对手盯防方案”基本按预期发展，没有失控，但也没有出现奇迹。",
+            "effects": {
+              "xp": {
+                "DRI": 16
+              },
+              "morale": 1,
+              "coachTrust": 1
+            }
+          },
+          {
+            "id": "bad",
+            "probability": 0.2,
+            "tier": "bad",
+            "result": "“关键对手盯防方案”的结果不理想，你需要在之后的赛季承担代价。",
+            "effects": {
+              "xp": {
+                "DRI": 4
+              },
+              "morale": -3,
+              "injuryRisk": 2,
+              "coachTrust": -4,
+              "relationship": -5
+            }
+          }
+        ]
+      },
+      {
+        "id": "opt-3",
+        "label": "用训练、录像和数据解决问题",
+        "risk": "技术",
+        "hint": "强调长期能力成长",
+        "outcomes": [
+          {
+            "id": "great",
+            "probability": 0.38,
+            "tier": "great",
+            "result": "你在“关键对手盯防方案”中把握住了机会，职业评价和成长收益都高于预期。",
+            "effects": {
+              "xp": {
+                "DEF": 38
+              },
+              "morale": 4,
+              "clubInterest": 2,
+              "coachTrust": 3
+            }
+          },
+          {
+            "id": "normal",
+            "probability": 0.52,
+            "tier": "normal",
+            "result": "“关键对手盯防方案”基本按预期发展，没有失控，但也没有出现奇迹。",
+            "effects": {
+              "xp": {
+                "DEF": 18
+              },
+              "morale": 1,
+              "coachTrust": 1
+            }
+          },
+          {
+            "id": "bad",
+            "probability": 0.1,
+            "tier": "bad",
+            "result": "“关键对手盯防方案”的结果不理想，你需要在之后的赛季承担代价。",
+            "effects": {
+              "xp": {
+                "DEF": 4
+              },
+              "morale": -3,
+              "injuryRisk": 2,
+              "coachTrust": -4
+            }
+          }
+        ]
+      },
+      {
+        "id": "opt-4",
+        "label": "先处理队友、教练或家人的关系",
+        "risk": "关系",
+        "hint": "可能建立长期羁绊",
+        "outcomes": [
+          {
+            "id": "great",
+            "probability": 0.3,
+            "tier": "great",
+            "result": "你在“关键对手盯防方案”中把握住了机会，职业评价和成长收益都高于预期。",
+            "effects": {
+              "xp": {
+                "PHY": 41
+              },
+              "morale": 4,
+              "clubInterest": 2,
+              "coachTrust": 3,
+              "relationship": 6
+            }
+          },
+          {
+            "id": "normal",
+            "probability": 0.58,
+            "tier": "normal",
+            "result": "“关键对手盯防方案”基本按预期发展，没有失控，但也没有出现奇迹。",
+            "effects": {
+              "xp": {
+                "PHY": 20
+              },
+              "morale": 1,
+              "coachTrust": 1,
+              "relationship": 2
+            }
+          },
+          {
+            "id": "bad",
+            "probability": 0.12,
+            "tier": "bad",
+            "result": "“关键对手盯防方案”的结果不理想，你需要在之后的赛季承担代价。",
+            "effects": {
+              "xp": {
+                "PHY": 4
+              },
+              "morale": -3,
+              "injuryRisk": 2,
+              "coachTrust": -4,
+              "relationship": -5
+            }
+          }
+        ]
+      },
+      {
+        "id": "opt-5",
+        "label": "孤注一掷，选择最高风险路线",
+        "risk": "冒险",
+        "hint": "可能大成功，也可能遭遇严重后果",
+        "outcomes": [
+          {
+            "id": "great",
+            "probability": 0.3,
+            "tier": "great",
+            "result": "你在“关键对手盯防方案”中把握住了机会，职业评价和成长收益都高于预期。",
+            "effects": {
+              "xp": {
+                "SHO": 44
+              },
+              "morale": 4,
+              "clubInterest": 2,
+              "coachTrust": 3,
+              "potential": 1
+            }
+          },
+          {
+            "id": "normal",
+            "probability": 0.3,
+            "tier": "normal",
+            "result": "“关键对手盯防方案”基本按预期发展，没有失控，但也没有出现奇迹。",
+            "effects": {
+              "xp": {
+                "SHO": 22
+              },
+              "morale": 1,
+              "coachTrust": 1
+            }
+          },
+          {
+            "id": "bad",
+            "probability": 0.4,
+            "tier": "bad",
+            "result": "“关键对手盯防方案”的结果不理想，你需要在之后的赛季承担代价。",
+            "effects": {
+              "xp": {
+                "SHO": 4
+              },
+              "morale": -5,
+              "injuryRisk": 12,
+              "coachTrust": -4,
+              "relationship": -5
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "match-prep-003",
+    "version": 1,
+    "category": "match-prep",
+    "categoryName": "比赛准备",
+    "title": "点球主罚顺序",
+    "text": "赛前会议出现了与你位置直接相关的新安排。 这次变化与“点球主罚顺序”有关。选择不仅影响当前结果，还会改变能力成长、教练信任、队内地位和未来转会评价。",
+    "stage": [
+      "youth",
+      "rotation",
+      "starter",
+      "star",
+      "veteran"
+    ],
+    "weight": 1.05,
+    "cooldownSeasons": 8,
+    "major": false,
+    "resolutionModes": [
+      "wheel",
+      "cards",
+      "dice"
+    ],
+    "options": [
+      {
+        "id": "opt-1",
+        "label": "稳步处理，优先保证职业稳定",
+        "risk": "稳健",
+        "hint": "风险最低，收益较稳定",
+        "outcomes": [
+          {
+            "id": "great",
+            "probability": 0.28,
+            "tier": "great",
+            "result": "你在“点球主罚顺序”中把握住了机会，职业评价和成长收益都高于预期。",
+            "effects": {
+              "xp": {
+                "PAS": 32
+              },
+              "morale": 4,
+              "clubInterest": 2,
+              "coachTrust": 3
+            }
+          },
+          {
+            "id": "normal",
+            "probability": 0.62,
+            "tier": "normal",
+            "result": "“点球主罚顺序”基本按预期发展，没有失控，但也没有出现奇迹。",
+            "effects": {
+              "xp": {
+                "PAS": 14
+              },
+              "morale": 1,
+              "coachTrust": 1
+            }
+          },
+          {
+            "id": "bad",
+            "probability": 0.1,
+            "tier": "bad",
+            "result": "“点球主罚顺序”的结果不理想，你需要在之后的赛季承担代价。",
+            "effects": {
+              "xp": {
+                "PAS": 4
+              },
+              "morale": -3,
+              "injuryRisk": 2,
+              "coachTrust": -4
+            }
+          }
+        ]
+      },
+      {
+        "id": "opt-2",
+        "label": "主动争取更大机会",
+        "risk": "进取",
+        "hint": "收益更高，也会增加压力",
+        "outcomes": [
+          {
+            "id": "great",
+            "probability": 0.34,
+            "tier": "great",
+            "result": "你在“点球主罚顺序”中把握住了机会，职业评价和成长收益都高于预期。",
+            "effects": {
+              "xp": {
+                "DRI": 35
+              },
+              "morale": 4,
+              "clubInterest": 2,
+              "coachTrust": 3
+            }
+          },
+          {
+            "id": "normal",
+            "probability": 0.46,
+            "tier": "normal",
+            "result": "“点球主罚顺序”基本按预期发展，没有失控，但也没有出现奇迹。",
+            "effects": {
+              "xp": {
+                "DRI": 16
+              },
+              "morale": 1,
+              "coachTrust": 1
+            }
+          },
+          {
+            "id": "bad",
+            "probability": 0.2,
+            "tier": "bad",
+            "result": "“点球主罚顺序”的结果不理想，你需要在之后的赛季承担代价。",
+            "effects": {
+              "xp": {
+                "DRI": 4
+              },
+              "morale": -3,
+              "injuryRisk": 2,
+              "coachTrust": -4,
+              "relationship": -5
+            }
+          }
+        ]
+      },
+      {
+        "id": "opt-3",
+        "label": "用训练、录像和数据解决问题",
+        "risk": "技术",
+        "hint": "强调长期能力成长",
+        "outcomes": [
+          {
+            "id": "great",
+            "probability": 0.38,
+            "tier": "great",
+            "result": "你在“点球主罚顺序”中把握住了机会，职业评价和成长收益都高于预期。",
+            "effects": {
+              "xp": {
+                "DEF": 38
+              },
+              "morale": 4,
+              "clubInterest": 2,
+              "coachTrust": 3
+            }
+          },
+          {
+            "id": "normal",
+            "probability": 0.52,
+            "tier": "normal",
+            "result": "“点球主罚顺序”基本按预期发展，没有失控，但也没有出现奇迹。",
+            "effects": {
+              "xp": {
+                "DEF": 18
+              },
+              "morale": 1,
+              "coachTrust": 1
+            }
+          },
+          {
+            "id": "bad",
+            "probability": 0.1,
+            "tier": "bad",
+            "result": "“点球主罚顺序”的结果不理想，你需要在之后的赛季承担代价。",
+            "effects": {
+              "xp": {
+                "DEF": 4
+              },
+              "morale": -3,
+              "injuryRisk": 2,
+              "coachTrust": -4
+            }
+          }
+        ]
+      },
+      {
+        "id": "opt-4",
+        "label": "先处理队友、教练或家人的关系",
+        "risk": "关系",
+        "hint": "可能建立长期羁绊",
+        "outcomes": [
+          {
+            "id": "great",
+            "probability": 0.3,
+            "tier": "great",
+            "result": "你在“点球主罚顺序”中把握住了机会，职业评价和成长收益都高于预期。",
+            "effects": {
+              "xp": {
+                "PHY": 41
+              },
+              "morale": 4,
+              "clubInterest": 2,
+              "coachTrust": 3,
+              "relationship": 6
+            }
+          },
+          {
+            "id": "normal",
+            "probability": 0.58,
+            "tier": "normal",
+            "result": "“点球主罚顺序”基本按预期发展，没有失控，但也没有出现奇迹。",
+            "effects": {
+              "xp": {
+                "PHY": 20
+              },
+              "morale": 1,
+              "coachTrust": 1,
+              "relationship": 2
+            }
+          },
+          {
+            "id": "bad",
+            "probability": 0.12,
+            "tier": "bad",
+            "result": "“点球主罚顺序”的结果不理想，你需要在之后的赛季承担代价。",
+            "effects": {
+              "xp": {
+                "PHY": 4
+              },
+              "morale": -3,
+              "injuryRisk": 2,
+              "coachTrust": -4,
+              "relationship": -5
+            }
+          }
+        ]
+      },
+      {
+        "id": "opt-5",
+        "label": "孤注一掷，选择最高风险路线",
+        "risk": "冒险",
+        "hint": "可能大成功，也可能遭遇严重后果",
+        "outcomes": [
+          {
+            "id": "great",
+            "probability": 0.3,
+            "tier": "great",
+            "result": "你在“点球主罚顺序”中把握住了机会，职业评价和成长收益都高于预期。",
+            "effects": {
+              "xp": {
+                "SHO": 44
+              },
+              "morale": 4,
+              "clubInterest": 2,
+              "coachTrust": 3,
+              "potential": 1
+            }
+          },
+          {
+            "id": "normal",
+            "probability": 0.3,
+            "tier": "normal",
+            "result": "“点球主罚顺序”基本按预期发展，没有失控，但也没有出现奇迹。",
+            "effects": {
+              "xp": {
+                "SHO": 22
+              },
+              "morale": 1,
+              "coachTrust": 1
+            }
+          },
+          {
+            "id": "bad",
+            "probability": 0.4,
+            "tier": "bad",
+            "result": "“点球主罚顺序”的结果不理想，你需要在之后的赛季承担代价。",
+            "effects": {
+              "xp": {
+                "SHO": 4
+              },
+              "morale": -5,
+              "injuryRisk": 12,
+              "coachTrust": -4,
+              "relationship": -5
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "match-prep-004",
+    "version": 1,
+    "category": "match-prep",
+    "categoryName": "比赛准备",
+    "title": "队长缺席",
+    "text": "赛前会议出现了与你位置直接相关的新安排。 这次变化与“队长缺席”有关。选择不仅影响当前结果，还会改变能力成长、教练信任、队内地位和未来转会评价。",
+    "stage": [
+      "youth",
+      "rotation",
+      "starter",
+      "star",
+      "veteran"
+    ],
+    "weight": 0.85,
+    "cooldownSeasons": 5,
+    "major": false,
+    "resolutionModes": [
+      "wheel",
+      "cards",
+      "dice"
+    ],
+    "options": [
+      {
+        "id": "opt-1",
+        "label": "稳步处理，优先保证职业稳定",
+        "risk": "稳健",
+        "hint": "风险最低，收益较稳定",
+        "outcomes": [
+          {
+            "id": "great",
+            "probability": 0.28,
+            "tier": "great",
+            "result": "你在“队长缺席”中把握住了机会，职业评价和成长收益都高于预期。",
+            "effects": {
+              "xp": {
+                "PAS": 32
+              },
+              "morale": 4,
+              "clubInterest": 2,
+              "coachTrust": 3
+            }
+          },
+          {
+            "id": "normal",
+            "probability": 0.62,
+            "tier": "normal",
+            "result": "“队长缺席”基本按预期发展，没有失控，但也没有出现奇迹。",
+            "effects": {
+              "xp": {
+                "PAS": 14
+              },
+              "morale": 1,
+              "coachTrust": 1
+            }
+          },
+          {
+            "id": "bad",
+            "probability": 0.1,
+            "tier": "bad",
+            "result": "“队长缺席”的结果不理想，你需要在之后的赛季承担代价。",
+            "effects": {
+              "xp": {
+                "PAS": 4
+              },
+              "morale": -3,
+              "injuryRisk": 2,
+              "coachTrust": -4
+            }
+          }
+        ]
+      },
+      {
+        "id": "opt-2",
+        "label": "主动争取更大机会",
+        "risk": "进取",
+        "hint": "收益更高，也会增加压力",
+        "outcomes": [
+          {
+            "id": "great",
+            "probability": 0.34,
+            "tier": "great",
+            "result": "你在“队长缺席”中把握住了机会，职业评价和成长收益都高于预期。",
+            "effects": {
+              "xp": {
+                "DRI": 35
+              },
+              "morale": 4,
+              "clubInterest": 2,
+              "coachTrust": 3
+            }
+          },
+          {
+            "id": "normal",
+            "probability": 0.46,
+            "tier": "normal",
+            "result": "“队长缺席”基本按预期发展，没有失控，但也没有出现奇迹。",
+            "effects": {
+              "xp": {
+                "DRI": 16
+              },
+              "morale": 1,
+              "coachTrust": 1
+            }
+          },
+          {
+            "id": "bad",
+            "probability": 0.2,
+            "tier": "bad",
+            "result": "“队长缺席”的结果不理想，你需要在之后的赛季承担代价。",
+            "effects": {
+              "xp": {
+                "DRI": 4
+              },
+              "morale": -3,
+              "injuryRisk": 2,
+              "coachTrust": -4,
+              "relationship": -5
+            }
+          }
+        ]
+      },
+      {
+        "id": "opt-3",
+        "label": "用训练、录像和数据解决问题",
+        "risk": "技术",
+        "hint": "强调长期能力成长",
+        "outcomes": [
+          {
+            "id": "great",
+            "probability": 0.38,
+            "tier": "great",
+            "result": "你在“队长缺席”中把握住了机会，职业评价和成长收益都高于预期。",
+            "effects": {
+              "xp": {
+                "DEF": 38
+              },
+              "morale": 4,
+              "clubInterest": 2,
+              "coachTrust": 3
+            }
+          },
+          {
+            "id": "normal",
+            "probability": 0.52,
+            "tier": "normal",
+            "result": "“队长缺席”基本按预期发展，没有失控，但也没有出现奇迹。",
+            "effects": {
+              "xp": {
+                "DEF": 18
+              },
+              "morale": 1,
+              "coachTrust": 1
+            }
+          },
+          {
+            "id": "bad",
+            "probability": 0.1,
+            "tier": "bad",
+            "result": "“队长缺席”的结果不理想，你需要在之后的赛季承担代价。",
+            "effects": {
+              "xp": {
+                "DEF": 4
+              },
+              "morale": -3,
+              "injuryRisk": 2,
+              "coachTrust": -4
+            }
+          }
+        ]
+      },
+      {
+        "id": "opt-4",
+        "label": "先处理队友、教练或家人的关系",
+        "risk": "关系",
+        "hint": "可能建立长期羁绊",
+        "outcomes": [
+          {
+            "id": "great",
+            "probability": 0.3,
+            "tier": "great",
+            "result": "你在“队长缺席”中把握住了机会，职业评价和成长收益都高于预期。",
+            "effects": {
+              "xp": {
+                "PHY": 41
+              },
+              "morale": 4,
+              "clubInterest": 2,
+              "coachTrust": 3,
+              "relationship": 6
+            }
+          },
+          {
+            "id": "normal",
+            "probability": 0.58,
+            "tier": "normal",
+            "result": "“队长缺席”基本按预期发展，没有失控，但也没有出现奇迹。",
+            "effects": {
+              "xp": {
+                "PHY": 20
+              },
+              "morale": 1,
+              "coachTrust": 1,
+              "relationship": 2
+            }
+          },
+          {
+            "id": "bad",
+            "probability": 0.12,
+            "tier": "bad",
+            "result": "“队长缺席”的结果不理想，你需要在之后的赛季承担代价。",
+            "effects": {
+              "xp": {
+                "PHY": 4
+              },
+              "morale": -3,
+              "injuryRisk": 2,
+              "coachTrust": -4,
+              "relationship": -5
+            }
+          }
+        ]
+      },
+      {
+        "id": "opt-5",
+        "label": "孤注一掷，选择最高风险路线",
+        "risk": "冒险",
+        "hint": "可能大成功，也可能遭遇严重后果",
+        "outcomes": [
+          {
+            "id": "great",
+            "probability": 0.3,
+            "tier": "great",
+            "result": "你在“队长缺席”中把握住了机会，职业评价和成长收益都高于预期。",
+            "effects": {
+              "xp": {
+                "SHO": 44
+              },
+              "morale": 4,
+              "clubInterest": 2,
+              "coachTrust": 3,
+              "potential": 1
+            }
+          },
+          {
+            "id": "normal",
+            "probability": 0.3,
+            "tier": "normal",
+            "result": "“队长缺席”基本按预期发展，没有失控，但也没有出现奇迹。",
+            "effects": {
+              "xp": {
+                "SHO": 22
+              },
+              "morale": 1,
+              "coachTrust": 1
+            }
+          },
+          {
+            "id": "bad",
+            "probability": 0.4,
+            "tier": "bad",
+            "result": "“队长缺席”的结果不理想，你需要在之后的赛季承担代价。",
+            "effects": {
+              "xp": {
+                "SHO": 4
+              },
+              "morale": -5,
+              "injuryRisk": 12,
+              "coachTrust": -4,
+              "relationship": -5
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "match-prep-005",
+    "version": 1,
+    "category": "match-prep",
+    "categoryName": "比赛准备",
+    "title": "客场噪音压力",
+    "text": "赛前会议出现了与你位置直接相关的新安排。 这次变化与“客场噪音压力”有关。选择不仅影响当前结果，还会改变能力成长、教练信任、队内地位和未来转会评价。",
+    "stage": [
+      "youth",
+      "rotation",
+      "starter",
+      "star",
+      "veteran"
+    ],
+    "weight": 1.55,
+    "cooldownSeasons": 6,
+    "major": true,
+    "resolutionModes": [
+      "wheel",
+      "cards",
+      "dice"
+    ],
+    "options": [
+      {
+        "id": "opt-1",
+        "label": "稳步处理，优先保证职业稳定",
+        "risk": "稳健",
+        "hint": "风险最低，收益较稳定",
+        "outcomes": [
+          {
+            "id": "great",
+            "probability": 0.28,
+            "tier": "great",
+            "result": "你在“客场噪音压力”中把握住了机会，职业评价和成长收益都高于预期。",
+            "effects": {
+              "xp": {
+                "PAS": 32
+              },
+              "morale": 4,
+              "clubInterest": 2,
+              "coachTrust": 3
+            }
+          },
+          {
+            "id": "normal",
+            "probability": 0.62,
+            "tier": "normal",
+            "result": "“客场噪音压力”基本按预期发展，没有失控，但也没有出现奇迹。",
+            "effects": {
+              "xp": {
+                "PAS": 14
+              },
+              "morale": 1,
+              "coachTrust": 1
+            }
+          },
+          {
+            "id": "bad",
+            "probability": 0.1,
+            "tier": "bad",
+            "result": "“客场噪音压力”的结果不理想，你需要在之后的赛季承担代价。",
+            "effects": {
+              "xp": {
+                "PAS": 4
+              },
+              "morale": -3,
+              "injuryRisk": 2,
+              "coachTrust": -4
+            }
+          }
+        ]
+      },
+      {
+        "id": "opt-2",
+        "label": "主动争取更大机会",
+        "risk": "进取",
+        "hint": "收益更高，也会增加压力",
+        "outcomes": [
+          {
+            "id": "great",
+            "probability": 0.34,
+            "tier": "great",
+            "result": "你在“客场噪音压力”中把握住了机会，职业评价和成长收益都高于预期。",
+            "effects": {
+              "xp": {
+                "DRI": 35
+              },
+              "morale": 4,
+              "clubInterest": 2,
+              "coachTrust": 3
+            }
+          },
+          {
+            "id": "normal",
+            "probability": 0.46,
+            "tier": "normal",
+            "result": "“客场噪音压力”基本按预期发展，没有失控，但也没有出现奇迹。",
+            "effects": {
+              "xp": {
+                "DRI": 16
+              },
+              "morale": 1,
+              "coachTrust": 1
+            }
+          },
+          {
+            "id": "bad",
+            "probability": 0.2,
+            "tier": "bad",
+            "result": "“客场噪音压力”的结果不理想，你需要在之后的赛季承担代价。",
+            "effects": {
+              "xp": {
+                "DRI": 4
+              },
+              "morale": -3,
+              "injuryRisk": 2,
+              "coachTrust": -4,
+              "relationship": -5
+            }
+          }
+        ]
+      },
+      {
+        "id": "opt-3",
+        "label": "用训练、录像和数据解决问题",
+        "risk": "技术",
+        "hint": "强调长期能力成长",
+        "outcomes": [
+          {
+            "id": "great",
+            "probability": 0.38,
+            "tier": "great",
+            "result": "你在“客场噪音压力”中把握住了机会，职业评价和成长收益都高于预期。",
+            "effects": {
+              "xp": {
+                "DEF": 38
+              },
+              "morale": 4,
+              "clubInterest": 2,
+              "coachTrust": 3
+            }
+          },
+          {
+            "id": "normal",
+            "probability": 0.52,
+            "tier": "normal",
+            "result": "“客场噪音压力”基本按预期发展，没有失控，但也没有出现奇迹。",
+            "effects": {
+              "xp": {
+                "DEF": 18
+              },
+              "morale": 1,
+              "coachTrust": 1
+            }
+          },
+          {
+            "id": "bad",
+            "probability": 0.1,
+            "tier": "bad",
+            "result": "“客场噪音压力”的结果不理想，你需要在之后的赛季承担代价。",
+            "effects": {
+              "xp": {
+                "DEF": 4
+              },
+              "morale": -3,
+              "injuryRisk": 2,
+              "coachTrust": -4
+            }
+          }
+        ]
+      },
+      {
+        "id": "opt-4",
+        "label": "先处理队友、教练或家人的关系",
+        "risk": "关系",
+        "hint": "可能建立长期羁绊",
+        "outcomes": [
+          {
+            "id": "great",
+            "probability": 0.3,
+            "tier": "great",
+            "result": "你在“客场噪音压力”中把握住了机会，职业评价和成长收益都高于预期。",
+            "effects": {
+              "xp": {
+                "PHY": 41
+              },
+              "morale": 4,
+              "clubInterest": 2,
+              "coachTrust": 3,
+              "relationship": 6
+            }
+          },
+          {
+            "id": "normal",
+            "probability": 0.58,
+            "tier": "normal",
+            "result": "“客场噪音压力”基本按预期发展，没有失控，但也没有出现奇迹。",
+            "effects": {
+              "xp": {
+                "PHY": 20
+              },
+              "morale": 1,
+              "coachTrust": 1,
+              "relationship": 2
+            }
+          },
+          {
+            "id": "bad",
+            "probability": 0.12,
+            "tier": "bad",
+            "result": "“客场噪音压力”的结果不理想，你需要在之后的赛季承担代价。",
+            "effects": {
+              "xp": {
+                "PHY": 4
+              },
+              "morale": -3,
+              "injuryRisk": 2,
+              "coachTrust": -4,
+              "relationship": -5
+            }
+          }
+        ]
+      },
+      {
+        "id": "opt-5",
+        "label": "孤注一掷，选择最高风险路线",
+        "risk": "冒险",
+        "hint": "可能大成功，也可能遭遇严重后果",
+        "outcomes": [
+          {
+            "id": "great",
+            "probability": 0.3,
+            "tier": "great",
+            "result": "你在“客场噪音压力”中把握住了机会，职业评价和成长收益都高于预期。",
+            "effects": {
+              "xp": {
+                "SHO": 44
+              },
+              "morale": 4,
+              "clubInterest": 2,
+              "coachTrust": 3,
+              "potential": 1
+            }
+          },
+          {
+            "id": "normal",
+            "probability": 0.3,
+            "tier": "normal",
+            "result": "“客场噪音压力”基本按预期发展，没有失控，但也没有出现奇迹。",
+            "effects": {
+              "xp": {
+                "SHO": 22
+              },
+              "morale": 1,
+              "coachTrust": 1
+            }
+          },
+          {
+            "id": "bad",
+            "probability": 0.4,
+            "tier": "bad",
+            "result": "“客场噪音压力”的结果不理想，你需要在之后的赛季承担代价。",
+            "effects": {
+              "xp": {
+                "SHO": 4
+              },
+              "morale": -5,
+              "injuryRisk": 12,
+              "coachTrust": -4,
+              "relationship": -5
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "match-prep-006",
+    "version": 1,
+    "category": "match-prep",
+    "categoryName": "比赛准备",
+    "title": "天气突变",
+    "text": "赛前会议出现了与你位置直接相关的新安排。 这次变化与“天气突变”有关。选择不仅影响当前结果，还会改变能力成长、教练信任、队内地位和未来转会评价。",
+    "stage": [
+      "youth",
+      "rotation",
+      "starter",
+      "star",
+      "veteran"
+    ],
+    "weight": 1.35,
+    "cooldownSeasons": 7,
+    "major": false,
+    "resolutionModes": [
+      "wheel",
+      "cards",
+      "dice"
+    ],
+    "options": [
+      {
+        "id": "opt-1",
+        "label": "稳步处理，优先保证职业稳定",
+        "risk": "稳健",
+        "hint": "风险最低，收益较稳定",
+        "outcomes": [
+          {
+            "id": "great",
+            "probability": 0.28,
+            "tier": "great",
+            "result": "你在“天气突变”中把握住了机会，职业评价和成长收益都高于预期。",
+            "effects": {
+              "xp": {
+                "PAS": 32
+              },
+              "morale": 4,
+              "clubInterest": 2,
+              "coachTrust": 3
+            }
+          },
+          {
+            "id": "normal",
+            "probability": 0.62,
+            "tier": "normal",
+            "result": "“天气突变”基本按预期发展，没有失控，但也没有出现奇迹。",
+            "effects": {
+              "xp": {
+                "PAS": 14
+              },
+              "morale": 1,
+              "coachTrust": 1
+            }
+          },
+          {
+            "id": "bad",
+            "probability": 0.1,
+            "tier": "bad",
+            "result": "“天气突变”的结果不理想，你需要在之后的赛季承担代价。",
+            "effects": {
+              "xp": {
+                "PAS": 4
+              },
+              "morale": -3,
+              "injuryRisk": 2,
+              "coachTrust": -4
+            }
+          }
+        ]
+      },
+      {
+        "id": "opt-2",
+        "label": "主动争取更大机会",
+        "risk": "进取",
+        "hint": "收益更高，也会增加压力",
+        "outcomes": [
+          {
+            "id": "great",
+            "probability": 0.34,
+            "tier": "great",
+            "result": "你在“天气突变”中把握住了机会，职业评价和成长收益都高于预期。",
+            "effects": {
+              "xp": {
+                "DRI": 35
+              },
+              "morale": 4,
+              "clubInterest": 2,
+              "coachTrust": 3
+            }
+          },
+          {
+            "id": "normal",
+            "probability": 0.46,
+            "tier": "normal",
+            "result": "“天气突变”基本按预期发展，没有失控，但也没有出现奇迹。",
+            "effects": {
+              "xp": {
+                "DRI": 16
+              },
+              "morale": 1,
+              "coachTrust": 1
+            }
+          },
+          {
+            "id": "bad",
+            "probability": 0.2,
+            "tier": "bad",
+            "result": "“天气突变”的结果不理想，你需要在之后的赛季承担代价。",
+            "effects": {
+              "xp": {
+                "DRI": 4
+              },
+              "morale": -3,
+              "injuryRisk": 2,
+              "coachTrust": -4,
+              "relationship": -5
+            }
+          }
+        ]
+      },
+      {
+        "id": "opt-3",
+        "label": "用训练、录像和数据解决问题",
+        "risk": "技术",
+        "hint": "强调长期能力成长",
+        "outcomes": [
+          {
+            "id": "great",
+            "probability": 0.38,
+            "tier": "great",
+            "result": "你在“天气突变”中把握住了机会，职业评价和成长收益都高于预期。",
+            "effects": {
+              "xp": {
+                "DEF": 38
+              },
+              "morale": 4,
+              "clubInterest": 2,
+              "coachTrust": 3
+            }
+          },
+          {
+            "id": "normal",
+            "probability": 0.52,
+            "tier": "normal",
+            "result": "“天气突变”基本按预期发展，没有失控，但也没有出现奇迹。",
+            "effects": {
+              "xp": {
+                "DEF": 18
+              },
+              "morale": 1,
+              "coachTrust": 1
+            }
+          },
+          {
+            "id": "bad",
+            "probability": 0.1,
+            "tier": "bad",
+            "result": "“天气突变”的结果不理想，你需要在之后的赛季承担代价。",
+            "effects": {
+              "xp": {
+                "DEF": 4
+              },
+              "morale": -3,
+              "injuryRisk": 2,
+              "coachTrust": -4
+            }
+          }
+        ]
+      },
+      {
+        "id": "opt-4",
+        "label": "先处理队友、教练或家人的关系",
+        "risk": "关系",
+        "hint": "可能建立长期羁绊",
+        "outcomes": [
+          {
+            "id": "great",
+            "probability": 0.3,
+            "tier": "great",
+            "result": "你在“天气突变”中把握住了机会，职业评价和成长收益都高于预期。",
+            "effects": {
+              "xp": {
+                "PHY": 41
+              },
+              "morale": 4,
+              "clubInterest": 2,
+              "coachTrust": 3,
+              "relationship": 6
+            }
+          },
+          {
+            "id": "normal",
+            "probability": 0.58,
+            "tier": "normal",
+            "result": "“天气突变”基本按预期发展，没有失控，但也没有出现奇迹。",
+            "effects": {
+              "xp": {
+                "PHY": 20
+              },
+              "morale": 1,
+              "coachTrust": 1,
+              "relationship": 2
+            }
+          },
+          {
+            "id": "bad",
+            "probability": 0.12,
+            "tier": "bad",
+            "result": "“天气突变”的结果不理想，你需要在之后的赛季承担代价。",
+            "effects": {
+              "xp": {
+                "PHY": 4
+              },
+              "morale": -3,
+              "injuryRisk": 2,
+              "coachTrust": -4,
+              "relationship": -5
+            }
+          }
+        ]
+      },
+      {
+        "id": "opt-5",
+        "label": "孤注一掷，选择最高风险路线",
+        "risk": "冒险",
+        "hint": "可能大成功，也可能遭遇严重后果",
+        "outcomes": [
+          {
+            "id": "great",
+            "probability": 0.3,
+            "tier": "great",
+            "result": "你在“天气突变”中把握住了机会，职业评价和成长收益都高于预期。",
+            "effects": {
+              "xp": {
+                "SHO": 44
+              },
+              "morale": 4,
+              "clubInterest": 2,
+              "coachTrust": 3,
+              "potential": 1
+            }
+          },
+          {
+            "id": "normal",
+            "probability": 0.3,
+            "tier": "normal",
+            "result": "“天气突变”基本按预期发展，没有失控，但也没有出现奇迹。",
+            "effects": {
+              "xp": {
+                "SHO": 22
+              },
+              "morale": 1,
+              "coachTrust": 1
+            }
+          },
+          {
+            "id": "bad",
+            "probability": 0.4,
+            "tier": "bad",
+            "result": "“天气突变”的结果不理想，你需要在之后的赛季承担代价。",
+            "effects": {
+              "xp": {
+                "SHO": 4
+              },
+              "morale": -5,
+              "injuryRisk": 12,
+              "coachTrust": -4,
+              "relationship": -5
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "match-prep-007",
+    "version": 1,
+    "category": "match-prep",
+    "categoryName": "比赛准备",
+    "title": "对手高位压迫",
+    "text": "赛前会议出现了与你位置直接相关的新安排。 这次变化与“对手高位压迫”有关。选择不仅影响当前结果，还会改变能力成长、教练信任、队内地位和未来转会评价。",
+    "stage": [
+      "youth",
+      "rotation",
+      "starter",
+      "star",
+      "veteran"
+    ],
+    "weight": 1.15,
+    "cooldownSeasons": 8,
+    "major": false,
+    "resolutionModes": [
+      "wheel",
+      "cards",
+      "dice"
+    ],
+    "options": [
+      {
+        "id": "opt-1",
+        "label": "稳步处理，优先保证职业稳定",
+        "risk": "稳健",
+        "hint": "风险最低，收益较稳定",
+        "outcomes": [
+          {
+            "id": "great",
+            "probability": 0.28,
+            "tier": "great",
+            "result": "你在“对手高位压迫”中把握住了机会，职业评价和成长收益都高于预期。",
+            "effects": {
+              "xp": {
+                "PAS": 32
+              },
+              "morale": 4,
+              "clubInterest": 2,
+              "coachTrust": 3
+            }
+          },
+          {
+            "id": "normal",
+            "probability": 0.62,
+            "tier": "normal",
+            "result": "“对手高位压迫”基本按预期发展，没有失控，但也没有出现奇迹。",
+            "effects": {
+              "xp": {
+                "PAS": 14
+              },
+              "morale": 1,
+              "coachTrust": 1
+            }
+          },
+          {
+            "id": "bad",
+            "probability": 0.1,
+            "tier": "bad",
+            "result": "“对手高位压迫”的结果不理想，你需要在之后的赛季承担代价。",
+            "effects": {
+              "xp": {
+                "PAS": 4
+              },
+              "morale": -3,
+              "injuryRisk": 2,
+              "coachTrust": -4
+            }
+          }
+        ]
+      },
+      {
+        "id": "opt-2",
+        "label": "主动争取更大机会",
+        "risk": "进取",
+        "hint": "收益更高，也会增加压力",
+        "outcomes": [
+          {
+            "id": "great",
+            "probability": 0.34,
+            "tier": "great",
+            "result": "你在“对手高位压迫”中把握住了机会，职业评价和成长收益都高于预期。",
+            "effects": {
+              "xp": {
+                "DRI": 35
+              },
+              "morale": 4,
+              "clubInterest": 2,
+              "coachTrust": 3
+            }
+          },
+          {
+            "id": "normal",
+            "probability": 0.46,
+            "tier": "normal",
+            "result": "“对手高位压迫”基本按预期发展，没有失控，但也没有出现奇迹。",
+            "effects": {
+              "xp": {
+                "DRI": 16
+              },
+              "morale": 1,
+              "coachTrust": 1
+            }
+          },
+          {
+            "id": "bad",
+            "probability": 0.2,
+            "tier": "bad",
+            "result": "“对手高位压迫”的结果不理想，你需要在之后的赛季承担代价。",
+            "effects": {
+              "xp": {
+                "DRI": 4
+              },
+              "morale": -3,
+              "injuryRisk": 2,
+              "coachTrust": -4,
+              "relationship": -5
+            }
+          }
+        ]
+      },
+      {
+        "id": "opt-3",
+        "label": "用训练、录像和数据解决问题",
+        "risk": "技术",
+        "hint": "强调长期能力成长",
+        "outcomes": [
+          {
+            "id": "great",
+            "probability": 0.38,
+            "tier": "great",
+            "result": "你在“对手高位压迫”中把握住了机会，职业评价和成长收益都高于预期。",
+            "effects": {
+              "xp": {
+                "DEF": 38
+              },
+              "morale": 4,
+              "clubInterest": 2,
+              "coachTrust": 3
+            }
+          },
+          {
+            "id": "normal",
+            "probability": 0.52,
+            "tier": "normal",
+            "result": "“对手高位压迫”基本按预期发展，没有失控，但也没有出现奇迹。",
+            "effects": {
+              "xp": {
+                "DEF": 18
+              },
+              "morale": 1,
+              "coachTrust": 1
+            }
+          },
+          {
+            "id": "bad",
+            "probability": 0.1,
+            "tier": "bad",
+            "result": "“对手高位压迫”的结果不理想，你需要在之后的赛季承担代价。",
+            "effects": {
+              "xp": {
+                "DEF": 4
+              },
+              "morale": -3,
+              "injuryRisk": 2,
+              "coachTrust": -4
+            }
+          }
+        ]
+      },
+      {
+        "id": "opt-4",
+        "label": "先处理队友、教练或家人的关系",
+        "risk": "关系",
+        "hint": "可能建立长期羁绊",
+        "outcomes": [
+          {
+            "id": "great",
+            "probability": 0.3,
+            "tier": "great",
+            "result": "你在“对手高位压迫”中把握住了机会，职业评价和成长收益都高于预期。",
+            "effects": {
+              "xp": {
+                "PHY": 41
+              },
+              "morale": 4,
+              "clubInterest": 2,
+              "coachTrust": 3,
+              "relationship": 6
+            }
+          },
+          {
+            "id": "normal",
+            "probability": 0.58,
+            "tier": "normal",
+            "result": "“对手高位压迫”基本按预期发展，没有失控，但也没有出现奇迹。",
+            "effects": {
+              "xp": {
+                "PHY": 20
+              },
+              "morale": 1,
+              "coachTrust": 1,
+              "relationship": 2
+            }
+          },
+          {
+            "id": "bad",
+            "probability": 0.12,
+            "tier": "bad",
+            "result": "“对手高位压迫”的结果不理想，你需要在之后的赛季承担代价。",
+            "effects": {
+              "xp": {
+                "PHY": 4
+              },
+              "morale": -3,
+              "injuryRisk": 2,
+              "coachTrust": -4,
+              "relationship": -5
+            }
+          }
+        ]
+      },
+      {
+        "id": "opt-5",
+        "label": "孤注一掷，选择最高风险路线",
+        "risk": "冒险",
+        "hint": "可能大成功，也可能遭遇严重后果",
+        "outcomes": [
+          {
+            "id": "great",
+            "probability": 0.3,
+            "tier": "great",
+            "result": "你在“对手高位压迫”中把握住了机会，职业评价和成长收益都高于预期。",
+            "effects": {
+              "xp": {
+                "SHO": 44
+              },
+              "morale": 4,
+              "clubInterest": 2,
+              "coachTrust": 3,
+              "potential": 1
+            }
+          },
+          {
+            "id": "normal",
+            "probability": 0.3,
+            "tier": "normal",
+            "result": "“对手高位压迫”基本按预期发展，没有失控，但也没有出现奇迹。",
+            "effects": {
+              "xp": {
+                "SHO": 22
+              },
+              "morale": 1,
+              "coachTrust": 1
+            }
+          },
+          {
+            "id": "bad",
+            "probability": 0.4,
+            "tier": "bad",
+            "result": "“对手高位压迫”的结果不理想，你需要在之后的赛季承担代价。",
+            "effects": {
+              "xp": {
+                "SHO": 4
+              },
+              "morale": -5,
+              "injuryRisk": 12,
+              "coachTrust": -4,
+              "relationship": -5
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "match-prep-008",
+    "version": 1,
+    "category": "match-prep",
+    "categoryName": "比赛准备",
+    "title": "半场战术调整预案",
+    "text": "赛前会议出现了与你位置直接相关的新安排。 这次变化与“半场战术调整预案”有关。选择不仅影响当前结果，还会改变能力成长、教练信任、队内地位和未来转会评价。",
+    "stage": [
+      "youth",
+      "rotation",
+      "starter",
+      "star",
+      "veteran"
+    ],
+    "weight": 0.95,
+    "cooldownSeasons": 5,
+    "major": false,
+    "resolutionModes": [
+      "wheel",
+      "cards",
+      "dice"
+    ],
+    "options": [
+      {
+        "id": "opt-1",
+        "label": "稳步处理，优先保证职业稳定",
+        "risk": "稳健",
+        "hint": "风险最低，收益较稳定",
+        "outcomes": [
+          {
+            "id": "great",
+            "probability": 0.28,
+            "tier": "great",
+            "result": "你在“半场战术调整预案”中把握住了机会，职业评价和成长收益都高于预期。",
+            "effects": {
+              "xp": {
+                "PAS": 32
+              },
+              "morale": 4,
+              "clubInterest": 2,
+              "coachTrust": 3
+            }
+          },
+          {
+            "id": "normal",
+            "probability": 0.62,
+            "tier": "normal",
+            "result": "“半场战术调整预案”基本按预期发展，没有失控，但也没有出现奇迹。",
+            "effects": {
+              "xp": {
+                "PAS": 14
+              },
+              "morale": 1,
+              "coachTrust": 1
+            }
+          },
+          {
+            "id": "bad",
+            "probability": 0.1,
+            "tier": "bad",
+            "result": "“半场战术调整预案”的结果不理想，你需要在之后的赛季承担代价。",
+            "effects": {
+              "xp": {
+                "PAS": 4
+              },
+              "morale": -3,
+              "injuryRisk": 2,
+              "coachTrust": -4
+            }
+          }
+        ]
+      },
+      {
+        "id": "opt-2",
+        "label": "主动争取更大机会",
+        "risk": "进取",
+        "hint": "收益更高，也会增加压力",
+        "outcomes": [
+          {
+            "id": "great",
+            "probability": 0.34,
+            "tier": "great",
+            "result": "你在“半场战术调整预案”中把握住了机会，职业评价和成长收益都高于预期。",
+            "effects": {
+              "xp": {
+                "DRI": 35
+              },
+              "morale": 4,
+              "clubInterest": 2,
+              "coachTrust": 3
+            }
+          },
+          {
+            "id": "normal",
+            "probability": 0.46,
+            "tier": "normal",
+            "result": "“半场战术调整预案”基本按预期发展，没有失控，但也没有出现奇迹。",
+            "effects": {
+              "xp": {
+                "DRI": 16
+              },
+              "morale": 1,
+              "coachTrust": 1
+            }
+          },
+          {
+            "id": "bad",
+            "probability": 0.2,
+            "tier": "bad",
+            "result": "“半场战术调整预案”的结果不理想，你需要在之后的赛季承担代价。",
+            "effects": {
+              "xp": {
+                "DRI": 4
+              },
+              "morale": -3,
+              "injuryRisk": 2,
+              "coachTrust": -4,
+              "relationship": -5
+            }
+          }
+        ]
+      },
+      {
+        "id": "opt-3",
+        "label": "用训练、录像和数据解决问题",
+        "risk": "技术",
+        "hint": "强调长期能力成长",
+        "outcomes": [
+          {
+            "id": "great",
+            "probability": 0.38,
+            "tier": "great",
+            "result": "你在“半场战术调整预案”中把握住了机会，职业评价和成长收益都高于预期。",
+            "effects": {
+              "xp": {
+                "DEF": 38
+              },
+              "morale": 4,
+              "clubInterest": 2,
+              "coachTrust": 3
+            }
+          },
+          {
+            "id": "normal",
+            "probability": 0.52,
+            "tier": "normal",
+            "result": "“半场战术调整预案”基本按预期发展，没有失控，但也没有出现奇迹。",
+            "effects": {
+              "xp": {
+                "DEF": 18
+              },
+              "morale": 1,
+              "coachTrust": 1
+            }
+          },
+          {
+            "id": "bad",
+            "probability": 0.1,
+            "tier": "bad",
+            "result": "“半场战术调整预案”的结果不理想，你需要在之后的赛季承担代价。",
+            "effects": {
+              "xp": {
+                "DEF": 4
+              },
+              "morale": -3,
+              "injuryRisk": 2,
+              "coachTrust": -4
+            }
+          }
+        ]
+      },
+      {
+        "id": "opt-4",
+        "label": "先处理队友、教练或家人的关系",
+        "risk": "关系",
+        "hint": "可能建立长期羁绊",
+        "outcomes": [
+          {
+            "id": "great",
+            "probability": 0.3,
+            "tier": "great",
+            "result": "你在“半场战术调整预案”中把握住了机会，职业评价和成长收益都高于预期。",
+            "effects": {
+              "xp": {
+                "PHY": 41
+              },
+              "morale": 4,
+              "clubInterest": 2,
+              "coachTrust": 3,
+              "relationship": 6
+            }
+          },
+          {
+            "id": "normal",
+            "probability": 0.58,
+            "tier": "normal",
+            "result": "“半场战术调整预案”基本按预期发展，没有失控，但也没有出现奇迹。",
+            "effects": {
+              "xp": {
+                "PHY": 20
+              },
+              "morale": 1,
+              "coachTrust": 1,
+              "relationship": 2
+            }
+          },
+          {
+            "id": "bad",
+            "probability": 0.12,
+            "tier": "bad",
+            "result": "“半场战术调整预案”的结果不理想，你需要在之后的赛季承担代价。",
+            "effects": {
+              "xp": {
+                "PHY": 4
+              },
+              "morale": -3,
+              "injuryRisk": 2,
+              "coachTrust": -4,
+              "relationship": -5
+            }
+          }
+        ]
+      },
+      {
+        "id": "opt-5",
+        "label": "孤注一掷，选择最高风险路线",
+        "risk": "冒险",
+        "hint": "可能大成功，也可能遭遇严重后果",
+        "outcomes": [
+          {
+            "id": "great",
+            "probability": 0.3,
+            "tier": "great",
+            "result": "你在“半场战术调整预案”中把握住了机会，职业评价和成长收益都高于预期。",
+            "effects": {
+              "xp": {
+                "SHO": 44
+              },
+              "morale": 4,
+              "clubInterest": 2,
+              "coachTrust": 3,
+              "potential": 1
+            }
+          },
+          {
+            "id": "normal",
+            "probability": 0.3,
+            "tier": "normal",
+            "result": "“半场战术调整预案”基本按预期发展，没有失控，但也没有出现奇迹。",
+            "effects": {
+              "xp": {
+                "SHO": 22
+              },
+              "morale": 1,
+              "coachTrust": 1
+            }
+          },
+          {
+            "id": "bad",
+            "probability": 0.4,
+            "tier": "bad",
+            "result": "“半场战术调整预案”的结果不理想，你需要在之后的赛季承担代价。",
+            "effects": {
+              "xp": {
+                "SHO": 4
+              },
+              "morale": -5,
+              "injuryRisk": 12,
+              "coachTrust": -4,
+              "relationship": -5
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "match-prep-009",
+    "version": 1,
+    "category": "match-prep",
+    "categoryName": "比赛准备",
+    "title": "德比战前夜",
+    "text": "赛前会议出现了与你位置直接相关的新安排。 这次变化与“德比战前夜”有关。选择不仅影响当前结果，还会改变能力成长、教练信任、队内地位和未来转会评价。",
+    "stage": [
+      "youth",
+      "rotation",
+      "starter",
+      "star",
+      "veteran"
+    ],
+    "weight": 0.75,
+    "cooldownSeasons": 6,
+    "major": false,
+    "resolutionModes": [
+      "wheel",
+      "cards",
+      "dice"
+    ],
+    "options": [
+      {
+        "id": "opt-1",
+        "label": "稳步处理，优先保证职业稳定",
+        "risk": "稳健",
+        "hint": "风险最低，收益较稳定",
+        "outcomes": [
+          {
+            "id": "great",
+            "probability": 0.28,
+            "tier": "great",
+            "result": "你在“德比战前夜”中把握住了机会，职业评价和成长收益都高于预期。",
+            "effects": {
+              "xp": {
+                "PAS": 32
+              },
+              "morale": 4,
+              "clubInterest": 2,
+              "coachTrust": 3
+            }
+          },
+          {
+            "id": "normal",
+            "probability": 0.62,
+            "tier": "normal",
+            "result": "“德比战前夜”基本按预期发展，没有失控，但也没有出现奇迹。",
+            "effects": {
+              "xp": {
+                "PAS": 14
+              },
+              "morale": 1,
+              "coachTrust": 1
+            }
+          },
+          {
+            "id": "bad",
+            "probability": 0.1,
+            "tier": "bad",
+            "result": "“德比战前夜”的结果不理想，你需要在之后的赛季承担代价。",
+            "effects": {
+              "xp": {
+                "PAS": 4
+              },
+              "morale": -3,
+              "injuryRisk": 2,
+              "coachTrust": -4
+            }
+          }
+        ]
+      },
+      {
+        "id": "opt-2",
+        "label": "主动争取更大机会",
+        "risk": "进取",
+        "hint": "收益更高，也会增加压力",
+        "outcomes": [
+          {
+            "id": "great",
+            "probability": 0.34,
+            "tier": "great",
+            "result": "你在“德比战前夜”中把握住了机会，职业评价和成长收益都高于预期。",
+            "effects": {
+              "xp": {
+                "DRI": 35
+              },
+              "morale": 4,
+              "clubInterest": 2,
+              "coachTrust": 3
+            }
+          },
+          {
+            "id": "normal",
+            "probability": 0.46,
+            "tier": "normal",
+            "result": "“德比战前夜”基本按预期发展，没有失控，但也没有出现奇迹。",
+            "effects": {
+              "xp": {
+                "DRI": 16
+              },
+              "morale": 1,
+              "coachTrust": 1
+            }
+          },
+          {
+            "id": "bad",
+            "probability": 0.2,
+            "tier": "bad",
+            "result": "“德比战前夜”的结果不理想，你需要在之后的赛季承担代价。",
+            "effects": {
+              "xp": {
+                "DRI": 4
+              },
+              "morale": -3,
+              "injuryRisk": 2,
+              "coachTrust": -4,
+              "relationship": -5
+            }
+          }
+        ]
+      },
+      {
+        "id": "opt-3",
+        "label": "用训练、录像和数据解决问题",
+        "risk": "技术",
+        "hint": "强调长期能力成长",
+        "outcomes": [
+          {
+            "id": "great",
+            "probability": 0.38,
+            "tier": "great",
+            "result": "你在“德比战前夜”中把握住了机会，职业评价和成长收益都高于预期。",
+            "effects": {
+              "xp": {
+                "DEF": 38
+              },
+              "morale": 4,
+              "clubInterest": 2,
+              "coachTrust": 3
+            }
+          },
+          {
+            "id": "normal",
+            "probability": 0.52,
+            "tier": "normal",
+            "result": "“德比战前夜”基本按预期发展，没有失控，但也没有出现奇迹。",
+            "effects": {
+              "xp": {
+                "DEF": 18
+              },
+              "morale": 1,
+              "coachTrust": 1
+            }
+          },
+          {
+            "id": "bad",
+            "probability": 0.1,
+            "tier": "bad",
+            "result": "“德比战前夜”的结果不理想，你需要在之后的赛季承担代价。",
+            "effects": {
+              "xp": {
+                "DEF": 4
+              },
+              "morale": -3,
+              "injuryRisk": 2,
+              "coachTrust": -4
+            }
+          }
+        ]
+      },
+      {
+        "id": "opt-4",
+        "label": "先处理队友、教练或家人的关系",
+        "risk": "关系",
+        "hint": "可能建立长期羁绊",
+        "outcomes": [
+          {
+            "id": "great",
+            "probability": 0.3,
+            "tier": "great",
+            "result": "你在“德比战前夜”中把握住了机会，职业评价和成长收益都高于预期。",
+            "effects": {
+              "xp": {
+                "PHY": 41
+              },
+              "morale": 4,
+              "clubInterest": 2,
+              "coachTrust": 3,
+              "relationship": 6
+            }
+          },
+          {
+            "id": "normal",
+            "probability": 0.58,
+            "tier": "normal",
+            "result": "“德比战前夜”基本按预期发展，没有失控，但也没有出现奇迹。",
+            "effects": {
+              "xp": {
+                "PHY": 20
+              },
+              "morale": 1,
+              "coachTrust": 1,
+              "relationship": 2
+            }
+          },
+          {
+            "id": "bad",
+            "probability": 0.12,
+            "tier": "bad",
+            "result": "“德比战前夜”的结果不理想，你需要在之后的赛季承担代价。",
+            "effects": {
+              "xp": {
+                "PHY": 4
+              },
+              "morale": -3,
+              "injuryRisk": 2,
+              "coachTrust": -4,
+              "relationship": -5
+            }
+          }
+        ]
+      },
+      {
+        "id": "opt-5",
+        "label": "孤注一掷，选择最高风险路线",
+        "risk": "冒险",
+        "hint": "可能大成功，也可能遭遇严重后果",
+        "outcomes": [
+          {
+            "id": "great",
+            "probability": 0.3,
+            "tier": "great",
+            "result": "你在“德比战前夜”中把握住了机会，职业评价和成长收益都高于预期。",
+            "effects": {
+              "xp": {
+                "SHO": 44
+              },
+              "morale": 4,
+              "clubInterest": 2,
+              "coachTrust": 3,
+              "potential": 1
+            }
+          },
+          {
+            "id": "normal",
+            "probability": 0.3,
+            "tier": "normal",
+            "result": "“德比战前夜”基本按预期发展，没有失控，但也没有出现奇迹。",
+            "effects": {
+              "xp": {
+                "SHO": 22
+              },
+              "morale": 1,
+              "coachTrust": 1
+            }
+          },
+          {
+            "id": "bad",
+            "probability": 0.4,
+            "tier": "bad",
+            "result": "“德比战前夜”的结果不理想，你需要在之后的赛季承担代价。",
+            "effects": {
+              "xp": {
+                "SHO": 4
+              },
+              "morale": -5,
+              "injuryRisk": 12,
+              "coachTrust": -4,
+              "relationship": -5
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "match-prep-010",
+    "version": 1,
+    "category": "match-prep",
+    "categoryName": "比赛准备",
+    "title": "杯赛轮换",
+    "text": "赛前会议出现了与你位置直接相关的新安排。 这次变化与“杯赛轮换”有关。选择不仅影响当前结果，还会改变能力成长、教练信任、队内地位和未来转会评价。",
+    "stage": [
+      "youth",
+      "rotation",
+      "starter",
+      "star",
+      "veteran"
+    ],
+    "weight": 1.45,
+    "cooldownSeasons": 7,
+    "major": true,
+    "resolutionModes": [
+      "wheel",
+      "cards",
+      "dice"
+    ],
+    "options": [
+      {
+        "id": "opt-1",
+        "label": "稳步处理，优先保证职业稳定",
+        "risk": "稳健",
+        "hint": "风险最低，收益较稳定",
+        "outcomes": [
+          {
+            "id": "great",
+            "probability": 0.28,
+            "tier": "great",
+            "result": "你在“杯赛轮换”中把握住了机会，职业评价和成长收益都高于预期。",
+            "effects": {
+              "xp": {
+                "PAS": 32
+              },
+              "morale": 4,
+              "clubInterest": 2,
+              "coachTrust": 3
+            }
+          },
+          {
+            "id": "normal",
+            "probability": 0.62,
+            "tier": "normal",
+            "result": "“杯赛轮换”基本按预期发展，没有失控，但也没有出现奇迹。",
+            "effects": {
+              "xp": {
+                "PAS": 14
+              },
+              "morale": 1,
+              "coachTrust": 1
+            }
+          },
+          {
+            "id": "bad",
+            "probability": 0.1,
+            "tier": "bad",
+            "result": "“杯赛轮换”的结果不理想，你需要在之后的赛季承担代价。",
+            "effects": {
+              "xp": {
+                "PAS": 4
+              },
+              "morale": -3,
+              "injuryRisk": 2,
+              "coachTrust": -4
+            }
+          }
+        ]
+      },
+      {
+        "id": "opt-2",
+        "label": "主动争取更大机会",
+        "risk": "进取",
+        "hint": "收益更高，也会增加压力",
+        "outcomes": [
+          {
+            "id": "great",
+            "probability": 0.34,
+            "tier": "great",
+            "result": "你在“杯赛轮换”中把握住了机会，职业评价和成长收益都高于预期。",
+            "effects": {
+              "xp": {
+                "DRI": 35
+              },
+              "morale": 4,
+              "clubInterest": 2,
+              "coachTrust": 3
+            }
+          },
+          {
+            "id": "normal",
+            "probability": 0.46,
+            "tier": "normal",
+            "result": "“杯赛轮换”基本按预期发展，没有失控，但也没有出现奇迹。",
+            "effects": {
+              "xp": {
+                "DRI": 16
+              },
+              "morale": 1,
+              "coachTrust": 1
+            }
+          },
+          {
+            "id": "bad",
+            "probability": 0.2,
+            "tier": "bad",
+            "result": "“杯赛轮换”的结果不理想，你需要在之后的赛季承担代价。",
+            "effects": {
+              "xp": {
+                "DRI": 4
+              },
+              "morale": -3,
+              "injuryRisk": 2,
+              "coachTrust": -4,
+              "relationship": -5
+            }
+          }
+        ]
+      },
+      {
+        "id": "opt-3",
+        "label": "用训练、录像和数据解决问题",
+        "risk": "技术",
+        "hint": "强调长期能力成长",
+        "outcomes": [
+          {
+            "id": "great",
+            "probability": 0.38,
+            "tier": "great",
+            "result": "你在“杯赛轮换”中把握住了机会，职业评价和成长收益都高于预期。",
+            "effects": {
+              "xp": {
+                "DEF": 38
+              },
+              "morale": 4,
+              "clubInterest": 2,
+              "coachTrust": 3
+            }
+          },
+          {
+            "id": "normal",
+            "probability": 0.52,
+            "tier": "normal",
+            "result": "“杯赛轮换”基本按预期发展，没有失控，但也没有出现奇迹。",
+            "effects": {
+              "xp": {
+                "DEF": 18
+              },
+              "morale": 1,
+              "coachTrust": 1
+            }
+          },
+          {
+            "id": "bad",
+            "probability": 0.1,
+            "tier": "bad",
+            "result": "“杯赛轮换”的结果不理想，你需要在之后的赛季承担代价。",
+            "effects": {
+              "xp": {
+                "DEF": 4
+              },
+              "morale": -3,
+              "injuryRisk": 2,
+              "coachTrust": -4
+            }
+          }
+        ]
+      },
+      {
+        "id": "opt-4",
+        "label": "先处理队友、教练或家人的关系",
+        "risk": "关系",
+        "hint": "可能建立长期羁绊",
+        "outcomes": [
+          {
+            "id": "great",
+            "probability": 0.3,
+            "tier": "great",
+            "result": "你在“杯赛轮换”中把握住了机会，职业评价和成长收益都高于预期。",
+            "effects": {
+              "xp": {
+                "PHY": 41
+              },
+              "morale": 4,
+              "clubInterest": 2,
+              "coachTrust": 3,
+              "relationship": 6
+            }
+          },
+          {
+            "id": "normal",
+            "probability": 0.58,
+            "tier": "normal",
+            "result": "“杯赛轮换”基本按预期发展，没有失控，但也没有出现奇迹。",
+            "effects": {
+              "xp": {
+                "PHY": 20
+              },
+              "morale": 1,
+              "coachTrust": 1,
+              "relationship": 2
+            }
+          },
+          {
+            "id": "bad",
+            "probability": 0.12,
+            "tier": "bad",
+            "result": "“杯赛轮换”的结果不理想，你需要在之后的赛季承担代价。",
+            "effects": {
+              "xp": {
+                "PHY": 4
+              },
+              "morale": -3,
+              "injuryRisk": 2,
+              "coachTrust": -4,
+              "relationship": -5
+            }
+          }
+        ]
+      },
+      {
+        "id": "opt-5",
+        "label": "孤注一掷，选择最高风险路线",
+        "risk": "冒险",
+        "hint": "可能大成功，也可能遭遇严重后果",
+        "outcomes": [
+          {
+            "id": "great",
+            "probability": 0.3,
+            "tier": "great",
+            "result": "你在“杯赛轮换”中把握住了机会，职业评价和成长收益都高于预期。",
+            "effects": {
+              "xp": {
+                "SHO": 44
+              },
+              "morale": 4,
+              "clubInterest": 2,
+              "coachTrust": 3,
+              "potential": 1
+            }
+          },
+          {
+            "id": "normal",
+            "probability": 0.3,
+            "tier": "normal",
+            "result": "“杯赛轮换”基本按预期发展，没有失控，但也没有出现奇迹。",
+            "effects": {
+              "xp": {
+                "SHO": 22
+              },
+              "morale": 1,
+              "coachTrust": 1
+            }
+          },
+          {
+            "id": "bad",
+            "probability": 0.4,
+            "tier": "bad",
+            "result": "“杯赛轮换”的结果不理想，你需要在之后的赛季承担代价。",
+            "effects": {
+              "xp": {
+                "SHO": 4
+              },
+              "morale": -5,
+              "injuryRisk": 12,
+              "coachTrust": -4,
+              "relationship": -5
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "match-prep-011",
+    "version": 1,
+    "category": "match-prep",
+    "categoryName": "比赛准备",
+    "title": "连续一周双赛",
+    "text": "赛前会议出现了与你位置直接相关的新安排。 这次变化与“连续一周双赛”有关。选择不仅影响当前结果，还会改变能力成长、教练信任、队内地位和未来转会评价。",
+    "stage": [
+      "youth",
+      "rotation",
+      "starter",
+      "star",
+      "veteran"
+    ],
+    "weight": 1.25,
+    "cooldownSeasons": 8,
+    "major": false,
+    "resolutionModes": [
+      "wheel",
+      "cards",
+      "dice"
+    ],
+    "options": [
+      {
+        "id": "opt-1",
+        "label": "稳步处理，优先保证职业稳定",
+        "risk": "稳健",
+        "hint": "风险最低，收益较稳定",
+        "outcomes": [
+          {
+            "id": "great",
+            "probability": 0.28,
+            "tier": "great",
+            "result": "你在“连续一周双赛”中把握住了机会，职业评价和成长收益都高于预期。",
+            "effects": {
+              "xp": {
+                "PAS": 32
+              },
+              "morale": 4,
+              "clubInterest": 2,
+              "coachTrust": 3
+            }
+          },
+          {
+            "id": "normal",
+            "probability": 0.62,
+            "tier": "normal",
+            "result": "“连续一周双赛”基本按预期发展，没有失控，但也没有出现奇迹。",
+            "effects": {
+              "xp": {
+                "PAS": 14
+              },
+              "morale": 1,
+              "coachTrust": 1
+            }
+          },
+          {
+            "id": "bad",
+            "probability": 0.1,
+            "tier": "bad",
+            "result": "“连续一周双赛”的结果不理想，你需要在之后的赛季承担代价。",
+            "effects": {
+              "xp": {
+                "PAS": 4
+              },
+              "morale": -3,
+              "injuryRisk": 2,
+              "coachTrust": -4
+            }
+          }
+        ]
+      },
+      {
+        "id": "opt-2",
+        "label": "主动争取更大机会",
+        "risk": "进取",
+        "hint": "收益更高，也会增加压力",
+        "outcomes": [
+          {
+            "id": "great",
+            "probability": 0.34,
+            "tier": "great",
+            "result": "你在“连续一周双赛”中把握住了机会，职业评价和成长收益都高于预期。",
+            "effects": {
+              "xp": {
+                "DRI": 35
+              },
+              "morale": 4,
+              "clubInterest": 2,
+              "coachTrust": 3
+            }
+          },
+          {
+            "id": "normal",
+            "probability": 0.46,
+            "tier": "normal",
+            "result": "“连续一周双赛”基本按预期发展，没有失控，但也没有出现奇迹。",
+            "effects": {
+              "xp": {
+                "DRI": 16
+              },
+              "morale": 1,
+              "coachTrust": 1
+            }
+          },
+          {
+            "id": "bad",
+            "probability": 0.2,
+            "tier": "bad",
+            "result": "“连续一周双赛”的结果不理想，你需要在之后的赛季承担代价。",
+            "effects": {
+              "xp": {
+                "DRI": 4
+              },
+              "morale": -3,
+              "injuryRisk": 2,
+              "coachTrust": -4,
+              "relationship": -5
+            }
+          }
+        ]
+      },
+      {
+        "id": "opt-3",
+        "label": "用训练、录像和数据解决问题",
+        "risk": "技术",
+        "hint": "强调长期能力成长",
+        "outcomes": [
+          {
+            "id": "great",
+            "probability": 0.38,
+            "tier": "great",
+            "result": "你在“连续一周双赛”中把握住了机会，职业评价和成长收益都高于预期。",
+            "effects": {
+              "xp": {
+                "DEF": 38
+              },
+              "morale": 4,
+              "clubInterest": 2,
+              "coachTrust": 3
+            }
+          },
+          {
+            "id": "normal",
+            "probability": 0.52,
+            "tier": "normal",
+            "result": "“连续一周双赛”基本按预期发展，没有失控，但也没有出现奇迹。",
+            "effects": {
+              "xp": {
+                "DEF": 18
+              },
+              "morale": 1,
+              "coachTrust": 1
+            }
+          },
+          {
+            "id": "bad",
+            "probability": 0.1,
+            "tier": "bad",
+            "result": "“连续一周双赛”的结果不理想，你需要在之后的赛季承担代价。",
+            "effects": {
+              "xp": {
+                "DEF": 4
+              },
+              "morale": -3,
+              "injuryRisk": 2,
+              "coachTrust": -4
+            }
+          }
+        ]
+      },
+      {
+        "id": "opt-4",
+        "label": "先处理队友、教练或家人的关系",
+        "risk": "关系",
+        "hint": "可能建立长期羁绊",
+        "outcomes": [
+          {
+            "id": "great",
+            "probability": 0.3,
+            "tier": "great",
+            "result": "你在“连续一周双赛”中把握住了机会，职业评价和成长收益都高于预期。",
+            "effects": {
+              "xp": {
+                "PHY": 41
+              },
+              "morale": 4,
+              "clubInterest": 2,
+              "coachTrust": 3,
+              "relationship": 6
+            }
+          },
+          {
+            "id": "normal",
+            "probability": 0.58,
+            "tier": "normal",
+            "result": "“连续一周双赛”基本按预期发展，没有失控，但也没有出现奇迹。",
+            "effects": {
+              "xp": {
+                "PHY": 20
+              },
+              "morale": 1,
+              "coachTrust": 1,
+              "relationship": 2
+            }
+          },
+          {
+            "id": "bad",
+            "probability": 0.12,
+            "tier": "bad",
+            "result": "“连续一周双赛”的结果不理想，你需要在之后的赛季承担代价。",
+            "effects": {
+              "xp": {
+                "PHY": 4
+              },
+              "morale": -3,
+              "injuryRisk": 2,
+              "coachTrust": -4,
+              "relationship": -5
+            }
+          }
+        ]
+      },
+      {
+        "id": "opt-5",
+        "label": "孤注一掷，选择最高风险路线",
+        "risk": "冒险",
+        "hint": "可能大成功，也可能遭遇严重后果",
+        "outcomes": [
+          {
+            "id": "great",
+            "probability": 0.3,
+            "tier": "great",
+            "result": "你在“连续一周双赛”中把握住了机会，职业评价和成长收益都高于预期。",
+            "effects": {
+              "xp": {
+                "SHO": 44
+              },
+              "morale": 4,
+              "clubInterest": 2,
+              "coachTrust": 3,
+              "potential": 1
+            }
+          },
+          {
+            "id": "normal",
+            "probability": 0.3,
+            "tier": "normal",
+            "result": "“连续一周双赛”基本按预期发展，没有失控，但也没有出现奇迹。",
+            "effects": {
+              "xp": {
+                "SHO": 22
+              },
+              "morale": 1,
+              "coachTrust": 1
+            }
+          },
+          {
+            "id": "bad",
+            "probability": 0.4,
+            "tier": "bad",
+            "result": "“连续一周双赛”的结果不理想，你需要在之后的赛季承担代价。",
+            "effects": {
+              "xp": {
+                "SHO": 4
+              },
+              "morale": -5,
+              "injuryRisk": 12,
+              "coachTrust": -4,
+              "relationship": -5
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "match-prep-012",
+    "version": 1,
+    "category": "match-prep",
+    "categoryName": "比赛准备",
+    "title": "首发名单泄露",
+    "text": "赛前会议出现了与你位置直接相关的新安排。 这次变化与“首发名单泄露”有关。选择不仅影响当前结果，还会改变能力成长、教练信任、队内地位和未来转会评价。",
+    "stage": [
+      "youth",
+      "rotation",
+      "starter",
+      "star",
+      "veteran"
+    ],
+    "weight": 1.05,
+    "cooldownSeasons": 5,
+    "major": false,
+    "resolutionModes": [
+      "wheel",
+      "cards",
+      "dice"
+    ],
+    "options": [
+      {
+        "id": "opt-1",
+        "label": "稳步处理，优先保证职业稳定",
+        "risk": "稳健",
+        "hint": "风险最低，收益较稳定",
+        "outcomes": [
+          {
+            "id": "great",
+            "probability": 0.28,
+            "tier": "great",
+            "result": "你在“首发名单泄露”中把握住了机会，职业评价和成长收益都高于预期。",
+            "effects": {
+              "xp": {
+                "PAS": 32
+              },
+              "morale": 4,
+              "clubInterest": 2,
+              "coachTrust": 3
+            }
+          },
+          {
+            "id": "normal",
+            "probability": 0.62,
+            "tier": "normal",
+            "result": "“首发名单泄露”基本按预期发展，没有失控，但也没有出现奇迹。",
+            "effects": {
+              "xp": {
+                "PAS": 14
+              },
+              "morale": 1,
+              "coachTrust": 1
+            }
+          },
+          {
+            "id": "bad",
+            "probability": 0.1,
+            "tier": "bad",
+            "result": "“首发名单泄露”的结果不理想，你需要在之后的赛季承担代价。",
+            "effects": {
+              "xp": {
+                "PAS": 4
+              },
+              "morale": -3,
+              "injuryRisk": 2,
+              "coachTrust": -4
+            }
+          }
+        ]
+      },
+      {
+        "id": "opt-2",
+        "label": "主动争取更大机会",
+        "risk": "进取",
+        "hint": "收益更高，也会增加压力",
+        "outcomes": [
+          {
+            "id": "great",
+            "probability": 0.34,
+            "tier": "great",
+            "result": "你在“首发名单泄露”中把握住了机会，职业评价和成长收益都高于预期。",
+            "effects": {
+              "xp": {
+                "DRI": 35
+              },
+              "morale": 4,
+              "clubInterest": 2,
+              "coachTrust": 3
+            }
+          },
+          {
+            "id": "normal",
+            "probability": 0.46,
+            "tier": "normal",
+            "result": "“首发名单泄露”基本按预期发展，没有失控，但也没有出现奇迹。",
+            "effects": {
+              "xp": {
+                "DRI": 16
+              },
+              "morale": 1,
+              "coachTrust": 1
+            }
+          },
+          {
+            "id": "bad",
+            "probability": 0.2,
+            "tier": "bad",
+            "result": "“首发名单泄露”的结果不理想，你需要在之后的赛季承担代价。",
+            "effects": {
+              "xp": {
+                "DRI": 4
+              },
+              "morale": -3,
+              "injuryRisk": 2,
+              "coachTrust": -4,
+              "relationship": -5
+            }
+          }
+        ]
+      },
+      {
+        "id": "opt-3",
+        "label": "用训练、录像和数据解决问题",
+        "risk": "技术",
+        "hint": "强调长期能力成长",
+        "outcomes": [
+          {
+            "id": "great",
+            "probability": 0.38,
+            "tier": "great",
+            "result": "你在“首发名单泄露”中把握住了机会，职业评价和成长收益都高于预期。",
+            "effects": {
+              "xp": {
+                "DEF": 38
+              },
+              "morale": 4,
+              "clubInterest": 2,
+              "coachTrust": 3
+            }
+          },
+          {
+            "id": "normal",
+            "probability": 0.52,
+            "tier": "normal",
+            "result": "“首发名单泄露”基本按预期发展，没有失控，但也没有出现奇迹。",
+            "effects": {
+              "xp": {
+                "DEF": 18
+              },
+              "morale": 1,
+              "coachTrust": 1
+            }
+          },
+          {
+            "id": "bad",
+            "probability": 0.1,
+            "tier": "bad",
+            "result": "“首发名单泄露”的结果不理想，你需要在之后的赛季承担代价。",
+            "effects": {
+              "xp": {
+                "DEF": 4
+              },
+              "morale": -3,
+              "injuryRisk": 2,
+              "coachTrust": -4
+            }
+          }
+        ]
+      },
+      {
+        "id": "opt-4",
+        "label": "先处理队友、教练或家人的关系",
+        "risk": "关系",
+        "hint": "可能建立长期羁绊",
+        "outcomes": [
+          {
+            "id": "great",
+            "probability": 0.3,
+            "tier": "great",
+            "result": "你在“首发名单泄露”中把握住了机会，职业评价和成长收益都高于预期。",
+            "effects": {
+              "xp": {
+                "PHY": 41
+              },
+              "morale": 4,
+              "clubInterest": 2,
+              "coachTrust": 3,
+              "relationship": 6
+            }
+          },
+          {
+            "id": "normal",
+            "probability": 0.58,
+            "tier": "normal",
+            "result": "“首发名单泄露”基本按预期发展，没有失控，但也没有出现奇迹。",
+            "effects": {
+              "xp": {
+                "PHY": 20
+              },
+              "morale": 1,
+              "coachTrust": 1,
+              "relationship": 2
+            }
+          },
+          {
+            "id": "bad",
+            "probability": 0.12,
+            "tier": "bad",
+            "result": "“首发名单泄露”的结果不理想，你需要在之后的赛季承担代价。",
+            "effects": {
+              "xp": {
+                "PHY": 4
+              },
+              "morale": -3,
+              "injuryRisk": 2,
+              "coachTrust": -4,
+              "relationship": -5
+            }
+          }
+        ]
+      },
+      {
+        "id": "opt-5",
+        "label": "孤注一掷，选择最高风险路线",
+        "risk": "冒险",
+        "hint": "可能大成功，也可能遭遇严重后果",
+        "outcomes": [
+          {
+            "id": "great",
+            "probability": 0.3,
+            "tier": "great",
+            "result": "你在“首发名单泄露”中把握住了机会，职业评价和成长收益都高于预期。",
+            "effects": {
+              "xp": {
+                "SHO": 44
+              },
+              "morale": 4,
+              "clubInterest": 2,
+              "coachTrust": 3,
+              "potential": 1
+            }
+          },
+          {
+            "id": "normal",
+            "probability": 0.3,
+            "tier": "normal",
+            "result": "“首发名单泄露”基本按预期发展，没有失控，但也没有出现奇迹。",
+            "effects": {
+              "xp": {
+                "SHO": 22
+              },
+              "morale": 1,
+              "coachTrust": 1
+            }
+          },
+          {
+            "id": "bad",
+            "probability": 0.4,
+            "tier": "bad",
+            "result": "“首发名单泄露”的结果不理想，你需要在之后的赛季承担代价。",
+            "effects": {
+              "xp": {
+                "SHO": 4
+              },
+              "morale": -5,
+              "injuryRisk": 12,
+              "coachTrust": -4,
+              "relationship": -5
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "match-prep-013",
+    "version": 1,
+    "category": "match-prep",
+    "categoryName": "比赛准备",
+    "title": "主场揭幕战",
+    "text": "赛前会议出现了与你位置直接相关的新安排。 这次变化与“主场揭幕战”有关。选择不仅影响当前结果，还会改变能力成长、教练信任、队内地位和未来转会评价。",
+    "stage": [
+      "youth",
+      "rotation",
+      "starter",
+      "star",
+      "veteran"
+    ],
+    "weight": 0.85,
+    "cooldownSeasons": 6,
+    "major": false,
+    "resolutionModes": [
+      "wheel",
+      "cards",
+      "dice"
+    ],
+    "options": [
+      {
+        "id": "opt-1",
+        "label": "稳步处理，优先保证职业稳定",
+        "risk": "稳健",
+        "hint": "风险最低，收益较稳定",
+        "outcomes": [
+          {
+            "id": "great",
+            "probability": 0.28,
+            "tier": "great",
+            "result": "你在“主场揭幕战”中把握住了机会，职业评价和成长收益都高于预期。",
+            "effects": {
+              "xp": {
+                "PAS": 32
+              },
+              "morale": 4,
+              "clubInterest": 2,
+              "coachTrust": 3
+            }
+          },
+          {
+            "id": "normal",
+            "probability": 0.62,
+            "tier": "normal",
+            "result": "“主场揭幕战”基本按预期发展，没有失控，但也没有出现奇迹。",
+            "effects": {
+              "xp": {
+                "PAS": 14
+              },
+              "morale": 1,
+              "coachTrust": 1
+            }
+          },
+          {
+            "id": "bad",
+            "probability": 0.1,
+            "tier": "bad",
+            "result": "“主场揭幕战”的结果不理想，你需要在之后的赛季承担代价。",
+            "effects": {
+              "xp": {
+                "PAS": 4
+              },
+              "morale": -3,
+              "injuryRisk": 2,
+              "coachTrust": -4
+            }
+          }
+        ]
+      },
+      {
+        "id": "opt-2",
+        "label": "主动争取更大机会",
+        "risk": "进取",
+        "hint": "收益更高，也会增加压力",
+        "outcomes": [
+          {
+            "id": "great",
+            "probability": 0.34,
+            "tier": "great",
+            "result": "你在“主场揭幕战”中把握住了机会，职业评价和成长收益都高于预期。",
+            "effects": {
+              "xp": {
+                "DRI": 35
+              },
+              "morale": 4,
+              "clubInterest": 2,
+              "coachTrust": 3
+            }
+          },
+          {
+            "id": "normal",
+            "probability": 0.46,
+            "tier": "normal",
+            "result": "“主场揭幕战”基本按预期发展，没有失控，但也没有出现奇迹。",
+            "effects": {
+              "xp": {
+                "DRI": 16
+              },
+              "morale": 1,
+              "coachTrust": 1
+            }
+          },
+          {
+            "id": "bad",
+            "probability": 0.2,
+            "tier": "bad",
+            "result": "“主场揭幕战”的结果不理想，你需要在之后的赛季承担代价。",
+            "effects": {
+              "xp": {
+                "DRI": 4
+              },
+              "morale": -3,
+              "injuryRisk": 2,
+              "coachTrust": -4,
+              "relationship": -5
+            }
+          }
+        ]
+      },
+      {
+        "id": "opt-3",
+        "label": "用训练、录像和数据解决问题",
+        "risk": "技术",
+        "hint": "强调长期能力成长",
+        "outcomes": [
+          {
+            "id": "great",
+            "probability": 0.38,
+            "tier": "great",
+            "result": "你在“主场揭幕战”中把握住了机会，职业评价和成长收益都高于预期。",
+            "effects": {
+              "xp": {
+                "DEF": 38
+              },
+              "morale": 4,
+              "clubInterest": 2,
+              "coachTrust": 3
+            }
+          },
+          {
+            "id": "normal",
+            "probability": 0.52,
+            "tier": "normal",
+            "result": "“主场揭幕战”基本按预期发展，没有失控，但也没有出现奇迹。",
+            "effects": {
+              "xp": {
+                "DEF": 18
+              },
+              "morale": 1,
+              "coachTrust": 1
+            }
+          },
+          {
+            "id": "bad",
+            "probability": 0.1,
+            "tier": "bad",
+            "result": "“主场揭幕战”的结果不理想，你需要在之后的赛季承担代价。",
+            "effects": {
+              "xp": {
+                "DEF": 4
+              },
+              "morale": -3,
+              "injuryRisk": 2,
+              "coachTrust": -4
+            }
+          }
+        ]
+      },
+      {
+        "id": "opt-4",
+        "label": "先处理队友、教练或家人的关系",
+        "risk": "关系",
+        "hint": "可能建立长期羁绊",
+        "outcomes": [
+          {
+            "id": "great",
+            "probability": 0.3,
+            "tier": "great",
+            "result": "你在“主场揭幕战”中把握住了机会，职业评价和成长收益都高于预期。",
+            "effects": {
+              "xp": {
+                "PHY": 41
+              },
+              "morale": 4,
+              "clubInterest": 2,
+              "coachTrust": 3,
+              "relationship": 6
+            }
+          },
+          {
+            "id": "normal",
+            "probability": 0.58,
+            "tier": "normal",
+            "result": "“主场揭幕战”基本按预期发展，没有失控，但也没有出现奇迹。",
+            "effects": {
+              "xp": {
+                "PHY": 20
+              },
+              "morale": 1,
+              "coachTrust": 1,
+              "relationship": 2
+            }
+          },
+          {
+            "id": "bad",
+            "probability": 0.12,
+            "tier": "bad",
+            "result": "“主场揭幕战”的结果不理想，你需要在之后的赛季承担代价。",
+            "effects": {
+              "xp": {
+                "PHY": 4
+              },
+              "morale": -3,
+              "injuryRisk": 2,
+              "coachTrust": -4,
+              "relationship": -5
+            }
+          }
+        ]
+      },
+      {
+        "id": "opt-5",
+        "label": "孤注一掷，选择最高风险路线",
+        "risk": "冒险",
+        "hint": "可能大成功，也可能遭遇严重后果",
+        "outcomes": [
+          {
+            "id": "great",
+            "probability": 0.3,
+            "tier": "great",
+            "result": "你在“主场揭幕战”中把握住了机会，职业评价和成长收益都高于预期。",
+            "effects": {
+              "xp": {
+                "SHO": 44
+              },
+              "morale": 4,
+              "clubInterest": 2,
+              "coachTrust": 3,
+              "potential": 1
+            }
+          },
+          {
+            "id": "normal",
+            "probability": 0.3,
+            "tier": "normal",
+            "result": "“主场揭幕战”基本按预期发展，没有失控，但也没有出现奇迹。",
+            "effects": {
+              "xp": {
+                "SHO": 22
+              },
+              "morale": 1,
+              "coachTrust": 1
+            }
+          },
+          {
+            "id": "bad",
+            "probability": 0.4,
+            "tier": "bad",
+            "result": "“主场揭幕战”的结果不理想，你需要在之后的赛季承担代价。",
+            "effects": {
+              "xp": {
+                "SHO": 4
+              },
+              "morale": -5,
+              "injuryRisk": 12,
+              "coachTrust": -4,
+              "relationship": -5
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "match-prep-014",
+    "version": 1,
+    "category": "match-prep",
+    "categoryName": "比赛准备",
+    "title": "教练要求保守",
+    "text": "赛前会议出现了与你位置直接相关的新安排。 这次变化与“教练要求保守”有关。选择不仅影响当前结果，还会改变能力成长、教练信任、队内地位和未来转会评价。",
+    "stage": [
+      "youth",
+      "rotation",
+      "starter",
+      "star",
+      "veteran"
+    ],
+    "weight": 1.55,
+    "cooldownSeasons": 7,
+    "major": false,
+    "resolutionModes": [
+      "wheel",
+      "cards",
+      "dice"
+    ],
+    "options": [
+      {
+        "id": "opt-1",
+        "label": "稳步处理，优先保证职业稳定",
+        "risk": "稳健",
+        "hint": "风险最低，收益较稳定",
+        "outcomes": [
+          {
+            "id": "great",
+            "probability": 0.28,
+            "tier": "great",
+            "result": "你在“教练要求保守”中把握住了机会，职业评价和成长收益都高于预期。",
+            "effects": {
+              "xp": {
+                "PAS": 32
+              },
+              "morale": 4,
+              "clubInterest": 2,
+              "coachTrust": 3
+            }
+          },
+          {
+            "id": "normal",
+            "probability": 0.62,
+            "tier": "normal",
+            "result": "“教练要求保守”基本按预期发展，没有失控，但也没有出现奇迹。",
+            "effects": {
+              "xp": {
+                "PAS": 14
+              },
+              "morale": 1,
+              "coachTrust": 1
+            }
+          },
+          {
+            "id": "bad",
+            "probability": 0.1,
+            "tier": "bad",
+            "result": "“教练要求保守”的结果不理想，你需要在之后的赛季承担代价。",
+            "effects": {
+              "xp": {
+                "PAS": 4
+              },
+              "morale": -3,
+              "injuryRisk": 2,
+              "coachTrust": -4
+            }
+          }
+        ]
+      },
+      {
+        "id": "opt-2",
+        "label": "主动争取更大机会",
+        "risk": "进取",
+        "hint": "收益更高，也会增加压力",
+        "outcomes": [
+          {
+            "id": "great",
+            "probability": 0.34,
+            "tier": "great",
+            "result": "你在“教练要求保守”中把握住了机会，职业评价和成长收益都高于预期。",
+            "effects": {
+              "xp": {
+                "DRI": 35
+              },
+              "morale": 4,
+              "clubInterest": 2,
+              "coachTrust": 3
+            }
+          },
+          {
+            "id": "normal",
+            "probability": 0.46,
+            "tier": "normal",
+            "result": "“教练要求保守”基本按预期发展，没有失控，但也没有出现奇迹。",
+            "effects": {
+              "xp": {
+                "DRI": 16
+              },
+              "morale": 1,
+              "coachTrust": 1
+            }
+          },
+          {
+            "id": "bad",
+            "probability": 0.2,
+            "tier": "bad",
+            "result": "“教练要求保守”的结果不理想，你需要在之后的赛季承担代价。",
+            "effects": {
+              "xp": {
+                "DRI": 4
+              },
+              "morale": -3,
+              "injuryRisk": 2,
+              "coachTrust": -4,
+              "relationship": -5
+            }
+          }
+        ]
+      },
+      {
+        "id": "opt-3",
+        "label": "用训练、录像和数据解决问题",
+        "risk": "技术",
+        "hint": "强调长期能力成长",
+        "outcomes": [
+          {
+            "id": "great",
+            "probability": 0.38,
+            "tier": "great",
+            "result": "你在“教练要求保守”中把握住了机会，职业评价和成长收益都高于预期。",
+            "effects": {
+              "xp": {
+                "DEF": 38
+              },
+              "morale": 4,
+              "clubInterest": 2,
+              "coachTrust": 3
+            }
+          },
+          {
+            "id": "normal",
+            "probability": 0.52,
+            "tier": "normal",
+            "result": "“教练要求保守”基本按预期发展，没有失控，但也没有出现奇迹。",
+            "effects": {
+              "xp": {
+                "DEF": 18
+              },
+              "morale": 1,
+              "coachTrust": 1
+            }
+          },
+          {
+            "id": "bad",
+            "probability": 0.1,
+            "tier": "bad",
+            "result": "“教练要求保守”的结果不理想，你需要在之后的赛季承担代价。",
+            "effects": {
+              "xp": {
+                "DEF": 4
+              },
+              "morale": -3,
+              "injuryRisk": 2,
+              "coachTrust": -4
+            }
+          }
+        ]
+      },
+      {
+        "id": "opt-4",
+        "label": "先处理队友、教练或家人的关系",
+        "risk": "关系",
+        "hint": "可能建立长期羁绊",
+        "outcomes": [
+          {
+            "id": "great",
+            "probability": 0.3,
+            "tier": "great",
+            "result": "你在“教练要求保守”中把握住了机会，职业评价和成长收益都高于预期。",
+            "effects": {
+              "xp": {
+                "PHY": 41
+              },
+              "morale": 4,
+              "clubInterest": 2,
+              "coachTrust": 3,
+              "relationship": 6
+            }
+          },
+          {
+            "id": "normal",
+            "probability": 0.58,
+            "tier": "normal",
+            "result": "“教练要求保守”基本按预期发展，没有失控，但也没有出现奇迹。",
+            "effects": {
+              "xp": {
+                "PHY": 20
+              },
+              "morale": 1,
+              "coachTrust": 1,
+              "relationship": 2
+            }
+          },
+          {
+            "id": "bad",
+            "probability": 0.12,
+            "tier": "bad",
+            "result": "“教练要求保守”的结果不理想，你需要在之后的赛季承担代价。",
+            "effects": {
+              "xp": {
+                "PHY": 4
+              },
+              "morale": -3,
+              "injuryRisk": 2,
+              "coachTrust": -4,
+              "relationship": -5
+            }
+          }
+        ]
+      },
+      {
+        "id": "opt-5",
+        "label": "孤注一掷，选择最高风险路线",
+        "risk": "冒险",
+        "hint": "可能大成功，也可能遭遇严重后果",
+        "outcomes": [
+          {
+            "id": "great",
+            "probability": 0.3,
+            "tier": "great",
+            "result": "你在“教练要求保守”中把握住了机会，职业评价和成长收益都高于预期。",
+            "effects": {
+              "xp": {
+                "SHO": 44
+              },
+              "morale": 4,
+              "clubInterest": 2,
+              "coachTrust": 3,
+              "potential": 1
+            }
+          },
+          {
+            "id": "normal",
+            "probability": 0.3,
+            "tier": "normal",
+            "result": "“教练要求保守”基本按预期发展，没有失控，但也没有出现奇迹。",
+            "effects": {
+              "xp": {
+                "SHO": 22
+              },
+              "morale": 1,
+              "coachTrust": 1
+            }
+          },
+          {
+            "id": "bad",
+            "probability": 0.4,
+            "tier": "bad",
+            "result": "“教练要求保守”的结果不理想，你需要在之后的赛季承担代价。",
+            "effects": {
+              "xp": {
+                "SHO": 4
+              },
+              "morale": -5,
+              "injuryRisk": 12,
+              "coachTrust": -4,
+              "relationship": -5
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "match-prep-015",
+    "version": 1,
+    "category": "match-prep",
+    "categoryName": "比赛准备",
+    "title": "必须净胜两球",
+    "text": "赛前会议出现了与你位置直接相关的新安排。 这次变化与“必须净胜两球”有关。选择不仅影响当前结果，还会改变能力成长、教练信任、队内地位和未来转会评价。",
+    "stage": [
+      "youth",
+      "rotation",
+      "starter",
+      "star",
+      "veteran"
+    ],
+    "weight": 1.35,
+    "cooldownSeasons": 8,
+    "major": true,
+    "resolutionModes": [
+      "wheel",
+      "cards",
+      "dice"
+    ],
+    "options": [
+      {
+        "id": "opt-1",
+        "label": "稳步处理，优先保证职业稳定",
+        "risk": "稳健",
+        "hint": "风险最低，收益较稳定",
+        "outcomes": [
+          {
+            "id": "great",
+            "probability": 0.28,
+            "tier": "great",
+            "result": "你在“必须净胜两球”中把握住了机会，职业评价和成长收益都高于预期。",
+            "effects": {
+              "xp": {
+                "PAS": 32
+              },
+              "morale": 4,
+              "clubInterest": 2,
+              "coachTrust": 3
+            }
+          },
+          {
+            "id": "normal",
+            "probability": 0.62,
+            "tier": "normal",
+            "result": "“必须净胜两球”基本按预期发展，没有失控，但也没有出现奇迹。",
+            "effects": {
+              "xp": {
+                "PAS": 14
+              },
+              "morale": 1,
+              "coachTrust": 1
+            }
+          },
+          {
+            "id": "bad",
+            "probability": 0.1,
+            "tier": "bad",
+            "result": "“必须净胜两球”的结果不理想，你需要在之后的赛季承担代价。",
+            "effects": {
+              "xp": {
+                "PAS": 4
+              },
+              "morale": -3,
+              "injuryRisk": 2,
+              "coachTrust": -4
+            }
+          }
+        ]
+      },
+      {
+        "id": "opt-2",
+        "label": "主动争取更大机会",
+        "risk": "进取",
+        "hint": "收益更高，也会增加压力",
+        "outcomes": [
+          {
+            "id": "great",
+            "probability": 0.34,
+            "tier": "great",
+            "result": "你在“必须净胜两球”中把握住了机会，职业评价和成长收益都高于预期。",
+            "effects": {
+              "xp": {
+                "DRI": 35
+              },
+              "morale": 4,
+              "clubInterest": 2,
+              "coachTrust": 3
+            }
+          },
+          {
+            "id": "normal",
+            "probability": 0.46,
+            "tier": "normal",
+            "result": "“必须净胜两球”基本按预期发展，没有失控，但也没有出现奇迹。",
+            "effects": {
+              "xp": {
+                "DRI": 16
+              },
+              "morale": 1,
+              "coachTrust": 1
+            }
+          },
+          {
+            "id": "bad",
+            "probability": 0.2,
+            "tier": "bad",
+            "result": "“必须净胜两球”的结果不理想，你需要在之后的赛季承担代价。",
+            "effects": {
+              "xp": {
+                "DRI": 4
+              },
+              "morale": -3,
+              "injuryRisk": 2,
+              "coachTrust": -4,
+              "relationship": -5
+            }
+          }
+        ]
+      },
+      {
+        "id": "opt-3",
+        "label": "用训练、录像和数据解决问题",
+        "risk": "技术",
+        "hint": "强调长期能力成长",
+        "outcomes": [
+          {
+            "id": "great",
+            "probability": 0.38,
+            "tier": "great",
+            "result": "你在“必须净胜两球”中把握住了机会，职业评价和成长收益都高于预期。",
+            "effects": {
+              "xp": {
+                "DEF": 38
+              },
+              "morale": 4,
+              "clubInterest": 2,
+              "coachTrust": 3
+            }
+          },
+          {
+            "id": "normal",
+            "probability": 0.52,
+            "tier": "normal",
+            "result": "“必须净胜两球”基本按预期发展，没有失控，但也没有出现奇迹。",
+            "effects": {
+              "xp": {
+                "DEF": 18
+              },
+              "morale": 1,
+              "coachTrust": 1
+            }
+          },
+          {
+            "id": "bad",
+            "probability": 0.1,
+            "tier": "bad",
+            "result": "“必须净胜两球”的结果不理想，你需要在之后的赛季承担代价。",
+            "effects": {
+              "xp": {
+                "DEF": 4
+              },
+              "morale": -3,
+              "injuryRisk": 2,
+              "coachTrust": -4
+            }
+          }
+        ]
+      },
+      {
+        "id": "opt-4",
+        "label": "先处理队友、教练或家人的关系",
+        "risk": "关系",
+        "hint": "可能建立长期羁绊",
+        "outcomes": [
+          {
+            "id": "great",
+            "probability": 0.3,
+            "tier": "great",
+            "result": "你在“必须净胜两球”中把握住了机会，职业评价和成长收益都高于预期。",
+            "effects": {
+              "xp": {
+                "PHY": 41
+              },
+              "morale": 4,
+              "clubInterest": 2,
+              "coachTrust": 3,
+              "relationship": 6
+            }
+          },
+          {
+            "id": "normal",
+            "probability": 0.58,
+            "tier": "normal",
+            "result": "“必须净胜两球”基本按预期发展，没有失控，但也没有出现奇迹。",
+            "effects": {
+              "xp": {
+                "PHY": 20
+              },
+              "morale": 1,
+              "coachTrust": 1,
+              "relationship": 2
+            }
+          },
+          {
+            "id": "bad",
+            "probability": 0.12,
+            "tier": "bad",
+            "result": "“必须净胜两球”的结果不理想，你需要在之后的赛季承担代价。",
+            "effects": {
+              "xp": {
+                "PHY": 4
+              },
+              "morale": -3,
+              "injuryRisk": 2,
+              "coachTrust": -4,
+              "relationship": -5
+            }
+          }
+        ]
+      },
+      {
+        "id": "opt-5",
+        "label": "孤注一掷，选择最高风险路线",
+        "risk": "冒险",
+        "hint": "可能大成功，也可能遭遇严重后果",
+        "outcomes": [
+          {
+            "id": "great",
+            "probability": 0.3,
+            "tier": "great",
+            "result": "你在“必须净胜两球”中把握住了机会，职业评价和成长收益都高于预期。",
+            "effects": {
+              "xp": {
+                "SHO": 44
+              },
+              "morale": 4,
+              "clubInterest": 2,
+              "coachTrust": 3,
+              "potential": 1
+            }
+          },
+          {
+            "id": "normal",
+            "probability": 0.3,
+            "tier": "normal",
+            "result": "“必须净胜两球”基本按预期发展，没有失控，但也没有出现奇迹。",
+            "effects": {
+              "xp": {
+                "SHO": 22
+              },
+              "morale": 1,
+              "coachTrust": 1
+            }
+          },
+          {
+            "id": "bad",
+            "probability": 0.4,
+            "tier": "bad",
+            "result": "“必须净胜两球”的结果不理想，你需要在之后的赛季承担代价。",
+            "effects": {
+              "xp": {
+                "SHO": 4
+              },
+              "morale": -5,
+              "injuryRisk": 12,
+              "coachTrust": -4,
+              "relationship": -5
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "match-prep-016",
+    "version": 1,
+    "category": "match-prep",
+    "categoryName": "比赛准备",
+    "title": "最后一轮生死战",
+    "text": "赛前会议出现了与你位置直接相关的新安排。 这次变化与“最后一轮生死战”有关。选择不仅影响当前结果，还会改变能力成长、教练信任、队内地位和未来转会评价。",
+    "stage": [
+      "youth",
+      "rotation",
+      "starter",
+      "star",
+      "veteran"
+    ],
+    "weight": 1.15,
+    "cooldownSeasons": 5,
+    "major": false,
+    "resolutionModes": [
+      "wheel",
+      "cards",
+      "dice"
+    ],
+    "options": [
+      {
+        "id": "opt-1",
+        "label": "稳步处理，优先保证职业稳定",
+        "risk": "稳健",
+        "hint": "风险最低，收益较稳定",
+        "outcomes": [
+          {
+            "id": "great",
+            "probability": 0.28,
+            "tier": "great",
+            "result": "你在“最后一轮生死战”中把握住了机会，职业评价和成长收益都高于预期。",
+            "effects": {
+              "xp": {
+                "PAS": 32
+              },
+              "morale": 4,
+              "clubInterest": 2,
+              "coachTrust": 3
+            }
+          },
+          {
+            "id": "normal",
+            "probability": 0.62,
+            "tier": "normal",
+            "result": "“最后一轮生死战”基本按预期发展，没有失控，但也没有出现奇迹。",
+            "effects": {
+              "xp": {
+                "PAS": 14
+              },
+              "morale": 1,
+              "coachTrust": 1
+            }
+          },
+          {
+            "id": "bad",
+            "probability": 0.1,
+            "tier": "bad",
+            "result": "“最后一轮生死战”的结果不理想，你需要在之后的赛季承担代价。",
+            "effects": {
+              "xp": {
+                "PAS": 4
+              },
+              "morale": -3,
+              "injuryRisk": 2,
+              "coachTrust": -4
+            }
+          }
+        ]
+      },
+      {
+        "id": "opt-2",
+        "label": "主动争取更大机会",
+        "risk": "进取",
+        "hint": "收益更高，也会增加压力",
+        "outcomes": [
+          {
+            "id": "great",
+            "probability": 0.34,
+            "tier": "great",
+            "result": "你在“最后一轮生死战”中把握住了机会，职业评价和成长收益都高于预期。",
+            "effects": {
+              "xp": {
+                "DRI": 35
+              },
+              "morale": 4,
+              "clubInterest": 2,
+              "coachTrust": 3
+            }
+          },
+          {
+            "id": "normal",
+            "probability": 0.46,
+            "tier": "normal",
+            "result": "“最后一轮生死战”基本按预期发展，没有失控，但也没有出现奇迹。",
+            "effects": {
+              "xp": {
+                "DRI": 16
+              },
+              "morale": 1,
+              "coachTrust": 1
+            }
+          },
+          {
+            "id": "bad",
+            "probability": 0.2,
+            "tier": "bad",
+            "result": "“最后一轮生死战”的结果不理想，你需要在之后的赛季承担代价。",
+            "effects": {
+              "xp": {
+                "DRI": 4
+              },
+              "morale": -3,
+              "injuryRisk": 2,
+              "coachTrust": -4,
+              "relationship": -5
+            }
+          }
+        ]
+      },
+      {
+        "id": "opt-3",
+        "label": "用训练、录像和数据解决问题",
+        "risk": "技术",
+        "hint": "强调长期能力成长",
+        "outcomes": [
+          {
+            "id": "great",
+            "probability": 0.38,
+            "tier": "great",
+            "result": "你在“最后一轮生死战”中把握住了机会，职业评价和成长收益都高于预期。",
+            "effects": {
+              "xp": {
+                "DEF": 38
+              },
+              "morale": 4,
+              "clubInterest": 2,
+              "coachTrust": 3
+            }
+          },
+          {
+            "id": "normal",
+            "probability": 0.52,
+            "tier": "normal",
+            "result": "“最后一轮生死战”基本按预期发展，没有失控，但也没有出现奇迹。",
+            "effects": {
+              "xp": {
+                "DEF": 18
+              },
+              "morale": 1,
+              "coachTrust": 1
+            }
+          },
+          {
+            "id": "bad",
+            "probability": 0.1,
+            "tier": "bad",
+            "result": "“最后一轮生死战”的结果不理想，你需要在之后的赛季承担代价。",
+            "effects": {
+              "xp": {
+                "DEF": 4
+              },
+              "morale": -3,
+              "injuryRisk": 2,
+              "coachTrust": -4
+            }
+          }
+        ]
+      },
+      {
+        "id": "opt-4",
+        "label": "先处理队友、教练或家人的关系",
+        "risk": "关系",
+        "hint": "可能建立长期羁绊",
+        "outcomes": [
+          {
+            "id": "great",
+            "probability": 0.3,
+            "tier": "great",
+            "result": "你在“最后一轮生死战”中把握住了机会，职业评价和成长收益都高于预期。",
+            "effects": {
+              "xp": {
+                "PHY": 41
+              },
+              "morale": 4,
+              "clubInterest": 2,
+              "coachTrust": 3,
+              "relationship": 6
+            }
+          },
+          {
+            "id": "normal",
+            "probability": 0.58,
+            "tier": "normal",
+            "result": "“最后一轮生死战”基本按预期发展，没有失控，但也没有出现奇迹。",
+            "effects": {
+              "xp": {
+                "PHY": 20
+              },
+              "morale": 1,
+              "coachTrust": 1,
+              "relationship": 2
+            }
+          },
+          {
+            "id": "bad",
+            "probability": 0.12,
+            "tier": "bad",
+            "result": "“最后一轮生死战”的结果不理想，你需要在之后的赛季承担代价。",
+            "effects": {
+              "xp": {
+                "PHY": 4
+              },
+              "morale": -3,
+              "injuryRisk": 2,
+              "coachTrust": -4,
+              "relationship": -5
+            }
+          }
+        ]
+      },
+      {
+        "id": "opt-5",
+        "label": "孤注一掷，选择最高风险路线",
+        "risk": "冒险",
+        "hint": "可能大成功，也可能遭遇严重后果",
+        "outcomes": [
+          {
+            "id": "great",
+            "probability": 0.3,
+            "tier": "great",
+            "result": "你在“最后一轮生死战”中把握住了机会，职业评价和成长收益都高于预期。",
+            "effects": {
+              "xp": {
+                "SHO": 44
+              },
+              "morale": 4,
+              "clubInterest": 2,
+              "coachTrust": 3,
+              "potential": 1
+            }
+          },
+          {
+            "id": "normal",
+            "probability": 0.3,
+            "tier": "normal",
+            "result": "“最后一轮生死战”基本按预期发展，没有失控，但也没有出现奇迹。",
+            "effects": {
+              "xp": {
+                "SHO": 22
+              },
+              "morale": 1,
+              "coachTrust": 1
+            }
+          },
+          {
+            "id": "bad",
+            "probability": 0.4,
+            "tier": "bad",
+            "result": "“最后一轮生死战”的结果不理想，你需要在之后的赛季承担代价。",
+            "effects": {
+              "xp": {
+                "SHO": 4
+              },
+              "morale": -5,
+              "injuryRisk": 12,
+              "coachTrust": -4,
+              "relationship": -5
+            }
+          }
+        ]
+      }
+    ]
+  }
+]

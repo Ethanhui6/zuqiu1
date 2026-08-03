@@ -1,4 +1,4 @@
-import {calculateCareerScore} from '../shared/scoringSystem.js';
+import {calculateCareerScore} from '../../src/systems/scoring/scoringSystem.js';
 import {applyAuthoritativeAction,authorityEvidence,CONFIG_VERSION,GAME_VERSION,initialAuthorityState} from './authoritativeEngine.js';
 
 export class AuthorityError extends Error{constructor(message,status=400,code='invalid_action',details=[]){super(message);this.status=status;this.code=code;this.details=details}}

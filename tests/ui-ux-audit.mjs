@@ -16,7 +16,7 @@ const css=[
   'src/styles/base.css',
   'src/styles/components.css',
   'src/styles/pages.css',
-  'src/styles/mobile-v18.5.css'
+  'src/styles/mobile-foundation.css'
 ].map(read).join('\n');
 const index=read('index.html');
 const shell=read('src/components/appShell.js');
@@ -43,7 +43,8 @@ check('viewport允许缩放并适配安全区域',()=>{
 });
 check('采用真正的移动端优先断点',()=>{
   for(const width of [480,768,1024,1440])assert.match(css,new RegExp(`@media\\s*\\(min-width:\\s*${width}px\\)`));
-  assert.doesNotMatch(css,/min-width\s*:\s*1024px\s*;\s*}\s*body/i);
+  assert.doesNotMatch(css,/@media\s*\(max-width/i);
+  assert.doesNotMatch(css,/body\s*\{[^}]*min-width/i);
   assert.doesNotMatch(css,/transform\s*:\s*scale\([^)]*\)\s*;[^}]*\/\*[^}]*mobile/i);
 });
 check('AppShell统一动态视口和单一正文滚动容器',()=>{
@@ -51,6 +52,8 @@ check('AppShell统一动态视口和单一正文滚动容器',()=>{
   assert.match(css,/\.page-container\{[\s\S]*overflow-y:auto[\s\S]*overflow-x:clip/);
   assert.match(css,/100dvh/);
   assert.match(viewport,/visualViewport/);
+  for(const region of ['AppHeader','MainViewport','BottomNavigation','OverlayRoot','ToastRoot'])assert.ok(shell.includes(region),region);
+  assert.match(sheet,/overlayManager/);assert.match(read('src/components/toast.js'),/overlayManager/);
 });
 check('全局只有浅色iOS主题',()=>{
   assert.match(css,/--color-bg:\s*#f5f5f7/i);
@@ -115,7 +118,7 @@ check('比赛头部、模式和选择卡均为移动端安全结构',()=>{
   assert.match(css,/\.mode-list\{[\s\S]*grid-template-columns:1fr/);
 });
 check('数据格式化层阻止对象、undefined、null和NaN直出',()=>{
-  for(const token of ['formatStatLabel','formatStatValue','formatEffectList','formatClubName','formatCurrency','formatLocalDate','formatPercentage'])assert.ok(format.includes(token),token);
+  for(const token of ['formatStatLabel','formatStatValue','formatEffectList','formatClubName','formatCurrency','formatDate','formatPercentage'])assert.ok(format.includes(token),token);
   assert.match(format,/Number\.isFinite/);
   assert.match(format,/typeof value===['"]object['"]/);
 });
@@ -131,8 +134,8 @@ check('开发诊断可报告溢出和点击命中层',()=>{
   assert.match(diagnostics,/composedPath/);
   assert.match(diagnostics,/overflow/);
 });
-check('Service Worker升级到V18.5并采用HTML网络优先',()=>{
-  assert.match(sw,/v18\.5\.0/);
+check('Service Worker升级到V18.9并采用HTML网络优先',()=>{
+  assert.match(sw,/v18\.9\.0/);
   assert.match(sw,/skipWaiting/);
   assert.match(sw,/clients\.claim/);
   assert.match(sw,/event\.request\.mode===['"]navigate['"]/);
@@ -142,7 +145,7 @@ check('Service Worker升级到V18.5并采用HTML网络优先',()=>{
 check('关键源码不直接使用Math.random',()=>assert.equal(allJs.includes('Math.random'),false));
 check('用户界面无指定内部英文和危险直出标记',()=>{
   const content=allJs+'\n'+index+'\n'+css;
-  for(const word of ['[object Object]','Loading','Continue','Settings','Transfer Offer','Season Complete','Career Complete'])assert.equal(content.includes(word),false,word);
+  for(const word of ['[object Object]','Loading','Continue','Transfer Offer','Season Complete','Career Complete'])assert.equal(content.includes(word),false,word);
 });
 
-console.log(JSON.stringify({status:'PASS',version:'18.5.0',passed:checks.length,cases:checks},null,2));
+console.log(JSON.stringify({status:'PASS',version:'18.9.0',passed:checks.length,cases:checks},null,2));

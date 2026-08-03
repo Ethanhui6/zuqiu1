@@ -1,15 +1,20 @@
 {
   "name": "green-pitch-career-v18",
   "private": true,
-  "version": "18.5.0",
+  "version": "18.9.0",
   "type": "module",
   "scripts": {
-    "test": "node ./tests/run-tests.mjs && node ./tests/career-sim.mjs && node ./tests/full-career-audit.mjs && node ./tests/acceptance-tests.mjs && node ./tests/runtime-audit.mjs && node ./tests/pace-playability.mjs && node ./tests/static-check.mjs && node ./tests/ui-ux-audit.mjs",
+    "test": "node ./tests/run-tests.mjs && node ./tests/career-sim.mjs && node ./tests/full-career-audit.mjs && node ./tests/acceptance-tests.mjs && node ./tests/runtime-audit.mjs && node ./tests/pace-playability.mjs && node ./tests/gameplay-depth-audit.mjs && node ./tests/static-check.mjs && node ./tests/ui-ux-audit.mjs && node ./tests/leaderboard-backend.mjs && node ./tests/authority-anti-cheat.mjs && node ./tests/worker-entry.mjs && node ./tests/animation-system-audit.mjs && node ./tests/overlay-lifecycle-audit.mjs && node ./tests/final-performance-audit.mjs",
     "test:core": "node ./tests/run-tests.mjs",
-    "serve": "python -m http.server 8080",
-    "test:mobile": "python ./tests/mobile-layout-audit.py",
-    "test:all": "npm test && npm run test:20 && npm run test:mobile",
+    "dev": "node ./scripts/serve.mjs --port 8080",
+    "serve": "node ./scripts/serve.mjs --port 8080",
+    "build": "node ./scripts/build.mjs",
+    "test:mobile": "node ./tests/mobile-layout-audit.mjs",
+    "test:all": "npm test && npm run test:20 && npm run test:mobile && npm run build",
     "test:pace": "node ./tests/pace-playability.mjs",
     "test:20": "node ./tests/twenty-season-sim.mjs"
+  },
+  "devDependencies": {
+    "playwright": "^1.62.1"
   }
 }

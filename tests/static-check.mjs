@@ -3,7 +3,8 @@ import path from 'node:path';
 import assert from 'node:assert/strict';
 import {fileURLToPath} from 'node:url';
 const root=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'..');
-async function walk(dir){const out=[];for(const e of await fs.readdir(dir,{withFileTypes:true})){const p=path.join(dir,e.name);if(e.isDirectory())out.push(...await walk(p));else out.push(p)}return out}
+const ignored=new Set(['node_modules','dist','legacy','.git']);
+async function walk(dir){const out=[];for(const e of await fs.readdir(dir,{withFileTypes:true})){if(e.isDirectory()&&ignored.has(e.name))continue;const p=path.join(dir,e.name);if(e.isDirectory())out.push(...await walk(p));else out.push(p)}return out}
 const files=await walk(root);const js=files.filter(f=>f.endsWith('.js')||f.endsWith('.mjs'));
 const missing=[];
 for(const file of js){const text=await fs.readFile(file,'utf8');for(const match of text.matchAll(/(?:from\s*|import\s*)['"](\.{1,2}\/[^'"]+)['"]/g)){let target=path.resolve(path.dirname(file),match[1]);if(!path.extname(target))target+='.js';try{await fs.access(target)}catch{missing.push(`${path.relative(root,file)} -> ${match[1]}`)}}}

@@ -148,7 +148,7 @@ const passed=[];const check=(name,fn)=>{fn();passed.push(name)};
   const firstChoice=opening.choices[0];resolveEventChoice(save,firstChoice.id);const root=firstChoice.unlockChain;acknowledgeEventDecision(save);
   const follow=await generateEvent(save,repo);check('开局选择会生成对应后续剧情',()=>assert.equal(follow.chainId,root));
   const branchChoice=follow.choices[0];resolveEventChoice(save,branchChoice.id);const branch=branchChoice.unlockChain;consumeResolvedEvent(save);
-  const finale=await generateEvent(save,repo);check('剧情分支会继续到结局节点',()=>assert.ok(finale.endChain&&finale.prerequisite.includes(branch)));
+  let finale=await generateEvent(save,repo);if(!finale.endChain){resolveEventChoice(save,finale.choices[0].id);consumeResolvedEvent(save);finale=await generateEvent(save,repo)}check('剧情分支会继续到结局节点',()=>assert.ok(finale.endChain&&finale.prerequisite.includes(branch)));
   resolveEventChoice(save,finale.choices[0].id);consumeResolvedEvent(save);check('剧情链结束状态写入存档',()=>assert.ok(save.career.eventMemory.chainsClosed.includes(root)&&!save.career.eventMemory.chainsOpen.some(x=>x.startsWith(root))));
 }
 

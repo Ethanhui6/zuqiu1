@@ -4,37 +4,37 @@
 - 完成赛季：20
 - 最终年龄：36
 - 最终综合能力：84
-- 总比赛数：717
-- 不同对手数量：294
-- 总事件数：119
-- 唯一事件数：119
+- 总比赛数：712
+- 不同对手数量：323
+- 总事件数：121
+- 唯一事件数：121
 - 重复事件数：0
 - 转会次数：10
 - 效力俱乐部数量：9
 - 重大职业节点：11
-- 成就数量：103
+- 成就数量：97
 - 最终结局：转会流浪者
-- 模拟耗时：909.91 ms
+- 模拟耗时：723.66 ms
 - 控制台/模拟错误：0
 
 ## 事件类型占比
 
-- match: 10.2%
-- media: 9.3%
-- training: 9.3%
-- agent: 6.8%
-- leadership: 6.8%
-- contract: 6.8%
-- national: 6.8%
-- rivalry: 5.9%
-- coach: 5.9%
-- academy: 5.1%
-- sponsor: 5.1%
-- transfer: 3.4%
-- tactics: 3.4%
-- finance: 3.4%
-- legacy: 3.4%
-- teammate: 2.5%
+- match: 10%
+- media: 10%
+- training: 9.2%
+- contract: 7.5%
+- national: 6.7%
+- leadership: 6.7%
+- rivalry: 5.8%
+- agent: 5.8%
+- academy: 5.8%
+- coach: 5%
+- sponsor: 5%
+- transfer: 3.3%
+- teammate: 3.3%
+- tactics: 3.3%
+- finance: 3.3%
+- legacy: 3.3%
 - life: 2.5%
 - family: 1.7%
 - recovery: 1.7%

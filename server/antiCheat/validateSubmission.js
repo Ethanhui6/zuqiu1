@@ -1,4 +1,4 @@
-import {validateScoreEvidence,stableEvidenceHash} from '../shared/scoringSystem.js';
+import {validateScoreEvidence,stableEvidenceHash} from '../../src/systems/scoring/scoringSystem.js';
 
 export const ALLOWED_CHECKPOINT_REASONS=new Set([
   'career-advanced','event-resolved','match-resolved','advance-to-match','advance-error','objective-selected',

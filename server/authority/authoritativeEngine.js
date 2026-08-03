@@ -1,6 +1,6 @@
-import {positionGroup} from '../shared/scoringSystem.js';
+import {positionGroup} from '../../src/systems/scoring/scoringSystem.js';
 
-export const GAME_VERSION='18.8.0';
+export const GAME_VERSION='18.9.0';
 export const CONFIG_VERSION='authority-1';
 const CLUB_POOL=['海港竞技','北伦敦城','莱茵竞技','伊比利亚联队','米兰蓝星','巴黎新城','里斯本雄狮','大阪飞翼'];
 const bounded=(value,min,max)=>Math.max(min,Math.min(max,Number(value)||0));
