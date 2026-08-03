@@ -1,0 +1,11 @@
+{
+  "name":"green-pitch-career-v18",
+  "private":true,
+  "version":"18.0.0",
+  "type":"module",
+  "scripts":{
+    "test":"node ./tests/run-tests.mjs && node ./tests/career-sim.mjs && node ./tests/acceptance-tests.mjs && node ./tests/static-check.mjs",
+    "test:core":"node ./tests/run-tests.mjs",
+    "serve":"python -m http.server 8080"
+  }
+}

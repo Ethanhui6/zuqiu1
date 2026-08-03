@@ -1,1 +1,11 @@
-{"version":"18.0.0","build":"2026-08-03","clubs":500,"legendTemplates":500,"eventChoices":3200,"achievements":330}
+{
+  "version": "18.0.0",
+  "build": "2026-08-03.2",
+  "clubs": 500,
+  "legendTemplates": 500,
+  "eventTemplates": 1200,
+  "eventChoices": 6000,
+  "uniqueChoiceTexts": 3215,
+  "achievements": 330,
+  "saveSchema": 18
+}
