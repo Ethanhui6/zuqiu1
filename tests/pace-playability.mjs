@@ -9,6 +9,7 @@ import {generateMatch,resolveMatch} from '../src/systems/match/matchSystem.js';
 import {ensureSchedule,scheduleStats,syncScheduleAfterClubChange} from '../src/systems/schedule/scheduleSystem.js';
 import {generateObjectiveCandidates,selectObjective,objectiveProgress} from '../src/systems/career/objectiveSystem.js';
 import {resolveTraining} from '../src/systems/training/trainingSystem.js';
+import {setGameDate} from '../src/systems/career/gameClock.js';
 
 const read=async p=>JSON.parse(await fs.readFile(new URL(p,import.meta.url),'utf8'));
 const clubs=(await read('../data/clubs.json')).clubs;
@@ -64,14 +65,14 @@ const passed=[];const check=(name,fn)=>{fn();passed.push(name)};
   check('时间推进生成简洁摘要',()=>assert.ok(season.summary&&Number.isFinite(season.summary.matches)&&season.summary.headline));
   check('推进完成后状态自动记录',()=>assert.ok(save.career.advance.history.length>=3));
   const windowSave=makeSave('window-target');ensureTimeState(windowSave,repo);resolvePending(windowSave);setPaceMode(windowSave,'legend');setSpeed(windowSave,'turbo');disablePauses(windowSave);
-  const windowResult=await advanceThroughPauses(windowSave,'window');check('推进至下一个转会窗口正常',()=>assert.ok([1,5].includes(windowSave.career.month)&&windowResult.summary.weeksAdvanced>0));
+  const windowResult=await advanceThroughPauses(windowSave,'window');check('推进至下一个转会窗口正常',()=>assert.ok([1,7].includes(windowSave.career.month)&&windowResult.summary.weeksAdvanced>0));
 }
 
 // 关键事件与下一事件、下一比赛主动目标会暂停。
 {
   const save=makeSave('critical');ensureTimeState(save,repo);setSpeed(save,'turbo');
   const first=await advanceCareer(save,repo,'nextEvent');check('下一事件会暂停等待玩家决定',()=>assert.equal(first.reason,'event'));
-  resolvePending(save);setAutoPause(save,'transferOffer',false);save.career.pending.offers=[];const match=await advanceCareer(save,repo,'nextMatch');check('下一场比赛会暂停等待呈现选择',()=>assert.equal(match.reason,'match'));
+  resolvePending(save);disablePauses(save);save.career.pending.offers=[];const match=await advanceCareer(save,repo,'nextMatch');check('下一场比赛会暂停等待呈现选择',()=>assert.equal(match.reason,'match'));
   resolvePending(save);
 }
 
@@ -88,9 +89,9 @@ const passed=[];const check=(name,fn)=>{fn();passed.push(name)};
 // 自动训练造成真实伤病时会立刻生成伤病决策并暂停。
 {
   const save=makeSave('training-injury-pause');ensureTimeState(save,repo);resolvePending(save);setPaceMode(save,'fast');setSpeed(save,'turbo');disablePauses(save);setAutoPause(save,'injury',true);
-  save.career.calendar.week=2;save.career.month=1;save.career.calendar.nextEventWeek=99;save.career.weekState={trainingDone:false,eventDone:false,matchDone:false,trainingResult:null};save.career.strategies.training='physical';save.career.trainingPlan='physical';
+  setGameDate(save,'2026-07-07');save.career.calendar.nextEventDate='2099-12-31';save.career.calendar.nextEventWeek=99;save.career.weekState={trainingDone:false,eventDone:false,matchDone:false,trainingResult:null};save.career.strategies.training='physical';save.career.trainingPlan='physical';
   const club=repo.getClub(save.career.clubId);let injuryState=null;
-  for(let state=1;state<=500&&!injuryState;state++){const trial=structuredClone(save);trial.rng.state=state;trial.rng.counter=0;if(resolveTraining(trial,club,{scale:.25}).injury)injuryState=state}
+  for(let state=1;state<=500&&!injuryState;state++){const trial=structuredClone(save);trial.rng.state=state;trial.rng.counter=0;if(resolveTraining(trial,club,{scale:.24}).injury)injuryState=state}
   assert.ok(injuryState,'测试范围内应能找到确定性伤病状态');save.rng.state=injuryState;save.rng.counter=0;
   const result=await advanceCareer(save,repo,'week');check('自动训练伤病触发伤病事件并暂停',()=>{assert.equal(result.pauseRule,'injury');assert.equal(result.event.category,'injury');assert.ok(save.status.injury)});
 }

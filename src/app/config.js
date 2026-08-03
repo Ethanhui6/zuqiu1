@@ -1,5 +1,5 @@
-export const APP_VERSION = '19.0.0';
-export const SAVE_SCHEMA = 21;
+export const APP_VERSION = '19.1.0';
+export const SAVE_SCHEMA = 22;
 export const SAVE_SLOTS = 3;
 
 export const ATTR_KEYS = ['pac','sho','pas','dri','def','phy'];
@@ -77,8 +77,10 @@ export const ADVANCE_TARGETS = [
   {id:'nextMatch',label:'下一场比赛',icon:'⚽'},
   {id:'week',label:'推进一周',icon:'7'},
   {id:'month',label:'推进一个月',icon:'月'},
+  {id:'halfSeason',label:'推进半赛季',icon:'½'},
   {id:'window',label:'推进至转会窗',icon:'↗'},
-  {id:'season',label:'推进至赛季结束',icon:'◎'}
+  {id:'season',label:'推进至赛季结束',icon:'◎'},
+  {id:'milestone',label:'下一重大节点',icon:'◆'}
 ];
 
 export const DEFAULT_AUTO_PAUSE = Object.fromEntries(Object.keys(AUTO_PAUSE_RULES).map(key=>[key,true]));

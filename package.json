@@ -1,10 +1,10 @@
 {
   "name": "green-pitch-career-v19",
   "private": true,
-  "version": "19.0.0",
+  "version": "19.1.0",
   "type": "module",
   "scripts": {
-    "test": "node ./tests/run-tests.mjs && node ./tests/career-sim.mjs && node ./tests/full-career-audit.mjs && node ./tests/acceptance-tests.mjs && node ./tests/runtime-audit.mjs && node ./tests/pace-playability.mjs && node ./tests/gameplay-depth-audit.mjs && node ./tests/static-check.mjs && node ./tests/ui-ux-audit.mjs && node ./tests/v19-guidance-audit.mjs && node ./tests/leaderboard-backend.mjs && node ./tests/authority-anti-cheat.mjs && node ./tests/worker-entry.mjs && node ./tests/animation-system-audit.mjs && node ./tests/overlay-lifecycle-audit.mjs && node ./tests/final-performance-audit.mjs",
+    "test": "node ./tests/run-tests.mjs && node ./tests/time-system-v19.1.mjs && node ./tests/career-ai-v19.1.mjs && node ./tests/career-sim.mjs && node ./tests/full-career-audit.mjs && node ./tests/acceptance-tests.mjs && node ./tests/runtime-audit.mjs && node ./tests/pace-playability.mjs && node ./tests/gameplay-depth-audit.mjs && node ./tests/static-check.mjs && node ./tests/ui-ux-audit.mjs && node ./tests/v19-guidance-audit.mjs && node ./tests/leaderboard-backend.mjs && node ./tests/authority-anti-cheat.mjs && node ./tests/worker-entry.mjs && node ./tests/animation-system-audit.mjs && node ./tests/overlay-lifecycle-audit.mjs && node ./tests/final-performance-audit.mjs",
     "test:core": "node ./tests/run-tests.mjs",
     "dev": "node ./scripts/serve.mjs --port 8080",
     "serve": "node ./scripts/serve.mjs --port 8080",
@@ -13,7 +13,10 @@
     "test:all": "npm test && npm run test:20 && npm run test:mobile && npm run build",
     "test:pace": "node ./tests/pace-playability.mjs",
     "test:20": "node ./tests/twenty-season-sim.mjs",
-    "test:guidance": "node ./tests/v19-guidance-audit.mjs"
+    "test:guidance": "node ./tests/v19-guidance-audit.mjs",
+    "test:time": "node ./tests/time-system-v19.1.mjs",
+    "test:ai": "node ./tests/career-ai-v19.1.mjs",
+    "test:modes": "node ./tests/v19.1-mode-sim.mjs"
   },
   "devDependencies": {
     "playwright": "^1.62.1"

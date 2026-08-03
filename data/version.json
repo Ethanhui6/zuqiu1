@@ -1,8 +1,8 @@
 {
-  "version": "19.0.0",
-  "channel": "guidance-glass-navigation",
+  "version": "19.1.0",
+  "channel": "time-ai-core",
   "buildDate": "2026-08-03",
-  "schemaVersion": 21,
+  "schemaVersion": 22,
   "scoreVersion": "2026.08.03.2",
   "data": {
     "clubs": 500,
@@ -17,5 +17,6 @@
     "local": true,
     "worldApi": true,
     "serverAuthoritativeScore": true
-  }
+  },
+  "buildVersion": "19.1.0-20260803-2"
 }

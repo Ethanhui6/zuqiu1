@@ -1,0 +1,25 @@
+# V19.1 修改文件
+
+- `src/systems/career/timeAdvanceSystem.js`
+- `src/systems/career/advanceSummary.js`
+- `src/systems/planning/weeklyPlanSystem.js`
+- `src/systems/squad/squadCompetitionSystem.js`
+- `src/systems/match/matchSystem.js`
+- `src/systems/training/trainingSystem.js`
+- `src/systems/fan/fanSystem.js`
+- `src/systems/transfer/transferSystem.js`
+- `src/systems/guidance/guidanceSystem.js`
+- `src/pages/careerPage.js`
+- `src/styles/pages.css`
+- `src/services/rng.js`
+- `src/systems/ai/careerAIDirector.js`
+- `src/systems/agent/agentSystem.js`
+- `src/systems/world/worldDynamicsSystem.js`
+- `src/systems/challenge/miniChallengeSystem.js`
+- `src/systems/career/objectiveSystem.js`
+- `index.html`
+- `data/version.json`
+- `sw.js`
+- `tests/time-system-v19.1.mjs`
+- `tests/career-ai-v19.1.mjs`
+- `tests/v19.1-mode-sim.mjs`

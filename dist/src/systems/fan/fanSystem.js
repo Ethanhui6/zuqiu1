@@ -1,7 +1,7 @@
 import {clamp} from '../../utils/format.js';
 export function createFans(){return{local:300,club:500,global:0,social:250,mediaHeat:2,commercialValue:1,sentiment:55,history:[]}}
 export function applyFanChange(save,{local=0,club=0,global=0,social=0,heat=0,commercial=0,sentiment=0,reason='生涯变化'}={}){
-  const f=save.fans;f.local=Math.max(0,f.local+Math.round(local));f.club=Math.max(0,f.club+Math.round(club));f.global=Math.max(0,f.global+Math.round(global));f.social=Math.max(0,f.social+Math.round(social));f.mediaHeat=clamp(f.mediaHeat+heat,0,100);f.commercialValue=clamp(f.commercialValue+commercial,0,100);f.sentiment=clamp(f.sentiment+sentiment,0,100);
+  const f=save.fans,loyal=(save.career?.traits?.unlocked||[]).includes('loyal'),clubGain=club>0&&loyal?club*1.15:club;f.local=Math.max(0,f.local+Math.round(local));f.club=Math.max(0,f.club+Math.round(clubGain));f.global=Math.max(0,f.global+Math.round(global));f.social=Math.max(0,f.social+Math.round(social));f.mediaHeat=clamp(f.mediaHeat+heat,0,100);f.commercialValue=clamp(f.commercialValue+commercial,0,100);f.sentiment=clamp(f.sentiment+sentiment,0,100);
   f.history.push({year:save.career.year,season:save.career.season,month:save.career.month,total:f.local+f.club+f.global,social:f.social,reason});if(f.history.length>80)f.history.shift();
 }
 export function totalFans(save){const f=save.fans;return f.local+f.club+f.global}

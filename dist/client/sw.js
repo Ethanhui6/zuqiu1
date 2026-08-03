@@ -1,4 +1,4 @@
-const VERSION='green-pitch-v19.0.0-20260803-1';
+const VERSION='green-pitch-v19.1.0-20260803-2';
 const STATIC_CACHE=`${VERSION}-static`;
 const DATA_CACHE=`${VERSION}-data`;
 const CORE=[
@@ -11,6 +11,18 @@ const CORE=[
   './src/services/api/leaderboardApi.js','./src/services/api/authoritativeRunApi.js','./src/services/api/rankingSync.js','./src/services/dataRepository.js','./src/services/localization/zh-CN.js','./src/services/overlay/overlayManager.js','./src/services/rng.js','./src/services/storage/localLeaderboard.js','./src/services/storage/migrations.js','./src/services/storage/saveManager.js',
   './src/systems/achievement/achievementSystem.js','./src/systems/career/careerSystem.js','./src/systems/career/cycleSystem.js','./src/systems/career/nationalSystem.js','./src/systems/career/objectiveSystem.js','./src/systems/career/ovr.js','./src/systems/career/seasonAwardSystem.js','./src/systems/career/timeAdvanceSystem.js','./src/systems/ending/endingSystem.js','./src/systems/event/eventEngine.js','./src/systems/facility/facilitySystem.js','./src/systems/fan/fanSystem.js','./src/systems/guidance/guidanceSystem.js','./src/systems/match/matchSystem.js','./src/systems/pace/paceSystem.js','./src/systems/relationship/relationshipSystem.js','./src/systems/schedule/scheduleSystem.js','./src/systems/scoring/scoringSystem.js','./src/systems/training/trainingSystem.js','./src/systems/transfer/transferSystem.js',
   './src/styles/theme.css','./src/styles/base.css','./src/styles/components.css','./src/styles/pages.css','./src/styles/mobile-foundation.css','./src/styles/animations.css','./src/styles/v19-guidance.css',
+  './src/utils/gameDate.js',
+  './src/systems/career/gameClock.js',
+  './src/systems/career/advanceSummary.js',
+  './src/systems/ai/careerAIDirector.js',
+  './src/systems/planning/weeklyPlanSystem.js',
+  './src/systems/squad/squadCompetitionSystem.js',
+  './src/systems/agent/agentSystem.js',
+  './src/systems/messages/messageCenterSystem.js',
+  './src/systems/form/formMomentumSystem.js',
+  './src/systems/trait/traitSystem.js',
+  './src/systems/world/worldDynamicsSystem.js',
+  './src/systems/challenge/miniChallengeSystem.js',
   './src/utils/dom.js','./src/utils/format.js','./src/utils/scrollLock.js','./src/utils/viewport.js','./src/utils/uiDiagnostics.js',
   './data/clubs.json','./data/legend-templates.json','./data/achievements.json','./data/positions.json','./data/events/index.json','./data/events/story-chains.json','./data/version.json'
 ];

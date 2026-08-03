@@ -1,0 +1,76 @@
+{
+  "status": "PASS",
+  "version": "19.1.0",
+  "engine": "系统 Chromium + Playwright 路由注入真实生产模块",
+  "fullFlow": [
+    "创建球员",
+    "开局事件",
+    "下一步引导",
+    "待办徽标",
+    "滚动提示",
+    "游戏节奏Sheet",
+    "设置立即生效",
+    "重新装载保持"
+  ],
+  "viewports": [
+    {
+      "width": 320,
+      "height": 568,
+      "overflow": 0,
+      "badges": 1,
+      "guide": true,
+      "glassNav": true
+    },
+    {
+      "width": 360,
+      "height": 800,
+      "overflow": 0,
+      "badges": 1,
+      "guide": true,
+      "glassNav": true
+    },
+    {
+      "width": 375,
+      "height": 667,
+      "overflow": 0,
+      "badges": 1,
+      "guide": true,
+      "glassNav": true
+    },
+    {
+      "width": 393,
+      "height": 852,
+      "overflow": 0,
+      "badges": 1,
+      "guide": true,
+      "glassNav": true
+    },
+    {
+      "width": 412,
+      "height": 915,
+      "overflow": 0,
+      "badges": 1,
+      "guide": true,
+      "glassNav": true
+    },
+    {
+      "width": 430,
+      "height": 932,
+      "overflow": 0,
+      "badges": 1,
+      "guide": true,
+      "glassNav": true
+    },
+    {
+      "width": 768,
+      "height": 1024,
+      "overflow": 0,
+      "badges": 1,
+      "guide": true,
+      "glassNav": true
+    }
+  ],
+  "screenshots": "docs/screenshots-v19",
+  "physicalDevice": false,
+  "networkNavigation": "运行环境策略阻止localhost导航，测试通过浏览器请求路由加载原始生产文件"
+}

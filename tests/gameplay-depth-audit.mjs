@@ -49,6 +49,6 @@ save.career.squadLevel='一线队';save.career.nationalTeam={calledUp:true};save
 const schedule=generateSeasonSchedule(save,repo,{force:true}),opponents=new Set(schedule.fixtures.map(fixture=>fixture.opponentId));
 assert.ok(schedule.fixtures.length>=30,`赛季比赛数量不足：${schedule.fixtures.length}`);assert.ok(opponents.size>=15,`单赛季不同对手不足：${opponents.size}`);
 assert.deepEqual(Object.keys(COMPETITIONS).sort(),['continental','cup','friendly','league','national','preseason','reserveLeague','youthLeague'].sort());
-assert.equal(Object.keys(PACE_MODES).length,4);assert.deepEqual(SPEED_LEVELS.map(item=>item.id),['paused','normal','fast','faster','turbo']);assert.deepEqual(ADVANCE_TARGETS.map(item=>item.id),['nextEvent','nextMatch','week','month','window','season']);
+assert.equal(Object.keys(PACE_MODES).length,4);assert.deepEqual(SPEED_LEVELS.map(item=>item.id),['paused','normal','fast','faster','turbo']);assert.deepEqual(ADVANCE_TARGETS.map(item=>item.id),['nextEvent','nextMatch','week','month','halfSeason','window','season','milestone']);
 
 console.log(JSON.stringify({status:'PASS',clubs:clubs.length,countries:new Set(clubs.map(item=>item.country)).size,leagues:new Set(clubs.map(item=>item.leagueId)).size,eventTemplates,eventChoices,effectiveCombinations,generatedEvents:categories.length,recentRepeatRate:diagnostics.recentRepeatRate,storyChainsStarted:save.career.eventMemory.chainsStarted.length,scheduleMatches:schedule.fixtures.length,differentOpponents:opponents.size,competitions:Object.values(COMPETITIONS).map(item=>item.name)},null,2));

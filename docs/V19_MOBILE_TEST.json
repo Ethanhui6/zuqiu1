@@ -1,6 +1,6 @@
 {
   "status": "PASS",
-  "version": "19.0.0",
+  "version": "19.1.0",
   "engine": "系统 Chromium + Playwright 路由注入真实生产模块",
   "fullFlow": [
     "创建球员",

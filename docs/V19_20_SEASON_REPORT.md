@@ -3,42 +3,42 @@
 - 状态：PASS
 - 完成赛季：20
 - 最终年龄：36
-- 最终综合能力：84
-- 总比赛数：709
-- 不同对手数量：301
-- 总事件数：124
-- 唯一事件数：124
+- 最终综合能力：86
+- 总比赛数：800
+- 不同对手数量：304
+- 总事件数：139
+- 唯一事件数：139
 - 重复事件数：0
 - 重复率：0%
 - 转会次数：10
 - 效力俱乐部数量：10
 - 剧情链完成率：100%（1/1）
 - 重大职业节点：11
-- 成就数量：100
+- 成就数量：116
 - 最终结局：转会流浪者
-- 模拟耗时：1122.03 ms
+- 模拟耗时：6201.36 ms
 - 控制台/模拟错误：0
 
 ## 事件类型占比
 
-- training: 9.8%
-- match: 9.8%
-- media: 9.8%
-- contract: 7.3%
+- media: 10.1%
+- training: 10.1%
+- match: 9.4%
 - agent: 6.5%
-- national: 6.5%
+- coach: 6.5%
+- academy: 6.5%
 - leadership: 6.5%
-- coach: 5.7%
-- academy: 5.7%
-- transfer: 4.9%
-- sponsor: 4.9%
-- legacy: 4.9%
-- rivalry: 4.1%
-- tactics: 3.3%
-- finance: 3.3%
-- teammate: 2.4%
-- life: 1.6%
-- family: 1.6%
-- recovery: 1.6%
+- sponsor: 5.8%
+- national: 5.8%
+- contract: 5.8%
+- rivalry: 5.1%
+- transfer: 4.3%
+- tactics: 3.6%
+- legacy: 3.6%
+- teammate: 2.9%
+- finance: 2.9%
+- life: 1.4%
+- recovery: 1.4%
+- family: 1.4%
 
 > 本报告由 Node.js 确定性自动模拟生成，用于验证长期状态、赛程、事件、存档随机序列和职业节点；不等同于实体手机浏览器性能测试。

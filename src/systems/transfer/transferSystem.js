@@ -17,7 +17,7 @@ function logDecision(offer,action,status){offer.decisionLog??=[];offer.decisionL
 
 export function marketValue(save,club){const p=save.player;const age=p.age<=21?1.5:p.age<=26?1.25:p.age<=29?1:p.age<=32?.7:.36;const pot=1+Math.max(0,p.potential-p.ovr)*.045;const exposure=.75+club.rep/180;return Math.max(80000,Math.round(Math.exp((p.ovr-52)*.102)*90000*age*pot*exposure))}
 function roleFor(player,club){const gap=player.ovr-club.rep;if(gap>=4)return'核心';if(gap>=0)return'主力';if(gap>=-5)return'轮换';return player.age<=21?'未来计划':'替补'}
-function offerScore(save,club,current){const p=save.player,s=save.career.seasonStats;let score=p.ovr*.34+p.potential*.16+(s.rating||6)*5+(s.apps||0)*.18+save.fans.mediaHeat*.08+save.status.form*.08;score+=(club.needs.includes(p.position)?8:-3);score-=Math.max(0,club.rep-p.ovr-7)*2.2;score-=save.status.injury?.severity?12:0;score+=(club.youthUsage-50)*.05;score-=Math.abs(club.rep-current.rep)*.05;return score}
+function offerScore(save,club,current){const p=save.player,s=save.career.seasonStats,agent=save.career.agent||{};let score=p.ovr*.34+p.potential*.16+(s.rating||6)*5+(s.apps||0)*.18+save.fans.mediaHeat*.08+save.status.form*.08;score+=(club.needs.includes(p.position)?8:-3)+(Number(agent.network||50)-50)*.06;score-=Math.max(0,club.rep-p.ovr-7)*2.2;score-=save.status.injury?.severity?12:0;score+=(club.youthUsage-50)*.05;score-=Math.abs(club.rep-current.rep)*.05;return score}
 export function isTransferWindow(save){return save.career.month===CAREER_SETTINGS.summerWindowMonth||save.career.month===CAREER_SETTINGS.winterWindowMonth}
 export function expireOffers(save){
   ensureState(save);if(!save.career.pending.offers.length)return[];
@@ -76,7 +76,7 @@ export function respondOffer(save,repo,offerId,action){
   else if(action==='defer'){offer.status='暂缓';offer.deferred=true;offer.probability=clamp(offer.probability-8,5,95);logDecision(offer,action,offer.status)}
   else if(action==='accept'){acceptOffer(save,repo,offer)}
   else if(NEGOTIATIONS.has(action)){
-    offer.negotiationRound=(offer.negotiationRound||0)+1;const difficulty=action==='negotiateRole'?65:action==='loan'?58:60,chance=clamp((offer.probability+save.relations.agent.trust*.25-difficulty)/100,.1,.82);
+    offer.negotiationRound=(offer.negotiationRound||0)+1;const difficulty=action==='negotiateRole'?65:action==='loan'?58:60,agentBonus=(Number(save.career.agent?.negotiation||50)-50)*.28,chance=clamp((offer.probability+save.relations.agent.trust*.25+agentBonus-difficulty)/100,.1,.86);
     if(rng.bool(chance)){
       if(action==='negotiateWage')offer.weeklyWage=Math.round(offer.weeklyWage*1.12);if(action==='negotiateRole')offer.role=offer.role==='未来计划'?'轮换':offer.role==='轮换'?'主力':offer.role==='主力'?'核心':'核心';if(action==='clause')offer.releaseClause=offer.releaseClause?Math.round(offer.releaseClause*.8):Math.round(marketValue(save,repo.getClub(save.career.clubId))*1.8);if(action==='loan'){offer.type='租借';offer.years=1;offer.signingBonus=0;offer.appearancePromise='优先保证出场时间'}offer.status='谈判成功';offer.probability=clamp(offer.probability-3,5,95);
     }else{offer.probability=clamp(offer.probability-15,0,95);offer.status=offer.negotiationRound>=2||rng.bool(.35)?'谈判破裂':'谈判未果'}

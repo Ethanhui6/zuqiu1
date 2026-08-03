@@ -239,4 +239,4 @@ try{
   }
 }finally{await browser.close();await new Promise(resolve=>server.close(resolve))}
 
-console.log(JSON.stringify({status:'PASS',engine:'真实生产入口 + Chromium',viewports:results,version:'19.0.0',v19Features:['下一步引导','待办徽标','滚动提示','iOS玻璃底栏','游戏节奏Sheet','刷新保持设置'],fullFlow:['创建球员','原生日期','位置','踢球风格','天赋','青年队','职业节奏','生涯首页','比赛准备','比赛模式','比赛选择','比赛结算','球队世界','转会报价','训练','本地排行榜','世界排行榜','成就','设置'],screenshots:path.relative(root,shots)},null,2));
+console.log(JSON.stringify({status:'PASS',engine:'真实生产入口 + Chromium',viewports:results,version:'19.1.0',v19Features:['下一步引导','待办徽标','滚动提示','iOS玻璃底栏','游戏节奏Sheet','刷新保持设置'],fullFlow:['创建球员','原生日期','位置','踢球风格','天赋','青年队','职业节奏','生涯首页','比赛准备','比赛模式','比赛选择','比赛结算','球队世界','转会报价','训练','本地排行榜','世界排行榜','成就','设置'],screenshots:path.relative(root,shots)},null,2));

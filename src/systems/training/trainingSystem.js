@@ -29,7 +29,8 @@ export function resolveTraining(save,club,{scale=1}={}){
     if(levels)gains.push({key,levels});
   }
   s.fatigue=clamp(s.fatigue+plan.fatigue*scale,0,100);s.fitness=clamp(s.fitness-plan.intensity*2*scale+(plan.id==='recovery'?16*scale:0),0,100);
-  const risk=clamp(((plan.risk+(p.hidden.injuryProne||30)*.15+s.fatigue*.10-club.youth*.05)/100)*Math.max(.2,scale),0,.65);
+  const professional=(save.career.traits?.unlocked||[]).includes('professional'),riskModifier=professional?.78:1;
+  const risk=clamp(((plan.risk+(p.hidden.injuryProne||30)*.15+s.fatigue*.10-club.youth*.05)/100)*Math.max(.2,scale)*riskModifier,0,.65);
   let injury=null;
   if(rng.bool(risk)){
     const severity=.08+rng.next()*.42;injury={name:severity>.34?'肌肉拉伤':'轻微不适',severity,remainingMatches:severity>.34?rng.int(2,5):1};s.injury=injury;s.fitness=clamp(s.fitness-15,0,100);
@@ -45,7 +46,8 @@ export function progressRecovery(save,club){
   if(save.status.suspension>0)save.status.suspension=Math.max(0,save.status.suspension-1);
   const injury=save.status.injury;if(!injury)return result;
   const medicalBonus=Math.max(0,((club?.youth||60)-55)/100);
-  injury.remainingMatches=Math.max(0,Number(injury.remainingMatches||1)-1);
+  const resilient=(save.career.traits?.unlocked||[]).includes('resilient');
+  injury.remainingMatches=Math.max(0,Number(injury.remainingMatches||1)-(resilient?2:1));
   save.status.fitness=clamp(save.status.fitness+Math.round(5+medicalBonus*5),0,100);
   result.remaining=injury.remainingMatches;
   if(injury.remainingMatches<=0){save.status.injury=null;save.status.fitness=clamp(save.status.fitness+8,0,100);save.career.history.push({type:'recovery',year:save.career.year,title:'伤愈复出',text:'医疗团队确认你已经可以恢复完整比赛负荷。'});result.recovered=true}

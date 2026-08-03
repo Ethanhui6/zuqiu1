@@ -1211,3 +1211,7 @@
     margin-bottom: 14px;
   }
 }
+
+/* V19.1 每周计划与推进报告 */
+.weekly-action-slots{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-bottom:14px}.weekly-action-slot{min-width:0;min-height:76px;padding:10px;border:1px dashed var(--color-border);border-radius:16px;background:var(--color-surface-secondary);display:flex;flex-direction:column;justify-content:center;gap:3px;text-align:left}.weekly-action-slot.is-filled{border-style:solid;border-color:color-mix(in srgb,var(--color-accent) 38%,transparent);background:var(--color-accent-soft)}.weekly-action-slot strong,.weekly-action-slot small{min-width:0;overflow-wrap:anywhere}.weekly-action-grid{display:grid;grid-template-columns:1fr;gap:8px}.weekly-action-option{min-height:64px;padding:11px 13px;border:1px solid var(--color-border);border-radius:16px;background:var(--color-surface-solid);display:grid;gap:3px;text-align:left}.weekly-action-option:disabled{opacity:.48}.summary-interruption{display:grid;gap:4px;padding:12px 14px;border-radius:16px;background:rgba(255,159,10,.1);color:var(--color-text-primary)}.summary-interruption span{color:var(--color-text-secondary);font-size:13px}.summary-deltas--compact{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.summary-deltas--compact .metric{min-height:66px;height:auto}.advance-summary-card{display:grid;gap:12px}
+@media(min-width:480px){.weekly-action-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.summary-deltas--compact{grid-template-columns:repeat(3,minmax(0,1fr))}}

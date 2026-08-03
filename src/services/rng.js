@@ -10,6 +10,17 @@ export function createSeed(){
   else{buf[0]=Date.now()>>>0;buf[1]=(performance?.now?.()??1)*1000>>>0}
   return `${buf[0].toString(36)}-${buf[1].toString(36)}`;
 }
+
+export function ensureRngState(save,{seed='green-pitch-legacy'}={}){
+  if(!save||typeof save!=='object')throw new TypeError('存档对象无效');
+  const current=save.rng&&typeof save.rng==='object'?save.rng:{};
+  const resolvedSeed=String(current.seed||seed);
+  const resolvedState=Number.isFinite(Number(current.state))?Number(current.state)>>>0:0;
+  const resolvedCounter=Number.isFinite(Number(current.counter))?Math.max(0,Math.floor(Number(current.counter))):0;
+  save.rng={seed:resolvedSeed,state:resolvedState,counter:resolvedCounter};
+  return save.rng;
+}
+
 export class DeterministicRng{
   constructor(seed,state){this.seed=String(seed||'green-pitch');this.state=(state>>>0)||hashString(this.seed)||0x9e3779b9;this.counter=0}
   next(){let x=this.state>>>0;x^=x<<13;x^=x>>>17;x^=x<<5;this.state=x>>>0;this.counter++;return(this.state>>>0)/4294967296}

@@ -214,7 +214,7 @@ def main() -> None:
             mobile.close()
         browser.close()
 
-    report={"status":"PASS","version":"19.0.0","engine":"系统 Chromium + Playwright 路由注入真实生产模块","fullFlow":["创建球员","开局事件","下一步引导","待办徽标","滚动提示","游戏节奏Sheet","设置立即生效","重新装载保持"],"viewports":results,"screenshots":str(SHOTS.relative_to(ROOT)),"physicalDevice":False,"networkNavigation":"运行环境策略阻止localhost导航，测试通过浏览器请求路由加载原始生产文件"}
+    report={"status":"PASS","version":"19.1.0","engine":"系统 Chromium + Playwright 路由注入真实生产模块","fullFlow":["创建球员","开局事件","下一步引导","待办徽标","滚动提示","游戏节奏Sheet","设置立即生效","重新装载保持"],"viewports":results,"screenshots":str(SHOTS.relative_to(ROOT)),"physicalDevice":False,"networkNavigation":"运行环境策略阻止localhost导航，测试通过浏览器请求路由加载原始生产文件"}
     (ROOT/"docs"/"V19_MOBILE_TEST.json").write_text(json.dumps(report,ensure_ascii=False,indent=2),encoding="utf-8")
     print(json.dumps(report,ensure_ascii=False,indent=2))
 

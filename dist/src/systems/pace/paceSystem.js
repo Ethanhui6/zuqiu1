@@ -112,19 +112,23 @@ export function matchPauseReason(save,match){
 
 export function shouldPauseForEvent(save,event,{target}={}){
   if(target==='nextEvent')return true;
-  const mode=getPaceMode(save).id;
+  const mode=getPaceMode(save).id,reason=eventPauseReason(save,event);
+  if(target==='nextMatch'&&reason&&!['legendEvent','contract','injury','nationalCall','careerTurn'].includes(reason))return false;
   if(mode==='immersive')return true;
-  // 标准、快速与传奇速通均严格遵守玩家的自动暂停规则。
-  // 关闭某项规则后，不再因为事件分类被隐式强制暂停。
-  return Boolean(eventPauseReason(save,event));
+  if(!reason)return false;
+  if(mode==='standard')return true;
+  if(mode==='fast')return ['legendEvent','contract','injury','nationalCall','careerTurn'].includes(reason);
+  // 传奇速通只停在不可逆或职业转折节点，普通教练沟通不会打断批量推进。
+  return ['legendEvent','contract','injury','nationalCall','careerTurn'].includes(reason);
 }
 
 export function shouldPauseForMatch(save,match,{target}={}){
   if(target==='nextMatch')return true;
-  const mode=getPaceMode(save).id;
+  const mode=getPaceMode(save).id,reason=matchPauseReason(save,match);
   if(mode==='immersive')return true;
-  if(matchPauseReason(save,match))return true;
-  return false;
+  if(!reason)return false;
+  if(mode==='legend')return ['final','firstStart'].includes(reason);
+  return true;
 }
 
 export function matchPresentationFor(save,match){
