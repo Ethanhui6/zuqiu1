@@ -1,0 +1,34 @@
+{
+  "version": "18.1.0",
+  "build": "2026-08-03.4",
+  "status": "PASS",
+  "tests": {
+    "core": "PASS",
+    "career24": "PASS",
+    "fullCareer180": "PASS",
+    "acceptance32": "PASS",
+    "runtimeAudit99": "PASS",
+    "static": "PASS"
+  },
+  "data": {
+    "clubs": 500,
+    "templateRecords": 500,
+    "uniqueTemplateNames": 100,
+    "achievements": 330,
+    "hiddenAchievements": 50,
+    "eventRecords": 1200,
+    "uniqueEventTitles": 719,
+    "candidateChoices": 6000,
+    "uniqueChoiceTexts": 3215
+  },
+  "browserAutomation": {
+    "status": "NOT_RUN",
+    "reason": "Chromium organization policy blocked localhost, private IP, and file URLs"
+  },
+  "knownLimitations": [
+    "club ratings are simulation values",
+    "no complete 11v11 real-time engine",
+    "no official FC assets or ratings",
+    "real-device mobile regression remains manual"
+  ]
+}

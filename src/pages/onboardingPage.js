@@ -110,7 +110,7 @@ export function renderOnboarding(root,{repo,onComplete,onCancel=null}){
     const cfg=POSITION_CONFIG[draft.position];
     const attrNames={pac:'速度',sho:'射门',pas:'传球',dri:'盘带',def:'防守',phy:'身体'};
     const detail=el('aside',{className:'position-detail'},[
-      el('div',{className:'eyebrow',text:draft.position}),
+      el('div',{className:'eyebrow',text:'场上位置'}),
       el('h2',{text:cfg.name}),
       el('p',{text:positionDuty(cfg.group)}),
       el('h3',{text:'主要属性'}),

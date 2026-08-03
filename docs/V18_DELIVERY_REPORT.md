@@ -1,122 +1,73 @@
-# 绿茵浮沉 V18 最终交付报告
+# 绿茵浮沉 V18.1 审计修复交付报告
 
-## 1. 修改后的完整项目
+## 版本
 
-完整项目位于交付包根目录，使用原生 HTML、CSS、JavaScript ES Modules 和 JSON，无需构建步骤。
+- 游戏版本：18.1.0
+- 存档Schema：18
+- 数据构建：2026-08-03.4
+- Service Worker缓存：`green-pitch-v18.1.0-20260803-4`
 
-## 2. 可部署压缩包
+## 本轮实际修复重点
 
-提供：
+- 把设施展示卡接入真实状态系统，并补充成功、失败、费用和阶段冷却。
+- 将Store更新改为同步保存，消除点击后立刻刷新导致结果丢失的窗口。
+- 重写转会报价状态机，加入过期、暂缓上限、谈判轮次、留队锁定和报价历史。
+- 修复比赛零封分支未声明变量，并改进比分对应时间线。
+- 扩大事件记忆，记录标题和选择结构，避免近期重复。
+- 修复33岁以后“生涯末期”事件池耗尽，兼容旧事件阶段标签并允许合理的巅峰期老将剧情。
+- 重写存档校验、损坏恢复、无签名旧档迁移和导入边界。
+- 修复同页面刷新滚动位置重置；训练选择改为局部更新。
+- 清理主要界面的未翻译英文和旧标签。
+- 版本统一升级到18.1.0并刷新Service Worker缓存。
 
-- `football-career-v18-final-deploy.zip`：解压后直接覆盖原 GitHub 仓库根目录
-- `football-career-v18-final-source.zip`：包含外层项目文件夹的完整源码归档
+## 主要修改文件
 
-## 3. 版本号
-
-- 游戏版本：18.0.0
-- 存档 Schema：18
-- 数据构建：2026-08-03.2
-- Service Worker 缓存：`green-pitch-v18.0.0-20260803-2`
-
-## 4. 修改文件列表
-
-主要运行文件：
-
-- `index.html`
-- `styles.css`
-- `manifest.webmanifest`
+- `src/app/store.js`
+- `src/app/router.js`
+- `src/services/storage/migrations.js`
+- `src/services/storage/saveManager.js`
+- `src/systems/facility/facilitySystem.js`
+- `src/systems/event/eventEngine.js`
+- `src/systems/match/matchSystem.js`
+- `src/systems/transfer/transferSystem.js`
+- `src/systems/career/careerSystem.js`
+- `src/systems/career/cycleSystem.js`
+- `src/pages/careerPage.js`
+- `src/pages/transferPage.js`
+- `src/pages/trainingPage.js`
+- `src/pages/profilePage.js`
+- `src/pages/worldPage.js`
+- `src/main.js`
+- `src/styles/pages.css`
 - `sw.js`
-- `_headers`
-- `_redirects`
+- `tests/runtime-audit.mjs`
+- `docs/V18_RUNTIME_AUDIT.md`
 
-新增模块目录：
+## 实际测试
 
-- `src/app/`
-- `src/components/`
-- `src/pages/`
-- `src/services/`
-- `src/systems/`
-- `src/styles/`
-- `src/utils/`
+- 基础系统测试：通过
+- 24阶段连续生涯：通过
+- 180阶段完整职业生涯：通过，覆盖生涯末期事件与退休结局
+- 32项验收测试：通过
+- 99项运行审计：通过
+- 320个文件静态检查：通过
+- 46个JavaScript文件导入与语法检查：通过
+- 关键源码未发现 `Math.random()`
 
-数据目录：
+详细结果见 `docs/V18_TEST_REPORT.md`。
 
-- `data/clubs.json`
-- `data/legend-templates.json`
-- `data/achievements.json`
-- `data/events/`
-- `data/data-sources.json`
-- `data/version.json`
+## 数据说明
 
-测试与文档：
+- 500家俱乐部名称记录：500个唯一ID与中文名称。
+- 500条模板记录：500个唯一ID、100个不同模板名称、每个主要位置50条变体。
+- 330项成就：50项隐藏成就。
+- 1,200条事件记录：719个不同标题，6,000个候选方案，3,215条不同选择文字。
+- 评级和现实无法确认字段均明确标注为模拟值。
 
-- `tests/`
-- `docs/`
-- `README_CN.md`
-- `CHANGELOG.md`
+## 未完成及限制
 
-## 5. 新增功能
+没有声称已完成官方实时数据库、完整11对11引擎或真实设备浏览器回归。详见 `docs/V18_KNOWN_LIMITATIONS.md`。
 
-- 苹果浅色系统风格，支持深色和跟随系统
-- 六页移动端底部导航
-- 五步创建球员、可点击球场、位置风格、有限天赋重抽和青年队邀请
-- 位置加权综合能力与门将独立六维
-- 训练、伤病、康复、比赛、关键选择和比赛时间线
-- 事件记忆、冷却、剧情链、2—5 项不同选择和延迟结果
-- 500 家俱乐部搜索分页
-- 500 个成长模板和低概率传奇模板
-- 玩家自主转会、主动意向、续约、租借和合同谈判
-- 分层粉丝、社交关注、媒体热度、商业价值和趋势图
-- 八类职业关系，每类包含信任、尊重、竞争、熟悉和矛盾
-- 赛季冠军、位置奖项、330 项成就和多结局
-- 三存档槽、备份、导入导出、校验和旧存档迁移
-- 离线缓存和新版本更新提示
+## 部署
 
-## 6. 已修复 Bug
-
-- 事件池为空导致读取 `choices` 崩溃
-- 比赛代码引用未定义变量
-- 刷新后重大随机结果变化
-- 自动接受转会和自动换队
-- 伤病剩余场次不减少
-- 合同到期没有续约入口
-- 未进名单球员仍影响比赛
-- 进球数可能超过球队得分
-- 旧 V18 存档缺字段崩溃
-- 多次进入游戏重复注册 Store 监听器
-- Service Worker 注销自身和旧版本缓存不清理
-- 大列表一次性渲染造成移动端压力
-
-## 7. 数据来源说明
-
-见 `docs/V18_DATA_SOURCES.md` 和 `data/data-sources.json`。球队评级为独立模拟值，不声明为官方 FC 数据。
-
-## 8. 存档迁移说明
-
-见 `docs/V18_SAVE_MIGRATION.md`。旧数据保留核心球员、俱乐部、属性和生涯纪录；无法恢复字段使用中性默认值并写入迁移备注。
-
-## 9. 测试结果
-
-- JavaScript 语法检查：通过
-- JSON 解析：39 个文件全部通过
-- 核心单元测试：通过
-- 连续 24 阶段生涯测试：通过
-- 32 项验收测试：通过
-- 静态导入和 Service Worker 文件检查：通过
-- HTTP 静态服务冒烟测试：通过
-
-详见 `docs/V18_TEST_REPORT.md`。
-
-## 10. 未完成事项
-
-- 未逐条联网核验 500 家球队在 2026 年的最新联赛归属和现实数据
-- 未制作完整国家队赛程和实时 11 对 11 比赛引擎
-- 未完成自动化真实浏览器截图回归
-
-## 11. 已知限制
-
-见 `docs/V18_KNOWN_LIMITATIONS.md`。
-
-## 12. 部署步骤
-
-见 `docs/V18_DEPLOY.md`。必须更新原 GitHub 仓库和原 Cloudflare Pages 项目，不要创建新项目。
+解压部署包并覆盖原GitHub仓库根目录，保留隐藏的 `.git` 文件夹；提交并推送到原分支，由原Cloudflare Pages项目自动部署。不要新建Pages项目。

@@ -1,6 +1,6 @@
-# 绿茵浮沉 V18
+# 绿茵浮沉 V18.1
 
-一个无需构建工具、可以直接部署到 Cloudflare Pages / GitHub Pages 的足球球员职业生涯 Roguelike 模拟器。
+一个无需构建工具、可以直接部署到 Cloudflare Pages / GitHub Pages 的足球球员职业生涯 随机选择 模拟器。
 
 ## 主要玩法
 
@@ -15,7 +15,7 @@
 ## 内容规模
 
 - 500 家俱乐部身份记录
-- 500 个成长模板
+- 500 条成长模板记录（100个不同模板名称的成长变体）
 - 330 项成就
 - 1,200 个事件记录、6,000 条选择、3,215 条不重复选择文本
 - 11 个场上位置与门将独立能力标签
@@ -44,9 +44,15 @@ http://localhost:8080
 npm test
 node tests/career-sim.mjs
 node tests/acceptance-tests.mjs
+node tests/runtime-audit.mjs
 node tests/static-check.mjs
 ```
 
 ## 数据说明
 
 俱乐部身份、模板名称和原始事件数据继承自用户提供的 V18 项目。球队实力、进攻、防守、青训、财政、球迷和战术等数值为本游戏独立模拟值，不是 EA Sports FC 或任何联赛的官方评级。详见 `docs/V18_DATA_SOURCES.md`。
+
+
+## 运行审计
+
+主要按钮、状态持久化、转会边界、事件记忆和滚动修复的逐项结果见 `docs/V18_RUNTIME_AUDIT.md`。

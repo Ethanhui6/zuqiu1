@@ -1,11 +1,12 @@
 {
-  "version": "18.0.0",
-  "build": "2026-08-03.2",
+  "version": "18.1.0",
+  "build": "2026-08-03.4",
   "clubs": 500,
   "legendTemplates": 500,
   "eventTemplates": 1200,
   "eventChoices": 6000,
   "uniqueChoiceTexts": 3215,
   "achievements": 330,
-  "saveSchema": 18
+  "saveSchema": 18,
+  "title": "绿茵浮沉 V18.1"
 }

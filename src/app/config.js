@@ -1,4 +1,4 @@
-export const APP_VERSION = '18.0.0';
+export const APP_VERSION = '18.1.0';
 export const SAVE_SCHEMA = 18;
 export const SAVE_SLOTS = 3;
 
@@ -14,7 +14,7 @@ export const POSITION_CONFIG = {
   CB:{name:'中后卫',group:'defense',x:42,y:76,roles:['出球中卫','制空中卫','上抢中卫','拖后中卫','全能防线核心'],focus:['def','phy','pas','pac'],weights:{pac:.08,sho:.02,pas:.13,dri:.06,def:.41,phy:.30}},
   RB:{name:'右后卫',group:'defense',x:82,y:73,roles:['防守型边后卫','进攻型边后卫','内收型边后卫','翼卫发动机','边路锁链'],focus:['pac','def','phy','pas'],weights:{pac:.21,sho:.03,pas:.16,dri:.12,def:.30,phy:.18}},
   CDM:{name:'后腰',group:'midfield',x:50,y:60,roles:['防守屏障','拖后组织者','抢球机器','节拍型后腰','全能六号位'],focus:['def','pas','phy','dri'],weights:{pac:.08,sho:.05,pas:.24,dri:.13,def:.29,phy:.21}},
-  CM:{name:'中前卫',group:'midfield',x:35,y:47,roles:['B2B中场','节拍器','推进型中场','全能中场','后插上得分手'],focus:['pas','dri','phy','def'],weights:{pac:.10,sho:.11,pas:.30,dri:.23,def:.11,phy:.15}},
+  CM:{name:'中前卫',group:'midfield',x:35,y:47,roles:['全能往返中场','节拍器','推进型中场','全能中场','后插上得分手'],focus:['pas','dri','phy','def'],weights:{pac:.10,sho:.11,pas:.30,dri:.23,def:.11,phy:.15}},
   CAM:{name:'前腰',group:'creative',x:50,y:33,roles:['古典组织核心','前场创造者','影子核心','自由攻击手','高压前腰'],focus:['pas','dri','sho','pac'],weights:{pac:.11,sho:.16,pas:.29,dri:.30,def:.03,phy:.11}},
   LW:{name:'左边锋',group:'attack',x:20,y:28,roles:['内切边锋','爆发型边锋','边路组织者','宽度型边锋','自由前场攻击手'],focus:['pac','dri','sho','pas'],weights:{pac:.27,sho:.20,pas:.13,dri:.28,def:.02,phy:.10}},
   RW:{name:'右边锋',group:'attack',x:80,y:28,roles:['内切边锋','爆发型边锋','边路组织者','宽度型边锋','自由前场攻击手'],focus:['pac','dri','sho','pas'],weights:{pac:.27,sho:.20,pas:.13,dri:.28,def:.02,phy:.10}},

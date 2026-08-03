@@ -1,4 +1,4 @@
-const VERSION='green-pitch-v18.0.0-20260803-2';
+const VERSION='green-pitch-v18.1.0-20260803-4';
 const STATIC_CACHE=`${VERSION}-static`;
 const DATA_CACHE=`${VERSION}-data`;
 const APP_SHELL=[
@@ -42,6 +42,7 @@ const APP_SHELL=[
   './src/systems/career/seasonAwardSystem.js',
   './src/systems/ending/endingSystem.js',
   './src/systems/event/eventEngine.js',
+  './src/systems/facility/facilitySystem.js',
   './src/systems/fan/fanSystem.js',
   './src/systems/match/matchSystem.js',
   './src/systems/relationship/relationshipSystem.js',
