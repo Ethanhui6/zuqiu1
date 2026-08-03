@@ -13,7 +13,7 @@ function legacySeed(raw){
 
 export function buildDefaultSave(){
   return{
-    schemaVersion:SAVE_SCHEMA,gameVersion:APP_VERSION,createdAt:Date.now(),updatedAt:Date.now(),rng:{seed:createSeed(),state:0,counter:0},settings:{theme:'light',reducedMotion:false,animationMode:'standard',pace:{mode:'standard',speed:'normal',autoPause:{...DEFAULT_AUTO_PAUSE}}},
+    schemaVersion:SAVE_SCHEMA,gameVersion:APP_VERSION,createdAt:Date.now(),updatedAt:Date.now(),rng:{seed:createSeed(),state:0,counter:0},settings:{theme:'light',reducedMotion:false,animationMode:'standard',pace:{mode:'standard',speed:'normal',eventAnimationSpeed:'standard',autoTraining:true,autoMatch:true,autoPause:{...DEFAULT_AUTO_PAUSE}}},
     player:null,career:null,status:null,relations:null,fans:null,finance:null,achievements:{unlocked:[],notified:[],score:0},meta:{migrationNotes:[],checksum:'',lastRecovery:null,ranking:{runId:null,eligible:false,lastSequence:0,lastSyncAt:null,status:'local-only'}}
   };
 }
@@ -63,7 +63,7 @@ export function normalizeSave(save){
   save.createdAt=num(save.createdAt,Date.now());save.updatedAt=num(save.updatedAt,Date.now());
   const fallbackSeed=`save-${hashString(`${save.player.name||'球员'}|${save.createdAt}|${save.career.clubId||''}`).toString(36)}`;
   save.rng??={seed:fallbackSeed,state:0,counter:0};save.rng.seed??=fallbackSeed;save.rng.state=num(save.rng.state,0);save.rng.counter=num(save.rng.counter,0);
-  save.settings={theme:'light',reducedMotion:false,animationMode:'standard',...(save.settings||{})};save.settings.pace={mode:'standard',speed:'normal',autoPause:{...DEFAULT_AUTO_PAUSE},...(save.settings.pace||{})};save.settings.pace.autoPause={...DEFAULT_AUTO_PAUSE,...(save.settings.pace.autoPause||{})};
+  save.settings={theme:'light',reducedMotion:false,animationMode:'standard',...(save.settings||{})};save.settings.pace={mode:'standard',speed:'normal',eventAnimationSpeed:'standard',autoTraining:true,autoMatch:true,autoPause:{...DEFAULT_AUTO_PAUSE},...(save.settings.pace||{})};save.settings.pace.autoPause={...DEFAULT_AUTO_PAUSE,...(save.settings.pace.autoPause||{})};
   save.player.attrs={pac:60,sho:55,pas:55,dri:58,def:45,phy:56,...(save.player.attrs||{})};
   save.player.xp={pac:0,sho:0,pas:0,dri:0,def:0,phy:0,...(save.player.xp||{})};
   save.player.secondaryPositions??=[];
@@ -103,3 +103,4 @@ export function migrateV11ToV18(raw){return migrateLegacy(raw)}
 export function migrateV12ToV18(raw){return migrateLegacy(raw)}
 export function migrateV17ToV18(raw){return migrateLegacy(raw)}
 export function migrateV18ToV19(raw){return migrateLegacy(raw)}
+export function migrateV19ToV20(raw){return migrateLegacy(raw)}

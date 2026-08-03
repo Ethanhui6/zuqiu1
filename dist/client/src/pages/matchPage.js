@@ -33,7 +33,7 @@ export function renderMatchPage(container,ctx){
     if(recommended==='interactive')page.append(choiceView(match,choice=>settle(match,choice.id,'interactive')));
   }
   async function goNextMatch(){
-    if(getSpeed(save).id==='paused'){showToast('当前处于暂停状态，请先切换推进速度',{type:'error'});return}
+    if(getSpeed(save).id==='paused'){showToast('当前处于暂停状态，请在游戏节奏中选择推进速度',{type:'error'});ctx.openPaceSettings?.();return}
     const nodes=page.querySelectorAll('[data-next-match]');nodes.forEach(node=>{node.disabled=true;node.textContent='正在推进至下一场…'});
     try{
       const result=await advanceCareer(save,repo,'nextMatch');store.update(()=>{},'advance-to-match',result);

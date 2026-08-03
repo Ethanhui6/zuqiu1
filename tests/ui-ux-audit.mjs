@@ -16,7 +16,8 @@ const css=[
   'src/styles/base.css',
   'src/styles/components.css',
   'src/styles/pages.css',
-  'src/styles/mobile-foundation.css'
+  'src/styles/mobile-foundation.css',
+  'src/styles/v19-guidance.css'
 ].map(read).join('\n');
 const index=read('index.html');
 const shell=read('src/components/appShell.js');
@@ -33,6 +34,9 @@ const match=read('src/pages/matchPage.js');
 const format=read('src/utils/format.js');
 const sw=read('sw.js');
 const config=read('src/app/config.js');
+const paceSheet=read('src/components/gamePaceSheet.js');
+const guidanceSystem=read('src/systems/guidance/guidanceSystem.js');
+const v19Guidance=read('src/styles/v19-guidance.css');
 
 const checks=[];
 function check(name,fn){fn();checks.push(name)}
@@ -48,7 +52,7 @@ check('采用真正的移动端优先断点',()=>{
   assert.doesNotMatch(css,/transform\s*:\s*scale\([^)]*\)\s*;[^}]*\/\*[^}]*mobile/i);
 });
 check('AppShell统一动态视口和单一正文滚动容器',()=>{
-  assert.match(css,/\.app-shell\{[\s\S]*grid-template-rows:auto minmax\(0,1fr\) auto auto/);
+  assert.match(css,/\.app-shell\{[\s\S]*grid-template-rows:auto auto minmax\(0,1fr\)/);
   assert.match(css,/\.page-container\{[\s\S]*overflow-y:auto[\s\S]*overflow-x:clip/);
   assert.match(css,/100dvh/);
   assert.match(viewport,/visualViewport/);
@@ -134,8 +138,19 @@ check('开发诊断可报告溢出和点击命中层',()=>{
   assert.match(diagnostics,/composedPath/);
   assert.match(diagnostics,/overflow/);
 });
-check('Service Worker升级到V18.9并采用HTML网络优先',()=>{
-  assert.match(sw,/v18\.9\.0/);
+check('V19常驻速度栏已从页面结构移除并迁移到游戏节奏Sheet',()=>{
+  assert.equal(shell.includes('speed-dock'),false);
+  assert.equal(shell.includes('speed-button'),false);
+  for(const label of ['游戏节奏','自动推进普通训练','自动模拟普通比赛','关键节点暂停'])assert.ok(paceSheet.includes(label),label);
+  for(const key of ['transferOffer','injury','firstStart','final'])assert.ok(config.includes(key),key);
+});
+check('V19页面引导、待办徽标与滚动提示连接真实游戏状态',()=>{
+  for(const token of ['getNavigationAlerts','getRecommendedAction','guidance-banner','tab-badge','scroll-hint'])assert.ok((shell+guidanceSystem+v19Guidance).includes(token),token);
+  assert.match(v19Guidance,/backdrop-filter:blur\(28px\) saturate\(180%\)/);
+  assert.match(v19Guidance,/position:fixed!important/);
+});
+check('Service Worker升级到V19并采用HTML网络优先',()=>{
+  assert.match(sw,/v19\.0\.0/);
   assert.match(sw,/skipWaiting/);
   assert.match(sw,/clients\.claim/);
   assert.match(sw,/event\.request\.mode===['"]navigate['"]/);
@@ -148,4 +163,4 @@ check('用户界面无指定内部英文和危险直出标记',()=>{
   for(const word of ['[object Object]','Loading','Continue','Transfer Offer','Season Complete','Career Complete'])assert.equal(content.includes(word),false,word);
 });
 
-console.log(JSON.stringify({status:'PASS',version:'18.9.0',passed:checks.length,cases:checks},null,2));
+console.log(JSON.stringify({status:'PASS',version:'19.0.0',passed:checks.length,cases:checks},null,2));

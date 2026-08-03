@@ -1,0 +1,16 @@
+绿茵浮沉 V9.0 更新操作
+
+1. 解压 football-career-reborn-v9-update.zip。
+2. 打开解压后的文件夹，按 Ctrl+A 全选里面的所有文件和文件夹。
+3. 复制到你 GitHub Desktop 正在使用的本地仓库文件夹。
+4. Windows 提示时选择“替换目标中的文件”。
+5. 不要删除仓库里的隐藏 .git 文件夹。
+6. 打开 GitHub Desktop。
+7. 左下角 Summary 输入：Update to V9.0
+8. 点击 Commit to main。
+9. 点击右上角 Push origin。
+10. 等待 Cloudflare Pages 自动部署，原网址不变。
+
+如果旧页面仍显示：
+- 手机关闭旧标签页后重新打开；
+- 或在网址后加 ?v=9 打开一次。

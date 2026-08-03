@@ -6,7 +6,7 @@ import {chromium} from 'playwright';
 import {createAppServer} from '../scripts/serve.mjs';
 
 const root=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'..');
-const shots=path.join(root,'docs','screenshots-v18.9');fs.mkdirSync(shots,{recursive:true});
+const shots=path.join(root,'docs','screenshots-v19');fs.mkdirSync(shots,{recursive:true});
 const viewports=[[320,568],[360,800],[375,667],[390,844],[393,852],[412,915],[414,896],[430,932],[768,1024],[1024,768],[1440,900]];
 const candidates=[process.env.PLAYWRIGHT_CHROMIUM_EXECUTABLE,'C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe','C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe','/usr/bin/chromium','/usr/bin/google-chrome'].filter(Boolean);
 const executablePath=candidates.find(item=>fs.existsSync(item));
@@ -33,6 +33,9 @@ async function audit(page,label){
       small:[...document.querySelectorAll('button')].filter(node=>visible(node)&&(()=>{const r=node.getBoundingClientRect();return r.width<43.5||r.height<43.5})()).map(node=>({text:node.innerText.slice(0,24),width:node.getBoundingClientRect().width,height:node.getBoundingClientRect().height})),
       vertical:[...document.querySelectorAll('h1,h2,h3,p,strong,small,span')].filter(node=>{if(!visible(node))return false;const r=node.getBoundingClientRect(),s=getComputedStyle(node),text=(node.textContent||'').trim();return text.length>2&&(s.writingMode!=='horizontal-tb'||(r.width<18&&r.height>r.width*3))}).slice(0,10).map(node=>node.textContent.trim().slice(0,40)),
       transparentBlockers,collisions,
+      speedDockCount:document.querySelectorAll('.speed-dock,.speed-control,.speed-controls').length,
+      floatingNav:(()=>{const nav=document.querySelector('.tab-bar');if(!nav||!visible(nav))return null;const r=nav.getBoundingClientRect(),s=getComputedStyle(nav);return{left:r.left,right:r.right,bottom:r.bottom,height:r.height,position:s.position,backdrop:s.backdropFilter||s.webkitBackdropFilter,borderRadius:s.borderRadius}})(),
+      viewportWidth:innerWidth,viewportHeight:innerHeight,
       appRegions:['.AppHeader','.MainViewport','.BottomNavigation','.OverlayRoot','.ToastRoot'].filter(selector=>document.querySelector(selector)).length
     };
   });
@@ -42,6 +45,13 @@ async function audit(page,label){
   assert.deepEqual(geometry.vertical,[],`${label} 出现竖排或极窄文本`);
   assert.deepEqual(geometry.transparentBlockers,[],`${label} 存在透明点击遮罩`);
   assert.deepEqual(geometry.collisions,[],`${label} 关键布局子项重叠`);
+  assert.equal(geometry.speedDockCount,0,`${label} 仍存在常驻比赛速度控制栏`);
+  if(geometry.floatingNav){
+    assert.equal(geometry.floatingNav.position,'fixed',`${label} 底栏不是悬浮固定布局`);
+    assert.ok(geometry.floatingNav.left>=7&&geometry.floatingNav.right<=geometry.viewportWidth+1,`${label} 玻璃底栏超出视口`);
+    assert.ok(geometry.floatingNav.bottom<=geometry.viewportHeight+1,`${label} 玻璃底栏被裁切`);
+    assert.notEqual(geometry.floatingNav.backdrop,'none',`${label} 玻璃底栏没有背景模糊`);
+  }
   return geometry;
 }
 
@@ -77,6 +87,33 @@ async function fullFlow(page){
   await page.getByRole('heading',{name:'关键职业事件'}).waitFor();
   await closeCareerEvent(page);
   await page.getByRole('heading',{name:'职业生涯控制台'}).waitFor();
+  assert.equal(await page.locator('.speed-dock,.speed-control,.speed-controls').count(),0,'生涯首页仍存在常驻速度控制栏');
+  await page.locator('.guidance-banner').waitFor({state:'visible'});
+  assert.ok(await page.locator('.tab-badge:not([hidden])').count()>0,'底部导航没有显示真实待办提醒');
+  await page.waitForTimeout(420);
+  if(await page.locator('.scroll-hint.is-visible').count()){
+    await page.locator('.scroll-hint.is-visible').click();
+    await page.waitForTimeout(380);
+    assert.ok(await page.locator('.page-container').evaluate(node=>node.scrollTop>0),'滚动提示没有推动正文滚动');
+    await page.locator('.page-container').evaluate(node=>node.scrollTo({top:0,behavior:'instant'}));
+  }
+  await page.locator('.header-pace-button').click();
+  await page.getByRole('heading',{name:'游戏节奏',exact:true}).waitFor();
+  await page.getByRole('button',{name:'2倍',exact:true}).click();
+  await page.getByRole('button',{name:'快速',exact:true}).click();
+  const autoTraining=page.getByRole('checkbox',{name:'自动推进普通训练'});
+  if(await autoTraining.isChecked())await autoTraining.uncheck();
+  await page.getByRole('button',{name:'关闭弹窗'}).click();
+  await page.waitForTimeout(320);
+  assert.equal(await page.locator('.sheet-backdrop').count(),0,'游戏节奏Sheet关闭后残留遮罩');
+  assert.match(await page.locator('.header-pace-button').innerText(),/2倍/,'速度设置没有立即更新到小型状态标记');
+  const paceStored=await page.evaluate(()=>JSON.parse(localStorage.getItem('green-pitch-v19-pace')||'null'));
+  assert.equal(paceStored?.speed,'fast','速度没有写入本地偏好');
+  assert.equal(paceStored?.eventAnimationSpeed,'fast','事件动画速度没有写入本地偏好');
+  assert.equal(paceStored?.autoTraining,false,'自动训练开关没有写入本地偏好');
+  await page.reload({waitUntil:'networkidle'});
+  await page.getByRole('heading',{name:'职业生涯控制台'}).waitFor();
+  assert.match(await page.locator('.header-pace-button').innerText(),/2倍/,'刷新后速度设置没有保持');
   await audit(page,'390×844 生涯首页');
   const careerFirstScreen=await page.evaluate(()=>{const main=document.querySelector('.page-container')?.getBoundingClientRect(),advance=document.querySelector('.advance-panel')?.getBoundingClientRect();return{visible:Boolean(main&&advance&&advance.top<main.bottom),screens:document.querySelector('.page-container').scrollHeight/document.querySelector('.page-container').clientHeight}});
   assert.equal(careerFirstScreen.visible,true,'生涯页时间推进入口没有出现在首屏');
@@ -85,7 +122,7 @@ async function fullFlow(page){
 
   await page.evaluate(async()=>{
     const {gameStore}=await import('./src/app/store.js');
-    gameStore.update(save=>{save.career.calendar.nextEventWeek=999;save.settings.pace.speed='normal'},'load');
+    gameStore.update(save=>{save.career.calendar.nextEventWeek=999;save.settings.pace.speed='normal';save.settings.pace.autoTraining=true;save.settings.pace.autoMatch=true},'load');
   });
   await page.getByRole('button',{name:'比赛',exact:true}).click();
   for(let attempt=0;attempt<5;attempt++){
@@ -202,4 +239,4 @@ try{
   }
 }finally{await browser.close();await new Promise(resolve=>server.close(resolve))}
 
-console.log(JSON.stringify({status:'PASS',engine:'真实生产入口 + Chromium',viewports:results,fullFlow:['创建球员','原生日期','位置','踢球风格','天赋','青年队','职业节奏','生涯首页','比赛准备','比赛模式','比赛选择','比赛结算','球队世界','转会报价','训练','本地排行榜','世界排行榜','成就','设置'],screenshots:path.relative(root,shots)},null,2));
+console.log(JSON.stringify({status:'PASS',engine:'真实生产入口 + Chromium',viewports:results,version:'19.0.0',v19Features:['下一步引导','待办徽标','滚动提示','iOS玻璃底栏','游戏节奏Sheet','刷新保持设置'],fullFlow:['创建球员','原生日期','位置','踢球风格','天赋','青年队','职业节奏','生涯首页','比赛准备','比赛模式','比赛选择','比赛结算','球队世界','转会报价','训练','本地排行榜','世界排行榜','成就','设置'],screenshots:path.relative(root,shots)},null,2));

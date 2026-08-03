@@ -9,7 +9,7 @@ import {evaluateAchievements} from '../achievement/achievementSystem.js';
 import {calculateEnding} from '../ending/endingSystem.js';
 import {evaluateNationalTeam} from './nationalSystem.js';
 import {settleSeasonAwards} from './seasonAwardSystem.js';
-import {ensurePaceState,eventInterval,selectAutoEventChoice,selectAutoMatchChoice,shouldPauseForEvent,shouldPauseForMatch,matchPresentationFor,speedDelay,getSpeed,TRAINING_STRATEGIES,autoPauseEnabled} from '../pace/paceSystem.js';
+import {ensurePaceState,eventInterval,getPaceOptions,selectAutoEventChoice,selectAutoMatchChoice,shouldPauseForEvent,shouldPauseForMatch,matchPresentationFor,speedDelay,getSpeed,TRAINING_STRATEGIES,autoPauseEnabled} from '../pace/paceSystem.js';
 import {ensureSchedule,fixturesForWeek,settleCompetitionState,SEASON_WEEKS} from '../schedule/scheduleSystem.js';
 import {generateObjectiveCandidates,settleObjectives,objectiveProgress} from './objectiveSystem.js';
 import {totalFans} from '../fan/fanSystem.js';
@@ -83,6 +83,7 @@ async function processCurrentWeek(save,repo,{target,signal,onProgress,log}){
   }
   onProgress?.({season:save.career.season,week,month:save.career.month,label:'训练与恢复',progress:Math.round((week-1)/SEASON_WEEKS*100)});
   if(!state.trainingDone){
+    if(!getPaceOptions(save).autoTraining)return{status:'paused',reason:'training'};
     ensureStrategyTraining(save);const result=resolveTraining(save,club,{scale:.25});state.trainingDone=true;state.trainingResult=result;record(log,'training',{plan:result.plan.name,gains:result.gains,injury:result.injury?.name||null});
     if(result.injury){record(log,'node',{title:`训练伤病：${result.injury.name}`});const injuryPause=await pauseWithCategoryEvent(save,repo,'injury','injury');if(injuryPause)return injuryPause}
   }
@@ -105,6 +106,7 @@ async function processCurrentWeek(save,repo,{target,signal,onProgress,log}){
     const fixtures=fixturesForWeek(save,repo,week);
     if(fixtures.length){
       const match=generateMatch(save,repo,{fixtureId:fixtures[0].id});
+      if(match&&!getPaceOptions(save).autoMatch)return{status:'paused',reason:'match',match};
       if(match&&shouldPauseForMatch(save,match,{target}))return{status:'paused',reason:'match',match};
       if(match){
         const hadInjury=Boolean(save.status.injury),rng=new DeterministicRng(save.rng.seed,save.rng.state);rng.counter=save.rng.counter||0;const choice=selectAutoMatchChoice(save,match,rng);save.rng=rng.snapshot();const presentation=matchPresentationFor(save,match);const result=resolveMatch(save,repo,choice?.id,{presentation});record(log,'match',{id:match.id,opponent:repo.getClub(match.opponentId).cn,competition:match.competition,score:result.score,starts:result.starts,rating:result.playerResult.rating,important:match.importance!=='普通联赛'&&match.importance!=='普通比赛'});consumeMatch(save);

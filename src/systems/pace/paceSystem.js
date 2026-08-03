@@ -1,4 +1,4 @@
-import {AUTO_PAUSE_RULES,DEFAULT_AUTO_PAUSE,DEFAULT_STRATEGIES,PACE_MODES,SPEED_LEVELS} from '../../app/config.js';
+import {AUTO_PAUSE_RULES,DEFAULT_AUTO_PAUSE,DEFAULT_STRATEGIES,EVENT_ANIMATION_SPEEDS,PACE_MODES,SPEED_LEVELS} from '../../app/config.js';
 import {clamp} from '../../utils/format.js';
 
 export const TRAINING_STRATEGIES={
@@ -29,14 +29,36 @@ export const CAREER_STRATEGIES={
   minutes:{id:'minutes',name:'优先出场时间',eventStyles:['safe','professional'],desc:'优先承诺明确、竞争较小的球队。'}
 };
 
+const PACE_PREFERENCE_KEY='green-pitch-v19-pace';
+
+function normalizePacePreference(value={}){
+  const mode=PACE_MODES[value.mode]?value.mode:'standard';
+  const speed=SPEED_LEVELS.some(item=>item.id===value.speed)?value.speed:'normal';
+  const eventAnimationSpeed=EVENT_ANIMATION_SPEEDS[value.eventAnimationSpeed]?value.eventAnimationSpeed:'standard';
+  return{
+    mode,
+    speed,
+    eventAnimationSpeed,
+    autoTraining:value.autoTraining!==false,
+    autoMatch:value.autoMatch!==false,
+    autoPause:{...DEFAULT_AUTO_PAUSE,...(value.autoPause||{})}
+  };
+}
+
+export function loadPacePreferences(){
+  try{
+    const raw=globalThis.localStorage?.getItem(PACE_PREFERENCE_KEY);
+    return raw?normalizePacePreference(JSON.parse(raw)):null;
+  }catch{return null}
+}
+
 export function ensurePaceState(save){
   save.settings??={};
-  save.settings.pace={
-    mode:'standard',
-    speed:'normal',
-    autoPause:{...DEFAULT_AUTO_PAUSE},
-    ...(save.settings.pace||{})
-  };
+  const stored=!save.settings.pace?loadPacePreferences():null;
+  save.settings.pace=normalizePacePreference({...(stored||{}),...(save.settings.pace||{})});
+  if(!EVENT_ANIMATION_SPEEDS[save.settings.pace.eventAnimationSpeed])save.settings.pace.eventAnimationSpeed='standard';
+  save.settings.pace.autoTraining=save.settings.pace.autoTraining!==false;
+  save.settings.pace.autoMatch=save.settings.pace.autoMatch!==false;
   save.settings.pace.autoPause={...DEFAULT_AUTO_PAUSE,...(save.settings.pace.autoPause||{})};
   save.career??={};
   save.career.strategies={...DEFAULT_STRATEGIES,...(save.career.strategies||{})};
@@ -49,6 +71,18 @@ export function getPaceMode(save){return PACE_MODES[ensurePaceState(save).mode]|
 export function getSpeed(save){return SPEED_LEVELS.find(item=>item.id===ensurePaceState(save).speed)||SPEED_LEVELS[1]}
 export function setPaceMode(save,mode){if(!PACE_MODES[mode])throw new Error('未知职业节奏');ensurePaceState(save).mode=mode;return PACE_MODES[mode]}
 export function setSpeed(save,speed){if(!SPEED_LEVELS.some(item=>item.id===speed))throw new Error('未知推进速度');ensurePaceState(save).speed=speed;return getSpeed(save)}
+export function setPaceOption(save,key,value){
+  const pace=ensurePaceState(save);
+  if(key==='eventAnimationSpeed'){if(!EVENT_ANIMATION_SPEEDS[value])throw new Error('未知事件动画速度');pace[key]=value;return pace[key]}
+  if(!['autoTraining','autoMatch'].includes(key))throw new Error('未知游戏节奏选项');
+  pace[key]=Boolean(value);return pace[key];
+}
+export function getPaceOptions(save){const pace=ensurePaceState(save);return{eventAnimationSpeed:pace.eventAnimationSpeed,autoTraining:pace.autoTraining!==false,autoMatch:pace.autoMatch!==false}}
+export function persistPacePreferences(save){
+  const pace=ensurePaceState(save);
+  try{globalThis.localStorage?.setItem(PACE_PREFERENCE_KEY,JSON.stringify(pace))}catch{}
+  return pace;
+}
 export function setAutoPause(save,key,value){if(!(key in AUTO_PAUSE_RULES))throw new Error('未知自动暂停规则');ensurePaceState(save).autoPause[key]=Boolean(value);return ensurePaceState(save).autoPause}
 export function setStrategies(save,next){ensurePaceState(save);save.career.strategies={...save.career.strategies,...next};if(next.training&&TRAINING_STRATEGIES[next.training])save.career.trainingPlan=TRAINING_STRATEGIES[next.training].plan;return save.career.strategies}
 

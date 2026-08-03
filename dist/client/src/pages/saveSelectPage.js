@@ -9,7 +9,7 @@ export function renderSaveSelect(root,{onOpen,onNew}){
   const wrap=el('section',{className:'save-select'});
   wrap.append(el('header',{className:'save-hero'},[
     el('div',{className:'hero-ball',text:'⚽'}),
-    el('span',{className:'eyebrow',text:'绿茵浮沉 V18.9'}),
+    el('span',{className:'eyebrow',text:'绿茵浮沉 V19'}),
     el('h1',{text:'从青年队出发，书写你的球员生涯'}),
     el('p',{text:'比赛、训练、关系、伤病、转会和选择会共同塑造每一局不同的职业生涯。'})
   ]));

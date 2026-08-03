@@ -1,5 +1,5 @@
 import {el,button,clear} from '../utils/dom.js';
-import {getTrainingPlans,selectTrainingPlan} from '../systems/training/trainingSystem.js';
+import {getTrainingPlans,resolveTraining,selectTrainingPlan} from '../systems/training/trainingSystem.js';
 import {TRAINING_STRATEGIES,setStrategies} from '../systems/pace/paceSystem.js';
 import {showToast} from '../components/toast.js';
 import {animationDirector} from '../animations/director/animationDirector.js';
@@ -20,7 +20,7 @@ export function renderTrainingPage(container,ctx){
     strategyControl(save,store,ctx,recommendation),
     benefitPreview(save,current,assessPlan(save,current,recommendation.id)),
     planSection(primary,secondary,current,recommendation,selectPlan),
-    actionBar(save,store,ctx,recommendation)
+    actionBar(save,store,ctx,recommendation,club)
   );
   container.append(page);
 
@@ -129,14 +129,27 @@ function planCard(plan,current,recommendation,onSelect){
   card.addEventListener('click',()=>onSelect(card,plan));return card;
 }
 
-function actionBar(save,store,ctx,recommendation){
+function actionBar(save,store,ctx,recommendation,club){
+  const completed=Boolean(save.career.weekState?.trainingDone);
+  const trainButton=button(completed?'本周训练已完成':'开始本周训练',{className:'button button--primary',disabled:completed,onClick:async()=>{
+    let result;
+    store.update(state=>{
+      state.career.weekState??={trainingDone:false,eventDone:false,matchDone:false,trainingResult:null};
+      if(state.career.weekState.trainingDone)throw new Error('本周训练已经完成');
+      result=resolveTraining(state,club,{scale:1});
+      state.career.weekState.trainingDone=true;state.career.weekState.trainingResult=result;
+    },'manual-training-resolved');
+    await animationDirector.play('training-progress',{id:`manual:${save.career.season}:${save.career.calendar?.week||1}`,label:result.plan.name,growth:(result.gains||[]).reduce((sum,item)=>sum+Number(item.levels||0),0),fatigue:Math.max(0,result.plan?.fatigue||0),risk:result.plan?.risk||0},{token:`manual-training:${save.career.season}:${save.career.calendar?.week||1}`});
+    showToast(result.injury?`训练完成，但出现${result.injury.name}`:`${result.plan.name}训练完成`,{type:result.injury?'error':'success',duration:1800});ctx.refresh();
+  }});
   const saveButton=button('保存方案',{className:'button button--secondary save-training-button',onClick:async()=>{
     store.saveNow();await animationDirector.feedback(saveButton,'save',{duration:360});showToast('训练方案已保存',{type:'success',duration:1400});
   }});
   return el('section',{className:'training-quick-actions'},[
-    el('div',{className:'training-quick-actions__hint'},[el('span',{text:recommendation.icon}),el('small',{text:'速度可在下方直接切换'})]),
+    el('div',{className:'training-quick-actions__hint'},[el('span',{text:recommendation.icon}),el('small',{text:'游戏节奏可在右上角的速度状态中调整'})]),
+    trainButton,
     saveButton,
-    button('返回生涯推进',{className:'button button--primary',onClick:()=>ctx.navigate('career')})
+    button('返回生涯推进',{className:'button button--secondary',onClick:()=>ctx.navigate('career')})
   ]);
 }
 

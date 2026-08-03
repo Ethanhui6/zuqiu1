@@ -1,0 +1,495 @@
+{
+  "status": "PASS",
+  "clubs": 500,
+  "templates": 500,
+  "achievements": 330,
+  "event": "opening-position-change-2278358917",
+  "eventChoices": 3,
+  "matchScore": [
+    2,
+    2
+  ],
+  "offers": 4,
+  "newAchievements": 33
+}
+{
+  "status": "PASS",
+  "seasons": 3,
+  "age": 19,
+  "ovr": 58,
+  "apps": 18,
+  "events": 24,
+  "uniqueEvents": 24,
+  "achievements": 8
+}
+{
+  "status": "PASS",
+  "phases": 180,
+  "age": 35,
+  "seasons": 19,
+  "ovr": 61,
+  "apps": 35,
+  "goals": 11,
+  "accepts": 0,
+  "rejects": 145,
+  "clubs": 1,
+  "achievements": 23,
+  "ending": "一人一城"
+}
+{
+  "status": "PASS",
+  "passed": 32,
+  "cases": [
+    "创建GK球员",
+    "创建CB球员",
+    "创建CM球员",
+    "创建CAM球员",
+    "创建ST球员",
+    "传奇模板可低概率出现",
+    "事件固定种子稳定",
+    "事件选择数量2至5",
+    "事件结果写入记忆",
+    "青年队晋升由条件触发",
+    "能力不足会失去名单位置",
+    "高负荷训练可能受伤",
+    "伤病可以完成康复",
+    "比赛生成稳定",
+    "比赛结果刷新不变化",
+    "未进名单使用观察型选择",
+    "同存档报价稳定",
+    "玩家可拒绝转会",
+    "转会谈判支持租借请求",
+    "接受转会后球队数据正确",
+    "合同年限会到期",
+    "合同到期可收到续约报价",
+    "赛季可结算真实状态奖项",
+    "成就只发放一次",
+    "成就由状态判定",
+    "多结局由生涯状态计算",
+    "退休条件有效",
+    "旧存档迁移",
+    "早期V18存档字段补齐",
+    "存档JSON往返",
+    "500球队筛选性能",
+    "Service Worker版本缓存"
+  ],
+  "clubFilterMs": 3.04
+}
+{
+  "status": "PASS",
+  "passed": 99,
+  "cases": [
+    "青训基地写入能力经验",
+    "设施访问写入职业历史",
+    "同阶段设施冷却生效",
+    "医疗中心存在资金不足边界",
+    "后卫零封结算不报错",
+    "零封计入球员和生涯数据",
+    "比赛时间线包含有意义文本",
+    "事件1选择数量有效",
+    "事件2选择数量有效",
+    "事件3选择数量有效",
+    "事件4选择数量有效",
+    "事件5选择数量有效",
+    "事件6选择数量有效",
+    "事件7选择数量有效",
+    "事件8选择数量有效",
+    "事件9选择数量有效",
+    "事件10选择数量有效",
+    "事件11选择数量有效",
+    "事件12选择数量有效",
+    "事件13选择数量有效",
+    "事件14选择数量有效",
+    "事件15选择数量有效",
+    "事件16选择数量有效",
+    "事件17选择数量有效",
+    "事件18选择数量有效",
+    "事件19选择数量有效",
+    "事件20选择数量有效",
+    "事件21选择数量有效",
+    "事件22选择数量有效",
+    "事件23选择数量有效",
+    "事件24选择数量有效",
+    "事件25选择数量有效",
+    "事件26选择数量有效",
+    "事件27选择数量有效",
+    "事件28选择数量有效",
+    "事件29选择数量有效",
+    "事件30选择数量有效",
+    "事件31选择数量有效",
+    "事件32选择数量有效",
+    "事件33选择数量有效",
+    "事件34选择数量有效",
+    "事件35选择数量有效",
+    "事件36选择数量有效",
+    "事件37选择数量有效",
+    "事件38选择数量有效",
+    "事件39选择数量有效",
+    "事件40选择数量有效",
+    "事件41选择数量有效",
+    "事件42选择数量有效",
+    "事件43选择数量有效",
+    "事件44选择数量有效",
+    "事件45选择数量有效",
+    "事件46选择数量有效",
+    "事件47选择数量有效",
+    "事件48选择数量有效",
+    "事件49选择数量有效",
+    "事件50选择数量有效",
+    "事件51选择数量有效",
+    "事件52选择数量有效",
+    "事件53选择数量有效",
+    "事件54选择数量有效",
+    "事件55选择数量有效",
+    "事件56选择数量有效",
+    "事件57选择数量有效",
+    "事件58选择数量有效",
+    "事件59选择数量有效",
+    "事件60选择数量有效",
+    "事件61选择数量有效",
+    "事件62选择数量有效",
+    "事件63选择数量有效",
+    "事件64选择数量有效",
+    "事件65选择数量有效",
+    "事件66选择数量有效",
+    "事件67选择数量有效",
+    "事件68选择数量有效",
+    "事件69选择数量有效",
+    "事件70选择数量有效",
+    "事件触发历史不被截断到短列表",
+    "事件标题记忆已持久化",
+    "事件选择结构记忆已持久化",
+    "生成报价不会自动转会",
+    "拒绝报价保持原俱乐部",
+    "暂缓后不能重复暂缓",
+    "重复暂缓会失败",
+    "谈判轮次达到上限后被禁止",
+    "绕过界面继续谈判会失败",
+    "过期报价移入历史",
+    "过期报价不能接受",
+    "留队选择关闭本窗口报价",
+    "同窗口不能重复刷留队奖励",
+    "主存档损坏后从备份恢复",
+    "无校验早期存档可迁移",
+    "损坏导入文件被拒绝",
+    "状态更新同步写入存档",
+    "同页面刷新保持滚动位置",
+    "同页面刷新不添加进场动画",
+    "设施按钮连接真实设施系统",
+    "转会按钮连接报价状态机",
+    "训练按钮连接训练状态"
+  ]
+}
+{
+  "status": "PASS",
+  "passed": 36,
+  "cases": [
+    "四种节奏模式可以切换",
+    "游戏中途速度设置写入存档",
+    "暂停速度阻止时间推进",
+    "推进一周正常",
+    "推进一个月正常",
+    "推进至赛季结束正常",
+    "时间推进生成简洁摘要",
+    "推进完成后状态自动记录",
+    "推进至下一个转会窗口正常",
+    "下一事件会暂停等待玩家决定",
+    "下一场比赛会暂停等待呈现选择",
+    "关闭教练谈话暂停后标准模式不会隐式暂停",
+    "开启教练谈话暂停后立即生效",
+    "关键伤病事件保持伤病类别而非随机替换",
+    "自动训练伤病触发伤病事件并暂停",
+    "续约报价按合同规则暂停",
+    "转会报价按转会规则暂停",
+    "同存档赛程刷新保持一致",
+    "单赛季拥有足够不同对手",
+    "青年队使用青年赛事",
+    "一线队使用国内联赛和杯赛",
+    "转会后赛程同步新俱乐部",
+    "比赛呈现-instant正常结算",
+    "比赛呈现-timeline正常结算",
+    "比赛呈现-interactive正常结算",
+    "刷新等价重载后事件与选项保持一致",
+    "事件选项数量为2至5且不是固定五项",
+    "不同事件选项产生不同结果状态",
+    "事件记忆记录触发与选择结构",
+    "延迟后果按到期时间触发",
+    "开局选择会生成对应后续剧情",
+    "剧情分支会继续到结局节点",
+    "剧情链结束状态写入存档",
+    "阶段目标可选择并展示真实进度",
+    "自动训练比赛职业策略写入存档",
+    "重大结果没有直接使用Math.random"
+  ]
+}
+{
+  "status": "PASS",
+  "clubs": 500,
+  "countries": 37,
+  "leagues": 47,
+  "eventTemplates": 1120,
+  "eventChoices": 5600,
+  "effectiveCombinations": 12800,
+  "generatedEvents": 36,
+  "recentRepeatRate": 0,
+  "storyChainsStarted": 1,
+  "scheduleMatches": 36,
+  "differentOpponents": 29,
+  "competitions": [
+    "青年联赛",
+    "预备队联赛",
+    "国内联赛",
+    "国内杯赛",
+    "洲际比赛",
+    "友谊赛",
+    "季前赛",
+    "国家队比赛"
+  ]
+}
+{
+  "status": "PASS",
+  "files": 269,
+  "javascript": 101,
+  "relativeImports": "全部有效",
+  "mathRandom": "未发现",
+  "serviceWorker": "通过"
+}
+{
+  "status": "PASS",
+  "version": "19.0.0",
+  "passed": 21,
+  "cases": [
+    "viewport允许缩放并适配安全区域",
+    "采用真正的移动端优先断点",
+    "AppShell统一动态视口和单一正文滚动容器",
+    "全局只有浅色iOS主题",
+    "安全区域覆盖顶部、底部和正文",
+    "所有触控按钮不小于44像素并使用manipulation",
+    "底部导航固定为五个核心入口",
+    "Bottom Sheet拥有稳定滚动锁和焦点恢复",
+    "生日使用原生date并保持纯日期字符串",
+    "创建球员是六步单任务流程并持久化草稿",
+    "球队列表手机单列并使用本地队徽占位",
+    "转会报价使用移动端结构并保留真实操作",
+    "比赛头部、模式和选择卡均为移动端安全结构",
+    "数据格式化层阻止对象、undefined、null和NaN直出",
+    "位置预览和综合能力按位置变化",
+    "开发诊断可报告溢出和点击命中层",
+    "V19常驻速度栏已从页面结构移除并迁移到游戏节奏Sheet",
+    "V19页面引导、待办徽标与滚动提示连接真实游戏状态",
+    "Service Worker升级到V19并采用HTML网络优先",
+    "关键源码不直接使用Math.random",
+    "用户界面无指定内部英文和危险直出标记"
+  ]
+}
+{
+  "status": "PASS",
+  "verifiedScore": 1989,
+  "worldEntries": 1,
+  "oldSaveEligible": false,
+  "forgedStatsRejected": true
+}
+{
+  "status": "PASS",
+  "authoritativeFlow": true,
+  "serverScore": 2764,
+  "serverGrade": "C",
+  "verifiedEntries": 1,
+  "attacksRejected": [
+    "localStorage分数",
+    "伪造SSS",
+    "修改属性",
+    "重复提交",
+    "重放旧请求",
+    "跳过sequence",
+    "并发请求",
+    "伪造荣誉",
+    "伪造版本",
+    "速通20年",
+    "离线冒充"
+  ],
+  "auditFlags": 101
+}
+{
+  "status": "PASS",
+  "spaFallback": true,
+  "apiRouting": true,
+  "directPublishRejected": true,
+  "missingDatabaseGuard": true
+}
+{
+  "status": "PASS",
+  "version": "19.0.0",
+  "targetSeasons": 20,
+  "completedSeasons": 20,
+  "finalAge": 36,
+  "finalOvr": 84,
+  "totalMatches": 709,
+  "differentOpponents": 273,
+  "competitionCounts": {
+    "中国足球甲级联赛": 52,
+    "友谊赛": 38,
+    "季前赛": 16,
+    "国内杯赛": 75,
+    "西班牙足球乙级联赛": 9,
+    "葡萄牙足球超级联赛": 86,
+    "洲际比赛": 93,
+    "捷克足球甲级联赛": 10,
+    "澳大利亚足球超级联赛": 86,
+    "沙特阿拉伯职业联赛": 9,
+    "西班牙足球甲级联赛": 87,
+    "墨西哥足球超级联赛": 12,
+    "日本职业足球甲级联赛": 87,
+    "阿联酋职业联赛": 9,
+    "瑞士足球超级联赛": 40
+  },
+  "totalEvents": 124,
+  "uniqueEvents": 124,
+  "repeatedEvents": 0,
+  "repeatRate": 0,
+  "repeatedEventIds": {},
+  "eventTypeShare": {
+    "tactics": 4.9,
+    "training": 11.4,
+    "coach": 7.3,
+    "transfer": 3.3,
+    "rivalry": 5.7,
+    "match": 7.3,
+    "agent": 5.7,
+    "teammate": 2.4,
+    "media": 8.9,
+    "academy": 5.7,
+    "life": 1.6,
+    "sponsor": 6.5,
+    "contract": 6.5,
+    "national": 6.5,
+    "leadership": 6.5,
+    "finance": 3.3,
+    "legacy": 3.3,
+    "family": 1.6,
+    "recovery": 1.6
+  },
+  "transfers": 10,
+  "clubsRepresented": 11,
+  "storyChainsStarted": 1,
+  "storyChainsCompleted": 1,
+  "storyChainCompletionRate": 100,
+  "majorCareerNodes": 11,
+  "achievements": 95,
+  "finalEnding": "转会流浪者",
+  "simulationMs": 1085.2,
+  "iterations": 800,
+  "consoleErrors": 0,
+  "errors": []
+}
+
+
+===== V19 GUIDANCE AUDIT =====
+{
+  "status": "PASS",
+  "version": "19.0.0",
+  "cases": [
+    "导航徽标连接真实待办数量",
+    "关键事件优先级",
+    "比赛优先级",
+    "转会优先级",
+    "训练优先级",
+    "完成待办后引导下一场比赛"
+  ]
+}
+
+===== V19 MOBILE BROWSER AUDIT =====
+{
+  "status": "PASS",
+  "version": "19.0.0",
+  "engine": "系统 Chromium + Playwright 路由注入真实生产模块",
+  "fullFlow": [
+    "创建球员",
+    "开局事件",
+    "下一步引导",
+    "待办徽标",
+    "滚动提示",
+    "游戏节奏Sheet",
+    "设置立即生效",
+    "重新装载保持"
+  ],
+  "viewports": [
+    {
+      "width": 320,
+      "height": 568,
+      "overflow": 0,
+      "badges": 1,
+      "guide": true,
+      "glassNav": true
+    },
+    {
+      "width": 360,
+      "height": 800,
+      "overflow": 0,
+      "badges": 1,
+      "guide": true,
+      "glassNav": true
+    },
+    {
+      "width": 375,
+      "height": 667,
+      "overflow": 0,
+      "badges": 1,
+      "guide": true,
+      "glassNav": true
+    },
+    {
+      "width": 393,
+      "height": 852,
+      "overflow": 0,
+      "badges": 1,
+      "guide": true,
+      "glassNav": true
+    },
+    {
+      "width": 412,
+      "height": 915,
+      "overflow": 0,
+      "badges": 1,
+      "guide": true,
+      "glassNav": true
+    },
+    {
+      "width": 430,
+      "height": 932,
+      "overflow": 0,
+      "badges": 1,
+      "guide": true,
+      "glassNav": true
+    },
+    {
+      "width": 768,
+      "height": 1024,
+      "overflow": 0,
+      "badges": 1,
+      "guide": true,
+      "glassNav": true
+    }
+  ],
+  "screenshots": "docs/screenshots-v19",
+  "physicalDevice": false,
+  "networkNavigation": "运行环境策略阻止localhost导航，测试通过浏览器请求路由加载原始生产文件"
+}
+
+===== V19 BUILD =====
+
+> green-pitch-career-v19@19.0.0 build
+> node ./scripts/build.mjs
+
+{
+  "status": "PASS",
+  "output": "dist",
+  "files": 14,
+  "worker": "server/index.js",
+  "client": "client/index.html",
+  "migrations": [
+    "0000_leaderboard.sql",
+    "0001_authoritative_runs.sql"
+  ],
+  "legacyLeak": []
+}

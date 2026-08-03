@@ -21,7 +21,7 @@ button,article,section,div,span,label{min-width:0}
 .glass{background:var(--color-surface);backdrop-filter:saturate(180%) blur(22px);-webkit-backdrop-filter:saturate(180%) blur(22px)}
 .glass-card{background:var(--color-surface-solid);border:1px solid var(--color-border);border-radius:var(--radius-lg);box-shadow:var(--shadow-card)}
 .button{min-width:44px;min-height:44px;border-radius:16px;padding:11px 16px;background:var(--color-surface-secondary);font-weight:700;cursor:pointer;transition:transform 180ms cubic-bezier(.2,0,0,1),background 180ms ease,box-shadow 180ms ease,opacity 180ms ease;user-select:none;-webkit-user-select:none}
-.button:active,.button.is-pressing,.tab-button:active,.speed-button:active,.selection-card:active,.talent-card:active,.event-choice:active,.match-choice:active,.training-card:active,.club-card:active,.facility-card:active,.club-select-card:active,.presentation-card:active,.more-menu-card:active{transform:scale(.96)}
+.button:active,.button.is-pressing,.tab-button:active,.selection-card:active,.talent-card:active,.event-choice:active,.match-choice:active,.training-card:active,.club-card:active,.facility-card:active,.club-select-card:active,.presentation-card:active,.more-menu-card:active{transform:scale(.96)}
 .button:disabled{opacity:.42;cursor:not-allowed;transform:none}
 .button--primary{background:var(--color-accent);color:#fff;box-shadow:0 8px 20px rgba(0,122,255,.18)}
 .button--secondary{background:var(--color-surface-solid);border:1px solid var(--color-border)}

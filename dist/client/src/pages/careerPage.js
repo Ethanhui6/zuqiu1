@@ -30,7 +30,7 @@ export function renderCareerPage(container,ctx){
 
   async function runAdvance(target){
     if(save.career.retirement){showRetirement(save.career.retirement);return}
-    if(getSpeed(save).id==='paused'){showToast('当前处于暂停状态，请先选择1倍、2倍、4倍或快速',{type:'error'});return}
+    if(getSpeed(save).id==='paused'){showToast('当前处于暂停状态，请在游戏节奏中选择推进速度',{type:'error'});ctx.openPaceSettings?.();return}
     const controller=new AbortController();
     const visual=progressView(save,target);let progressHandle;
     progressHandle=openSheet({title:'时间正在推进',subtitle:ADVANCE_TARGETS.find(x=>x.id===target)?.label||'职业生涯',content:visual.root,dismissible:false,actions:[{label:'停止推进',className:'button button--danger',close:false,onClick:()=>{controller.abort();visual.status.textContent='正在停止…';return false}}]});
@@ -41,6 +41,7 @@ export function renderCareerPage(container,ctx){
       progressHandle.close();
       await animationDirector.play('calendar-flip',{id:`${save.career.calendar.absoluteWeek}:${target}`,from:`第${Math.max(1,save.career.calendar.week-(result.summary?.weeksAdvanced||1))}周`,to:`第${save.career.calendar.week}周`,label:result.summary?.headline||'时间推进完成'},{token:`career-calendar:${save.career.calendar.absoluteWeek}:${target}`});
       if(result.reason==='event'){showEvent(result.event,target);return}
+      if(result.reason==='training'){showToast('自动训练已关闭，请先完成本周训练');navigate('training');return}
       if(result.reason==='match'){navigate('match');return}
       if(result.reason==='transfer'){showToast('收到新的转会报价，时间已自动暂停',{type:'success'});navigate('transfer');return}
       if(result.reason==='retirement'){showRetirement(save.career.retirement);return}

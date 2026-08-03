@@ -1,8 +1,8 @@
 {
-  "version": "18.9.0",
-  "channel": "gameplay-mobile",
+  "version": "19.0.0",
+  "channel": "guidance-glass-navigation",
   "buildDate": "2026-08-03",
-  "schemaVersion": 20,
+  "schemaVersion": 21,
   "scoreVersion": "2026.08.03.2",
   "data": {
     "clubs": 500,

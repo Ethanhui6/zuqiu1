@@ -11,6 +11,7 @@ export class AnimationDirector{
   }
   configure(provider){this.provider=typeof provider==='function'?provider:null}
   mode(){return this.provider?.()?.animationMode||this.settings.mode}
+  eventSpeedFactor(){const id=this.provider?.()?.pace?.eventAnimationSpeed||'standard';return id==='fast'?.72:id==='instant'?.42:1}
   play(id,result={},options={}){
     const definition=this.registry.get(id);if(!definition)return Promise.resolve(this.fallback.apply({id},result,options.target));
     const token=options.token||`${id}:${result?.syncId||result?.id||Date.now()}`;
@@ -19,6 +20,7 @@ export class AnimationDirector{
   playSequence(items=[]){return items.reduce((chain,item)=>chain.then(()=>this.play(item.id,item.result,item.options)),Promise.resolve())}
   async #run(definition,result,options){
     const resolved=this.settings.resolve(definition,options.mode||this.mode());
+    if(resolved.play&&definition.importance!=='major'&&definition.importance!=='essential')resolved.duration=Math.max(180,Math.round(resolved.duration*this.eventSpeedFactor()));
     if(!resolved.play||typeof document==='undefined')return this.fallback.apply(definition,result,options.target);
     const layer=document.createElement('div');layer.className=`animation-layer animation-layer--${definition.id} ${resolved.compact?'is-compact':''}`;layer.dataset.animationId=definition.id;layer.dataset.animationState='start';layer.setAttribute('role','status');layer.setAttribute('aria-label',definition.name);layer.style.setProperty('--animation-duration',`${resolved.duration}ms`);layer.style.setProperty('--animation-easing',definition.easing);
     const stage=document.createElement('div');stage.className='animation-stage';const visual=definition.create(structuredClone(result));stage.append(visual);layer.append(stage);

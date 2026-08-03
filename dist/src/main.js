@@ -6,7 +6,6 @@ import {applyTheme} from './app/theme.js';
 import {Router} from './app/router.js';
 import {createAppShell,updateShell} from './components/appShell.js';
 import {showToast} from './components/toast.js';
-import {setSpeed} from './systems/pace/paceSystem.js';
 import {installViewportObserver} from './utils/viewport.js';
 import {installUiDiagnostics} from './utils/uiDiagnostics.js';
 import {forceUnlockPageScroll} from './utils/scrollLock.js';
@@ -22,6 +21,7 @@ import {renderProfilePage} from './pages/profilePage.js';
 import {renderMorePage} from './pages/morePage.js';
 import {renderRankingsPage} from './pages/rankingsPage.js';
 import {animationDirector} from './animations/director/animationDirector.js';
+import {openGamePaceSheet} from './components/gamePaceSheet.js';
 
 const root=document.querySelector('#app');
 const boot=document.querySelector('#boot');
@@ -78,7 +78,7 @@ function restoreInitialView(){
 function showSaveSelector({historyMode='replace'}={}){
   unsubscribeStore?.();unsubscribeStore=null;
   forceUnlockPageScroll();
-  shell=null;router=null;
+  shell?.destroy?.();shell=null;router=null;
   document.body.classList.remove('in-game');
   root.replaceChildren();
   renderSaveSelect(root,{onOpen:id=>openSlot(id),onNew:()=>showOnboarding({historyMode:'push'})});
@@ -88,7 +88,7 @@ function showSaveSelector({historyMode='replace'}={}){
 function showOnboarding({historyMode='push'}={}){
   unsubscribeStore?.();unsubscribeStore=null;
   forceUnlockPageScroll();
-  shell=null;router=null;
+  shell?.destroy?.();shell=null;router=null;
   document.body.classList.remove('in-game');
   renderOnboarding(root,{repo:dataRepository,onComplete:save=>{const id=saveManager.createSlot(save);openSlot(id,{historyMode:'replace'})},onCancel:()=>showSaveSelector({historyMode:'replace'})});
   commitHistory('create',null,historyMode);
@@ -110,10 +110,7 @@ function mountGame(initialRoute='career'){
     onBack:()=>navigate('career'),
     onHome:()=>navigate('career'),
     onSave:()=>{gameStore.saveNow();showToast('存档已保存',{type:'success'})},
-    onSpeed:speed=>{
-      gameStore.update(save=>setSpeed(save,speed),'speed-changed');
-      showToast(speed==='paused'?'时间推进已暂停':`推进速度已切换为 ${speed==='normal'?'1倍':speed==='fast'?'2倍':speed==='faster'?'4倍':'快速'}`);
-    }
+    onPaceSettings:()=>openGamePaceSettings()
   });
   root.append(shell.root);
   router=new Router(shell.main,{
@@ -126,7 +123,7 @@ function mountGame(initialRoute='career'){
     profile:renderProfilePage,
     rankings:renderRankingsPage
   });
-  ctx={store:gameStore,repo:dataRepository,navigate,refresh:()=>{router.refresh(ctx);update()},onReturnToSlots:()=>showSaveSelector({historyMode:'push'})};
+  ctx={store:gameStore,repo:dataRepository,navigate,refresh:()=>{router.refresh(ctx);update()},openPaceSettings:openGamePaceSettings,onReturnToSlots:()=>showSaveSelector({historyMode:'push'})};
   unsubscribeStore=gameStore.subscribe((state,reason)=>{
     update();
     void queueRankingCheckpoint(state,reason,dataRepository,()=>saveManager.save(state,gameStore.activeSlot));
@@ -140,10 +137,16 @@ function navigate(route,{historyMode='push'}={}){
   router.go(target,ctx);update();
   if(changed||historyMode==='replace')commitHistory('game',target,historyMode);
 }
+
+function openGamePaceSettings(){
+  if(!gameStore.state)return;
+  openGamePaceSheet({store:gameStore});
+}
+
 function update(){
   if(!shell||!gameStore.state)return;
   const club=dataRepository.getClub(gameStore.state.career.clubId);
-  updateShell(shell,gameStore.state,club,router.route);
+  updateShell(shell,gameStore.state,club,router.route,dataRepository);
   document.title=`${gameStore.state.player.name} · 绿茵浮沉 V${APP_VERSION}`;
 }
 

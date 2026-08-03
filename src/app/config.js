@@ -1,5 +1,5 @@
-export const APP_VERSION = '18.9.0';
-export const SAVE_SCHEMA = 20;
+export const APP_VERSION = '19.0.0';
+export const SAVE_SCHEMA = 21;
 export const SAVE_SLOTS = 3;
 
 export const ATTR_KEYS = ['pac','sho','pas','dri','def','phy'];
@@ -58,8 +58,15 @@ export const SPEED_LEVELS = [
   {id:'normal',label:'1倍',multiplier:1,delay:120},
   {id:'fast',label:'2倍',multiplier:2,delay:55},
   {id:'faster',label:'4倍',multiplier:4,delay:20},
-  {id:'turbo',label:'快速',multiplier:8,delay:0}
+  {id:'turbo',label:'极速推进',multiplier:8,delay:0}
 ];
+
+
+export const EVENT_ANIMATION_SPEEDS = {
+  standard:{id:'standard',label:'标准',factor:1},
+  fast:{id:'fast',label:'快速',factor:.72},
+  instant:{id:'instant',label:'简短',factor:.42}
+};
 
 export const AUTO_PAUSE_RULES = {
   transferOffer:'转会报价',contract:'合同谈判',firstStart:'首次首发',importantMatch:'重要比赛',final:'决赛',injury:'伤病',nationalCall:'国家队征召',coachTalk:'教练谈话',legendEvent:'传奇事件',careerTurn:'生涯重大转折'
