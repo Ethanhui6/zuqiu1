@@ -1,4 +1,4 @@
-export const APP_VERSION = '18.1.0';
+export const APP_VERSION = '18.2.0';
 export const SAVE_SCHEMA = 18;
 export const SAVE_SLOTS = 3;
 
@@ -25,8 +25,8 @@ export const POSITION_CONFIG = {
 export const TALENT_RARITY = {
   common:{name:'普通',weight:70,color:'#8E8E93',potential:[72,82],growth:1},
   good:{name:'优秀',weight:22,color:'#34C759',potential:[80,88],growth:1.08},
-  elite:{name:'精英',weight:7,color:'#007AFF',potential:[86,93],growth:1.16},
-  legend:{name:'传奇',weight:1,color:'#AF52DE',potential:[91,97],growth:1.24}
+  elite:{name:'精英',weight:7,color:'#8B5CF6',potential:[86,93],growth:1.16},
+  legend:{name:'传奇',weight:1,color:'#C58A00',potential:[91,97],growth:1.24}
 };
 
 export const TRAINING_PLANS = [
@@ -62,6 +62,6 @@ export const CAREER_SETTINGS = {
   winterWindowMonth:5,
   summerWindowMonth:1,
   maxRerolls:3,
-  worldPageSize:30,
+  worldPageSize:18,
   achievementPageSize:36
 };

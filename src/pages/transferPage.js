@@ -34,9 +34,15 @@ function offerCard(offer,club,save,store,repo,ctx){
     el('div',{className:'offer-main'},[el('span',{className:'eyebrow',text:club.leagueCn}),el('h2',{text:club.cn}),el('p',{text:`${offer.type||'转会'} · ${offer.role} · 主教练兴趣 ${offer.coachInterest}% · 成交概率 ${offer.probability}%`})]),
     el('span',{className:`offer-status status-${offer.status}`,text:offer.status})
   ]));
-  card.append(el('div',{className:'contract-grid'},[
-    ['周薪',formatMoney(offer.weeklyWage)],['合同',`${offer.years}年`],['签字费',formatMoney(offer.signingBonus)],['解约金',offer.releaseClause?formatMoney(offer.releaseClause):'无'],['出场承诺',offer.appearancePromise],['发展计划',offer.developmentPlan],['谈判轮次',`${offer.negotiationRound||0}/2`],['有效期',`第${offer.createdMonth}阶段结束前`]
-  ].map(([l,v])=>el('div',{className:'contract-item'},[el('small',{text:l}),el('strong',{text:v})]))));
+  card.append(el('div',{className:'contract-grid contract-grid--core'},[
+    ['周薪',formatMoney(offer.weeklyWage)],['合同',`${offer.years}年`],['球队定位',offer.role],['成交概率',`${offer.probability}%`]
+  ].map(([label,value])=>el('div',{className:'contract-item'},[el('small',{text:label}),el('strong',{text:value})]))));
+  card.append(el('details',{className:'offer-more'},[
+    el('summary',{text:'查看完整合同条款'}),
+    el('div',{className:'contract-grid'},[
+      ['签字费',formatMoney(offer.signingBonus)],['解约金',offer.releaseClause?formatMoney(offer.releaseClause):'无'],['出场承诺',offer.appearancePromise],['发展计划',offer.developmentPlan],['谈判轮次',`${offer.negotiationRound||0}/2`],['有效期',`第${offer.createdMonth}阶段结束前`]
+    ].map(([label,value])=>el('div',{className:'contract-item'},[el('small',{text:label}),el('strong',{text:value})])))
+  ]));
   const allowed=new Set(availableOfferActions(save,offer)),controls=el('div',{className:'offer-controls'});
   if(!allowed.size){controls.append(el('p',{className:'muted',text:offer.expiredReason||'该报价已经结束，不能继续操作。'}));}
   else ACTIONS.filter(([,action])=>allowed.has(action)).forEach(([label,action,className])=>controls.append(button(label,{className,onClick:()=>{

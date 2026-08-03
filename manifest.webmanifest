@@ -1,13 +1,20 @@
 {
-  "name":"绿茵浮沉 V18",
-  "short_name":"绿茵浮沉",
-  "description":"足球球员职业生涯 随机选择 模拟器",
-  "start_url":"./",
-  "scope":"./",
-  "display":"standalone",
-  "orientation":"any",
-  "background_color":"#f5f5f7",
-  "theme_color":"#f5f5f7",
-  "lang":"zh-CN",
-  "icons":[{"src":"./icon.svg","sizes":"any","type":"image/svg+xml","purpose":"any maskable"}]
+  "name": "绿茵浮沉 V18.2",
+  "short_name": "绿茵浮沉",
+  "description": "足球球员职业生涯 随机选择 模拟器",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#f5f5f7",
+  "theme_color": "#f5f5f7",
+  "lang": "zh-CN",
+  "icons": [
+    {
+      "src": "./icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
 }

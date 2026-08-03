@@ -1,10 +1,11 @@
 import {el,button,clear} from '../utils/dom.js';
 import {createPlayerCard} from '../components/playerCard.js';
+import {createEventCard} from '../components/eventCard.js';
 import {openSheet,closeSheet} from '../components/sheet.js';
 import {showToast} from '../components/toast.js';
 import {formatMoney,formatNumber,percent} from '../utils/format.js';
 import {beginPhase,markEventDone,prepareMatch,finishPhase} from '../systems/career/cycleSystem.js';
-import {resolveEventChoice,eventChoiceMeta} from '../systems/event/eventEngine.js';
+import {resolveEventChoice} from '../systems/event/eventEngine.js';
 import {totalFans} from '../systems/fan/fanSystem.js';
 import {performFacilityAction,facilityAvailable} from '../systems/facility/facilitySystem.js';
 import {POSITION_CONFIG} from '../app/config.js';
@@ -47,23 +48,8 @@ export function renderCareerPage(container,ctx){
 
   function showEvent(event){
     if(!event){showToast('事件生成失败，请重新进入生涯页',{type:'error'});return}
-    const content=el('div',{className:'event-sheet'});
-    content.append(
-      el('div',{className:'event-meta'},[
-        el('span',{className:'tag tag--accent',text:event.categoryCn}),
-        el('span',{className:'tag',text:event.pressure}),
-        el('span',{className:'tag',text:`${event.choices.length}个方案`})
-      ]),
-      el('p',{className:'event-description',text:event.description})
-    );
-    const list=el('div',{className:'event-choices'});
-    event.choices.forEach(choice=>{
-      const card=button('',{className:'event-choice',onClick:()=>choose(choice)});
-      card.append(el('div',{},[el('strong',{text:choice.text}),el('small',{text:choice.hint})]),el('span',{className:'choice-style',text:eventChoiceMeta(choice)}));
-      list.append(card);
-    });
-    content.append(list);
-    openSheet({title:event.title,subtitle:'选择会影响即时状态、关系和未来剧情',content,dismissible:false,size:'large'});
+    const content=createEventCard(event,{onChoose:choose});
+    openSheet({title:'职业事件',subtitle:`第 ${save.career.season} 赛季 · 第 ${save.career.month} 阶段`,content,dismissible:false,size:'large'});
   }
 
   function choose(choice){
@@ -112,15 +98,24 @@ function actionLabel(save){if(save.career.retirement)return'查看职业生涯�
 function quickCards(save,repo){
   const pending=(save.career.pending.event&&!save.career.pending.event.resolved?1:0)+(save.career.pending.match&&!save.career.pending.match.resolved?1:0);
   const position=POSITION_CONFIG[save.player.position]?.name||save.player.position;
-  return el('div',{className:'summary-strip'},[
-    metric('粉丝总数',formatNumber(totalFans(save)),'近期增长受比赛与媒体影响'),
-    metric('社交关注',formatNumber(save.fans.social),`舆论倾向 ${save.fans.sentiment}`),
-    metric('商业价值',`${save.fans.commercialValue}/100`,`媒体热度 ${save.fans.mediaHeat}`),
+  const primary=el('div',{className:'summary-strip'},[
+    metric('粉丝总数',formatNumber(totalFans(save)),'比赛与媒体共同影响'),
     metric('当前身价',formatMoney(save.finance.marketValue),`周薪 ${formatMoney(save.finance.weeklyWage)}`),
-    metric('合同',`${save.career.contract.years}年`,save.career.contract.appearancePromise),
-    metric('场上位置',position,`球衣 ${save.player.number} 号`),
-    metric('待处理内容',String(pending),save.career.pending.offers.length?`${save.career.pending.offers.length}份转会报价`:'暂无转会报价')
+    metric('商业价值',`${save.fans.commercialValue}/100`,`媒体热度 ${save.fans.mediaHeat}`),
+    metric('待处理',String(pending),save.career.pending.offers.length?`${save.career.pending.offers.length}份转会报价`:'暂无转会报价')
   ]);
+  const more=el('details',{className:'more-summary'},[
+    el('summary',{text:'查看更多生涯状态'}),
+    el('div',{className:'more-summary__grid'},[
+      metricNode('社交关注',formatNumber(save.fans.social)),
+      metricNode('舆论倾向',save.fans.sentiment),
+      metricNode('合同剩余',`${save.career.contract.years}年`),
+      metricNode('出场承诺',save.career.contract.appearancePromise),
+      metricNode('场上位置',position),
+      metricNode('球衣号码',`${save.player.number}号`)
+    ])
+  ]);
+  return el('section',{className:'section-block'},[primary,more]);
 }
 
 function fanTrend(save){

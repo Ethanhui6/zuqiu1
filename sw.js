@@ -1,4 +1,4 @@
-const VERSION='green-pitch-v18.1.0-20260803-4';
+const VERSION='green-pitch-v18.2.0-20260803-6';
 const STATIC_CACHE=`${VERSION}-static`;
 const DATA_CACHE=`${VERSION}-data`;
 const APP_SHELL=[
@@ -12,9 +12,12 @@ const APP_SHELL=[
   './src/app/store.js',
   './src/app/theme.js',
   './src/components/appShell.js',
+  './src/components/clubCard.js',
+  './src/components/eventCard.js',
   './src/components/playerCard.js',
   './src/components/radarChart.js',
   './src/components/sheet.js',
+  './src/components/talentCard.js',
   './src/components/toast.js',
   './src/main.js',
   './src/pages/careerPage.js',
@@ -34,6 +37,7 @@ const APP_SHELL=[
   './src/styles/components.css',
   './src/styles/pages.css',
   './src/styles/theme.css',
+  './src/styles/ux-v18.2.css',
   './src/systems/achievement/achievementSystem.js',
   './src/systems/career/careerSystem.js',
   './src/systems/career/cycleSystem.js',

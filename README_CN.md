@@ -1,4 +1,4 @@
-# 绿茵浮沉 V18.1
+# 绿茵浮沉 V18.2
 
 一个无需构建工具、可以直接部署到 Cloudflare Pages / GitHub Pages 的足球球员职业生涯 随机选择 模拟器。
 
@@ -46,6 +46,7 @@ node tests/career-sim.mjs
 node tests/acceptance-tests.mjs
 node tests/runtime-audit.mjs
 node tests/static-check.mjs
+npm run test:mobile
 ```
 
 ## 数据说明
@@ -56,3 +57,7 @@ node tests/static-check.mjs
 ## 运行审计
 
 主要按钮、状态持久化、转会边界、事件记忆和滚动修复的逐项结果见 `docs/V18_RUNTIME_AUDIT.md`。
+
+## V18.2 界面体验审计
+
+本次只优化界面与交互，不新增玩法系统。实际变更和移动端几何测试见 `docs/V18_2_UI_UX_REPORT.md` 与 `docs/V18_2_MOBILE_TEST.json`。

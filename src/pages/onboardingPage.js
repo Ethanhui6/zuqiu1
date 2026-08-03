@@ -1,13 +1,17 @@
-import {POSITION_CONFIG,CAREER_SETTINGS} from '../app/config.js';
+import {POSITION_CONFIG,CAREER_SETTINGS,ATTR_LABELS} from '../app/config.js';
 import {createSeed} from '../services/rng.js';
 import {createTalentCandidates,generateAcademyOffers,createNewSave} from '../systems/career/careerSystem.js';
 import {calculateOvr} from '../systems/career/ovr.js';
 import {createRadarChart} from '../components/radarChart.js';
+import {createTalentCard,talentTheme,talentPotentialRange,talentStrengths,talentScoutQuote} from '../components/talentCard.js';
+import {createAcademyClubCard} from '../components/clubCard.js';
 import {el,button,clear} from '../utils/dom.js';
-import {formatMoney} from '../utils/format.js';
 import {showToast} from '../components/toast.js';
 
 const nations=['中国','日本','韩国','英格兰','西班牙','德国','法国','意大利','葡萄牙','荷兰','比利时','巴西','阿根廷','美国','墨西哥','澳大利亚','沙特阿拉伯','摩洛哥','塞内加尔','尼日利亚'];
+const stepNames=['基础信息','场上位置','踢球风格','天赋报告','青年队'];
+const stepTitles=['定义你的身份','在球场上找到位置','选择你的踢球方式','查看球探评估','选择职业起点'];
+const stepCopy=['身份资料会影响身体成长、注册规则和初始球迷基础。','点击球场位置，能力图和职责说明会同步变化。','风格影响训练倾向和球队适配，但不会锁死后期路线。','比较潜力、优势和风险；每个存档只有有限重抽次数。','从符合条件的青年队中选择，靠表现争取进入一线队。'];
 
 export function renderOnboarding(root,{repo,onComplete,onCancel=null}){
   const draft={step:1,seed:createSeed(),name:'赵天佑',displayName:'天佑',nation:'中国',age:17,birthDate:'2009-06-15',height:178,weight:70,foot:'右脚',number:10,position:'ST',style:'禁区终结者',rerolls:CAREER_SETTINGS.maxRerolls,talents:[],selectedTalent:0,academyOffers:[],selectedAcademy:0};
@@ -18,27 +22,26 @@ export function renderOnboarding(root,{repo,onComplete,onCancel=null}){
     const shell=el('section',{className:'onboarding-card'});
     shell.append(progress(),header(),content(),footer());
     root.append(shell);
+    root.scrollTop=0;
   }
-
   function progress(){
-    const wrap=el('div',{className:'wizard-progress'});
-    for(let i=1;i<=5;i++){
-      wrap.append(el('div',{className:`wizard-step ${i<=draft.step?'is-active':''}`},[
-        el('span',{text:String(i)}),
-        el('small',{text:['身份','位置','风格','天赋','青训'][i-1]})
+    const wrap=el('div',{className:'wizard-progress',attrs:{'aria-label':`创建球员，第${draft.step}步，共5步`}});
+    for(let index=1;index<=5;index++){
+      const state=index<draft.step?'is-complete':index===draft.step?'is-active':'is-pending';
+      const marker=index<draft.step?'✓':String(index);
+      wrap.append(el('div',{className:`wizard-step ${state}`,attrs:{'aria-current':index===draft.step?'step':undefined}},[
+        el('span',{text:marker}),el('small',{text:stepNames[index-1]})
       ]));
     }
     return wrap;
   }
-
   function header(){
     return el('header',{className:'onboarding-header'},[
-      el('div',{className:'eyebrow',text:'创建球员'}),
-      el('h1',{text:['定义你的身份','在球场上找到位置','选择踢球方式','抽取开局天赋','选择青年队起点'][draft.step-1]}),
-      el('p',{text:['这些信息会影响国籍规则、身体成长和球迷基础。','点击球场圆点，查看职责、主要属性与成长路线。','风格决定训练倾向，不会限制后期发展。','每个存档只能有限重抽，传奇模板不会保证成功。','所有新角色从青年梯队开始，必须靠表现进入一线队。'][draft.step-1]})
+      el('div',{className:'eyebrow',text:`创建球员 · 第 ${draft.step}/5 步`}),
+      el('h1',{text:stepTitles[draft.step-1]}),
+      el('p',{text:stepCopy[draft.step-1]})
     ]);
   }
-
   function content(){
     if(draft.step===1)return identityStep();
     if(draft.step===2)return positionStep();
@@ -46,180 +49,118 @@ export function renderOnboarding(root,{repo,onComplete,onCancel=null}){
     if(draft.step===4)return talentStep();
     return academyStep();
   }
-
   function footer(){
     const wrap=el('footer',{className:'wizard-footer'});
-    if(draft.step>1){
-      wrap.append(button('上一步',{className:'button button--secondary',onClick:()=>{draft.step--;render();}}));
-    }else if(onCancel){
-      wrap.append(button('返回存档',{className:'button button--secondary',onClick:onCancel}));
-    }
+    if(draft.step>1)wrap.append(button('上一步',{className:'button button--secondary',onClick:()=>{draft.step--;render();}}));
+    else if(onCancel)wrap.append(button('返回存档',{className:'button button--secondary',onClick:onCancel}));
     const last=draft.step===5;
-    wrap.append(button(last?'开始职业生涯':'继续',{
-      className:'button button--primary',
-      onClick:()=>{
-        if(!validate())return;
-        if(last){
-          const talent=draft.talents[draft.selectedTalent];
-          const offer=draft.academyOffers[draft.selectedAcademy];
-          const club=repo.getClub(offer.clubId);
-          const sourceTemplate=repo.templates.find(x=>x.id===talent.sourceTemplateId);
-          const save=createNewSave({...draft,talent,academyOffer:offer,sourceTemplate},club,'new');
-          onComplete(save);
-          return;
-        }
-        draft.step++;
-        prepareStep();
-        render();
+    wrap.append(button(last?'开始职业生涯':'继续',{className:'button button--primary',onClick:()=>{
+      if(!validate())return;
+      if(last){
+        const talent=draft.talents[draft.selectedTalent],offer=draft.academyOffers[draft.selectedAcademy],club=repo.getClub(offer.clubId),sourceTemplate=repo.templates.find(item=>item.id===talent.sourceTemplateId);
+        onComplete(createNewSave({...draft,talent,academyOffer:offer,sourceTemplate},club,'new'));
+        return;
       }
-    }));
+      draft.step++;prepareStep();render();
+    }}));
     return wrap;
   }
-
   function identityStep(){
     const form=el('div',{className:'form-grid'});
     const fields=[['姓名','text','name'],['球衣显示名','text','displayName'],['出生日期','date','birthDate'],['身高（厘米）','number','height'],['体重（公斤）','number','weight'],['喜欢的号码','number','number']];
     fields.forEach(([label,type,key])=>{
-      const input=el('input',{attrs:{type,value:draft[key],min:key==='height'?155:key==='weight'?45:key==='number'?1:undefined,max:key==='height'?205:key==='weight'?110:key==='number'?99:undefined}});
+      const input=el('input',{attrs:{type,value:draft[key],min:key==='height'?155:key==='weight'?45:key==='number'?1:undefined,max:key==='height'?205:key==='weight'?110:key==='number'?99:undefined,inputmode:type==='number'?'numeric':undefined}});
       input.addEventListener('input',()=>{draft[key]=type==='number'?Number(input.value):input.value;});
       form.append(el('label',{className:'field'},[el('span',{text:label}),input]));
     });
-    const nation=el('select');
-    nations.forEach(n=>nation.append(el('option',{text:n,attrs:{value:n,selected:n===draft.nation}})));
-    nation.onchange=()=>{draft.nation=nation.value;};
-    const foot=el('select');
-    ['右脚','左脚','双足'].forEach(n=>foot.append(el('option',{text:n,attrs:{value:n,selected:n===draft.foot}})));
-    foot.onchange=()=>{draft.foot=foot.value;};
-    form.append(
-      el('label',{className:'field'},[el('span',{text:'国家或地区'}),nation]),
-      el('label',{className:'field'},[el('span',{text:'惯用脚'}),foot])
-    );
+    const nation=el('select');nations.forEach(name=>nation.append(el('option',{text:name,attrs:{value:name,selected:name===draft.nation}})));nation.onchange=()=>{draft.nation=nation.value;};
+    const foot=el('select');['右脚','左脚','双足'].forEach(name=>foot.append(el('option',{text:name,attrs:{value:name,selected:name===draft.foot}})));foot.onchange=()=>{draft.foot=foot.value;};
+    form.append(el('label',{className:'field'},[el('span',{text:'国家或地区'}),nation]),el('label',{className:'field'},[el('span',{text:'惯用脚'}),foot]));
     return form;
   }
-
   function positionStep(){
-    const grid=el('div',{className:'position-layout'});
-    const pitch=el('div',{className:'pitch-selector',attrs:{role:'group','aria-label':'场上位置选择'}});
-    Object.entries(POSITION_CONFIG).forEach(([id,cfg])=>{
-      const b=button(cfg.name,{className:`pitch-position ${draft.position===id?'is-selected':''}`,onClick:()=>{draft.position=id;draft.style=cfg.roles[0];render();}});
-      b.style.left=`${cfg.x}%`;
-      b.style.top=`${cfg.y}%`;
-      b.dataset.position=id;
-      pitch.append(b);
+    const grid=el('div',{className:'position-layout'}),pitch=el('div',{className:'pitch-selector',attrs:{role:'group','aria-label':'场上位置选择'}});
+    Object.entries(POSITION_CONFIG).forEach(([id,config])=>{
+      const positionButton=button(config.name,{className:`pitch-position ${draft.position===id?'is-selected':''}`,onClick:()=>{draft.position=id;draft.style=config.roles[0];draft.talents=[];draft.academyOffers=[];render();}});
+      positionButton.style.left=`${config.x}%`;positionButton.style.top=`${config.y}%`;positionButton.dataset.position=id;positionButton.setAttribute('aria-pressed',String(draft.position===id));pitch.append(positionButton);
     });
-    const cfg=POSITION_CONFIG[draft.position];
-    const attrNames={pac:'速度',sho:'射门',pas:'传球',dri:'盘带',def:'防守',phy:'身体'};
+    const config=POSITION_CONFIG[draft.position],preview=positionPreviewAttrs(draft.position),ovr=calculateOvr(preview,draft.position),labels=config.group==='keeper'?ATTR_LABELS.keeper:ATTR_LABELS.outfield;
     const detail=el('aside',{className:'position-detail'},[
-      el('div',{className:'eyebrow',text:'场上位置'}),
-      el('h2',{text:cfg.name}),
-      el('p',{text:positionDuty(cfg.group)}),
-      el('h3',{text:'主要属性'}),
-      el('div',{className:'tag-row'},cfg.focus.map(k=>el('span',{className:'tag',text:attrNames[k]}))),
-      el('h3',{text:'可选成长路线'}),
-      el('ul',{className:'clean-list'},cfg.roles.map(x=>el('li',{text:x})))
+      el('div',{className:'eyebrow',text:'位置球探预览'}),el('h2',{text:config.name}),el('p',{text:positionDuty(config.group)}),
+      el('div',{className:'position-preview'},[
+        createRadarChart(preview,draft.position,{size:190}),
+        el('div',{className:'position-rating'},[
+          el('small',{text:'位置适配总评'}),el('strong',{text:String(ovr)}),el('span',{text:`重点：${config.focus.map(key=>labels[key]).join('、')}`})
+        ])
+      ]),
+      el('h3',{text:'适合的发展路线'}),el('div',{className:'tag-row'},config.roles.map(role=>el('span',{className:'tag',text:role})))
     ]);
-    grid.append(pitch,detail);
-    return grid;
+    grid.append(pitch,detail);return grid;
   }
-
   function styleStep(){
-    const cfg=POSITION_CONFIG[draft.position];
-    const grid=el('div',{className:'choice-grid'});
-    cfg.roles.forEach((style,i)=>{
-      const card=button('',{className:`selection-card ${draft.style===style?'is-selected':''}`,onClick:()=>{draft.style=style;render();}});
-      card.append(el('span',{className:'selection-index',text:String(i+1)}),el('h3',{text:style}),el('p',{text:styleDescription(style)}));
-      grid.append(card);
-    });
-    return grid;
+    const config=POSITION_CONFIG[draft.position],grid=el('div',{className:'choice-grid'});
+    config.roles.forEach((style,index)=>{
+      const card=button('',{className:`selection-card ${draft.style===style?'is-selected':''}`,onClick:()=>{draft.style=style;draft.talents=[];draft.academyOffers=[];render();}});
+      card.setAttribute('aria-pressed',String(draft.style===style));
+      card.append(el('span',{className:'selection-index',text:String(index+1)}),el('h3',{text:style}),el('p',{text:styleDescription(style)}));grid.append(card);
+    });return grid;
   }
-
   function talentStep(){
     if(!draft.talents.length)prepareTalents();
-    const wrap=el('div',{className:'talent-layout'});
-    const actions=el('div',{className:'inline-actions'},[
-      el('p',{text:`剩余重抽次数：${draft.rerolls}`}),
+    const wrap=el('div',{className:'talent-layout'}),toolbar=el('div',{className:'talent-toolbar'},[
+      el('p',{text:`剩余重抽 ${draft.rerolls} 次。重抽会替换当前全部候选。`}),
       button('重新抽取',{className:'button button--secondary',disabled:draft.rerolls<=0,onClick:()=>{if(draft.rerolls<=0)return;draft.rerolls--;prepareTalents(true);render();}})
-    ]);
-    wrap.append(actions);
-    const grid=el('div',{className:'talent-grid'});
-    draft.talents.forEach((t,i)=>{
-      const card=button('',{className:`talent-card ${draft.selectedTalent===i?'is-selected':''}`,onClick:()=>{draft.selectedTalent=i;render();}});
-      card.style.setProperty('--rarity-color',t.color);
-      card.append(
-        el('span',{className:'rarity-badge',text:t.rarity}),
-        el('h3',{text:t.name}),
-        el('p',{text:t.description}),
-        el('div',{className:'tag-row'},[el('span',{className:'tag',text:`潜力 ${t.potential}`}),el('span',{className:'tag',text:`成长 ×${t.growthMultiplier}`})]),
-        el('small',{className:'talent-cost',text:`潜在代价：${t.cost}`})
-      );
-      grid.append(card);
+    ]),grid=el('div',{className:'talent-grid'});
+    draft.talents.forEach((talent,index)=>{
+      const source=repo.templates.find(item=>item.id===talent.sourceTemplateId),attrs=source?.attrs||positionPreviewAttrs(draft.position);
+      grid.append(createTalentCard(talent,{selected:draft.selectedTalent===index,position:draft.position,style:draft.style,attrs,onSelect:()=>{draft.selectedTalent=index;draft.academyOffers=[];render();}}));
     });
-    wrap.append(grid);
-    return wrap;
+    wrap.append(toolbar,grid);return wrap;
   }
-
   function academyStep(){
     if(!draft.academyOffers.length)prepareAcademies();
-    const wrap=el('div',{className:'academy-layout'});
-    const talent=draft.talents[draft.selectedTalent];
-    const source=repo.templates.find(x=>x.id===talent.sourceTemplateId);
-    const previewAttrs=source?source.attrs:{pac:62,sho:60,pas:59,dri:61,def:48,phy:59};
-    wrap.append(el('section',{className:'scout-report'},[
-      el('div',{className:'report-rating'},[el('strong',{text:String(calculateOvr(previewAttrs,draft.position))}),el('span',{text:'球探预估'})]),
-      createRadarChart(previewAttrs,draft.position,{size:190}),
-      el('div',{},[el('h2',{text:`${draft.name} · ${draft.style}`}),el('p',{text:`${talent.rarity}天赋，潜力区间围绕 ${talent.potential} 展开。最终发展取决于训练、上场、伤病和职业选择。`})])
-    ]));
+    const wrap=el('div',{className:'academy-layout'}),talent=draft.talents[draft.selectedTalent],source=repo.templates.find(item=>item.id===talent.sourceTemplateId),previewAttrs=source?.attrs||positionPreviewAttrs(draft.position),theme=talentTheme(talent),config=POSITION_CONFIG[draft.position];
+    const report=el('section',{className:'scout-report'});report.style.setProperty('--report-color',talent.color||theme.color);
+    report.append(
+      el('div',{className:'scout-report__head'},[
+        el('div',{className:'scout-report__title'},[el('span',{className:'eyebrow',text:'球探评估报告'}),el('h2',{text:draft.name}),el('p',{text:`${config.name} · ${draft.style} · ${draft.nation}`})]),
+        el('div',{className:'scout-report__rating'},[el('strong',{text:`${'★'.repeat(theme.stars)}${'☆'.repeat(5-theme.stars)}`}),el('span',{text:`${talent.rarity}天赋 · 潜力 ${talentPotentialRange(talent)}`})])
+      ]),
+      el('div',{className:'scout-report__body'},[
+        createRadarChart(previewAttrs,draft.position,{size:190}),
+        el('div',{className:'scout-report__traits'},[
+          el('h3',{text:'技术特点'}),
+          el('ul',{className:'scout-points'},talentStrengths(previewAttrs,draft.position).map(text=>el('li',{text}))),
+          el('div',{className:'scout-risk'},[el('strong',{text:'培养风险：'}),document.createTextNode(talent.cost)]),
+          el('div',{className:'scout-report__quote',text:talentScoutQuote(talent,draft.style)})
+        ])
+      ])
+    );
     const list=el('div',{className:'academy-offers'});
-    draft.academyOffers.forEach((o,i)=>{
-      const club=repo.getClub(o.clubId);
-      const card=button('',{className:`offer-card ${draft.selectedAcademy===i?'is-selected':''}`,onClick:()=>{draft.selectedAcademy=i;render();}});
-      card.append(
-        el('div',{className:'club-mark',text:club.code||club.cn.slice(0,1)}),
-        el('div',{className:'offer-main'},[el('h3',{text:club.cn}),el('p',{text:`${club.leagueCn} · ${o.squad}`}),el('small',{text:`${o.role} · ${o.reason}`})]),
-        el('div',{className:'offer-money'},[el('strong',{text:formatMoney(o.weeklyWage)}),el('small',{text:'周薪'})])
-      );
-      list.append(card);
+    draft.academyOffers.forEach((offer,index)=>{
+      const club=repo.getClub(offer.clubId);
+      list.append(createAcademyClubCard(club,offer,{selected:draft.selectedAcademy===index,position:draft.position,onSelect:()=>{draft.selectedAcademy=index;render();}}));
     });
-    wrap.append(list);
-    return wrap;
+    wrap.append(report,list);return wrap;
   }
-
-  function prepareStep(){
-    if(draft.step===4&&!draft.talents.length)prepareTalents();
-    if(draft.step===5&&!draft.academyOffers.length)prepareAcademies();
-  }
-  function prepareTalents(force=false){
-    if(force)draft.seed=createSeed();
-    draft.talents=createTalentCandidates({seed:draft.seed,position:draft.position,style:draft.style,templates:repo.templates,count:3});
-    draft.selectedTalent=0;
-    draft.academyOffers=[];
-  }
-  function prepareAcademies(){
-    const t=draft.talents[draft.selectedTalent];
-    const source=repo.templates.find(x=>x.id===t.sourceTemplateId);
-    const ovr=source?calculateOvr(source.attrs,draft.position):62;
-    draft.academyOffers=generateAcademyOffers({seed:draft.seed,nation:draft.nation,position:draft.position,ovr,talent:t,clubs:repo.clubs});
-    draft.selectedAcademy=0;
-  }
+  function prepareStep(){if(draft.step===4&&!draft.talents.length)prepareTalents();if(draft.step===5&&!draft.academyOffers.length)prepareAcademies();}
+  function prepareTalents(force=false){if(force)draft.seed=createSeed();draft.talents=createTalentCandidates({seed:draft.seed,position:draft.position,style:draft.style,templates:repo.templates,count:3});draft.selectedTalent=0;draft.academyOffers=[];}
+  function prepareAcademies(){const talent=draft.talents[draft.selectedTalent],source=repo.templates.find(item=>item.id===talent.sourceTemplateId),ovr=source?calculateOvr(source.attrs,draft.position):62;draft.academyOffers=generateAcademyOffers({seed:draft.seed,nation:draft.nation,position:draft.position,ovr,talent,clubs:repo.clubs});draft.selectedAcademy=0;}
   function validate(){
-    if(draft.step===1&&(!draft.name||draft.height<155||draft.height>205||draft.weight<45||draft.weight>110)){
-      showToast('请完整填写合理的身份信息',{type:'error'});
-      return false;
-    }
-    if(draft.step===4&&!draft.talents.length)return false;
-    if(draft.step===5&&!draft.academyOffers.length)return false;
+    if(draft.step===1&&(!draft.name||!draft.displayName||draft.height<155||draft.height>205||draft.weight<45||draft.weight>110||draft.number<1||draft.number>99)){showToast('请完整填写合理的身份信息',{type:'error'});return false;}
+    if(draft.step===4&&!draft.talents.length){showToast('天赋候选尚未生成',{type:'error'});return false;}
+    if(draft.step===5&&!draft.academyOffers.length){showToast('青年队邀请尚未生成',{type:'error'});return false;}
     return true;
   }
-
-  render();
-  return()=>clear(root);
+  render();return()=>clear(root);
 }
 
-function positionDuty(group){
-  if(group==='keeper')return'保护球门、组织后场并处理一对一。';
-  if(group==='defense')return'防守空间、赢下对抗并支持后场出球。';
-  if(group==='midfield')return'连接攻防、控制节奏并覆盖中场区域。';
-  if(group==='creative')return'在前场创造机会，连接中场与锋线。';
-  return'攻击防线身后、制造进球和决定比赛。';
+export function positionPreviewAttrs(position){
+  const config=POSITION_CONFIG[position]||POSITION_CONFIG.ST,entries=Object.entries(config.weights),max=Math.max(...entries.map(([,weight])=>weight));
+  const attrs={};for(const[key,weight]of entries)attrs[key]=Math.round(42+(weight/max)*43+(config.focus.includes(key)?7:0));return attrs;
 }
-function styleDescription(style){return`${style}会改变该位置的训练倾向、比赛选择和球队适配。`;}
+function positionDuty(group){if(group==='keeper')return'保护球门、组织后场并处理一对一。';if(group==='defense')return'防守空间、赢下对抗并支持后场出球。';if(group==='midfield')return'连接攻防、控制节奏并覆盖中场区域。';if(group==='creative')return'在前场创造机会，连接中场与锋线。';return'攻击防线身后，制造进球并决定比赛。';}
+function styleDescription(style){
+  const map={禁区终结者:'专注无球跑位和门前终结，回撤参与较少。',支点中锋:'利用身体保护球权，为队友创造前插空间。',全能前锋:'兼顾推进、做球与终结，对综合能力要求更高。',速度型前锋:'攻击防线身后，以启动和冲刺制造机会。',伪九号:'频繁回撤连接中场，用传球和盘带打乱防线。',古典组织核心:'以视野和传球主导前场节奏，防守负担较轻。'};
+  return map[style]||`${style}会改变训练倾向、比赛选择与球队适配。`;
+}
