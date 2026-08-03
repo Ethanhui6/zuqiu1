@@ -1,8 +1,8 @@
 {
-  "version": "19.1.0",
-  "channel": "time-ai-core",
+  "version": "20.0.0",
+  "channel": "mobile-product-structure",
   "buildDate": "2026-08-03",
-  "schemaVersion": 22,
+  "schemaVersion": 23,
   "scoreVersion": "2026.08.03.2",
   "data": {
     "clubs": 500,
@@ -18,5 +18,5 @@
     "worldApi": true,
     "serverAuthoritativeScore": true
   },
-  "buildVersion": "19.1.0-20260803-2"
+  "buildVersion": "20.0.0-20260803-1"
 }

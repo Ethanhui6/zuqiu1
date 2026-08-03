@@ -7,6 +7,8 @@ import {DeterministicRng} from '../services/rng.js';
 import {createClubCrest} from '../components/clubCrest.js';
 import {showToast} from '../components/toast.js';
 import {animationDirector} from '../animations/director/animationDirector.js';
+import {openSheet} from '../components/sheet.js';
+import {POSITION_CONFIG} from '../app/config.js';
 
 export function renderMatchPage(container,ctx){
   const {store,repo,navigate}=ctx,save=store.state;
@@ -122,29 +124,113 @@ function upcomingView(save,repo,onNext){
   section.append(list,button(fixtures.length?'推进至下一场比赛':'返回生涯',{className:'button button--primary button--large',dataset:{nextMatch:'1'},onClick:fixtures.length?onNext:()=>history.back()}));return section;
 }
 function resultView(match,current,opponent,{onReturn,onNext}){
-  const r=match.playerResult,wrap=el('section',{className:'match-result-page'});
-  const summary=el('section',{className:'glass-card match-summary'},[
+  const r=match.playerResult||{},wrap=el('section',{className:'match-result-page v20-match-result-page'});
+  const hero=el('section',{className:'v20-match-result-hero'},[
     el('span',{className:'eyebrow',text:`${match.competition} · ${presentationName(match.presentation)}`}),
     el('div',{className:'result-scoreboard'},[
-      teamBlock(current,'本队'),el('div',{className:'final-score',text:`${match.score[0]} : ${match.score[1]}`}),teamBlock(opponent,'对手')
+      teamBlock(current,'本队'),
+      el('div',{className:'final-score',text:`${match.score[0]} : ${match.score[1]}`}),
+      teamBlock(opponent,'对手')
     ]),
-    el('div',{className:'result-rating'},[el('div',{className:'rating-orb',text:String(r.rating)}),el('div',{},[el('h2',{text:r.played?'你的比赛表现':'本场未获得出场机会'}),el('p',{text:r.played?'比赛数据已经写入生涯存档。':'观察比赛仍会获得少量战术经验。'})])]),
-    el('div',{className:'metric-grid'},[metric('出场时间',`${r.minutes}分钟`),metric('进球',r.goals),metric('助攻',r.assists),metric('关键传球',r.keyPasses),metric('抢断',r.tackles),metric('扑救',r.saves)])
+    el('p',{text:`${match.date||'比赛日'} · ${match.home?'主场':'客场'} · ${match.weather||'天气正常'}`})
   ]);
-  const timeline=el('section',{className:'glass-card timeline-card'},[el('div',{className:'section-heading'},[el('div',{},[el('span',{className:'eyebrow',text:'快速时间线'}),el('h2',{text:'比赛关键事件'})])])]);
-  const list=el('div',{className:'timeline-list'});(match.timeline||[]).forEach(t=>list.append(el('div',{className:'timeline-item'},[el('span',{className:'timeline-minute',text:`${t.minute}'`}),el('div',{},[el('strong',{text:t.type}),el('small',{text:t.text||t.team})])])));timeline.append(list);
-  const review=el('section',{className:'glass-card match-review'},[
-    el('div',{},[el('span',{className:'eyebrow',text:'教练评价'}),el('h2',{text:match.coachEvaluation||'比赛报告已归档'}),el('p',{text:match.coachEvaluation||'本场表现已经计入球队顺位和生涯数据。'})]),
-    el('div',{className:'status-change-grid'},(match.statusChanges||[]).map(change=>el('div',{className:'status-change'},[
-      el('small',{text:change.label}),el('strong',{text:change.delta===null?String(change.after):`${change.delta>=0?'+':''}${change.delta}`}),el('span',{text:change.delta===null?'已记录':`${change.before} → ${change.after}`})
-    ])))
+  const cards=el('section',{className:'v20-match-summary-grid'});
+  const position=match.playerPosition||match.position||r.position||'ST';
+  const cardItems=[
+    {id:'result',icon:'◎',title:'比赛结果',value:`${match.score[0]}-${match.score[1]}`,copy:`${match.competition} · ${match.home?'主场':'客场'}`,open:()=>openMatchResultDetail(match,current,opponent)},
+    {id:'performance',icon:'●',title:'个人表现',value:r.played?`评分 ${r.rating}`:'未出场',copy:performanceSummary(r,position),open:()=>openPerformanceDetail(r,position)},
+    {id:'timeline',icon:'≡',title:'关键事件',value:`${(match.timeline||[]).length}项`,copy:(match.timeline||[]).at(-1)?.text||'本场没有重大事件',open:()=>openTimelineDetail(match)},
+    {id:'review',icon:'◇',title:'教练评价',value:trustDelta(match),copy:match.coachEvaluation||'比赛报告已归档',open:()=>openReviewDetail(match)}
+  ];
+  for(const item of cardItems){
+    cards.append(button('',{className:`v20-match-summary-card v20-match-summary-card--${item.id}`,onClick:item.open},[
+      el('span',{className:'v20-match-summary-icon',text:item.icon}),
+      el('div',{},[el('small',{text:item.title}),el('strong',{text:item.value}),el('p',{text:item.copy})]),
+      el('span',{className:'v20-match-summary-arrow',text:'›'})
+    ]));
+  }
+  const highlight=el('section',{className:'v20-post-match-highlight'},[
+    el('div',{},[
+      el('small',{text:'赛后重点'}),
+      el('strong',{text:postMatchHeadline(match,r)}),
+      el('p',{text:postMatchAdvice(match,r,position)})
+    ]),
+    el('span',{className:`v20-rating-badge ${Number(r.rating||0)>=7?'is-good':''}`,text:r.played?String(r.rating||'—'):'未出场'})
   ]);
-  const actions=el('footer',{className:'page-action-bar'},[
+  const actions=el('footer',{className:'page-action-bar v20-page-action-bar'},[
     button('返回生涯首页',{className:'button button--secondary',onClick:onReturn}),
-    button('模拟下一场',{className:'button button--primary',dataset:{nextMatch:'1'},onClick:onNext})
+    button('模拟下一场',{className:'button button--primary',dataset:{nextMatch:'1'},onClick:onNext}),
+    button('查看完整比赛报告',{className:'button button--ghost',onClick:()=>openFullMatchReport(match,current,opponent,position)})
   ]);
-  wrap.append(summary,timeline,review,actions);return wrap;
+  wrap.append(hero,cards,highlight,actions);return wrap;
 }
+
+function openMatchResultDetail(match,current,opponent){
+  const content=el('div',{className:'v20-match-detail'},[
+    el('div',{className:'result-scoreboard'},[teamBlock(current,'本队'),el('div',{className:'final-score',text:`${match.score[0]} : ${match.score[1]}`}),teamBlock(opponent,'对手')]),
+    el('div',{className:'v20-metric-grid'},[
+      metric('赛事',match.competition),metric('主客场',match.home?'主场':'客场'),metric('天气',match.weather||'正常'),metric('日期',match.date||'比赛日')
+    ])
+  ]);
+  openSheet({title:'比赛结果',subtitle:`${current.cn} 对 ${opponent.cn}`,content});
+}
+
+function openPerformanceDetail(result,position){
+  const metrics=positionMetrics(result,position);
+  const content=el('div',{className:'v20-performance-detail'},[
+    el('div',{className:'v20-rating-panel'},[
+      el('span',{className:`v20-rating-badge ${Number(result.rating||0)>=7?'is-good':''}`,text:result.played?String(result.rating||'—'):'未出场'}),
+      el('div',{},[el('strong',{text:result.played?'本场个人表现':'本场未获得出场机会'}),el('p',{text:result.played?`${POSITION_CONFIG[position]?.name||position}的评价使用位置专属指标。`:'观察比赛获得少量战术经验。'})])
+    ]),
+    el('div',{className:'v20-metric-grid'},metrics.map(item=>metric(item.label,item.value)))
+  ]);
+  openSheet({title:'个人表现',subtitle:POSITION_CONFIG[position]?.name||position,content});
+}
+
+function openTimelineDetail(match){
+  const timeline=el('div',{className:'timeline-list v20-compact-timeline'});
+  const items=match.timeline||[];
+  for(const event of items){
+    timeline.append(el('article',{className:'timeline-item'},[
+      el('span',{className:'timeline-minute',text:`${event.minute}'`}),
+      el('div',{},[el('strong',{text:event.type}),el('small',{text:event.text||event.team||'比赛事件'})])
+    ]));
+  }
+  if(!items.length)timeline.append(el('p',{className:'muted',text:'本场没有需要单独记录的关键事件。'}));
+  openSheet({title:'关键事件',subtitle:`共${items.length}项`,content:timeline,size:'large'});
+}
+
+function openReviewDetail(match){
+  const changes=match.statusChanges||[];
+  const content=el('div',{className:'v20-review-detail'},[
+    el('section',{className:'v20-review-quote'},[el('small',{text:'教练总结'}),el('strong',{text:match.coachEvaluation||'比赛报告已归档'}),el('p',{text:reviewAdvice(match)})]),
+    el('div',{className:'v20-metric-grid'},changes.length?changes.map(change=>metric(change.label,change.delta===null?String(change.after):`${change.delta>=0?'+':''}${change.delta}`)):[metric('状态变化','暂无明显变化')])
+  ]);
+  openSheet({title:'教练评价',subtitle:'评价已经影响教练信任和队内顺位',content});
+}
+
+function openFullMatchReport(match,current,opponent,position){
+  const result=match.playerResult||{},content=el('div',{className:'v20-full-report'},[
+    el('section',{className:'v20-detail-section'},[el('h3',{text:'比赛结果'}),el('div',{className:'result-scoreboard'},[teamBlock(current,'本队'),el('div',{className:'final-score',text:`${match.score[0]} : ${match.score[1]}`}),teamBlock(opponent,'对手')])]),
+    el('section',{className:'v20-detail-section'},[el('h3',{text:'个人表现'}),el('div',{className:'v20-metric-grid'},positionMetrics(result,position).map(item=>metric(item.label,item.value)))]),
+    el('section',{className:'v20-detail-section'},[el('h3',{text:'教练评价'}),el('p',{text:match.coachEvaluation||'本场表现已经计入职业数据。'}),el('p',{className:'muted',text:reviewAdvice(match)})]),
+    el('section',{className:'v20-detail-section'},[el('h3',{text:'关键事件'}),...(match.timeline||[]).slice(0,12).map(event=>el('div',{className:'v20-info-row'},[el('span',{text:`${event.minute}' · ${event.type}`}),el('strong',{text:event.text||event.team||'比赛事件'})]))])
+  ]);
+  openSheet({title:'完整比赛报告',subtitle:`${current.cn} ${match.score[0]}-${match.score[1]} ${opponent.cn}`,content,size:'large'});
+}
+
+function positionMetrics(result,position){
+  const base=[{label:'出场时间',value:`${result.minutes||0}分钟`}];
+  if(position==='GK')return base.concat([{label:'扑救',value:result.saves||0},{label:'扑救率',value:result.shotsFaced?`${Math.round((result.saves||0)/result.shotsFaced*100)}%`:'—'},{label:'出击',value:result.claims||result.keyPasses||0},{label:'零封',value:result.cleanSheet?'是':'否'}]);
+  if(['CB','LB','RB','DM'].includes(position))return base.concat([{label:'抢断',value:result.tackles||0},{label:'拦截',value:result.interceptions||0},{label:'解围',value:result.clearances||0},{label:'零封',value:result.cleanSheet?'是':'否'}]);
+  if(['CM','AM'].includes(position))return base.concat([{label:'助攻',value:result.assists||0},{label:'关键传球',value:result.keyPasses||0},{label:'传球',value:result.passes||result.passSuccess||'—'},{label:'抢断',value:result.tackles||0}]);
+  return base.concat([{label:'进球',value:result.goals||0},{label:'助攻',value:result.assists||0},{label:'射门',value:result.shots||0},{label:'关键传球',value:result.keyPasses||0}]);
+}
+function performanceSummary(result,position){const items=positionMetrics(result,position).slice(1,3);return items.map(item=>`${item.label}${item.value}`).join(' · ')||'比赛数据已归档'}
+function trustDelta(match){const change=(match.statusChanges||[]).find(item=>/信任|教练/.test(item.label));return change?`${change.delta>=0?'+':''}${change.delta}`:'已归档'}
+function postMatchHeadline(match,result){if(!result.played)return'等待下一次上场机会';if(Number(result.rating||0)>=8)return'你是本场最有影响力的球员之一';if((result.goals||0)+(result.assists||0)>0)return'直接参与进球提升了队内评价';if(Number(result.rating||0)>=7)return'稳定发挥巩固了队内位置';return'本场表现需要在下周训练中调整'}
+function postMatchAdvice(match,result,position){if(match.statusChanges?.some(item=>item.label==='受伤'))return'优先进入医疗中心评估伤病和复发风险。';if(!result.played)return'保持训练表现并关注教练信任，争取下一场进入轮换。';if(Number(result.rating||0)<6.5)return `建议针对${POSITION_CONFIG[position]?.name||position}核心能力安排专项训练。`;return'查看教练评价和状态变化，再决定下一周训练方案。'}
+function reviewAdvice(match){const changes=match.statusChanges||[];const positive=changes.filter(item=>Number(item.delta)>0).map(item=>item.label);const negative=changes.filter(item=>Number(item.delta)<0).map(item=>item.label);if(negative.length)return `${negative.slice(0,2).join('、')}有所下降，下周建议控制疲劳并针对性训练。`;if(positive.length)return `${positive.slice(0,2).join('、')}得到提升，保持当前比赛与训练策略。`;return'本场没有造成明显状态变化，可按阶段目标安排下一周。'}
 function metric(label,value){return el('div',{className:'metric'},[el('small',{text:label}),el('strong',{text:String(value??'—')})])}
 function scenarioText(match){if(!match.starts&&!match.substitute)return'你没有进入本场名单。观察对手站位和球队战术，仍会影响教练评价与学习经验。';if(match.substitute)return`教练准备在第 ${match.minute} 分钟左右派你登场，第一项行动会影响比赛评分。`;return'比赛进入关键阶段。不同选择会改变个人数据、体能、教练信任和球队结果。'}
 function matchChoiceMeta(choice,index){const map={dri:{icon:'⚡',color:'#0A84FF',risk:'中风险',reward:'突破'},pas:{icon:'🎯',color:'#248A3D',risk:'低风险',reward:'团队'},sho:{icon:'◎',color:'#D85B1D',risk:'高风险',reward:'高回报'},phy:{icon:'◆',color:'#8B5CF6',risk:'中风险',reward:'对抗'},def:{icon:'🛡️',color:'#248A3D',risk:'中风险',reward:'防守'},pac:{icon:'✦',color:'#5B5BD6',risk:'中风险',reward:'反应'}};return map[choice.focus]||[{icon:'⚡',color:'#0A84FF',risk:'中风险',reward:'机会'},{icon:'🧠',color:'#8B5CF6',risk:'低风险',reward:'判断'}][index%2]}

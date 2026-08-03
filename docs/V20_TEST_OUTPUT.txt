@@ -1,0 +1,95 @@
+V20 TEST EXECUTION
+npm test: PASS
+npm run test:20: PASS — 20 seasons, 800 matches, 304 opponents, 139/139 unique events
+npm run test:modes: PASS — immersive/standard/fast/legend
+npm run test:browser: PASS — 7 mobile viewports, console errors 0
+npm run build: PASS — dist/client, server/index.js, D1 migrations
+
+{
+  "status": "PASS",
+  "version": "20.0.0",
+  "engine": "系统 Chromium + Python Playwright 路由注入生产模块",
+  "flows": [
+    "六步建档与原生日期",
+    "开局事件",
+    "首页首屏",
+    "赛季目标",
+    "数据分析",
+    "医疗方案",
+    "更衣室互动",
+    "训练",
+    "转会与球队详情",
+    "更多与消息中心",
+    "世界地图四级探索",
+    "比赛页",
+    "刷新后存档保持"
+  ],
+  "viewports": [
+    {
+      "width": 320,
+      "height": 568,
+      "rootOverflow": 0,
+      "mainOverflow": 0,
+      "smallButtons": 0,
+      "badText": [],
+      "glassNav": true
+    },
+    {
+      "width": 360,
+      "height": 800,
+      "rootOverflow": 0,
+      "mainOverflow": 0,
+      "smallButtons": 0,
+      "badText": [],
+      "glassNav": true
+    },
+    {
+      "width": 375,
+      "height": 667,
+      "rootOverflow": 0,
+      "mainOverflow": 0,
+      "smallButtons": 0,
+      "badText": [],
+      "glassNav": true
+    },
+    {
+      "width": 390,
+      "height": 844,
+      "rootOverflow": 0,
+      "mainOverflow": 0,
+      "smallButtons": 0,
+      "badText": [],
+      "glassNav": true
+    },
+    {
+      "width": 393,
+      "height": 852,
+      "rootOverflow": 0,
+      "mainOverflow": 0,
+      "smallButtons": 0,
+      "badText": [],
+      "glassNav": true
+    },
+    {
+      "width": 412,
+      "height": 915,
+      "rootOverflow": 0,
+      "mainOverflow": 0,
+      "smallButtons": 0,
+      "badText": [],
+      "glassNav": true
+    },
+    {
+      "width": 430,
+      "height": 932,
+      "rootOverflow": 0,
+      "mainOverflow": 0,
+      "smallButtons": 0,
+      "badText": [],
+      "glassNav": true
+    }
+  ],
+  "screenshots": "docs/screenshots-v20",
+  "physicalDevice": false,
+  "consoleErrors": 0
+}

@@ -112,7 +112,7 @@ globalThis.localStorage=new MemoryStorage();
   const text=(await Promise.all(files.map(f=>fs.readFile(new URL(f,import.meta.url),'utf8')))).join('\n');
   for(const banned of ['Roguelike','B2B中场','U18青年队','U19青年队','Season Complete','Career Complete','Transfer Offer','Continue','Loading'])assert.equal(text.includes(banned),false,`仍存在英文或旧标签：${banned}`);
   const career=await fs.readFile(new URL('../src/pages/careerPage.js',import.meta.url),'utf8'),transfer=await fs.readFile(new URL('../src/pages/transferPage.js',import.meta.url),'utf8'),training=await fs.readFile(new URL('../src/pages/trainingPage.js',import.meta.url),'utf8');
-  ok('设施按钮连接真实设施系统',()=>assert.ok(career.includes('performFacilityAction')&&career.includes("ctx.navigate('training')")&&career.includes("navigate('match')")));
+  ok('设施按钮连接真实设施系统',()=>assert.ok(career.includes('chooseMedicalPlan')&&career.includes('resolveLockerAction')&&career.includes('buildAnalysisSeries')&&career.includes("ctx.navigate('training')")));
   ok('转会按钮连接报价状态机',()=>assert.ok(transfer.includes('respondOffer')&&transfer.includes('declareStay')&&transfer.includes('submitInterest')));
   ok('训练按钮连接训练状态',()=>assert.ok(training.includes('selectTrainingPlan')&&training.includes('store.update')));
 }

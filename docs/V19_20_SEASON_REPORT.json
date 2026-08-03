@@ -1,6 +1,6 @@
 {
   "status": "PASS",
-  "version": "19.1.0",
+  "version": "20.0.0",
   "targetSeasons": 20,
   "completedSeasons": 20,
   "finalAge": 36,
@@ -57,7 +57,7 @@
   "majorCareerNodes": 11,
   "achievements": 116,
   "finalEnding": "转会流浪者",
-  "simulationMs": 6201.36,
+  "simulationMs": 6131.42,
   "iterations": 1043,
   "consoleErrors": 0,
   "errors": []

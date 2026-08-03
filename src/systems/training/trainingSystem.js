@@ -53,3 +53,14 @@ export function progressRecovery(save,club){
   if(injury.remainingMatches<=0){save.status.injury=null;save.status.fitness=clamp(save.status.fitness+8,0,100);save.career.history.push({type:'recovery',year:save.career.year,title:'伤愈复出',text:'医疗团队确认你已经可以恢复完整比赛负荷。'});result.recovered=true}
   return result;
 }
+
+/** 根据真实体能、伤病、疲劳、位置和阶段目标返回首页/训练页统一建议。 */
+export function recommendTrainingPlan(save){
+  if(save.status.injury)return{planId:'recovery',title:'优先完成康复训练',reason:'当前伤病状态不适合高强度训练。',risk:'低'};
+  if(save.status.fatigue>=68||save.status.fitness<=52)return{planId:'recovery',title:'本周建议恢复训练',reason:'疲劳或体能已经接近风险区间。',risk:'低'};
+  const active=save.career.objectives?.active||[],position=save.player.position;
+  if(active.some(id=>/goal|score|attack/.test(id))||['ST','LW','RW','SS'].includes(position))return{planId:'shooting',title:'教练建议重点射门',reason:'当前位置和阶段目标需要提高终结效率。',risk:'中'};
+  if(['CB','LB','RB','CDM','GK'].includes(position))return{planId:'defense',title:'教练建议防守专项',reason:'球队希望你提高防守稳定性和位置判断。',risk:'中'};
+  if(save.career.squadCompetition?.rank>=3)return{planId:'tactics',title:'教练建议战术课堂',reason:'提高战术适配和训练评价有助于争取上场。',risk:'低'};
+  return{planId:'personal',title:'可以安排个人特训',reason:'当前体能允许争取更高成长收益。',risk:'高'};
+}

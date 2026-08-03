@@ -1,7 +1,7 @@
 import {el,button} from '../utils/dom.js';
 import {lockPageScroll,unlockPageScroll} from '../utils/scrollLock.js';
 import {overlayManager} from '../services/overlay/overlayManager.js';
-let backdrop=null,current=null,previousFocus=null,viewportHandler=null,keyHandler=null,closing=false,removeTimer=0;
+let backdrop=null,current=null,previousFocus=null,viewportHandler=null,keyHandler=null,closing=false;
 
 function cleanupListeners(){
   if(viewportHandler&&window.visualViewport){
@@ -42,17 +42,19 @@ export function closeSheet(){
   document.body.classList.remove('has-open-sheet');
   unlockPageScroll();
   let removed=false;
+  let fallbackTimer=0;
   const remove=()=>{
     if(removed)return;
     removed=true;
-    overlayManager.release(oldBackdrop,'sheet-close');closing=false;
+    clearTimeout(fallbackTimer);
+    overlayManager.release(oldBackdrop,'sheet-close');
+    closing=false;
     if(focus?.isConnected)focus.focus({preventScroll:true});
   };
   oldCurrent?.addEventListener('transitionend',remove,{once:true});
-  clearTimeout(removeTimer);removeTimer=setTimeout(remove,280);
+  fallbackTimer=setTimeout(remove,280);
 }
 export function destroySheet({restoreFocus=false}={}){
-  clearTimeout(removeTimer);removeTimer=0;
   const old=backdrop,focus=previousFocus;backdrop=null;current=null;previousFocus=null;closing=false;
   cleanupListeners();
   if(typeof document==='undefined')return;

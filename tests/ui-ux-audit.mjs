@@ -112,7 +112,7 @@ check('球队列表手机单列并使用本地队徽占位',()=>{
   assert.match(club,/createClubCrest/);
 });
 check('转会报价使用移动端结构并保留真实操作',()=>{
-  for(const token of ['transfer-offer-card','offer-header','offer-metrics','offer-context','offer-actions'])assert.ok(transfer.includes(token),token);
+  for(const token of ['transfer-offer-card','v20-offer-club','offer-metrics','offer-context','offer-actions'])assert.ok(transfer.includes(token),token);
   for(const action of ['accept','reject','defer','negotiate'])assert.ok(transfer.includes(action),action);
   assert.match(css,/\.offer-metrics\{[\s\S]*repeat\(2,minmax\(0,1fr\)\)/);
 });
@@ -149,8 +149,8 @@ check('V19页面引导、待办徽标与滚动提示连接真实游戏状态',()
   assert.match(v19Guidance,/backdrop-filter:blur\(28px\) saturate\(180%\)/);
   assert.match(v19Guidance,/position:fixed!important/);
 });
-check('Service Worker升级到V19并采用HTML网络优先',()=>{
-  assert.match(sw,/v19\.1\.0/);
+check('Service Worker升级到V20并采用HTML网络优先',()=>{
+  assert.match(sw,/v20\.0\.0/);
   assert.match(sw,/skipWaiting/);
   assert.match(sw,/clients\.claim/);
   assert.match(sw,/event\.request\.mode===['"]navigate['"]/);
@@ -163,4 +163,4 @@ check('用户界面无指定内部英文和危险直出标记',()=>{
   for(const word of ['[object Object]','Loading','Continue','Transfer Offer','Season Complete','Career Complete'])assert.equal(content.includes(word),false,word);
 });
 
-console.log(JSON.stringify({status:'PASS',version:'19.1.0',passed:checks.length,cases:checks},null,2));
+console.log(JSON.stringify({status:'PASS',version:'20.0.0',passed:checks.length,cases:checks},null,2));

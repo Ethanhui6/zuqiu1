@@ -48,6 +48,6 @@ const offers=generateOffers(save,repo);assert.ok(Array.isArray(offers));if(offer
 
 save.career.careerStats.apps=600;const unlocked1=evaluateAchievements(save,achievements);const count=save.achievements.unlocked.length;evaluateAchievements(save,achievements);assert.equal(save.achievements.unlocked.length,count,'成就不得重复发放');assert.ok(unlocked1.length>=1);
 
-const migrated=migrateLegacy({name:'旧球员',age:25,pos:'CAM',ovr:78,potential:86,attrs:{pac:75,sho:72,pas:84,dri:82,def:45,phy:64},clubId:'CHN1-SHA',fans:10000,stats:{apps:120,goals:32,assists:44}});assert.equal(migrated.schemaVersion,22);assert.equal(migrated.player.name,'旧球员');assert.equal(migrated.career.careerStats.apps,120);
+const migrated=migrateLegacy({name:'旧球员',age:25,pos:'CAM',ovr:78,potential:86,attrs:{pac:75,sho:72,pas:84,dri:82,def:45,phy:64},clubId:'CHN1-SHA',fans:10000,stats:{apps:120,goals:32,assists:44}});assert.equal(migrated.schemaVersion,23);assert.equal(migrated.player.name,'旧球员');assert.equal(migrated.career.careerStats.apps,120);
 
 console.log(JSON.stringify({status:'PASS',clubs:repo.clubs.length,templates:templates.length,achievements:achievements.length,event:ev1.id,eventChoices:ev1.choices.length,matchScore:mr1.score,offers:offers.length,newAchievements:unlocked1.length},null,2));
