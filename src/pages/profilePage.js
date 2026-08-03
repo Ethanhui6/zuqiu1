@@ -6,11 +6,8 @@ import {formatNumber,formatMoney} from '../utils/format.js';
 import {openSheet} from '../components/sheet.js';
 import {showToast} from '../components/toast.js';
 import {saveManager} from '../services/storage/saveManager.js';
-import {getTheme,applyTheme} from '../app/theme.js';
 import {POSITION_CONFIG,PACE_MODES,AUTO_PAUSE_RULES} from '../app/config.js';
 import {TRAINING_STRATEGIES,MATCH_STRATEGIES,CAREER_STRATEGIES,setPaceMode,setAutoPause,setStrategies} from '../systems/pace/paceSystem.js';
-import {eventDiagnostics} from '../systems/event/eventEngine.js';
-import {scheduleStats} from '../systems/schedule/scheduleSystem.js';
 
 export function renderProfilePage(container,ctx){
   const {store,repo,onReturnToSlots}=ctx,save=store.state,club=repo.getClub(save.career.clubId);clear(container);const page=el('section',{className:'page'});page.append(el('div',{className:'profile-grid'},[createPlayerCard(save,club,{compact:true}),careerSummary(save,repo)]),relations(save),achievements(save,repo),settings(save,store,onReturnToSlots,repo));container.append(page);return()=>{}
@@ -21,8 +18,7 @@ function achievements(save,repo){let limit=36,filter='全部';const section=el('
  renderList();section.append(head,controls,list,more);return section}
 function settings(save,store,onReturnToSlots,repo){
   const section=el('section',{className:'section-block'},[el('div',{className:'section-heading'},[el('div',{},[el('span',{className:'eyebrow',text:'游戏与存档'}),el('h2',{text:'设置'})])])]);
-  const card=el('section',{className:'glass-card settings-card'}),theme=selectControl([['system','跟随系统'],['light','浅色'],['dark','深色']],getTheme());
-  theme.onchange=()=>{applyTheme(theme.value);save.settings.theme=theme.value;store.update(()=>{},'theme');showToast('外观设置已保存')};
+  const card=el('section',{className:'glass-card settings-card'});
   const pace=selectControl(Object.values(PACE_MODES).map(x=>[x.id,x.name]),save.settings.pace?.mode||'standard');
   pace.onchange=()=>{store.update(s=>setPaceMode(s,pace.value),'pace-mode');showToast(`职业节奏已切换为：${PACE_MODES[pace.value].name}`,{type:'success'})};
   const training=selectControl(Object.values(TRAINING_STRATEGIES).map(x=>[x.id,x.name]),save.career.strategies.training);
@@ -32,13 +28,12 @@ function settings(save,store,onReturnToSlots,repo){
   const career=selectControl(Object.values(CAREER_STRATEGIES).map(x=>[x.id,x.name]),save.career.strategies.career);
   career.onchange=()=>store.update(s=>setStrategies(s,{career:career.value}),'strategy-career');
   card.append(
-    settingRow('外观模式','浅色、深色或跟随系统',theme),
+    el('div',{className:'setting-row setting-row--static'},[el('div',{},[el('strong',{text:'界面外观'}),el('small',{text:'V18.5统一使用iOS浅色界面，避免页面主题割裂。'})]),el('span',{className:'tag tag--accent',text:'浅色'})]),
     settingRow('职业节奏','决定普通比赛和事件的自动模拟程度',pace),
     settingRow('自动训练','快速推进时使用的训练方向',training),
     settingRow('自动比赛','普通比赛自动决策偏好',match),
     settingRow('职业策略','自动事件和转会倾向',career),
     autoPausePanel(save,store),
-    diagnosticsPanel(save),
     fileActions(save,store,onReturnToSlots)
   );section.append(card);return section;
 }
@@ -49,16 +44,6 @@ function autoPausePanel(save,store){
     input.onchange=()=>store.update(s=>setAutoPause(s,key,input.checked),'auto-pause');
     grid.append(el('label',{className:'toggle-row'},[el('span',{text:label}),input]));
   });panel.append(grid);return panel;
-}
-function diagnosticsPanel(save){
-  const events=eventDiagnostics(save),schedule=scheduleStats(save);
-  return el('details',{className:'settings-details developer-diagnostics'},[
-    el('summary',{text:'事件与赛程测试数据'}),
-    el('div',{className:'diagnostic-grid'},[
-      metric('当前可抽取',events.available||0),metric('被过滤',events.filtered||0),metric('最近重复率',`${events.recentRepeatRate||0}%`),metric('剧情链进行中',events.chainsOpen.length),metric('赛程场数',schedule.total),metric('不同对手',schedule.differentOpponents)
-    ]),
-    el('p',{className:'muted',text:`事件类型：${Object.entries(events.typeCounts||{}).map(([k,v])=>`${k} ${v}`).join(' · ')||'尚无记录'}`})
-  ]);
 }
 function fileActions(save,store,onReturnToSlots){
   const input=el('input',{attrs:{type:'file',accept:'application/json'},className:'visually-hidden'});

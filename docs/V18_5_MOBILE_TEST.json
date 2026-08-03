@@ -1,0 +1,144 @@
+{
+  "version": "18.5.0",
+  "engine": "Chromium via Playwright set_content",
+  "viewports": [
+    {
+      "width": 320,
+      "height": 568,
+      "overflowPx": 0,
+      "buttons": 15,
+      "touchTargets": true,
+      "verticalText": false,
+      "bottomNavVisible": true,
+      "speedDockVisible": true
+    },
+    {
+      "width": 360,
+      "height": 800,
+      "overflowPx": 0,
+      "buttons": 15,
+      "touchTargets": true,
+      "verticalText": false,
+      "bottomNavVisible": true,
+      "speedDockVisible": true
+    },
+    {
+      "width": 375,
+      "height": 667,
+      "overflowPx": 0,
+      "buttons": 15,
+      "touchTargets": true,
+      "verticalText": false,
+      "bottomNavVisible": true,
+      "speedDockVisible": true
+    },
+    {
+      "width": 390,
+      "height": 844,
+      "overflowPx": 0,
+      "buttons": 15,
+      "touchTargets": true,
+      "verticalText": false,
+      "bottomNavVisible": true,
+      "speedDockVisible": true
+    },
+    {
+      "width": 393,
+      "height": 852,
+      "overflowPx": 0,
+      "buttons": 15,
+      "touchTargets": true,
+      "verticalText": false,
+      "bottomNavVisible": true,
+      "speedDockVisible": true
+    },
+    {
+      "width": 412,
+      "height": 915,
+      "overflowPx": 0,
+      "buttons": 15,
+      "touchTargets": true,
+      "verticalText": false,
+      "bottomNavVisible": true,
+      "speedDockVisible": true
+    },
+    {
+      "width": 430,
+      "height": 932,
+      "overflowPx": 0,
+      "buttons": 15,
+      "touchTargets": true,
+      "verticalText": false,
+      "bottomNavVisible": true,
+      "speedDockVisible": true
+    },
+    {
+      "width": 768,
+      "height": 1024,
+      "overflowPx": 0,
+      "buttons": 15,
+      "touchTargets": true,
+      "verticalText": false,
+      "bottomNavVisible": true,
+      "speedDockVisible": true
+    },
+    {
+      "width": 1024,
+      "height": 768,
+      "overflowPx": 0,
+      "buttons": 15,
+      "touchTargets": true,
+      "verticalText": false,
+      "bottomNavVisible": true,
+      "speedDockVisible": true
+    },
+    {
+      "width": 1440,
+      "height": 900,
+      "overflowPx": 0,
+      "buttons": 15,
+      "touchTargets": true,
+      "verticalText": false,
+      "bottomNavVisible": true,
+      "speedDockVisible": true
+    }
+  ],
+  "flows": {
+    "date": {
+      "nativeInput": true,
+      "pureDateKept": true,
+      "nextClickableAfterChange": true,
+      "overlayResidue": false
+    },
+    "transfer": {
+      "mobileCards": true,
+      "actionsClickable": true,
+      "noVerticalText": true
+    },
+    "match": {
+      "bothTeamsVisible": true,
+      "modeCardsSingleColumn": true,
+      "choicesClickable": true
+    },
+    "sheet": {
+      "scrollable": true,
+      "removedAfterClose": true,
+      "backgroundClickableAfterClose": true
+    }
+  },
+  "screenshots": [
+    "docs/screenshots-v18.5/club-world-320x568.png",
+    "docs/screenshots-v18.5/club-world-390x844.png",
+    "docs/screenshots-v18.5/club-world-430x932.png",
+    "docs/screenshots-v18.5/club-world-768x1024.png",
+    "docs/screenshots-v18.5/onboarding-date-390x844.png",
+    "docs/screenshots-v18.5/onboarding-position-320x568.png",
+    "docs/screenshots-v18.5/transfer-390x844.png",
+    "docs/screenshots-v18.5/match-390x844.png",
+    "docs/screenshots-v18.5/sheet-320x568-closed.png"
+  ],
+  "limitations": [
+    "本环境策略禁止Chromium访问本地HTTP和file URL，因此采用生产CSS与真实页面类结构在Playwright set_content中执行视口、点击和滚动审计；未冒充实体iPhone Safari真机测试。"
+  ],
+  "consoleErrors": []
+}

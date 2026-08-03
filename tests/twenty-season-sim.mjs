@@ -2,7 +2,7 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs/promises';
 import {performance} from 'node:perf_hooks';
 import {createTalentCandidates,generateAcademyOffers,createNewSave} from '../src/systems/career/careerSystem.js';
-import {AUTO_PAUSE_RULES} from '../src/app/config.js';
+import {APP_VERSION,AUTO_PAUSE_RULES} from '../src/app/config.js';
 import {setPaceMode,setSpeed,setAutoPause,setStrategies} from '../src/systems/pace/paceSystem.js';
 import {ensureTimeState,advanceCareer,acknowledgeEventDecision,acknowledgeMatchDecision} from '../src/systems/career/timeAdvanceSystem.js';
 import {resolveEventChoice} from '../src/systems/event/eventEngine.js';
@@ -17,7 +17,7 @@ const achievements=await read('../data/achievements.json');
 const storyChains=await read('../data/events/story-chains.json');
 const repo={clubs,templates,achievements,storyChains,getClub(id){return clubs.find(c=>c.id===id)||clubs[0]},async loadEventCategory(cat){return read(`../data/events/${cat}.json`)}};
 function createSimulationSave(){
-  const seed='v18.3-twenty-season-deterministic';
+  const seed='v18.5-twenty-season-deterministic';
   const talents=createTalentCandidates({seed,position:'CM',style:'全能中场',templates,count:3}),talent=talents.find(x=>x.rarityKey==='legend')||talents[0];
   const offers=generateAcademyOffers({seed,nation:'中国',position:'CM',ovr:72,talent,clubs}),academyOffer=offers[0],club=repo.getClub(academyOffer.clubId);
   const save=createNewSave({seed,name:'二十赛季测试球员',displayName:'测试球员',nation:'中国',age:16,birthDate:'2010-01-01',height:181,weight:73,foot:'双足',number:8,position:'CM',style:'全能中场',talent,academyOffer,sourceTemplate:templates.find(x=>x.id===talent.sourceTemplateId),paceMode:'legend'},club,'twenty');
@@ -58,7 +58,7 @@ for(const match of matchHistory)competitionCounts[match.competition]=(competitio
 const typeCounts={...(save.career.eventMemory?.typeCounts||{})},totalTypeCount=Object.values(typeCounts).reduce((a,b)=>a+b,0)||1,eventTypeShare=Object.fromEntries(Object.entries(typeCounts).map(([k,v])=>[k,Number((v/totalTypeCount*100).toFixed(1))]));
 const ending=save.career.retirement||calculateEnding(save,repo);
 const report={
-  status:errors.length?'FAIL':'PASS',version:'18.3.0',targetSeasons:20,completedSeasons:save.career.season-1,finalAge:save.player.age,finalOvr:save.player.ovr,
+  status:errors.length?'FAIL':'PASS',version:APP_VERSION,targetSeasons:20,completedSeasons:save.career.season-1,finalAge:save.player.age,finalOvr:save.player.ovr,
   totalMatches:matchHistory.length,differentOpponents:opponents.size,competitionCounts,totalEvents:eventIds.length,uniqueEvents:uniqueEventIds.size,repeatedEvents:eventIds.length-uniqueEventIds.size,repeatedEventIds,eventTypeShare,
   transfers:save.career.transferHistory.length,clubsRepresented:new Set(save.career.clubHistory).size,majorCareerNodes:(save.career.majorNodes||[]).length,achievements:save.achievements.unlocked.length,finalEnding:ending.name,
   simulationMs:elapsedMs,iterations:safety,consoleErrors:errors.length,errors
@@ -72,8 +72,8 @@ assert.ok(report.uniqueEvents/report.totalEvents>=.82,`事件唯一率过低：$
 assert.ok(Object.keys(report.eventTypeShare).length>=8,'事件类型分布不足');
 assert.ok(report.majorCareerNodes>=2,'重大职业节点不足');
 
-const reportJson=new URL('../docs/V18_3_20_SEASON_REPORT.json',import.meta.url),reportMd=new URL('../docs/V18_3_20_SEASON_REPORT.md',import.meta.url);
+const reportJson=new URL('../docs/V18_5_20_SEASON_REPORT.json',import.meta.url),reportMd=new URL('../docs/V18_5_20_SEASON_REPORT.md',import.meta.url);
 await fs.writeFile(reportJson,JSON.stringify(report,null,2)+'\n');
 const typeLines=Object.entries(report.eventTypeShare).sort((a,b)=>b[1]-a[1]).map(([k,v])=>`- ${k}: ${v}%`).join('\n');
-await fs.writeFile(reportMd,`# V18.3 二十赛季自动模拟报告\n\n- 状态：${report.status}\n- 完成赛季：${report.completedSeasons}\n- 最终年龄：${report.finalAge}\n- 最终综合能力：${report.finalOvr}\n- 总比赛数：${report.totalMatches}\n- 不同对手数量：${report.differentOpponents}\n- 总事件数：${report.totalEvents}\n- 唯一事件数：${report.uniqueEvents}\n- 重复事件数：${report.repeatedEvents}\n- 转会次数：${report.transfers}\n- 效力俱乐部数量：${report.clubsRepresented}\n- 重大职业节点：${report.majorCareerNodes}\n- 成就数量：${report.achievements}\n- 最终结局：${report.finalEnding}\n- 模拟耗时：${report.simulationMs} ms\n- 控制台/模拟错误：${report.consoleErrors}\n\n## 事件类型占比\n\n${typeLines}\n\n> 本报告由 Node.js 确定性自动模拟生成，用于验证长期状态、赛程、事件、存档随机序列和职业节点；不等同于实体手机浏览器性能测试。\n`);
+await fs.writeFile(reportMd,`# V18.5 二十赛季自动模拟报告\n\n- 状态：${report.status}\n- 完成赛季：${report.completedSeasons}\n- 最终年龄：${report.finalAge}\n- 最终综合能力：${report.finalOvr}\n- 总比赛数：${report.totalMatches}\n- 不同对手数量：${report.differentOpponents}\n- 总事件数：${report.totalEvents}\n- 唯一事件数：${report.uniqueEvents}\n- 重复事件数：${report.repeatedEvents}\n- 转会次数：${report.transfers}\n- 效力俱乐部数量：${report.clubsRepresented}\n- 重大职业节点：${report.majorCareerNodes}\n- 成就数量：${report.achievements}\n- 最终结局：${report.finalEnding}\n- 模拟耗时：${report.simulationMs} ms\n- 控制台/模拟错误：${report.consoleErrors}\n\n## 事件类型占比\n\n${typeLines}\n\n> 本报告由 Node.js 确定性自动模拟生成，用于验证长期状态、赛程、事件、存档随机序列和职业节点；不等同于实体手机浏览器性能测试。\n`);
 console.log(JSON.stringify(report,null,2));

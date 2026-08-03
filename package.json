@@ -1,7 +1,7 @@
 {
   "name": "green-pitch-career-v18",
   "private": true,
-  "version": "18.3.0",
+  "version": "18.5.0",
   "type": "module",
   "scripts": {
     "test": "node ./tests/run-tests.mjs && node ./tests/career-sim.mjs && node ./tests/full-career-audit.mjs && node ./tests/acceptance-tests.mjs && node ./tests/runtime-audit.mjs && node ./tests/pace-playability.mjs && node ./tests/static-check.mjs && node ./tests/ui-ux-audit.mjs",

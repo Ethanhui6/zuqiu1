@@ -1,4 +1,4 @@
-export const APP_VERSION = '18.3.0';
+export const APP_VERSION = '18.5.0';
 export const SAVE_SCHEMA = 18;
 export const SAVE_SLOTS = 3;
 
@@ -82,11 +82,10 @@ export const NAV_ITEMS = [
   {id:'match',label:'比赛',icon:'⚽'},
   {id:'training',label:'训练',icon:'⌁'},
   {id:'transfer',label:'转会',icon:'↗'},
-  {id:'world',label:'世界',icon:'◎'},
-  {id:'profile',label:'我的',icon:'●'}
+  {id:'more',label:'更多',icon:'•••'}
 ];
 
-export const THEME_MODES = ['system','light','dark'];
+export const THEME_MODES = ['light'];
 
 export const CAREER_SETTINGS = {
   startAge:[16,18],

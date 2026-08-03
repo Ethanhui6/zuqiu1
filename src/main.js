@@ -2,11 +2,14 @@ import {APP_VERSION} from './app/config.js';
 import {dataRepository} from './services/dataRepository.js';
 import {saveManager} from './services/storage/saveManager.js';
 import {gameStore} from './app/store.js';
-import {applyTheme,cycleTheme} from './app/theme.js';
+import {applyTheme} from './app/theme.js';
 import {Router} from './app/router.js';
 import {createAppShell,updateShell} from './components/appShell.js';
 import {showToast} from './components/toast.js';
 import {setSpeed} from './systems/pace/paceSystem.js';
+import {installViewportObserver} from './utils/viewport.js';
+import {installUiDiagnostics} from './utils/uiDiagnostics.js';
+import {forceUnlockPageScroll} from './utils/scrollLock.js';
 import {renderSaveSelect} from './pages/saveSelectPage.js';
 import {renderOnboarding} from './pages/onboardingPage.js';
 import {renderCareerPage} from './pages/careerPage.js';
@@ -15,21 +18,118 @@ import {renderTrainingPage} from './pages/trainingPage.js';
 import {renderTransferPage} from './pages/transferPage.js';
 import {renderWorldPage} from './pages/worldPage.js';
 import {renderProfilePage} from './pages/profilePage.js';
+import {renderMorePage} from './pages/morePage.js';
 
-const root=document.querySelector('#app');const boot=document.querySelector('#boot');let shell,router,ctx,unsubscribeStore=null,updateBanner=null,reloadingForUpdate=false;
+const root=document.querySelector('#app');
+const boot=document.querySelector('#boot');
+let shell,router,ctx,unsubscribeStore=null,updateBanner=null,reloadingForUpdate=false;
+
 applyTheme();
+installViewportObserver();
+installUiDiagnostics();
 
 async function start(){
   try{
-    await dataRepository.init();const migration=saveManager.migrateLegacyIfNeeded();if(migration)showToast(migration.note||'旧存档已迁移',{type:'success',duration:4200});
-    boot?.remove();showSaveSelector();registerServiceWorker();
-  }catch(error){console.error(error);boot.innerHTML=`<strong>载入失败</strong><span>${error.message}</span><button onclick="location.reload()">重新载入</button>`}
+    await dataRepository.init();
+    const migration=saveManager.migrateLegacyIfNeeded();
+    if(migration)showToast(migration.note||'旧存档已迁移',{type:'success',duration:4200});
+    boot?.remove();
+    showSaveSelector();
+    registerServiceWorker();
+  }catch(error){
+    console.error(error);
+    if(boot){
+      boot.replaceChildren();
+      const title=document.createElement('strong');title.textContent='载入失败';
+      const copy=document.createElement('span');copy.textContent=error?.message||'游戏资源无法读取';
+      const retry=document.createElement('button');retry.type='button';retry.textContent='重新载入';retry.addEventListener('click',()=>location.reload());
+      boot.append(title,copy,retry);
+    }
+  }
 }
-function showSaveSelector(){unsubscribeStore?.();unsubscribeStore=null;shell=null;router=null;document.body.classList.remove('in-game');root.replaceChildren();renderSaveSelect(root,{onOpen:openSlot,onNew:()=>renderOnboarding(root,{repo:dataRepository,onComplete:save=>{const id=saveManager.createSlot(save);openSlot(id)},onCancel:showSaveSelector})})}
-function openSlot(id){const save=saveManager.load(id);if(!save){showToast('存档无法读取，且没有可恢复备份',{type:'error'});return}gameStore.load(save,id);mountGame();if(saveManager.lastNotice)showToast(saveManager.lastNotice,{type:'success',duration:4600})}
-function mountGame(){document.body.classList.add('in-game');root.className='';root.replaceChildren();shell=createAppShell({onNavigate:navigate,onBack:()=>navigate('career'),onHome:()=>navigate('career'),onTheme:()=>{const mode=cycleTheme();gameStore.state.settings.theme=mode;gameStore.saveNow();showToast(`外观已切换：${{system:'跟随系统',light:'浅色',dark:'深色'}[mode]}`)},onSave:()=>{gameStore.saveNow();showToast('存档已保存',{type:'success'})},onSpeed:speed=>{gameStore.update(save=>setSpeed(save,speed),'speed-changed');showToast(speed==='paused'?'时间推进已暂停':`推进速度已切换为 ${speed==='normal'?'1倍':speed==='fast'?'2倍':speed==='faster'?'4倍':'快速'}`)}});root.append(shell.root);router=new Router(shell.main,{career:renderCareerPage,match:renderMatchPage,training:renderTrainingPage,transfer:renderTransferPage,world:renderWorldPage,profile:renderProfilePage});ctx={store:gameStore,repo:dataRepository,navigate,refresh:()=>{router.refresh(ctx);update()},onReturnToSlots:showSaveSelector};unsubscribeStore=gameStore.subscribe(()=>update());navigate('career')}
+
+function showSaveSelector(){
+  unsubscribeStore?.();unsubscribeStore=null;
+  forceUnlockPageScroll();
+  shell=null;router=null;
+  document.body.classList.remove('in-game');
+  root.replaceChildren();
+  renderSaveSelect(root,{onOpen:openSlot,onNew:()=>renderOnboarding(root,{repo:dataRepository,onComplete:save=>{const id=saveManager.createSlot(save);openSlot(id)},onCancel:showSaveSelector})});
+}
+
+function openSlot(id){
+  const save=saveManager.load(id);
+  if(!save){showToast('存档无法读取，且没有可恢复备份',{type:'error'});return}
+  gameStore.load(save,id);mountGame();
+  if(saveManager.lastNotice)showToast(saveManager.lastNotice,{type:'success',duration:4600});
+}
+
+function mountGame(){
+  document.body.classList.add('in-game');
+  root.className='';root.replaceChildren();
+  shell=createAppShell({
+    onNavigate:navigate,
+    onBack:()=>navigate('career'),
+    onHome:()=>navigate('career'),
+    onSave:()=>{gameStore.saveNow();showToast('存档已保存',{type:'success'})},
+    onSpeed:speed=>{
+      gameStore.update(save=>setSpeed(save,speed),'speed-changed');
+      showToast(speed==='paused'?'时间推进已暂停':`推进速度已切换为 ${speed==='normal'?'1倍':speed==='fast'?'2倍':speed==='faster'?'4倍':'快速'}`);
+    }
+  });
+  root.append(shell.root);
+  router=new Router(shell.main,{
+    career:renderCareerPage,
+    match:renderMatchPage,
+    training:renderTrainingPage,
+    transfer:renderTransferPage,
+    more:renderMorePage,
+    world:renderWorldPage,
+    profile:renderProfilePage
+  });
+  ctx={store:gameStore,repo:dataRepository,navigate,refresh:()=>{router.refresh(ctx);update()},onReturnToSlots:showSaveSelector};
+  unsubscribeStore=gameStore.subscribe(()=>update());
+  navigate('career');
+}
 function navigate(route){router.go(route,ctx);update()}
-function update(){if(!shell||!gameStore.state)return;const club=dataRepository.getClub(gameStore.state.career.clubId);updateShell(shell,gameStore.state,club,router.route);document.title=`${gameStore.state.player.name} · 绿茵浮沉 V${APP_VERSION}`}
-async function registerServiceWorker(){if(!('serviceWorker'in navigator))return;try{const reg=await navigator.serviceWorker.register(`./sw.js?v=${APP_VERSION}`);if(reg.waiting)promptUpdate(reg);reg.addEventListener('updatefound',()=>{const worker=reg.installing;worker?.addEventListener('statechange',()=>{if(worker.state==='installed'&&navigator.serviceWorker.controller)promptUpdate(reg)})});navigator.serviceWorker.addEventListener('controllerchange',()=>{if(reloadingForUpdate)return;reloadingForUpdate=true;location.reload()})}catch(error){console.warn('Service Worker 注册失败',error)}}
-function promptUpdate(reg){if(updateBanner?.isConnected)return;const bar=document.createElement('div');updateBanner=bar;bar.className='update-banner';const message=document.createElement('span');message.textContent='新版本已经准备好';const update=document.createElement('button');update.type='button';update.textContent='立即更新';const later=document.createElement('button');later.type='button';later.textContent='稍后';bar.append(message,update,later);document.body.append(bar);update.onclick=()=>reg.waiting?.postMessage({type:'SKIP_WAITING'});later.onclick=()=>{bar.remove();updateBanner=null}}
+function update(){
+  if(!shell||!gameStore.state)return;
+  const club=dataRepository.getClub(gameStore.state.career.clubId);
+  updateShell(shell,gameStore.state,club,router.route);
+  document.title=`${gameStore.state.player.name} · 绿茵浮沉 V${APP_VERSION}`;
+}
+
+async function registerServiceWorker(){
+  if(!('serviceWorker'in navigator))return;
+  const development=['localhost','127.0.0.1'].includes(location.hostname)||new URLSearchParams(location.search).has('no-sw');
+  if(development){
+    const registrations=await navigator.serviceWorker.getRegistrations();
+    await Promise.all(registrations.map(item=>item.unregister()));
+    return;
+  }
+  try{
+    const reg=await navigator.serviceWorker.register(`./sw.js?v=${APP_VERSION}`);
+    if(reg.waiting)promptUpdate(reg);
+    reg.addEventListener('updatefound',()=>{
+      const worker=reg.installing;
+      worker?.addEventListener('statechange',()=>{
+        if(worker.state==='installed'&&navigator.serviceWorker.controller)promptUpdate(reg);
+      });
+    });
+    navigator.serviceWorker.addEventListener('controllerchange',()=>{
+      if(reloadingForUpdate)return;
+      reloadingForUpdate=true;location.reload();
+    });
+  }catch(error){console.warn('离线缓存注册失败',error)}
+}
+function promptUpdate(reg){
+  if(updateBanner?.isConnected)return;
+  const bar=document.createElement('div');updateBanner=bar;bar.className='update-banner';
+  const message=document.createElement('span');message.textContent='新版本已经准备好';
+  const update=document.createElement('button');update.type='button';update.textContent='立即更新';
+  const later=document.createElement('button');later.type='button';later.textContent='稍后';
+  bar.append(message,update,later);document.body.append(bar);
+  update.addEventListener('click',()=>reg.waiting?.postMessage({type:'SKIP_WAITING'}));
+  later.addEventListener('click',()=>{bar.remove();updateBanner=null});
+}
 start();
