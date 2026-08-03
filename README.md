@@ -1,68 +1,19 @@
-> 当前版本：V20.0.0（移动端产品结构重构）
+# 绿茵浮沉 · 足球生涯模拟器 V20
 
-# 绿茵浮沉 V20
+移动端优先、无框架依赖的静态网页游戏。
 
-一款移动端优先的中文足球球员职业生涯模拟游戏。玩家从青年队开始，在比赛、训练、伤病、合同、关系、粉丝、转会和 Roguelike 随机事件中塑造不同的职业路线。
-
-## 当前能力
-
-- iOS浅色体育界面、动态安全区、统一AppHeader、玻璃底栏和至少44像素触控目标。
-- 六步球员创建、11 个位置、多种球风/天赋、四种职业节奏和五档推进速度。
-- 500家俱乐部数据、世界地图四级探索、青年/一线赛事、训练、转会、合同和多结局。
-- 1120个活动事件模板、训练事件、剧情链、延迟后果、事件记忆和种子随机。
-- 三个本地存档槽、完整性校验、备份恢复、导入导出和旧存档迁移。
-- 基于真实存档的本地排行榜。
-- D1 世界榜、运行会话、检查点验证、服务器统一重算和基础反作弊。
-- PWA 离线入口与旧缓存清理。
-
-## 本地运行
-
-需要 Node.js 20 或更新版本。
+## 本地检查
 
 ```bash
-npm install
-npm run dev
-```
-
-打开 `http://127.0.0.1:8080`。开发服务器同时提供内存版排行榜 API，便于端到端验证。
-
-## 测试与构建
-
-```bash
-npm run test:all
-```
-
-完整命令会执行规则、存档、时间、AI、转会、事件、后端、20赛季长跑、7档移动视口和生产构建。
-
-```bash
+npm test
 npm run build
 ```
 
-构建结果：
-
-- `dist/client/index.html`：前端静态入口。
-- `dist/server/index.js`：Cloudflare Workers 兼容入口。
-- `dist/.openai/drizzle/0000_leaderboard.sql` 与 `0001_authoritative_runs.sql`：D1迁移。
-
 ## 部署
 
-托管环境需要：
+上传全部文件到 GitHub 仓库根目录并提交到 `main`。仓库需配置：
 
-1. 将静态资源绑定为 `ASSETS`。
-2. 将 D1 数据库绑定为 `DB`。
-3. 应用 `drizzle/0000_leaderboard.sql`。
-4. 使用 `dist/server/index.js` 作为 Worker 入口，并上传 `dist/client/` 静态资源。
+- `CLOUDFLARE_API_TOKEN`
+- `CLOUDFLARE_ACCOUNT_ID`
 
-Cloudflare Pages 也可以使用根目录 `functions/` 路由排行榜 API；缺少数据库时世界榜会明确显示未连接，本地榜仍可用，不会回退到假数据。
-
-## 数据与授权
-
-球队能力、财政、青训和战术均为原创模拟值，不是任何商业足球游戏的官方评级。项目没有复制 FIFA/FC 专有数据库或未授权队徽；缺少已授权资源时使用原创文字标记和占位图。
-
-## 文档
-
-- `docs/REFACTOR_MASTER_PLAN.md`
-- `docs/CURRENT_BUG_AUDIT.md`
-- `docs/IMPLEMENTATION_PROGRESS.md`
-
-完整确定性服务端重放、事件文案进一步扩写、授权队徽和实体手机测试仍是后续工作；当前版本不会把这些项目宣称为已完成。
+GitHub Actions 会构建 `dist` 并部署到 Cloudflare Pages 项目 `zuqiu1`。

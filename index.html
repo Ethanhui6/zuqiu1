@@ -1,21 +1,18 @@
 <!doctype html>
-<html lang="zh-CN" data-theme="light">
+<html lang="zh-CN">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <meta name="theme-color" content="#f5f5f7">
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="default">
-  <meta name="format-detection" content="telephone=no">
-  <meta name="description" content="移动端优先的中文足球球员职业生涯与随机事件模拟游戏。">
-  <title>绿茵浮沉 V20</title>
-  <link rel="manifest" href="./manifest.webmanifest">
-  <link rel="icon" href="./icon.svg" type="image/svg+xml">
-  <link rel="stylesheet" href="./styles.css?v=20.0.0-20260803-1">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <meta name="theme-color" content="#f4f7fb" />
+  <meta name="description" content="精致、移动端优先的足球生涯模拟器" />
+  <link rel="manifest" href="./manifest.webmanifest" />
+  <link rel="icon" href="./icon.svg" type="image/svg+xml" />
+  <link rel="stylesheet" href="./styles.css" />
+  <title>绿茵浮沉 · 足球生涯</title>
 </head>
 <body>
-  <div id="boot" class="boot-screen" role="status"><div class="boot-mark">⚽</div><strong>绿茵浮沉</strong><span>正在载入职业生涯</span></div>
-  <div id="app"></div>
-  <script type="module" src="./src/main.js?v=20.0.0-20260803-1"></script>
+  <div id="app" aria-live="polite"></div>
+  <div id="overlay-root"></div>
+  <script type="module" src="./src/app.js"></script>
 </body>
 </html>
