@@ -1,0 +1,2 @@
+-- 与 drizzle/0001_authoritative_runs.sql 保持一致；由部署平台迁移目录执行。
+-- 生产部署请使用根目录 drizzle 迁移文件作为唯一来源。
