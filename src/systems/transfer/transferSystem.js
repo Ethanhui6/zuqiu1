@@ -60,7 +60,7 @@ function acceptOffer(save,repo,offer){
     save.career.contract={type:'职业合同',years:offer.years,weeklyWage:offer.weeklyWage,releaseClause:offer.releaseClause,appearancePromise:offer.appearancePromise};save.finance.weeklyWage=offer.weeklyWage;save.finance.cash+=offer.signingBonus;applyRelation(save,'management',{trust:6,respect:4});
   }else{
     const isLoan=offer.type==='租借';save.career.transferHistory.push({year:save.career.year,season:save.career.season,from:oldClub.id,to:target.id,type:offer.type,fee:isLoan?0:marketValue(save,oldClub),playerAccepted:true});
-    save.career.clubId=target.id;if(!save.career.clubHistory.includes(target.id))save.career.clubHistory.push(target.id);save.career.squadLevel='一线队';save.career.teamRole=offer.role;save.status.coachTrust=50;
+    save.career.clubId=target.id;if(!save.career.clubHistory.includes(target.id))save.career.clubHistory.push(target.id);save.career.squadLevel='一线队';save.career.teamRole=offer.role;save.status.coachTrust=50;save.career.schedule=null;save.career.pending.match=null;save.career.majorNodes??=[];save.career.majorNodes.push({type:'transfer',season:save.career.season,month:save.career.month,title:`转会至${target.cn}`});
     if(isLoan){save.career.loan={parentClubId:oldClub.id,loanClubId:target.id,returnSeason:save.career.season+1,role:offer.role};}
     else{save.career.loan=null;save.career.contract={type:'职业合同',years:offer.years,weeklyWage:offer.weeklyWage,releaseClause:offer.releaseClause,appearancePromise:offer.appearancePromise};save.finance.weeklyWage=offer.weeklyWage;save.finance.cash+=offer.signingBonus;}
     applyRelation(save,'management',{trust:8,respect:5});

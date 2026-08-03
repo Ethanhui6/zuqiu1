@@ -1,4 +1,4 @@
-import {POSITION_CONFIG,CAREER_SETTINGS,ATTR_LABELS} from '../app/config.js';
+import {POSITION_CONFIG,CAREER_SETTINGS,ATTR_LABELS,PACE_MODES} from '../app/config.js';
 import {createSeed} from '../services/rng.js';
 import {createTalentCandidates,generateAcademyOffers,createNewSave} from '../systems/career/careerSystem.js';
 import {calculateOvr} from '../systems/career/ovr.js';
@@ -9,12 +9,12 @@ import {el,button,clear} from '../utils/dom.js';
 import {showToast} from '../components/toast.js';
 
 const nations=['中国','日本','韩国','英格兰','西班牙','德国','法国','意大利','葡萄牙','荷兰','比利时','巴西','阿根廷','美国','墨西哥','澳大利亚','沙特阿拉伯','摩洛哥','塞内加尔','尼日利亚'];
-const stepNames=['基础信息','场上位置','踢球风格','天赋报告','青年队'];
-const stepTitles=['定义你的身份','在球场上找到位置','选择你的踢球方式','查看球探评估','选择职业起点'];
-const stepCopy=['身份资料会影响身体成长、注册规则和初始球迷基础。','点击球场位置，能力图和职责说明会同步变化。','风格影响训练倾向和球队适配，但不会锁死后期路线。','比较潜力、优势和风险；每个存档只有有限重抽次数。','从符合条件的青年队中选择，靠表现争取进入一线队。'];
+const stepNames=['基础信息','场上位置','踢球风格','天赋报告','青年队','职业节奏'];
+const stepTitles=['定义你的身份','在球场上找到位置','选择你的踢球方式','查看球探评估','选择职业起点','决定生涯推进节奏'];
+const stepCopy=['身份资料会影响身体成长、注册规则和初始球迷基础。','点击球场位置，能力图和职责说明会同步变化。','风格影响训练倾向和球队适配，但不会锁死后期路线。','比较潜力、优势和风险；每个存档只有有限重抽次数。','从符合条件的青年队中选择，靠表现争取进入一线队。','节奏只决定展示与自动模拟程度，随时可以在设置中修改。'];
 
 export function renderOnboarding(root,{repo,onComplete,onCancel=null}){
-  const draft={step:1,seed:createSeed(),name:'赵天佑',displayName:'天佑',nation:'中国',age:17,birthDate:'2009-06-15',height:178,weight:70,foot:'右脚',number:10,position:'ST',style:'禁区终结者',rerolls:CAREER_SETTINGS.maxRerolls,talents:[],selectedTalent:0,academyOffers:[],selectedAcademy:0};
+  const draft={step:1,seed:createSeed(),name:'赵天佑',displayName:'天佑',nation:'中国',age:17,birthDate:'2009-06-15',height:178,weight:70,foot:'右脚',number:10,position:'ST',style:'禁区终结者',rerolls:CAREER_SETTINGS.maxRerolls,talents:[],selectedTalent:0,academyOffers:[],selectedAcademy:0,paceMode:'standard'};
   root.className='onboarding-root';
 
   function render(){
@@ -25,8 +25,8 @@ export function renderOnboarding(root,{repo,onComplete,onCancel=null}){
     root.scrollTop=0;
   }
   function progress(){
-    const wrap=el('div',{className:'wizard-progress',attrs:{'aria-label':`创建球员，第${draft.step}步，共5步`}});
-    for(let index=1;index<=5;index++){
+    const wrap=el('div',{className:'wizard-progress',attrs:{'aria-label':`创建球员，第${draft.step}步，共6步`}});
+    for(let index=1;index<=6;index++){
       const state=index<draft.step?'is-complete':index===draft.step?'is-active':'is-pending';
       const marker=index<draft.step?'✓':String(index);
       wrap.append(el('div',{className:`wizard-step ${state}`,attrs:{'aria-current':index===draft.step?'step':undefined}},[
@@ -37,7 +37,7 @@ export function renderOnboarding(root,{repo,onComplete,onCancel=null}){
   }
   function header(){
     return el('header',{className:'onboarding-header'},[
-      el('div',{className:'eyebrow',text:`创建球员 · 第 ${draft.step}/5 步`}),
+      el('div',{className:'eyebrow',text:`创建球员 · 第 ${draft.step}/6 步`}),
       el('h1',{text:stepTitles[draft.step-1]}),
       el('p',{text:stepCopy[draft.step-1]})
     ]);
@@ -47,13 +47,14 @@ export function renderOnboarding(root,{repo,onComplete,onCancel=null}){
     if(draft.step===2)return positionStep();
     if(draft.step===3)return styleStep();
     if(draft.step===4)return talentStep();
-    return academyStep();
+    if(draft.step===5)return academyStep();
+    return paceStep();
   }
   function footer(){
     const wrap=el('footer',{className:'wizard-footer'});
     if(draft.step>1)wrap.append(button('上一步',{className:'button button--secondary',onClick:()=>{draft.step--;render();}}));
     else if(onCancel)wrap.append(button('返回存档',{className:'button button--secondary',onClick:onCancel}));
-    const last=draft.step===5;
+    const last=draft.step===6;
     wrap.append(button(last?'开始职业生涯':'继续',{className:'button button--primary',onClick:()=>{
       if(!validate())return;
       if(last){
@@ -143,6 +144,27 @@ export function renderOnboarding(root,{repo,onComplete,onCancel=null}){
     });
     wrap.append(report,list);return wrap;
   }
+  function paceStep(){
+    const wrap=el('div',{className:'pace-mode-grid'});
+    Object.values(PACE_MODES).forEach((mode,index)=>{
+      const selected=draft.paceMode===mode.id;
+      const card=button('',{className:`pace-mode-card ${selected?'is-selected':''}`,pressed:selected,onClick:()=>{draft.paceMode=mode.id;render();}});
+      card.append(
+        el('div',{className:'pace-mode-card__top'},[
+          el('span',{className:'pace-mode-card__icon',text:['◌','▶','»','★'][index]}),
+          el('div',{},[el('h3',{text:mode.name}),el('small',{text:`单赛季约 ${mode.seasonMinutes}`})]),
+          el('span',{className:'selection-check',text:selected?'✓':''})
+        ]),
+        el('div',{className:'pace-mode-card__facts'},[
+          paceFact('比赛呈现',mode.matchDetail),paceFact('事件频率',mode.eventFrequency),paceFact('自动模拟',mode.autoSimulation),paceFact('暂停规则',mode.pausePolicy)
+        ])
+      );
+      wrap.append(card);
+    });
+    wrap.append(el('p',{className:'pace-mode-note',text:'标准模式为推荐默认值。进入游戏后，可用底部上方的速度控制器随时暂停、切换1倍、2倍、4倍或快速推进。'}));
+    return wrap;
+  }
+  function paceFact(label,value){return el('div',{className:'pace-fact'},[el('small',{text:label}),el('strong',{text:value})])}
   function prepareStep(){if(draft.step===4&&!draft.talents.length)prepareTalents();if(draft.step===5&&!draft.academyOffers.length)prepareAcademies();}
   function prepareTalents(force=false){if(force)draft.seed=createSeed();draft.talents=createTalentCandidates({seed:draft.seed,position:draft.position,style:draft.style,templates:repo.templates,count:3});draft.selectedTalent=0;draft.academyOffers=[];}
   function prepareAcademies(){const talent=draft.talents[draft.selectedTalent],source=repo.templates.find(item=>item.id===talent.sourceTemplateId),ovr=source?calculateOvr(source.attrs,draft.position):62;draft.academyOffers=generateAcademyOffers({seed:draft.seed,nation:draft.nation,position:draft.position,ovr,talent,clubs:repo.clubs});draft.selectedAcademy=0;}
@@ -150,6 +172,7 @@ export function renderOnboarding(root,{repo,onComplete,onCancel=null}){
     if(draft.step===1&&(!draft.name||!draft.displayName||draft.height<155||draft.height>205||draft.weight<45||draft.weight>110||draft.number<1||draft.number>99)){showToast('请完整填写合理的身份信息',{type:'error'});return false;}
     if(draft.step===4&&!draft.talents.length){showToast('天赋候选尚未生成',{type:'error'});return false;}
     if(draft.step===5&&!draft.academyOffers.length){showToast('青年队邀请尚未生成',{type:'error'});return false;}
+    if(draft.step===6&&!PACE_MODES[draft.paceMode]){showToast('请选择职业节奏',{type:'error'});return false;}
     return true;
   }
   render();return()=>clear(root);

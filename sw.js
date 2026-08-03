@@ -1,4 +1,4 @@
-const VERSION='green-pitch-v18.2.0-20260803-6';
+const VERSION='green-pitch-v18.3.0-20260803-8';
 const STATIC_CACHE=`${VERSION}-static`;
 const DATA_CACHE=`${VERSION}-data`;
 const APP_SHELL=[
@@ -38,8 +38,11 @@ const APP_SHELL=[
   './src/styles/pages.css',
   './src/styles/theme.css',
   './src/styles/ux-v18.2.css',
+  './src/styles/pace-v18.3.css',
   './src/systems/achievement/achievementSystem.js',
   './src/systems/career/careerSystem.js',
+  './src/systems/career/objectiveSystem.js',
+  './src/systems/career/timeAdvanceSystem.js',
   './src/systems/career/cycleSystem.js',
   './src/systems/career/nationalSystem.js',
   './src/systems/career/ovr.js',
@@ -49,6 +52,8 @@ const APP_SHELL=[
   './src/systems/facility/facilitySystem.js',
   './src/systems/fan/fanSystem.js',
   './src/systems/match/matchSystem.js',
+  './src/systems/pace/paceSystem.js',
+  './src/systems/schedule/scheduleSystem.js',
   './src/systems/relationship/relationshipSystem.js',
   './src/systems/training/trainingSystem.js',
   './src/systems/transfer/transferSystem.js',
@@ -81,6 +86,7 @@ const APP_SHELL=[
   './data/events/rivalry.json',
   './data/events/selection.json',
   './data/events/social.json',
+  './data/events/story-chains.json',
   './data/events/sponsor.json',
   './data/events/tactics.json',
   './data/events/teammate.json',

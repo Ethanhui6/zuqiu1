@@ -9,7 +9,7 @@ export function selectTrainingPlan(save,planId){if(!TRAINING_PLANS.some(x=>x.id=
 
 function ageFactor(age){if(age<=18)return 1.35;if(age<=21)return 1.22;if(age<=24)return 1.10;if(age<=28)return 1;if(age<=32)return .72;return .42}
 
-export function resolveTraining(save,club){
+export function resolveTraining(save,club,{scale=1}={}){
   const plan=TRAINING_PLANS.find(x=>x.id===save.career.trainingPlan)||TRAINING_PLANS[6];
   const rng=new DeterministicRng(save.rng.seed,save.rng.state);rng.counter=save.rng.counter||0;
   const p=save.player,s=save.status,h=p.hidden;
@@ -21,15 +21,15 @@ export function resolveTraining(save,club){
   const multiplier=ageFactor(p.age)*facility*professionalism*fatiguePenalty*injuryPenalty*talent;
   const gains=[];
   for(const key of plan.focus){
-    const base=plan.intensity*(4+rng.next()*5)*multiplier;
+    const base=plan.intensity*(4+rng.next()*5)*multiplier*scale;
     p.xp[key]=(p.xp[key]||0)+base;
     const threshold=65+(p.attrs[key]-50)*4.5;
     let levels=0;
     while(p.xp[key]>=threshold&&p.attrs[key]<Math.min(99,p.potential+2)){p.xp[key]-=threshold;p.attrs[key]++;levels++}
     if(levels)gains.push({key,levels});
   }
-  s.fatigue=clamp(s.fatigue+plan.fatigue,0,100);s.fitness=clamp(s.fitness-plan.intensity*2+(plan.id==='recovery'?16:0),0,100);
-  const risk=clamp((plan.risk+(p.hidden.injuryProne||30)*.15+s.fatigue*.10-club.youth*.05)/100,0,.65);
+  s.fatigue=clamp(s.fatigue+plan.fatigue*scale,0,100);s.fitness=clamp(s.fitness-plan.intensity*2*scale+(plan.id==='recovery'?16*scale:0),0,100);
+  const risk=clamp(((plan.risk+(p.hidden.injuryProne||30)*.15+s.fatigue*.10-club.youth*.05)/100)*Math.max(.2,scale),0,.65);
   let injury=null;
   if(rng.bool(risk)){
     const severity=.08+rng.next()*.42;injury={name:severity>.34?'肌肉拉伤':'轻微不适',severity,remainingMatches:severity>.34?rng.int(2,5):1};s.injury=injury;s.fitness=clamp(s.fitness-15,0,100);

@@ -1,0 +1,71 @@
+{
+  "version": "18.3.0",
+  "viewports": [
+    {
+      "name": "iphone-320",
+      "width": 320,
+      "height": 568,
+      "horizontalOverflowPx": 0,
+      "visibleButtons": 21,
+      "allTouchTargetsAtLeast44": true,
+      "buttonClickVerified": true,
+      "headerVisible": true,
+      "bottomNavigationVisible": true,
+      "speedDockVisible": true
+    },
+    {
+      "name": "iphone-375",
+      "width": 375,
+      "height": 667,
+      "horizontalOverflowPx": 0,
+      "visibleButtons": 21,
+      "allTouchTargetsAtLeast44": true,
+      "buttonClickVerified": true,
+      "headerVisible": true,
+      "bottomNavigationVisible": true,
+      "speedDockVisible": true
+    },
+    {
+      "name": "iphone-390",
+      "width": 390,
+      "height": 844,
+      "horizontalOverflowPx": 0,
+      "visibleButtons": 21,
+      "allTouchTargetsAtLeast44": true,
+      "buttonClickVerified": true,
+      "headerVisible": true,
+      "bottomNavigationVisible": true,
+      "speedDockVisible": true
+    },
+    {
+      "name": "iphone-430",
+      "width": 430,
+      "height": 932,
+      "horizontalOverflowPx": 0,
+      "visibleButtons": 21,
+      "allTouchTargetsAtLeast44": true,
+      "buttonClickVerified": true,
+      "headerVisible": true,
+      "bottomNavigationVisible": true,
+      "speedDockVisible": true
+    }
+  ],
+  "sheet": {
+    "viewport": "320x568",
+    "sheetHeight": 522.55,
+    "bodyClientHeight": 363,
+    "bodyScrollHeight": 1047,
+    "bodyScrollable": true,
+    "footerInsideViewport": true,
+    "buttonsClickable": true
+  },
+  "dark": {
+    "pageBackground": "#101114",
+    "backVisible": true,
+    "homeVisible": true,
+    "touchTargets": true
+  },
+  "limitations": [
+    "本运行环境无法通过浏览器导航访问本地HTTP地址，因此使用实际项目CSS与代表性DOM通过Playwright set_content执行几何和交互审计；这不是实体iPhone/Safari测试。"
+  ]
+}

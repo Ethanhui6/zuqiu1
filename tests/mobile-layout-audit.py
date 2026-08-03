@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Real CSS/DOM mobile layout smoke audit for V18.2.
+"""Real CSS/DOM mobile layout smoke audit for V18.3.
 
 Uses the project's actual CSS in a Chromium page created with set_content(), so it can
 validate touch target geometry, horizontal overflow, dark-theme navigation, and
@@ -24,6 +24,7 @@ CSS_FILES = [
     ROOT / "src/styles/components.css",
     ROOT / "src/styles/pages.css",
     ROOT / "src/styles/ux-v18.2.css",
+    ROOT / "src/styles/pace-v18.3.css",
 ]
 CSS = "\n".join(path.read_text(encoding="utf-8") for path in CSS_FILES)
 
@@ -78,6 +79,7 @@ APP_BODY = r"""
       <div style="height:40px"></div>
     </section>
   </main>
+  <section class="speed-dock glass" aria-label="时间推进速度"><div class="speed-dock__label"><small>职业节奏</small><strong>标准模式</strong></div><div class="speed-dock__controls"><button class="speed-button">Ⅱ<small>暂停</small></button><button class="speed-button is-active">1×<small>1倍</small></button><button class="speed-button">2×<small>2倍</small></button><button class="speed-button">4×<small>4倍</small></button><button class="speed-button">»<small>快速</small></button></div></section>
   <nav class="tab-bar glass" aria-label="主导航">
     <button class="tab-button is-active"><span class="ui-icon">◉</span><span>生涯</span></button>
     <button class="tab-button"><span class="ui-icon">⚽</span><span>比赛</span></button>
@@ -93,6 +95,7 @@ SHEET_BODY = r"""
 <div class="app-shell">
   <header class="app-header glass"><div class="header-side"><button class="header-nav-button">← 生涯首页</button></div><button class="header-brand"><strong>绿茵生涯</strong></button><div class="header-side header-side--right"><button class="header-nav-button header-home">⌂</button></div></header>
   <main class="page-container"><section class="page"><h1>弹窗测试</h1><button id="under-button" class="button button--primary">页面按钮</button></section></main>
+  <section class="speed-dock"><div class="speed-dock__controls"><button class="speed-button">Ⅱ</button><button class="speed-button is-active">1×</button><button class="speed-button">2×</button><button class="speed-button">4×</button><button class="speed-button">»</button></div></section>
   <nav class="tab-bar"><button class="tab-button">生涯</button><button class="tab-button">比赛</button><button class="tab-button">训练</button><button class="tab-button">转会</button><button class="tab-button">世界</button><button class="tab-button">我的</button></nav>
 </div>
 <div class="sheet-backdrop is-open" role="presentation">
@@ -131,7 +134,7 @@ def assert_touch_targets(page, context: str):
 
 
 def run():
-    results = {"version": "18.2.0", "viewports": [], "sheet": {}, "dark": {}, "limitations": []}
+    results = {"version": "18.3.0", "viewports": [], "sheet": {}, "dark": {}, "limitations": []}
     with sync_playwright() as p:
         browser = p.chromium.launch(headless=True, executable_path="/usr/bin/chromium", args=["--no-sandbox", "--disable-dev-shm-usage"])
         for vp in VIEWPORTS:
@@ -143,9 +146,11 @@ def run():
             assert_touch_targets(page, vp["name"])
             page.locator(".button--primary").first.click()
             assert page.evaluate("window.__clicks") == 1, f"{vp['name']}: 按钮点击事件未触发"
+            speed_box = page.locator(".speed-dock").bounding_box()
             nav_box = page.locator(".tab-bar").bounding_box()
             header_box = page.locator(".app-header").bounding_box()
             assert nav_box and nav_box["y"] + nav_box["height"] <= vp["height"] + 1, f"{vp['name']}: 底部导航被遮挡"
+            assert speed_box and speed_box["y"] + speed_box["height"] <= nav_box["y"] + 1, f"{vp['name']}: 速度控件遮挡底部导航"
             assert header_box and header_box["y"] >= -1, f"{vp['name']}: 顶部导航被遮挡"
             results["viewports"].append({
                 **vp,
@@ -155,9 +160,10 @@ def run():
                 "buttonClickVerified": True,
                 "headerVisible": True,
                 "bottomNavigationVisible": True,
+                "speedDockVisible": True,
             })
             if vp["width"] == 390:
-                page.screenshot(path=str(SHOTS / "ui-mobile-390-light.png"), full_page=False)
+                page.screenshot(path=str(SHOTS / "pace-mobile-390-light.png"), full_page=False)
             page.close()
 
         # Dark mode: navigation must remain discoverable and page must not be pure black.
@@ -168,7 +174,7 @@ def run():
         assert page.locator("#back-button").is_visible() and page.locator("#home-button").is_visible(), "暗色模式缺少返回/主页"
         assert_touch_targets(page, "dark-390")
         results["dark"] = {"pageBackground": bg, "backVisible": True, "homeVisible": True, "touchTargets": True}
-        page.screenshot(path=str(SHOTS / "ui-mobile-390-dark.png"), full_page=False)
+        page.screenshot(path=str(SHOTS / "pace-mobile-390-dark.png"), full_page=False)
         page.close()
 
         # Sheet: use enough real choice cards to force scrolling on 320x568.
@@ -197,12 +203,12 @@ def run():
             "footerInsideViewport": True,
             "buttonsClickable": True,
         }
-        page.screenshot(path=str(SHOTS / "ui-sheet-320.png"), full_page=False)
+        page.screenshot(path=str(SHOTS / "pace-sheet-320.png"), full_page=False)
         page.close()
         browser.close()
 
     results["limitations"].append("本运行环境无法通过浏览器导航访问本地HTTP地址，因此使用实际项目CSS与代表性DOM通过Playwright set_content执行几何和交互审计；这不是实体iPhone/Safari测试。")
-    output = DOCS / "V18_2_MOBILE_TEST.json"
+    output = DOCS / "V18_3_MOBILE_TEST.json"
     output.write_text(json.dumps(results, ensure_ascii=False, indent=2), encoding="utf-8")
     print(json.dumps(results, ensure_ascii=False, indent=2))
 

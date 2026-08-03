@@ -1,4 +1,4 @@
-import {APP_VERSION,SAVE_SCHEMA} from '../../app/config.js';
+import {APP_VERSION,SAVE_SCHEMA,DEFAULT_AUTO_PAUSE,DEFAULT_STRATEGIES} from '../../app/config.js';
 import {createSeed,hashString} from '../rng.js';
 
 const oldKeys=['green-pitch-career-v18','football-career-save','career-sim-save','zuqiu-save','footballCareerSave','green-pitch-save'];
@@ -13,7 +13,7 @@ function legacySeed(raw){
 
 export function buildDefaultSave(){
   return{
-    schemaVersion:SAVE_SCHEMA,gameVersion:APP_VERSION,createdAt:Date.now(),updatedAt:Date.now(),rng:{seed:createSeed(),state:0,counter:0},settings:{theme:'system',reducedMotion:false},
+    schemaVersion:SAVE_SCHEMA,gameVersion:APP_VERSION,createdAt:Date.now(),updatedAt:Date.now(),rng:{seed:createSeed(),state:0,counter:0},settings:{theme:'system',reducedMotion:false,pace:{mode:'standard',speed:'normal',autoPause:{...DEFAULT_AUTO_PAUSE}}},
     player:null,career:null,status:null,relations:null,fans:null,finance:null,achievements:{unlocked:[],notified:[],score:0},meta:{migrationNotes:[],checksum:'',lastRecovery:null}
   };
 }
@@ -44,7 +44,7 @@ export function migrateLegacy(raw){
     seasonStats:{apps:num(seasonStats.apps,0),starts:num(seasonStats.starts,0),minutes:num(seasonStats.minutes,0),goals:num(seasonStats.goals,0),assists:num(seasonStats.assists,0),cleanSheets:num(seasonStats.cleanSheets,0),rating:num(seasonStats.rating,0),yellow:num(seasonStats.yellow,0),red:num(seasonStats.red,0),shots:num(seasonStats.shots,0),keyPasses:num(seasonStats.keyPasses,0),tackles:num(seasonStats.tackles,0),saves:num(seasonStats.saves,0)},
     careerStats:{apps:num(stats.apps??stats.appearances,0),goals:num(stats.goals,0),assists:num(stats.assists,0),cleanSheets:num(stats.cleanSheets,0),titles:num(stats.trophies??stats.titles,0),nationalApps:num(stats.nationalApps,0),nationalGoals:num(stats.nationalGoals,0),bestRating:num(stats.bestRating,0),hatTricks:num(stats.hatTricks,0),bigGames:num(stats.bigGames,0),saves:num(stats.saves,0),tackles:num(stats.tackles,0)},
     history:oldCareer.history||raw.history||[],clubHistory:oldCareer.clubHistory||raw.clubHistory||[clubId],records:oldCareer.records||{},trophies:oldCareer.honours||raw.honours||oldCareer.trophies||raw.trophies||[],
-    pending:{event:null,match:null,offers:[],delayedEffects:[]},eventMemory:{triggered:[],recentTags:[],recentTitles:[],recentChoiceSignatures:[],choices:[],chainsOpen:[],chainsClosed:[],cooldowns:{},lastChoiceSignature:''},
+    pending:{event:null,match:null,offers:[],delayedEffects:[]},eventMemory:{triggered:[],recentEventIds:[],recentTags:[],recentTitles:[],recentTemplateTitles:[],recentChoiceSignatures:[],recentPersons:[],recentOpponents:[],choices:[],chainsOpen:[],chainsClosed:[],cooldowns:{},typeCounts:{},generatedCount:0,duplicateCount:0,lastAvailableCount:0,lastFilteredCount:0,lastChoiceSignature:''},
     transferHistory:oldCareer.transferHistory||[],offerHistory:[],rejectedClubs:oldCareer.rejectedClubs||[],trainingPlan:oldCareer.trainingPlan||'tactics',facilities:{visits:[],locks:{}},actionLocks:{},retirement:oldCareer.retirement||null
   };
   base.status={fitness:num(raw.fitness??raw.status?.fitness,85),morale:num(raw.morale??raw.status?.morale,70),form:num(raw.form??raw.status?.form,55),fatigue:num(raw.fatigue??raw.status?.fatigue,10),injury:raw.injury||raw.status?.injury||null,suspension:num(raw.status?.suspension,0),coachTrust:num(raw.coachTrust??raw.status?.coachTrust,45)};
@@ -63,7 +63,7 @@ export function normalizeSave(save){
   save.createdAt=num(save.createdAt,Date.now());save.updatedAt=num(save.updatedAt,Date.now());
   const fallbackSeed=`save-${hashString(`${save.player.name||'球员'}|${save.createdAt}|${save.career.clubId||''}`).toString(36)}`;
   save.rng??={seed:fallbackSeed,state:0,counter:0};save.rng.seed??=fallbackSeed;save.rng.state=num(save.rng.state,0);save.rng.counter=num(save.rng.counter,0);
-  save.settings={theme:'system',reducedMotion:false,...(save.settings||{})};
+  save.settings={theme:'system',reducedMotion:false,...(save.settings||{})};save.settings.pace={mode:'standard',speed:'normal',autoPause:{...DEFAULT_AUTO_PAUSE},...(save.settings.pace||{})};save.settings.pace.autoPause={...DEFAULT_AUTO_PAUSE,...(save.settings.pace.autoPause||{})};
   save.player.attrs={pac:60,sho:55,pas:55,dri:58,def:45,phy:56,...(save.player.attrs||{})};
   save.player.xp={pac:0,sho:0,pas:0,dri:0,def:0,phy:0,...(save.player.xp||{})};
   save.player.secondaryPositions??=[];
@@ -74,11 +74,12 @@ export function normalizeSave(save){
   save.career.careerStats={apps:0,goals:0,assists:0,cleanSheets:0,titles:0,nationalApps:0,nationalGoals:0,bestRating:0,hatTricks:0,bigGames:0,saves:0,tackles:0,...(save.career.careerStats||{})};
   save.career.history??=[];save.career.clubHistory??=[save.career.clubId||'CHN1-SHA'];save.career.records??={};save.career.trophies??=[];save.career.transferHistory??=[];save.career.offerHistory??=[];save.career.rejectedClubs??=[];save.career.trainingPlan??='tactics';save.career.retirement??=null;save.career.actionLocks??={};save.career.transferWindows??={};save.career.loan??=null;
   save.career.facilities={visits:[],locks:{},...(save.career.facilities||{})};save.career.facilities.visits??=[];save.career.facilities.locks??={};
+  save.career.calendar={week:Math.max(1,Math.min(40,(Number(save.career.month||1)-1)*4+1)),absoluteWeek:Math.max(1,(Number(save.career.season||1)-1)*40+1),nextEventWeek:1,...(save.career.calendar||{})};save.career.weekState={trainingDone:false,eventDone:false,matchDone:false,trainingResult:null,...(save.career.weekState||{})};save.career.schedule??=null;save.career.strategies={...DEFAULT_STRATEGIES,...(save.career.strategies||{})};save.career.objectives={season:save.career.season,candidates:[],active:[],completed:[],rewarded:[],...(save.career.objectives||{})};for(const key of ['candidates','active','completed','rewarded'])save.career.objectives[key]??=[];save.career.advance={running:false,lastSummary:null,history:[],resumeTarget:null,...(save.career.advance||{})};save.career.advance.history??=[];save.career.matchHistory??=[];save.career.lastMatchResult??=null;save.career.majorNodes??=[];
   save.career.pending={event:null,match:null,offers:[],delayedEffects:[],...(save.career.pending||{})};
   save.career.pending.offers??=[];save.career.pending.delayedEffects??=[];
-  save.career.eventMemory={triggered:[],recentTags:[],recentTitles:[],recentChoiceSignatures:[],choices:[],chainsOpen:[],chainsClosed:[],cooldowns:{},lastChoiceSignature:'',...(save.career.eventMemory||{})};
-  for(const key of ['triggered','recentTags','recentTitles','recentChoiceSignatures','choices','chainsOpen','chainsClosed'])save.career.eventMemory[key]??=[];
-  save.career.eventMemory.cooldowns??={};
+  save.career.eventMemory={triggered:[],recentEventIds:[],recentTags:[],recentTitles:[],recentTemplateTitles:[],recentChoiceSignatures:[],recentPersons:[],recentOpponents:[],choices:[],chainsOpen:[],chainsClosed:[],cooldowns:{},typeCounts:{},generatedCount:0,duplicateCount:0,lastAvailableCount:0,lastFilteredCount:0,lastChoiceSignature:'',...(save.career.eventMemory||{})};
+  for(const key of ['triggered','recentEventIds','recentTags','recentTitles','recentTemplateTitles','recentChoiceSignatures','recentPersons','recentOpponents','choices','chainsOpen','chainsClosed'])save.career.eventMemory[key]??=[];
+  save.career.eventMemory.cooldowns??={};save.career.eventMemory.typeCounts??={};
   save.status={fitness:85,morale:70,form:55,fatigue:10,injury:null,suspension:0,coachTrust:45,...(save.status||{})};
   const keys=['coach','teammates','captain','agent','management','fans','media','nationalCoach'];save.relations??={};for(const key of keys)save.relations[key]={...relation(),...(save.relations[key]||{})};
   save.fans={local:300,club:500,global:0,social:250,mediaHeat:2,commercialValue:1,sentiment:55,history:[],...(save.fans||{})};save.fans.history??=[];

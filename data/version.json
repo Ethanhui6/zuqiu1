@@ -1,6 +1,6 @@
 {
-  "version": "18.2.0",
-  "build": "2026-08-03.6",
+  "version": "18.3.0",
+  "build": "2026-08-03.8",
   "clubs": 500,
   "legendTemplates": 500,
   "eventTemplates": 1200,
@@ -8,5 +8,8 @@
   "uniqueChoiceTexts": 3215,
   "achievements": 330,
   "saveSchema": 18,
-  "title": "绿茵浮沉 V18.2"
+  "title": "绿茵浮沉 V18.3",
+  "paceModes": 4,
+  "scheduleWeeks": 40,
+  "storyChainNodes": 20
 }

@@ -1,7 +1,7 @@
 {
-  "name": "绿茵浮沉 V18.2",
+  "name": "绿茵浮沉 V18.3",
   "short_name": "绿茵浮沉",
-  "description": "足球球员职业生涯 随机选择 模拟器",
+  "description": "可控节奏、动态赛程与随机职业选择的足球球员生涯模拟器",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",

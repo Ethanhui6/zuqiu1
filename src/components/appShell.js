@@ -1,11 +1,25 @@
-import {APP_VERSION,NAV_ITEMS} from '../app/config.js';
+import {APP_VERSION,NAV_ITEMS,SPEED_LEVELS} from '../app/config.js';
 import {el,button,icon} from '../utils/dom.js';
 import {formatMoney} from '../utils/format.js';
+import {getSpeed,getPaceMode} from '../systems/pace/paceSystem.js';
 
-export function createAppShell({onNavigate,onTheme,onSave,onBack,onHome}){
+export function createAppShell({onNavigate,onTheme,onSave,onBack,onHome,onSpeed}){
   const root=el('div',{className:'app-shell'});
   const header=el('header',{className:'app-header glass'});
   const main=el('main',{className:'page-container',attrs:{id:'page-container',tabindex:'-1'}});
+  const speedDock=el('section',{className:'speed-dock glass',attrs:{'aria-label':'时间推进速度'}});
+  const speedLabel=el('div',{className:'speed-dock__label'},[
+    el('small',{text:'职业节奏'}),el('strong',{text:'标准模式'})
+  ]);
+  const speedControls=el('div',{className:'speed-dock__controls',attrs:{role:'group','aria-label':'选择推进速度'}});
+  SPEED_LEVELS.forEach(item=>{
+    const label=item.id==='paused'?'Ⅱ':item.id==='turbo'?'»':item.label.replace('倍','×');
+    const speedButton=button(label,{className:'speed-button',ariaLabel:`推进速度：${item.label}`,onClick:()=>onSpeed?.(item.id)});
+    speedButton.dataset.speed=item.id;
+    speedButton.append(el('small',{text:item.label}));
+    speedControls.append(speedButton);
+  });
+  speedDock.append(speedLabel,speedControls);
   const nav=el('nav',{className:'tab-bar glass',attrs:{'aria-label':'主要导航'}});
 
   const left=el('div',{className:'header-side header-side--left'});
@@ -32,8 +46,8 @@ export function createAppShell({onNavigate,onTheme,onSave,onBack,onHome}){
     navButton.append(icon(item.icon),el('span',{text:item.label}));
     nav.append(navButton);
   });
-  root.append(header,main,nav);
-  return{root,header,main,nav,brand,actions:right,back,home,theme,save};
+  root.append(header,main,speedDock,nav);
+  return{root,header,main,speedDock,speedLabel,speedControls,nav,brand,actions:right,back,home,theme,save};
 }
 
 export function updateShell(shell,save,club,route){
@@ -43,6 +57,14 @@ export function updateShell(shell,save,club,route){
   shell.back.hidden=!away;
   shell.home.hidden=!away;
   shell.header.dataset.route=route;
+  const speed=getSpeed(save),pace=getPaceMode(save);
+  shell.speedLabel.querySelector('strong').textContent=pace.name;
+  shell.speedDock.dataset.running=String(Boolean(save.career.advance?.running));
+  shell.speedControls.querySelectorAll('.speed-button').forEach(node=>{
+    const active=node.dataset.speed===speed.id;
+    node.classList.toggle('is-active',active);
+    node.setAttribute('aria-pressed',String(active));
+  });
   shell.nav.querySelectorAll('.tab-button').forEach(buttonNode=>{
     const active=buttonNode.dataset.route===route;
     buttonNode.classList.toggle('is-active',active);

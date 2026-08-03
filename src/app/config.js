@@ -1,4 +1,4 @@
-export const APP_VERSION = '18.2.0';
+export const APP_VERSION = '18.3.0';
 export const SAVE_SCHEMA = 18;
 export const SAVE_SLOTS = 3;
 
@@ -43,6 +43,39 @@ export const TRAINING_PLANS = [
   {id:'recovery',name:'恢复训练',icon:'♡',focus:['phy'],intensity:1,fatigue:-20,risk:0,desc:'恢复体能并降低伤病风险，属性收益有限。'},
   {id:'personal',name:'个人特训',icon:'♛',focus:['pac','sho','pas','dri','def','phy'],intensity:4,fatigue:22,risk:18,desc:'高投入高回报，需要优秀自律和医疗支持。'}
 ];
+
+
+
+export const PACE_MODES = {
+  immersive:{id:'immersive',name:'沉浸模式',seasonMinutes:'45—70分钟',matchDetail:'多数比赛保留互动',eventFrequency:'每1—2周',autoSimulation:'较少',pausePolicy:'多数职业事件暂停',eventInterval:[1,2],ordinaryMatchMode:'timeline'},
+  standard:{id:'standard',name:'标准模式',seasonMinutes:'20—35分钟',matchDetail:'普通比赛快速时间线',eventFrequency:'每2—3周',autoSimulation:'中等',pausePolicy:'关键比赛与重大事件暂停',eventInterval:[2,3],ordinaryMatchMode:'timeline'},
+  fast:{id:'fast',name:'快速模式',seasonMinutes:'8—15分钟',matchDetail:'普通比赛一键结算',eventFrequency:'每4—5周',autoSimulation:'较高',pausePolicy:'只在重要节点暂停',eventInterval:[4,5],ordinaryMatchMode:'instant'},
+  legend:{id:'legend',name:'传奇速通模式',seasonMinutes:'3—7分钟',matchDetail:'仅保留职业转折',eventFrequency:'每6—8周',autoSimulation:'最高',pausePolicy:'传奇事件与重大转折暂停',eventInterval:[6,8],ordinaryMatchMode:'instant'}
+};
+
+export const SPEED_LEVELS = [
+  {id:'paused',label:'暂停',multiplier:0,delay:0},
+  {id:'normal',label:'1倍',multiplier:1,delay:120},
+  {id:'fast',label:'2倍',multiplier:2,delay:55},
+  {id:'faster',label:'4倍',multiplier:4,delay:20},
+  {id:'turbo',label:'快速',multiplier:8,delay:0}
+];
+
+export const AUTO_PAUSE_RULES = {
+  transferOffer:'转会报价',contract:'合同谈判',firstStart:'首次首发',importantMatch:'重要比赛',final:'决赛',injury:'伤病',nationalCall:'国家队征召',coachTalk:'教练谈话',legendEvent:'传奇事件',careerTurn:'生涯重大转折'
+};
+
+export const ADVANCE_TARGETS = [
+  {id:'nextEvent',label:'下一事件',icon:'✦'},
+  {id:'nextMatch',label:'下一场比赛',icon:'⚽'},
+  {id:'week',label:'推进一周',icon:'7'},
+  {id:'month',label:'推进一个月',icon:'月'},
+  {id:'window',label:'推进至转会窗',icon:'↗'},
+  {id:'season',label:'推进至赛季结束',icon:'◎'}
+];
+
+export const DEFAULT_AUTO_PAUSE = Object.fromEntries(Object.keys(AUTO_PAUSE_RULES).map(key=>[key,true]));
+export const DEFAULT_STRATEGIES = {training:'balanced',match:'stable',career:'stay'};
 
 export const NAV_ITEMS = [
   {id:'career',label:'生涯',icon:'◉'},

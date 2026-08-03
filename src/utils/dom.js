@@ -20,8 +20,9 @@ function bindPressFeedback(node){
   node.style.touchAction='manipulation';
   return node;
 }
-export function button(label,{className='button',onClick,ariaLabel,disabled=false,pressed,dataset={}}={}){
+export function button(label,{className='button',onClick,ariaLabel,disabled=false,pressed,dataset={}}={},children=[]){
   const node=el('button',{className,text:label,attrs:{type:'button','aria-label':ariaLabel||label},dataset});
+  for(const child of children.flat())if(child)node.append(child);
   node.disabled=disabled;
   if(pressed!==undefined)node.setAttribute('aria-pressed',String(Boolean(pressed)));
   if(onClick)node.addEventListener('click',onClick);
