@@ -1,5 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="俱乐部队徽占位图">
-  <defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#0A84FF"/><stop offset="1" stop-color="#34C759"/></linearGradient></defs>
-  <path d="M32 4 54 12v18c0 14-8.4 24-22 30C18.4 54 10 44 10 30V12L32 4Z" fill="url(#g)"/>
-  <path d="M32 15c7.2 0 13 5.8 13 13S39.2 41 32 41s-13-5.8-13-13 5.8-13 13-13Zm0 5.5-5.8 4.2 2.2 6.8h7.2l2.2-6.8-5.8-4.2Z" fill="#fff" fill-opacity=".94"/>
-</svg>

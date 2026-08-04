@@ -7,34 +7,20 @@ const TERMINAL_OFFERS=new Set(['已接受','已拒绝','谈判破裂','已过期
 
 export function ensureAttentionState(save){
   save.career.ui??={};
-  save.career.ui.attention={read:{},lastViewed:{},deferred:{},...(save.career.ui.attention||{})};
+  save.career.ui.attention={read:{},lastViewed:{},...(save.career.ui.attention||{})};
   save.career.ui.attention.read??={};
   save.career.ui.attention.lastViewed??={};
-  save.career.ui.attention.deferred??={};
   return save.career.ui.attention;
 }
 
 function item(id,route,level,title,detail,icon,action=null){return{id,route,level,title,detail,icon,action:action||route}}
 function offers(save){return(save.career.pending?.offers||[]).filter(offer=>!TERMINAL_OFFERS.has(offer.status))}
-function attentionFingerprint(save,entry){
-  const type=entry.id.split(':',1)[0];
-  if(type==='event'){const event=save.career.pending?.event;return`${entry.id}|${event?.resolved}|${event?.choices?.map(choice=>choice.id).join(',')||''}`}
-  if(type==='match'){const match=save.career.pending?.match;return`${entry.id}|${match?.resolved}|${match?.choice?.id||''}|${match?.score?.join('-')||''}`}
-  if(type==='offers')return`${entry.id}|${JSON.stringify(offers(save).map(offer=>[offer.id,offer.status,offer.expiresDate,offer.deadline,offer.amount,offer.wage]))}`;
-  if(type==='training')return`${entry.id}|${save.career.weekState?.trainingDone}|${save.status.fatigue}|${save.status.injury?.remainingMatches||0}`;
-  if(type==='objective')return`${entry.id}|${JSON.stringify(save.career.objectives?.active||[])}|${JSON.stringify(save.career.objectives?.completed||[])}`;
-  if(type==='medical')return`${entry.id}|${JSON.stringify(save.status.injury)}|${save.career.facilityCenter?.medicalPlan||''}|${save.status.fitness}`;
-  if(type==='message')return`${entry.id}|${JSON.stringify((save.career.messages?.items||[]).find(message=>`message:${message.id}`===entry.id))}|${JSON.stringify(save.career.messages?.seen||[])}`;
-  if(type==='honours')return`${entry.id}|${JSON.stringify(save.achievements?.unlocked||[])}|${JSON.stringify(save.achievements?.notified||[])}`;
-  if(type==='fixture')return`${entry.id}|${entry.title}|${entry.detail}`;
-  return`${entry.id}|${entry.title}|${entry.detail}`;
-}
 
 export function collectAttentionItems(save,repo){
   ensureAttentionState(save);
   const items=[];
   const pendingEvent=save.career.pending?.event;
-  if(pendingEvent&&!pendingEvent.resolved)items.push(item(`event:${pendingEvent.id}`,'career','urgent','处理关键职业事件','这项决定会改变后续剧情和职业状态。','✦','event'));
+  if(pendingEvent&&!pendingEvent.resolved)items.push(item(`event:${pendingEvent.id}`,'career','urgent','处理关键职业事件','这项决定会改变后续剧情和职业状态。','✦'));
   const pendingMatch=save.career.pending?.match;
   if(pendingMatch&&!pendingMatch.resolved)items.push(item(`match:${pendingMatch.id}`,'match','urgent','完成当前比赛','比赛正在等待你的关键选择。','⚽'));
   const activeOffers=offers(save);
@@ -52,8 +38,7 @@ export function collectAttentionItems(save,repo){
   if(unseen.length)items.push(item(`honours:${unseen.join(',')}`,'more','info',`${unseen.length}项新成就待查看`,'荣誉室已经记录新的里程碑。','🏆','honours'));
   const next=upcomingFixtures(save,repo,1)[0];
   if(next){const opponent=repo.getClub(next.opponentId);items.push(item(`fixture:${next.id}`,'match','info',`下一场对阵${opponent?.cn||'对手'}`,`${next.competition} · ${next.home?'主场':'客场'} · ${next.importance}`,'⚽'))}
-  const deferred=ensureAttentionState(save).deferred;
-  return items.filter(entry=>entry.level==='urgent'||deferred[entry.id]!==attentionFingerprint(save,entry)).sort((a,b)=>(LEVEL_WEIGHT[b.level]||0)-(LEVEL_WEIGHT[a.level]||0));
+  return items.sort((a,b)=>(LEVEL_WEIGHT[b.level]||0)-(LEVEL_WEIGHT[a.level]||0));
 }
 
 export function primaryAttention(save,repo){return collectAttentionItems(save,repo)[0]||item('advance','career','info','规划下一段职业时间','检查训练、目标和下一场比赛后继续推进。','▶')}
@@ -68,7 +53,6 @@ export function navigationAttention(save,repo){
 }
 
 export function markAttentionRead(save,id){const state=ensureAttentionState(save);state.read[id]=Date.now();return id}
-export function deferAttention(save,entry){if(entry.level==='urgent')return false;const state=ensureAttentionState(save);state.deferred[entry.id]=attentionFingerprint(save,entry);return entry.id}
 export function markSectionViewed(save,section){const state=ensureAttentionState(save);state.lastViewed[section]=Date.now();return state.lastViewed[section]}
 export function currentObjectiveSummary(save){
   const progress=objectiveProgress(save).filter(goal=>goal.active);

@@ -1,8 +1,4 @@
 {
-  "version": "20.1.3",
-  "commitSha": "local",
-  "shortCommitSha": "local",
-  "branch": "local",
-  "buildTime": "2026-08-04T15:12:21.692Z",
-  "deploymentTarget": "local"
+  "version": "20.0.0",
+  "builtAt": "2026-08-04T15:18:01.627Z"
 }

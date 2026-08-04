@@ -1,23 +1,9 @@
 {
-  "name": "绿茵浮沉：足球球员职业生涯",
+  "name": "绿茵浮沉 · 足球生涯",
   "short_name": "绿茵浮沉",
-  "description": "移动端优先的中文足球球员职业生涯与随机事件模拟游戏。",
-  "lang": "zh-CN",
-  "dir": "ltr",
-  "id": "./",
-  "start_url": "./?source=pwa",
-  "scope": "./",
+  "start_url": "./",
   "display": "standalone",
-  "orientation": "portrait-primary",
-  "background_color": "#f5f5f7",
-  "theme_color": "#f5f5f7",
-  "categories": ["games", "sports"],
-  "icons": [
-    {
-      "src": "./icon.svg",
-      "sizes": "any",
-      "type": "image/svg+xml",
-      "purpose": "any maskable"
-    }
-  ]
+  "background_color": "#f4f7fb",
+  "theme_color": "#f4f7fb",
+  "icons": [{"src":"./icon.svg","sizes":"any","type":"image/svg+xml","purpose":"any maskable"}]
 }

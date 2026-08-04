@@ -93,6 +93,7 @@ export function generateSeasonSchedule(save,repo,{force=false}={}){
   const assigned=assignDates(rng.shuffle(specs).slice(0,44),rng,clock.seasonStartDate).map(spec=>createFixture({save,current,...spec,index:spec.index,rng,week:spec.week,date:spec.date}));
   assigned.sort((a,b)=>compareGameDates(a.date,b.date)||a.competition.localeCompare(b.competition,'zh-CN'));
   noAdjacentRepeat(assigned);
+  assigned.sort((a,b)=>compareGameDates(a.date,b.date)||a.competition.localeCompare(b.competition,'zh-CN'));
   save.career.schedule={season:save.career.season,seasonId:clock.seasonId,clubId:current.id,squadLevel:save.career.squadLevel,weeks:SEASON_WEEKS,generatedAt:Date.now(),fixtures:assigned};
   return save.career.schedule;
 }
@@ -111,8 +112,9 @@ export function ensureSchedule(save,repo){return reconcilePastFixtures(save,gene
 export function nextFixture(save,repo,{fromDate,fromWeek}={}){
   const clock=ensureGameClock(save),schedule=ensureSchedule(save,repo);
   const date=fromDate||clock.currentDate;
-  if(fromWeek&&!fromDate)return schedule.fixtures.find(f=>!f.played&&f.week>=Number(fromWeek))||null;
-  return schedule.fixtures.find(f=>!f.played&&compareGameDates(f.date,date)>=0)||null;
+  const ordered=[...(schedule.fixtures||[])].sort((a,b)=>compareGameDates(a.date,b.date)||Number(a.round||0)-Number(b.round||0));
+  if(fromWeek&&!fromDate)return ordered.find(f=>!f.played&&f.week>=Number(fromWeek))||null;
+  return ordered.find(f=>!f.played&&compareGameDates(f.date,date)>=0)||null;
 }
 export function fixturesForDate(save,repo,date=ensureGameClock(save).currentDate){return ensureSchedule(save,repo).fixtures.filter(f=>!f.played&&f.date===date)}
 export function fixturesForWeek(save,repo,week=ensureGameClock(save).competitionWeek){return ensureSchedule(save,repo).fixtures.filter(f=>!f.played&&f.week===week)}
@@ -121,7 +123,7 @@ export function scheduleStats(save){
   const fixtures=save.career.schedule?.fixtures||[],played=fixtures.filter(f=>f.played),opponents=uniq(fixtures.map(f=>f.opponentId));
   return{total:fixtures.length,played:played.length,remaining:fixtures.length-played.length,differentOpponents:opponents.length,competitions:Object.fromEntries(uniq(fixtures.map(f=>f.competition)).map(name=>[name,fixtures.filter(f=>f.competition===name).length]))};
 }
-export function upcomingFixtures(save,repo,count=8){const date=ensureGameClock(save).currentDate;return ensureSchedule(save,repo).fixtures.filter(f=>!f.played&&compareGameDates(f.date,date)>=0).slice(0,count)}
+export function upcomingFixtures(save,repo,count=8){const date=ensureGameClock(save).currentDate;return [...ensureSchedule(save,repo).fixtures].filter(f=>!f.played&&compareGameDates(f.date,date)>=0).sort((a,b)=>compareGameDates(a.date,b.date)||Number(a.round||0)-Number(b.round||0)).slice(0,count)}
 export function syncScheduleAfterClubChange(save,repo){
   const currentDate=ensureGameClock(save).currentDate,completed=(save.career.schedule?.fixtures||[]).filter(f=>f.played);
   const generated=generateSeasonSchedule(save,repo,{force:true});

@@ -1,15 +1,17 @@
 import {el,button,clear} from '../utils/dom.js';
-import {getTrainingPlans,resolveTraining,selectTrainingPlan} from '../systems/training/trainingSystem.js';
+import {getTrainingPlans,resolveTraining,selectTrainingPlan,recommendTrainingPlan} from '../systems/training/trainingSystem.js';
 import {TRAINING_STRATEGIES,setStrategies} from '../systems/pace/paceSystem.js';
 import {showToast} from '../components/toast.js';
 import {animationDirector} from '../animations/director/animationDirector.js';
+import {openSheet,closeSheet} from '../components/sheet.js';
+import {ensureTrainingEvent,resolveTrainingEvent} from '../systems/training/trainingEventSystem.js';
 
 const ATTR_LABELS={pac:'速度',sho:'射门',pas:'传球',dri:'盘带',def:'防守',phy:'身体'};
 const POSITION_FOCUS={GK:['def','pas','phy'],CB:['def','phy','pas'],LB:['pac','def','pas'],RB:['pac','def','pas'],DM:['def','pas','phy'],CM:['pas','dri','phy'],AM:['pas','dri','sho'],LW:['pac','dri','sho'],RW:['pac','dri','sho'],SS:['sho','dri','pas'],ST:['sho','pac','phy']};
 
 export function renderTrainingPage(container,ctx){
   const {store,repo}=ctx,save=store.state,club=repo.getClub(save.career.clubId);clear(container);
-  const plans=getTrainingPlans(save),recommendation=trainingRecommendation(save,plans),current=plans.find(plan=>plan.selected)||plans.find(plan=>plan.id==='tactics')||plans[0];
+  const plans=getTrainingPlans(save),baseRecommendation=recommendTrainingPlan(save),recommendation=trainingRecommendation(save,plans,baseRecommendation),current=plans.find(plan=>plan.selected)||plans.find(plan=>plan.id==='tactics')||plans[0],trainingEvent=ensureTrainingEvent(save);
   const ranked=plans.map(plan=>({...plan,assessment:assessPlan(save,plan,recommendation.id)})).sort((a,b)=>b.assessment.fit-a.assessment.fit);
   const primary=uniquePlans([ranked.find(plan=>plan.id===current.id),ranked.find(plan=>plan.id===recommendation.id),...ranked]).slice(0,4);
   const secondary=ranked.filter(plan=>!primary.some(item=>item.id===plan.id));
@@ -20,6 +22,7 @@ export function renderTrainingPage(container,ctx){
     strategyControl(save,store,ctx,recommendation),
     benefitPreview(save,current,assessPlan(save,current,recommendation.id)),
     planSection(primary,secondary,current,recommendation,selectPlan),
+    trainingEventPanel(trainingEvent,save,store,ctx),
     actionBar(save,store,ctx,recommendation,club)
   );
   container.append(page);
@@ -104,8 +107,10 @@ function planSection(primary,secondary,current,recommendation,onSelect){
   ]);
   const grid=el('div',{className:'training-plan-grid'});primary.forEach(plan=>grid.append(planCard(plan,current,recommendation,onSelect)));section.append(grid);
   if(secondary.length){
-    const details=el('details',{className:'training-more-plans'}),summary=el('summary',{text:`查看其他 ${secondary.length} 项训练`}),more=el('div',{className:'training-plan-grid training-plan-grid--more'});
-    secondary.forEach(plan=>more.append(planCard(plan,current,recommendation,onSelect)));details.append(summary,more);section.append(details);
+    section.append(button(`查看其他 ${secondary.length} 项训练`,{className:'button button--secondary training-more-button',onClick:()=>{
+      const more=el('div',{className:'training-plan-grid training-plan-grid--sheet'});secondary.forEach(plan=>more.append(planCard(plan,current,recommendation,onSelect)));
+      openSheet({title:'更多训练方案',subtitle:'选择后立即更新训练计划，并保留在训练页面',content:more,size:'large'});
+    }}));
   }
   return section;
 }
@@ -128,6 +133,34 @@ function planCard(plan,current,recommendation,onSelect){
   );
   card.addEventListener('click',()=>onSelect(card,plan));return card;
 }
+
+
+function trainingEventPanel(event,save,store,ctx){
+  if(!event)return el('section',{className:'training-event-card is-empty'},[el('span',{className:'eyebrow',text:'训练事件'}),el('strong',{text:'本周没有额外训练事件'}),el('p',{text:'完成训练后继续推进时间，新的教练安排和队友互动会在后续周出现。'})]);
+  const section=el('section',{className:'training-event-card'},[
+    el('span',{className:'eyebrow',text:'本周训练事件'}),el('h2',{text:event.title}),el('p',{text:event.desc})
+  ]),list=el('div',{className:'training-event-options'});
+  for(const choice of event.choices){
+    list.append(button('',{className:'training-event-option',onClick:async()=>{
+      try{
+        let result;store.update(state=>{result=resolveTrainingEvent(state,choice.id)},'training-event-resolved',result);
+        await animationDirector.play('dice-roll',{id:result.event.id,value:result.result.after.injury?2:5,label:result.result.after.injury?'出现代价':'训练反馈'},{token:`training-event:${result.event.id}:${choice.id}`});
+        const content=el('div',{className:'training-event-result'},[
+          el('div',{className:`result-orb result-orb--${result.result.after.injury?'bad':'good'}`,text:result.result.after.injury?'受伤':'完成'}),
+          el('h3',{text:choice.name}),el('p',{text:result.result.summary}),
+          el('div',{className:'v20-metric-grid'},[
+            eventMetric('体能',`${Math.round(result.result.before.fitness)} → ${Math.round(result.result.after.fitness)}`),
+            eventMetric('疲劳',`${Math.round(result.result.before.fatigue)} → ${Math.round(result.result.after.fatigue)}`),
+            eventMetric('教练信任',`${Math.round(result.result.before.coachTrust)} → ${Math.round(result.result.after.coachTrust)}`)
+          ])
+        ]);
+        openSheet({title:'训练事件结果',subtitle:'结果已写入当前存档',content,actions:[{label:'继续训练规划',className:'button button--primary',onClick:()=>ctx.refresh()}]});
+      }catch(error){showToast(error.message||'训练事件结算失败',{type:'error'})}
+    }},[el('strong',{text:choice.name}),el('small',{text:choice.hint})]));
+  }
+  section.append(list);return section;
+}
+function eventMetric(label,value){return el('div',{className:'v20-metric'},[el('small',{text:label}),el('strong',{text:value})])}
 
 function actionBar(save,store,ctx,recommendation,club){
   const completed=Boolean(save.career.weekState?.trainingDone);
@@ -153,8 +186,9 @@ function actionBar(save,store,ctx,recommendation,club){
   ]);
 }
 
-function trainingRecommendation(save,plans){
-  const recent=(save.career.matchHistory||[]).slice(-3).map(match=>Number(match.rating||0)).filter(Boolean);
+function trainingRecommendation(save,plans,baseRecommendation){
+  const recent=(save.career.matchHistory||[]).slice(-3).map(match=>Number(match.rating||match.playerResult?.rating||0)).filter(Boolean);
+  if(baseRecommendation?.planId==='recovery')return{id:'recovery',level:'warning',icon:'♥',iconMotion:'fatigue',title:baseRecommendation.title,message:baseRecommendation.reason,shortReason:baseRecommendation.reason};
   const average=recent.length?recent.reduce((sum,value)=>sum+value,0)/recent.length:7;
   if(save.status.injury||save.status.fitness<55||save.status.fatigue>=62)return{id:'recovery',level:'warning',icon:'♥',iconMotion:'fatigue',title:'先恢复，再增长',message:`当前体能 ${Math.round(save.status.fitness)}、疲劳 ${Math.round(save.status.fatigue)}，高强度训练会放大伤病风险。`,shortReason:'体能负荷偏高，优先恢复',iconMotion:'fatigue'};
   const focus=POSITION_FOCUS[save.player.position]||['pac','pas','phy'];

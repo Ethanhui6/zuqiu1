@@ -1,5 +1,5 @@
-export const APP_VERSION = '19.1.0';
-export const SAVE_SCHEMA = 22;
+export const APP_VERSION = '20.0.0';
+export const SAVE_SCHEMA = 23;
 export const SAVE_SLOTS = 3;
 
 export const ATTR_KEYS = ['pac','sho','pas','dri','def','phy'];
