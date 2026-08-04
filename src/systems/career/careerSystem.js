@@ -23,8 +23,7 @@ export function createTalentCandidates({seed,position,style,templates,count=3}){
 
 export function generateAcademyOffers({seed,nation,position,ovr,talent,clubs}){
   const rng=new DeterministicRng(`${seed}|academy|${nation}|${position}`);
-  let candidates=clubs.filter(c=>c.country===nation&&c.youth>=55&&c.rep<=Math.max(84,ovr+24));
-  if(candidates.length<3)candidates=clubs.filter(c=>c.youth>=65&&c.rep<=Math.max(80,ovr+20));
+  const candidates=clubs.filter(c=>c.country===nation&&c.youth>=55&&c.rep<=Math.max(84,ovr+24));
   const scored=candidates.map(c=>({club:c,score:c.youth*.42+c.youthUsage*.22-(c.rep-ovr)*.16+(c.needs.includes(position)?9:0)+rng.next()*13})).sort((a,b)=>b.score-a.score);
   const picked=[];for(const item of scored){if(!picked.some(x=>x.club.id===item.club.id))picked.push(item);if(picked.length===3)break}
   return picked.map(({club,score},i)=>({clubId:club.id,squad:i===0&&talent.rarityKey==='legend'?'19岁以下青年队':'18岁以下青年队',role:i===0?'重点培养对象':i===1?'地区希望之星':'试训球员',contractYears:2,weeklyWage:Math.round(120+club.finance*4+score*2),reason:club.needs.includes(position)?'该位置是青训重点补强方向':'青训体系与成长风格匹配'}));
@@ -83,7 +82,7 @@ export function updateCareerStage(save,club){
 
 export function advanceSeason(save){
   save.career.history.push({type:'season',year:save.career.year,season:save.career.season,clubId:save.career.clubId,stats:{...save.career.seasonStats},ovr:save.player.ovr});
-  save.career.year++;save.career.season++;save.career.month=1;save.career.seasonProgress=0;save.player.age++;save.career.contract.years=Math.max(0,save.career.contract.years-1);save.career.seasonStats=emptySeasonStats();save.status.fatigue=clamp(save.status.fatigue-24,0,100);save.status.fitness=clamp(save.status.fitness+18,0,100);save.career.pending.event=null;save.career.pending.match=null;save.career.pending.offers=[];save.career.schedule=null;save.career.calendar={week:1,absoluteWeek:save.career.calendar?.absoluteWeek||1,nextEventWeek:1,nextEventDate:null};save.career.weekState={trainingDone:false,eventDone:false,matchDone:false,trainingResult:null};save.career.objectives={season:save.career.season,cycleId:save.career.objectives?.cycleId||0,generatedDate:null,expiresDate:null,candidates:[],active:[],completed:save.career.objectives?.completed||[],rewarded:save.career.objectives?.rewarded||[]};
+  save.career.year++;save.career.season++;save.career.month=1;save.career.seasonProgress=0;save.career.contract.years=Math.max(0,save.career.contract.years-1);save.career.seasonStats=emptySeasonStats();save.status.fatigue=clamp(save.status.fatigue-24,0,100);save.status.fitness=clamp(save.status.fitness+18,0,100);save.career.pending.event=null;save.career.pending.match=null;save.career.pending.offers=[];save.career.schedule=null;save.career.calendar={week:1,absoluteWeek:save.career.calendar?.absoluteWeek||1,nextEventWeek:1,nextEventDate:null};save.career.weekState={trainingDone:false,eventDone:false,matchDone:false,trainingResult:null};save.career.objectives={season:save.career.season,cycleId:save.career.objectives?.cycleId||0,generatedDate:null,expiresDate:null,candidates:[],active:[],completed:save.career.objectives?.completed||[],rewarded:save.career.objectives?.rewarded||[]};
   if(save.career.loan&&save.career.season>=save.career.loan.returnSeason){const loan={...save.career.loan};save.career.clubId=loan.parentClubId;save.career.loan=null;save.career.teamRole='轮换';save.status.coachTrust=48;save.career.history.push({type:'loan-return',year:save.career.year,season:save.career.season,title:'租借期结束',text:'租借期满后回到母队，重新竞争一线队位置。',from:loan.loanClubId,to:loan.parentClubId});}
 }
 

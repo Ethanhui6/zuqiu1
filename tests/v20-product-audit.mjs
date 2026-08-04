@@ -111,12 +111,12 @@ check('用户界面不再显示World Explorer或危险直出文字',()=>{
   for(const token of ['World Explorer','[object Object]','Loading','Continue','Transfer Offer'])assert.equal(ui.includes(token),false,token);
 });
 check('V20 Service Worker缓存当前生产入口并清理旧缓存',()=>{
-  assert.match(files.sw,/career-v20-shell/);
-  for(const token of ['./index.html','./styles.css','./src/app.js'])assert.ok(files.sw.includes(token),token);
+  assert.match(files.sw,/career-vnext-world-time-1/);
+  for(const token of ['./index.html','./styles.css','./src/main.js'])assert.ok(files.sw.includes(token),token);
   assert.ok(files.sw.includes('caches.delete')&&files.sw.includes('clients.claim'));
 });
 check('生产页面不使用整页innerHTML重建',()=>{
   for(const [name,text] of Object.entries(files))if(name!=='css'&&name!=='sw')assert.equal(/\.innerHTML\s*=/.test(text),false,name);
 });
 
-console.log(JSON.stringify({status:'PASS',version:'20.0.0',passed:passed.length,cases:passed},null,2));
+console.log(JSON.stringify({status:'PASS',version:'20.1.0',passed:passed.length,cases:passed},null,2));

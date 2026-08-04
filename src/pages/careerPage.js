@@ -45,6 +45,7 @@ export function renderCareerPage(container,ctx){
 
   function handleAttention(item){
     store.update(state=>markAttentionRead(state,item.id),'attention-read');
+    if(item.action==='event'&&save.career.pending?.event){showEvent(save.career.pending.event,save.career.advance?.resumeTarget||null);return}
     if(item.action==='objective'){openObjectiveSheet(save,store,ctx);return}
     if(item.action==='medical'){openMedicalCenter(save,club,ctx);return}
     if(item.action==='honours'){openHonoursRoom(save,club,ctx);return}
@@ -135,7 +136,7 @@ function compactPlayerCard(save,club,onOpen){
 function careerConsole(save,club,repo,onOpen){
   const stats=save.career.seasonStats,next=upcomingFixtures(save,repo,1)[0],opponent=next?repo.getClub(next.opponentId):null;
   return button('',{className:'v20-career-console',onClick:onOpen},[
-    el('div',{className:'v20-section-heading'},[el('div',{},[el('small',{text:`第${save.career.season}赛季 · 第${save.career.gameClock.competitionWeek}周`}),el('strong',{text:'职业控制台'})]),el('span',{className:'v20-season-ring',text:`${save.career.seasonProgress}%`})]),
+    el('div',{className:'v20-section-heading'},[el('div',{},[el('small',{text:`${formatGameDate(save.career.gameClock.currentDate)} · ${save.career.gameClock.seasonId}赛季 · 第${save.career.gameClock.competitionWeek}周`}),el('strong',{text:`${save.player.displayName||save.player.name} · ${save.player.age}岁`})]),el('span',{className:'v20-season-ring',text:`${save.career.seasonProgress}%`})]),
     el('div',{className:'v20-stat-grid'},[stat('出场',stats.apps),stat('进球',stats.goals),stat('助攻',stats.assists),stat('评分',stats.rating||'—')]),
     el('div',{className:'v20-next-match'},[el('small',{text:'下一场'}),el('strong',{text:opponent?opponent.cn:'等待新赛季'}),el('span',{text:next?`${next.competition} · ${next.home?'主场':'客场'}`:'赛程已结束'})]),
     compactProgress('体能',save.status.fitness),compactProgress('士气',save.status.morale),compactProgress('信任',save.status.coachTrust)

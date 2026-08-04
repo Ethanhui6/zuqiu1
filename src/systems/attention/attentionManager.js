@@ -20,7 +20,7 @@ export function collectAttentionItems(save,repo){
   ensureAttentionState(save);
   const items=[];
   const pendingEvent=save.career.pending?.event;
-  if(pendingEvent&&!pendingEvent.resolved)items.push(item(`event:${pendingEvent.id}`,'career','urgent','处理关键职业事件','这项决定会改变后续剧情和职业状态。','✦'));
+  if(pendingEvent&&!pendingEvent.resolved)items.push(item(`event:${pendingEvent.id}`,'career','urgent','处理关键职业事件','这项决定会改变后续剧情和职业状态。','✦','event'));
   const pendingMatch=save.career.pending?.match;
   if(pendingMatch&&!pendingMatch.resolved)items.push(item(`match:${pendingMatch.id}`,'match','urgent','完成当前比赛','比赛正在等待你的关键选择。','⚽'));
   const activeOffers=offers(save);

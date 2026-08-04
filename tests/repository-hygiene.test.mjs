@@ -30,7 +30,7 @@ test('仓库不跟踪构建产物和本地敏感文件', () => {
 });
 
 test('生产构建输入完整', () => {
-  for (const file of ['index.html', 'styles.css', 'src/app.js', 'scripts/build.mjs']) {
+  for (const file of ['index.html', 'styles.css', 'src/main.js', 'scripts/build.mjs']) {
     assert.ok(tracked.includes(file), `${file} 必须纳入版本控制`);
   }
 });
