@@ -28,12 +28,6 @@ try{
   await page.locator('.v20-choice-card').first().click();
   await page.locator('.animation-skip').waitFor();await page.locator('.animation-skip').click({force:true});
   await page.locator('.sheet-footer .button--primary').click();await page.locator('.sheet-backdrop').waitFor({state:'detached'});
-  const openingChoices=page.locator('.v20-choice-card');
-  if(await openingChoices.count()){
-    await openingChoices.first().click();
-    await page.locator('.sheet-footer .button--primary').click();
-    await page.locator('.sheet-backdrop').waitFor({state:'detached'});
-  }
 
   for(const route of ['career','match','training','transfer','more']){await page.locator(`.tab-button[data-route="${route}"]`).click();await page.locator(`.tab-button[data-route="${route}"].is-active`).waitFor()}
   await page.locator('.tab-button[data-route="training"]').click();await page.locator('.training-plan-card').nth(1).click();await page.locator('.training-plan-card.is-selected').waitFor();
@@ -42,4 +36,4 @@ try{
   assert.equal(saved.career.weekState.trainingDone,true);assert.ok(saved.career.trainingPlan);assert.equal(await page.locator('#overlay-root .overlay').count(),0);
   await page.reload({waitUntil:'networkidle'});assert.ok(await page.locator('.app-shell').isVisible());assert.equal(await page.locator('input[name="name"]').count(),0);assert.deepEqual(errors,[]);await context.close();
 }finally{await browser.close();await new Promise(resolve=>server.close(resolve))}
-console.log(JSON.stringify({status:'PASS',engine:'current index.html via system Chromium',viewports:results,flow:['save selector','six-step player creation','bottom navigation','training settlement','slot save reload'],screenshots:path.relative(process.cwd(),shots),physicalSafari:false},null,2));
+console.log(JSON.stringify({status:'PASS',engine:'current index.html via system Chromium',viewports:results,flow:['save selector','six-step player creation','bottom navigation','training plan persistence','slot save reload'],screenshots:path.relative(process.cwd(),shots),physicalSafari:false},null,2));
