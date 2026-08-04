@@ -1,7 +1,11 @@
-const CACHE = 'career-vnext-world-time-1';
+const CACHE = 'career-vnext-world-time-2';
 const CORE = ['./','./index.html','./styles.css','./src/main.js','./icon.svg'];
 self.addEventListener('install', event => event.waitUntil(caches.open(CACHE).then(cache => cache.addAll(CORE)).then(() => self.skipWaiting())));
-self.addEventListener('activate', event => event.waitUntil(caches.keys().then(keys => Promise.all(keys.filter(key => key !== CACHE).map(key => caches.delete(key)))).then(() => self.clients.claim())));
+self.addEventListener('activate', event => event.waitUntil(caches.keys()
+  .then(keys => Promise.all(keys.filter(key => key !== CACHE).map(key => caches.delete(key))))
+  .then(() => self.clients.claim())
+  .then(() => self.clients.matchAll({type:'window',includeUncontrolled:true}))
+  .then(clients => Promise.all(clients.map(client => client.navigate(client.url).catch(() => undefined))))));
 self.addEventListener('fetch', event => {
   if (event.request.method !== 'GET') return;
   event.respondWith(fetch(event.request).then(response => {
