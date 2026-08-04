@@ -26,7 +26,7 @@ const styles={
 };
 
 function seeded(seed){ let x=0; for(const ch of seed)x=(x*31+ch.charCodeAt(0))>>>0; return ()=>((x=Math.imul(1664525,x)+1013904223>>>0)/4294967296); }
-function scoutDraft(draft){ const rnd=seeded(`${draft.name}-${draft.birth}-${draft.position}-${draft.style}`); const base=styles[draft.style]||styles['全能型']; const stats=Object.fromEntries(Object.entries(base).map(([k,v])=>[k,Math.max(35,Math.min(78,Number((v+(rnd()-.5)*8).toFixed(2))))])); const potential=Math.round(70+rnd()*24); const tiers=potential>=93?'传奇迹象':potential>=89?'世代':potential>=86?'顶级':potential>=82?'精英':potential>=78?'优秀':potential>=74?'良好':'普通'; return {stats,potential,tier,confidence:Math.round(72+rnd()*23),strengths:Object.entries(stats).sort((a,b)=>b[1]-a[1]).slice(0,2).map(([k])=>k),weaknesses:Object.entries(stats).sort((a,b)=>a[1]-b[1]).slice(0,2).map(([k])=>k)}; }
+function scoutDraft(draft){ const rnd=seeded(`${draft.name}-${draft.birth}-${draft.position}-${draft.style}`); const base=styles[draft.style]||styles['全能型']; const stats=Object.fromEntries(Object.entries(base).map(([k,v])=>[k,Math.max(35,Math.min(78,Number((v+(rnd()-.5)*8).toFixed(2))))])); const potential=Math.round(70+rnd()*24); const tiers=potential>=93?'传奇迹象':potential>=89?'世代':potential>=86?'顶级':potential>=82?'精英':potential>=78?'优秀':potential>=74?'良好':'普通'; return {stats,potential,tier:tiers,confidence:Math.round(72+rnd()*23),strengths:Object.entries(stats).sort((a,b)=>b[1]-a[1]).slice(0,2).map(([k])=>k),weaknesses:Object.entries(stats).sort((a,b)=>a[1]-b[1]).slice(0,2).map(([k])=>k)}; }
 
 export function createPlayerWizard(app){
   let step=0;
