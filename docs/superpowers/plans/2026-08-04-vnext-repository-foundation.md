@@ -14,7 +14,7 @@
 
 - [x] Record `main` SHA and create a timestamped backup branch and annotated tag.
 - [x] Create an isolated worktree on `refactor/vnext-ui-growth-production`.
-- [ ] Verify the backup branch and tag on GitHub after connectivity recovers.
+- [x] Verify the backup branch and tag on GitHub after connectivity recovers.
 
 ### Task 2: Make generated output reproducible
 
@@ -28,4 +28,4 @@
 - [x] Add a Node 20 workflow that runs `npm ci` and `npm run check` and uploads `dist/`.
 - [x] Document the active runtime, UI risks, baseline, and deployment blocker.
 - [x] Run `npm run check` and `git diff --check`.
-- [ ] Commit and push the refactor branch.
+- [x] Commit and push the refactor branch.

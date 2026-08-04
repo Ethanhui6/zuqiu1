@@ -8,7 +8,7 @@
 - 本地备份标签：`backup-pre-vnext-production-20260804-1537`
 - 实施分支：`refactor/vnext-ui-growth-production`
 
-远程备份首次推送遇到 GitHub HTTPS 连接重置，完成远程验证前禁止合并或生产部署。
+远程备份首次推送遇到 GitHub HTTPS 连接重置，重试后已验证分支、标签和重构分支均可从 `origin` 读取。
 
 ## Phase 1
 
@@ -16,5 +16,5 @@
 - [x] 建立本地备份与隔离 worktree。
 - [x] 增加仓库卫生测试和独立 CI。
 - [x] 将 `dist/` 定义为可重建产物。
-- [ ] 推送并验证远程备份、标签和重构分支。
+- [x] 推送并验证远程备份、标签和重构分支。
 - [ ] 确认 GitHub 分支保护与 Cloudflare 生产环境。
