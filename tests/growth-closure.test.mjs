@@ -67,3 +67,8 @@ test('active injury and app randomness is deterministic and contains no Math.ran
   assert.deepEqual(a,b);
   for(const file of ['../src/app.js','../src/core/injuryEngine.js'])assert.doesNotMatch(fs.readFileSync(new URL(file,import.meta.url),'utf8'),/Math\.random/);
 });
+
+test('long simulation writes volatile reports only to ignored test results',()=>{
+  const source=fs.readFileSync(new URL('./twenty-season-sim.mjs',import.meta.url),'utf8');
+  assert.match(source,/test-results/);assert.doesNotMatch(source,/docs\/V19_20_SEASON_REPORT/);
+});
