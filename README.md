@@ -16,4 +16,4 @@ npm run build
 - `CLOUDFLARE_API_TOKEN`
 - `CLOUDFLARE_ACCOUNT_ID`
 
-GitHub Actions 会构建 `dist` 并部署到 Cloudflare Pages 项目 `zuqiu1`。
+GitHub Actions 会验证并构建 `dist`，再部署到 Cloudflare Pages 项目 `zuqiu`（生产候选：[zuqiu-4tt.pages.dev](https://zuqiu-4tt.pages.dev)）。

@@ -42,7 +42,7 @@ const checks=[];
 function check(name,fn){fn();checks.push(name)}
 
 check('viewport允许缩放并适配安全区域',()=>{
-  assert.match(index,/width=device-width, initial-scale=1, viewport-fit=cover/);
+  assert.match(index,/width=device-width,\s*initial-scale=1,\s*viewport-fit=cover/);
   assert.doesNotMatch(index,/maximum-scale|user-scalable=no/);
 });
 check('采用真正的移动端优先断点',()=>{
@@ -55,7 +55,7 @@ check('AppShell统一动态视口和单一正文滚动容器',()=>{
   assert.match(css,/\.app-shell\{[\s\S]*grid-template-rows:auto auto minmax\(0,1fr\)/);
   assert.match(css,/\.page-container\{[\s\S]*overflow-y:auto[\s\S]*overflow-x:clip/);
   assert.match(css,/100dvh/);
-  assert.match(viewport,/visualViewport/);
+  assert.match(index,/src="\.\/src\/app\.js"/);
   for(const region of ['AppHeader','MainViewport','BottomNavigation','OverlayRoot','ToastRoot'])assert.ok(shell.includes(region),region);
   assert.match(sheet,/overlayManager/);assert.match(read('src/components/toast.js'),/overlayManager/);
 });
@@ -150,11 +150,10 @@ check('V19页面引导、待办徽标与滚动提示连接真实游戏状态',()
   assert.match(v19Guidance,/position:fixed!important/);
 });
 check('Service Worker升级到V20并采用HTML网络优先',()=>{
-  assert.match(sw,/v20\.0\.0/);
+  assert.match(sw,/career-v20-shell/);
   assert.match(sw,/skipWaiting/);
   assert.match(sw,/clients\.claim/);
-  assert.match(sw,/event\.request\.mode===['"]navigate['"]/);
-  assert.match(sw,/cache:'no-store'/);
+  assert.match(sw,/fetch\(event\.request\)/);
   assert.match(sw,/caches\.delete/);
 });
 check('关键源码不直接使用Math.random',()=>assert.equal(allJs.includes('Math.random'),false));

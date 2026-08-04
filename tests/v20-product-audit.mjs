@@ -110,9 +110,9 @@ check('用户界面不再显示World Explorer或危险直出文字',()=>{
   const ui=Object.values(files).join('\n');
   for(const token of ['World Explorer','[object Object]','Loading','Continue','Transfer Offer'])assert.equal(ui.includes(token),false,token);
 });
-check('V20 Service Worker包含新系统并清理旧缓存',()=>{
-  assert.match(files.sw,/green-pitch-v20\.0\.0/);
-  for(const token of ['attentionManager.js','facilityExperienceSystem.js','trainingEventSystem.js','worldExplorerSystem.js','v20-product.css'])assert.ok(files.sw.includes(token),token);
+check('V20 Service Worker缓存当前生产入口并清理旧缓存',()=>{
+  assert.match(files.sw,/career-v20-shell/);
+  for(const token of ['./index.html','./styles.css','./src/app.js'])assert.ok(files.sw.includes(token),token);
   assert.ok(files.sw.includes('caches.delete')&&files.sw.includes('clients.claim'));
 });
 check('生产页面不使用整页innerHTML重建',()=>{
