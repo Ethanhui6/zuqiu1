@@ -18,3 +18,5 @@
 - [x] 将 `dist/` 定义为可重建产物。
 - [x] 推送并验证远程备份、标签和重构分支。
 - [ ] 确认 GitHub 分支保护与 Cloudflare 生产环境。
+- [x] Actions 部署统一指向已验证的 Pages 项目 `zuqiu`，PR 先验证 `dist/build-meta.json` 与预览。
+- [ ] 在 Cloudflare 控制台禁用原生 Git 自动构建，并冻结重复“项目 1”和失败 Worker `football`。

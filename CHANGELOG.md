@@ -31,7 +31,7 @@
 - 50+ 个反馈状态目录与多种提示、爆发、警告、结果面板效果。
 - 16 种事件交互形式和具体足球场景事件。
 - 成长日志、伤病日志、角色记忆、转会关注与报价流程。
-- Cloudflare Pages GitHub Actions 自动部署配置。
+- Cloudflare Pages Actions 部署统一使用项目 `zuqiu`：PR 发布隔离预览，`main` 发布生产候选 `zuqiu-4tt.pages.dev`；原生 Git 自动构建、重复“项目 1”和 Worker `football` 的控制台冻结仍待完成。
 
 ### 删除
 - 本压缩包为统一重构版，不包含旧版 `ux-v18.2.css`、`pace-v18.3.css`、旧模态、旧按钮和旧事件模板。

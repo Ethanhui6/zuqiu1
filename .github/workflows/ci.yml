@@ -5,7 +5,6 @@ on:
   push:
     branches:
       - main
-      - refactor/vnext-ui-growth-production
 
 permissions:
   contents: read

@@ -12,4 +12,6 @@
 
 ## 发布边界
 
-`.github/workflows/ci.yml` 只验证测试和构建。现有 `deploy.yml` 仍负责生产发布，在确认 Cloudflare 项目、分支保护和生产域名前不修改。
+`.github/workflows/ci.yml` 是合并门禁，只运行测试和构建。`.github/workflows/deploy.yml` 从同一提交生成并上传 `dist`，再通过 Wrangler 发布到已验证的 Cloudflare Pages 项目 `zuqiu`：PR 使用 `pr-<number>` 预览分支，`main` 使用生产分支。生产候选域名为 `zuqiu-4tt.pages.dev`。
+
+Cloudflare 原生 Git 连接当前仍从仓库根目录自动构建，并与 Actions 部署重复；重复的“项目 1”和失败的 Worker `football` 也尚未冻结。这三项必须在 Cloudflare 控制台确认并禁用，当前未完成。

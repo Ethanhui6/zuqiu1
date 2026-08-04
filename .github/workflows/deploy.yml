@@ -1,9 +1,14 @@
 name: Build and Deploy Football Career Simulator
 
 on:
+  pull_request:
   push:
     branches: [main]
   workflow_dispatch:
+
+concurrency:
+  group: pages-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
 
 permissions:
   contents: read
@@ -13,19 +18,31 @@ jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v6
-      - uses: actions/setup-node@v6
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
         with:
-          node-version: 22
+          node-version: 20
           cache: npm
-      - name: Test
-        run: npm test
-      - name: Build
-        run: npm run build
-      - name: Deploy Cloudflare Pages
+      - run: npm ci
+      - run: npm run check
+      - uses: actions/upload-artifact@v4
+        with:
+          name: production-build
+          path: dist
+          if-no-files-found: error
+      - name: Deploy pull request preview
+        if: github.event_name == 'pull_request'
         uses: cloudflare/wrangler-action@v3
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          command: pages deploy dist --project-name=zuqiu1
+          command: pages deploy dist --project-name=zuqiu --branch=pr-${{ github.event.number }}
+          gitHubToken: ${{ secrets.GITHUB_TOKEN }}
+      - name: Deploy production
+        if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          command: pages deploy dist --project-name=zuqiu --branch=main
           gitHubToken: ${{ secrets.GITHUB_TOKEN }}
