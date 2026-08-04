@@ -6,6 +6,8 @@ import { createDefaultState, migrateState, Store } from '../src/core/store.js';
 import { SimulationController } from '../src/core/simulationController.js';
 import { radarChart } from '../src/components/radar.js';
 import { trainingPreview } from '../src/pages/training.js';
+import { createInjury } from '../src/core/injuryEngine.js';
+import { keyedRandom } from '../src/services/rng.js';
 
 const player={name:'test',position:'中场',age:18,potential:88,ovr:60,stats:{speed:60,shooting:56,passing:64,dribbling:63,defending:48,physical:55}};
 
@@ -57,4 +59,11 @@ test('radar and training preview use finite bounded calculated values',()=>{
   assert.doesNotMatch(radarChart({speed:Infinity,shooting:-5,passing:150},{speed:NaN},Infinity),/NaN|Infinity/);
   const preview=trainingPreview({gains:{passing:1},fatigue:5,risk:3},player,{injuries:[]});
   assert.ok(Number.isFinite(preview.changes.passing)&&preview.changes.passing>0&&preview.changes.passing!==1);
+});
+
+test('active injury and app randomness is deterministic and contains no Math.random',()=>{
+  const a=createInjury({date:'2026-07-01',rng:keyedRandom('injury')});
+  const b=createInjury({date:'2026-07-01',rng:keyedRandom('injury')});
+  assert.deepEqual(a,b);
+  for(const file of ['../src/app.js','../src/core/injuryEngine.js'])assert.doesNotMatch(fs.readFileSync(new URL(file,import.meta.url),'utf8'),/Math\.random/);
 });
