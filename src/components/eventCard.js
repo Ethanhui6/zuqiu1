@@ -32,10 +32,10 @@ export function createEventCard(event,{onChoose}={}){
   scene.append(
     el('div',{className:'v20-event-scene__top'},[
       el('span',{className:'v20-event-scene__icon',text:categoryIcon(event),attrs:{'aria-hidden':'true'}}),
-      el('div',{className:'tag-row'},[
-        el('span',{className:'tag tag--accent',text:event.categoryCn}),
-        el('span',{className:'tag',text:event.pressure}),
-        el('span',{className:'tag',text:`${event.choices.length}种选择`})
+      el('div',{className:'v20-tag-row'},[
+        el('span',{className:'v20-tag v20-tag--accent',text:event.categoryCn}),
+        el('span',{className:'v20-tag',text:event.pressure}),
+        el('span',{className:'v20-tag',text:`${event.choices.length}种选择`})
       ])
     ]),
     el('h3',{text:event.title}),

@@ -16,7 +16,7 @@ export function renderWorldPage(container,ctx){
     const stats=continentStats(repo,save);viewport.append(
       el('section',{className:'v20-world-intro'},[el('span',{className:'eyebrow',text:'足球世界'}),el('h1',{text:'从世界地图探索足球环境'}),el('p',{text:'逐级进入大洲、国家、联赛和球队，转会页面与这里共用同一球队详情和收藏状态。'})]),
       createWorldMap(stats,id=>setLevel('continent',{continent:id,country:null,leagueId:null})),
-      el('div',{className:'v20-continent-grid'},stats.map(item=>button('',{className:'v20-continent-card',onClick:()=>setLevel('continent',{continent:item.id,country:null,leagueId:null})},[el('span',{className:'v20-continent-color',attrs:{style:`--continent:${item.theme}`}}),el('div',{},[el('strong',{text:item.name}),el('small',{text:`${item.clubs}家球队 · ${item.leagues}个联赛`}),el('p',{text:`平均实力 ${item.average} · 可加入机会 ${item.opportunity}`})]),item.favorites?el('span',{className:'tag',text:`收藏 ${item.favorites}`}):null])))
+      el('div',{className:'v20-continent-grid'},stats.map(item=>button('',{className:'v20-continent-card',onClick:()=>setLevel('continent',{continent:item.id,country:null,leagueId:null})},[el('span',{className:'v20-continent-color',attrs:{style:`--continent:${item.theme}`}}),el('div',{},[el('strong',{text:item.name}),el('small',{text:`${item.clubs}家球队 · ${item.leagues}个联赛`}),el('p',{text:`平均实力 ${item.average} · 可加入机会 ${item.opportunity}`})]),item.favorites?el('span',{className:'v20-tag',text:`收藏 ${item.favorites}`}):null])))
     )
   }
   function renderContinent(){

@@ -28,11 +28,6 @@ button,article,section,div,span,label{min-width:0}
 .button--large{width:100%;min-height:54px;font-size:16px}
 .button--small{min-height:44px;padding:8px 12px;font-size:13px}
 .icon-button{width:44px;height:44px;border-radius:50%;background:var(--color-surface-secondary);display:grid;place-items:center;font-weight:800;cursor:pointer}
-.tag-row{display:flex;gap:7px;flex-wrap:wrap}
-.tag{display:inline-flex;align-items:center;min-height:28px;padding:5px 9px;border-radius:999px;background:var(--color-surface-secondary);color:var(--color-text-secondary);font-size:11px;font-weight:700;overflow-wrap:anywhere}
-.tag--accent{background:var(--color-accent-soft);color:var(--color-accent)}
-.tag--success{background:var(--color-success-soft);color:#248a3d}
-.tag--danger{background:var(--color-danger-soft);color:#b42318}
 .section-block{margin-top:24px}
 .section-heading{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:14px}
 .section-heading h1,.section-heading h2{margin-bottom:0}

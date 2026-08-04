@@ -151,7 +151,7 @@ input[type="date"]::-webkit-date-and-time-value{text-align:left}
 .v20-talent-card{min-height:190px}
 .v20-final-setup{display:grid;gap:20px}
 .v20-final-setup-section{display:grid;gap:10px}
-.v20-scout-report{padding:16px;border-radius:8px;background:linear-gradient(145deg,#edf2f7,#fff);color:#1d1d1f;border:1px solid rgba(60,60,67,.12)}
+.v20-scout-report{padding:16px;border-radius:8px;background:#eef1f5;color:#1d1d1f;border:1px solid rgba(60,60,67,.12)}
 .v20-scout-report__head{display:flex;flex-direction:column;gap:10px}
 .v20-scout-report__rating strong,.v20-scout-report__rating span{display:block}
 .v20-scout-report__rating strong{color:var(--report-color,var(--color-accent));letter-spacing:.06em}
@@ -201,7 +201,7 @@ input[type="date"]::-webkit-date-and-time-value{text-align:left}
 .club-meta-item small{font-size:9px;color:var(--color-text-tertiary)}
 .club-meta-item strong{margin-top:3px;font-size:12px;line-height:1.35}
 .club-card__footer{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}
-.club-card__footer>.tag-row{flex:1 1 210px}
+.club-card__footer>.v20-tag-row{flex:1 1 210px}
 .club-card__action{color:var(--color-accent);font-size:12px;font-weight:750}
 .club-detail-hero{display:grid;grid-template-columns:72px minmax(0,1fr);gap:14px;align-items:center}
 .club-detail-title h2{margin-bottom:4px}
@@ -402,8 +402,8 @@ input[type="date"]::-webkit-date-and-time-value{text-align:left}
 .training-vitals{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px;margin-top:11px}
 .training-vital{min-width:0;padding:7px 5px;border-radius:8px;background:var(--color-surface-secondary);display:grid;grid-template-columns:auto minmax(0,1fr);gap:5px;align-items:center}
 .training-vital>span{font-size:13px}.training-vital small,.training-vital strong{display:block}.training-vital small{font-size:8px;color:var(--color-text-tertiary)}.training-vital strong{font-size:12px;line-height:1.15}
-.coach-advice{position:relative;min-height:62px;padding:10px 50px 10px 11px;border:1px solid rgba(0,122,255,.16);border-radius:8px;background:linear-gradient(135deg,rgba(0,122,255,.1),rgba(255,255,255,.96));display:grid;grid-template-columns:34px minmax(0,1fr);gap:9px;align-items:center;overflow:hidden}
-.coach-advice--warning{border-color:rgba(255,159,10,.2);background:linear-gradient(135deg,var(--color-warning-soft),#fff)}.coach-advice--attention{border-color:rgba(255,59,48,.16);background:linear-gradient(135deg,var(--color-danger-soft),#fff)}.coach-advice--success{border-color:rgba(52,199,89,.18);background:linear-gradient(135deg,var(--color-success-soft),#fff)}
+.coach-advice{position:relative;min-height:62px;padding:10px 50px 10px 11px;border:1px solid rgba(0,122,255,.16);border-radius:8px;background:rgba(0,122,255,.08);display:grid;grid-template-columns:34px minmax(0,1fr);gap:9px;align-items:center;overflow:hidden}
+.coach-advice--warning{border-color:rgba(255,159,10,.2);background:var(--color-warning-soft)}.coach-advice--attention{border-color:rgba(255,59,48,.16);background:var(--color-danger-soft)}.coach-advice--success{border-color:rgba(52,199,89,.18);background:var(--color-success-soft)}
 .coach-advice__icon{width:34px;height:34px;display:grid;place-items:center;border-radius:8px;background:rgba(255,255,255,.82);font-size:17px;font-weight:900}.coach-advice strong{font-size:12px}.coach-advice p{margin:2px 0 0;color:var(--color-text-secondary);font-size:10px;line-height:1.35}
 .recommendation-pulse{position:absolute;right:9px;top:9px;padding:4px 7px;border-radius:999px;background:var(--color-accent);color:#fff;font-size:8px;font-weight:900}
 .training-strategy-card,.training-preview{padding:11px 12px}.training-section-title{display:flex;align-items:center;justify-content:space-between;gap:8px}.training-section-title small,.training-section-title strong{display:block}.training-section-title small{font-size:9px;color:var(--color-text-tertiary)}.training-section-title strong{font-size:13px;margin-top:1px}

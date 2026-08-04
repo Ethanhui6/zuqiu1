@@ -33,7 +33,7 @@
 - [ ] Add a test that rejects `AppHeader`, `MainViewport`, `BottomNavigation`, `glass-card`, `career-overview`, and `v19-` in active source DOM.
 - [ ] Assert `styles.css` does not reference `v19-guidance.css`, `mobile-v18.5.css`, `pace-v18.3.css`, or `ux-v18.2.css`.
 - [ ] Assert the career source exposes `v20-career-identity`, `v20-career-console`, `v20-career-growth`, and `v20-career-actions` contracts.
-- [ ] Render the shell and career page in the existing Playwright flow and assert the four career sections, `v20-app-header`, `v20-main-viewport`, and `v20-bottom-nav` exist.
+- [ ] Render the shell and career page in the existing Playwright flow, assert the exact four career sections, visit all eight active V20 routes, and verify a scrollable Sheet can close cleanly.
 - [ ] Run `node --test tests/v20-ui-architecture.test.mjs` and record the expected legacy-class/section failure.
 
 ### Task 2: Single V20 Shell and CSS Entry

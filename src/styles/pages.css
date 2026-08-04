@@ -224,7 +224,7 @@
   border-radius: 8px;
   display: grid;
   place-items: center;
-  background: linear-gradient(145deg, #3b82f6, #7455dc);
+  background: var(--accent);
   color: #fff;
   font-weight: 900;
 }
@@ -282,7 +282,7 @@
   border-radius: 8px;
   display: grid;
   place-items: center;
-  background: linear-gradient(145deg, var(--accent), #64d2ff);
+  background: var(--accent);
   color: #fff;
   font-size: 36px;
   font-weight: 900;
@@ -645,13 +645,7 @@
   overflow: auto;
   padding: max(22px, env(safe-area-inset-top)) 18px
     max(22px, env(safe-area-inset-bottom));
-  background:
-    radial-gradient(
-      circle at 15% 0,
-      color-mix(in srgb, var(--accent) 9%, transparent),
-      transparent 34%
-    ),
-    var(--page);
+  background: var(--page);
 }
 .onboarding-card,
 .v20-save-select {
@@ -854,7 +848,7 @@
 .v20-scout-report {
   padding: 18px;
   border-radius: 8px;
-  background: linear-gradient(145deg, #e8ecf2, #fff);
+  background: #eef1f5;
   color: #1d1d1f;
   border: 1px solid rgba(60, 60, 67, 0.12);
 }

@@ -46,7 +46,7 @@ function miniMap(club,coords){
   const dot=document.createElementNS(ns,'circle');dot.setAttribute('cx',String(coords.x));dot.setAttribute('cy',String(coords.y*.58));dot.setAttribute('r','4');dot.setAttribute('fill','#0A84FF');
   const pulse=document.createElementNS(ns,'circle');pulse.setAttribute('cx',String(coords.x));pulse.setAttribute('cy',String(coords.y*.58));pulse.setAttribute('r','8');pulse.setAttribute('fill','none');pulse.setAttribute('stroke','rgba(10,132,255,.25)');pulse.setAttribute('stroke-width','2');
   svg.append(defs,rect,path,pulse,dot);
-  return el('section',{className:'v20-map-card'},[el('div',{className:'v20-section-heading'},[el('div',{},[el('small',{text:'位置'}),el('strong',{text:`${club.country} · ${club.city||'城市资料未核实'}`})]),el('span',{className:'tag',text:'本地示意地图'})]),svg])
+  return el('section',{className:'v20-map-card'},[el('div',{className:'v20-section-heading'},[el('div',{},[el('small',{text:'位置'}),el('strong',{text:`${club.country} · ${club.city||'城市资料未核实'}`})]),el('span',{className:'v20-tag',text:'本地示意地图'})]),svg])
 }
 function metricSection(club){return el('section',{className:'v20-detail-section'},[el('h3',{text:'俱乐部环境'}),el('div',{className:'v20-metric-grid'},[
   metric('综合实力',club.rep),metric('进攻',club.attack),metric('防守',club.defense),metric('青训',club.youth),metric('财政',club.finance),metric('声望',club.reputation||club.rep),metric('球迷规模',formatNumber(club.fanBase)),metric('球场容量',formatNumber(club.stadiumCapacity))

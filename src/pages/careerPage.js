@@ -7,21 +7,20 @@ import {createPlayerCard} from '../components/playerCard.js';
 import {createEventCard} from '../components/eventCard.js';
 import {createDevelopmentDelta} from '../components/developmentDelta.js';
 import {formatMoney,formatNumber,percent,safeText} from '../utils/format.js';
-import {formatGameDate,addGameDays,addGameMonths,daysBetween} from '../utils/gameDate.js';
+import {formatGameDate,daysBetween} from '../utils/gameDate.js';
 import {resolveEventChoice} from '../systems/event/eventEngine.js';
 import {advanceCareer,acknowledgeEventDecision,ensureTimeState} from '../systems/career/timeAdvanceSystem.js';
 import {generateObjectiveCandidates,objectiveProgress,selectObjective} from '../systems/career/objectiveSystem.js';
 import {upcomingFixtures,scheduleStats} from '../systems/schedule/scheduleSystem.js';
-import {getPaceMode,getSpeed,paceSummary} from '../systems/pace/paceSystem.js';
+import {getSpeed} from '../systems/pace/paceSystem.js';
 import {totalFans} from '../systems/fan/fanSystem.js';
 import {ADVANCE_TARGETS,POSITION_CONFIG} from '../app/config.js';
 import {animationDirector} from '../animations/director/animationDirector.js';
 import {ensureSquadCompetition} from '../systems/squad/squadCompetitionSystem.js';
 import {generateStateMessages,markMessageRead,unreadMessages} from '../systems/messages/messageCenterSystem.js';
 import {updateCareerDirector} from '../systems/ai/careerAIDirector.js';
-import {deferAttention,primaryAttention,currentObjectiveSummary,markAttentionRead,markSectionViewed} from '../systems/attention/attentionManager.js';
+import {deferAttention,primaryAttention,markAttentionRead,markSectionViewed} from '../systems/attention/attentionManager.js';
 import {buildAnalysisSeries,chooseMedicalPlan,facilitySummaries,lockerActions,markAnalysisViewed,markHonoursViewed,medicalPlans,resolveLockerAction} from '../systems/facility/facilityExperienceSystem.js';
-import {getTrainingPlans,recommendTrainingPlan,resolveTraining,selectTrainingPlan} from '../systems/training/trainingSystem.js';
 import {traitDefinitions} from '../systems/trait/traitSystem.js';
 
 export function renderCareerPage(container,ctx){
@@ -30,29 +29,16 @@ export function renderCareerPage(container,ctx){
   clear(container);
   const page=el('section',{className:'page career-page v20-career-page'});
   const attention=primaryAttention(save,repo);
-  const identity=el('section',{className:'v20-career-identity'},[createPlayerCard(save,club,{variant:'compact'})]);
+  const identity=el('section',{className:'v20-career-identity',attrs:{'data-section':'identity'}},[createPlayerCard(save,club,{variant:'compact'})]);
   identity.addEventListener('click',()=>openPlayerDetail(save,club));
-  const actions=el('section',{className:'v20-career-actions'},[
+  const actions=el('section',{className:'v20-career-actions',attrs:{'data-section':'actions'}},[
     focusCard(attention,()=>handleAttention(attention),()=>{
       store.update(state=>deferAttention(state,attention),'attention-deferred');
       ctx.refresh();
     })
   ]);
   if(save.career.pending?.event&&!save.career.pending.event.resolved)actions.append(createEventCard(save.career.pending.event,{onChoose:choice=>chooseEvent(choice,save.career.advance?.resumeTarget||null)}));
-  const homeSections=[
-    identity,
-    careerConsole(save,club,repo,()=>openCareerData(save,club,repo)),
-    careerGrowth(save),
-    actions,
-    el('div',{className:'v20-home-twin'},[
-      objectiveSummaryCard(save,()=>openObjectiveSheet(save,store,ctx)),
-      facilitySummaryCard(save,()=>openFacilitiesCenter(save,club,ctx))
-    ]),
-    homeTrainingCard(save,club,store,ctx),
-    paceControlCard(save,repo,target=>openAdvancePreview(target)),
-    recentAdvance(save)
-  ].filter(Boolean);
-  page.append(...homeSections);
+  page.append(identity,careerConsole(save,club,repo,()=>openCareerData(save,club,repo)),careerGrowth(save),actions);
   container.append(page);
 
   function handleAttention(item){
@@ -63,20 +49,6 @@ export function renderCareerPage(container,ctx){
     if(item.action==='honours'){openHonoursRoom(save,club,ctx);return}
     if(item.action==='messages'){openMessages(save,ctx);return}
     navigate(item.route||'career');
-  }
-
-  function openAdvancePreview(target){
-    if(save.career.retirement){showRetirement(save.career.retirement);return}
-    const targetMeta=ADVANCE_TARGETS.find(item=>item.id===target)||{label:'推进职业时间'};
-    const preview=advancePreview(save,target,repo);
-    const content=el('div',{className:'v20-advance-preview'},[
-      el('div',{className:'v20-preview-date'},[el('small',{text:'预计时间范围'}),el('strong',{text:preview.range}),el('span',{text:preview.duration})]),
-      el('div',{className:'v20-info-list'},[
-        infoRow('自动处理',preview.auto),infoRow('可能暂停',preview.pause),infoRow('当前节奏',`${getPaceMode(save).name} · ${getSpeed(save).label}`)
-      ]),
-      el('p',{className:'muted',text:'最终结束日期取决于转会、伤病、首次首发、决赛和其他必须由你处理的重大节点。'})
-    ]);
-    openSheet({title:targetMeta.label,subtitle:'确认推进范围和自动处理规则',content,actions:[{label:'取消',className:'button button--secondary'},{label:'确认推进',className:'button button--primary',onClick:()=>runAdvance(target)}]});
   }
 
   async function runAdvance(target){
@@ -135,7 +107,7 @@ function focusCard(attention,onActivate,onDefer){
 
 function careerConsole(save,club,repo,onOpen){
   const stats=save.career.seasonStats,next=upcomingFixtures(save,repo,1)[0],opponent=next?repo.getClub(next.opponentId):null,countdown=nextMatchCountdown(save,repo);
-  return button('',{className:'v20-career-console',onClick:onOpen},[
+  return button('',{className:'v20-career-console',dataset:{section:'console'},onClick:onOpen},[
     el('small',{className:'v20-console-date',text:`${formatGameDate(save.career.gameClock.currentDate)} · ${save.career.gameClock.seasonId}赛季 · 第${save.career.gameClock.competitionWeek}周`}),
     el('div',{className:'v20-console-player'},[el('strong',{text:`${save.player.displayName||save.player.name} · ${save.player.age}岁`}),el('span',{text:`赛季 ${save.career.seasonProgress}%`})]),
     el('div',{className:'v20-stat-grid'},[stat('出场',stats.apps),stat('进球',stats.goals),stat('助攻',stats.assists),stat('评分',stats.rating||'—')]),
@@ -150,7 +122,7 @@ function careerGrowth(save){
   const trainingItems=training?[{label:'训练计划',value:training.plan?.name||save.career.trainingPlan},{label:'成长倍率',value:`${training.multiplier}x`},...(training.injury?[{label:'训练伤病',value:training.injury.name,tone:'negative'}]:[])]:[];
   const matchItems=(match?.statusChanges||[]).filter(item=>item.delta!==null&&item.delta!==0).map(item=>({label:item.label,value:`${item.delta>0?'+':''}${item.delta}`,tone:item.delta>0?'positive':'negative'}));
   const traits=new Map(traitDefinitions().map(item=>[item.id,item])),skillItems=(save.career.traits?.unlocked||[]).map(skill=>{const trait=traits.get(skill.id||skill);return{label:trait?.name||skill.name||skill,value:'已解锁',tone:'positive'}});
-  return el('section',{className:'v20-career-growth'},[
+  return el('section',{className:'v20-career-growth',attrs:{'data-section':'growth'}},[
     el('div',{className:'v20-section-heading'},[el('div',{},[el('small',{text:'成长反馈'}),el('h2',{text:'本周发展'})]),el('span',{text:`OVR ${save.player.ovr}`})]),
     createRadarChart(save.player.attrs,save.player.position,{size:220}),
     el('div',{className:'v20-career-growth__deltas'},[
@@ -165,54 +137,6 @@ function careerGrowth(save){
 export function nextMatchCountdown(save,repo){
   const next=upcomingFixtures(save,repo,1)[0];
   return next?Math.max(0,daysBetween(save.career.gameClock.currentDate,next.date)):0;
-}
-
-function objectiveSummaryCard(save,onOpen){
-  const objective=currentObjectiveSummary(save);
-  return button('',{className:'v20-home-mini-card',onClick:onOpen},[
-    el('div',{className:'v20-mini-card__icon v20-mini-card__icon--goal',text:'◎'}),
-    el('div',{className:'v20-mini-card__copy'},[el('small',{text:'赛季目标'}),el('strong',{text:objective.title}),el('span',{text:`进度 ${objective.progress}`})]),
-    el('div',{className:'v20-mini-progress'},[el('i',{attrs:{style:`width:${Math.round(objective.ratio*100)}%`}})])
-  ])
-}
-
-function facilitySummaryCard(save,onOpen){
-  const summaries=facilitySummaries(save),attention=Object.values(summaries).filter(item=>item.attention).length;
-  return button('',{className:'v20-home-mini-card',onClick:onOpen},[
-    el('div',{className:'v20-mini-card__icon v20-mini-card__icon--facility',text:'▦'}),
-    el('div',{className:'v20-mini-card__copy'},[el('small',{text:'数据与设施'}),el('strong',{text:attention?`${attention}项需要关注`:'状态已同步'}),el('span',{text:'分析 · 医疗 · 更衣室 · 荣誉'})]),
-    attention?el('span',{className:'v20-attention-dot',text:String(attention)}):null
-  ])
-}
-
-function homeTrainingCard(save,club,store,ctx){
-  const recommendation=recommendTrainingPlan(save),completed=Boolean(save.career.weekState?.trainingDone),plans=getTrainingPlans(save),plan=plans.find(item=>item.id===recommendation.planId)||plans[0];
-  const section=el('section',{className:`v20-training-reminder ${completed?'is-complete':''}`},[
-    el('div',{className:'v20-training-reminder__icon',text:completed?'✓':'⌁'}),
-    el('div',{className:'v20-training-reminder__copy'},[el('small',{text:completed?'本周训练已完成':'首页训练建议'}),el('strong',{text:completed?'训练结果已经写入存档':recommendation.title}),el('p',{text:completed?'推进时间后会生成下一周训练计划。':recommendation.reason}),el('span',{text:completed?'无需重复训练':`推荐：${plan.name} · 风险${recommendation.risk}`})])
-  ]);
-  if(!completed){
-    const actions=el('div',{className:'v20-inline-actions'});
-    actions.append(button('采用并训练',{className:'button button--primary',onClick:async()=>{
-      let result;store.update(state=>{selectTrainingPlan(state,plan.id);state.career.weekState??={trainingDone:false,eventDone:false,matchDone:false,trainingResult:null};if(state.career.weekState.trainingDone)throw new Error('本周训练已经完成');result=resolveTraining(state,club,{scale:1});state.career.weekState.trainingDone=true;state.career.weekState.trainingResult=result},'home-training-resolved');
-      await animationDirector.play('training-progress',{id:`home:${save.career.gameClock.currentDate}`,label:result.plan.name,growth:(result.gains||[]).reduce((sum,item)=>sum+item.levels,0),fatigue:Math.round(save.status.fatigue),risk:result.injury?70:15},{token:`home-training:${save.career.gameClock.currentDate}`});
-      showTrainingResult(result,ctx);
-    }}),button('查看训练详情',{className:'button button--secondary',onClick:()=>ctx.navigate('training')}));section.append(actions)
-  }
-  return section;
-}
-
-function paceControlCard(save,repo,onSelect){
-  const pace=paceSummary(save),stats=scheduleStats(save),section=el('section',{className:'v20-pace-card'},[
-    el('div',{className:'v20-section-heading'},[el('div',{},[el('small',{text:'职业节奏'}),el('strong',{text:`${pace.pace.name} · ${pace.speed.label}`})]),el('span',{text:`${stats.played}/${stats.total}场`})]),
-    el('p',{text:'选择推进范围后先查看预计日期和自动暂停规则，再确认执行。'})
-  ]);
-  const grid=el('div',{className:'v20-advance-grid'});ADVANCE_TARGETS.slice(0,6).forEach(target=>grid.append(button('',{className:'v20-advance-tile',onClick:()=>onSelect(target.id)},[el('span',{text:target.icon||'›'}),el('strong',{text:target.label})])));section.append(grid);return section
-}
-
-function recentAdvance(save){
-  const summary=save.career.advance?.lastSummary;if(!summary?.elapsedDays)return null;const vm=summary.viewModel||{};
-  return el('section',{className:'v20-recent-summary'},[el('div',{},[el('small',{text:'最近推进'}),el('strong',{text:summary.headline||vm.title||'阶段完成'}),el('p',{text:vm.subtitle||`${summary.elapsedDays}天`})]),el('div',{className:'v20-summary-chip-row'},(vm.metrics||[]).slice(0,3).map(item=>el('span',{text:`${item.label} ${item.value}`})))])
 }
 
 function openPlayerDetail(save,club){
@@ -333,22 +257,12 @@ function openMessages(save,ctx){
   openSheet({title:'消息中心',subtitle:`${messages.length}条未读`,content,size:'large'})
 }
 
-function showTrainingResult(result,ctx){
-  const gains=(result.gains||[]).map(item=>`${attrLabel(item.key)} +${item.levels}`);
-  openSheet({title:'本周训练完成',subtitle:result.plan.name,content:el('div',{className:'v20-result-card'},[el('div',{className:`result-orb result-orb--${result.injury?'bad':'good'}`,text:result.injury?'受伤':'完成'}),el('h3',{text:result.injury?result.injury.name:'训练计划已结算'}),el('p',{text:gains.length?`属性提升：${gains.join('、')}`:'成长经验已写入对应属性。'}),el('div',{className:'v20-metric-grid'},[stat('疲劳',Math.round(ctx.store.state.status.fatigue)),stat('体能',Math.round(ctx.store.state.status.fitness)),stat('综合能力',ctx.store.state.player.ovr)])]),actions:[{label:'留在首页',className:'button button--primary',onClick:()=>ctx.refresh()},{label:'查看训练详情',className:'button button--secondary',onClick:()=>ctx.navigate('training')}]})
-}
-
 function showRetirement(ending){openSheet({title:'职业生涯已经结束',subtitle:ending.name,content:el('div',{className:'v20-result-card'},[el('div',{className:'result-orb result-orb--good',text:'🏆'}),el('h2',{text:ending.name}),el('p',{text:ending.desc})])})}
 function progressView(save,target){
   const status=el('strong',{text:'正在处理职业日程'}),bar=el('i',{attrs:{style:`width:${save.career.seasonProgress}%`}}),date=el('span',{text:formatGameDate(save.career.gameClock.currentDate)}),root=el('div',{className:'advance-progress'},[el('div',{className:'calendar-flip',text:'◫'}),el('span',{className:'eyebrow',text:ADVANCE_TARGETS.find(x=>x.id===target)?.label||'时间推进'}),status,el('div',{className:'advance-progress__meta'},[date,el('span',{text:`第${save.career.season}赛季`})]),el('div',{className:'season-timeline'},[bar]),el('p',{className:'muted',text:'普通训练和比赛正在自动结算，出现重大节点会立即暂停。'})]);
   return{root,status,update(info){status.textContent=info.label||'正在推进';date.textContent=info.date?formatGameDate(info.date):`第${info.week}周`;bar.style.width=`${info.progress||0}%`;root.classList.remove('is-ticking');void root.offsetWidth;root.classList.add('is-ticking')}}
 }
 function summaryCard(summary){const vm=summary.viewModel||{};return el('div',{className:'v20-advance-summary'},[el('div',{className:'v20-summary-hero'},[el('span',{text:summary.interrupted?'!':'✓'}),el('div',{},[el('small',{text:vm.completionLabel||'推进结果'}),el('h2',{text:summary.headline})])]),vm.interruptionLabel?el('div',{className:'summary-interruption'},[el('strong',{text:vm.plannedLabel||'原计划推进'}),el('span',{text:`提前暂停：${vm.interruptionLabel}`})]):null,el('div',{className:'v20-metric-grid'},(vm.metrics||[]).map(item=>stat(item.label,item.value))),vm.highlights?.length?el('section',{className:'v20-detail-section'},[el('h3',{text:'本阶段最大变化'}),...vm.highlights.slice(0,5).map(text=>el('p',{text:`• ${text}`}))]):el('p',{className:'muted',text:'本阶段没有需要单独强调的重大变化。'})])}
-function advancePreview(save,target,repo){
-  const start=save.career.gameClock.currentDate;let end=start,duration='';
-  if(target==='week'){end=addGameDays(start,7);duration='7个游戏日'}else if(target==='month'){end=addGameMonths(start,1);duration='按日历月推进'}else if(target==='halfSeason'){end=addGameMonths(start,6);duration='约半个赛季'}else if(target==='season'){end=save.career.gameClock.seasonEndDate;duration='推进到赛季结算日'}else if(target==='nextMatch'){end=upcomingFixtures(save,repo,1)[0]?.date||start;duration='推进到下一场比赛'}else{end='由下一节点决定';duration='出现目标节点时停止'}
-  return{range:end.includes?.('-')?`${formatGameDate(start)}—${formatGameDate(end)}`:`从${formatGameDate(start)}开始`,duration,auto:'普通训练、普通比赛、恢复、合同倒计时和事件冷却',pause:'转会报价、伤病、首次首发、决赛和职业转折'}
-}
 function chartCard(title,values,label){
   const safe=values.length?values:[0,0,0,0],max=Math.max(...safe,1),min=Math.min(...safe,0),range=Math.max(1,max-min);
   const points=safe.map((value,index)=>`${8+index*(84/Math.max(1,safe.length-1))},${46-(value-min)/range*34}`).join(' ');

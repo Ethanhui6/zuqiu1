@@ -92,8 +92,8 @@ const files={
   css:await fs.readFile(new URL('../src/styles/v20-product.css',import.meta.url),'utf8'),
   sw:await fs.readFile(new URL('../sw.js',import.meta.url),'utf8')
 };
-check('首页首屏使用重点、人物卡、职业控制台和双小卡',()=>{
-  for(const token of ['v20-focus-card','v20-career-identity','createPlayerCard','v20-career-console','v20-career-growth','v20-career-actions'])assert.ok(files.career.includes(token),token);
+check('首页仅使用人物、控制台、成长和行动四个顶级区域',()=>{
+  for(const token of ['v20-focus-card','v20-career-identity','createPlayerCard','v20-career-console','v20-career-growth','v20-career-actions','data-section'])assert.ok(files.career.includes(token),token);
 });
 check('训练、转会、世界和更多入口均有真实交互',()=>{
   assert.ok(files.training.includes('resolveTrainingEvent')&&files.training.includes('selectTrainingPlan'));
@@ -106,7 +106,7 @@ check('赛后使用四张摘要卡和详情Sheet',()=>{
   for(const token of ['比赛结果','个人表现','关键事件','教练评价'])assert.ok(files.match.includes(token),token);
 });
 check('移动端样式包含紧凑双卡、2×2设施、地图和设置分组',()=>{
-  for(const token of ['.v20-career-page','.v20-home-twin','.v20-facility-grid','.v20-world-map','.v20-settings-list','.v20-match-summary-grid'])assert.ok(files.css.includes(token),token);
+  for(const token of ['.v20-career-page','.v20-career-growth','.v20-facility-grid','.v20-world-map','.v20-settings-list','.v20-match-summary-grid'])assert.ok(files.css.includes(token),token);
 });
 check('用户界面不再显示World Explorer或危险直出文字',()=>{
   const ui=Object.values(files).join('\n');

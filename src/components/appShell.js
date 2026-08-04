@@ -48,8 +48,8 @@ export function createAppShell({onNavigate,onSave,onBack,onHome,onPaceSettings}=
     nav.append(navButton);
   });
 
-  const scrollHint=button('',{className:'scroll-hint v20-scroll-hint',ariaLabel:'下方还有内容，向下滚动'});
-  scrollHint.append(el('span',{className:'scroll-hint__chevron',text:'↓',attrs:{'aria-hidden':'true'}}));
+  const scrollHint=button('',{className:'v20-scroll-hint',ariaLabel:'下方还有内容，向下滚动'});
+  scrollHint.append(el('span',{className:'v20-scroll-hint__chevron',text:'↓',attrs:{'aria-hidden':'true'}}));
   const scrollController=installScrollController(main,scrollHint);
   const overlayRoot=el('div',{className:'v20-overlay-root',attrs:{id:'overlay-root','data-app-region':'overlays','aria-live':'off'}});
   const toastRoot=el('div',{className:'v20-toast-root',attrs:{id:'toast-root','data-app-region':'toasts','aria-live':'polite'}});

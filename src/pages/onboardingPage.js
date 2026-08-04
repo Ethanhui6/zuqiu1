@@ -138,7 +138,7 @@ export function renderOnboarding(root,{repo,onComplete,onCancel=null}){
         createRadarChart(preview,draft.position,{size:190}),
         el('div',{className:'v20-position-rating'},[el('small',{text:'位置适配总评'}),el('strong',{text:String(ovr)}),el('span',{text:`重点：${config.focus.map(key=>labels[key]).join('、')}`})])
       ]),
-      el('h3',{text:'发展路线'}),el('div',{className:'tag-row'},config.roles.slice(0,3).map(role=>el('span',{className:'tag',text:role})))
+      el('h3',{text:'发展路线'}),el('div',{className:'v20-tag-row'},config.roles.slice(0,3).map(role=>el('span',{className:'v20-tag',text:role})))
     ]);
     layout.append(pitch,detail);return layout;
   }

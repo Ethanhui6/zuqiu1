@@ -28,6 +28,8 @@ try{
   await page.locator('#overlay-root .v20-event-choice').first().click();
   await page.locator('.animation-skip').waitFor();await page.locator('.animation-skip').click({force:true});
   await page.locator('.sheet-footer .button--primary').click();await page.locator('.sheet-backdrop').waitFor({state:'detached'});
+  const careerSections=await page.locator('.v20-career-page>[data-section]').evaluateAll(nodes=>nodes.map(node=>node.dataset.section));
+  assert.deepEqual(careerSections,['identity','console','growth','actions'],'career home must expose exactly four ordered top-level sections');
   const growthLabels=['最近属性提升','训练效果','比赛成长','技能解锁'];
   for(const label of growthLabels)await page.getByRole('heading',{name:label,exact:true}).waitFor();
   await page.locator('.v20-main-viewport').evaluate(node=>node.scrollTo(0,0));await page.screenshot({path:path.join(architectureShots,'390x844.png')});
@@ -43,11 +45,17 @@ try{
   assert.ok(desktopAction.actionBottom<=desktopAction.navTop+1,'1440x900 career actions are obscured by navigation');
   await desktop.locator('.v20-main-viewport').evaluate(node=>node.scrollTo(0,0));await desktop.screenshot({path:path.join(architectureShots,'1440x900.png')});await desktop.close();
 
-  for(const route of ['career','match','training','transfer','more']){await page.locator(`.v20-nav-button[data-route="${route}"]`).click();await page.locator(`.v20-nav-button[data-route="${route}"].is-active`).waitFor()}
+  const forbiddenClasses=['AppHeader','MainViewport','BottomNavigation','glass-card','career-overview','tag','tag-row','tag--accent','scroll-hint','scroll-hint__chevron'];
+  const routeRoots={career:'v20-career-page',match:'v20-match-page',training:'v20-training-page',transfer:'v20-transfer-page',more:'v20-more-page',world:'v20-world-page',profile:'v20-profile-page',rankings:'v20-rankings-page'};
+  async function assertRoute(route,open){await open();await page.locator(`.${routeRoots[route]}`).waitFor();const audit=await page.evaluate(forbidden=>{const main=document.querySelector('.v20-main-viewport'),root=main.firstElementChild,legacy=[...document.querySelectorAll('[class]')].flatMap(node=>[...node.classList].filter(name=>forbidden.includes(name)));return{root:[...root.classList],legacy,overflow:main.scrollWidth-main.clientWidth}},forbiddenClasses);assert.ok(audit.root.includes(routeRoots[route]),`${route} root is not V20`);assert.deepEqual(audit.legacy,[],`${route} emits forbidden classes`);assert.ok(audit.overflow<=1,`${route} horizontal overflow`)}
+  const clickNav=route=>async()=>{await page.locator(`.v20-nav-button[data-route="${route}"]`).click();await page.locator(`.v20-nav-button[data-route="${route}"].is-active`).waitFor()};
+  for(const route of ['career','match','training','transfer','more'])await assertRoute(route,clickNav(route));
+  for(const [route,index] of [['world',1],['profile',3],['rankings',2]])await assertRoute(route,async()=>{await clickNav('more')();await page.locator('.v20-settings-row').nth(index).click()});
+  await clickNav('more')();await page.setViewportSize({width:390,height:568});await page.locator('.v20-settings-row').nth(5).click();const sheet=page.locator('.sheet.is-open'),sheetBody=page.locator('.sheet-body');await sheet.waitFor();const sheetAudit=await sheetBody.evaluate(node=>{node.scrollTop=80;return{overflow:getComputedStyle(node).overflowY,scrollable:node.scrollHeight>node.clientHeight,scrollTop:node.scrollTop}});assert.match(sheetAudit.overflow,/auto|scroll/);assert.equal(sheetAudit.scrollable,true,'facility sheet body must be scrollable');assert.ok(sheetAudit.scrollTop>0,'facility sheet body did not scroll');await page.locator('.sheet-close-button').click();await page.locator('.sheet-backdrop').waitFor({state:'detached'});await page.setViewportSize({width:390,height:844});
   await page.locator('.v20-nav-button[data-route="training"]').click();await page.locator('.training-plan-card').nth(1).click();await page.locator('.training-plan-card.is-selected').waitFor();
   await page.locator('.training-quick-actions .button--primary:disabled').waitFor();
   const saved=await page.evaluate(()=>{const id=localStorage.getItem('fc18:current-slot');return JSON.parse(localStorage.getItem(`fc18:save:${id}`))});
   assert.equal(saved.career.weekState.trainingDone,true);assert.ok(saved.career.trainingPlan);assert.equal(await page.locator('#overlay-root .overlay').count(),0);
   await page.reload({waitUntil:'networkidle'});assert.ok(await page.locator('.v20-app-shell').isVisible());assert.equal(await page.locator('input[name="name"]').count(),0);assert.deepEqual(errors,[]);await context.close();
 }finally{await browser.close();await new Promise(resolve=>server.close(resolve))}
-console.log(JSON.stringify({status:'PASS',engine:'current index.html via system Chromium',viewports:results,flow:['save selector','six-step player creation','bottom navigation','training plan persistence','slot save reload'],screenshots:path.relative(process.cwd(),shots),physicalSafari:false},null,2));
+console.log(JSON.stringify({status:'PASS',engine:'current index.html via system Chromium',viewports:results,flow:['save selector','six-step player creation','eight V20 routes','scrollable sheet lifecycle','training plan persistence','slot save reload'],screenshots:path.relative(process.cwd(),shots),physicalSafari:false},null,2));

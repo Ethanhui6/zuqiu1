@@ -230,8 +230,7 @@
 }
 .player-card__top,
 .player-card__identity,
-.player-card__middle,
-.player-card .tag-row {
+.player-card__middle {
   position: relative;
   z-index: 1;
 }

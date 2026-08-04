@@ -14,7 +14,7 @@ import {createDevelopmentDelta} from '../components/developmentDelta.js';
 export function renderMatchPage(container,ctx){
   const {store,repo,navigate}=ctx,save=store.state;
   ensureTimeState(save,repo);clear(container);
-  const page=el('section',{className:'page match-page'});container.append(page);
+  const page=el('section',{className:'page v20-match-page'});container.append(page);
   const pending=save.career.pending.match&&!save.career.pending.match.resolved?save.career.pending.match:null;
   if(pending){renderPending(pending);return()=>{}}
   const last=save.career.lastMatchResult;
@@ -76,7 +76,7 @@ function presentationPicker(recommended,onSelect){
     {id:'interactive',icon:'⚽',name:'互动比赛',desc:'在关键时刻亲自作出决定。'}
   ];
   items.forEach(item=>list.append(button('',{className:`presentation-card ${recommended===item.id?'is-recommended':''}`,onClick:()=>onSelect(item.id)},[
-    el('span',{className:'presentation-card__icon',text:item.icon}),el('span',{className:'presentation-card__copy'},[el('strong',{text:item.name}),el('small',{text:item.desc})]),recommended===item.id?el('span',{className:'tag tag--accent',text:'推荐'}):null
+    el('span',{className:'presentation-card__icon',text:item.icon}),el('span',{className:'presentation-card__copy'},[el('strong',{text:item.name}),el('small',{text:item.desc})]),recommended===item.id?el('span',{className:'v20-tag v20-tag--accent',text:'推荐'}):null
   ])));
   panel.append(list);return panel;
 }
@@ -85,7 +85,7 @@ function matchHeader(match,current,opponent){
   return el('section',{className:'match-header-card v20-surface'},[
     el('div',{className:'match-header-top'},[
       el('span',{className:'eyebrow',text:`${match.competition} · ${match.roundLabel||`第${match.round||1}轮`}`}),
-      el('span',{className:'tag tag--accent',text:match.home?'主场':'客场'})
+      el('span',{className:'v20-tag v20-tag--accent',text:match.home?'主场':'客场'})
     ]),
     el('div',{className:'match-header'},[
       teamBlock(current,match.home?'主队':'客队'),

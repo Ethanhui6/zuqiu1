@@ -45,10 +45,10 @@ export function createWorldClubCard(club,{playerPosition='',onOpen}={}){
       compactMetric('青训等级',stars(club.youth)),compactMetric('年轻机会',opportunity(club.youthUsage)),compactMetric('适配提示',fitText(club,playerPosition)),compactMetric('位置需求',(club.needs||[]).slice(0,2).join('、')||'暂无')
     ]),
     el('span',{className:'club-card__footer'},[
-      el('span',{className:'tag-row'},[
-        el('span',{className:'tag',text:club.recruitment||'综合招募'}),
-        el('span',{className:'tag',text:`需要 ${need}`}),
-        el('span',{className:'tag',text:club.youthUsage>=65?'重视新秀':'经验优先'})
+      el('span',{className:'v20-tag-row'},[
+        el('span',{className:'v20-tag',text:club.recruitment||'综合招募'}),
+        el('span',{className:'v20-tag',text:`需要 ${need}`}),
+        el('span',{className:'v20-tag',text:club.youthUsage>=65?'重视新秀':'经验优先'})
       ]),
       el('span',{className:'club-card__action',text:'查看详情 ›'})
     ])

@@ -32,7 +32,7 @@ function settings(save,store,onReturnToSlots,repo,ctx){
   const paceButton=button('',{className:'settings-open-row',ariaLabel:'打开游戏节奏设置',onClick:()=>ctx.openPaceSettings?.()});
   paceButton.append(el('span',{},[el('strong',{text:'游戏节奏'}),el('small',{text:'推进速度、自动模拟和关键节点暂停统一在这里管理。'})]),el('span',{className:'settings-open-row__value',text:`${pace.name} · ${speed.id==='turbo'?'极速':speed.label} ›`}));
   card.append(
-    el('div',{className:'setting-row setting-row--static'},[el('div',{},[el('strong',{text:'界面外观'}),el('small',{text:'V20使用浅色职业控制台和悬浮导航。'})]),el('span',{className:'tag tag--accent',text:'浅色'})]),
+    el('div',{className:'setting-row setting-row--static'},[el('div',{},[el('strong',{text:'界面外观'}),el('small',{text:'V20使用浅色职业控制台和悬浮导航。'})]),el('span',{className:'v20-tag v20-tag--accent',text:'浅色'})]),
     paceButton,
     settingRow('自动训练策略','快速推进时使用的训练方向',training),
     settingRow('自动比赛策略','普通比赛自动决策偏好',match),
