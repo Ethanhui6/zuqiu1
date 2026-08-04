@@ -2,6 +2,17 @@ import {addGameDays,compareGameDates,daysBetween,formatGameDateParts,getCalendar
 
 export const DEFAULT_SEASON_START={month:7,day:1};
 
+export function ageOnDate(birthDate,currentDate){
+  const birth=parseGameDate(birthDate),current=parseGameDate(currentDate);
+  let age=current.year-birth.year;
+  if(current.month<birth.month||(current.month===birth.month&&current.day<birth.day))age--;
+  return Math.max(0,age);
+}
+export function syncPlayerAge(save){
+  if(save.player?.birthDate&&save.career?.gameClock?.currentDate)save.player.age=ageOnDate(save.player.birthDate,save.career.gameClock.currentDate);
+  return save.player?.age;
+}
+
 export function seasonBounds(startYear){
   return{
     seasonStartDate:formatGameDateParts({year:startYear,month:7,day:1}),
@@ -43,6 +54,7 @@ export function ensureGameClock(save){
     currentTransferWindow:existing.currentTransferWindow??null,
     lastProcessedDate:existing.lastProcessedDate||currentDate
   };
+  syncPlayerAge(save);
   syncLegacyCalendar(save);
   return career.gameClock;
 }
@@ -52,6 +64,7 @@ export function setGameDate(save,date,{processed=true}={}){
   clock.competitionWeek=getSeasonWeek(date,bounds.seasonStartDate);clock.calendarWeek=getCalendarWeek(date);clock.currentPhase=phaseForDate(date,bounds);
   clock.currentTransferWindow=clock.currentPhase==='preseason'?'summer':clock.currentPhase==='winter-window'?'winter':null;
   if(processed)clock.lastProcessedDate=date;
+  syncPlayerAge(save);
   syncLegacyCalendar(save);return clock;
 }
 export function advanceGameDay(save){const clock=ensureGameClock(save);return setGameDate(save,addGameDays(clock.currentDate,1))}
@@ -66,6 +79,7 @@ export function syncLegacyCalendar(save){
 export function rollClockToNextSeason(save){
   const clock=ensureGameClock(save),nextStart=addGameDays(clock.seasonEndDate,1),bounds=seasonBounds(parseGameDate(nextStart).year);
   save.career.gameClock={currentDate:bounds.seasonStartDate,seasonId:bounds.seasonId,seasonStartDate:bounds.seasonStartDate,seasonEndDate:bounds.seasonEndDate,competitionWeek:1,calendarWeek:getCalendarWeek(bounds.seasonStartDate),currentPhase:'preseason',currentTransferWindow:'summer',lastProcessedDate:bounds.seasonStartDate};
+  syncPlayerAge(save);
   syncLegacyCalendar(save);return save.career.gameClock;
 }
 export function assertClockInvariants(save){

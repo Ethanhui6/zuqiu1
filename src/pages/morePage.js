@@ -16,10 +16,8 @@ const GROUPS=[
     {id:'messages',icon:'◉',title:'消息中心',copy:'查看教练、队友、经纪人和俱乐部消息'}
   ]},
   {title:'球队与设施',items:[
-    {id:'facilities',icon:'▦',title:'数据与设施中心',copy:'数据分析、医疗、更衣室和荣誉室'},
+    {id:'facilities',icon:'▦',title:'生涯数据中心',copy:'能力分析、身体记录、球队关系和荣誉'},
     {id:'analysis',icon:'▥',title:'数据分析',copy:'能力、评分、体能、信任和粉丝趋势'},
-    {id:'medical',icon:'✚',title:'医疗中心',copy:'伤病、疲劳、复发风险和康复方案'},
-    {id:'locker',icon:'◇',title:'更衣室',copy:'队友、队长、教练关系与本周互动'},
     {id:'honours',icon:'♢',title:'荣誉室',copy:'奖杯、成就、纪录和代表比赛'}
   ]},
   {title:'存档与账户',items:[
@@ -79,8 +77,6 @@ export function renderMorePage(container,ctx){
     if(item.id==='pace'){ctx.openPaceSettings?.();return}
     if(item.id==='facilities'){openFacilityCenter(shared);return}
     if(item.id==='analysis'){openDataAnalysis(shared);return}
-    if(item.id==='medical'){openMedicalCenter(shared);return}
-    if(item.id==='locker'){openLockerRoom(shared);return}
     if(item.id==='honours'){openHonoursRoom(shared);return}
     if(item.id==='save'){store.saveNow();showToast('当前生涯已保存',{type:'success'});return}
     if(item.id==='slots'){ctx.onReturnToSlots?.();return}

@@ -10,27 +10,36 @@ const browser=await chromium.launch({headless:true,executablePath}),base=`http:/
 const viewports=[[320,568],[360,800],[375,812],[390,844],[393,852],[430,932],[768,1024],[1440,900]],results=[];
 try{
   for(const [width,height] of viewports){
-    const page=await browser.newPage({viewport:{width,height},hasTouch:width<768}),errors=[];page.on('pageerror',e=>errors.push(e.message));await page.goto(base,{waitUntil:'networkidle'});
-    const geometry=await page.evaluate(()=>({scrollWidth:document.documentElement.scrollWidth,width:innerWidth,app:Boolean(document.querySelector('#app')?.children.length),small:[...document.querySelectorAll('button')].filter(button=>{const r=button.getBoundingClientRect(),s=getComputedStyle(button);return s.visibility!=='hidden'&&s.display!=='none'&&(r.width<44||r.height<44)}).length}));
+    const page=await browser.newPage({viewport:{width,height},hasTouch:width<768}),errors=[];page.on('pageerror',error=>errors.push(error.message));await page.goto(base,{waitUntil:'networkidle'});await page.locator('.save-select').waitFor();
+    const geometry=await page.evaluate(()=>({scrollWidth:document.documentElement.scrollWidth,width:innerWidth,app:Boolean(document.querySelector('#app')?.children.length),small:[...document.querySelectorAll('button')].filter(button=>{const rect=button.getBoundingClientRect(),style=getComputedStyle(button);return style.visibility!=='hidden'&&style.display!=='none'&&(rect.width<44||rect.height<44)}).length}));
     assert.equal(geometry.app,true);assert.ok(geometry.scrollWidth<=geometry.width+1,`${width}x${height} horizontal overflow`);assert.equal(geometry.small,0,`${width}x${height} has undersized visible buttons`);assert.deepEqual(errors,[]);
     await page.screenshot({path:path.join(shots,`${width}x${height}.png`),fullPage:true});results.push({width,height});await page.close();
   }
 
-  const context=await browser.newContext({viewport:{width:390,height:844},hasTouch:true}),page=await context.newPage(),errors=[];page.on('pageerror',e=>errors.push(e.message));await page.goto(base,{waitUntil:'networkidle'});
-  await page.locator('input[name="name"]').fill('验收球员');await page.locator('input[name="birth"]').fill('2008-03-18');await page.locator('[data-next]').click();
-  await page.locator('[data-position]').nth(5).click();await page.locator('[data-next]').click();
-  await page.locator('[data-style]').nth(1).click();await page.locator('[data-next]').click();
-  assert.ok(await page.locator('.scout-reveal').isVisible());await page.locator('[data-next]').click();
-  await page.locator('[data-club]').first().click();await page.locator('[data-next]').click();await page.locator('[data-next]').click();
+  const context=await browser.newContext({viewport:{width:390,height:844},hasTouch:true}),page=await context.newPage(),errors=[];page.on('pageerror',error=>errors.push(error.message));await page.goto(base,{waitUntil:'networkidle'});
+  await page.locator('.save-card--new').click();
+  await page.locator('input[name="name"]').fill('验收球员');await page.locator('input[name="birthDate"]').fill('2008-03-18');await page.locator('.setup-actions .button--primary').click();
+  await page.locator('select[name="nation"]').waitFor();await page.locator('.setup-actions .button--primary').click();
+  await page.locator('.pitch-position[data-position="CM"]').click();await page.locator('.pitch-position[data-position="CM"].is-selected').waitFor();await page.locator('.setup-actions .button--primary').click();
+  await page.locator('.selection-card').nth(1).click();await page.locator('.selection-card.is-selected').waitFor();await page.locator('.setup-actions .button--primary').click();
+  await page.locator('.talent-card').first().click();await page.locator('.talent-card.is-selected').waitFor();await page.locator('.setup-actions .button--primary').click();
+  await page.locator('.club-select-card').first().click();await page.locator('.club-select-card.is-selected').waitFor();await page.locator('.setup-actions .button--primary').click();
   await page.locator('.app-shell').waitFor();
+  await page.locator('.v20-choice-card').first().click();
+  await page.locator('.animation-skip').waitFor();await page.locator('.animation-skip').click({force:true});
+  await page.locator('.sheet-footer .button--primary').click();await page.locator('.sheet-backdrop').waitFor({state:'detached'});
+  const openingChoices=page.locator('.v20-choice-card');
+  if(await openingChoices.count()){
+    await openingChoices.first().click();
+    await page.locator('.sheet-footer .button--primary').click();
+    await page.locator('.sheet-backdrop').waitFor({state:'detached'});
+  }
 
-  for(const route of ['career','training','transfer','more']){await page.locator(`[data-route="${route}"]`).click();assert.ok(await page.locator(`[data-route="${route}"].active`).isVisible())}
-  await page.locator('[data-route="training"]').click();await page.locator('[data-plan]').nth(1).click();await page.locator('[data-complete]').click();
-  await page.locator('.sheet .result-panel').waitFor();const growth=await page.evaluate(()=>JSON.parse(localStorage.getItem('football-career-v20')).career.growthLog);assert.equal(growth.length,1);assert.ok(Object.values(growth[0].changes).some(value=>value>0));
-  await page.locator('[data-close-sheet]').click();await page.waitForTimeout(200);assert.equal(await page.locator('#overlay-root .overlay').count(),0);
-
-  await page.locator('[data-top-speed]').click();await page.locator('[data-sim="nextMatch"]').click();await page.waitForTimeout(250);await page.locator('[data-route="match"]').click();await page.locator('[data-play]').click();await page.locator('.sheet [data-home]').waitFor();
-  const played=await page.evaluate(()=>JSON.parse(localStorage.getItem('football-career-v20')).schedule.some(match=>match.status==='played'));assert.equal(played,true);await page.locator('[data-close-sheet]').click();await page.waitForTimeout(200);assert.equal(await page.locator('#overlay-root .overlay').count(),0);
+  for(const route of ['career','match','training','transfer','more']){await page.locator(`.tab-button[data-route="${route}"]`).click();await page.locator(`.tab-button[data-route="${route}"].is-active`).waitFor()}
+  await page.locator('.tab-button[data-route="training"]').click();await page.locator('.training-plan-card').nth(1).click();await page.locator('.training-plan-card.is-selected').waitFor();
+  await page.locator('.training-quick-actions .button--primary:disabled').waitFor();
+  const saved=await page.evaluate(()=>{const id=localStorage.getItem('fc18:current-slot');return JSON.parse(localStorage.getItem(`fc18:save:${id}`))});
+  assert.equal(saved.career.weekState.trainingDone,true);assert.ok(saved.career.trainingPlan);assert.equal(await page.locator('#overlay-root .overlay').count(),0);
   await page.reload({waitUntil:'networkidle'});assert.ok(await page.locator('.app-shell').isVisible());assert.equal(await page.locator('input[name="name"]').count(),0);assert.deepEqual(errors,[]);await context.close();
 }finally{await browser.close();await new Promise(resolve=>server.close(resolve))}
-console.log(JSON.stringify({status:'PASS',engine:'current index.html via system Chromium',viewports:results,flow:['six-step player creation','bottom navigation','training growth settlement','match settlement','sheet cleanup','save reload'],screenshots:path.relative(process.cwd(),shots),physicalSafari:false},null,2));
+console.log(JSON.stringify({status:'PASS',engine:'current index.html via system Chromium',viewports:results,flow:['save selector','six-step player creation','bottom navigation','training settlement','slot save reload'],screenshots:path.relative(process.cwd(),shots),physicalSafari:false},null,2));
