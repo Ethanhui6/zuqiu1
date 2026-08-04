@@ -8,7 +8,7 @@ import {migrateLegacy} from '../src/services/storage/migrations.js';
 const read=path=>fs.readFileSync(new URL(path,import.meta.url),'utf8');
 
 test('production boots the modular runtime and packages its fetched assets',()=>{
-  const html=read('../index.html'),css=read('../styles.css'),build=read('../scripts/build.mjs'),sw=read('../sw.js');
+  const html=read('../index.html'),css=read('../styles.css'),build=read('../scripts/build.mjs'),sw=read('../sw.js'),saveSelect=read('../src/pages/saveSelectPage.js');
   assert.match(html,/id="boot"/);
   assert.match(html,/src="\.\/src\/main\.js/);
   assert.doesNotMatch(html,/src="\.\/src\/app\.js/);
@@ -16,6 +16,8 @@ test('production boots the modular runtime and packages its fetched assets',()=>
   for(const directory of ["'data'","'functions'","'server'"])assert.ok(build.includes(directory),directory);
   assert.match(sw,/src\/main\.js/);
   assert.doesNotMatch(sw,/src\/app\.js/);
+  assert.match(saveSelect,/APP_VERSION/);
+  assert.doesNotMatch(saveSelect,/绿茵浮沉 V19/);
 });
 
 test('indexed event packs expose at least one thousand event nodes',()=>{
