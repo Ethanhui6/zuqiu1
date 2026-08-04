@@ -1,4 +1,5 @@
 import { icon } from '../components/icons.js';
+import { applyDevelopment } from '../core/playerDevelopmentEngine.js';
 import { metric } from '../components/ui.js';
 
 const PLANS=[
@@ -25,7 +26,8 @@ export function trainingPage(app,state){
   return root;
 }
 function planCard(plan,selected){return `<button class="surface-card plan-card interactive ${selected===plan.id?'selected':''}" data-plan="${plan.id}"><div class="card-row"><div class="icon-tile">${icon(plan.icon)}</div><div class="tag-row">${plan.tags.map((t,i)=>`<span class="badge ${i?'':'blue'}">${t}</span>`).join('')}</div></div><h3 class="card-title">${plan.name}</h3><p class="card-copy">覆盖：${plan.skills.join('、')}<br>适配：${plan.fit}</p><div class="plan-meta"><span>风险 ${plan.risk}</span><span>疲劳 ${plan.fatigue>0?'+':''}${plan.fatigue}</span><span>适配 ${Math.max(65,96-plan.risk)}</span></div></button>`;}
-function preview(plan,p){if(!plan)return'';return `<div class="change-grid" style="margin-top:13px">${Object.entries(plan.gains).map(([k,v])=>`<div class="change-item"><b>${cn(k)} +${v.toFixed(2)}</b><span>内部浮点成长，达到整数时突破</span></div>`).join('')}<div class="change-item"><b>疲劳 ${plan.fatigue>0?'+':''}${plan.fatigue}</b><span>当前 ${p.fatigue}</span></div><div class="change-item"><b>伤病风险 ${plan.risk}%</b><span>受体能和旧伤修正</span></div></div>`;}
+export function trainingPreview(plan,p,state={}){return applyDevelopment(p,plan.gains,{fatigue:p.fatigue,injured:(state.injuries||[]).some(x=>x.status==='active'),facility:78,coachQuality:75});}
+function preview(plan,p,state){if(!plan)return'';const calculated=trainingPreview(plan,p,state);return `<div class="change-grid" style="margin-top:13px">${Object.entries(calculated.changes).filter(([,v])=>v).map(([k,v])=>`<div class="change-item"><b>${cn(k)} +${v.toFixed(2)}</b><span>内部浮点成长，达到整数时突破</span></div>`).join('')}<div class="change-item"><b>疲劳 ${plan.fatigue>0?'+':''}${plan.fatigue}</b><span>当前 ${p.fatigue}</span></div><div class="change-item"><b>伤病风险 ${plan.risk}%</b><span>受体能和旧伤修正</span></div></div>`;}
 function recommend(p,state){if(state.injuries.some(x=>x.status==='active')||p.fatigue>65)return'recovery';return Object.entries(p.stats).sort((a,b)=>a[1]-b[1])[0][0];}
 function suggestion(p,state){if(state.injuries.some(x=>x.status==='active'))return'医疗组建议优先恢复，降低复发概率。';if(p.fatigue>65)return'疲劳偏高，继续高负荷训练会显著提高受伤风险。';return`当前最需要强化的是${cn(Object.entries(p.stats).sort((a,b)=>a[1]-b[1])[0][0])}，教练建议保持一个完整训练周期。`;}
 function cn(k){return {speed:'速度',shooting:'射门',passing:'传球',dribbling:'盘带',defending:'防守',physical:'身体'}[k]||k;}
