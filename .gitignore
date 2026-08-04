@@ -3,4 +3,5 @@ Thumbs.db
 *.log
 .wrangler/
 node_modules/
+dist/
 legacy/assets/

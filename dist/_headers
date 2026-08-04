@@ -1,7 +1,0 @@
-/*
-  X-Content-Type-Options: nosniff
-  Referrer-Policy: strict-origin-when-cross-origin
-  Cache-Control: no-cache
-
-/data/*
-  Cache-Control: public, max-age=3600, must-revalidate
