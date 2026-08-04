@@ -1,0 +1,4498 @@
+[
+  {
+    "id": "national-team-001",
+    "version": 1,
+    "category": "national-team",
+    "categoryName": "国家队",
+    "title": "首次国家队征召",
+    "text": "国家队名单与角色安排出现了变化。 这次变化与“首次国家队征召”有关。选择不仅影响当前结果，还会改变能力成长、教练信任、队内地位和未来转会评价。",
+    "stage": [
+      "youth",
+      "rotation",
+      "starter",
+      "star",
+      "veteran"
+    ],
+    "weight": 1.45,
+    "cooldownSeasons": 6,
+    "major": false,
+    "resolutionModes": [
+      "wheel",
+      "cards",
+      "dice"
+    ],
+    "options": [
+      {
+        "id": "opt-1",
+        "label": "稳步处理，优先保证职业稳定",
+        "risk": "稳健",
+        "hint": "风险最低，收益较稳定",
+        "outcomes": [
+          {
+            "id": "great",
+            "probability": 0.28,
+            "tier": "great",
+            "result": "你在“首次国家队征召”中把握住了机会，职业评价和成长收益都高于预期。",
+            "effects": {
+              "xp": {
+                "PAS": 32
+              },
+              "morale": 4,
+              "clubInterest": 6,
+              "fame": 5
+            }
+          },
+          {
+            "id": "normal",
+            "probability": 0.62,
+            "tier": "normal",
+            "result": "“首次国家队征召”基本按预期发展，没有失控，但也没有出现奇迹。",
+            "effects": {
+              "xp": {
+                "PAS": 14
+              },
+              "morale": 1,
+              "clubInterest": 2
+            }
+          },
+          {
+            "id": "bad",
+            "probability": 0.1,
+            "tier": "bad",
+            "result": "“首次国家队征召”的结果不理想，你需要在之后的赛季承担代价。",
+            "effects": {
+              "xp": {
+                "PAS": 4
+              },
+              "morale": -3,
+              "injuryRisk": 2,
+              "fame": -3,
+              "clubInterest": -4
+            }
+          }
+        ]
+      },
+      {
+        "id": "opt-2",
+        "label": "主动争取更大机会",
+        "risk": "进取",
+        "hint": "收益更高，也会增加压力",
+        "outcomes": [
+          {
+            "id": "great",
+            "probability": 0.34,
+            "tier": "great",
+            "result": "你在“首次国家队征召”中把握住了机会，职业评价和成长收益都高于预期。",
+            "effects": {
+              "xp": {
+                "SHO": 35
+              },
+              "morale": 4,
+              "clubInterest": 6,
+              "fame": 5
+            }
+          },
+          {
+            "id": "normal",
+            "probability": 0.46,
+            "tier": "normal",
+            "result": "“首次国家队征召”基本按预期发展，没有失控，但也没有出现奇迹。",
+            "effects": {
+              "xp": {
+                "SHO": 16
+              },
+              "morale": 1,
+              "clubInterest": 2
+            }
+          },
+          {
+            "id": "bad",
+            "probability": 0.2,
+            "tier": "bad",
+            "result": "“首次国家队征召”的结果不理想，你需要在之后的赛季承担代价。",
+            "effects": {
+              "xp": {
+                "SHO": 4
+              },
+              "morale": -3,
+              "injuryRisk": 2,
+              "fame": -3,
+              "clubInterest": -4,
+              "relationship": -5
+            }
+          }
+        ]
+      },
+      {
+        "id": "opt-3",
+        "label": "用训练、录像和数据解决问题",
+        "risk": "技术",
+        "hint": "强调长期能力成长",
+        "outcomes": [
+          {
+            "id": "great",
+            "probability": 0.38,
+            "tier": "great",
+            "result": "你在“首次国家队征召”中把握住了机会，职业评价和成长收益都高于预期。",
+            "effects": {
+              "xp": {
+                "DRI": 38
+              },
+              "morale": 4,
+              "clubInterest": 6,
+              "fame": 5
+            }
+          },
+          {
+            "id": "normal",
+            "probability": 0.52,
+            "tier": "normal",
+            "result": "“首次国家队征召”基本按预期发展，没有失控，但也没有出现奇迹。",
+            "effects": {
+              "xp": {
+                "DRI": 18
+              },
+              "morale": 1,
+              "clubInterest": 2
+            }
+          },
+          {
+            "id": "bad",
+            "probability": 0.1,
+            "tier": "bad",
+            "result": "“首次国家队征召”的结果不理想，你需要在之后的赛季承担代价。",
+            "effects": {
+              "xp": {
+                "DRI": 4
+              },
+              "morale": -3,
+              "injuryRisk": 2,
+              "fame": -3,
+              "clubInterest": -4
+            }
+          }
+        ]
+      },
+      {
+        "id": "opt-4",
+        "label": "先处理队友、教练或家人的关系",
+        "risk": "关系",
+        "hint": "可能建立长期羁绊",
+        "outcomes": [
+          {
+            "id": "great",
+            "probability": 0.3,
+            "tier": "great",
+            "result": "你在“首次国家队征召”中把握住了机会，职业评价和成长收益都高于预期。",
+            "effects": {
+              "xp": {
+                "PHY": 41
+              },
+              "morale": 4,
+              "clubInterest": 6,
+              "fame": 5,
+              "relationship": 6
+            }
+          },
+          {
+            "id": "normal",
+            "probability": 0.58,
+            "tier": "normal",
+            "result": "“首次国家队征召”基本按预期发展，没有失控，但也没有出现奇迹。",
+            "effects": {
+              "xp": {
+                "PHY": 20
+              },
+              "morale": 1,
+              "clubInterest": 2,
+              "relationship": 2
+            }
+          },
+          {
+            "id": "bad",
+            "probability": 0.12,
+            "tier": "bad",
+            "result": "“首次国家队征召”的结果不理想，你需要在之后的赛季承担代价。",
+            "effects": {
+              "xp": {
+                "PHY": 4
+              },
+              "morale": -3,
+              "injuryRisk": 2,
+              "fame": -3,
+              "clubInterest": -4,
+              "relationship": -5
+            }
+          }
+        ]
+      },
+      {
+        "id": "opt-5",
+        "label": "孤注一掷，选择最高风险路线",
+        "risk": "冒险",
+        "hint": "可能大成功，也可能遭遇严重后果",
+        "outcomes": [
+          {
+            "id": "great",
+            "probability": 0.3,
+            "tier": "great",
+            "result": "你在“首次国家队征召”中把握住了机会，职业评价和成长收益都高于预期。",
+            "effects": {
+              "xp": {
+                "PAC": 44
+              },
+              "morale": 4,
+              "clubInterest": 6,
+              "fame": 5,
+              "potential": 1
+            }
+          },
+          {
+            "id": "normal",
+            "probability": 0.3,
+            "tier": "normal",
+            "result": "“首次国家队征召”基本按预期发展，没有失控，但也没有出现奇迹。",
+            "effects": {
+              "xp": {
+                "PAC": 22
+              },
+              "morale": 1,
+              "clubInterest": 2
+            }
+          },
+          {
+            "id": "bad",
+            "probability": 0.4,
+            "tier": "bad",
+            "result": "“首次国家队征召”的结果不理想，你需要在之后的赛季承担代价。",
+            "effects": {
+              "xp": {
+                "PAC": 4
+              },
+              "morale": -5,
+              "injuryRisk": 12,
+              "fame": -3,
+              "clubInterest": -4,
+              "relationship": -5
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "national-team-002",
+    "version": 1,
+    "category": "national-team",
+    "categoryName": "国家队",
+    "title": "大赛名单边缘",
+    "text": "国家队名单与角色安排出现了变化。 这次变化与“大赛名单边缘”有关。选择不仅影响当前结果，还会改变能力成长、教练信任、队内地位和未来转会评价。",
+    "stage": [
+      "youth",
+      "rotation",
+      "starter",
+      "star",
+      "veteran"
+    ],
+    "weight": 1.25,
+    "cooldownSeasons": 7,
+    "major": false,
+    "resolutionModes": [
+      "wheel",
+      "cards",
+      "dice"
+    ],
+    "options": [
+      {
+        "id": "opt-1",
+        "label": "稳步处理，优先保证职业稳定",
+        "risk": "稳健",
+        "hint": "风险最低，收益较稳定",
+        "outcomes": [
+          {
+            "id": "great",
+            "probability": 0.28,
+            "tier": "great",
+            "result": "你在“大赛名单边缘”中把握住了机会，职业评价和成长收益都高于预期。",
+            "effects": {
+              "xp": {
+                "PAS": 32
+              },
+              "morale": 4,
+              "clubInterest": 6,
+              "fame": 5
+            }
+          },
+          {
+            "id": "normal",
+            "probability": 0.62,
+            "tier": "normal",
+            "result": "“大赛名单边缘”基本按预期发展，没有失控，但也没有出现奇迹。",
+            "effects": {
+              "xp": {
+                "PAS": 14
+              },
+              "morale": 1,
+              "clubInterest": 2
+            }
+          },
+          {
+            "id": "bad",
+            "probability": 0.1,
+            "tier": "bad",
+            "result": "“大赛名单边缘”的结果不理想，你需要在之后的赛季承担代价。",
+            "effects": {
+              "xp": {
+                "PAS": 4
+              },
+              "morale": -3,
+              "injuryRisk": 2,
+              "fame": -3,
+              "clubInterest": -4
+            }
+          }
+        ]
+      },
+      {
+        "id": "opt-2",
+        "label": "主动争取更大机会",
+        "risk": "进取",
+        "hint": "收益更高，也会增加压力",
+        "outcomes": [
+          {
+            "id": "great",
+            "probability": 0.34,
+            "tier": "great",
+            "result": "你在“大赛名单边缘”中把握住了机会，职业评价和成长收益都高于预期。",
+            "effects": {
+              "xp": {
+                "SHO": 35
+              },
+              "morale": 4,
+              "clubInterest": 6,
+              "fame": 5
+            }
+          },
+          {
+            "id": "normal",
+            "probability": 0.46,
+            "tier": "normal",
+            "result": "“大赛名单边缘”基本按预期发展，没有失控，但也没有出现奇迹。",
+            "effects": {
+              "xp": {
+                "SHO": 16
+              },
+              "morale": 1,
+              "clubInterest": 2
+            }
+          },
+          {
+            "id": "bad",
+            "probability": 0.2,
+            "tier": "bad",
+            "result": "“大赛名单边缘”的结果不理想，你需要在之后的赛季承担代价。",
+            "effects": {
+              "xp": {
+                "SHO": 4
+              },
+              "morale": -3,
+              "injuryRisk": 2,
+              "fame": -3,
+              "clubInterest": -4,
+              "relationship": -5
+            }
+          }
+        ]
+      },
+      {
+        "id": "opt-3",
+        "label": "用训练、录像和数据解决问题",
+        "risk": "技术",
+        "hint": "强调长期能力成长",
+        "outcomes": [
+          {
+            "id": "great",
+            "probability": 0.38,
+            "tier": "great",
+            "result": "你在“大赛名单边缘”中把握住了机会，职业评价和成长收益都高于预期。",
+            "effects": {
+              "xp": {
+                "DRI": 38
+              },
+              "morale": 4,
+              "clubInterest": 6,
+              "fame": 5
+            }
+          },
+          {
+            "id": "normal",
+            "probability": 0.52,
+            "tier": "normal",
+            "result": "“大赛名单边缘”基本按预期发展，没有失控，但也没有出现奇迹。",
+            "effects": {
+              "xp": {
+                "DRI": 18
+              },
+              "morale": 1,
+              "clubInterest": 2
+            }
+          },
+          {
+            "id": "bad",
+            "probability": 0.1,
+            "tier": "bad",
+            "result": "“大赛名单边缘”的结果不理想，你需要在之后的赛季承担代价。",
+            "effects": {
+              "xp": {
+                "DRI": 4
+              },
+              "morale": -3,
+              "injuryRisk": 2,
+              "fame": -3,
+              "clubInterest": -4
+            }
+          }
+        ]
+      },
+      {
+        "id": "opt-4",
+        "label": "先处理队友、教练或家人的关系",
+        "risk": "关系",
+        "hint": "可能建立长期羁绊",
+        "outcomes": [
+          {
+            "id": "great",
+            "probability": 0.3,
+            "tier": "great",
+            "result": "你在“大赛名单边缘”中把握住了机会，职业评价和成长收益都高于预期。",
+            "effects": {
+              "xp": {
+                "PHY": 41
+              },
+              "morale": 4,
+              "clubInterest": 6,
+              "fame": 5,
+              "relationship": 6
+            }
+          },
+          {
+            "id": "normal",
+            "probability": 0.58,
+            "tier": "normal",
+            "result": "“大赛名单边缘”基本按预期发展，没有失控，但也没有出现奇迹。",
+            "effects": {
+              "xp": {
+                "PHY": 20
+              },
+              "morale": 1,
+              "clubInterest": 2,
+              "relationship": 2
+            }
+          },
+          {
+            "id": "bad",
+            "probability": 0.12,
+            "tier": "bad",
+            "result": "“大赛名单边缘”的结果不理想，你需要在之后的赛季承担代价。",
+            "effects": {
+              "xp": {
+                "PHY": 4
+              },
+              "morale": -3,
+              "injuryRisk": 2,
+              "fame": -3,
+              "clubInterest": -4,
+              "relationship": -5
+            }
+          }
+        ]
+      },
+      {
+        "id": "opt-5",
+        "label": "孤注一掷，选择最高风险路线",
+        "risk": "冒险",
+        "hint": "可能大成功，也可能遭遇严重后果",
+        "outcomes": [
+          {
+            "id": "great",
+            "probability": 0.3,
+            "tier": "great",
+            "result": "你在“大赛名单边缘”中把握住了机会，职业评价和成长收益都高于预期。",
+            "effects": {
+              "xp": {
+                "PAC": 44
+              },
+              "morale": 4,
+              "clubInterest": 6,
+              "fame": 5,
+              "potential": 1
+            }
+          },
+          {
+            "id": "normal",
+            "probability": 0.3,
+            "tier": "normal",
+            "result": "“大赛名单边缘”基本按预期发展，没有失控，但也没有出现奇迹。",
+            "effects": {
+              "xp": {
+                "PAC": 22
+              },
+              "morale": 1,
+              "clubInterest": 2
+            }
+          },
+          {
+            "id": "bad",
+            "probability": 0.4,
+            "tier": "bad",
+            "result": "“大赛名单边缘”的结果不理想，你需要在之后的赛季承担代价。",
+            "effects": {
+              "xp": {
+                "PAC": 4
+              },
+              "morale": -5,
+              "injuryRisk": 12,
+              "fame": -3,
+              "clubInterest": -4,
+              "relationship": -5
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "national-team-003",
+    "version": 1,
+    "category": "national-team",
+    "categoryName": "国家队",
+    "title": "国家队位置竞争",
+    "text": "国家队名单与角色安排出现了变化。 这次变化与“国家队位置竞争”有关。选择不仅影响当前结果，还会改变能力成长、教练信任、队内地位和未来转会评价。",
+    "stage": [
+      "youth",
+      "rotation",
+      "starter",
+      "star",
+      "veteran"
+    ],
+    "weight": 1.05,
+    "cooldownSeasons": 8,
+    "major": false,
+    "resolutionModes": [
+      "wheel",
+      "cards",
+      "dice"
+    ],
+    "options": [
+      {
+        "id": "opt-1",
+        "label": "稳步处理，优先保证职业稳定",
+        "risk": "稳健",
+        "hint": "风险最低，收益较稳定",
+        "outcomes": [
+          {
+            "id": "great",
+            "probability": 0.28,
+            "tier": "great",
+            "result": "你在“国家队位置竞争”中把握住了机会，职业评价和成长收益都高于预期。",
+            "effects": {
+              "xp": {
+                "PAS": 32
+              },
+              "morale": 4,
+              "clubInterest": 6,
+              "fame": 5
+            }
+          },
+          {
+            "id": "normal",
+            "probability": 0.62,
+            "tier": "normal",
+            "result": "“国家队位置竞争”基本按预期发展，没有失控，但也没有出现奇迹。",
+            "effects": {
+              "xp": {
+                "PAS": 14
+              },
+              "morale": 1,
+              "clubInterest": 2
+            }
+          },
+          {
+            "id": "bad",
+            "probability": 0.1,
+            "tier": "bad",
+            "result": "“国家队位置竞争”的结果不理想，你需要在之后的赛季承担代价。",
+            "effects": {
+              "xp": {
+                "PAS": 4
+              },
+              "morale": -3,
+              "injuryRisk": 2,
+              "fame": -3,
+              "clubInterest": -4
+            }
+          }
+        ]
+      },
+      {
+        "id": "opt-2",
+        "label": "主动争取更大机会",
+        "risk": "进取",
+        "hint": "收益更高，也会增加压力",
+        "outcomes": [
+          {
+            "id": "great",
+            "probability": 0.34,
+            "tier": "great",
+            "result": "你在“国家队位置竞争”中把握住了机会，职业评价和成长收益都高于预期。",
+            "effects": {
+              "xp": {
+                "SHO": 35
+              },
+              "morale": 4,
+              "clubInterest": 6,
+              "fame": 5
+            }
+          },
+          {
+            "id": "normal",
+            "probability": 0.46,
+            "tier": "normal",
+            "result": "“国家队位置竞争”基本按预期发展，没有失控，但也没有出现奇迹。",
+            "effects": {
+              "xp": {
+                "SHO": 16
+              },
+              "morale": 1,
+              "clubInterest": 2
+            }
+          },
+          {
+            "id": "bad",
+            "probability": 0.2,
+            "tier": "bad",
+            "result": "“国家队位置竞争”的结果不理想，你需要在之后的赛季承担代价。",
+            "effects": {
+              "xp": {
+                "SHO": 4
+              },
+              "morale": -3,
+              "injuryRisk": 2,
+              "fame": -3,
+              "clubInterest": -4,
+              "relationship": -5
+            }
+          }
+        ]
+      },
+      {
+        "id": "opt-3",
+        "label": "用训练、录像和数据解决问题",
+        "risk": "技术",
+        "hint": "强调长期能力成长",
+        "outcomes": [
+          {
+            "id": "great",
+            "probability": 0.38,
+            "tier": "great",
+            "result": "你在“国家队位置竞争”中把握住了机会，职业评价和成长收益都高于预期。",
+            "effects": {
+              "xp": {
+                "DRI": 38
+              },
+              "morale": 4,
+              "clubInterest": 6,
+              "fame": 5
+            }
+          },
+          {
+            "id": "normal",
+            "probability": 0.52,
+            "tier": "normal",
+            "result": "“国家队位置竞争”基本按预期发展，没有失控，但也没有出现奇迹。",
+            "effects": {
+              "xp": {
+                "DRI": 18
+              },
+              "morale": 1,
+              "clubInterest": 2
+            }
+          },
+          {
+            "id": "bad",
+            "probability": 0.1,
+            "tier": "bad",
+            "result": "“国家队位置竞争”的结果不理想，你需要在之后的赛季承担代价。",
+            "effects": {
+              "xp": {
+                "DRI": 4
+              },
+              "morale": -3,
+              "injuryRisk": 2,
+              "fame": -3,
+              "clubInterest": -4
+            }
+          }
+        ]
+      },
+      {
+        "id": "opt-4",
+        "label": "先处理队友、教练或家人的关系",
+        "risk": "关系",
+        "hint": "可能建立长期羁绊",
+        "outcomes": [
+          {
+            "id": "great",
+            "probability": 0.3,
+            "tier": "great",
+            "result": "你在“国家队位置竞争”中把握住了机会，职业评价和成长收益都高于预期。",
+            "effects": {
+              "xp": {
+                "PHY": 41
+              },
+              "morale": 4,
+              "clubInterest": 6,
+              "fame": 5,
+              "relationship": 6
+            }
+          },
+          {
+            "id": "normal",
+            "probability": 0.58,
+            "tier": "normal",
+            "result": "“国家队位置竞争”基本按预期发展，没有失控，但也没有出现奇迹。",
+            "effects": {
+              "xp": {
+                "PHY": 20
+              },
+              "morale": 1,
+              "clubInterest": 2,
+              "relationship": 2
+            }
+          },
+          {
+            "id": "bad",
+            "probability": 0.12,
+            "tier": "bad",
+            "result": "“国家队位置竞争”的结果不理想，你需要在之后的赛季承担代价。",
+            "effects": {
+              "xp": {
+                "PHY": 4
+              },
+              "morale": -3,
+              "injuryRisk": 2,
+              "fame": -3,
+              "clubInterest": -4,
+              "relationship": -5
+            }
+          }
+        ]
+      },
+      {
+        "id": "opt-5",
+        "label": "孤注一掷，选择最高风险路线",
+        "risk": "冒险",
+        "hint": "可能大成功，也可能遭遇严重后果",
+        "outcomes": [
+          {
+            "id": "great",
+            "probability": 0.3,
+            "tier": "great",
+            "result": "你在“国家队位置竞争”中把握住了机会，职业评价和成长收益都高于预期。",
+            "effects": {
+              "xp": {
+                "PAC": 44
+              },
+              "morale": 4,
+              "clubInterest": 6,
+              "fame": 5,
+              "potential": 1
+            }
+          },
+          {
+            "id": "normal",
+            "probability": 0.3,
+            "tier": "normal",
+            "result": "“国家队位置竞争”基本按预期发展，没有失控，但也没有出现奇迹。",
+            "effects": {
+              "xp": {
+                "PAC": 22
+              },
+              "morale": 1,
+              "clubInterest": 2
+            }
+          },
+          {
+            "id": "bad",
+            "probability": 0.4,
+            "tier": "bad",
+            "result": "“国家队位置竞争”的结果不理想，你需要在之后的赛季承担代价。",
+            "effects": {
+              "xp": {
+                "PAC": 4
+              },
+              "morale": -5,
+              "injuryRisk": 12,
+              "fame": -3,
+              "clubInterest": -4,
+              "relationship": -5
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "national-team-004",
+    "version": 1,
+    "category": "national-team",
+    "categoryName": "国家队",
+    "title": "国籍选择",
+    "text": "国家队名单与角色安排出现了变化。 这次变化与“国籍选择”有关。选择不仅影响当前结果，还会改变能力成长、教练信任、队内地位和未来转会评价。",
+    "stage": [
+      "youth",
+      "rotation",
+      "starter",
+      "star",
+      "veteran"
+    ],
+    "weight": 0.85,
+    "cooldownSeasons": 5,
+    "major": false,
+    "resolutionModes": [
+      "wheel",
+      "cards",
+      "dice"
+    ],
+    "options": [
+      {
+        "id": "opt-1",
+        "label": "稳步处理，优先保证职业稳定",
+        "risk": "稳健",
+        "hint": "风险最低，收益较稳定",
+        "outcomes": [
+          {
+            "id": "great",
+            "probability": 0.28,
+            "tier": "great",
+            "result": "你在“国籍选择”中把握住了机会，职业评价和成长收益都高于预期。",
+            "effects": {
+              "xp": {
+                "PAS": 32
+              },
+              "morale": 4,
+              "clubInterest": 6,
+              "fame": 5
+            }
+          },
+          {
+            "id": "normal",
+            "probability": 0.62,
+            "tier": "normal",
+            "result": "“国籍选择”基本按预期发展，没有失控，但也没有出现奇迹。",
+            "effects": {
+              "xp": {
+                "PAS": 14
+              },
+              "morale": 1,
+              "clubInterest": 2
+            }
+          },
+          {
+            "id": "bad",
+            "probability": 0.1,
+            "tier": "bad",
+            "result": "“国籍选择”的结果不理想，你需要在之后的赛季承担代价。",
+            "effects": {
+              "xp": {
+                "PAS": 4
+              },
+              "morale": -3,
+              "injuryRisk": 2,
+              "fame": -3,
+              "clubInterest": -4
+            }
+          }
+        ]
+      },
+      {
+        "id": "opt-2",
+        "label": "主动争取更大机会",
+        "risk": "进取",
+        "hint": "收益更高，也会增加压力",
+        "outcomes": [
+          {
+            "id": "great",
+            "probability": 0.34,
+            "tier": "great",
+            "result": "你在“国籍选择”中把握住了机会，职业评价和成长收益都高于预期。",
+            "effects": {
+              "xp": {
+                "SHO": 35
+              },
+              "morale": 4,
+              "clubInterest": 6,
+              "fame": 5
+            }
+          },
+          {
+            "id": "normal",
+            "probability": 0.46,
+            "tier": "normal",
+            "result": "“国籍选择”基本按预期发展，没有失控，但也没有出现奇迹。",
+            "effects": {
+              "xp": {
+                "SHO": 16
+              },
+              "morale": 1,
+              "clubInterest": 2
+            }
+          },
+          {
+            "id": "bad",
+            "probability": 0.2,
+            "tier": "bad",
+            "result": "“国籍选择”的结果不理想，你需要在之后的赛季承担代价。",
+            "effects": {
+              "xp": {
+                "SHO": 4
+              },
+              "morale": -3,
+              "injuryRisk": 2,
+              "fame": -3,
+              "clubInterest": -4,
+              "relationship": -5
+            }
+          }
+        ]
+      },
+      {
+        "id": "opt-3",
+        "label": "用训练、录像和数据解决问题",
+        "risk": "技术",
+        "hint": "强调长期能力成长",
+        "outcomes": [
+          {
+            "id": "great",
+            "probability": 0.38,
+            "tier": "great",
+            "result": "你在“国籍选择”中把握住了机会，职业评价和成长收益都高于预期。",
+            "effects": {
+              "xp": {
+                "DRI": 38
+              },
+              "morale": 4,
+              "clubInterest": 6,
+              "fame": 5
+            }
+          },
+          {
+            "id": "normal",
+            "probability": 0.52,
+            "tier": "normal",
+            "result": "“国籍选择”基本按预期发展，没有失控，但也没有出现奇迹。",
+            "effects": {
+              "xp": {
+                "DRI": 18
+              },
+              "morale": 1,
+              "clubInterest": 2
+            }
+          },
+          {
+            "id": "bad",
+            "probability": 0.1,
+            "tier": "bad",
+            "result": "“国籍选择”的结果不理想，你需要在之后的赛季承担代价。",
+            "effects": {
+              "xp": {
+                "DRI": 4
+              },
+              "morale": -3,
+              "injuryRisk": 2,
+              "fame": -3,
+              "clubInterest": -4
+            }
+          }
+        ]
+      },
+      {
+        "id": "opt-4",
+        "label": "先处理队友、教练或家人的关系",
+        "risk": "关系",
+        "hint": "可能建立长期羁绊",
+        "outcomes": [
+          {
+            "id": "great",
+            "probability": 0.3,
+            "tier": "great",
+            "result": "你在“国籍选择”中把握住了机会，职业评价和成长收益都高于预期。",
+            "effects": {
+              "xp": {
+                "PHY": 41
+              },
+              "morale": 4,
+              "clubInterest": 6,
+              "fame": 5,
+              "relationship": 6
+            }
+          },
+          {
+            "id": "normal",
+            "probability": 0.58,
+            "tier": "normal",
+            "result": "“国籍选择”基本按预期发展，没有失控，但也没有出现奇迹。",
+            "effects": {
+              "xp": {
+                "PHY": 20
+              },
+              "morale": 1,
+              "clubInterest": 2,
+              "relationship": 2
+            }
+          },
+          {
+            "id": "bad",
+            "probability": 0.12,
+            "tier": "bad",
+            "result": "“国籍选择”的结果不理想，你需要在之后的赛季承担代价。",
+            "effects": {
+              "xp": {
+                "PHY": 4
+              },
+              "morale": -3,
+              "injuryRisk": 2,
+              "fame": -3,
+              "clubInterest": -4,
+              "relationship": -5
+            }
+          }
+        ]
+      },
+      {
+        "id": "opt-5",
+        "label": "孤注一掷，选择最高风险路线",
+        "risk": "冒险",
+        "hint": "可能大成功，也可能遭遇严重后果",
+        "outcomes": [
+          {
+            "id": "great",
+            "probability": 0.3,
+            "tier": "great",
+            "result": "你在“国籍选择”中把握住了机会，职业评价和成长收益都高于预期。",
+            "effects": {
+              "xp": {
+                "PAC": 44
+              },
+              "morale": 4,
+              "clubInterest": 6,
+              "fame": 5,
+              "potential": 1
+            }
+          },
+          {
+            "id": "normal",
+            "probability": 0.3,
+            "tier": "normal",
+            "result": "“国籍选择”基本按预期发展，没有失控，但也没有出现奇迹。",
+            "effects": {
+              "xp": {
+                "PAC": 22
+              },
+              "morale": 1,
+              "clubInterest": 2
+            }
+          },
+          {
+            "id": "bad",
+            "probability": 0.4,
+            "tier": "bad",
+            "result": "“国籍选择”的结果不理想，你需要在之后的赛季承担代价。",
+            "effects": {
+              "xp": {
+                "PAC": 4
+              },
+              "morale": -5,
+              "injuryRisk": 12,
+              "fame": -3,
+              "clubInterest": -4,
+              "relationship": -5
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "national-team-005",
+    "version": 1,
+    "category": "national-team",
+    "categoryName": "国家队",
+    "title": "队长袖标讨论",
+    "text": "国家队名单与角色安排出现了变化。 这次变化与“队长袖标讨论”有关。选择不仅影响当前结果，还会改变能力成长、教练信任、队内地位和未来转会评价。",
+    "stage": [
+      "youth",
+      "rotation",
+      "starter",
+      "star",
+      "veteran"
+    ],
+    "weight": 1.55,
+    "cooldownSeasons": 6,
+    "major": true,
+    "resolutionModes": [
+      "wheel",
+      "cards",
+      "dice"
+    ],
+    "options": [
+      {
+        "id": "opt-1",
+        "label": "稳步处理，优先保证职业稳定",
+        "risk": "稳健",
+        "hint": "风险最低，收益较稳定",
+        "outcomes": [
+          {
+            "id": "great",
+            "probability": 0.28,
+            "tier": "great",
+            "result": "你在“队长袖标讨论”中把握住了机会，职业评价和成长收益都高于预期。",
+            "effects": {
+              "xp": {
+                "PAS": 32
+              },
+              "morale": 4,
+              "clubInterest": 6,
+              "fame": 5
+            }
+          },
+          {
+            "id": "normal",
+            "probability": 0.62,
+            "tier": "normal",
+            "result": "“队长袖标讨论”基本按预期发展，没有失控，但也没有出现奇迹。",
+            "effects": {
+              "xp": {
+                "PAS": 14
+              },
+              "morale": 1,
+              "clubInterest": 2
+            }
+          },
+          {
+            "id": "bad",
+            "probability": 0.1,
+            "tier": "bad",
+            "result": "“队长袖标讨论”的结果不理想，你需要在之后的赛季承担代价。",
+            "effects": {
+              "xp": {
+                "PAS": 4
+              },
+              "morale": -3,
+              "injuryRisk": 2,
+              "fame": -3,
+              "clubInterest": -4
+            }
+          }
+        ]
+      },
+      {
+        "id": "opt-2",
+        "label": "主动争取更大机会",
+        "risk": "进取",
+        "hint": "收益更高，也会增加压力",
+        "outcomes": [
+          {
+            "id": "great",
+            "probability": 0.34,
+            "tier": "great",
+            "result": "你在“队长袖标讨论”中把握住了机会，职业评价和成长收益都高于预期。",
+            "effects": {
+              "xp": {
+                "SHO": 35
+              },
+              "morale": 4,
+              "clubInterest": 6,
+              "fame": 5
+            }
+          },
+          {
+            "id": "normal",
+            "probability": 0.46,
+            "tier": "normal",
+            "result": "“队长袖标讨论”基本按预期发展，没有失控，但也没有出现奇迹。",
+            "effects": {
+              "xp": {
+                "SHO": 16
+              },
+              "morale": 1,
+              "clubInterest": 2
+            }
+          },
+          {
+            "id": "bad",
+            "probability": 0.2,
+            "tier": "bad",
+            "result": "“队长袖标讨论”的结果不理想，你需要在之后的赛季承担代价。",
+            "effects": {
+              "xp": {
+                "SHO": 4
+              },
+              "morale": -3,
+              "injuryRisk": 2,
+              "fame": -3,
+              "clubInterest": -4,
+              "relationship": -5
+            }
+          }
+        ]
+      },
+      {
+        "id": "opt-3",
+        "label": "用训练、录像和数据解决问题",
+        "risk": "技术",
+        "hint": "强调长期能力成长",
+        "outcomes": [
+          {
+            "id": "great",
+            "probability": 0.38,
+            "tier": "great",
+            "result": "你在“队长袖标讨论”中把握住了机会，职业评价和成长收益都高于预期。",
+            "effects": {
+              "xp": {
+                "DRI": 38
+              },
+              "morale": 4,
+              "clubInterest": 6,
+              "fame": 5
+            }
+          },
+          {
+            "id": "normal",
+            "probability": 0.52,
+            "tier": "normal",
+            "result": "“队长袖标讨论”基本按预期发展，没有失控，但也没有出现奇迹。",
+            "effects": {
+              "xp": {
+                "DRI": 18
+              },
+              "morale": 1,
+              "clubInterest": 2
+            }
+          },
+          {
+            "id": "bad",
+            "probability": 0.1,
+            "tier": "bad",
+            "result": "“队长袖标讨论”的结果不理想，你需要在之后的赛季承担代价。",
+            "effects": {
+              "xp": {
+                "DRI": 4
+              },
+              "morale": -3,
+              "injuryRisk": 2,
+              "fame": -3,
+              "clubInterest": -4
+            }
+          }
+        ]
+      },
+      {
+        "id": "opt-4",
+        "label": "先处理队友、教练或家人的关系",
+        "risk": "关系",
+        "hint": "可能建立长期羁绊",
+        "outcomes": [
+          {
+            "id": "great",
+            "probability": 0.3,
+            "tier": "great",
+            "result": "你在“队长袖标讨论”中把握住了机会，职业评价和成长收益都高于预期。",
+            "effects": {
+              "xp": {
+                "PHY": 41
+              },
+              "morale": 4,
+              "clubInterest": 6,
+              "fame": 5,
+              "relationship": 6
+            }
+          },
+          {
+            "id": "normal",
+            "probability": 0.58,
+            "tier": "normal",
+            "result": "“队长袖标讨论”基本按预期发展，没有失控，但也没有出现奇迹。",
+            "effects": {
+              "xp": {
+                "PHY": 20
+              },
+              "morale": 1,
+              "clubInterest": 2,
+              "relationship": 2
+            }
+          },
+          {
+            "id": "bad",
+            "probability": 0.12,
+            "tier": "bad",
+            "result": "“队长袖标讨论”的结果不理想，你需要在之后的赛季承担代价。",
+            "effects": {
+              "xp": {
+                "PHY": 4
+              },
+              "morale": -3,
+              "injuryRisk": 2,
+              "fame": -3,
+              "clubInterest": -4,
+              "relationship": -5
+            }
+          }
+        ]
+      },
+      {
+        "id": "opt-5",
+        "label": "孤注一掷，选择最高风险路线",
+        "risk": "冒险",
+        "hint": "可能大成功，也可能遭遇严重后果",
+        "outcomes": [
+          {
+            "id": "great",
+            "probability": 0.3,
+            "tier": "great",
+            "result": "你在“队长袖标讨论”中把握住了机会，职业评价和成长收益都高于预期。",
+            "effects": {
+              "xp": {
+                "PAC": 44
+              },
+              "morale": 4,
+              "clubInterest": 6,
+              "fame": 5,
+              "potential": 1
+            }
+          },
+          {
+            "id": "normal",
+            "probability": 0.3,
+            "tier": "normal",
+            "result": "“队长袖标讨论”基本按预期发展，没有失控，但也没有出现奇迹。",
+            "effects": {
+              "xp": {
+                "PAC": 22
+              },
+              "morale": 1,
+              "clubInterest": 2
+            }
+          },
+          {
+            "id": "bad",
+            "probability": 0.4,
+            "tier": "bad",
+            "result": "“队长袖标讨论”的结果不理想，你需要在之后的赛季承担代价。",
+            "effects": {
+              "xp": {
+                "PAC": 4
+              },
+              "morale": -5,
+              "injuryRisk": 12,
+              "fame": -3,
+              "clubInterest": -4,
+              "relationship": -5
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "national-team-006",
+    "version": 1,
+    "category": "national-team",
+    "categoryName": "国家队",
+    "title": "洲际杯决赛",
+    "text": "国家队名单与角色安排出现了变化。 这次变化与“洲际杯决赛”有关。选择不仅影响当前结果，还会改变能力成长、教练信任、队内地位和未来转会评价。",
+    "stage": [
+      "youth",
+      "rotation",
+      "starter",
+      "star",
+      "veteran"
+    ],
+    "weight": 1.35,
+    "cooldownSeasons": 7,
+    "major": false,
+    "resolutionModes": [
+      "wheel",
+      "cards",
+      "dice"
+    ],
+    "options": [
+      {
+        "id": "opt-1",
+        "label": "稳步处理，优先保证职业稳定",
+        "risk": "稳健",
+        "hint": "风险最低，收益较稳定",
+        "outcomes": [
+          {
+            "id": "great",
+            "probability": 0.28,
+            "tier": "great",
+            "result": "你在“洲际杯决赛”中把握住了机会，职业评价和成长收益都高于预期。",
+            "effects": {
+              "xp": {
+                "PAS": 32
+              },
+              "morale": 4,
+              "clubInterest": 6,
+              "fame": 5
+            }
+          },
+          {
+            "id": "normal",
+            "probability": 0.62,
+            "tier": "normal",
+            "result": "“洲际杯决赛”基本按预期发展，没有失控，但也没有出现奇迹。",
+            "effects": {
+              "xp": {
+                "PAS": 14
+              },
+              "morale": 1,
+              "clubInterest": 2
+            }
+          },
+          {
+            "id": "bad",
+            "probability": 0.1,
+            "tier": "bad",
+            "result": "“洲际杯决赛”的结果不理想，你需要在之后的赛季承担代价。",
+            "effects": {
+              "xp": {
+                "PAS": 4
+              },
+              "morale": -3,
+              "injuryRisk": 2,
+              "fame": -3,
+              "clubInterest": -4
+            }
+          }
+        ]
+      },
+      {
+        "id": "opt-2",
+        "label": "主动争取更大机会",
+        "risk": "进取",
+        "hint": "收益更高，也会增加压力",
+        "outcomes": [
+          {
+            "id": "great",
+            "probability": 0.34,
+            "tier": "great",
+            "result": "你在“洲际杯决赛”中把握住了机会，职业评价和成长收益都高于预期。",
+            "effects": {
+              "xp": {
+                "SHO": 35
+              },
+              "morale": 4,
+              "clubInterest": 6,
+              "fame": 5
+            }
+          },
+          {
+            "id": "normal",
+            "probability": 0.46,
+            "tier": "normal",
+            "result": "“洲际杯决赛”基本按预期发展，没有失控，但也没有出现奇迹。",
+            "effects": {
+              "xp": {
+                "SHO": 16
+              },
+              "morale": 1,
+              "clubInterest": 2
+            }
+          },
+          {
+            "id": "bad",
+            "probability": 0.2,
+            "tier": "bad",
+            "result": "“洲际杯决赛”的结果不理想，你需要在之后的赛季承担代价。",
+            "effects": {
+              "xp": {
+                "SHO": 4
+              },
+              "morale": -3,
+              "injuryRisk": 2,
+              "fame": -3,
+              "clubInterest": -4,
+              "relationship": -5
+            }
+          }
+        ]
+      },
+      {
+        "id": "opt-3",
+        "label": "用训练、录像和数据解决问题",
+        "risk": "技术",
+        "hint": "强调长期能力成长",
+        "outcomes": [
+          {
+            "id": "great",
+            "probability": 0.38,
+            "tier": "great",
+            "result": "你在“洲际杯决赛”中把握住了机会，职业评价和成长收益都高于预期。",
+            "effects": {
+              "xp": {
+                "DRI": 38
+              },
+              "morale": 4,
+              "clubInterest": 6,
+              "fame": 5
+            }
+          },
+          {
+            "id": "normal",
+            "probability": 0.52,
+            "tier": "normal",
+            "result": "“洲际杯决赛”基本按预期发展，没有失控，但也没有出现奇迹。",
+            "effects": {
+              "xp": {
+                "DRI": 18
+              },
+              "morale": 1,
+              "clubInterest": 2
+            }
+          },
+          {
+            "id": "bad",
+            "probability": 0.1,
+            "tier": "bad",
+            "result": "“洲际杯决赛”的结果不理想，你需要在之后的赛季承担代价。",
+            "effects": {
+              "xp": {
+                "DRI": 4
+              },
+              "morale": -3,
+              "injuryRisk": 2,
+              "fame": -3,
+              "clubInterest": -4
+            }
+          }
+        ]
+      },
+      {
+        "id": "opt-4",
+        "label": "先处理队友、教练或家人的关系",
+        "risk": "关系",
+        "hint": "可能建立长期羁绊",
+        "outcomes": [
+          {
+            "id": "great",
+            "probability": 0.3,
+            "tier": "great",
+            "result": "你在“洲际杯决赛”中把握住了机会，职业评价和成长收益都高于预期。",
+            "effects": {
+              "xp": {
+                "PHY": 41
+              },
+              "morale": 4,
+              "clubInterest": 6,
+              "fame": 5,
+              "relationship": 6
+            }
+          },
+          {
+            "id": "normal",
+            "probability": 0.58,
+            "tier": "normal",
+            "result": "“洲际杯决赛”基本按预期发展，没有失控，但也没有出现奇迹。",
+            "effects": {
+              "xp": {
+                "PHY": 20
+              },
+              "morale": 1,
+              "clubInterest": 2,
+              "relationship": 2
+            }
+          },
+          {
+            "id": "bad",
+            "probability": 0.12,
+            "tier": "bad",
+            "result": "“洲际杯决赛”的结果不理想，你需要在之后的赛季承担代价。",
+            "effects": {
+              "xp": {
+                "PHY": 4
+              },
+              "morale": -3,
+              "injuryRisk": 2,
+              "fame": -3,
+              "clubInterest": -4,
+              "relationship": -5
+            }
+          }
+        ]
+      },
+      {
+        "id": "opt-5",
+        "label": "孤注一掷，选择最高风险路线",
+        "risk": "冒险",
+        "hint": "可能大成功，也可能遭遇严重后果",
+        "outcomes": [
+          {
+            "id": "great",
+            "probability": 0.3,
+            "tier": "great",
+            "result": "你在“洲际杯决赛”中把握住了机会，职业评价和成长收益都高于预期。",
+            "effects": {
+              "xp": {
+                "PAC": 44
+              },
+              "morale": 4,
+              "clubInterest": 6,
+              "fame": 5,
+              "potential": 1
+            }
+          },
+          {
+            "id": "normal",
+            "probability": 0.3,
+            "tier": "normal",
+            "result": "“洲际杯决赛”基本按预期发展，没有失控，但也没有出现奇迹。",
+            "effects": {
+              "xp": {
+                "PAC": 22
+              },
+              "morale": 1,
+              "clubInterest": 2
+            }
+          },
+          {
+            "id": "bad",
+            "probability": 0.4,
+            "tier": "bad",
+            "result": "“洲际杯决赛”的结果不理想，你需要在之后的赛季承担代价。",
+            "effects": {
+              "xp": {
+                "PAC": 4
+              },
+              "morale": -5,
+              "injuryRisk": 12,
+              "fame": -3,
+              "clubInterest": -4,
+              "relationship": -5
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "national-team-007",
+    "version": 1,
+    "category": "national-team",
+    "categoryName": "国家队",
+    "title": "世界杯小组赛",
+    "text": "国家队名单与角色安排出现了变化。 这次变化与“世界杯小组赛”有关。选择不仅影响当前结果，还会改变能力成长、教练信任、队内地位和未来转会评价。",
+    "stage": [
+      "youth",
+      "rotation",
+      "starter",
+      "star",
+      "veteran"
+    ],
+    "weight": 1.15,
+    "cooldownSeasons": 8,
+    "major": false,
+    "resolutionModes": [
+      "wheel",
+      "cards",
+      "dice"
+    ],
+    "options": [
+      {
+        "id": "opt-1",
+        "label": "稳步处理，优先保证职业稳定",
+        "risk": "稳健",
+        "hint": "风险最低，收益较稳定",
+        "outcomes": [
+          {
+            "id": "great",
+            "probability": 0.28,
+            "tier": "great",
+            "result": "你在“世界杯小组赛”中把握住了机会，职业评价和成长收益都高于预期。",
+            "effects": {
+              "xp": {
+                "PAS": 32
+              },
+              "morale": 4,
+              "clubInterest": 6,
+              "fame": 5
+            }
+          },
+          {
+            "id": "normal",
+            "probability": 0.62,
+            "tier": "normal",
+            "result": "“世界杯小组赛”基本按预期发展，没有失控，但也没有出现奇迹。",
+            "effects": {
+              "xp": {
+                "PAS": 14
+              },
+              "morale": 1,
+              "clubInterest": 2
+            }
+          },
+          {
+            "id": "bad",
+            "probability": 0.1,
+            "tier": "bad",
+            "result": "“世界杯小组赛”的结果不理想，你需要在之后的赛季承担代价。",
+            "effects": {
+              "xp": {
+                "PAS": 4
+              },
+              "morale": -3,
+              "injuryRisk": 2,
+              "fame": -3,
+              "clubInterest": -4
+            }
+          }
+        ]
+      },
+      {
+        "id": "opt-2",
+        "label": "主动争取更大机会",
+        "risk": "进取",
+        "hint": "收益更高，也会增加压力",
+        "outcomes": [
+          {
+            "id": "great",
+            "probability": 0.34,
+            "tier": "great",
+            "result": "你在“世界杯小组赛”中把握住了机会，职业评价和成长收益都高于预期。",
+            "effects": {
+              "xp": {
+                "SHO": 35
+              },
+              "morale": 4,
+              "clubInterest": 6,
+              "fame": 5
+            }
+          },
+          {
+            "id": "normal",
+            "probability": 0.46,
+            "tier": "normal",
+            "result": "“世界杯小组赛”基本按预期发展，没有失控，但也没有出现奇迹。",
+            "effects": {
+              "xp": {
+                "SHO": 16
+              },
+              "morale": 1,
+              "clubInterest": 2
+            }
+          },
+          {
+            "id": "bad",
+            "probability": 0.2,
+            "tier": "bad",
+            "result": "“世界杯小组赛”的结果不理想，你需要在之后的赛季承担代价。",
+            "effects": {
+              "xp": {
+                "SHO": 4
+              },
+              "morale": -3,
+              "injuryRisk": 2,
+              "fame": -3,
+              "clubInterest": -4,
+              "relationship": -5
+            }
+          }
+        ]
+      },
+      {
+        "id": "opt-3",
+        "label": "用训练、录像和数据解决问题",
+        "risk": "技术",
+        "hint": "强调长期能力成长",
+        "outcomes": [
+          {
+            "id": "great",
+            "probability": 0.38,
+            "tier": "great",
+            "result": "你在“世界杯小组赛”中把握住了机会，职业评价和成长收益都高于预期。",
+            "effects": {
+              "xp": {
+                "DRI": 38
+              },
+              "morale": 4,
+              "clubInterest": 6,
+              "fame": 5
+            }
+          },
+          {
+            "id": "normal",
+            "probability": 0.52,
+            "tier": "normal",
+            "result": "“世界杯小组赛”基本按预期发展，没有失控，但也没有出现奇迹。",
+            "effects": {
+              "xp": {
+                "DRI": 18
+              },
+              "morale": 1,
+              "clubInterest": 2
+            }
+          },
+          {
+            "id": "bad",
+            "probability": 0.1,
+            "tier": "bad",
+            "result": "“世界杯小组赛”的结果不理想，你需要在之后的赛季承担代价。",
+            "effects": {
+              "xp": {
+                "DRI": 4
+              },
+              "morale": -3,
+              "injuryRisk": 2,
+              "fame": -3,
+              "clubInterest": -4
+            }
+          }
+        ]
+      },
+      {
+        "id": "opt-4",
+        "label": "先处理队友、教练或家人的关系",
+        "risk": "关系",
+        "hint": "可能建立长期羁绊",
+        "outcomes": [
+          {
+            "id": "great",
+            "probability": 0.3,
+            "tier": "great",
+            "result": "你在“世界杯小组赛”中把握住了机会，职业评价和成长收益都高于预期。",
+            "effects": {
+              "xp": {
+                "PHY": 41
+              },
+              "morale": 4,
+              "clubInterest": 6,
+              "fame": 5,
+              "relationship": 6
+            }
+          },
+          {
+            "id": "normal",
+            "probability": 0.58,
+            "tier": "normal",
+            "result": "“世界杯小组赛”基本按预期发展，没有失控，但也没有出现奇迹。",
+            "effects": {
+              "xp": {
+                "PHY": 20
+              },
+              "morale": 1,
+              "clubInterest": 2,
+              "relationship": 2
+            }
+          },
+          {
+            "id": "bad",
+            "probability": 0.12,
+            "tier": "bad",
+            "result": "“世界杯小组赛”的结果不理想，你需要在之后的赛季承担代价。",
+            "effects": {
+              "xp": {
+                "PHY": 4
+              },
+              "morale": -3,
+              "injuryRisk": 2,
+              "fame": -3,
+              "clubInterest": -4,
+              "relationship": -5
+            }
+          }
+        ]
+      },
+      {
+        "id": "opt-5",
+        "label": "孤注一掷，选择最高风险路线",
+        "risk": "冒险",
+        "hint": "可能大成功，也可能遭遇严重后果",
+        "outcomes": [
+          {
+            "id": "great",
+            "probability": 0.3,
+            "tier": "great",
+            "result": "你在“世界杯小组赛”中把握住了机会，职业评价和成长收益都高于预期。",
+            "effects": {
+              "xp": {
+                "PAC": 44
+              },
+              "morale": 4,
+              "clubInterest": 6,
+              "fame": 5,
+              "potential": 1
+            }
+          },
+          {
+            "id": "normal",
+            "probability": 0.3,
+            "tier": "normal",
+            "result": "“世界杯小组赛”基本按预期发展，没有失控，但也没有出现奇迹。",
+            "effects": {
+              "xp": {
+                "PAC": 22
+              },
+              "morale": 1,
+              "clubInterest": 2
+            }
+          },
+          {
+            "id": "bad",
+            "probability": 0.4,
+            "tier": "bad",
+            "result": "“世界杯小组赛”的结果不理想，你需要在之后的赛季承担代价。",
+            "effects": {
+              "xp": {
+                "PAC": 4
+              },
+              "morale": -5,
+              "injuryRisk": 12,
+              "fame": -3,
+              "clubInterest": -4,
+              "relationship": -5
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "national-team-008",
+    "version": 1,
+    "category": "national-team",
+    "categoryName": "国家队",
+    "title": "国家队教练更替",
+    "text": "国家队名单与角色安排出现了变化。 这次变化与“国家队教练更替”有关。选择不仅影响当前结果，还会改变能力成长、教练信任、队内地位和未来转会评价。",
+    "stage": [
+      "youth",
+      "rotation",
+      "starter",
+      "star",
+      "veteran"
+    ],
+    "weight": 0.95,
+    "cooldownSeasons": 5,
+    "major": false,
+    "resolutionModes": [
+      "wheel",
+      "cards",
+      "dice"
+    ],
+    "options": [
+      {
+        "id": "opt-1",
+        "label": "稳步处理，优先保证职业稳定",
+        "risk": "稳健",
+        "hint": "风险最低，收益较稳定",
+        "outcomes": [
+          {
+            "id": "great",
+            "probability": 0.28,
+            "tier": "great",
+            "result": "你在“国家队教练更替”中把握住了机会，职业评价和成长收益都高于预期。",
+            "effects": {
+              "xp": {
+                "PAS": 32
+              },
+              "morale": 4,
+              "clubInterest": 6,
+              "fame": 5
+            }
+          },
+          {
+            "id": "normal",
+            "probability": 0.62,
+            "tier": "normal",
+            "result": "“国家队教练更替”基本按预期发展，没有失控，但也没有出现奇迹。",
+            "effects": {
+              "xp": {
+                "PAS": 14
+              },
+              "morale": 1,
+              "clubInterest": 2
+            }
+          },
+          {
+            "id": "bad",
+            "probability": 0.1,
+            "tier": "bad",
+            "result": "“国家队教练更替”的结果不理想，你需要在之后的赛季承担代价。",
+            "effects": {
+              "xp": {
+                "PAS": 4
+              },
+              "morale": -3,
+              "injuryRisk": 2,
+              "fame": -3,
+              "clubInterest": -4
+            }
+          }
+        ]
+      },
+      {
+        "id": "opt-2",
+        "label": "主动争取更大机会",
+        "risk": "进取",
+        "hint": "收益更高，也会增加压力",
+        "outcomes": [
+          {
+            "id": "great",
+            "probability": 0.34,
+            "tier": "great",
+            "result": "你在“国家队教练更替”中把握住了机会，职业评价和成长收益都高于预期。",
+            "effects": {
+              "xp": {
+                "SHO": 35
+              },
+              "morale": 4,
+              "clubInterest": 6,
+              "fame": 5
+            }
+          },
+          {
+            "id": "normal",
+            "probability": 0.46,
+            "tier": "normal",
+            "result": "“国家队教练更替”基本按预期发展，没有失控，但也没有出现奇迹。",
+            "effects": {
+              "xp": {
+                "SHO": 16
+              },
+              "morale": 1,
+              "clubInterest": 2
+            }
+          },
+          {
+            "id": "bad",
+            "probability": 0.2,
+            "tier": "bad",
+            "result": "“国家队教练更替”的结果不理想，你需要在之后的赛季承担代价。",
+            "effects": {
+              "xp": {
+                "SHO": 4
+              },
+              "morale": -3,
+              "injuryRisk": 2,
+              "fame": -3,
+              "clubInterest": -4,
+              "relationship": -5
+            }
+          }
+        ]
+      },
+      {
+        "id": "opt-3",
+        "label": "用训练、录像和数据解决问题",
+        "risk": "技术",
+        "hint": "强调长期能力成长",
+        "outcomes": [
+          {
+            "id": "great",
+            "probability": 0.38,
+            "tier": "great",
+            "result": "你在“国家队教练更替”中把握住了机会，职业评价和成长收益都高于预期。",
+            "effects": {
+              "xp": {
+                "DRI": 38
+              },
+              "morale": 4,
+              "clubInterest": 6,
+              "fame": 5
+            }
+          },
+          {
+            "id": "normal",
+            "probability": 0.52,
+            "tier": "normal",
+            "result": "“国家队教练更替”基本按预期发展，没有失控，但也没有出现奇迹。",
+            "effects": {
+              "xp": {
+                "DRI": 18
+              },
+              "morale": 1,
+              "clubInterest": 2
+            }
+          },
+          {
+            "id": "bad",
+            "probability": 0.1,
+            "tier": "bad",
+            "result": "“国家队教练更替”的结果不理想，你需要在之后的赛季承担代价。",
+            "effects": {
+              "xp": {
+                "DRI": 4
+              },
+              "morale": -3,
+              "injuryRisk": 2,
+              "fame": -3,
+              "clubInterest": -4
+            }
+          }
+        ]
+      },
+      {
+        "id": "opt-4",
+        "label": "先处理队友、教练或家人的关系",
+        "risk": "关系",
+        "hint": "可能建立长期羁绊",
+        "outcomes": [
+          {
+            "id": "great",
+            "probability": 0.3,
+            "tier": "great",
+            "result": "你在“国家队教练更替”中把握住了机会，职业评价和成长收益都高于预期。",
+            "effects": {
+              "xp": {
+                "PHY": 41
+              },
+              "morale": 4,
+              "clubInterest": 6,
+              "fame": 5,
+              "relationship": 6
+            }
+          },
+          {
+            "id": "normal",
+            "probability": 0.58,
+            "tier": "normal",
+            "result": "“国家队教练更替”基本按预期发展，没有失控，但也没有出现奇迹。",
+            "effects": {
+              "xp": {
+                "PHY": 20
+              },
+              "morale": 1,
+              "clubInterest": 2,
+              "relationship": 2
+            }
+          },
+          {
+            "id": "bad",
+            "probability": 0.12,
+            "tier": "bad",
+            "result": "“国家队教练更替”的结果不理想，你需要在之后的赛季承担代价。",
+            "effects": {
+              "xp": {
+                "PHY": 4
+              },
+              "morale": -3,
+              "injuryRisk": 2,
+              "fame": -3,
+              "clubInterest": -4,
+              "relationship": -5
+            }
+          }
+        ]
+      },
+      {
+        "id": "opt-5",
+        "label": "孤注一掷，选择最高风险路线",
+        "risk": "冒险",
+        "hint": "可能大成功，也可能遭遇严重后果",
+        "outcomes": [
+          {
+            "id": "great",
+            "probability": 0.3,
+            "tier": "great",
+            "result": "你在“国家队教练更替”中把握住了机会，职业评价和成长收益都高于预期。",
+            "effects": {
+              "xp": {
+                "PAC": 44
+              },
+              "morale": 4,
+              "clubInterest": 6,
+              "fame": 5,
+              "potential": 1
+            }
+          },
+          {
+            "id": "normal",
+            "probability": 0.3,
+            "tier": "normal",
+            "result": "“国家队教练更替”基本按预期发展，没有失控，但也没有出现奇迹。",
+            "effects": {
+              "xp": {
+                "PAC": 22
+              },
+              "morale": 1,
+              "clubInterest": 2
+            }
+          },
+          {
+            "id": "bad",
+            "probability": 0.4,
+            "tier": "bad",
+            "result": "“国家队教练更替”的结果不理想，你需要在之后的赛季承担代价。",
+            "effects": {
+              "xp": {
+                "PAC": 4
+              },
+              "morale": -5,
+              "injuryRisk": 12,
+              "fame": -3,
+              "clubInterest": -4,
+              "relationship": -5
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "national-team-009",
+    "version": 1,
+    "category": "national-team",
+    "categoryName": "国家队",
+    "title": "俱乐部不愿放人",
+    "text": "国家队名单与角色安排出现了变化。 这次变化与“俱乐部不愿放人”有关。选择不仅影响当前结果，还会改变能力成长、教练信任、队内地位和未来转会评价。",
+    "stage": [
+      "youth",
+      "rotation",
+      "starter",
+      "star",
+      "veteran"
+    ],
+    "weight": 0.75,
+    "cooldownSeasons": 6,
+    "major": false,
+    "resolutionModes": [
+      "wheel",
+      "cards",
+      "dice"
+    ],
+    "options": [
+      {
+        "id": "opt-1",
+        "label": "稳步处理，优先保证职业稳定",
+        "risk": "稳健",
+        "hint": "风险最低，收益较稳定",
+        "outcomes": [
+          {
+            "id": "great",
+            "probability": 0.28,
+            "tier": "great",
+            "result": "你在“俱乐部不愿放人”中把握住了机会，职业评价和成长收益都高于预期。",
+            "effects": {
+              "xp": {
+                "PAS": 32
+              },
+              "morale": 4,
+              "clubInterest": 6,
+              "fame": 5
+            }
+          },
+          {
+            "id": "normal",
+            "probability": 0.62,
+            "tier": "normal",
+            "result": "“俱乐部不愿放人”基本按预期发展，没有失控，但也没有出现奇迹。",
+            "effects": {
+              "xp": {
+                "PAS": 14
+              },
+              "morale": 1,
+              "clubInterest": 2
+            }
+          },
+          {
+            "id": "bad",
+            "probability": 0.1,
+            "tier": "bad",
+            "result": "“俱乐部不愿放人”的结果不理想，你需要在之后的赛季承担代价。",
+            "effects": {
+              "xp": {
+                "PAS": 4
+              },
+              "morale": -3,
+              "injuryRisk": 2,
+              "fame": -3,
+              "clubInterest": -4
+            }
+          }
+        ]
+      },
+      {
+        "id": "opt-2",
+        "label": "主动争取更大机会",
+        "risk": "进取",
+        "hint": "收益更高，也会增加压力",
+        "outcomes": [
+          {
+            "id": "great",
+            "probability": 0.34,
+            "tier": "great",
+            "result": "你在“俱乐部不愿放人”中把握住了机会，职业评价和成长收益都高于预期。",
+            "effects": {
+              "xp": {
+                "SHO": 35
+              },
+              "morale": 4,
+              "clubInterest": 6,
+              "fame": 5
+            }
+          },
+          {
+            "id": "normal",
+            "probability": 0.46,
+            "tier": "normal",
+            "result": "“俱乐部不愿放人”基本按预期发展，没有失控，但也没有出现奇迹。",
+            "effects": {
+              "xp": {
+                "SHO": 16
+              },
+              "morale": 1,
+              "clubInterest": 2
+            }
+          },
+          {
+            "id": "bad",
+            "probability": 0.2,
+            "tier": "bad",
+            "result": "“俱乐部不愿放人”的结果不理想，你需要在之后的赛季承担代价。",
+            "effects": {
+              "xp": {
+                "SHO": 4
+              },
+              "morale": -3,
+              "injuryRisk": 2,
+              "fame": -3,
+              "clubInterest": -4,
+              "relationship": -5
+            }
+          }
+        ]
+      },
+      {
+        "id": "opt-3",
+        "label": "用训练、录像和数据解决问题",
+        "risk": "技术",
+        "hint": "强调长期能力成长",
+        "outcomes": [
+          {
+            "id": "great",
+            "probability": 0.38,
+            "tier": "great",
+            "result": "你在“俱乐部不愿放人”中把握住了机会，职业评价和成长收益都高于预期。",
+            "effects": {
+              "xp": {
+                "DRI": 38
+              },
+              "morale": 4,
+              "clubInterest": 6,
+              "fame": 5
+            }
+          },
+          {
+            "id": "normal",
+            "probability": 0.52,
+            "tier": "normal",
+            "result": "“俱乐部不愿放人”基本按预期发展，没有失控，但也没有出现奇迹。",
+            "effects": {
+              "xp": {
+                "DRI": 18
+              },
+              "morale": 1,
+              "clubInterest": 2
+            }
+          },
+          {
+            "id": "bad",
+            "probability": 0.1,
+            "tier": "bad",
+            "result": "“俱乐部不愿放人”的结果不理想，你需要在之后的赛季承担代价。",
+            "effects": {
+              "xp": {
+                "DRI": 4
+              },
+              "morale": -3,
+              "injuryRisk": 2,
+              "fame": -3,
+              "clubInterest": -4
+            }
+          }
+        ]
+      },
+      {
+        "id": "opt-4",
+        "label": "先处理队友、教练或家人的关系",
+        "risk": "关系",
+        "hint": "可能建立长期羁绊",
+        "outcomes": [
+          {
+            "id": "great",
+            "probability": 0.3,
+            "tier": "great",
+            "result": "你在“俱乐部不愿放人”中把握住了机会，职业评价和成长收益都高于预期。",
+            "effects": {
+              "xp": {
+                "PHY": 41
+              },
+              "morale": 4,
+              "clubInterest": 6,
+              "fame": 5,
+              "relationship": 6
+            }
+          },
+          {
+            "id": "normal",
+            "probability": 0.58,
+            "tier": "normal",
+            "result": "“俱乐部不愿放人”基本按预期发展，没有失控，但也没有出现奇迹。",
+            "effects": {
+              "xp": {
+                "PHY": 20
+              },
+              "morale": 1,
+              "clubInterest": 2,
+              "relationship": 2
+            }
+          },
+          {
+            "id": "bad",
+            "probability": 0.12,
+            "tier": "bad",
+            "result": "“俱乐部不愿放人”的结果不理想，你需要在之后的赛季承担代价。",
+            "effects": {
+              "xp": {
+                "PHY": 4
+              },
+              "morale": -3,
+              "injuryRisk": 2,
+              "fame": -3,
+              "clubInterest": -4,
+              "relationship": -5
+            }
+          }
+        ]
+      },
+      {
+        "id": "opt-5",
+        "label": "孤注一掷，选择最高风险路线",
+        "risk": "冒险",
+        "hint": "可能大成功，也可能遭遇严重后果",
+        "outcomes": [
+          {
+            "id": "great",
+            "probability": 0.3,
+            "tier": "great",
+            "result": "你在“俱乐部不愿放人”中把握住了机会，职业评价和成长收益都高于预期。",
+            "effects": {
+              "xp": {
+                "PAC": 44
+              },
+              "morale": 4,
+              "clubInterest": 6,
+              "fame": 5,
+              "potential": 1
+            }
+          },
+          {
+            "id": "normal",
+            "probability": 0.3,
+            "tier": "normal",
+            "result": "“俱乐部不愿放人”基本按预期发展，没有失控，但也没有出现奇迹。",
+            "effects": {
+              "xp": {
+                "PAC": 22
+              },
+              "morale": 1,
+              "clubInterest": 2
+            }
+          },
+          {
+            "id": "bad",
+            "probability": 0.4,
+            "tier": "bad",
+            "result": "“俱乐部不愿放人”的结果不理想，你需要在之后的赛季承担代价。",
+            "effects": {
+              "xp": {
+                "PAC": 4
+              },
+              "morale": -5,
+              "injuryRisk": 12,
+              "fame": -3,
+              "clubInterest": -4,
+              "relationship": -5
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "national-team-010",
+    "version": 1,
+    "category": "national-team",
+    "categoryName": "国家队",
+    "title": "长途飞行疲劳",
+    "text": "国家队名单与角色安排出现了变化。 这次变化与“长途飞行疲劳”有关。选择不仅影响当前结果，还会改变能力成长、教练信任、队内地位和未来转会评价。",
+    "stage": [
+      "youth",
+      "rotation",
+      "starter",
+      "star",
+      "veteran"
+    ],
+    "weight": 1.45,
+    "cooldownSeasons": 7,
+    "major": true,
+    "resolutionModes": [
+      "wheel",
+      "cards",
+      "dice"
+    ],
+    "options": [
+      {
+        "id": "opt-1",
+        "label": "稳步处理，优先保证职业稳定",
+        "risk": "稳健",
+        "hint": "风险最低，收益较稳定",
+        "outcomes": [
+          {
+            "id": "great",
+            "probability": 0.28,
+            "tier": "great",
+            "result": "你在“长途飞行疲劳”中把握住了机会，职业评价和成长收益都高于预期。",
+            "effects": {
+              "xp": {
+                "PAS": 32
+              },
+              "morale": 4,
+              "clubInterest": 6,
+              "fame": 5
+            }
+          },
+          {
+            "id": "normal",
+            "probability": 0.62,
+            "tier": "normal",
+            "result": "“长途飞行疲劳”基本按预期发展，没有失控，但也没有出现奇迹。",
+            "effects": {
+              "xp": {
+                "PAS": 14
+              },
+              "morale": 1,
+              "clubInterest": 2
+            }
+          },
+          {
+            "id": "bad",
+            "probability": 0.1,
+            "tier": "bad",
+            "result": "“长途飞行疲劳”的结果不理想，你需要在之后的赛季承担代价。",
+            "effects": {
+              "xp": {
+                "PAS": 4
+              },
+              "morale": -3,
+              "injuryRisk": 2,
+              "fame": -3,
+              "clubInterest": -4
+            }
+          }
+        ]
+      },
+      {
+        "id": "opt-2",
+        "label": "主动争取更大机会",
+        "risk": "进取",
+        "hint": "收益更高，也会增加压力",
+        "outcomes": [
+          {
+            "id": "great",
+            "probability": 0.34,
+            "tier": "great",
+            "result": "你在“长途飞行疲劳”中把握住了机会，职业评价和成长收益都高于预期。",
+            "effects": {
+              "xp": {
+                "SHO": 35
+              },
+              "morale": 4,
+              "clubInterest": 6,
+              "fame": 5
+            }
+          },
+          {
+            "id": "normal",
+            "probability": 0.46,
+            "tier": "normal",
+            "result": "“长途飞行疲劳”基本按预期发展，没有失控，但也没有出现奇迹。",
+            "effects": {
+              "xp": {
+                "SHO": 16
+              },
+              "morale": 1,
+              "clubInterest": 2
+            }
+          },
+          {
+            "id": "bad",
+            "probability": 0.2,
+            "tier": "bad",
+            "result": "“长途飞行疲劳”的结果不理想，你需要在之后的赛季承担代价。",
+            "effects": {
+              "xp": {
+                "SHO": 4
+              },
+              "morale": -3,
+              "injuryRisk": 2,
+              "fame": -3,
+              "clubInterest": -4,
+              "relationship": -5
+            }
+          }
+        ]
+      },
+      {
+        "id": "opt-3",
+        "label": "用训练、录像和数据解决问题",
+        "risk": "技术",
+        "hint": "强调长期能力成长",
+        "outcomes": [
+          {
+            "id": "great",
+            "probability": 0.38,
+            "tier": "great",
+            "result": "你在“长途飞行疲劳”中把握住了机会，职业评价和成长收益都高于预期。",
+            "effects": {
+              "xp": {
+                "DRI": 38
+              },
+              "morale": 4,
+              "clubInterest": 6,
+              "fame": 5
+            }
+          },
+          {
+            "id": "normal",
+            "probability": 0.52,
+            "tier": "normal",
+            "result": "“长途飞行疲劳”基本按预期发展，没有失控，但也没有出现奇迹。",
+            "effects": {
+              "xp": {
+                "DRI": 18
+              },
+              "morale": 1,
+              "clubInterest": 2
+            }
+          },
+          {
+            "id": "bad",
+            "probability": 0.1,
+            "tier": "bad",
+            "result": "“长途飞行疲劳”的结果不理想，你需要在之后的赛季承担代价。",
+            "effects": {
+              "xp": {
+                "DRI": 4
+              },
+              "morale": -3,
+              "injuryRisk": 2,
+              "fame": -3,
+              "clubInterest": -4
+            }
+          }
+        ]
+      },
+      {
+        "id": "opt-4",
+        "label": "先处理队友、教练或家人的关系",
+        "risk": "关系",
+        "hint": "可能建立长期羁绊",
+        "outcomes": [
+          {
+            "id": "great",
+            "probability": 0.3,
+            "tier": "great",
+            "result": "你在“长途飞行疲劳”中把握住了机会，职业评价和成长收益都高于预期。",
+            "effects": {
+              "xp": {
+                "PHY": 41
+              },
+              "morale": 4,
+              "clubInterest": 6,
+              "fame": 5,
+              "relationship": 6
+            }
+          },
+          {
+            "id": "normal",
+            "probability": 0.58,
+            "tier": "normal",
+            "result": "“长途飞行疲劳”基本按预期发展，没有失控，但也没有出现奇迹。",
+            "effects": {
+              "xp": {
+                "PHY": 20
+              },
+              "morale": 1,
+              "clubInterest": 2,
+              "relationship": 2
+            }
+          },
+          {
+            "id": "bad",
+            "probability": 0.12,
+            "tier": "bad",
+            "result": "“长途飞行疲劳”的结果不理想，你需要在之后的赛季承担代价。",
+            "effects": {
+              "xp": {
+                "PHY": 4
+              },
+              "morale": -3,
+              "injuryRisk": 2,
+              "fame": -3,
+              "clubInterest": -4,
+              "relationship": -5
+            }
+          }
+        ]
+      },
+      {
+        "id": "opt-5",
+        "label": "孤注一掷，选择最高风险路线",
+        "risk": "冒险",
+        "hint": "可能大成功，也可能遭遇严重后果",
+        "outcomes": [
+          {
+            "id": "great",
+            "probability": 0.3,
+            "tier": "great",
+            "result": "你在“长途飞行疲劳”中把握住了机会，职业评价和成长收益都高于预期。",
+            "effects": {
+              "xp": {
+                "PAC": 44
+              },
+              "morale": 4,
+              "clubInterest": 6,
+              "fame": 5,
+              "potential": 1
+            }
+          },
+          {
+            "id": "normal",
+            "probability": 0.3,
+            "tier": "normal",
+            "result": "“长途飞行疲劳”基本按预期发展，没有失控，但也没有出现奇迹。",
+            "effects": {
+              "xp": {
+                "PAC": 22
+              },
+              "morale": 1,
+              "clubInterest": 2
+            }
+          },
+          {
+            "id": "bad",
+            "probability": 0.4,
+            "tier": "bad",
+            "result": "“长途飞行疲劳”的结果不理想，你需要在之后的赛季承担代价。",
+            "effects": {
+              "xp": {
+                "PAC": 4
+              },
+              "morale": -5,
+              "injuryRisk": 12,
+              "fame": -3,
+              "clubInterest": -4,
+              "relationship": -5
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "national-team-011",
+    "version": 1,
+    "category": "national-team",
+    "categoryName": "国家队",
+    "title": "国家队与俱乐部战术冲突",
+    "text": "国家队名单与角色安排出现了变化。 这次变化与“国家队与俱乐部战术冲突”有关。选择不仅影响当前结果，还会改变能力成长、教练信任、队内地位和未来转会评价。",
+    "stage": [
+      "youth",
+      "rotation",
+      "starter",
+      "star",
+      "veteran"
+    ],
+    "weight": 1.25,
+    "cooldownSeasons": 8,
+    "major": false,
+    "resolutionModes": [
+      "wheel",
+      "cards",
+      "dice"
+    ],
+    "options": [
+      {
+        "id": "opt-1",
+        "label": "稳步处理，优先保证职业稳定",
+        "risk": "稳健",
+        "hint": "风险最低，收益较稳定",
+        "outcomes": [
+          {
+            "id": "great",
+            "probability": 0.28,
+            "tier": "great",
+            "result": "你在“国家队与俱乐部战术冲突”中把握住了机会，职业评价和成长收益都高于预期。",
+            "effects": {
+              "xp": {
+                "PAS": 32
+              },
+              "morale": 4,
+              "clubInterest": 6,
+              "fame": 5
+            }
+          },
+          {
+            "id": "normal",
+            "probability": 0.62,
+            "tier": "normal",
+            "result": "“国家队与俱乐部战术冲突”基本按预期发展，没有失控，但也没有出现奇迹。",
+            "effects": {
+              "xp": {
+                "PAS": 14
+              },
+              "morale": 1,
+              "clubInterest": 2
+            }
+          },
+          {
+            "id": "bad",
+            "probability": 0.1,
+            "tier": "bad",
+            "result": "“国家队与俱乐部战术冲突”的结果不理想，你需要在之后的赛季承担代价。",
+            "effects": {
+              "xp": {
+                "PAS": 4
+              },
+              "morale": -3,
+              "injuryRisk": 2,
+              "fame": -3,
+              "clubInterest": -4
+            }
+          }
+        ]
+      },
+      {
+        "id": "opt-2",
+        "label": "主动争取更大机会",
+        "risk": "进取",
+        "hint": "收益更高，也会增加压力",
+        "outcomes": [
+          {
+            "id": "great",
+            "probability": 0.34,
+            "tier": "great",
+            "result": "你在“国家队与俱乐部战术冲突”中把握住了机会，职业评价和成长收益都高于预期。",
+            "effects": {
+              "xp": {
+                "SHO": 35
+              },
+              "morale": 4,
+              "clubInterest": 6,
+              "fame": 5
+            }
+          },
+          {
+            "id": "normal",
+            "probability": 0.46,
+            "tier": "normal",
+            "result": "“国家队与俱乐部战术冲突”基本按预期发展，没有失控，但也没有出现奇迹。",
+            "effects": {
+              "xp": {
+                "SHO": 16
+              },
+              "morale": 1,
+              "clubInterest": 2
+            }
+          },
+          {
+            "id": "bad",
+            "probability": 0.2,
+            "tier": "bad",
+            "result": "“国家队与俱乐部战术冲突”的结果不理想，你需要在之后的赛季承担代价。",
+            "effects": {
+              "xp": {
+                "SHO": 4
+              },
+              "morale": -3,
+              "injuryRisk": 2,
+              "fame": -3,
+              "clubInterest": -4,
+              "relationship": -5
+            }
+          }
+        ]
+      },
+      {
+        "id": "opt-3",
+        "label": "用训练、录像和数据解决问题",
+        "risk": "技术",
+        "hint": "强调长期能力成长",
+        "outcomes": [
+          {
+            "id": "great",
+            "probability": 0.38,
+            "tier": "great",
+            "result": "你在“国家队与俱乐部战术冲突”中把握住了机会，职业评价和成长收益都高于预期。",
+            "effects": {
+              "xp": {
+                "DRI": 38
+              },
+              "morale": 4,
+              "clubInterest": 6,
+              "fame": 5
+            }
+          },
+          {
+            "id": "normal",
+            "probability": 0.52,
+            "tier": "normal",
+            "result": "“国家队与俱乐部战术冲突”基本按预期发展，没有失控，但也没有出现奇迹。",
+            "effects": {
+              "xp": {
+                "DRI": 18
+              },
+              "morale": 1,
+              "clubInterest": 2
+            }
+          },
+          {
+            "id": "bad",
+            "probability": 0.1,
+            "tier": "bad",
+            "result": "“国家队与俱乐部战术冲突”的结果不理想，你需要在之后的赛季承担代价。",
+            "effects": {
+              "xp": {
+                "DRI": 4
+              },
+              "morale": -3,
+              "injuryRisk": 2,
+              "fame": -3,
+              "clubInterest": -4
+            }
+          }
+        ]
+      },
+      {
+        "id": "opt-4",
+        "label": "先处理队友、教练或家人的关系",
+        "risk": "关系",
+        "hint": "可能建立长期羁绊",
+        "outcomes": [
+          {
+            "id": "great",
+            "probability": 0.3,
+            "tier": "great",
+            "result": "你在“国家队与俱乐部战术冲突”中把握住了机会，职业评价和成长收益都高于预期。",
+            "effects": {
+              "xp": {
+                "PHY": 41
+              },
+              "morale": 4,
+              "clubInterest": 6,
+              "fame": 5,
+              "relationship": 6
+            }
+          },
+          {
+            "id": "normal",
+            "probability": 0.58,
+            "tier": "normal",
+            "result": "“国家队与俱乐部战术冲突”基本按预期发展，没有失控，但也没有出现奇迹。",
+            "effects": {
+              "xp": {
+                "PHY": 20
+              },
+              "morale": 1,
+              "clubInterest": 2,
+              "relationship": 2
+            }
+          },
+          {
+            "id": "bad",
+            "probability": 0.12,
+            "tier": "bad",
+            "result": "“国家队与俱乐部战术冲突”的结果不理想，你需要在之后的赛季承担代价。",
+            "effects": {
+              "xp": {
+                "PHY": 4
+              },
+              "morale": -3,
+              "injuryRisk": 2,
+              "fame": -3,
+              "clubInterest": -4,
+              "relationship": -5
+            }
+          }
+        ]
+      },
+      {
+        "id": "opt-5",
+        "label": "孤注一掷，选择最高风险路线",
+        "risk": "冒险",
+        "hint": "可能大成功，也可能遭遇严重后果",
+        "outcomes": [
+          {
+            "id": "great",
+            "probability": 0.3,
+            "tier": "great",
+            "result": "你在“国家队与俱乐部战术冲突”中把握住了机会，职业评价和成长收益都高于预期。",
+            "effects": {
+              "xp": {
+                "PAC": 44
+              },
+              "morale": 4,
+              "clubInterest": 6,
+              "fame": 5,
+              "potential": 1
+            }
+          },
+          {
+            "id": "normal",
+            "probability": 0.3,
+            "tier": "normal",
+            "result": "“国家队与俱乐部战术冲突”基本按预期发展，没有失控，但也没有出现奇迹。",
+            "effects": {
+              "xp": {
+                "PAC": 22
+              },
+              "morale": 1,
+              "clubInterest": 2
+            }
+          },
+          {
+            "id": "bad",
+            "probability": 0.4,
+            "tier": "bad",
+            "result": "“国家队与俱乐部战术冲突”的结果不理想，你需要在之后的赛季承担代价。",
+            "effects": {
+              "xp": {
+                "PAC": 4
+              },
+              "morale": -5,
+              "injuryRisk": 12,
+              "fame": -3,
+              "clubInterest": -4,
+              "relationship": -5
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "national-team-012",
+    "version": 1,
+    "category": "national-team",
+    "categoryName": "国家队",
+    "title": "点球大战人选",
+    "text": "国家队名单与角色安排出现了变化。 这次变化与“点球大战人选”有关。选择不仅影响当前结果，还会改变能力成长、教练信任、队内地位和未来转会评价。",
+    "stage": [
+      "youth",
+      "rotation",
+      "starter",
+      "star",
+      "veteran"
+    ],
+    "weight": 1.05,
+    "cooldownSeasons": 5,
+    "major": false,
+    "resolutionModes": [
+      "wheel",
+      "cards",
+      "dice"
+    ],
+    "options": [
+      {
+        "id": "opt-1",
+        "label": "稳步处理，优先保证职业稳定",
+        "risk": "稳健",
+        "hint": "风险最低，收益较稳定",
+        "outcomes": [
+          {
+            "id": "great",
+            "probability": 0.28,
+            "tier": "great",
+            "result": "你在“点球大战人选”中把握住了机会，职业评价和成长收益都高于预期。",
+            "effects": {
+              "xp": {
+                "PAS": 32
+              },
+              "morale": 4,
+              "clubInterest": 6,
+              "fame": 5
+            }
+          },
+          {
+            "id": "normal",
+            "probability": 0.62,
+            "tier": "normal",
+            "result": "“点球大战人选”基本按预期发展，没有失控，但也没有出现奇迹。",
+            "effects": {
+              "xp": {
+                "PAS": 14
+              },
+              "morale": 1,
+              "clubInterest": 2
+            }
+          },
+          {
+            "id": "bad",
+            "probability": 0.1,
+            "tier": "bad",
+            "result": "“点球大战人选”的结果不理想，你需要在之后的赛季承担代价。",
+            "effects": {
+              "xp": {
+                "PAS": 4
+              },
+              "morale": -3,
+              "injuryRisk": 2,
+              "fame": -3,
+              "clubInterest": -4
+            }
+          }
+        ]
+      },
+      {
+        "id": "opt-2",
+        "label": "主动争取更大机会",
+        "risk": "进取",
+        "hint": "收益更高，也会增加压力",
+        "outcomes": [
+          {
+            "id": "great",
+            "probability": 0.34,
+            "tier": "great",
+            "result": "你在“点球大战人选”中把握住了机会，职业评价和成长收益都高于预期。",
+            "effects": {
+              "xp": {
+                "SHO": 35
+              },
+              "morale": 4,
+              "clubInterest": 6,
+              "fame": 5
+            }
+          },
+          {
+            "id": "normal",
+            "probability": 0.46,
+            "tier": "normal",
+            "result": "“点球大战人选”基本按预期发展，没有失控，但也没有出现奇迹。",
+            "effects": {
+              "xp": {
+                "SHO": 16
+              },
+              "morale": 1,
+              "clubInterest": 2
+            }
+          },
+          {
+            "id": "bad",
+            "probability": 0.2,
+            "tier": "bad",
+            "result": "“点球大战人选”的结果不理想，你需要在之后的赛季承担代价。",
+            "effects": {
+              "xp": {
+                "SHO": 4
+              },
+              "morale": -3,
+              "injuryRisk": 2,
+              "fame": -3,
+              "clubInterest": -4,
+              "relationship": -5
+            }
+          }
+        ]
+      },
+      {
+        "id": "opt-3",
+        "label": "用训练、录像和数据解决问题",
+        "risk": "技术",
+        "hint": "强调长期能力成长",
+        "outcomes": [
+          {
+            "id": "great",
+            "probability": 0.38,
+            "tier": "great",
+            "result": "你在“点球大战人选”中把握住了机会，职业评价和成长收益都高于预期。",
+            "effects": {
+              "xp": {
+                "DRI": 38
+              },
+              "morale": 4,
+              "clubInterest": 6,
+              "fame": 5
+            }
+          },
+          {
+            "id": "normal",
+            "probability": 0.52,
+            "tier": "normal",
+            "result": "“点球大战人选”基本按预期发展，没有失控，但也没有出现奇迹。",
+            "effects": {
+              "xp": {
+                "DRI": 18
+              },
+              "morale": 1,
+              "clubInterest": 2
+            }
+          },
+          {
+            "id": "bad",
+            "probability": 0.1,
+            "tier": "bad",
+            "result": "“点球大战人选”的结果不理想，你需要在之后的赛季承担代价。",
+            "effects": {
+              "xp": {
+                "DRI": 4
+              },
+              "morale": -3,
+              "injuryRisk": 2,
+              "fame": -3,
+              "clubInterest": -4
+            }
+          }
+        ]
+      },
+      {
+        "id": "opt-4",
+        "label": "先处理队友、教练或家人的关系",
+        "risk": "关系",
+        "hint": "可能建立长期羁绊",
+        "outcomes": [
+          {
+            "id": "great",
+            "probability": 0.3,
+            "tier": "great",
+            "result": "你在“点球大战人选”中把握住了机会，职业评价和成长收益都高于预期。",
+            "effects": {
+              "xp": {
+                "PHY": 41
+              },
+              "morale": 4,
+              "clubInterest": 6,
+              "fame": 5,
+              "relationship": 6
+            }
+          },
+          {
+            "id": "normal",
+            "probability": 0.58,
+            "tier": "normal",
+            "result": "“点球大战人选”基本按预期发展，没有失控，但也没有出现奇迹。",
+            "effects": {
+              "xp": {
+                "PHY": 20
+              },
+              "morale": 1,
+              "clubInterest": 2,
+              "relationship": 2
+            }
+          },
+          {
+            "id": "bad",
+            "probability": 0.12,
+            "tier": "bad",
+            "result": "“点球大战人选”的结果不理想，你需要在之后的赛季承担代价。",
+            "effects": {
+              "xp": {
+                "PHY": 4
+              },
+              "morale": -3,
+              "injuryRisk": 2,
+              "fame": -3,
+              "clubInterest": -4,
+              "relationship": -5
+            }
+          }
+        ]
+      },
+      {
+        "id": "opt-5",
+        "label": "孤注一掷，选择最高风险路线",
+        "risk": "冒险",
+        "hint": "可能大成功，也可能遭遇严重后果",
+        "outcomes": [
+          {
+            "id": "great",
+            "probability": 0.3,
+            "tier": "great",
+            "result": "你在“点球大战人选”中把握住了机会，职业评价和成长收益都高于预期。",
+            "effects": {
+              "xp": {
+                "PAC": 44
+              },
+              "morale": 4,
+              "clubInterest": 6,
+              "fame": 5,
+              "potential": 1
+            }
+          },
+          {
+            "id": "normal",
+            "probability": 0.3,
+            "tier": "normal",
+            "result": "“点球大战人选”基本按预期发展，没有失控，但也没有出现奇迹。",
+            "effects": {
+              "xp": {
+                "PAC": 22
+              },
+              "morale": 1,
+              "clubInterest": 2
+            }
+          },
+          {
+            "id": "bad",
+            "probability": 0.4,
+            "tier": "bad",
+            "result": "“点球大战人选”的结果不理想，你需要在之后的赛季承担代价。",
+            "effects": {
+              "xp": {
+                "PAC": 4
+              },
+              "morale": -5,
+              "injuryRisk": 12,
+              "fame": -3,
+              "clubInterest": -4,
+              "relationship": -5
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "national-team-013",
+    "version": 1,
+    "category": "national-team",
+    "categoryName": "国家队",
+    "title": "青年队升级成年队",
+    "text": "国家队名单与角色安排出现了变化。 这次变化与“青年队升级成年队”有关。选择不仅影响当前结果，还会改变能力成长、教练信任、队内地位和未来转会评价。",
+    "stage": [
+      "youth",
+      "rotation",
+      "starter",
+      "star",
+      "veteran"
+    ],
+    "weight": 0.85,
+    "cooldownSeasons": 6,
+    "major": false,
+    "resolutionModes": [
+      "wheel",
+      "cards",
+      "dice"
+    ],
+    "options": [
+      {
+        "id": "opt-1",
+        "label": "稳步处理，优先保证职业稳定",
+        "risk": "稳健",
+        "hint": "风险最低，收益较稳定",
+        "outcomes": [
+          {
+            "id": "great",
+            "probability": 0.28,
+            "tier": "great",
+            "result": "你在“青年队升级成年队”中把握住了机会，职业评价和成长收益都高于预期。",
+            "effects": {
+              "xp": {
+                "PAS": 32
+              },
+              "morale": 4,
+              "clubInterest": 6,
+              "fame": 5
+            }
+          },
+          {
+            "id": "normal",
+            "probability": 0.62,
+            "tier": "normal",
+            "result": "“青年队升级成年队”基本按预期发展，没有失控，但也没有出现奇迹。",
+            "effects": {
+              "xp": {
+                "PAS": 14
+              },
+              "morale": 1,
+              "clubInterest": 2
+            }
+          },
+          {
+            "id": "bad",
+            "probability": 0.1,
+            "tier": "bad",
+            "result": "“青年队升级成年队”的结果不理想，你需要在之后的赛季承担代价。",
+            "effects": {
+              "xp": {
+                "PAS": 4
+              },
+              "morale": -3,
+              "injuryRisk": 2,
+              "fame": -3,
+              "clubInterest": -4
+            }
+          }
+        ]
+      },
+      {
+        "id": "opt-2",
+        "label": "主动争取更大机会",
+        "risk": "进取",
+        "hint": "收益更高，也会增加压力",
+        "outcomes": [
+          {
+            "id": "great",
+            "probability": 0.34,
+            "tier": "great",
+            "result": "你在“青年队升级成年队”中把握住了机会，职业评价和成长收益都高于预期。",
+            "effects": {
+              "xp": {
+                "SHO": 35
+              },
+              "morale": 4,
+              "clubInterest": 6,
+              "fame": 5
+            }
+          },
+          {
+            "id": "normal",
+            "probability": 0.46,
+            "tier": "normal",
+            "result": "“青年队升级成年队”基本按预期发展，没有失控，但也没有出现奇迹。",
+            "effects": {
+              "xp": {
+                "SHO": 16
+              },
+              "morale": 1,
+              "clubInterest": 2
+            }
+          },
+          {
+            "id": "bad",
+            "probability": 0.2,
+            "tier": "bad",
+            "result": "“青年队升级成年队”的结果不理想，你需要在之后的赛季承担代价。",
+            "effects": {
+              "xp": {
+                "SHO": 4
+              },
+              "morale": -3,
+              "injuryRisk": 2,
+              "fame": -3,
+              "clubInterest": -4,
+              "relationship": -5
+            }
+          }
+        ]
+      },
+      {
+        "id": "opt-3",
+        "label": "用训练、录像和数据解决问题",
+        "risk": "技术",
+        "hint": "强调长期能力成长",
+        "outcomes": [
+          {
+            "id": "great",
+            "probability": 0.38,
+            "tier": "great",
+            "result": "你在“青年队升级成年队”中把握住了机会，职业评价和成长收益都高于预期。",
+            "effects": {
+              "xp": {
+                "DRI": 38
+              },
+              "morale": 4,
+              "clubInterest": 6,
+              "fame": 5
+            }
+          },
+          {
+            "id": "normal",
+            "probability": 0.52,
+            "tier": "normal",
+            "result": "“青年队升级成年队”基本按预期发展，没有失控，但也没有出现奇迹。",
+            "effects": {
+              "xp": {
+                "DRI": 18
+              },
+              "morale": 1,
+              "clubInterest": 2
+            }
+          },
+          {
+            "id": "bad",
+            "probability": 0.1,
+            "tier": "bad",
+            "result": "“青年队升级成年队”的结果不理想，你需要在之后的赛季承担代价。",
+            "effects": {
+              "xp": {
+                "DRI": 4
+              },
+              "morale": -3,
+              "injuryRisk": 2,
+              "fame": -3,
+              "clubInterest": -4
+            }
+          }
+        ]
+      },
+      {
+        "id": "opt-4",
+        "label": "先处理队友、教练或家人的关系",
+        "risk": "关系",
+        "hint": "可能建立长期羁绊",
+        "outcomes": [
+          {
+            "id": "great",
+            "probability": 0.3,
+            "tier": "great",
+            "result": "你在“青年队升级成年队”中把握住了机会，职业评价和成长收益都高于预期。",
+            "effects": {
+              "xp": {
+                "PHY": 41
+              },
+              "morale": 4,
+              "clubInterest": 6,
+              "fame": 5,
+              "relationship": 6
+            }
+          },
+          {
+            "id": "normal",
+            "probability": 0.58,
+            "tier": "normal",
+            "result": "“青年队升级成年队”基本按预期发展，没有失控，但也没有出现奇迹。",
+            "effects": {
+              "xp": {
+                "PHY": 20
+              },
+              "morale": 1,
+              "clubInterest": 2,
+              "relationship": 2
+            }
+          },
+          {
+            "id": "bad",
+            "probability": 0.12,
+            "tier": "bad",
+            "result": "“青年队升级成年队”的结果不理想，你需要在之后的赛季承担代价。",
+            "effects": {
+              "xp": {
+                "PHY": 4
+              },
+              "morale": -3,
+              "injuryRisk": 2,
+              "fame": -3,
+              "clubInterest": -4,
+              "relationship": -5
+            }
+          }
+        ]
+      },
+      {
+        "id": "opt-5",
+        "label": "孤注一掷，选择最高风险路线",
+        "risk": "冒险",
+        "hint": "可能大成功，也可能遭遇严重后果",
+        "outcomes": [
+          {
+            "id": "great",
+            "probability": 0.3,
+            "tier": "great",
+            "result": "你在“青年队升级成年队”中把握住了机会，职业评价和成长收益都高于预期。",
+            "effects": {
+              "xp": {
+                "PAC": 44
+              },
+              "morale": 4,
+              "clubInterest": 6,
+              "fame": 5,
+              "potential": 1
+            }
+          },
+          {
+            "id": "normal",
+            "probability": 0.3,
+            "tier": "normal",
+            "result": "“青年队升级成年队”基本按预期发展，没有失控，但也没有出现奇迹。",
+            "effects": {
+              "xp": {
+                "PAC": 22
+              },
+              "morale": 1,
+              "clubInterest": 2
+            }
+          },
+          {
+            "id": "bad",
+            "probability": 0.4,
+            "tier": "bad",
+            "result": "“青年队升级成年队”的结果不理想，你需要在之后的赛季承担代价。",
+            "effects": {
+              "xp": {
+                "PAC": 4
+              },
+              "morale": -5,
+              "injuryRisk": 12,
+              "fame": -3,
+              "clubInterest": -4,
+              "relationship": -5
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "national-team-014",
+    "version": 1,
+    "category": "national-team",
+    "categoryName": "国家队",
+    "title": "落选后的回应",
+    "text": "国家队名单与角色安排出现了变化。 这次变化与“落选后的回应”有关。选择不仅影响当前结果，还会改变能力成长、教练信任、队内地位和未来转会评价。",
+    "stage": [
+      "youth",
+      "rotation",
+      "starter",
+      "star",
+      "veteran"
+    ],
+    "weight": 1.55,
+    "cooldownSeasons": 7,
+    "major": false,
+    "resolutionModes": [
+      "wheel",
+      "cards",
+      "dice"
+    ],
+    "options": [
+      {
+        "id": "opt-1",
+        "label": "稳步处理，优先保证职业稳定",
+        "risk": "稳健",
+        "hint": "风险最低，收益较稳定",
+        "outcomes": [
+          {
+            "id": "great",
+            "probability": 0.28,
+            "tier": "great",
+            "result": "你在“落选后的回应”中把握住了机会，职业评价和成长收益都高于预期。",
+            "effects": {
+              "xp": {
+                "PAS": 32
+              },
+              "morale": 4,
+              "clubInterest": 6,
+              "fame": 5
+            }
+          },
+          {
+            "id": "normal",
+            "probability": 0.62,
+            "tier": "normal",
+            "result": "“落选后的回应”基本按预期发展，没有失控，但也没有出现奇迹。",
+            "effects": {
+              "xp": {
+                "PAS": 14
+              },
+              "morale": 1,
+              "clubInterest": 2
+            }
+          },
+          {
+            "id": "bad",
+            "probability": 0.1,
+            "tier": "bad",
+            "result": "“落选后的回应”的结果不理想，你需要在之后的赛季承担代价。",
+            "effects": {
+              "xp": {
+                "PAS": 4
+              },
+              "morale": -3,
+              "injuryRisk": 2,
+              "fame": -3,
+              "clubInterest": -4
+            }
+          }
+        ]
+      },
+      {
+        "id": "opt-2",
+        "label": "主动争取更大机会",
+        "risk": "进取",
+        "hint": "收益更高，也会增加压力",
+        "outcomes": [
+          {
+            "id": "great",
+            "probability": 0.34,
+            "tier": "great",
+            "result": "你在“落选后的回应”中把握住了机会，职业评价和成长收益都高于预期。",
+            "effects": {
+              "xp": {
+                "SHO": 35
+              },
+              "morale": 4,
+              "clubInterest": 6,
+              "fame": 5
+            }
+          },
+          {
+            "id": "normal",
+            "probability": 0.46,
+            "tier": "normal",
+            "result": "“落选后的回应”基本按预期发展，没有失控，但也没有出现奇迹。",
+            "effects": {
+              "xp": {
+                "SHO": 16
+              },
+              "morale": 1,
+              "clubInterest": 2
+            }
+          },
+          {
+            "id": "bad",
+            "probability": 0.2,
+            "tier": "bad",
+            "result": "“落选后的回应”的结果不理想，你需要在之后的赛季承担代价。",
+            "effects": {
+              "xp": {
+                "SHO": 4
+              },
+              "morale": -3,
+              "injuryRisk": 2,
+              "fame": -3,
+              "clubInterest": -4,
+              "relationship": -5
+            }
+          }
+        ]
+      },
+      {
+        "id": "opt-3",
+        "label": "用训练、录像和数据解决问题",
+        "risk": "技术",
+        "hint": "强调长期能力成长",
+        "outcomes": [
+          {
+            "id": "great",
+            "probability": 0.38,
+            "tier": "great",
+            "result": "你在“落选后的回应”中把握住了机会，职业评价和成长收益都高于预期。",
+            "effects": {
+              "xp": {
+                "DRI": 38
+              },
+              "morale": 4,
+              "clubInterest": 6,
+              "fame": 5
+            }
+          },
+          {
+            "id": "normal",
+            "probability": 0.52,
+            "tier": "normal",
+            "result": "“落选后的回应”基本按预期发展，没有失控，但也没有出现奇迹。",
+            "effects": {
+              "xp": {
+                "DRI": 18
+              },
+              "morale": 1,
+              "clubInterest": 2
+            }
+          },
+          {
+            "id": "bad",
+            "probability": 0.1,
+            "tier": "bad",
+            "result": "“落选后的回应”的结果不理想，你需要在之后的赛季承担代价。",
+            "effects": {
+              "xp": {
+                "DRI": 4
+              },
+              "morale": -3,
+              "injuryRisk": 2,
+              "fame": -3,
+              "clubInterest": -4
+            }
+          }
+        ]
+      },
+      {
+        "id": "opt-4",
+        "label": "先处理队友、教练或家人的关系",
+        "risk": "关系",
+        "hint": "可能建立长期羁绊",
+        "outcomes": [
+          {
+            "id": "great",
+            "probability": 0.3,
+            "tier": "great",
+            "result": "你在“落选后的回应”中把握住了机会，职业评价和成长收益都高于预期。",
+            "effects": {
+              "xp": {
+                "PHY": 41
+              },
+              "morale": 4,
+              "clubInterest": 6,
+              "fame": 5,
+              "relationship": 6
+            }
+          },
+          {
+            "id": "normal",
+            "probability": 0.58,
+            "tier": "normal",
+            "result": "“落选后的回应”基本按预期发展，没有失控，但也没有出现奇迹。",
+            "effects": {
+              "xp": {
+                "PHY": 20
+              },
+              "morale": 1,
+              "clubInterest": 2,
+              "relationship": 2
+            }
+          },
+          {
+            "id": "bad",
+            "probability": 0.12,
+            "tier": "bad",
+            "result": "“落选后的回应”的结果不理想，你需要在之后的赛季承担代价。",
+            "effects": {
+              "xp": {
+                "PHY": 4
+              },
+              "morale": -3,
+              "injuryRisk": 2,
+              "fame": -3,
+              "clubInterest": -4,
+              "relationship": -5
+            }
+          }
+        ]
+      },
+      {
+        "id": "opt-5",
+        "label": "孤注一掷，选择最高风险路线",
+        "risk": "冒险",
+        "hint": "可能大成功，也可能遭遇严重后果",
+        "outcomes": [
+          {
+            "id": "great",
+            "probability": 0.3,
+            "tier": "great",
+            "result": "你在“落选后的回应”中把握住了机会，职业评价和成长收益都高于预期。",
+            "effects": {
+              "xp": {
+                "PAC": 44
+              },
+              "morale": 4,
+              "clubInterest": 6,
+              "fame": 5,
+              "potential": 1
+            }
+          },
+          {
+            "id": "normal",
+            "probability": 0.3,
+            "tier": "normal",
+            "result": "“落选后的回应”基本按预期发展，没有失控，但也没有出现奇迹。",
+            "effects": {
+              "xp": {
+                "PAC": 22
+              },
+              "morale": 1,
+              "clubInterest": 2
+            }
+          },
+          {
+            "id": "bad",
+            "probability": 0.4,
+            "tier": "bad",
+            "result": "“落选后的回应”的结果不理想，你需要在之后的赛季承担代价。",
+            "effects": {
+              "xp": {
+                "PAC": 4
+              },
+              "morale": -5,
+              "injuryRisk": 12,
+              "fame": -3,
+              "clubInterest": -4,
+              "relationship": -5
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "national-team-015",
+    "version": 1,
+    "category": "national-team",
+    "categoryName": "国家队",
+    "title": "国家队退役考虑",
+    "text": "国家队名单与角色安排出现了变化。 这次变化与“国家队退役考虑”有关。选择不仅影响当前结果，还会改变能力成长、教练信任、队内地位和未来转会评价。",
+    "stage": [
+      "youth",
+      "rotation",
+      "starter",
+      "star",
+      "veteran"
+    ],
+    "weight": 1.35,
+    "cooldownSeasons": 8,
+    "major": true,
+    "resolutionModes": [
+      "wheel",
+      "cards",
+      "dice"
+    ],
+    "options": [
+      {
+        "id": "opt-1",
+        "label": "稳步处理，优先保证职业稳定",
+        "risk": "稳健",
+        "hint": "风险最低，收益较稳定",
+        "outcomes": [
+          {
+            "id": "great",
+            "probability": 0.28,
+            "tier": "great",
+            "result": "你在“国家队退役考虑”中把握住了机会，职业评价和成长收益都高于预期。",
+            "effects": {
+              "xp": {
+                "PAS": 32
+              },
+              "morale": 4,
+              "clubInterest": 6,
+              "fame": 5
+            }
+          },
+          {
+            "id": "normal",
+            "probability": 0.62,
+            "tier": "normal",
+            "result": "“国家队退役考虑”基本按预期发展，没有失控，但也没有出现奇迹。",
+            "effects": {
+              "xp": {
+                "PAS": 14
+              },
+              "morale": 1,
+              "clubInterest": 2
+            }
+          },
+          {
+            "id": "bad",
+            "probability": 0.1,
+            "tier": "bad",
+            "result": "“国家队退役考虑”的结果不理想，你需要在之后的赛季承担代价。",
+            "effects": {
+              "xp": {
+                "PAS": 4
+              },
+              "morale": -3,
+              "injuryRisk": 2,
+              "fame": -3,
+              "clubInterest": -4
+            }
+          }
+        ]
+      },
+      {
+        "id": "opt-2",
+        "label": "主动争取更大机会",
+        "risk": "进取",
+        "hint": "收益更高，也会增加压力",
+        "outcomes": [
+          {
+            "id": "great",
+            "probability": 0.34,
+            "tier": "great",
+            "result": "你在“国家队退役考虑”中把握住了机会，职业评价和成长收益都高于预期。",
+            "effects": {
+              "xp": {
+                "SHO": 35
+              },
+              "morale": 4,
+              "clubInterest": 6,
+              "fame": 5
+            }
+          },
+          {
+            "id": "normal",
+            "probability": 0.46,
+            "tier": "normal",
+            "result": "“国家队退役考虑”基本按预期发展，没有失控，但也没有出现奇迹。",
+            "effects": {
+              "xp": {
+                "SHO": 16
+              },
+              "morale": 1,
+              "clubInterest": 2
+            }
+          },
+          {
+            "id": "bad",
+            "probability": 0.2,
+            "tier": "bad",
+            "result": "“国家队退役考虑”的结果不理想，你需要在之后的赛季承担代价。",
+            "effects": {
+              "xp": {
+                "SHO": 4
+              },
+              "morale": -3,
+              "injuryRisk": 2,
+              "fame": -3,
+              "clubInterest": -4,
+              "relationship": -5
+            }
+          }
+        ]
+      },
+      {
+        "id": "opt-3",
+        "label": "用训练、录像和数据解决问题",
+        "risk": "技术",
+        "hint": "强调长期能力成长",
+        "outcomes": [
+          {
+            "id": "great",
+            "probability": 0.38,
+            "tier": "great",
+            "result": "你在“国家队退役考虑”中把握住了机会，职业评价和成长收益都高于预期。",
+            "effects": {
+              "xp": {
+                "DRI": 38
+              },
+              "morale": 4,
+              "clubInterest": 6,
+              "fame": 5
+            }
+          },
+          {
+            "id": "normal",
+            "probability": 0.52,
+            "tier": "normal",
+            "result": "“国家队退役考虑”基本按预期发展，没有失控，但也没有出现奇迹。",
+            "effects": {
+              "xp": {
+                "DRI": 18
+              },
+              "morale": 1,
+              "clubInterest": 2
+            }
+          },
+          {
+            "id": "bad",
+            "probability": 0.1,
+            "tier": "bad",
+            "result": "“国家队退役考虑”的结果不理想，你需要在之后的赛季承担代价。",
+            "effects": {
+              "xp": {
+                "DRI": 4
+              },
+              "morale": -3,
+              "injuryRisk": 2,
+              "fame": -3,
+              "clubInterest": -4
+            }
+          }
+        ]
+      },
+      {
+        "id": "opt-4",
+        "label": "先处理队友、教练或家人的关系",
+        "risk": "关系",
+        "hint": "可能建立长期羁绊",
+        "outcomes": [
+          {
+            "id": "great",
+            "probability": 0.3,
+            "tier": "great",
+            "result": "你在“国家队退役考虑”中把握住了机会，职业评价和成长收益都高于预期。",
+            "effects": {
+              "xp": {
+                "PHY": 41
+              },
+              "morale": 4,
+              "clubInterest": 6,
+              "fame": 5,
+              "relationship": 6
+            }
+          },
+          {
+            "id": "normal",
+            "probability": 0.58,
+            "tier": "normal",
+            "result": "“国家队退役考虑”基本按预期发展，没有失控，但也没有出现奇迹。",
+            "effects": {
+              "xp": {
+                "PHY": 20
+              },
+              "morale": 1,
+              "clubInterest": 2,
+              "relationship": 2
+            }
+          },
+          {
+            "id": "bad",
+            "probability": 0.12,
+            "tier": "bad",
+            "result": "“国家队退役考虑”的结果不理想，你需要在之后的赛季承担代价。",
+            "effects": {
+              "xp": {
+                "PHY": 4
+              },
+              "morale": -3,
+              "injuryRisk": 2,
+              "fame": -3,
+              "clubInterest": -4,
+              "relationship": -5
+            }
+          }
+        ]
+      },
+      {
+        "id": "opt-5",
+        "label": "孤注一掷，选择最高风险路线",
+        "risk": "冒险",
+        "hint": "可能大成功，也可能遭遇严重后果",
+        "outcomes": [
+          {
+            "id": "great",
+            "probability": 0.3,
+            "tier": "great",
+            "result": "你在“国家队退役考虑”中把握住了机会，职业评价和成长收益都高于预期。",
+            "effects": {
+              "xp": {
+                "PAC": 44
+              },
+              "morale": 4,
+              "clubInterest": 6,
+              "fame": 5,
+              "potential": 1
+            }
+          },
+          {
+            "id": "normal",
+            "probability": 0.3,
+            "tier": "normal",
+            "result": "“国家队退役考虑”基本按预期发展，没有失控，但也没有出现奇迹。",
+            "effects": {
+              "xp": {
+                "PAC": 22
+              },
+              "morale": 1,
+              "clubInterest": 2
+            }
+          },
+          {
+            "id": "bad",
+            "probability": 0.4,
+            "tier": "bad",
+            "result": "“国家队退役考虑”的结果不理想，你需要在之后的赛季承担代价。",
+            "effects": {
+              "xp": {
+                "PAC": 4
+              },
+              "morale": -5,
+              "injuryRisk": 12,
+              "fame": -3,
+              "clubInterest": -4,
+              "relationship": -5
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "national-team-016",
+    "version": 1,
+    "category": "national-team",
+    "categoryName": "国家队",
+    "title": "为国出战带伤风险",
+    "text": "国家队名单与角色安排出现了变化。 这次变化与“为国出战带伤风险”有关。选择不仅影响当前结果，还会改变能力成长、教练信任、队内地位和未来转会评价。",
+    "stage": [
+      "youth",
+      "rotation",
+      "starter",
+      "star",
+      "veteran"
+    ],
+    "weight": 1.15,
+    "cooldownSeasons": 5,
+    "major": false,
+    "resolutionModes": [
+      "wheel",
+      "cards",
+      "dice"
+    ],
+    "options": [
+      {
+        "id": "opt-1",
+        "label": "稳步处理，优先保证职业稳定",
+        "risk": "稳健",
+        "hint": "风险最低，收益较稳定",
+        "outcomes": [
+          {
+            "id": "great",
+            "probability": 0.28,
+            "tier": "great",
+            "result": "你在“为国出战带伤风险”中把握住了机会，职业评价和成长收益都高于预期。",
+            "effects": {
+              "xp": {
+                "PAS": 32
+              },
+              "morale": 4,
+              "clubInterest": 6,
+              "fame": 5
+            }
+          },
+          {
+            "id": "normal",
+            "probability": 0.62,
+            "tier": "normal",
+            "result": "“为国出战带伤风险”基本按预期发展，没有失控，但也没有出现奇迹。",
+            "effects": {
+              "xp": {
+                "PAS": 14
+              },
+              "morale": 1,
+              "clubInterest": 2
+            }
+          },
+          {
+            "id": "bad",
+            "probability": 0.1,
+            "tier": "bad",
+            "result": "“为国出战带伤风险”的结果不理想，你需要在之后的赛季承担代价。",
+            "effects": {
+              "xp": {
+                "PAS": 4
+              },
+              "morale": -3,
+              "injuryRisk": 2,
+              "fame": -3,
+              "clubInterest": -4
+            }
+          }
+        ]
+      },
+      {
+        "id": "opt-2",
+        "label": "主动争取更大机会",
+        "risk": "进取",
+        "hint": "收益更高，也会增加压力",
+        "outcomes": [
+          {
+            "id": "great",
+            "probability": 0.34,
+            "tier": "great",
+            "result": "你在“为国出战带伤风险”中把握住了机会，职业评价和成长收益都高于预期。",
+            "effects": {
+              "xp": {
+                "SHO": 35
+              },
+              "morale": 4,
+              "clubInterest": 6,
+              "fame": 5
+            }
+          },
+          {
+            "id": "normal",
+            "probability": 0.46,
+            "tier": "normal",
+            "result": "“为国出战带伤风险”基本按预期发展，没有失控，但也没有出现奇迹。",
+            "effects": {
+              "xp": {
+                "SHO": 16
+              },
+              "morale": 1,
+              "clubInterest": 2
+            }
+          },
+          {
+            "id": "bad",
+            "probability": 0.2,
+            "tier": "bad",
+            "result": "“为国出战带伤风险”的结果不理想，你需要在之后的赛季承担代价。",
+            "effects": {
+              "xp": {
+                "SHO": 4
+              },
+              "morale": -3,
+              "injuryRisk": 2,
+              "fame": -3,
+              "clubInterest": -4,
+              "relationship": -5
+            }
+          }
+        ]
+      },
+      {
+        "id": "opt-3",
+        "label": "用训练、录像和数据解决问题",
+        "risk": "技术",
+        "hint": "强调长期能力成长",
+        "outcomes": [
+          {
+            "id": "great",
+            "probability": 0.38,
+            "tier": "great",
+            "result": "你在“为国出战带伤风险”中把握住了机会，职业评价和成长收益都高于预期。",
+            "effects": {
+              "xp": {
+                "DRI": 38
+              },
+              "morale": 4,
+              "clubInterest": 6,
+              "fame": 5
+            }
+          },
+          {
+            "id": "normal",
+            "probability": 0.52,
+            "tier": "normal",
+            "result": "“为国出战带伤风险”基本按预期发展，没有失控，但也没有出现奇迹。",
+            "effects": {
+              "xp": {
+                "DRI": 18
+              },
+              "morale": 1,
+              "clubInterest": 2
+            }
+          },
+          {
+            "id": "bad",
+            "probability": 0.1,
+            "tier": "bad",
+            "result": "“为国出战带伤风险”的结果不理想，你需要在之后的赛季承担代价。",
+            "effects": {
+              "xp": {
+                "DRI": 4
+              },
+              "morale": -3,
+              "injuryRisk": 2,
+              "fame": -3,
+              "clubInterest": -4
+            }
+          }
+        ]
+      },
+      {
+        "id": "opt-4",
+        "label": "先处理队友、教练或家人的关系",
+        "risk": "关系",
+        "hint": "可能建立长期羁绊",
+        "outcomes": [
+          {
+            "id": "great",
+            "probability": 0.3,
+            "tier": "great",
+            "result": "你在“为国出战带伤风险”中把握住了机会，职业评价和成长收益都高于预期。",
+            "effects": {
+              "xp": {
+                "PHY": 41
+              },
+              "morale": 4,
+              "clubInterest": 6,
+              "fame": 5,
+              "relationship": 6
+            }
+          },
+          {
+            "id": "normal",
+            "probability": 0.58,
+            "tier": "normal",
+            "result": "“为国出战带伤风险”基本按预期发展，没有失控，但也没有出现奇迹。",
+            "effects": {
+              "xp": {
+                "PHY": 20
+              },
+              "morale": 1,
+              "clubInterest": 2,
+              "relationship": 2
+            }
+          },
+          {
+            "id": "bad",
+            "probability": 0.12,
+            "tier": "bad",
+            "result": "“为国出战带伤风险”的结果不理想，你需要在之后的赛季承担代价。",
+            "effects": {
+              "xp": {
+                "PHY": 4
+              },
+              "morale": -3,
+              "injuryRisk": 2,
+              "fame": -3,
+              "clubInterest": -4,
+              "relationship": -5
+            }
+          }
+        ]
+      },
+      {
+        "id": "opt-5",
+        "label": "孤注一掷，选择最高风险路线",
+        "risk": "冒险",
+        "hint": "可能大成功，也可能遭遇严重后果",
+        "outcomes": [
+          {
+            "id": "great",
+            "probability": 0.3,
+            "tier": "great",
+            "result": "你在“为国出战带伤风险”中把握住了机会，职业评价和成长收益都高于预期。",
+            "effects": {
+              "xp": {
+                "PAC": 44
+              },
+              "morale": 4,
+              "clubInterest": 6,
+              "fame": 5,
+              "potential": 1
+            }
+          },
+          {
+            "id": "normal",
+            "probability": 0.3,
+            "tier": "normal",
+            "result": "“为国出战带伤风险”基本按预期发展，没有失控，但也没有出现奇迹。",
+            "effects": {
+              "xp": {
+                "PAC": 22
+              },
+              "morale": 1,
+              "clubInterest": 2
+            }
+          },
+          {
+            "id": "bad",
+            "probability": 0.4,
+            "tier": "bad",
+            "result": "“为国出战带伤风险”的结果不理想，你需要在之后的赛季承担代价。",
+            "effects": {
+              "xp": {
+                "PAC": 4
+              },
+              "morale": -5,
+              "injuryRisk": 12,
+              "fame": -3,
+              "clubInterest": -4,
+              "relationship": -5
+            }
+          }
+        ]
+      }
+    ]
+  }
+]

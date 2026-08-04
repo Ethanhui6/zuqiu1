@@ -1,0 +1,21 @@
+{
+  "version": "18.8.0",
+  "channel": "gameplay-mobile",
+  "buildDate": "2026-08-03",
+  "schemaVersion": 19,
+  "scoreVersion": "2026.08.03.2",
+  "data": {
+    "clubs": 500,
+    "achievements": 330,
+    "hiddenAchievements": 50,
+    "activeEvents": 1120,
+    "uniqueEventTitles": 640,
+    "eventChoices": 5600,
+    "effectiveEventCombinations": 12800
+  },
+  "leaderboard": {
+    "local": true,
+    "worldApi": true,
+    "serverAuthoritativeScore": true
+  }
+}

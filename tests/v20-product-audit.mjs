@@ -87,13 +87,11 @@ const files={
   world:await fs.readFile(new URL('../src/pages/worldPage.js',import.meta.url),'utf8'),
   more:await fs.readFile(new URL('../src/pages/morePage.js',import.meta.url),'utf8'),
   match:await fs.readFile(new URL('../src/pages/matchPage.js',import.meta.url),'utf8'),
-  saveSelect:await fs.readFile(new URL('../src/pages/saveSelectPage.js',import.meta.url),'utf8'),
-  profile:await fs.readFile(new URL('../src/pages/profilePage.js',import.meta.url),'utf8'),
   css:await fs.readFile(new URL('../src/styles/v20-product.css',import.meta.url),'utf8'),
   sw:await fs.readFile(new URL('../sw.js',import.meta.url),'utf8')
 };
-check('首页仅使用人物、控制台、成长和行动四个顶级区域',()=>{
-  for(const token of ['v20-focus-card','v20-career-identity','createPlayerCard','v20-career-console','v20-career-growth','v20-career-actions','data-section'])assert.ok(files.career.includes(token),token);
+check('首页首屏使用重点、人物卡、职业控制台和双小卡',()=>{
+  for(const token of ['v20-focus-card','v20-career-pair','v20-player-snapshot','v20-career-console','v20-home-twin','v20-training-reminder'])assert.ok(files.career.includes(token),token);
 });
 check('训练、转会、世界和更多入口均有真实交互',()=>{
   assert.ok(files.training.includes('resolveTrainingEvent')&&files.training.includes('selectTrainingPlan'));
@@ -106,31 +104,19 @@ check('赛后使用四张摘要卡和详情Sheet',()=>{
   for(const token of ['比赛结果','个人表现','关键事件','教练评价'])assert.ok(files.match.includes(token),token);
 });
 check('移动端样式包含紧凑双卡、2×2设施、地图和设置分组',()=>{
-  for(const token of ['.v20-career-page','.v20-career-growth','.v20-facility-grid','.v20-world-map','.v20-settings-list','.v20-match-summary-grid'])assert.ok(files.css.includes(token),token);
+  for(const token of ['.v20-career-pair','.v20-home-twin','.v20-facility-grid','.v20-world-map','.v20-settings-list','.v20-match-summary-grid'])assert.ok(files.css.includes(token),token);
 });
 check('用户界面不再显示World Explorer或危险直出文字',()=>{
   const ui=Object.values(files).join('\n');
   for(const token of ['World Explorer','[object Object]','Loading','Continue','Transfer Offer'])assert.equal(ui.includes(token),false,token);
 });
-check('V20首屏使用紧凑生涯入口且不再显示V19文案',()=>{
-  assert.match(files.saveSelect,/v20-save-console/);
-  assert.match(files.saveSelect,/v20-save-slot--new/);
-  assert.match(files.saveSelect,/创建新生涯/);
-  assert.match(files.css,/\.v20-save-console/);
-  assert.match(files.css,/\.v20-save-console__status/);
-  assert.doesNotMatch(`${files.saveSelect}\n${files.profile}`,/V19/);
-});
-check('V20 Service Worker缓存当前生产入口并清理旧缓存',()=>{
-  assert.match(files.sw,/career-__BUILD_ID__/);
-  assert.match(files.sw,/networkFirst/);
-  assert.match(files.sw,/cacheFirst/);
-  assert.match(files.sw,/SKIP_WAITING/);
-  assert.doesNotMatch(files.sw,/client\.navigate|clients\.matchAll/);
-  for(const token of ['./index.html','./styles.css','./src/main.js'])assert.ok(files.sw.includes(token),token);
+check('V20 Service Worker包含新系统并清理旧缓存',()=>{
+  assert.match(files.sw,/green-pitch-v20\.0\.0/);
+  for(const token of ['attentionManager.js','facilityExperienceSystem.js','trainingEventSystem.js','worldExplorerSystem.js','v20-product.css'])assert.ok(files.sw.includes(token),token);
   assert.ok(files.sw.includes('caches.delete')&&files.sw.includes('clients.claim'));
 });
 check('生产页面不使用整页innerHTML重建',()=>{
   for(const [name,text] of Object.entries(files))if(name!=='css'&&name!=='sw')assert.equal(/\.innerHTML\s*=/.test(text),false,name);
 });
 
-console.log(JSON.stringify({status:'PASS',version:'20.1.3',passed:passed.length,cases:passed},null,2));
+console.log(JSON.stringify({status:'PASS',version:'20.0.0',passed:passed.length,cases:passed},null,2));

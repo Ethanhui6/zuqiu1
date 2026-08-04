@@ -22,4 +22,4 @@ try{
 }finally{await browser.close();await new Promise(resolve=>server.close(resolve))}
 
 assert.ok(clubListMs<120,'500队列表筛选出现长任务');assert.ok(eventDataMs<250,'事件数据载入过慢');assert.ok(leaderboardMs<250,'排行榜分页过慢');assert.ok(web.fcp<1600,'首屏内容绘制过慢');assert.ok(web.cls<.1,'累计布局偏移过高');assert.ok(web.longTasks<=3,'首屏长任务过多');
-console.log(JSON.stringify({status:'PASS',firstScreen:web,clubList:{clubs:clubs.length,iterations:300,ms:Number(clubListMs.toFixed(2))},eventLoad:{files:eventFiles.length,ms:Number(eventDataMs.toFixed(2))},leaderboardPagination:{entries:1000,pages:40,ms:Number(leaderboardMs.toFixed(2))},animationStress:'由 animation-system-audit.mjs 验证当前生产交互',longRun:'由 twenty-season-sim.mjs 验证20赛季',serviceWorker:'当前生产入口网络优先并清理旧缓存'},null,2));
+console.log(JSON.stringify({status:'PASS',firstScreen:web,clubList:{clubs:clubs.length,iterations:300,ms:Number(clubListMs.toFixed(2))},eventLoad:{files:eventFiles.length,ms:Number(eventDataMs.toFixed(2))},leaderboardPagination:{entries:1000,pages:40,ms:Number(leaderboardMs.toFixed(2))},animationStress:'由 animation-system-audit.mjs 验证50次',longRun:'由 twenty-season-sim.mjs 验证20赛季',serviceWorker:'V19网络优先并清理旧缓存'},null,2));

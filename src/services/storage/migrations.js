@@ -1,11 +1,9 @@
 import {APP_VERSION,SAVE_SCHEMA,DEFAULT_AUTO_PAUSE,DEFAULT_STRATEGIES} from '../../app/config.js';
 import {createSeed,hashString} from '../rng.js';
 import {addGameDays} from '../../utils/gameDate.js';
-import {ageOnDate,seasonBounds} from '../../systems/career/gameClock.js';
+import {seasonBounds} from '../../systems/career/gameClock.js';
 
-const oldKeys=['football-career-v20','green-pitch-career-v18','football-career-save','career-sim-save','zuqiu-save','footballCareerSave','green-pitch-save'];
-const legacyPositions={前锋:'ST',中锋:'ST',影锋:'SS',边锋:'LW',左边锋:'LW',右边锋:'RW',中场:'CM',前腰:'CAM',后腰:'CDM',左前卫:'LM',右前卫:'RM',后卫:'CB',中后卫:'CB',左后卫:'LB',右后卫:'RB',门将:'GK'};
-const legacyClubIds={ajax:'NED1-AJA',arsenal:'ENG1-ARS',liverpool:'ENG1-LIV','man-city':'ENG1-MCI',barcelona:'ESP1-BAR','real-madrid':'ESP1-RMA',bayern:'GER1-BAY',dortmund:'GER1-BVB',inter:'ITA1-INT',psg:'FRA1-PSG',benfica:'POR1-BEN'};
+const oldKeys=['green-pitch-career-v18','football-career-save','career-sim-save','zuqiu-save','footballCareerSave','green-pitch-save'];
 const num=(v,d=0)=>Number.isFinite(Number(v))?Number(v):d;
 const bounded=(v,d=50)=>Math.max(0,Math.min(100,num(v,d)));
 
@@ -29,20 +27,18 @@ export function migrateLegacy(raw){
   const oldPlayer=raw.player||raw;
   const oldCareer=raw.career||raw;
   const attrs=oldPlayer.attrs||oldPlayer.stats||raw.attrs||raw.stats||{};
-  const legacyPosition=oldPlayer.pos||oldPlayer.position||raw.pos||raw.position||'ST';
-  const position=legacyPositions[legacyPosition]||legacyPosition;
-  const mapped={pac:num(attrs.pac??attrs.PAC??attrs.speed,62),sho:num(attrs.sho??attrs.SHO??attrs.shooting,58),pas:num(attrs.pas??attrs.PAS??attrs.passing,57),dri:num(attrs.dri??attrs.DRI??attrs.dribbling,60),def:num(attrs.def??attrs.DEF??attrs.defending,45),phy:num(attrs.phy??attrs.PHY??attrs.physical,58)};
+  const position=oldPlayer.pos||oldPlayer.position||raw.pos||raw.position||'ST';
+  const mapped={pac:num(attrs.pac??attrs.PAC,62),sho:num(attrs.sho??attrs.SHO,58),pas:num(attrs.pas??attrs.PAS,57),dri:num(attrs.dri??attrs.DRI,60),def:num(attrs.def??attrs.DEF,45),phy:num(attrs.phy??attrs.PHY,58)};
   base.rng.seed=raw.rng?.seed||raw.seed||legacySeed(raw);base.rng.state=num(raw.rng?.state,0);base.rng.counter=num(raw.rng?.counter,0);
   base.player={
     id:oldPlayer.id||`legacy-${hashString(`${oldPlayer.name||'player'}|${base.rng.seed}`).toString(36)}`,
-    name:oldPlayer.name||raw.name||'旧存档球员',displayName:oldPlayer.displayName||oldPlayer.name||raw.name||'旧存档球员',nation:oldPlayer.nation||oldPlayer.nationality||raw.nation||raw.nationality||'中国',birthDate:oldPlayer.birthDate||oldPlayer.birth||raw.birthDate||raw.birth||'2010-01-01',
+    name:oldPlayer.name||raw.name||'旧存档球员',displayName:oldPlayer.displayName||oldPlayer.name||raw.name||'旧存档球员',nation:oldPlayer.nation||oldPlayer.nationality||raw.nation||raw.nationality||'中国',birthDate:oldPlayer.birthDate||raw.birthDate||'2010-01-01',
     age:num(oldPlayer.age??raw.age,18),height:num(oldPlayer.height??raw.height,178),weight:num(oldPlayer.weight??raw.weight,72),foot:oldPlayer.foot||raw.foot||'右脚',number:num(oldPlayer.number??raw.number,10),position,secondaryPositions:oldPlayer.secondaryPositions||raw.secondaryPositions||[],style:oldPlayer.style||oldPlayer.templateName||raw.style||raw.templateName||'全面型球员',
     talent:{id:'legacy',name:oldPlayer.templateName||raw.templateName||'旧版本成长模板',rarity:oldPlayer.rarity||raw.rarity||'普通',rarityKey:'common',description:'由旧版本存档迁移',growthMultiplier:1,potential:num(oldPlayer.potential??raw.potential,82),cost:'无'},attrs:mapped,ovr:num(oldPlayer.ovr??raw.ovr,65),potential:num(oldPlayer.potential??raw.potential,82),xp:oldPlayer.xp||raw.xp||{pac:0,sho:0,pas:0,dri:0,def:0,phy:0},hidden:{discipline:58,professionalism:58,consistency:55,bigMatch:50,leadership:45,injuryProne:30,learning:60}
   };
   const stats=oldCareer.careerStats||oldCareer.stats||raw.careerStats||raw.stats||{};
   const seasonStats=oldCareer.seasonStats||raw.seasonStats||{};
-  const rawClubId=oldCareer.clubId||oldPlayer.clubId||raw.clubId||raw.team?.id||raw.teamId||'CHN1-SHA';
-  const clubId=legacyClubIds[rawClubId]||rawClubId;
+  const clubId=oldCareer.clubId||raw.clubId||raw.team?.id||raw.teamId||'CHN1-SHA';
   base.career={
     year:num(oldCareer.year??raw.year,2026),season:num(oldCareer.season??raw.season,1),month:num(oldCareer.month??raw.month,1),seasonProgress:num(oldCareer.seasonProgress??raw.seasonProgress,0),clubId,
     squadLevel:(oldCareer.youth??raw.youth)===false?'一线队':oldCareer.squadLevel||'18岁以下青年队',teamRole:oldCareer.role||raw.role||oldCareer.teamRole||'青年队新人',
@@ -51,8 +47,7 @@ export function migrateLegacy(raw){
     careerStats:{apps:num(stats.apps??stats.appearances,0),goals:num(stats.goals,0),assists:num(stats.assists,0),cleanSheets:num(stats.cleanSheets,0),titles:num(stats.trophies??stats.titles,0),nationalApps:num(stats.nationalApps,0),nationalGoals:num(stats.nationalGoals,0),bestRating:num(stats.bestRating,0),hatTricks:num(stats.hatTricks,0),bigGames:num(stats.bigGames,0),saves:num(stats.saves,0),tackles:num(stats.tackles,0)},
     history:oldCareer.history||raw.history||[],clubHistory:oldCareer.clubHistory||raw.clubHistory||[clubId],records:oldCareer.records||{},trophies:oldCareer.honours||raw.honours||oldCareer.trophies||raw.trophies||[],
     pending:{event:null,match:null,offers:[],delayedEffects:[]},eventMemory:{triggered:[],recentEventIds:[],recentTags:[],recentCategories:[],recentTitles:[],recentTemplateTitles:[],recentChoiceSignatures:[],recentFingerprints:[],recentPersons:[],recentOpponents:[],choices:[],chainsOpen:[],chainsStarted:[],chainsClosed:[],cooldowns:{},typeCounts:{},generatedCount:0,duplicateCount:0,lastAvailableCount:0,lastFilteredCount:0,lastChoiceSignature:''},hiddenConsequences:[],
-    transferHistory:oldCareer.transferHistory||[],offerHistory:[],rejectedClubs:oldCareer.rejectedClubs||[],trainingPlan:oldCareer.trainingPlan||'tactics',facilities:{visits:[],locks:{}},actionLocks:{},retirement:oldCareer.retirement||null,
-    gameClock:raw.simulation?.date?{currentDate:raw.simulation.date,lastProcessedDate:raw.simulation.date}:undefined
+    transferHistory:oldCareer.transferHistory||[],offerHistory:[],rejectedClubs:oldCareer.rejectedClubs||[],trainingPlan:oldCareer.trainingPlan||'tactics',facilities:{visits:[],locks:{}},actionLocks:{},retirement:oldCareer.retirement||null
   };
   base.status={fitness:num(raw.fitness??raw.status?.fitness,85),morale:num(raw.morale??raw.status?.morale,70),form:num(raw.form??raw.status?.form,55),fatigue:num(raw.fatigue??raw.status?.fatigue,10),injury:raw.injury||raw.status?.injury||null,suspension:num(raw.status?.suspension,0),coachTrust:num(raw.coachTrust??raw.status?.coachTrust,45)};
   base.relations={coach:relation(raw.coachTrust),teammates:relation(50),captain:relation(45),agent:relation(50),management:relation(45),fans:relation(50),media:relation(40),nationalCoach:relation(25)};
@@ -94,7 +89,6 @@ export function normalizeSave(save){
   save.finance={cash:2000,marketValue:120000,weeklyWage:save.career.contract.weeklyWage||300,sponsorships:[],...(save.finance||{})};save.finance.sponsorships??=[];
   save.achievements={unlocked:[],notified:[],score:0,...(save.achievements||{})};save.achievements.unlocked??=[];save.achievements.notified??=[];
   save.meta={migrationNotes:[],checksum:'',lastRecovery:null,...(save.meta||{})};save.meta.migrationNotes??=[];save.meta.ranking={runId:null,eligible:false,lastSequence:0,lastSyncAt:null,status:'local-only',...(save.meta.ranking||{})};
-  if(save.player.birthDate&&save.career.gameClock?.currentDate)save.player.age=ageOnDate(save.player.birthDate,save.career.gameClock.currentDate);
   return save;
 }
 

@@ -72,8 +72,7 @@ assert.ok(report.uniqueEvents/report.totalEvents>=.82,`事件唯一率过低：$
 assert.ok(Object.keys(report.eventTypeShare).length>=8,'事件类型分布不足');
 assert.ok(report.majorCareerNodes>=2,'重大职业节点不足');
 
-const reportDir=new URL('../test-results/twenty-season/',import.meta.url);await fs.mkdir(reportDir,{recursive:true});
-const reportJson=new URL('V19_20_SEASON_REPORT.json',reportDir),reportMd=new URL('V19_20_SEASON_REPORT.md',reportDir);
+const reportJson=new URL('../docs/V19_20_SEASON_REPORT.json',import.meta.url),reportMd=new URL('../docs/V19_20_SEASON_REPORT.md',import.meta.url);
 await fs.writeFile(reportJson,JSON.stringify(report,null,2)+'\n');
 const typeLines=Object.entries(report.eventTypeShare).sort((a,b)=>b[1]-a[1]).map(([k,v])=>`- ${k}: ${v}%`).join('\n');
 await fs.writeFile(reportMd,`# V19 二十赛季自动模拟报告\n\n- 状态：${report.status}\n- 完成赛季：${report.completedSeasons}\n- 最终年龄：${report.finalAge}\n- 最终综合能力：${report.finalOvr}\n- 总比赛数：${report.totalMatches}\n- 不同对手数量：${report.differentOpponents}\n- 总事件数：${report.totalEvents}\n- 唯一事件数：${report.uniqueEvents}\n- 重复事件数：${report.repeatedEvents}\n- 重复率：${report.repeatRate}%\n- 转会次数：${report.transfers}\n- 效力俱乐部数量：${report.clubsRepresented}\n- 剧情链完成率：${report.storyChainCompletionRate}%（${report.storyChainsCompleted}/${report.storyChainsStarted}）\n- 重大职业节点：${report.majorCareerNodes}\n- 成就数量：${report.achievements}\n- 最终结局：${report.finalEnding}\n- 模拟耗时：${report.simulationMs} ms\n- 控制台/模拟错误：${report.consoleErrors}\n\n## 事件类型占比\n\n${typeLines}\n\n> 本报告由 Node.js 确定性自动模拟生成，用于验证长期状态、赛程、事件、存档随机序列和职业节点；不等同于实体手机浏览器性能测试。\n`);

@@ -16,8 +16,10 @@ const GROUPS=[
     {id:'messages',icon:'◉',title:'消息中心',copy:'查看教练、队友、经纪人和俱乐部消息'}
   ]},
   {title:'球队与设施',items:[
-    {id:'facilities',icon:'▦',title:'生涯数据中心',copy:'能力分析、身体记录、球队关系和荣誉'},
+    {id:'facilities',icon:'▦',title:'数据与设施中心',copy:'数据分析、医疗、更衣室和荣誉室'},
     {id:'analysis',icon:'▥',title:'数据分析',copy:'能力、评分、体能、信任和粉丝趋势'},
+    {id:'medical',icon:'✚',title:'医疗中心',copy:'伤病、疲劳、复发风险和康复方案'},
+    {id:'locker',icon:'◇',title:'更衣室',copy:'队友、队长、教练关系与本周互动'},
     {id:'honours',icon:'♢',title:'荣誉室',copy:'奖杯、成就、纪录和代表比赛'}
   ]},
   {title:'存档与账户',items:[
@@ -42,7 +44,7 @@ const GROUPS=[
 export function renderMorePage(container,ctx){
   clear(container);
   const {store,repo}=ctx,save=store.state,pace=getPaceMode(save),speed=getSpeed(save),club=repo.getClub(save.career.clubId);
-  const page=el('section',{className:'page v20-more-page'});
+  const page=el('section',{className:'page more-page v20-more-page'});
   page.append(el('header',{className:'v20-page-intro'},[
     el('span',{className:'eyebrow',text:'次级功能中心'}),
     el('h1',{text:'世界、成就与设置'}),
@@ -71,12 +73,14 @@ export function renderMorePage(container,ctx){
   ]));
   container.append(page);
 
-  async function handle(item){
+  function handle(item){
     if(item.route){ctx.navigate(item.route);return}
     const shared={store,repo,ctx};
     if(item.id==='pace'){ctx.openPaceSettings?.();return}
     if(item.id==='facilities'){openFacilityCenter(shared);return}
     if(item.id==='analysis'){openDataAnalysis(shared);return}
+    if(item.id==='medical'){openMedicalCenter(shared);return}
+    if(item.id==='locker'){openLockerRoom(shared);return}
     if(item.id==='honours'){openHonoursRoom(shared);return}
     if(item.id==='save'){store.saveNow();showToast('当前生涯已保存',{type:'success'});return}
     if(item.id==='slots'){ctx.onReturnToSlots?.();return}
@@ -89,10 +93,7 @@ export function renderMorePage(container,ctx){
     if(item.id==='privacy'){openInfo('隐私与数据','本地存档默认只保存在当前设备。未通过服务器验证的离线存档不会进入正式世界排行榜，也不会公开邮箱、设备信息或位置。');return}
     if(item.id==='help'){openInfo('帮助与规则','主页的当前重点会提示下一项职业操作。训练、比赛、转会和重大事件处理后会立即写入存档；损坏主档会尝试从最近备份恢复。');return}
     if(item.id==='updates'){openInfo('更新日志',`V${APP_VERSION}：重构移动端首页、设施中心、训练事件、转会卡、世界地图和赛后摘要。`);return}
-    const info=await loadBuildInfo();
-    openInfo('关于游戏',info
-      ?`绿茵浮沉 V${info.version}\n构建 ${info.shortCommitSha} · ${info.branch}\n时间 ${new Date(info.buildTime).toLocaleString('zh-CN')}\n环境 ${info.deploymentTarget}`
-      :`绿茵浮沉 V${APP_VERSION}\n本地开发构建，部署信息暂不可用。`);
+    openInfo('关于游戏',`绿茵浮沉 V${APP_VERSION}\n移动端优先足球生涯模拟器。球队能力、财政和机会数值为独立游戏模拟评级。`);
   }
   return()=>{};
 }
@@ -104,14 +105,6 @@ function statusFor(id,save,pace,speed){
   if(id==='save')return'当前槽位';
   if(id==='motion')return save.settings.reducedMotion?'减少动态':save.settings.animationMode==='full'?'完整':'标准';
   return'';
-}
-
-async function loadBuildInfo(){
-  try{
-    const response=await fetch('./build-meta.json',{cache:'no-store'});
-    if(!response.ok)throw new Error('build metadata unavailable');
-    return await response.json();
-  }catch{return null}
 }
 
 

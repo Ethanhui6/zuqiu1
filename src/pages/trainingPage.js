@@ -5,7 +5,6 @@ import {showToast} from '../components/toast.js';
 import {animationDirector} from '../animations/director/animationDirector.js';
 import {openSheet,closeSheet} from '../components/sheet.js';
 import {ensureTrainingEvent,resolveTrainingEvent} from '../systems/training/trainingEventSystem.js';
-import {createDevelopmentDelta} from '../components/developmentDelta.js';
 
 const ATTR_LABELS={pac:'速度',sho:'射门',pas:'传球',dri:'盘带',def:'防守',phy:'身体'};
 const POSITION_FOCUS={GK:['def','pas','phy'],CB:['def','phy','pas'],LB:['pac','def','pas'],RB:['pac','def','pas'],DM:['def','pas','phy'],CM:['pas','dri','phy'],AM:['pas','dri','sho'],LW:['pac','dri','sho'],RW:['pac','dri','sho'],SS:['sho','dri','pas'],ST:['sho','pac','phy']};
@@ -16,10 +15,9 @@ export function renderTrainingPage(container,ctx){
   const ranked=plans.map(plan=>({...plan,assessment:assessPlan(save,plan,recommendation.id)})).sort((a,b)=>b.assessment.fit-a.assessment.fit);
   const primary=uniquePlans([ranked.find(plan=>plan.id===current.id),ranked.find(plan=>plan.id===recommendation.id),...ranked]).slice(0,4);
   const secondary=ranked.filter(plan=>!primary.some(item=>item.id===plan.id));
-  const page=el('section',{className:'page v20-training-page'});
+  const page=el('section',{className:'page training-page training-control-center'});
   page.append(
     trainingSummary(save,club,current,recommendation),
-    trainingDelta(save.career.weekState?.trainingResult),
     adviceBar(recommendation),
     strategyControl(save,store,ctx,recommendation),
     benefitPreview(save,current,assessPlan(save,current,recommendation.id)),
@@ -37,10 +35,6 @@ export function renderTrainingPage(container,ctx){
     showToast(`训练方向已切换为「${plan.name}」`,{type:'success',duration:1500});
   }
   return()=>{};
-}
-
-function trainingDelta(result){
-  return createDevelopmentDelta({title:'最近训练效果',items:(result?.gains||[]).map(item=>({label:ATTR_LABELS[item.key]||item.key,value:`+${item.levels}`,tone:'positive'})),emptyText:'完成本周训练后在这里查看属性提升'});
 }
 
 function trainingSummary(save,club,current,recommendation){

@@ -1,7 +1,7 @@
 {
-  "version": "20.1.3",
-  "channel": "world-events-time-progression",
-  "buildDate": "2026-08-04",
+  "version": "20.0.0",
+  "channel": "mobile-product-structure",
+  "buildDate": "2026-08-03",
   "schemaVersion": 23,
   "scoreVersion": "2026.08.03.2",
   "data": {
@@ -18,5 +18,5 @@
     "worldApi": true,
     "serverAuthoritativeScore": true
   },
-  "buildVersion": "20.1.3-20260804-1"
+  "buildVersion": "20.0.0-20260803-1"
 }

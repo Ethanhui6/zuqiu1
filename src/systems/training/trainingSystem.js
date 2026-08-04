@@ -1,7 +1,7 @@
 import {TRAINING_PLANS} from '../../app/config.js';
 import {DeterministicRng} from '../../services/rng.js';
 import {clamp} from '../../utils/format.js';
-import {settleDevelopment} from '../career/developmentSystem.js';
+import {calculateOvr} from '../career/ovr.js';
 
 export function getTrainingPlans(save){return TRAINING_PLANS.map(plan=>({...plan,selected:save.career.trainingPlan===plan.id}))}
 
@@ -19,11 +19,15 @@ export function resolveTraining(save,club,{scale=1}={}){
   const injuryPenalty=s.injury?.severity?Math.max(.25,1-s.injury.severity):1;
   const talent=p.talent?.growthMultiplier||1;
   const multiplier=ageFactor(p.age)*facility*professionalism*fatiguePenalty*injuryPenalty*talent;
-  const xp={};
+  const gains=[];
   for(const key of plan.focus){
-    xp[key]=plan.intensity*(4+rng.next()*5)*multiplier*scale;
+    const base=plan.intensity*(4+rng.next()*5)*multiplier*scale;
+    p.xp[key]=(p.xp[key]||0)+base;
+    const threshold=65+(p.attrs[key]-50)*4.5;
+    let levels=0;
+    while(p.xp[key]>=threshold&&p.attrs[key]<Math.min(99,p.potential+2)){p.xp[key]-=threshold;p.attrs[key]++;levels++}
+    if(levels)gains.push({key,levels});
   }
-  const gains=settleDevelopment(save,xp);
   s.fatigue=clamp(s.fatigue+plan.fatigue*scale,0,100);s.fitness=clamp(s.fitness-plan.intensity*2*scale+(plan.id==='recovery'?16*scale:0),0,100);
   const professional=(save.career.traits?.unlocked||[]).includes('professional'),riskModifier=professional?.78:1;
   const risk=clamp(((plan.risk+(p.hidden.injuryProne||30)*.15+s.fatigue*.10-club.youth*.05)/100)*Math.max(.2,scale)*riskModifier,0,.65);
@@ -31,7 +35,7 @@ export function resolveTraining(save,club,{scale=1}={}){
   if(rng.bool(risk)){
     const severity=.08+rng.next()*.42;injury={name:severity>.34?'肌肉拉伤':'轻微不适',severity,remainingMatches:severity>.34?rng.int(2,5):1};s.injury=injury;s.fitness=clamp(s.fitness-15,0,100);
   }
-  save.rng=rng.snapshot();
+  p.ovr=calculateOvr(p.attrs,p.position);save.rng=rng.snapshot();
   return{plan,gains,injury,multiplier:Number(multiplier.toFixed(2))};
 }
 
