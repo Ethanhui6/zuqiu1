@@ -7,6 +7,7 @@ function svgEl(tag,attrs={}){const node=document.createElementNS(NS,tag);for(con
 function coordinates(values,radius=70,cx=100,cy=100){return values.map((value,index)=>{const angle=-Math.PI/2+index*Math.PI/3;const ratio=Math.max(.08,Math.min(1,Number(value||0)/99));return{x:cx+Math.cos(angle)*radius*ratio,y:cy+Math.sin(angle)*radius*ratio}})}
 function points(values,radius=70,cx=100,cy=100){return coordinates(values,radius,cx,cy).map(point=>`${point.x},${point.y}`).join(' ')}
 function grade(value){if(value>=90)return'S';if(value>=82)return'A';if(value>=74)return'B';if(value>=66)return'C';return'D'}
+export function radarValues(attrs){return ATTR_KEYS.map(key=>Number(attrs[key]||0))}
 export function createRadarChart(attrs,position,{size=220,animated=true,caption=true}={}){
   const wrap=el('div',{className:'radar-wrap'}),svg=svgEl('svg',{viewBox:'0 0 200 200',width:size,height:size,class:'radar-chart'});
   const title=svgEl('title');svg.append(title);
@@ -26,7 +27,7 @@ export function createRadarChart(attrs,position,{size=220,animated=true,caption=
   wrap.append(svg);
   const captionNode=caption?el('div',{className:'radar-caption'}):null;if(captionNode)wrap.append(captionNode);
   function update(nextAttrs,nextPosition=position){
-    const config=POSITION_CONFIG[nextPosition]||POSITION_CONFIG.ST,keeper=config.group==='keeper',labels=keeper?ATTR_LABELS.keeper:ATTR_LABELS.outfield,values=ATTR_KEYS.map(key=>Number(nextAttrs[key]||0)),coords=coordinates(values),ovr=calculateOvr(nextAttrs,nextPosition),color=GROUP_COLOR[config.group]||'#1677ff';
+    const config=POSITION_CONFIG[nextPosition]||POSITION_CONFIG.ST,keeper=config.group==='keeper',labels=keeper?ATTR_LABELS.keeper:ATTR_LABELS.outfield,values=radarValues(nextAttrs),coords=coordinates(values),ovr=calculateOvr(nextAttrs,nextPosition),color=GROUP_COLOR[config.group]||'#1677ff';
     wrap.style.setProperty('--radar-color',color);wrap.dataset.group=config.group;
     const aria=ATTR_KEYS.map(key=>`${labels[key]} ${nextAttrs[key]}`).join('，');wrap.setAttribute('role','img');wrap.setAttribute('aria-label',`${config.name}能力图：${aria}，位置总评 ${ovr}`);title.textContent=`${config.name}能力图，${aria}，位置总评 ${ovr}`;
     labelNodes.forEach((node,index)=>node.textContent=labels[ATTR_KEYS[index]]);valueNodes.forEach((node,index)=>node.textContent=String(values[index]));

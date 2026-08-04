@@ -71,7 +71,7 @@ export function renderMorePage(container,ctx){
   ]));
   container.append(page);
 
-  function handle(item){
+  async function handle(item){
     if(item.route){ctx.navigate(item.route);return}
     const shared={store,repo,ctx};
     if(item.id==='pace'){ctx.openPaceSettings?.();return}
@@ -89,7 +89,10 @@ export function renderMorePage(container,ctx){
     if(item.id==='privacy'){openInfo('隐私与数据','本地存档默认只保存在当前设备。未通过服务器验证的离线存档不会进入正式世界排行榜，也不会公开邮箱、设备信息或位置。');return}
     if(item.id==='help'){openInfo('帮助与规则','主页的当前重点会提示下一项职业操作。训练、比赛、转会和重大事件处理后会立即写入存档；损坏主档会尝试从最近备份恢复。');return}
     if(item.id==='updates'){openInfo('更新日志',`V${APP_VERSION}：重构移动端首页、设施中心、训练事件、转会卡、世界地图和赛后摘要。`);return}
-    openInfo('关于游戏',`绿茵浮沉 V${APP_VERSION}\n移动端优先足球生涯模拟器。球队能力、财政和机会数值为独立游戏模拟评级。`);
+    const info=await loadBuildInfo();
+    openInfo('关于游戏',info
+      ?`绿茵浮沉 V${info.version}\n构建 ${info.shortCommitSha} · ${info.branch}\n时间 ${new Date(info.buildTime).toLocaleString('zh-CN')}\n环境 ${info.deploymentTarget}`
+      :`绿茵浮沉 V${APP_VERSION}\n本地开发构建，部署信息暂不可用。`);
   }
   return()=>{};
 }
@@ -101,6 +104,14 @@ function statusFor(id,save,pace,speed){
   if(id==='save')return'当前槽位';
   if(id==='motion')return save.settings.reducedMotion?'减少动态':save.settings.animationMode==='full'?'完整':'标准';
   return'';
+}
+
+async function loadBuildInfo(){
+  try{
+    const response=await fetch('./build-meta.json',{cache:'no-store'});
+    if(!response.ok)throw new Error('build metadata unavailable');
+    return await response.json();
+  }catch{return null}
 }
 
 

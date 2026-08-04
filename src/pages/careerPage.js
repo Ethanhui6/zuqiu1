@@ -4,7 +4,7 @@ import {showToast} from '../components/toast.js';
 import {createRadarChart} from '../components/radarChart.js';
 import {createClubCrest} from '../components/clubCrest.js';
 import {formatMoney,formatNumber,percent,safeText} from '../utils/format.js';
-import {formatGameDate,addGameDays,addGameMonths} from '../utils/gameDate.js';
+import {formatGameDate,addGameDays,addGameMonths,daysBetween} from '../utils/gameDate.js';
 import {resolveEventChoice} from '../systems/event/eventEngine.js';
 import {advanceCareer,acknowledgeEventDecision,ensureTimeState} from '../systems/career/timeAdvanceSystem.js';
 import {generateObjectiveCandidates,objectiveProgress,selectObjective} from '../systems/career/objectiveSystem.js';
@@ -16,7 +16,7 @@ import {animationDirector} from '../animations/director/animationDirector.js';
 import {ensureSquadCompetition} from '../systems/squad/squadCompetitionSystem.js';
 import {generateStateMessages,markMessageRead,unreadMessages} from '../systems/messages/messageCenterSystem.js';
 import {updateCareerDirector} from '../systems/ai/careerAIDirector.js';
-import {primaryAttention,currentObjectiveSummary,markAttentionRead,markSectionViewed} from '../systems/attention/attentionManager.js';
+import {deferAttention,primaryAttention,currentObjectiveSummary,markAttentionRead,markSectionViewed} from '../systems/attention/attentionManager.js';
 import {buildAnalysisSeries,chooseMedicalPlan,facilitySummaries,lockerActions,markAnalysisViewed,markHonoursViewed,medicalPlans,resolveLockerAction} from '../systems/facility/facilityExperienceSystem.js';
 import {getTrainingPlans,recommendTrainingPlan,resolveTraining,selectTrainingPlan} from '../systems/training/trainingSystem.js';
 
@@ -27,7 +27,10 @@ export function renderCareerPage(container,ctx){
   const page=el('section',{className:'page career-page v20-career-page'});
   const attention=primaryAttention(save,repo);
   const homeSections=[
-    focusCard(attention,()=>handleAttention(attention)),
+    focusCard(attention,()=>handleAttention(attention),()=>{
+      store.update(state=>deferAttention(state,attention),'attention-deferred');
+      ctx.refresh();
+    }),
     el('div',{className:'v20-career-pair'},[
       compactPlayerCard(save,club,()=>openPlayerDetail(save,club)),
       careerConsole(save,club,repo,()=>openCareerData(save,club,repo))
@@ -111,12 +114,16 @@ export function renderCareerPage(container,ctx){
   return()=>{};
 }
 
-function focusCard(attention,onActivate){
-  return button('',{className:`v20-focus-card v20-focus-card--${attention.level}`,onClick:onActivate},[
+function focusCard(attention,onActivate,onDefer){
+  const deferButton=attention.level==='urgent'?null:button('稍后处理',{className:'button button--secondary',onClick:event=>{event.stopPropagation();onDefer?.()}});
+  const card=el('div',{className:`v20-focus-card v20-focus-card--${attention.level}`,attrs:{role:'button',tabindex:'0','aria-label':attention.title}},[
     el('span',{className:'v20-focus-icon',text:attention.icon,attrs:{'aria-hidden':'true'}}),
-    el('span',{className:'v20-focus-copy'},[el('small',{text:attention.level==='urgent'?'现在需要处理':attention.level==='important'?'重要提醒':'当前重点'}),el('strong',{text:attention.title}),el('p',{text:attention.detail})]),
+    el('span',{className:'v20-focus-copy'},[el('small',{text:attention.level==='urgent'?'现在需要处理':attention.level==='important'?'重要提醒':'当前重点'}),el('strong',{text:attention.title}),el('p',{text:attention.detail}),...(deferButton?[deferButton]:[])]),
     el('span',{className:'v20-focus-arrow',text:'›',attrs:{'aria-hidden':'true'}})
-  ])
+  ]);
+  card.addEventListener('click',onActivate);
+  card.addEventListener('keydown',event=>{if(event.target===card&&(event.key==='Enter'||event.key===' ')){event.preventDefault();onActivate?.()}});
+  return card;
 }
 
 function compactPlayerCard(save,club,onOpen){
@@ -134,13 +141,18 @@ function compactPlayerCard(save,club,onOpen){
 }
 
 function careerConsole(save,club,repo,onOpen){
-  const stats=save.career.seasonStats,next=upcomingFixtures(save,repo,1)[0],opponent=next?repo.getClub(next.opponentId):null;
+  const stats=save.career.seasonStats,next=upcomingFixtures(save,repo,1)[0],opponent=next?repo.getClub(next.opponentId):null,countdown=nextMatchCountdown(save,repo);
   return button('',{className:'v20-career-console',onClick:onOpen},[
     el('div',{className:'v20-section-heading'},[el('div',{},[el('small',{text:`${formatGameDate(save.career.gameClock.currentDate)} · ${save.career.gameClock.seasonId}赛季 · 第${save.career.gameClock.competitionWeek}周`}),el('strong',{text:`${save.player.displayName||save.player.name} · ${save.player.age}岁`})]),el('span',{className:'v20-season-ring',text:`${save.career.seasonProgress}%`})]),
     el('div',{className:'v20-stat-grid'},[stat('出场',stats.apps),stat('进球',stats.goals),stat('助攻',stats.assists),stat('评分',stats.rating||'—')]),
-    el('div',{className:'v20-next-match'},[el('small',{text:'下一场'}),el('strong',{text:opponent?opponent.cn:'等待新赛季'}),el('span',{text:next?`${next.competition} · ${next.home?'主场':'客场'}`:'赛程已结束'})]),
+    el('div',{className:'v20-next-match'},[el('small',{text:'下一场'}),el('strong',{text:opponent?opponent.cn:'等待新赛季'}),el('span',{text:next?`${countdown}天后 · ${next.competition} · ${next.home?'主场':'客场'}`:'赛程已结束'})]),
     compactProgress('体能',save.status.fitness),compactProgress('士气',save.status.morale),compactProgress('信任',save.status.coachTrust)
   ])
+}
+
+export function nextMatchCountdown(save,repo){
+  const next=upcomingFixtures(save,repo,1)[0];
+  return next?Math.max(0,daysBetween(save.career.gameClock.currentDate,next.date)):0;
 }
 
 function objectiveSummaryCard(save,onOpen){

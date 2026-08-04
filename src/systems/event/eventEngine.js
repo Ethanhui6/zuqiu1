@@ -221,10 +221,10 @@ function categoryWeights(save,allowed,mem){
     return{category,weight};
   });
 }
-function bridgeEvent(save,category,rng){
-  const week=save.career.calendar?.week||1,season=save.career.season,pressure=save.status.fatigue>=55||save.status.morale<=40?'高压':'中压';
+function bridgeEvent(save,repo,category,rng,sequence){
+  const week=save.career.calendar?.week||1,season=save.career.season,pressure=save.status.fatigue>=55||save.status.morale<=40?'高压':'中压',club=repo.getClub(save.career.clubId)?.cn||save.career.clubId,person=PERSON_BY_CATEGORY[category]||'职业团队';
   return normalizeEvent({
-    id:`bridge-${category}-${season}-${week}-${rng.state}`,category,categoryCn:'职业调整',title:`${stage(save)}的临时抉择`,description:`第${season}赛季第${week}周，既有事件仍在冷却，职业团队根据你的体能、士气和出场状态提出一项临时方案。`,pressure,tags:[category,'bridge',stage(save)],weight:1,cooldown:0,repeatable:true,
+    id:`bridge-${category}-${season}-${week}-${rng.state}`,category,categoryCn:'职业调整',title:`${stage(save)}的临时抉择 · ${sequence+1}`,description:`第${season}赛季第${week}周，${club}的${person}根据你的体能、士气和出场状态提出第${sequence+1}套临时方案。`,pressure,tags:['bridge',category,stage(save)],weight:1,cooldown:0,repeatable:true,
     choices:[
       {id:`bridge-${category}-steady`,text:'保持当前计划',style:'safe',focus:'pas',base:.76,effects:{xp:18,trust:2,morale:2,fitness:1,fans:80}},
       {id:`bridge-${category}-push`,text:'提高短期投入',style:'aggressive',focus:'phy',base:.58,effects:{xp:32,trust:3,morale:1,fitness:-4,fans:260,injuryRisk:7}},
@@ -264,7 +264,7 @@ export async function generateEvent(save,repo,{category:forcedCategory=null}={})
       for(const fallback of fallbacks){const candidates=(await repo.loadEventCategory(fallback)).map(normalizeEvent).filter(e=>eventEligible(e,save)&&!recentEventIds.has(e.id)&&!recentTemplateTitles.has(titleKey(e.title)));if(candidates.length){category=fallback;pool=candidates;break}}
     }
   }
-  if(!pool.length){category=forcedCategory||allowed.find(item=>item!==blockedCategory)||allowed[0]||'life';pool=[bridgeEvent(save,category,rng)]}
+  if(!pool.length){category=forcedCategory||allowed.find(item=>item!==blockedCategory)||allowed[0]||'life';pool=[bridgeEvent(save,repo,category,rng,mem.generatedCount)]}
   const weighted=pool.map(e=>{const sameTitle=recentTitles.has(titleKey(e.title)),chainBoost=(mem.chainsOpen.includes(e.id)||e.prerequisite?.some(x=>mem.chainsOpen.includes(x)))?3:1,tagPenalty=e.tags.some(t=>recentCategories.includes(t))?.28:1,person=PERSON_BY_CATEGORY[e.category]||'职业环境',personPenalty=mem.recentPersons.slice(-2).includes(person)?.4:1,fingerprint=eventFingerprint(e,person),fingerprintPenalty=mem.recentFingerprints.slice(-30).includes(fingerprint)?.08:1;return{...e,_fingerprint:fingerprint,_w:e.weight*(sameTitle?.03:1)*chainBoost*tagPenalty*personPenalty*fingerprintPenalty}});
   const baseEvent=rng.weighted(weighted,x=>x._w)||pool[0],choices=selectChoices(baseEvent,rng,mem),event=contextualize(baseEvent,choices,save,repo,rng);event.fingerprint=eventFingerprint(event,event.person);
   const generated={...event,generatedAt:{season:save.career.season,month:save.career.month,week:save.career.calendar?.week||1,rngState:rng.state},resolved:false};delete generated._w;
