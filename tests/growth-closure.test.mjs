@@ -35,6 +35,16 @@ test('growth helper updates snapshot potential and log once',()=>{
   assert.equal(state.player.potential,88.2);assert.equal(state.career.growthLog.length,1);assert.equal(out.player,state.player);
 });
 
+test('training and match route through one growth transaction each',()=>{
+  const app=fs.readFileSync(new URL('../src/app.js',import.meta.url),'utf8');
+  const training=app.slice(app.indexOf('completeTraining('),app.indexOf('playMatch('));
+  const match=app.slice(app.indexOf('playMatch('),app.indexOf('openInjuryCenter('));
+  for(const method of [training,match]){
+    assert.equal((method.match(/applyGrowthToState\(/g)||[]).length,1);
+    assert.doesNotMatch(method,/applyDevelopment\(|growthLog\.push|previousStats\s*=/);
+  }
+});
+
 test('simulation has season-relative week keys and exposes a match due today',async()=>{
   const state=createDefaultState();state.simulation.date='2027-06-29';state.schedule=[{id:'today',date:'2027-06-29',status:'upcoming'}];
   const store={get:()=>state,set:fn=>fn(state)};const controller=new SimulationController(store,{schedule:()=>null});
