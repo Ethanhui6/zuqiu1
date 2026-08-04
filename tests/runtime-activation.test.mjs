@@ -1,5 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
+import {execFileSync} from 'node:child_process';
 import fs from 'node:fs';
 import * as clock from '../src/systems/career/gameClock.js';
 import {generateAcademyOffers} from '../src/systems/career/careerSystem.js';
@@ -18,6 +19,33 @@ test('production boots the modular runtime and packages its fetched assets',()=>
   assert.doesNotMatch(sw,/src\/app\.js/);
   assert.match(saveSelect,/APP_VERSION/);
   assert.doesNotMatch(saveSelect,/绿茵浮沉 V19/);
+});
+
+test('build creates a build-specific worker and explicit no-cache deployment policy',()=>{
+  const build=read('../scripts/build.mjs'),sw=read('../sw.js'),headers=read('../_headers');
+  assert.match(sw,/career-__BUILD_ID__/);
+  assert.match(build,/replace\([^\n]*__BUILD_ID__/);
+  execFileSync(process.execPath,['scripts/build.mjs'],{
+    cwd:new URL('..',import.meta.url),
+    env:{...process.env,GITHUB_SHA:'abcdef1234567890',GITHUB_REF_NAME:'test-build',DEPLOYMENT_TARGET:'contract'},
+    stdio:'pipe'
+  });
+  const builtWorker=read('../dist/sw.js');
+  assert.doesNotMatch(builtWorker,/__BUILD_ID__/);
+  assert.match(builtWorker,/career-abcdef1-\d{17}/);
+  for(const route of ['/index.html','/sw.js','/build-meta.json']){
+    assert.match(headers,new RegExp(`${route.replace('.','\\.')}\\r?\\n  Cache-Control: no-cache, no-store, must-revalidate`));
+  }
+});
+
+test('worker uses typed caching without asset or API HTML fallbacks',()=>{
+  const sw=read('../sw.js');
+  for(const token of ['networkFirst','cacheFirst','networkOnly','isApiRequest','request.mode === \'navigate\'','url.origin !== self.location.origin','isHashedAsset','SKIP_WAITING'])assert.ok(sw.includes(token),token);
+  assert.match(sw,/networkFirst\(event\.request, ['"]\.\/index\.html['"]\)/);
+  assert.match(sw,/if \(isHashedAsset\(url\)\)[\s\S]*cacheFirst\(event\.request\)/);
+  assert.match(sw,/response\.ok/);
+  assert.doesNotMatch(sw,/hit \|\| caches\.match\(['"]\.\/index\.html['"]\)/);
+  assert.doesNotMatch(sw,/client\.navigate|controlledIds/);
 });
 
 test('indexed event packs expose at least one thousand event nodes',()=>{

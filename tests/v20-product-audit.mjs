@@ -120,9 +120,11 @@ check('V20首屏使用生涯控制台且不再显示V19文案',()=>{
   assert.doesNotMatch(`${files.saveSelect}\n${files.profile}`,/V19/);
 });
 check('V20 Service Worker缓存当前生产入口并清理旧缓存',()=>{
-  assert.match(files.sw,/career-vnext-world-time-2/);
-  assert.match(files.sw,/clients\.matchAll/);
-  assert.match(files.sw,/client\.navigate\(client\.url\)\.catch\(\(\) => undefined\)/);
+  assert.match(files.sw,/career-__BUILD_ID__/);
+  assert.match(files.sw,/networkFirst/);
+  assert.match(files.sw,/cacheFirst/);
+  assert.match(files.sw,/SKIP_WAITING/);
+  assert.doesNotMatch(files.sw,/client\.navigate|clients\.matchAll/);
   for(const token of ['./index.html','./styles.css','./src/main.js'])assert.ok(files.sw.includes(token),token);
   assert.ok(files.sw.includes('caches.delete')&&files.sw.includes('clients.claim'));
 });
@@ -130,4 +132,4 @@ check('生产页面不使用整页innerHTML重建',()=>{
   for(const [name,text] of Object.entries(files))if(name!=='css'&&name!=='sw')assert.equal(/\.innerHTML\s*=/.test(text),false,name);
 });
 
-console.log(JSON.stringify({status:'PASS',version:'20.1.2',passed:passed.length,cases:passed},null,2));
+console.log(JSON.stringify({status:'PASS',version:'20.1.3',passed:passed.length,cases:passed},null,2));

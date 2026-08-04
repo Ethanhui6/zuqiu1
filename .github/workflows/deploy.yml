@@ -15,7 +15,7 @@ permissions:
   deployments: write
 
 jobs:
-  build-and-deploy:
+  verify:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -24,19 +24,47 @@ jobs:
           node-version: 20
           cache: npm
       - run: npm ci
-      - run: npm run check
+      - name: Verify and build deployment artifact
+        run: npm run check
+        env:
+          GITHUB_SHA: ${{ github.sha }}
+          GITHUB_REF_NAME: ${{ github.event.pull_request.head.ref || github.ref_name }}
+          DEPLOYMENT_TARGET: ${{ github.event_name == 'pull_request' && 'preview' || 'production' }}
+      - name: Validate build metadata
+        run: node scripts/validate-build.mjs dist
+        env:
+          GITHUB_SHA: ${{ github.sha }}
+          GITHUB_REF_NAME: ${{ github.event.pull_request.head.ref || github.ref_name }}
+          DEPLOYMENT_TARGET: ${{ github.event_name == 'pull_request' && 'preview' || 'production' }}
       - uses: actions/upload-artifact@v4
         with:
           name: production-build
           path: dist
           if-no-files-found: error
+
+  deploy:
+    needs: verify
+    if: github.ref == 'refs/heads/main' || (github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name == github.repository)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          name: production-build
+          path: release-dist
+      - name: Validate downloaded metadata
+        run: node scripts/validate-build.mjs release-dist
+        env:
+          GITHUB_SHA: ${{ github.sha }}
+          GITHUB_REF_NAME: ${{ github.head_ref || github.ref_name }}
+          DEPLOYMENT_TARGET: ${{ github.event_name == 'pull_request' && 'preview' || 'production' }}
       - name: Deploy pull request preview
         if: github.event_name == 'pull_request'
         uses: cloudflare/wrangler-action@v3
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          command: pages deploy dist --project-name=zuqiu --branch=pr-${{ github.event.number }}
+          command: pages deploy release-dist --project-name=zuqiu --branch=pr-${{ github.event.number }}
           gitHubToken: ${{ secrets.GITHUB_TOKEN }}
       - name: Deploy production
         if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
@@ -44,5 +72,5 @@ jobs:
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          command: pages deploy dist --project-name=zuqiu --branch=main
+          command: pages deploy release-dist --project-name=zuqiu --branch=main
           gitHubToken: ${{ secrets.GITHUB_TOKEN }}
