@@ -87,6 +87,8 @@ const files={
   world:await fs.readFile(new URL('../src/pages/worldPage.js',import.meta.url),'utf8'),
   more:await fs.readFile(new URL('../src/pages/morePage.js',import.meta.url),'utf8'),
   match:await fs.readFile(new URL('../src/pages/matchPage.js',import.meta.url),'utf8'),
+  saveSelect:await fs.readFile(new URL('../src/pages/saveSelectPage.js',import.meta.url),'utf8'),
+  profile:await fs.readFile(new URL('../src/pages/profilePage.js',import.meta.url),'utf8'),
   css:await fs.readFile(new URL('../src/styles/v20-product.css',import.meta.url),'utf8'),
   sw:await fs.readFile(new URL('../sw.js',import.meta.url),'utf8')
 };
@@ -109,6 +111,13 @@ check('移动端样式包含紧凑双卡、2×2设施、地图和设置分组',(
 check('用户界面不再显示World Explorer或危险直出文字',()=>{
   const ui=Object.values(files).join('\n');
   for(const token of ['World Explorer','[object Object]','Loading','Continue','Transfer Offer'])assert.equal(ui.includes(token),false,token);
+});
+check('V20首屏使用生涯控制台且不再显示V19文案',()=>{
+  assert.match(files.saveSelect,/v20-save-console/);
+  assert.match(files.saveSelect,/V20 职业控制台/);
+  assert.match(files.css,/\.v20-save-console/);
+  assert.match(files.css,/\.v20-save-console__status/);
+  assert.doesNotMatch(`${files.saveSelect}\n${files.profile}`,/V19/);
 });
 check('V20 Service Worker缓存当前生产入口并清理旧缓存',()=>{
   assert.match(files.sw,/career-vnext-world-time-2/);
