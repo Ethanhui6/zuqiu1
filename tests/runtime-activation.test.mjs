@@ -13,7 +13,7 @@ test('production boots the modular runtime and packages its fetched assets',()=>
   assert.match(html,/id="boot"/);
   assert.match(html,/src="\.\/src\/main\.js/);
   assert.doesNotMatch(html,/src="\.\/src\/app\.js/);
-  for(const file of ['theme.css','base.css','components.css','pages.css','mobile-foundation.css','animations.css','v19-guidance.css','v20-product.css'])assert.ok(css.includes(file),file);
+  for(const file of ['theme.css','base.css','components.css','pages.css','mobile-foundation.css','animations.css','v20-product.css'])assert.ok(css.includes(file),file);
   for(const directory of ["'data'","'functions'","'server'"])assert.ok(build.includes(directory),directory);
   assert.match(sw,/src\/main\.js/);
   assert.doesNotMatch(sw,/src\/app\.js/);

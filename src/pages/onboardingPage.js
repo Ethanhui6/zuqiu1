@@ -48,12 +48,12 @@ function formatLocalDate(value){const d=parsePureDate(value);return d?`${d.year}
 
 export function renderOnboarding(root,{repo,onComplete,onCancel=null}){
   const draft=loadDraft();
-  root.className='onboarding-root';
+  root.className='v20-onboarding-root';
   clear(root);
-  const shell=el('section',{className:'player-setup'});
-  const top=el('header',{className:'setup-header'});
-  const body=el('main',{className:'setup-main',attrs:{id:'setup-main',tabindex:'-1'}});
-  const foot=el('footer',{className:'setup-actions'});
+  const shell=el('section',{className:'v20-player-setup'});
+  const top=el('header',{className:'v20-setup-header'});
+  const body=el('main',{className:'v20-setup-main',attrs:{id:'v20-setup-main',tabindex:'-1'}});
+  const foot=el('footer',{className:'v20-setup-actions'});
   shell.append(top,body,foot);root.append(shell);
 
   function persist(){draft.age=ageOnDate(draft.birthDate);saveDraft(draft)}
@@ -67,19 +67,19 @@ export function renderOnboarding(root,{repo,onComplete,onCancel=null}){
   }
   function progress(){
     const percent=Math.round((draft.step/6)*100);
-    const wrap=el('div',{className:'setup-progress',attrs:{'aria-label':`第${draft.step}步，共6步`}});
+    const wrap=el('div',{className:'v20-setup-progress',attrs:{'aria-label':`第${draft.step}步，共6步`}});
     wrap.append(
-      el('div',{className:'setup-progress-label'},[
+      el('div',{className:'v20-setup-progress-label'},[
         el('strong',{text:`第 ${draft.step} / 6 步`}),el('span',{text:`${percent}%`})
       ]),
-      el('div',{className:'setup-progress-track',attrs:{role:'progressbar','aria-valuemin':'1','aria-valuemax':'6','aria-valuenow':String(draft.step)}},[
+      el('div',{className:'v20-setup-progress-track',attrs:{role:'progressbar','aria-valuemin':'1','aria-valuemax':'6','aria-valuenow':String(draft.step)}},[
         el('i',{attrs:{style:`transform:scaleX(${draft.step/6})`}})
       ]),
-      el('div',{className:'setup-progress-desktop'},stepNames.map((name,index)=>el('span',{className:index+1<draft.step?'is-complete':index+1===draft.step?'is-active':'',text:index+1<draft.step?`✓ ${name}`:`${index+1} ${name}`})))
+      el('div',{className:'v20-setup-progress-desktop'},stepNames.map((name,index)=>el('span',{className:index+1<draft.step?'is-complete':index+1===draft.step?'is-active':'',text:index+1<draft.step?`✓ ${name}`:`${index+1} ${name}`})))
     );
     return wrap;
   }
-  function header(){return el('div',{className:'onboarding-header'},[el('span',{className:'eyebrow',text:'创建球员'}),el('h1',{text:stepTitles[draft.step-1]}),el('p',{text:stepCopy[draft.step-1]})])}
+  function header(){return el('div',{className:'v20-onboarding-header'},[el('span',{className:'eyebrow',text:'创建球员'}),el('h1',{text:stepTitles[draft.step-1],attrs:{id:'v20-onboarding-title'}}),el('p',{text:stepCopy[draft.step-1]})])}
   function footerButtons(){
     const buttons=[];
     if(draft.step>1)buttons.push(button('上一步',{className:'button button--secondary',onClick:()=>{draft.step-=1;render({focusMain:true})}}));
@@ -97,7 +97,7 @@ export function renderOnboarding(root,{repo,onComplete,onCancel=null}){
     return buttons;
   }
   function content(){
-    const panel=el('section',{className:'setup-panel'});
+    const panel=el('section',{className:'v20-setup-panel',attrs:{'aria-labelledby':'v20-onboarding-title'}});
     if(draft.step===1)panel.append(identityStep());
     else if(draft.step===2)panel.append(bodyStep());
     else if(draft.step===3)panel.append(positionStep());
@@ -107,7 +107,7 @@ export function renderOnboarding(root,{repo,onComplete,onCancel=null}){
     return panel;
   }
   function identityStep(){
-    const grid=el('div',{className:'form-grid form-grid--single'});
+    const grid=el('div',{className:'v20-form-grid v20-form-grid--single'});
     const name=createField({label:'姓名',name:'name',value:draft.name,placeholder:'请输入球员姓名',required:true,onInput:value=>{draft.name=value.trimStart();persist()}});
     const display=createField({label:'球衣显示名',name:'displayName',value:draft.displayName,placeholder:'例如：天佑',help:'建议2至12个字符。',required:true,onInput:value=>{draft.displayName=value.trimStart();persist()}});
     const date=createDateField({label:'出生日期',name:'birthDate',value:draft.birthDate,min:'2007-01-01',max:'2010-12-31',help:`当前选择：${formatLocalDate(draft.birthDate)}。开局年龄必须为16至18岁。`,onChange:value=>{draft.birthDate=value;draft.age=ageOnDate(value);persist()}});
@@ -116,7 +116,7 @@ export function renderOnboarding(root,{repo,onComplete,onCancel=null}){
     return grid;
   }
   function bodyStep(){
-    const grid=el('div',{className:'form-grid'});
+    const grid=el('div',{className:'v20-form-grid'});
     const nation=createField({label:'国家或地区',name:'nation',value:draft.nation,options:nations,onChange:value=>{draft.nation=value;draft.academyOffers=[];persist()}});
     const height=createField({label:'身高（厘米）',name:'height',type:'number',value:draft.height,min:150,max:210,step:1,inputMode:'numeric',help:'范围150至210厘米。',onInput:value=>{draft.height=Number(value);persist()}});
     const weight=createField({label:'体重（公斤）',name:'weight',type:'number',value:draft.weight,min:45,max:120,step:1,inputMode:'numeric',help:'范围45至120公斤。',onInput:value=>{draft.weight=Number(value);persist()}});
@@ -126,36 +126,36 @@ export function renderOnboarding(root,{repo,onComplete,onCancel=null}){
     return grid;
   }
   function positionStep(){
-    const layout=el('div',{className:'position-layout'}),pitch=el('div',{className:'pitch-selector',attrs:{role:'group','aria-label':'场上位置选择'}});
+    const layout=el('div',{className:'v20-position-layout'}),pitch=el('div',{className:'v20-pitch-selector',attrs:{role:'group','aria-label':'场上位置选择'}});
     Object.entries(POSITION_CONFIG).forEach(([id,config])=>{
-      const positionButton=button(config.name,{className:`pitch-position ${draft.position===id?'is-selected':''}`,onClick:async()=>{draft.position=id;draft.style=config.roles[0];draft.talents=[];draft.academyOffers=[];persist();const attrs=positionPreviewAttrs(id);await animationDirector.play('hex-growth',{id:`onboarding:${id}`,oldValues:[50,50,50,50,50,50],newValues:Object.values(attrs).slice(0,6),keeper:id==='GK'},{token:`position:${id}:${draft.seed}`});render();}});
+      const positionButton=button(config.name,{className:`v20-pitch-position ${draft.position===id?'is-selected':''}`,onClick:async()=>{draft.position=id;draft.style=config.roles[0];draft.talents=[];draft.academyOffers=[];persist();const attrs=positionPreviewAttrs(id);await animationDirector.play('hex-growth',{id:`onboarding:${id}`,oldValues:[50,50,50,50,50,50],newValues:Object.values(attrs).slice(0,6),keeper:id==='GK'},{token:`position:${id}:${draft.seed}`});render();}});
       positionButton.style.left=`${config.x}%`;positionButton.style.top=`${config.y}%`;positionButton.dataset.position=id;positionButton.setAttribute('aria-pressed',String(draft.position===id));pitch.append(positionButton);
     });
     const config=POSITION_CONFIG[draft.position],preview=positionPreviewAttrs(draft.position),ovr=calculateOvr(preview,draft.position),labels=config.group==='keeper'?ATTR_LABELS.keeper:ATTR_LABELS.outfield;
-    const detail=el('aside',{className:'position-detail'},[
+    const detail=el('aside',{className:'v20-position-detail'},[
       el('span',{className:'eyebrow',text:'位置球探预览'}),el('h2',{text:config.name}),el('p',{text:positionDuty(config.group)}),
-      el('div',{className:'position-preview'},[
+      el('div',{className:'v20-position-preview'},[
         createRadarChart(preview,draft.position,{size:190}),
-        el('div',{className:'position-rating'},[el('small',{text:'位置适配总评'}),el('strong',{text:String(ovr)}),el('span',{text:`重点：${config.focus.map(key=>labels[key]).join('、')}`})])
+        el('div',{className:'v20-position-rating'},[el('small',{text:'位置适配总评'}),el('strong',{text:String(ovr)}),el('span',{text:`重点：${config.focus.map(key=>labels[key]).join('、')}`})])
       ]),
       el('h3',{text:'发展路线'}),el('div',{className:'tag-row'},config.roles.slice(0,3).map(role=>el('span',{className:'tag',text:role})))
     ]);
     layout.append(pitch,detail);return layout;
   }
   function styleStep(){
-    const config=POSITION_CONFIG[draft.position],grid=el('div',{className:'choice-grid'});
+    const config=POSITION_CONFIG[draft.position],grid=el('div',{className:'v20-choice-grid'});
     config.roles.forEach((style,index)=>{
-      const card=button('',{className:`selection-card ${draft.style===style?'is-selected':''}`,onClick:()=>{draft.style=style;draft.talents=[];draft.academyOffers=[];persist();render();}});
+      const card=button('',{className:`v20-selection-card ${draft.style===style?'is-selected':''}`,onClick:()=>{draft.style=style;draft.talents=[];draft.academyOffers=[];persist();render();}});
       card.setAttribute('aria-pressed',String(draft.style===style));
-      card.append(el('span',{className:'selection-index',text:String(index+1)}),el('div',{},[el('h3',{text:style}),el('p',{text:styleDescription(style)})]),el('span',{className:'selection-check',text:draft.style===style?'✓':''}));grid.append(card);
+      card.append(el('span',{className:'v20-selection-index',text:String(index+1)}),el('div',{},[el('h3',{text:style}),el('p',{text:styleDescription(style)})]),el('span',{className:'v20-selection-check',text:draft.style===style?'✓':''}));grid.append(card);
     });return grid;
   }
   function talentStep(){
     if(!draft.talents.length)prepareTalents();
-    const wrap=el('div',{className:'talent-layout'}),toolbar=el('div',{className:'talent-toolbar'},[
+    const wrap=el('div',{className:'v20-talent-layout'}),toolbar=el('div',{className:'v20-talent-toolbar'},[
       el('p',{text:`剩余重抽 ${draft.rerolls} 次。重抽会替换当前全部候选。`}),
       button('重新抽取',{className:'button button--secondary',disabled:draft.rerolls<=0,onClick:async()=>{if(draft.rerolls<=0)return;draft.rerolls-=1;prepareTalents(true);persist();await animationDirector.play('card-draw',{id:`talents:${draft.seed}`,cards:draft.talents.map(item=>item.name),chosen:0,rarity:draft.talents[0]?.rarityKey,label:'新天赋候选已生成'},{token:`talent-draw:${draft.seed}`});render();}})
-    ]),grid=el('div',{className:'talent-grid'});
+    ]),grid=el('div',{className:'v20-talent-grid'});
     draft.talents.forEach((talent,index)=>{
       const source=repo.templates.find(item=>item.id===talent.sourceTemplateId),attrs=source?.attrs||positionPreviewAttrs(draft.position);
       grid.append(createTalentCard(talent,{selected:draft.selectedTalent===index,position:draft.position,style:draft.style,attrs,onSelect:async()=>{draft.selectedTalent=index;draft.academyOffers=[];persist();await animationDirector.play('scout-radar',{id:`talent:${talent.id}`,score:Math.min(98,Math.round((talent.potential||80))),label:`已选择 ${talent.name}`},{token:`scout:${draft.seed}:${talent.id}`});render();}}));
@@ -164,39 +164,39 @@ export function renderOnboarding(root,{repo,onComplete,onCancel=null}){
   }
   function finalStep(){
     if(!draft.talents.length)prepareTalents();if(!draft.academyOffers.length)prepareAcademies();
-    const wrap=el('div',{className:'final-setup'}),talent=draft.talents[draft.selectedTalent],source=repo.templates.find(item=>item.id===talent.sourceTemplateId),previewAttrs=source?.attrs||positionPreviewAttrs(draft.position),theme=talentTheme(talent),config=POSITION_CONFIG[draft.position];
-    const report=el('section',{className:'scout-report scout-report--compact'});report.style.setProperty('--report-color',talent.color||theme.color);
+    const wrap=el('div',{className:'v20-final-setup'}),talent=draft.talents[draft.selectedTalent],source=repo.templates.find(item=>item.id===talent.sourceTemplateId),previewAttrs=source?.attrs||positionPreviewAttrs(draft.position),theme=talentTheme(talent),config=POSITION_CONFIG[draft.position];
+    const report=el('section',{className:'v20-scout-report v20-scout-report--compact'});report.style.setProperty('--report-color',talent.color||theme.color);
     report.append(
-      el('div',{className:'scout-report__head'},[
-        el('div',{className:'scout-report__title'},[el('span',{className:'eyebrow',text:'最终球探摘要'}),el('h2',{text:draft.name}),el('p',{text:`${config.name} · ${draft.style} · ${draft.nation}`})]),
-        el('div',{className:'scout-report__rating'},[el('strong',{text:`${'★'.repeat(theme.stars)}${'☆'.repeat(5-theme.stars)}`}),el('span',{text:`${talent.rarity}天赋 · 潜力 ${talentPotentialRange(talent)}`})])
+      el('div',{className:'v20-scout-report__head'},[
+        el('div',{className:'v20-scout-report__title'},[el('span',{className:'eyebrow',text:'最终球探摘要'}),el('h2',{text:draft.name}),el('p',{text:`${config.name} · ${draft.style} · ${draft.nation}`})]),
+        el('div',{className:'v20-scout-report__rating'},[el('strong',{text:`${'★'.repeat(theme.stars)}${'☆'.repeat(5-theme.stars)}`}),el('span',{text:`${talent.rarity}天赋 · 潜力 ${talentPotentialRange(talent)}`})])
       ]),
-      el('div',{className:'scout-report__body'},[
+      el('div',{className:'v20-scout-report__body'},[
         createRadarChart(previewAttrs,draft.position,{size:160}),
-        el('div',{className:'scout-report__traits'},[
-          el('h3',{text:'优势'}),el('ul',{className:'scout-points'},talentStrengths(previewAttrs,draft.position).slice(0,3).map(text=>el('li',{text}))),
-          el('div',{className:'scout-risk'},[el('strong',{text:'培养风险：'}),document.createTextNode(talent.cost)]),
-          el('div',{className:'scout-report__quote',text:talentScoutQuote(talent,draft.style)})
+        el('div',{className:'v20-scout-report__traits'},[
+          el('h3',{text:'优势'}),el('ul',{className:'v20-scout-points'},talentStrengths(previewAttrs,draft.position).slice(0,3).map(text=>el('li',{text}))),
+          el('div',{className:'v20-scout-risk'},[el('strong',{text:'培养风险：'}),document.createTextNode(talent.cost)]),
+          el('div',{className:'v20-scout-report__quote',text:talentScoutQuote(talent,draft.style)})
         ])
       ])
     );
-    const academy=el('section',{className:'final-setup-section'},[el('div',{className:'section-heading'},[el('div',{},[el('span',{className:'eyebrow',text:'青年队邀请'}),el('h2',{text:'选择职业起点'})])])]);
-    const list=el('div',{className:'academy-offers'});
+    const academy=el('section',{className:'v20-final-setup-section'},[el('div',{className:'section-heading'},[el('div',{},[el('span',{className:'eyebrow',text:'青年队邀请'}),el('h2',{text:'选择职业起点'})])])]);
+    const list=el('div',{className:'v20-academy-offers'});
     draft.academyOffers.forEach((offer,index)=>{const club=repo.getClub(offer.clubId);list.append(createAcademyClubCard(club,offer,{selected:draft.selectedAcademy===index,position:draft.position,onSelect:()=>{draft.selectedAcademy=index;persist();render();}}))});
     academy.append(list);
-    const pace=el('section',{className:'final-setup-section'},[el('div',{className:'section-heading'},[el('div',{},[el('span',{className:'eyebrow',text:'职业节奏'}),el('h2',{text:'决定推进方式'})])])]);
-    const paceGrid=el('div',{className:'pace-mode-grid'});
+    const pace=el('section',{className:'v20-final-setup-section'},[el('div',{className:'section-heading'},[el('div',{},[el('span',{className:'eyebrow',text:'职业节奏'}),el('h2',{text:'决定推进方式'})])])]);
+    const paceGrid=el('div',{className:'v20-pace-mode-grid'});
     Object.values(PACE_MODES).forEach((mode,index)=>{
       const selected=draft.paceMode===mode.id;
-      const card=button('',{className:`pace-mode-card ${selected?'is-selected':''}`,pressed:selected,onClick:()=>{draft.paceMode=mode.id;persist();render();}});
+      const card=button('',{className:`v20-pace-mode-card ${selected?'is-selected':''}`,pressed:selected,onClick:()=>{draft.paceMode=mode.id;persist();render();}});
       card.append(
-        el('div',{className:'pace-mode-card__top'},[el('span',{className:'pace-mode-card__icon',text:['◌','▶','»','★'][index]}),el('div',{},[el('h3',{text:mode.name}),el('small',{text:`单赛季约 ${mode.seasonMinutes}`})]),el('span',{className:'selection-check',text:selected?'✓':''})]),
-        el('div',{className:'pace-mode-card__facts'},[paceFact('比赛',mode.matchDetail),paceFact('事件',mode.eventFrequency),paceFact('自动模拟',mode.autoSimulation),paceFact('暂停',mode.pausePolicy)])
+        el('div',{className:'v20-pace-mode-card__top'},[el('span',{className:'v20-pace-mode-card__icon',text:['◌','▶','»','★'][index]}),el('div',{},[el('h3',{text:mode.name}),el('small',{text:`单赛季约 ${mode.seasonMinutes}`})]),el('span',{className:'v20-selection-check',text:selected?'✓':''})]),
+        el('div',{className:'v20-pace-mode-card__facts'},[paceFact('比赛',mode.matchDetail),paceFact('事件',mode.eventFrequency),paceFact('自动模拟',mode.autoSimulation),paceFact('暂停',mode.pausePolicy)])
       );paceGrid.append(card);
     });
     pace.append(paceGrid);wrap.append(report,academy,pace);return wrap;
   }
-  function paceFact(label,value){return el('div',{className:'pace-fact'},[el('small',{text:label}),el('strong',{text:value})])}
+  function paceFact(label,value){return el('div',{className:'v20-pace-fact'},[el('small',{text:label}),el('strong',{text:value})])}
   function prepareStep(){if(draft.step===5&&!draft.talents.length)prepareTalents();if(draft.step===6&&!draft.academyOffers.length)prepareAcademies()}
   function prepareTalents(force=false){if(force)draft.seed=createSeed();draft.talents=createTalentCandidates({seed:draft.seed,position:draft.position,style:draft.style,templates:repo.templates,count:3});draft.selectedTalent=0;draft.academyOffers=[];persist()}
   function prepareAcademies(){const talent=draft.talents[draft.selectedTalent],source=repo.templates.find(item=>item.id===talent.sourceTemplateId),ovr=source?calculateOvr(source.attrs,draft.position):62;draft.academyOffers=generateAcademyOffers({seed:draft.seed,nation:draft.nation,position:draft.position,ovr,talent,clubs:repo.clubs});draft.selectedAcademy=0;persist()}

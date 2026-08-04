@@ -11,7 +11,7 @@ function fitText(club,position){if(position&&club.needs?.includes(position))retu
 function safeLeague(club){return club.leagueCn||club.leagueNative||'联赛未标注'}
 
 export function createAcademyClubCard(club,offer,{selected=false,position='',onSelect}={}){
-  const card=button('',{className:`club-select-card ${selected?'is-selected':''}`,onClick:onSelect});
+  const card=button('',{className:`v20-club-select-card ${selected?'is-selected':''}`,onClick:onSelect});
   card.setAttribute('aria-pressed',String(selected));
   card.append(
     createClubCrest(club,{size:'normal'}),
@@ -20,7 +20,7 @@ export function createAcademyClubCard(club,offer,{selected=false,position='',onS
       el('small',{className:'club-card__sub',text:`${club.country} · ${safeLeague(club)} · ${offer.squad}`}),
       el('span',{className:'club-card__tagline',text:fitText(club,position)})
     ]),
-    el('span',{className:'club-select-card__check',text:selected?'✓':'',attrs:{'aria-hidden':'true'}}),
+    el('span',{className:'v20-club-select-card__check',text:selected?'✓':'',attrs:{'aria-hidden':'true'}}),
     el('span',{className:'club-card__meta club-card__meta--academy'},[
       compactMetric('青训',stars(club.youth)),compactMetric('年轻机会',opportunity(club.youthUsage)),compactMetric('青年周薪',formatMoney(offer.weeklyWage)),compactMetric('培养角色',offer.role||'青年队培养')
     ])

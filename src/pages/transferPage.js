@@ -21,12 +21,12 @@ export function renderTransferPage(container,ctx){
   store.update(s=>{expireOffers(s);const before=s.career.pending.offers.length;generateOffers(s,repo);generated=s.career.pending.offers.length!==before},'transfer-state-checked');
   const current=repo.getClub(save.career.clubId),windowOpen=isTransferWindow(save),offers=save.career.pending.offers,agent=ensureAgent(save);if(!agent.advice)generateAgentAdvice(save);ensureWorldExplorerState(save);
   clear(container);
-  const page=el('section',{className:'page transfer-page v20-transfer-page'});
+  const page=el('section',{className:'page v20-transfer-page'});
   page.append(transferHeader(save,current,windowOpen));
   page.append(strategyCards(save,current,windowOpen,agent,ctx,repo));
 
   if(offers.length){
-    const offerSection=el('section',{className:'v20-transfer-section'},[sectionTitle('正式报价',`${offers.length}份待处理或已归档报价`)]),list=el('div',{className:'offer-list v20-offer-list'});
+    const offerSection=el('section',{className:'v20-transfer-section'},[sectionTitle('正式报价',`${offers.length}份待处理或已归档报价`)]),list=el('div',{className:'v20-offer-list v20-offer-list'});
     offers.forEach(offer=>list.append(offerCard(offer,repo.getClub(offer.clubId),save,store,repo,ctx)));offerSection.append(list);page.append(offerSection);
   }else{
     page.append(el('section',{className:'v20-transfer-empty'},[el('div',{className:'v20-transfer-empty__icon',text:windowOpen?'↗':'◷'}),el('div',{},[el('strong',{text:windowOpen?'市场正在评估你的状态':'转会窗口尚未开放'}),el('p',{text:windowOpen?(generated?'本阶段已经完成一次市场评估，继续提升表现会带来新的关注。':'当前没有球队提交正式报价，但仍可主动接触目标球队。'):'窗口关闭期间可以收藏球队、设置目标、让经纪人观察市场和提前提交转会意向。'})]) ]));
@@ -67,10 +67,10 @@ function offerCard(offer,club,save,store,repo,ctx){
   const allowed=new Set(availableOfferActions(save,offer)),fit=offerFit(save,club,offer),fee=offer.type==='续约'?'不适用':offer.type==='租借'?'租借免转会费':formatCurrency(offer.transferFee||0),card=el('article',{className:`transfer-offer-card v20-transfer-offer-card ${allowed.size?'':'is-closed'}`});
   card.append(
     button('',{className:'v20-offer-club',onClick:()=>openClubDetail({club,save,repo,store,ctx,source:'offer',offer})},[createClubCrest(club,{size:'normal'}),el('span',{},[el('small',{text:offer.type||'正式转会'}),el('strong',{text:club.cn}),el('span',{text:`${club.country} · ${club.leagueCn}`})]),el('span',{className:`offer-status status-${String(offer.status).replace(/\s/g,'')}`,text:formatTransferStatus(offer.status)})]),
-    el('div',{className:'offer-metrics'},[metric('转会费',fee),metric('合同年限',`${offer.years}年`),metric('队内角色',offer.role),metric('周薪',formatCurrency(offer.weeklyWage))]),
-    el('div',{className:'offer-context'},[contextItem('教练兴趣',formatPercentage(offer.coachInterest)),contextItem('位置需求',(club.needs||[]).join('、')||'暂无'),contextItem('战术适配',formatPercentage(fit)),contextItem('成交概率',formatPercentage(offer.probability))])
+    el('div',{className:'v20-offer-metrics'},[metric('转会费',fee),metric('合同年限',`${offer.years}年`),metric('队内角色',offer.role),metric('周薪',formatCurrency(offer.weeklyWage))]),
+    el('div',{className:'v20-offer-context'},[contextItem('教练兴趣',formatPercentage(offer.coachInterest)),contextItem('位置需求',(club.needs||[]).join('、')||'暂无'),contextItem('战术适配',formatPercentage(fit)),contextItem('成交概率',formatPercentage(offer.probability))])
   );
-  const controls=el('footer',{className:'offer-actions'});
+  const controls=el('footer',{className:'v20-offer-actions'});
   if(!allowed.size)controls.append(el('p',{className:'muted',text:offer.expiredReason||'该报价已经结束，不能继续操作。'}));else{
     const runAction=async action=>{if(!allowed.has(action))return;try{controls.querySelectorAll('button').forEach(node=>node.disabled=true);const fromClub=repo.getClub(save.career.clubId)?.cn||'原俱乐部';let result;store.update(s=>{result=respondOffer(s,repo,offer.id,action)},'offer-response',result);if(action==='accept')await animationDirector.playSequence([{id:'contract-sign',result:{id:offer.id,club:club.cn,clauses:[`${offer.years}年合同`,offer.role,`周薪 ${formatCurrency(offer.weeklyWage)}`]},options:{token:`contract:${offer.id}`}},{id:'transfer-route',result:{id:offer.id,stops:[fromClub,'合同确认',club.cn],label:`加盟 ${club.cn}`},options:{token:`route:${offer.id}`}}]);else if(action.startsWith('negotiate')||action==='loan'||action==='clause')await animationDirector.play('fate-wheel',{id:`${offer.id}:${offer.negotiationRound}`,index:Math.max(0,Math.round((result.probability||50)/20)),label:result.status},{token:`negotiation:${offer.id}:${offer.negotiationRound}`});showToast(`${club.cn}：${result.status}`,{type:result.status.includes('成功')||result.status==='已接受'?'success':result.status.includes('破裂')?'error':'info'});ctx.refresh()}catch(error){showToast(error.message,{type:'error'})}};
     if(allowed.has('accept'))controls.append(button('接受',{className:'button button--primary',onClick:()=>void runAction('accept')}));
@@ -85,12 +85,12 @@ function transferClubCard(club,save,onOpen){const fit=clubFit(save,club),need=(c
 function recommendedClubs(save,repo,currentId,limit){return repo.clubs.filter(club=>club.id!==currentId).map(club=>({...club,fit:clubFit(save,club)})).sort((a,b)=>b.fit-a.fit||b.rep-a.rep).slice(0,limit)}
 function miniStrategy(title,value,copy,icon,onClick){return button('',{className:'v20-transfer-strategy-card',onClick},[el('span',{className:'v20-transfer-strategy-icon',text:icon}),el('div',{},[el('small',{text:title}),el('strong',{text:value}),el('p',{text:copy})]),el('span',{text:'›'})])}
 function sectionTitle(title,copy){return el('div',{className:'v20-section-heading'},[el('div',{},[el('small',{text:copy}),el('h2',{text:title})])])}
-function metric(label,value){return el('div',{className:'contract-item'},[el('small',{text:label}),el('strong',{text:String(value??'—')})])}
-function contextItem(label,value){return el('div',{className:'offer-context-item'},[el('small',{text:label}),el('strong',{text:String(value??'—')})])}
+function metric(label,value){return el('div',{className:'v20-contract-item'},[el('small',{text:label}),el('strong',{text:String(value??'—')})])}
+function contextItem(label,value){return el('div',{className:'v20-offer-context-item'},[el('small',{text:label}),el('strong',{text:String(value??'—')})])}
 function offerFit(save,club,offer){let value=clubFit(save,club);if(['核心','主力'].includes(offer.role))value+=8;return Math.max(15,Math.min(98,Math.round(value)))}
 function nextWindowDistance(save){const month=Number(save.career.month||1);if(month<5)return`${Math.max(1,5-month)}个阶段`;if(month<11)return`${Math.max(1,11-month)}个阶段`;return'1个阶段'}
 
-function openNegotiation(offer,club,allowed,runAction){const content=el('div',{className:'negotiation-list'});NEGOTIATION_ACTIONS.filter(([,action])=>allowed.has(action)).forEach(([label,action,copy])=>content.append(button('',{className:'negotiation-option',onClick:()=>{closeSheet();runAction(action)}},[el('span',{},[el('strong',{text:label}),el('small',{text:copy})]),el('span',{text:'›'})])));openSheet({title:`与${club.cn}谈判`,subtitle:`第 ${(offer.negotiationRound||0)+1} 轮，最多两轮。`,content})}
+function openNegotiation(offer,club,allowed,runAction){const content=el('div',{className:'v20-negotiation-list'});NEGOTIATION_ACTIONS.filter(([,action])=>allowed.has(action)).forEach(([label,action,copy])=>content.append(button('',{className:'v20-negotiation-option',onClick:()=>{closeSheet();runAction(action)}},[el('span',{},[el('strong',{text:label}),el('small',{text:copy})]),el('span',{text:'›'})])));openSheet({title:`与${club.cn}谈判`,subtitle:`第 ${(offer.negotiationRound||0)+1} 轮，最多两轮。`,content})}
 function showContract(save,current){openSheet({title:'当前合同',subtitle:current.cn,content:el('div',{className:'v20-info-list'},[info('合同类型',save.career.contract.type),info('剩余年限',`${save.career.contract.years}年`),info('周薪',formatCurrency(save.finance.weeklyWage)),info('解约金',save.career.contract.releaseClause?formatCurrency(save.career.contract.releaseClause):'未设置'),info('出场承诺',save.career.contract.appearancePromise)])})}
 function showAgentAdvice(agent){openSheet({title:'经纪人建议',subtitle:`${agent.name} · ${agent.risk}`,content:el('div',{className:'v20-result-card'},[el('div',{className:'result-orb result-orb--good',text:'建议'}),el('h3',{text:agent.advice?.title||'保持市场观察'}),el('p',{text:agent.advice?.text||'当前没有必须立即处理的合同风险。'}),el('p',{className:'muted',text:'经纪人只提供建议，不会替玩家接受转会或合同。'})])})}
 function openCareerStrategy(save,ctx,repo){const items=[['stay','留队竞争','优先提升队内顺位和教练信任'],['loan','接受租借','优先寻找稳定出场时间'],['transfer','寻求转会','主动接触适配球队'],['minutes','优先出场时间','降低豪门偏好，提高实际比赛机会']];const content=el('div',{className:'v20-plan-list'},items.map(([id,title,copy])=>button('',{className:`v20-plan-card ${save.career.strategies.career===id?'is-selected':''}`,onClick:()=>{ctx.store.update(state=>{state.career.strategies.career=id},'career-strategy');closeSheet();ctx.refresh()}},[el('div',{},[el('strong',{text:title}),el('small',{text:copy})]),el('span',{text:save.career.strategies.career===id?'✓':'›'})])));openSheet({title:'职业策略',subtitle:'策略会影响自动模拟和经纪人推荐',content})}
@@ -98,9 +98,9 @@ function info(label,value){return el('div',{className:'v20-info-row'},[el('span'
 
 function openInterestSearch(save,repo,store,ctx){
   let query='';
-  const content=el('div',{className:'interest-search'});
+  const content=el('div',{className:'v20-interest-search'});
   const input=el('input',{className:'search-input',attrs:{type:'search',placeholder:'搜索俱乐部、联赛或国家','aria-label':'搜索目标俱乐部',enterkeyhint:'search'}});
-  const results=el('div',{className:'interest-results'});
+  const results=el('div',{className:'v20-interest-results'});
 
   function render(){
     results.replaceChildren();
@@ -132,9 +132,9 @@ function openInterestSearch(save,repo,store,ctx){
           }catch(error){showToast(error.message,{type:'error'})}
         }
       });
-      results.append(el('article',{className:'interest-row'},[
+      results.append(el('article',{className:'v20-interest-row'},[
         createClubCrest(club,{size:'small'}),
-        el('div',{className:'interest-copy'},[
+        el('div',{className:'v20-interest-copy'},[
           el('strong',{text:club.cn}),
           el('small',{text:`${club.leagueCn} · 适配 ${club.fit}`})
         ]),

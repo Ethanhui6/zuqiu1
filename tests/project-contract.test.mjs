@@ -2,7 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 
-const css=['theme.css','base.css','components.css','pages.css','mobile-foundation.css','animations.css','v19-guidance.css','v20-product.css'].map(file=>fs.readFileSync(new URL(`../src/styles/${file}`,import.meta.url),'utf8')).join('\n');
+const css=['theme.css','base.css','components.css','pages.css','mobile-foundation.css','animations.css','v20-product.css'].map(file=>fs.readFileSync(new URL(`../src/styles/${file}`,import.meta.url),'utf8')).join('\n');
 const app=fs.readFileSync(new URL('../src/main.js',import.meta.url),'utf8');
 const animations=fs.readFileSync(new URL('../src/animations/definitions/coreAnimations.js',import.meta.url),'utf8');
 const eventIndex=JSON.parse(fs.readFileSync(new URL('../data/events/index.json',import.meta.url),'utf8'));

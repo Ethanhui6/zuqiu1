@@ -9,6 +9,7 @@ import {showToast} from '../components/toast.js';
 import {animationDirector} from '../animations/director/animationDirector.js';
 import {openSheet} from '../components/sheet.js';
 import {POSITION_CONFIG} from '../app/config.js';
+import {createDevelopmentDelta} from '../components/developmentDelta.js';
 
 export function renderMatchPage(container,ctx){
   const {store,repo,navigate}=ctx,save=store.state;
@@ -67,7 +68,7 @@ export function renderMatchPage(container,ctx){
 }
 
 function presentationPicker(recommended,onSelect){
-  const panel=el('section',{className:'match-presentation-panel glass-card'},[
+  const panel=el('section',{className:'match-presentation-panel v20-surface'},[
     el('div',{className:'section-heading'},[el('div',{},[el('span',{className:'eyebrow',text:'比赛呈现方式'}),el('h2',{text:'选择本场体验'})]),el('small',{className:'muted',text:`推荐：${presentationName(recommended)}`})])
   ]),list=el('div',{className:'mode-list'}),items=[
     {id:'instant',icon:'»',name:'直接结果',desc:'直接显示比分、评分和状态变化。'},
@@ -81,7 +82,7 @@ function presentationPicker(recommended,onSelect){
 }
 function presentationName(id){return{instant:'直接结果',timeline:'快速时间线',interactive:'互动比赛'}[id]||'互动比赛'}
 function matchHeader(match,current,opponent){
-  return el('section',{className:'match-header-card glass-card'},[
+  return el('section',{className:'match-header-card v20-surface'},[
     el('div',{className:'match-header-top'},[
       el('span',{className:'eyebrow',text:`${match.competition} · ${match.roundLabel||`第${match.round||1}轮`}`}),
       el('span',{className:'tag tag--accent',text:match.home?'主场':'客场'})
@@ -103,7 +104,7 @@ function matchHeader(match,current,opponent){
 function teamBlock(club,role){return el('div',{className:'match-team'},[createClubCrest(club,{size:'normal'}),el('strong',{text:club.cn}),el('small',{text:role})])}
 function matchFact(label,value){return el('div',{className:'match-fact'},[el('small',{text:label}),el('strong',{text:value})])}
 function choiceView(match,onChoose){
-  const wrap=el('section',{className:'glass-card match-brief'},[
+  const wrap=el('section',{className:'v20-surface match-brief'},[
     el('span',{className:'eyebrow',text:match.substitute?`第 ${match.minute} 分钟`:match.starts?'比赛关键阶段':'替补席观察'}),
     el('h2',{text:match.starts?'球权来到你的区域':match.substitute?'准备登场':'阅读比赛'}),el('p',{text:scenarioText(match)})
   ]),list=el('div',{className:'match-choices'});
@@ -114,7 +115,7 @@ function choiceView(match,onChoose){
   });wrap.append(list);return wrap;
 }
 function upcomingView(save,repo,onNext){
-  const fixtures=upcomingFixtures(save,repo,6),section=el('section',{className:'glass-card upcoming-card'},[
+  const fixtures=upcomingFixtures(save,repo,6),section=el('section',{className:'v20-surface upcoming-card'},[
     el('div',{className:'section-heading'},[el('div',{},[el('span',{className:'eyebrow',text:'赛程'}),el('h2',{text:'接下来六场'})]),el('small',{className:'muted',text:getPaceMode(save).name})])
   ]),list=el('div',{className:'fixture-list'});
   fixtures.forEach(f=>{const opponent=repo.getClub(f.opponentId);list.append(el('article',{className:'fixture-row'},[
@@ -162,7 +163,8 @@ function resultView(match,current,opponent,{onReturn,onNext}){
     button('模拟下一场',{className:'button button--primary',dataset:{nextMatch:'1'},onClick:onNext}),
     button('查看完整比赛报告',{className:'button button--ghost',onClick:()=>openFullMatchReport(match,current,opponent,position)})
   ]);
-  wrap.append(hero,cards,highlight,actions);return wrap;
+  const growth=createDevelopmentDelta({title:'本场成长',items:(match.statusChanges||[]).filter(item=>item.delta!==null&&item.delta!==0).map(item=>({label:item.label,value:`${item.delta>0?'+':''}${item.delta}`,tone:item.delta>0?'positive':'negative'})),emptyText:'本场没有明显状态变化'});
+  wrap.append(hero,cards,growth,highlight,actions);return wrap;
 }
 
 function openMatchResultDetail(match,current,opponent){

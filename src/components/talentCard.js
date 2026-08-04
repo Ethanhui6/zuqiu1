@@ -26,18 +26,18 @@ function quote(talent,style){
 }
 export function createTalentCard(talent,{selected=false,position='ST',style='',attrs={},onSelect}={}){
   const t=theme(talent),stars=`${'★'.repeat(t.stars)}${'☆'.repeat(5-t.stars)}`;
-  const card=button('',{className:`talent-card ${selected?'is-selected':''}`,onClick:onSelect});
+  const card=button('',{className:`v20-talent-card ${selected?'is-selected':''}`,onClick:onSelect});
   card.style.setProperty('--rarity-color',talent.color||t.color);
   card.dataset.rarity=talent.rarity;
   card.setAttribute('aria-pressed',String(selected));
   card.append(
-    el('div',{className:'talent-card__top'},[
+    el('div',{className:'v20-talent-card__top'},[
       el('span',{className:'talent-emblem',text:t.icon,attrs:{'aria-hidden':'true'}}),
       el('span',{className:'rarity-badge',text:talent.rarity}),
       el('span',{className:'talent-stars',text:stars,attrs:{'aria-label':`${t.stars}星天赋`}})
     ]),
     el('h3',{text:talent.name}),
-    el('p',{className:'talent-card__subtitle',text:`${POSITION_CONFIG[position]?.name||position} · ${style}`}),
+    el('p',{className:'v20-talent-card__subtitle',text:`${POSITION_CONFIG[position]?.name||position} · ${style}`}),
     el('div',{className:'talent-potential'},[
       el('div',{},[el('small',{text:'潜力区间'}),el('strong',{text:potentialRange(talent.potential)})]),
       el('div',{},[el('small',{text:'成长效率'}),el('strong',{text:`×${Number(talent.growthMultiplier||1).toFixed(2)}`})])

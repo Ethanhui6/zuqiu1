@@ -26,12 +26,12 @@ function splitDescription(text=''){
   return{short:parts.slice(0,2).join('')||text,long:parts.slice(2).join('')};
 }
 export function createEventCard(event,{onChoose}={}){
-  const wrap=el('div',{className:'event-sheet'}),desc=splitDescription(event.description);
-  const scene=el('section',{className:'event-scene'});
+  const wrap=el('div',{className:'v20-event-card'}),desc=splitDescription(event.description);
+  const scene=el('section',{className:'v20-event-scene'});
   scene.style.setProperty('--event-color',event.pressure?.includes('高')?'#d70015':event.pressure?.includes('低')?'#248a3d':'#1677ff');
   scene.append(
-    el('div',{className:'event-scene__top'},[
-      el('span',{className:'event-scene__icon',text:categoryIcon(event),attrs:{'aria-hidden':'true'}}),
+    el('div',{className:'v20-event-scene__top'},[
+      el('span',{className:'v20-event-scene__icon',text:categoryIcon(event),attrs:{'aria-hidden':'true'}}),
       el('div',{className:'tag-row'},[
         el('span',{className:'tag tag--accent',text:event.categoryCn}),
         el('span',{className:'tag',text:event.pressure}),
@@ -39,22 +39,22 @@ export function createEventCard(event,{onChoose}={}){
       ])
     ]),
     el('h3',{text:event.title}),
-    el('p',{className:'event-description',text:desc.short})
+    el('p',{className:'v20-event-description',text:desc.short})
   );
   if(desc.long){
-    scene.append(el('details',{className:'event-details'},[
+    scene.append(el('details',{className:'v20-event-details'},[
       el('summary',{text:'查看完整情境'}),
-      el('p',{className:'event-description',text:desc.long})
+      el('p',{className:'v20-event-description',text:desc.long})
     ]));
   }
-  const choices=el('div',{className:'event-choices'});
+  const choices=el('div',{className:'v20-event-choices'});
   event.choices.forEach(choice=>{
-    const meta=styleMeta(choice),card=button('',{className:'event-choice',onClick:()=>onChoose?.(choice)});
+    const meta=styleMeta(choice),card=button('',{className:'v20-event-choice',onClick:()=>onChoose?.(choice)});
     card.style.setProperty('--choice-color',meta.color);
     card.append(
-      el('span',{className:'choice-icon',text:meta.icon,attrs:{'aria-hidden':'true'}}),
-      el('span',{className:'choice-copy'},[el('strong',{text:choice.text}),el('small',{text:choice.hint||'选择会立即写入存档，并可能影响后续剧情。'})]),
-      el('span',{className:'choice-assessment'},[el('span',{text:meta.risk}),el('b',{text:`${meta.reward} · ${eventChoiceMeta(choice)}`})])
+      el('span',{className:'v20-event-choice__icon',text:meta.icon,attrs:{'aria-hidden':'true'}}),
+      el('span',{className:'v20-event-choice__copy'},[el('strong',{text:choice.text}),el('small',{text:choice.hint||'选择会立即写入存档，并可能影响后续剧情。'})]),
+      el('span',{className:'v20-event-choice__assessment'},[el('span',{text:meta.risk}),el('b',{text:`${meta.reward} · ${eventChoiceMeta(choice)}`})])
     );
     choices.append(card);
   });

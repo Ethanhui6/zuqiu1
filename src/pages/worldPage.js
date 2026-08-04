@@ -5,7 +5,7 @@ import {CONTINENTS,continentStats,countriesForContinent,ensureWorldExplorerState
 
 export function renderWorldPage(container,ctx){
   const {repo,store}=ctx,save=store.state;let state=ensureWorldExplorerState(save);clear(container);
-  const page=el('section',{className:'page world-page v20-world-page'});
+  const page=el('section',{className:'page v20-world-page'});
   page.append(worldHeader(state,goBack));
   const viewport=el('div',{className:'v20-world-viewport'});page.append(viewport);container.append(page);renderLevel();
 
@@ -41,7 +41,7 @@ export function renderWorldPage(container,ctx){
       for(const club of clubs){
         grid.append(createWorldClubCard(club,{playerPosition:save.player.position,onOpen:()=>openClubDetail({club,save,repo,store,ctx,source:'world'})}));
       }
-      if(!clubs.length)grid.append(el('section',{className:'empty-state glass-card'},[el('h2',{text:'没有匹配的球队'}),el('p',{text:'尝试缩短搜索词。'})]));
+      if(!clubs.length)grid.append(el('section',{className:'empty-state v20-surface'},[el('h2',{text:'没有匹配的球队'}),el('p',{text:'尝试缩短搜索词。'})]));
     }
 
     viewport.append(

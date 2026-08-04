@@ -42,7 +42,7 @@ const GROUPS=[
 export function renderMorePage(container,ctx){
   clear(container);
   const {store,repo}=ctx,save=store.state,pace=getPaceMode(save),speed=getSpeed(save),club=repo.getClub(save.career.clubId);
-  const page=el('section',{className:'page more-page v20-more-page'});
+  const page=el('section',{className:'page v20-more-page'});
   page.append(el('header',{className:'v20-page-intro'},[
     el('span',{className:'eyebrow',text:'次级功能中心'}),
     el('h1',{text:'世界、成就与设置'}),

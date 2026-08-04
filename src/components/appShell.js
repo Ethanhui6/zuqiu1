@@ -5,8 +5,8 @@ import {getSpeed} from '../systems/pace/paceSystem.js';
 import {navigationAttention} from '../systems/attention/attentionManager.js';
 
 export function createAppShell({onNavigate,onSave,onBack,onHome,onPaceSettings}={}){
-  const root=el('div',{className:'app-shell v20-app-shell',attrs:{'data-app-shell':'true'}});
-  const header=el('header',{className:'AppHeader app-header v20-app-header',attrs:{'data-app-region':'header'}});
+  const root=el('div',{className:'v20-app-shell',attrs:{'data-app-shell':'true'}});
+  const header=el('header',{className:'v20-app-header',attrs:{'data-app-region':'header'}});
 
   const left=el('div',{className:'v20-header-side v20-header-side--left'});
   const back=button('',{className:'v20-header-icon-button v20-header-back',ariaLabel:'返回生涯首页',onClick:onBack});
@@ -39,24 +39,24 @@ export function createAppShell({onNavigate,onSave,onBack,onHome,onPaceSettings}=
   right.append(paceButton,save);
   header.append(left,identity,right);
 
-  const main=el('main',{className:'MainViewport main-viewport page-container v20-main-viewport',attrs:{id:'page-container',tabindex:'-1','data-app-region':'main'}});
-  const nav=el('nav',{className:'BottomNavigation bottom-navigation tab-bar v20-tab-bar',attrs:{'aria-label':'主要导航','data-app-region':'navigation'}});
+  const main=el('main',{className:'v20-main-viewport',attrs:{id:'page-container',tabindex:'-1','data-app-region':'main'}});
+  const nav=el('nav',{className:'v20-bottom-nav',attrs:{'aria-label':'主要导航','data-app-region':'navigation'}});
   NAV_ITEMS.forEach(item=>{
-    const navButton=button('',{className:'tab-button v20-tab-button',ariaLabel:item.label,onClick:()=>onNavigate?.(item.id)});
+    const navButton=button('',{className:'v20-nav-button',ariaLabel:item.label,onClick:()=>onNavigate?.(item.id)});
     navButton.dataset.route=item.id;
-    navButton.append(icon(item.icon),el('span',{className:'tab-button__label',text:item.label}),el('span',{className:'tab-badge',attrs:{'aria-hidden':'true'}}));
+    navButton.append(icon(item.icon),el('span',{className:'v20-nav-button__label',text:item.label}),el('span',{className:'v20-nav-badge',attrs:{'aria-hidden':'true'}}));
     nav.append(navButton);
   });
 
   const scrollHint=button('',{className:'scroll-hint v20-scroll-hint',ariaLabel:'下方还有内容，向下滚动'});
-  scrollHint.append(el('span',{text:'继续向下'}),el('span',{className:'scroll-hint__chevron',text:'⌄',attrs:{'aria-hidden':'true'}}));
+  scrollHint.append(el('span',{className:'scroll-hint__chevron',text:'↓',attrs:{'aria-hidden':'true'}}));
   const scrollController=installScrollController(main,scrollHint);
-  const overlayRoot=el('div',{className:'OverlayRoot overlay-root',attrs:{id:'overlay-root','data-app-region':'overlays','aria-live':'off'}});
-  const toastRoot=el('div',{className:'ToastRoot toast-root',attrs:{id:'toast-root','data-app-region':'toasts','aria-live':'polite'}});
+  const overlayRoot=el('div',{className:'v20-overlay-root',attrs:{id:'overlay-root','data-app-region':'overlays','aria-live':'off'}});
+  const toastRoot=el('div',{className:'v20-toast-root',attrs:{id:'toast-root','data-app-region':'toasts','aria-live':'polite'}});
   root.append(header,main,nav,scrollHint,overlayRoot,toastRoot);
   return{root,header,main,nav,scrollHint,scrollController,overlayRoot,toastRoot,identity,back,save,paceButton,destroy(){
     scrollController.destroy();clearTimeout(save._savedTimer);
-    nav.querySelectorAll('.tab-badge').forEach(badge=>{clearTimeout(badge._arrivalTimer);badge._arrivalTimer=0;badge.classList.remove('is-arriving')});
+    nav.querySelectorAll('.v20-nav-badge').forEach(badge=>{clearTimeout(badge._arrivalTimer);badge._arrivalTimer=0;badge.classList.remove('is-arriving')});
   }};
 }
 
@@ -68,11 +68,11 @@ export function updateShell(shell,save,club,route,repo){
   const away=route!=='career';shell.back.hidden=!away;shell.header.dataset.route=route;
   const speed=getSpeed(save);shell.paceButton.querySelector('.v20-pace-chip__value').textContent=speed.id==='turbo'?'极速':speed.label;shell.paceButton.dataset.speed=speed.id;shell.paceButton.setAttribute('aria-label',`当前职业节奏${speed.label}，打开设置`);
   const alerts=navigationAttention(save,repo);
-  shell.nav.querySelectorAll('.tab-button').forEach(buttonNode=>{
+  shell.nav.querySelectorAll('.v20-nav-button').forEach(buttonNode=>{
     const target=buttonNode.dataset.route,active=target===route||(target==='more'&&['world','profile','rankings','more'].includes(route));
     buttonNode.classList.toggle('is-active',active);buttonNode.setAttribute('aria-current',active?'page':'false');
-    const badge=buttonNode.querySelector('.tab-badge'),count=Math.max(0,Number(alerts[target]||0)),previous=Number(buttonNode.dataset.alertCount||0);buttonNode.dataset.alertCount=String(count);badge.hidden=count<=0;badge.textContent=count>9?'9+':String(count);
-    const label=buttonNode.querySelector('.tab-button__label').textContent;buttonNode.setAttribute('aria-label',count?`${label}，${count}项待处理`:label);
+    const badge=buttonNode.querySelector('.v20-nav-badge'),count=Math.max(0,Number(alerts[target]||0)),previous=Number(buttonNode.dataset.alertCount||0);buttonNode.dataset.alertCount=String(count);badge.hidden=count<=0;badge.textContent=count>9?'9+':String(count);
+    const label=buttonNode.querySelector('.v20-nav-button__label').textContent;buttonNode.setAttribute('aria-label',count?`${label}，${count}项待处理`:label);
     if(count>previous){badge.classList.remove('is-arriving');void badge.offsetWidth;badge.classList.add('is-arriving');clearTimeout(badge._arrivalTimer);badge._arrivalTimer=setTimeout(()=>badge.classList.remove('is-arriving'),680)}
   });
   shell.scrollController.setRoute(route);
@@ -80,7 +80,7 @@ export function updateShell(shell,save,club,route,repo){
 
 function installScrollController(main,hint){
   let frame=0,currentRoute='',routeSeen=false,destroyed=false;
-  const evaluate=()=>{frame=0;if(destroyed||!main.isConnected)return;const hasMore=main.scrollHeight-main.clientHeight-main.scrollTop>88,atTop=main.scrollTop<26,visible=hasMore&&atTop&&!routeSeen;hint.classList.toggle('is-visible',visible);hint.setAttribute('aria-hidden',String(!visible));hint.tabIndex=visible?0:-1};
+  const evaluate=()=>{frame=0;if(destroyed||!main.isConnected)return;const hasMore=main.scrollHeight-main.clientHeight-main.scrollTop>88,atTop=main.scrollTop<26,visible=window.innerWidth<768&&hasMore&&atTop&&!routeSeen;hint.classList.toggle('is-visible',visible);hint.setAttribute('aria-hidden',String(!visible));hint.tabIndex=visible?0:-1};
   const schedule=()=>{if(!frame)frame=requestAnimationFrame(evaluate)};
   const onScroll=()=>{if(main.scrollTop>36)routeSeen=true;schedule()};
   const onClick=()=>{routeSeen=true;hint.classList.remove('is-visible');main.scrollBy({top:Math.max(210,main.clientHeight*.52),behavior:'smooth'})};
