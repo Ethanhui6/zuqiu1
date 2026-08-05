@@ -2,6 +2,7 @@ import {APP_VERSION,ATTR_KEYS,CAREER_SETTINGS,POSITION_CONFIG,SAVE_SCHEMA,TALENT
 import {DeterministicRng,createSeed} from '../../services/rng.js';
 import {clamp} from '../../utils/format.js';
 import {calculateOvr,careerStage,teamRole} from './ovr.js';
+import {settleSeasonDevelopment} from '../../core/playerDevelopmentEngine.js';
 import {createRelations} from '../relationship/relationshipSystem.js';
 import {createFans} from '../fan/fanSystem.js';
 import {loadPacePreferences} from '../pace/paceSystem.js';
@@ -83,7 +84,7 @@ export function updateCareerStage(save,club){
 
 export function advanceSeason(save){
   save.career.history.push({type:'season',year:save.career.year,season:save.career.season,clubId:save.career.clubId,stats:{...save.career.seasonStats},ovr:save.player.ovr});
-  save.career.year++;save.career.season++;save.career.month=1;save.career.seasonProgress=0;save.player.age++;save.career.contract.years=Math.max(0,save.career.contract.years-1);save.career.seasonStats=emptySeasonStats();save.status.fatigue=clamp(save.status.fatigue-24,0,100);save.status.fitness=clamp(save.status.fitness+18,0,100);save.career.pending.event=null;save.career.pending.match=null;save.career.pending.offers=[];save.career.schedule=null;save.career.calendar={week:1,absoluteWeek:save.career.calendar?.absoluteWeek||1,nextEventWeek:1,nextEventDate:null};save.career.weekState={trainingDone:false,eventDone:false,matchDone:false,trainingResult:null};save.career.objectives={season:save.career.season,cycleId:save.career.objectives?.cycleId||0,generatedDate:null,expiresDate:null,candidates:[],active:[],completed:save.career.objectives?.completed||[],rewarded:save.career.objectives?.rewarded||[]};
+  save.career.year++;save.career.season++;save.career.month=1;save.career.seasonProgress=0;save.player.age++;settleSeasonDevelopment(save);save.career.contract.years=Math.max(0,save.career.contract.years-1);save.career.seasonStats=emptySeasonStats();save.status.fatigue=clamp(save.status.fatigue-24,0,100);save.status.fitness=clamp(save.status.fitness+18,0,100);save.career.pending.event=null;save.career.pending.match=null;save.career.pending.offers=[];save.career.schedule=null;save.career.calendar={week:1,absoluteWeek:save.career.calendar?.absoluteWeek||1,nextEventWeek:1,nextEventDate:null};save.career.weekState={trainingDone:false,eventDone:false,matchDone:false,trainingResult:null};save.career.objectives={season:save.career.season,cycleId:save.career.objectives?.cycleId||0,generatedDate:null,expiresDate:null,candidates:[],active:[],completed:save.career.objectives?.completed||[],rewarded:save.career.objectives?.rewarded||[]};
   if(save.career.loan&&save.career.season>=save.career.loan.returnSeason){const loan={...save.career.loan};save.career.clubId=loan.parentClubId;save.career.loan=null;save.career.teamRole='轮换';save.status.coachTrust=48;save.career.history.push({type:'loan-return',year:save.career.year,season:save.career.season,title:'租借期结束',text:'租借期满后回到母队，重新竞争一线队位置。',from:loan.loanClubId,to:loan.parentClubId});}
 }
 

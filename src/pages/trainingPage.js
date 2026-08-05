@@ -147,12 +147,13 @@ function trainingEventPanel(event,save,store,ctx){
         await animationDirector.play('dice-roll',{id:result.event.id,value:result.result.after.injury?2:5,label:result.result.after.injury?'出现代价':'训练反馈'},{token:`training-event:${result.event.id}:${choice.id}`});
         const content=el('div',{className:'training-event-result'},[
           el('div',{className:`result-orb result-orb--${result.result.after.injury?'bad':'good'}`,text:result.result.after.injury?'受伤':'完成'}),
-          el('h3',{text:choice.name}),el('p',{text:result.result.summary}),
+          el('h3',{text:choice.name}),el('p',{text:result.result.summary||'训练事件已经结算。'}),
           el('div',{className:'v20-metric-grid'},[
             eventMetric('体能',`${Math.round(result.result.before.fitness)} → ${Math.round(result.result.after.fitness)}`),
             eventMetric('疲劳',`${Math.round(result.result.before.fatigue)} → ${Math.round(result.result.after.fatigue)}`),
             eventMetric('教练信任',`${Math.round(result.result.before.coachTrust)} → ${Math.round(result.result.after.coachTrust)}`)
-          ])
+          ]),
+          growthFeedback(result.result.growth,result.result.growth?.changes)
         ]);
         openSheet({title:'训练事件结果',subtitle:'结果已写入当前存档',content,actions:[{label:'继续训练规划',className:'button button--primary',onClick:()=>ctx.refresh()}]});
       }catch(error){showToast(error.message||'训练事件结算失败',{type:'error'})}
@@ -165,7 +166,7 @@ function eventMetric(label,value){return el('div',{className:'v20-metric'},[el('
 function actionBar(save,store,ctx,recommendation,club){
   const completed=Boolean(save.career.weekState?.trainingDone);
   const trainButton=button(completed?'本周训练已完成':'开始本周训练',{className:'button button--primary',disabled:completed,onClick:async()=>{
-    let result;
+    const before=trainingSnapshot(save);let result;
     store.update(state=>{
       state.career.weekState??={trainingDone:false,eventDone:false,matchDone:false,trainingResult:null};
       if(state.career.weekState.trainingDone)throw new Error('本周训练已经完成');
@@ -173,7 +174,7 @@ function actionBar(save,store,ctx,recommendation,club){
       state.career.weekState.trainingDone=true;state.career.weekState.trainingResult=result;
     },'manual-training-resolved');
     await animationDirector.play('training-progress',{id:`manual:${save.career.season}:${save.career.calendar?.week||1}`,label:result.plan.name,growth:(result.gains||[]).reduce((sum,item)=>sum+Number(item.levels||0),0),fatigue:Math.max(0,result.plan?.fatigue||0),risk:result.plan?.risk||0},{token:`manual-training:${save.career.season}:${save.career.calendar?.week||1}`});
-    showToast(result.injury?`训练完成，但出现${result.injury.name}`:`${result.plan.name}训练完成`,{type:result.injury?'error':'success',duration:1800});ctx.refresh();
+    showToast(result.injury?`训练完成，但出现${result.injury.name}`:`${result.plan.name}训练完成`,{type:result.injury?'error':'success',duration:1800});showTrainingResult(result,ctx,before);
   }});
   const saveButton=button('保存方案',{className:'button button--secondary save-training-button',onClick:async()=>{
     store.saveNow();await animationDirector.feedback(saveButton,'save',{duration:360});showToast('训练方案已保存',{type:'success',duration:1400});
@@ -215,3 +216,43 @@ function assessPlan(save,plan,recommendedId){
 function vital(icon,label,value,type){return el('div',{className:`training-vital training-vital--${type}`},[el('span',{className:`icon-motion icon-motion--${type}`,text:icon}),el('div',{},[el('small',{text:label}),el('strong',{text:`${value}${type==='fitness'||type==='fatigue'?'':'%'}`})])])}
 function previewMetric(icon,label,value,type){return el('div',{className:'training-preview-metric'},[el('span',{className:`icon-motion icon-motion--${type}`,text:icon}),el('small',{text:label}),el('strong',{text:value})])}
 function uniquePlans(items){const seen=new Set();return items.filter(item=>item&&!seen.has(item.id)&&seen.add(item.id))}
+
+function trainingSnapshot(save){return{ovr:save.player?.ovr,fatigue:save.status?.fatigue,fitness:save.status?.fitness}}
+function showTrainingResult(result,ctx,before={}){
+  const save=ctx.store.state,growth=result?.growth||result?.development||{},changes=trainingChanges(result),after={ovr:save.player?.ovr,fatigue:save.status?.fatigue,fitness:save.status?.fitness,injury:save.status?.injury};
+  openSheet({title:'本周训练完成',subtitle:result?.plan?.name||'训练结算',content:el('div',{className:'v20-result-card'},[
+    el('div',{className:`result-orb result-orb--${result?.injury?'bad':'good'}`,text:result?.injury?'受伤':'完成'}),
+    el('h3',{text:result?.injury?.name||result?.summary||'训练计划已结算'}),
+    el('p',{text:result?.summary||'训练成长和状态变化已经写入当前存档。'}),
+    growthFeedback(growth,changes),
+    el('div',{className:'v20-metric-grid'},[
+      eventMetric('疲劳',`${Math.round(numberValue(before.fatigue,after.fatigue))} → ${Math.round(numberValue(after.fatigue,0))}`),
+      eventMetric('体能',`${Math.round(numberValue(before.fitness,after.fitness))} → ${Math.round(numberValue(after.fitness,0))}`),
+      eventMetric('伤病风险',result?.injury?`已触发：${result.injury.name}`:`计划 ${Math.round(numberValue(result?.plan?.risk,0))}%`),
+      eventMetric('综合能力 OVR',`${Math.round(numberValue(growth.ovrBefore,before.ovr??after.ovr))} → ${Math.round(numberValue(growth.ovrAfter,after.ovr))}`)
+    ])
+  ]),actions:[{label:'留在训练页',className:'button button--primary',onClick:()=>ctx.refresh()},{label:'返回生涯首页',className:'button button--secondary',onClick:()=>ctx.navigate('career')}]});
+}
+function trainingChanges(result){
+  const source=Array.isArray(result?.gains)?result.gains:result?.growth?.changes||result?.development?.changes||[];
+  if(Array.isArray(source))return source;
+  return Object.entries(source||{}).map(([key,value])=>({key,xp:value}));
+}
+function growthFeedback(growth,changes=[]){
+  const items=(Array.isArray(changes)?changes:[]).filter(item=>item&&item.key);
+  const rows=items.map(item=>{
+    const xp=numberValue(item.xp??item.experience??item.amount,NaN),progress=numberValue(item.progress,NaN),before=item.displayBefore??item.valueBefore,after=item.displayAfter??item.valueAfter;
+    const parts=[];
+    if(Number.isFinite(xp))parts.push(`经验 +${xp.toFixed(2)}`);
+    if(Number.isFinite(progress))parts.push(`进度 ${Math.round(progress)}%`);
+    if(Number.isFinite(Number(before))||Number.isFinite(Number(after)))parts.push(`属性 ${Math.round(numberValue(before,after))} → ${Math.round(numberValue(after,before))}`);
+    return eventMetric(ATTR_LABELS[item.key]||item.label||item.key,parts.join(' · ')||'已记录');
+  });
+  const breakthroughs=[...(growth?.breakthroughs||[]),...items.filter(item=>Number(item.levels)>0).map(item=>item.key)].filter((key,index,array)=>array.indexOf(key)===index).map(key=>ATTR_LABELS[key]||key);
+  return el('section',{className:'v20-detail-section'},[
+    el('h3',{text:'本次成长'}),
+    rows.length?el('div',{className:'v20-metric-grid'},rows):el('p',{className:'muted',text:'本次没有可用的属性成长明细。'}),
+    breakthroughs.length?el('p',{className:'growth-breakthrough',text:`整数突破：${breakthroughs.join('、')}`}):null
+  ]);
+}
+function numberValue(value,fallback=0){return Number.isFinite(Number(value))?Number(value):fallback}

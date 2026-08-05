@@ -18,7 +18,7 @@ export function renderMatchPage(container,ctx){
   if(pending){renderPending(pending);return()=>{}}
   const last=save.career.lastMatchResult;
   if(last&&last.season===save.career.season&&last.week>=Math.max(1,(save.career.calendar.week||1)-1)){
-    page.append(resultView(last,repo.getClub(last.clubId),repo.getClub(last.opponentId),{onReturn:()=>navigate('career'),onNext:goNextMatch}));
+    page.append(resultView(last,repo.getClub(last.clubId),repo.getClub(last.opponentId),{onReturn:()=>navigate('career'),onNext:goNextMatch},save));
   }
   page.append(upcomingView(save,repo,goNextMatch));return()=>{};
 
@@ -59,7 +59,7 @@ export function renderMatchPage(container,ctx){
       if(presentation==='timeline')await animationDirector.play('match-timeline',{id:match.id,events,minutes:(result.timeline||[]).map(item=>item.minute),label:`${result.score[0]} 比 ${result.score[1]}`},{token:`match-timeline:${match.id}`});
       else if(presentation==='interactive')await animationDirector.play('football-trajectory',{id:match.id,outcome:result.playerResult.goals?'goal':result.playerResult.saves?'save':result.playerResult.rating>=7?'post':'wide'},{token:`match-shot:${match.id}`});
       else await animationDirector.play('coin-toss',{id:match.id,side:result.score[0]>=result.score[1]?'front':'back'},{token:`match-coin:${match.id}`});
-      page.replaceChildren(resultView(save.career.lastMatchResult,current,opponent,{onReturn:()=>navigate('career'),onNext:goNextMatch}),upcomingView(save,repo,goNextMatch));
+      page.replaceChildren(resultView(save.career.lastMatchResult,current,opponent,{onReturn:()=>navigate('career'),onNext:goNextMatch},save),upcomingView(save,repo,goNextMatch));
       container.scrollTop=0;
       showToast(`比赛结束：${current.cn} ${result.score[0]}-${result.score[1]} ${opponent.cn} · 评分 ${result.playerResult.rating}`,{type:'success'});
     }catch(error){showToast(error.message||'比赛结算失败',{type:'error'})}
@@ -123,7 +123,7 @@ function upcomingView(save,repo,onNext){
   if(!fixtures.length)list.append(el('p',{className:'muted',text:'本赛季赛程已经结束。'}));
   section.append(list,button(fixtures.length?'推进至下一场比赛':'返回生涯',{className:'button button--primary button--large',dataset:{nextMatch:'1'},onClick:fixtures.length?onNext:()=>history.back()}));return section;
 }
-function resultView(match,current,opponent,{onReturn,onNext}){
+function resultView(match,current,opponent,{onReturn,onNext},save){
   const r=match.playerResult||{},wrap=el('section',{className:'match-result-page v20-match-result-page'});
   const hero=el('section',{className:'v20-match-result-hero'},[
     el('span',{className:'eyebrow',text:`${match.competition} · ${presentationName(match.presentation)}`}),
@@ -137,10 +137,11 @@ function resultView(match,current,opponent,{onReturn,onNext}){
   const cards=el('section',{className:'v20-match-summary-grid'});
   const position=match.playerPosition||match.position||r.position||'ST';
   const cardItems=[
-    {id:'result',icon:'◎',title:'比赛结果',value:`${match.score[0]}-${match.score[1]}`,copy:`${match.competition} · ${match.home?'主场':'客场'}`,open:()=>openMatchResultDetail(match,current,opponent)},
+    {id:'result',icon:'◎',title:'比赛结果',value:`${match.score[0]}-${match.score[1]}`,copy:`${match.competition} · ${match.home?'主场':'客场'}`,open:()=>openMatchResultDetail(match,current,opponent,save)},
     {id:'performance',icon:'●',title:'个人表现',value:r.played?`评分 ${r.rating}`:'未出场',copy:performanceSummary(r,position),open:()=>openPerformanceDetail(r,position)},
     {id:'timeline',icon:'≡',title:'关键事件',value:`${(match.timeline||[]).length}项`,copy:(match.timeline||[]).at(-1)?.text||'本场没有重大事件',open:()=>openTimelineDetail(match)},
-    {id:'review',icon:'◇',title:'教练评价',value:trustDelta(match),copy:match.coachEvaluation||'比赛报告已归档',open:()=>openReviewDetail(match)}
+    {id:'review',icon:'◇',title:'教练评价',value:trustDelta(match),copy:match.coachEvaluation||'比赛报告已归档',open:()=>openReviewDetail(match)},
+    {id:'growth',icon:'↑',title:'比赛成长',value:growthHeadline(match,save),copy:growthCopy(match,save),open:()=>openMatchGrowthDetail(match,save)}
   ];
   for(const item of cardItems){
     cards.append(button('',{className:`v20-match-summary-card v20-match-summary-card--${item.id}`,onClick:item.open},[
@@ -160,20 +161,23 @@ function resultView(match,current,opponent,{onReturn,onNext}){
   const actions=el('footer',{className:'page-action-bar v20-page-action-bar'},[
     button('返回生涯首页',{className:'button button--secondary',onClick:onReturn}),
     button('模拟下一场',{className:'button button--primary',dataset:{nextMatch:'1'},onClick:onNext}),
-    button('查看完整比赛报告',{className:'button button--ghost',onClick:()=>openFullMatchReport(match,current,opponent,position)})
+    button('查看完整比赛报告',{className:'button button--ghost',onClick:()=>openFullMatchReport(match,current,opponent,position,save)})
   ]);
   wrap.append(hero,cards,highlight,actions);return wrap;
 }
 
-function openMatchResultDetail(match,current,opponent){
+function openMatchResultDetail(match,current,opponent,save){
   const content=el('div',{className:'v20-match-detail'},[
     el('div',{className:'result-scoreboard'},[teamBlock(current,'本队'),el('div',{className:'final-score',text:`${match.score[0]} : ${match.score[1]}`}),teamBlock(opponent,'对手')]),
     el('div',{className:'v20-metric-grid'},[
       metric('赛事',match.competition),metric('主客场',match.home?'主场':'客场'),metric('天气',match.weather||'正常'),metric('日期',match.date||'比赛日')
-    ])
+      ]),
+      matchGrowthSection(match,save)
   ]);
   openSheet({title:'比赛结果',subtitle:`${current.cn} 对 ${opponent.cn}`,content});
 }
+
+function openMatchGrowthDetail(match,save){openSheet({title:'比赛成长',subtitle:'只展示本场或存档中已有的成长记录',content:matchGrowthSection(match,save)});}
 
 function openPerformanceDetail(result,position){
   const metrics=positionMetrics(result,position);
@@ -209,10 +213,11 @@ function openReviewDetail(match){
   openSheet({title:'教练评价',subtitle:'评价已经影响教练信任和队内顺位',content});
 }
 
-function openFullMatchReport(match,current,opponent,position){
+function openFullMatchReport(match,current,opponent,position,save){
   const result=match.playerResult||{},content=el('div',{className:'v20-full-report'},[
     el('section',{className:'v20-detail-section'},[el('h3',{text:'比赛结果'}),el('div',{className:'result-scoreboard'},[teamBlock(current,'本队'),el('div',{className:'final-score',text:`${match.score[0]} : ${match.score[1]}`}),teamBlock(opponent,'对手')])]),
     el('section',{className:'v20-detail-section'},[el('h3',{text:'个人表现'}),el('div',{className:'v20-metric-grid'},positionMetrics(result,position).map(item=>metric(item.label,item.value)))]),
+    matchGrowthSection(match,save),
     el('section',{className:'v20-detail-section'},[el('h3',{text:'教练评价'}),el('p',{text:match.coachEvaluation||'本场表现已经计入职业数据。'}),el('p',{className:'muted',text:reviewAdvice(match)})]),
     el('section',{className:'v20-detail-section'},[el('h3',{text:'关键事件'}),...(match.timeline||[]).slice(0,12).map(event=>el('div',{className:'v20-info-row'},[el('span',{text:`${event.minute}' · ${event.type}`}),el('strong',{text:event.text||event.team||'比赛事件'})]))])
   ]);
@@ -231,6 +236,42 @@ function trustDelta(match){const change=(match.statusChanges||[]).find(item=>/�
 function postMatchHeadline(match,result){if(!result.played)return'等待下一次上场机会';if(Number(result.rating||0)>=8)return'你是本场最有影响力的球员之一';if((result.goals||0)+(result.assists||0)>0)return'直接参与进球提升了队内评价';if(Number(result.rating||0)>=7)return'稳定发挥巩固了队内位置';return'本场表现需要在下周训练中调整'}
 function postMatchAdvice(match,result,position){if(match.statusChanges?.some(item=>item.label==='受伤'))return'优先进入医疗中心评估伤病和复发风险。';if(!result.played)return'保持训练表现并关注教练信任，争取下一场进入轮换。';if(Number(result.rating||0)<6.5)return `建议针对${POSITION_CONFIG[position]?.name||position}核心能力安排专项训练。`;return'查看教练评价和状态变化，再决定下一周训练方案。'}
 function reviewAdvice(match){const changes=match.statusChanges||[];const positive=changes.filter(item=>Number(item.delta)>0).map(item=>item.label);const negative=changes.filter(item=>Number(item.delta)<0).map(item=>item.label);if(negative.length)return `${negative.slice(0,2).join('、')}有所下降，下周建议控制疲劳并针对性训练。`;if(positive.length)return `${positive.slice(0,2).join('、')}得到提升，保持当前比赛与训练策略。`;return'本场没有造成明显状态变化，可按阶段目标安排下一周。'}
+function matchGrowthRecord(match,save){
+  const direct=match?.playerResult?.growth||match?.lastGrowth||match?.lastDevelopment||match?.growth;
+  if(direct)return direct;
+  const explicit=save?.career?.lastGrowth||save?.career?.lastDevelopment||save?.lastGrowth||save?.lastDevelopment;
+  if(explicit)return explicit;
+  const logs=[...(save?.career?.growthLog||[]),...(save?.player?.growth?.log||[])];
+  return logs.reverse().find(item=>item?.source==='match'||/比赛/.test(`${item?.reason||''}${item?.source||''}`))||null;
+}
+function matchGrowthChanges(growth){
+  if(Array.isArray(growth?.changes))return growth.changes.filter(item=>item&&item.key);
+  if(growth?.changes&&typeof growth.changes==='object')return Object.entries(growth.changes).map(([key,value])=>({key,delta:value,xp:growth.xp?.[key]}));
+  if(growth?.xp&&typeof growth.xp==='object')return Object.entries(growth.xp).map(([key,value])=>({key,xp:value}));
+  return [];
+}
+function growthHeadline(match,save){
+  const growth=matchGrowthRecord(match,save),changes=matchGrowthChanges(growth),xp=changes.reduce((sum,item)=>sum+(Number.isFinite(Number(item.xp))?Number(item.xp):0),0);
+  return growth&&changes.length?`+${xp.toFixed(2)} XP`:'暂无记录';
+}
+function growthCopy(match,save){const growth=matchGrowthRecord(match,save),changes=matchGrowthChanges(growth);return growth&&changes.length?changes.slice(0,2).map(item=>attrLabel(item.key)).join(' · '):'本场暂无可用成长明细'}
+function matchGrowthSection(match,save){
+  const growth=matchGrowthRecord(match,save),changes=matchGrowthChanges(growth),rows=changes.map(item=>{
+    const xp=Number.isFinite(Number(item.xp))?Number(item.xp):null,progress=Number.isFinite(Number(item.progress))?Number(item.progress):null,parts=[];
+    if(xp!==null)parts.push(`经验 +${xp.toFixed(2)}`);
+    if(progress!==null)parts.push(`进度 ${Math.round(progress)}%`);
+    else if(save?.player?.xp?.[item.key]!==undefined)parts.push(`当前经验 ${Math.round(Number(save.player.xp[item.key])||0)}`);
+    if(Number.isFinite(Number(item.displayBefore))||Number.isFinite(Number(item.valueBefore)))parts.push(`属性 ${Math.round(Number(item.displayBefore??item.valueBefore))} → ${Math.round(Number(item.displayAfter??item.valueAfter))}`);
+    return metric(attrLabel(item.key),parts.join(' · ')||'已记录');
+  }),before=growth?.ovrBefore,after=growth?.ovrAfter,breakthroughs=[...(growth?.breakthroughs||[]),...changes.filter(item=>Number(item.levels)>0).map(item=>item.key)].filter((key,index,array)=>array.indexOf(key)===index).map(key=>attrLabel(key));
+  return el('section',{className:'v20-detail-section'},[
+    el('h3',{text:'比赛成长'}),
+    growth&&rows.length?el('div',{className:'v20-metric-grid'},rows):el('p',{className:'muted',text:'本场暂无可用成长明细，未使用推算数据。'}),
+    growth&&Number.isFinite(Number(before))&&Number.isFinite(Number(after))?el('div',{className:'v20-metric-grid'},[metric('综合能力 OVR',`${Math.round(Number(before))} → ${Math.round(Number(after))}`)]):null,
+    breakthroughs.length?el('p',{className:'growth-breakthrough',text:`整数突破：${breakthroughs.join('、')}`}):null
+  ]);
+}
+function attrLabel(key){return{pac:'速度',sho:'射门',pas:'传球',dri:'盘带',def:'防守',phy:'身体'}[key]||key}
 function metric(label,value){return el('div',{className:'metric'},[el('small',{text:label}),el('strong',{text:String(value??'—')})])}
 function scenarioText(match){if(!match.starts&&!match.substitute)return'你没有进入本场名单。观察对手站位和球队战术，仍会影响教练评价与学习经验。';if(match.substitute)return`教练准备在第 ${match.minute} 分钟左右派你登场，第一项行动会影响比赛评分。`;return'比赛进入关键阶段。不同选择会改变个人数据、体能、教练信任和球队结果。'}
 function matchChoiceMeta(choice,index){const map={dri:{icon:'⚡',color:'#0A84FF',risk:'中风险',reward:'突破'},pas:{icon:'🎯',color:'#248A3D',risk:'低风险',reward:'团队'},sho:{icon:'◎',color:'#D85B1D',risk:'高风险',reward:'高回报'},phy:{icon:'◆',color:'#8B5CF6',risk:'中风险',reward:'对抗'},def:{icon:'🛡️',color:'#248A3D',risk:'中风险',reward:'防守'},pac:{icon:'✦',color:'#5B5BD6',risk:'中风险',reward:'反应'}};return map[choice.focus]||[{icon:'⚡',color:'#0A84FF',risk:'中风险',reward:'机会'},{icon:'🧠',color:'#8B5CF6',risk:'低风险',reward:'判断'}][index%2]}

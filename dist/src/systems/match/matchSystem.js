@@ -6,6 +6,7 @@ import {ensureSchedule,nextFixture,markFixturePlayed} from '../schedule/schedule
 import {assignMiniChallenge,resolveMiniChallenge} from '../challenge/miniChallengeSystem.js';
 import {updateFormMomentum} from '../form/formMomentumSystem.js';
 import {ensureSquadCompetition} from '../squad/squadCompetitionSystem.js';
+import {applyDevelopment} from '../../core/playerDevelopmentEngine.js';
 
 const WEATHER=['晴朗','小雨','大雨','低温','炎热','强风'];
 const TIMELINE_TYPES=['射门','扑救','抢断','犯规','黄牌','换人','关键传球','视频助理裁判','点球','失误'];
@@ -57,8 +58,24 @@ export function resolveMatch(save,repo,choiceId,{presentation='interactive'}={})
   goals=Math.min(goals,scoreA);assists=Math.min(assists,Math.max(0,scoreA));if(played&&scoreB===0&&['defense','keeper'].includes(pos))cleanSheets=1;
   const resultBonus=scoreA>scoreB?.35:scoreA===scoreB?.05:-.28,bigGame=(save.career.traits?.unlocked||[]).includes('big-game')&&match.importance!=='普通联赛'&&match.importance!=='普通比赛',variance=bigGame?.42:.75,bigGameBonus=bigGame?.12:0;let rating=played?6.15+resultBonus+goals*1.15+assists*.75+saves*.08+tackles*.05+keyPasses*.04+cleanSheets*.3+contribution*.35+bigGameBonus+(rng.next()-.5)*variance:6;rating=clamp(round(rating,1),4.2,10);
   const used=new Set();match.timeline=buildTimeline({rng,used,current,opp,scoreA,scoreB,playerGoals:goals,playerAssists:assists,playerName:save.player.name,presentation});
-  match.playerResult={played,starts:match.starts,minutes:played?(match.starts?rng.int(75,90):90-match.minute):0,goals,assists,saves,tackles,keyPasses,cleanSheets,rating};match.resolved=true;
-  const ss=save.career.seasonStats,cs=save.career.careerStats;if(played){const oldApps=ss.apps;ss.apps++;if(match.starts)ss.starts++;ss.minutes+=match.playerResult.minutes;ss.goals+=goals;ss.assists+=assists;ss.cleanSheets+=cleanSheets;ss.saves+=saves;ss.tackles+=tackles;ss.keyPasses+=keyPasses;ss.rating=round(((ss.rating*oldApps)+rating)/Math.max(1,ss.apps),2);cs.apps++;cs.goals+=goals;cs.assists+=assists;cs.cleanSheets+=cleanSheets;cs.hatTricks=(cs.hatTricks||0)+(goals>=3?1:0);cs.bigGames=(cs.bigGames||0)+(match.importance!=='普通联赛'&&match.importance!=='普通比赛'&&rating>=7?1:0);cs.saves=(cs.saves||0)+saves;cs.tackles=(cs.tackles||0)+tackles;cs.bestRating=Math.max(cs.bestRating||0,rating);const focus=pos==='attack'?['sho','pac','dri']:pos==='midfield'?['pas','dri','phy']:pos==='defense'?['def','phy','pas']:['pac','sho','pas'];for(const key of focus)save.player.xp[key]=(save.player.xp[key]||0)+Math.max(2,(rating-5.5)*4+1.5)}
+  const minutes=played?(match.starts?rng.int(75,90):90-match.minute):0;
+  match.playerResult={played,starts:match.starts,minutes,goals,assists,saves,tackles,keyPasses,cleanSheets,rating};
+  const ss=save.career.seasonStats,cs=save.career.careerStats;
+  if(played){
+    const oldApps=ss.apps;ss.apps++;if(match.starts)ss.starts++;ss.minutes+=minutes;ss.goals+=goals;ss.assists+=assists;ss.cleanSheets+=cleanSheets;ss.saves+=saves;ss.tackles+=tackles;ss.keyPasses+=keyPasses;ss.rating=round(((ss.rating*oldApps)+rating)/Math.max(1,ss.apps),2);cs.apps++;cs.goals+=goals;cs.assists+=assists;cs.cleanSheets+=cleanSheets;cs.hatTricks=(cs.hatTricks||0)+(goals>=3?1:0);cs.bigGames=(cs.bigGames||0)+(match.importance!=='普通联赛'&&match.importance!=='普通比赛'&&rating>=7?1:0);cs.saves=(cs.saves||0)+saves;cs.tackles=(cs.tackles||0)+tackles;cs.bestRating=Math.max(cs.bestRating||0,rating);
+  }
+  const growthGains=played?{}:{pas:1};
+  const addGrowth=(key,value)=>{growthGains[key]=(growthGains[key]||0)+value};
+  const performanceFactor=played?Math.max(.35,minutes/90)*Math.max(.25,(rating-5)/4):.18;
+  if(played){
+    if(pos==='attack'){addGrowth('sho',2.8*performanceFactor+goals*5);addGrowth('pac',1.8*performanceFactor);addGrowth('dri',2.2*performanceFactor)}
+    else if(pos==='midfield'){addGrowth('pas',3*performanceFactor+keyPasses*.7);addGrowth('dri',1.9*performanceFactor);addGrowth('phy',1.6*performanceFactor)}
+    else if(pos==='defense'){addGrowth('def',3.2*performanceFactor+tackles*.45);addGrowth('phy',2.2*performanceFactor);addGrowth('pas',1.5*performanceFactor)}
+    else {addGrowth('def',3*performanceFactor+saves*.35);addGrowth('phy',2*performanceFactor);addGrowth('pas',1.4*performanceFactor)}
+    addGrowth('pas',assists*4);
+    if(cleanSheets)addGrowth('def',2.5);
+  }
+  match.playerResult.growth=applyDevelopment(save,growthGains,{source:'match',club:current,minutes,trainingEfficiency:Math.max(.55,rating/7),reason:`${match.competition}赛后成长`});match.resolved=true;
   save.status.form=clamp(save.status.form+(rating-6.5)*5,0,100);save.status.morale=clamp(save.status.morale+(scoreA>scoreB?4:scoreA<scoreB?-3:1)+(rating-6.5)*2,0,100);save.status.fitness=clamp(save.status.fitness-(played?rng.int(8,17):2),0,100);save.status.fatigue=clamp(save.status.fatigue+(played?rng.int(6,12):1),0,100);save.status.coachTrust=clamp(save.status.coachTrust+(rating-6.4)*3,0,100);applyRelation(save,'coach',{trust:Math.round((rating-6.3)*2),respect:rating>=8?3:0});applyFanChange(save,{...performanceFanDelta({rating,goals,assists,importance:match.importance==='冠军争夺战'?1.7:match.importance==='德比战'?1.35:1,clubRep:current.rep}),reason:`对阵${opp.cn}`});
   const injuryChance=clamp((save.status.fatigue*.003+(100-save.status.fitness)*.002+(save.player.hidden.injuryProne||30)*.0015),0,.38);if(played&&rng.bool(injuryChance)){const severity=round(.12+rng.next()*.45,2);save.status.injury={name:severity>.38?'比赛中肌肉损伤':'轻微碰撞',severity,remainingMatches:severity>.38?rng.int(2,6):1};save.career.history.push({type:'injury',year:save.career.year,title:'比赛伤病',text:save.status.injury.name})}
   if(match.starts&&!save.career.records.firstStart){save.career.records.firstStart={season:save.career.season,week:save.career.calendar?.week||1,opponentId:opp.id};save.career.majorNodes??=[];save.career.majorNodes.push({type:'first-start',season:save.career.season,week:save.career.calendar?.week||1,title:'职业生涯首次首发'})}

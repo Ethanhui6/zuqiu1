@@ -1,5 +1,6 @@
 import {clamp} from '../../utils/format.js';
 import {ensureGameClock} from '../career/gameClock.js';
+import {applyDevelopment} from '../../core/playerDevelopmentEngine.js';
 
 export const WEEKLY_ACTIONS={
   teamTraining:{id:'teamTraining',name:'团队训练',desc:'提高战术理解和教练评价。',trainingPlan:'tactics'},
@@ -49,18 +50,19 @@ export function selectWeeklyAction(save,id){
 export function removeWeeklyAction(save,index){const state=ensureWeeklyPlan(save);if(index<0||index>=state.customActions.length)return state;state.customActions.splice(index,1);state.selected='custom';return state}
 export function clearWeeklyActions(save){const state=ensureWeeklyPlan(save);state.customActions=[];state.selected='custom';return state}
 
-function applyAction(save,id){
+function addGain(gains,key,value){gains[key]=(gains[key]||0)+value}
+function applyAction(save,id,gains){
   if(id==='recovery'){save.status.fitness=clamp(save.status.fitness+3,0,100);save.status.fatigue=clamp(save.status.fatigue-5,0,100)}
-  if(id==='teamTraining'){save.status.coachTrust=clamp(save.status.coachTrust+1,0,100);save.player.xp.pas=(save.player.xp.pas||0)+3;save.player.xp.def=(save.player.xp.def||0)+3;save.status.fatigue=clamp(save.status.fatigue+2,0,100)}
-  if(id==='personalTraining'){const focus=save.player.position==='GK'?'def':save.player.position.includes('F')||save.player.position.includes('W')?'sho':'pas';save.player.xp[focus]=(save.player.xp[focus]||0)+8;save.status.fatigue=clamp(save.status.fatigue+4,0,100)}
+  if(id==='teamTraining'){save.status.coachTrust=clamp(save.status.coachTrust+1,0,100);addGain(gains,'pas',3);addGain(gains,'def',3);save.status.fatigue=clamp(save.status.fatigue+2,0,100)}
+  if(id==='personalTraining'){const focus=save.player.position==='GK'?'def':save.player.position.includes('F')||save.player.position.includes('W')?'sho':'pas';addGain(gains,focus,8);save.status.fatigue=clamp(save.status.fatigue+4,0,100)}
   if(id==='coach'){const rating=Number(save.career.seasonStats.rating||0),gain=rating>=7?2:rating>=6.5?1.5:1;save.status.coachTrust=clamp(save.status.coachTrust+gain,0,100)}
   if(id==='teammate'){save.relations.teammates.trust=clamp(save.relations.teammates.trust+2,0,100);save.relations.teammates.familiarity=clamp((save.relations.teammates.familiarity||0)+2,0,100);save.status.morale=clamp(save.status.morale+1,0,100)}
   if(id==='media'){save.fans.social+=320;save.fans.mediaHeat=clamp(save.fans.mediaHeat+1,0,100);save.status.fatigue=clamp(save.status.fatigue+1,0,100)}
   if(id==='commercial'){save.finance.cash+=Math.max(300,Math.round(save.finance.weeklyWage*.08));save.fans.social+=180;save.status.fatigue=clamp(save.status.fatigue+2,0,100)}
-  if(id==='video'){save.player.xp.pas=(save.player.xp.pas||0)+5;save.player.xp.def=(save.player.xp.def||0)+4}
-  if(id==='tactics'){save.player.xp.pas=(save.player.xp.pas||0)+4;save.player.xp.def=(save.player.xp.def||0)+4;save.status.coachTrust=clamp(save.status.coachTrust+.5,0,100)}
-  if(id==='weakFoot'){save.player.xp.sho=(save.player.xp.sho||0)+5;save.player.xp.pas=(save.player.xp.pas||0)+5}
-  if(id==='newPosition'){save.player.xp.dri=(save.player.xp.dri||0)+5;save.player.xp.pas=(save.player.xp.pas||0)+3;save.career.positionTrainingProgress=(save.career.positionTrainingProgress||0)+1}
+  if(id==='video'){addGain(gains,'pas',5);addGain(gains,'def',4)}
+  if(id==='tactics'){addGain(gains,'pas',4);addGain(gains,'def',4);save.status.coachTrust=clamp(save.status.coachTrust+.5,0,100)}
+  if(id==='weakFoot'){addGain(gains,'sho',5);addGain(gains,'pas',5)}
+  if(id==='newPosition'){addGain(gains,'dri',5);addGain(gains,'pas',3);save.career.positionTrainingProgress=(save.career.positionTrainingProgress||0)+1}
 }
 
 export function applyWeeklyPlan(save){
@@ -68,6 +70,7 @@ export function applyWeeklyPlan(save){
   let plan=currentWeeklyPlan(save);
   if(plan.id==='custom'&&plan.actions.length!==3){plan=WEEKLY_PLAN_PRESETS.balanced;state.selected='balanced'}
   save.career.trainingPlan=plan.trainingPlan;
-  for(const action of plan.actions)applyAction(save,action);
-  state.appliedWeeks.push(key);state.appliedWeeks=state.appliedWeeks.slice(-70);state.history.push({week:key,plan:plan.id,actions:[...plan.actions]});state.history=state.history.slice(-70);return{...plan,actionNames:weeklyActionNames(plan.actions)};
+  const gains={};for(const action of plan.actions)applyAction(save,action,gains);
+  const growth=applyDevelopment(save,gains,{source:'weekly-plan',reason:`${plan.name}周计划结算`});
+  state.appliedWeeks.push(key);state.appliedWeeks=state.appliedWeeks.slice(-70);state.history.push({week:key,plan:plan.id,actions:[...plan.actions],growth});state.history=state.history.slice(-70);return{...plan,actionNames:weeklyActionNames(plan.actions),growth};
 }

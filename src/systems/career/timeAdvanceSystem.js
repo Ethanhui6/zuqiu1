@@ -28,6 +28,26 @@ const VALID_TARGETS=new Set(['nextEvent','nextMatch','week','month','halfSeason'
 function emptyWeekState(){return{trainingDone:false,eventDone:false,matchDone:false,trainingResult:null}}
 function sumAttributes(save){return Object.values(save.player.attrs||{}).reduce((sum,value)=>sum+Number(value||0),0)}
 function snapshot(save){return{date:ensureGameClock(save).currentDate,apps:save.career.careerStats.apps,goals:save.career.careerStats.goals,assists:save.career.careerStats.assists,ovr:save.player.ovr,totalAttributes:sumAttributes(save),coach:save.status.coachTrust,fitness:save.status.fitness,fans:totalFans(save),marketValue:save.finance.marketValue,offers:activeOfferCount(save),achievements:save.achievements.unlocked.length,clubId:save.career.clubId}}
+function growthChanges(growth){if(Array.isArray(growth?.changes))return growth.changes;return Object.entries(growth?.changes||{}).map(([key,delta])=>({key,delta,xp:delta,levels:0}))}
+function growthSummary(log){
+  const byKey=new Map(),events=[];let totalXp=0;
+  for(const item of log){
+    const growths=[item.growth,...(item.growths||[])].filter(Boolean);
+    for(const growth of growths){
+      const changes=growthChanges(growth);if(!changes.length)continue;
+      const declaredXp=Number(growth.totalXp),fallbackXp=changes.reduce((sum,change)=>sum+Math.max(0,Number(change.xp||0)),0);totalXp+=Number.isFinite(declaredXp)?declaredXp:fallbackXp;
+      events.push({date:item.date||null,source:item.type,reason:growth.reason||item.title||'',ovrDelta:Number(growth.ovrDelta||0)});
+      for(const change of changes){
+        const key=change.key||'unknown',current=byKey.get(key)||{key,label:change.label||key,xp:0,delta:0,levels:0,valueBefore:change.valueBefore,valueAfter:change.valueAfter,displayBefore:change.displayBefore,displayAfter:change.displayAfter,progress:change.progress,next:change.next};
+        current.label=change.label||current.label;current.xp+=Number(change.xp||0);current.delta+=Number(change.delta||0);current.levels+=Number(change.levels||0);
+        for(const field of ['valueBefore','valueAfter','displayBefore','displayAfter','progress','next'])if(change[field]!==undefined)current[field]=change[field];
+        byKey.set(key,current);
+      }
+    }
+  }
+  const changes=[...byKey.values()].map(change=>({...change,xp:Number(change.xp.toFixed(2)),delta:Number(change.delta.toFixed(2))}));
+  return{totalXp:Number(totalXp.toFixed(2)),changes,breakthroughs:changes.filter(change=>change.levels>0).map(change=>change.label),events:events.slice(-20)};
+}
 function sleep(ms){return ms>0?new Promise(resolve=>setTimeout(resolve,ms)):Promise.resolve()}
 function record(log,type,payload={}){log.push({date:payload.date||null,type,...payload})}
 function interruptionText(result){const map={event:'出现需要你决定的职业事件',match:'重要比赛需要你亲自处理',training:'自动训练已关闭，需要先安排本周训练',transfer:'收到需要你亲自处理的转会或合同报价',injury:'出现重大伤病',paused:'推进速度已暂停',user:'你主动停止了推进',retirement:'职业生涯进入退役结算'};return result.interruptionReason||map[result.reason]||'出现关键节点'}
@@ -63,9 +83,9 @@ export function assertAdvanceResultInvariants(save,result){
 }
 
 function buildAdvanceResult(save,request,before,log,result){
-  const after=snapshot(save),matches=log.filter(item=>item.type==='match'),played=matches.filter(item=>item.played!==false),ratings=played.map(item=>Number(item.rating)).filter(Number.isFinite),events=log.filter(item=>item.type==='event'),trainings=log.filter(item=>item.type==='training');
+  const growth=growthSummary(log),after=snapshot(save),matches=log.filter(item=>item.type==='match'),played=matches.filter(item=>item.played!==false),ratings=played.map(item=>Number(item.rating)).filter(Number.isFinite),events=log.filter(item=>item.type==='event'),trainings=log.filter(item=>item.type==='training');
   const actualEndDate=result.actualEndDate||ensureGameClock(save).currentDate,elapsedDays=Math.max(0,daysBetween(request.startDate,actualEndDate));
-  const output={requestId:request.id,type:request.type,startDate:request.startDate,plannedEndDate:request.requestedTargetDate,actualEndDate,plannedElapsedDays:Math.max(0,daysBetween(request.startDate,request.requestedTargetDate)),elapsedDays,elapsedWeeks:Number((elapsedDays/7).toFixed(1)),completedFullTarget:compareGameDates(actualEndDate,request.requestedTargetDate)>=0&&!result.interrupted,interrupted:Boolean(result.interrupted),interruptionReason:result.interrupted?interruptionText(result):'',reason:result.reason||'target',processedMatches:matches,processedTrainingSessions:trainings,processedEvents:events,statDelta:{processedMatchCount:matches.length,matchesPlayed:after.apps-before.apps,goals:after.goals-before.goals,assists:after.assists-before.assists,averageRating:ratings.length?Number((ratings.reduce((a,b)=>a+b,0)/ratings.length).toFixed(2)):null,ovrChange:after.ovr-before.ovr,totalAttributeDelta:after.totalAttributes-before.totalAttributes,coachTrustDelta:Math.round(after.coach-before.coach),fitnessDelta:Math.round(after.fitness-before.fitness),fansDelta:after.fans-before.fans,marketValueDelta:after.marketValue-before.marketValue,newOffers:Math.max(0,after.offers-before.offers),newAchievements:Math.max(0,after.achievements-before.achievements)},importantEvents:log.filter(item=>['node','highlight'].includes(item.type)||item.important).map(item=>item.title).filter(Boolean).slice(0,8)};
+  const output={requestId:request.id,type:request.type,startDate:request.startDate,plannedEndDate:request.requestedTargetDate,actualEndDate,plannedElapsedDays:Math.max(0,daysBetween(request.startDate,request.requestedTargetDate)),elapsedDays,elapsedWeeks:Number((elapsedDays/7).toFixed(1)),completedFullTarget:compareGameDates(actualEndDate,request.requestedTargetDate)>=0&&!result.interrupted,interrupted:Boolean(result.interrupted),interruptionReason:result.interrupted?interruptionText(result):'',reason:result.reason||'target',processedMatches:matches,processedTrainingSessions:trainings,processedEvents:events,growth,statDelta:{processedMatchCount:matches.length,matchesPlayed:after.apps-before.apps,goals:after.goals-before.goals,assists:after.assists-before.assists,averageRating:ratings.length?Number((ratings.reduce((a,b)=>a+b,0)/ratings.length).toFixed(2)):null,ovrChange:after.ovr-before.ovr,totalAttributeDelta:after.totalAttributes-before.totalAttributes,growthXp:growth.totalXp,growthChanges:growth.changes,breakthroughs:growth.breakthroughs,coachTrustDelta:Math.round(after.coach-before.coach),fitnessDelta:Math.round(after.fitness-before.fitness),fansDelta:after.fans-before.fans,marketValueDelta:after.marketValue-before.marketValue,newOffers:Math.max(0,after.offers-before.offers),newAchievements:Math.max(0,after.achievements-before.achievements)},importantEvents:log.filter(item=>['node','highlight'].includes(item.type)||item.important).map(item=>item.title).filter(Boolean).slice(0,8)};
   assertAdvanceResultInvariants(save,output);output.viewModel=createAdvanceSummaryViewModel(output);output.headline=output.viewModel.headline;output.title=output.viewModel.title;output.subtitle=output.viewModel.subtitle;output.weeksAdvanced=Math.floor(output.elapsedDays/7);output.matches=output.statDelta.processedMatchCount;output.goals=output.statDelta.goals;output.assists=output.statDelta.assists;output.ovrChange=output.statDelta.ovrChange;output.coachTrustChange=output.statDelta.coachTrustDelta;output.fitnessChange=output.statDelta.fitnessDelta;output.fansChange=output.statDelta.fansDelta;output.newOffers=output.statDelta.newOffers;output.newAchievements=output.statDelta.newAchievements;output.nodes=output.importantEvents;return output;
 }
 
@@ -93,10 +113,10 @@ async function processGameDay(save,repo,{request,signal,onProgress,log,previousD
 
   const offerPause=pendingOfferPause(save);if(offerPause)return{...offerPause,interrupted:true,actualEndDate:date};
   if(isWeekBoundary(save,previousWeek)){
-    const plan=applyWeeklyPlan(save);if(plan)record(log,'training',{date,title:`执行${plan.name}`,plan:plan.name});
+    const plan=applyWeeklyPlan(save);if(plan)record(log,'training',{date,title:`执行${plan.name}`,plan:plan.name,gains:plan.growth?.changes||[],growth:plan.growth||null});
     if(!getPaceOptions(save).autoTraining)return{status:'paused',reason:'training',interrupted:true,actualEndDate:date};
     const recovery=progressRecovery(save,club);if(recovery.recovered)record(log,'node',{date,title:'伤愈复出'});
-    ensureStrategyTraining(save);const training=resolveTraining(save,club,{scale:.24});record(log,'training',{date,title:training.plan.name,plan:training.plan.name,gains:training.gains,injury:training.injury?.name||null});
+    ensureStrategyTraining(save);const training=resolveTraining(save,club,{scale:.24});record(log,'training',{date,title:training.plan.name,plan:training.plan.name,gains:training.gains,growth:training.growth,injury:training.injury?.name||null});
     if(training.injury){record(log,'node',{date,title:`训练伤病：${training.injury.name}`});const pause=await pauseWithCategoryEvent(save,repo,'injury','injury');if(pause)return{...pause,interrupted:true,actualEndDate:date}}
     updateSquadCompetition(save,club);regressFormMomentum(save);
   }
@@ -106,7 +126,7 @@ async function processGameDay(save,repo,{request,signal,onProgress,log,previousD
   if(compareGameDates(date,save.career.calendar.nextEventDate)>=0){
     const event=await generateEvent(save,repo),critical=shouldPauseForEvent(save,event,{target:request.type});
     if(critical)return{status:'paused',reason:'event',event,interrupted:true,actualEndDate:date,interruptionReason:`${event.title}需要你亲自决定`};
-    const rng=new DeterministicRng(save.rng.seed,save.rng.state);rng.counter=save.rng.counter||0;const choice=selectAutoEventChoice(save,event,rng);save.rng=rng.snapshot();const resolved=resolveEventChoice(save,choice.id);record(log,'event',{date,id:event.id,title:event.title,category:event.category,choice:choice.text,outcome:resolved.outcome.label});consumeResolvedEvent(save);setNextEventDate(save);
+    const rng=new DeterministicRng(save.rng.seed,save.rng.state);rng.counter=save.rng.counter||0;const choice=selectAutoEventChoice(save,event,rng);save.rng=rng.snapshot();const resolved=resolveEventChoice(save,choice.id);record(log,'event',{date,id:event.id,title:event.title,category:event.category,choice:choice.text,outcome:resolved.outcome.label,growth:resolved.growth});consumeResolvedEvent(save);setNextEventDate(save);
   }
 
   const fixtures=fixturesForDate(save,repo,date);
@@ -114,7 +134,7 @@ async function processGameDay(save,repo,{request,signal,onProgress,log,previousD
     const match=generateMatch(save,repo,{fixtureId:fixture.id});
     if(!getPaceOptions(save).autoMatch)return{status:'paused',reason:'match',match,interrupted:true,actualEndDate:date};
     if(shouldPauseForMatch(save,match,{target:request.type}))return{status:'paused',reason:'match',match,interrupted:true,actualEndDate:date,interruptionReason:`${match.competition}对阵${repo.getClub(match.opponentId).cn}需要你亲自处理`};
-    const hadInjury=Boolean(save.status.injury),rng=new DeterministicRng(save.rng.seed,save.rng.state);rng.counter=save.rng.counter||0;const choice=selectAutoMatchChoice(save,match,rng);save.rng=rng.snapshot();const resolved=resolveMatch(save,repo,choice?.id,{presentation:matchPresentationFor(save,match)});record(log,'match',{date,id:match.id,title:`${match.competition}：${repo.getClub(match.opponentId).cn}`,opponent:repo.getClub(match.opponentId).cn,competition:match.competition,score:resolved.score,starts:resolved.starts,played:resolved.playerResult?.played,rating:resolved.playerResult?.rating,goals:resolved.playerResult?.goals||0,assists:resolved.playerResult?.assists||0,important:match.importance!=='普通联赛'&&match.importance!=='普通比赛'});consumeMatch(save);
+    const hadInjury=Boolean(save.status.injury),rng=new DeterministicRng(save.rng.seed,save.rng.state);rng.counter=save.rng.counter||0;const choice=selectAutoMatchChoice(save,match,rng);save.rng=rng.snapshot();const resolved=resolveMatch(save,repo,choice?.id,{presentation:matchPresentationFor(save,match)});record(log,'match',{date,id:match.id,title:`${match.competition}：${repo.getClub(match.opponentId).cn}`,opponent:repo.getClub(match.opponentId).cn,competition:match.competition,score:resolved.score,starts:resolved.starts,played:resolved.playerResult?.played,rating:resolved.playerResult?.rating,goals:resolved.playerResult?.goals||0,assists:resolved.playerResult?.assists||0,growth:resolved.playerResult?.growth,growths:[resolved.miniChallenge?.growth].filter(Boolean),important:match.importance!=='普通联赛'&&match.importance!=='普通比赛'});consumeMatch(save);
     if(!hadInjury&&save.status.injury){record(log,'node',{date,title:`比赛伤病：${save.status.injury.name}`});const pause=await pauseWithCategoryEvent(save,repo,'injury','injury');if(pause)return{...pause,interrupted:true,actualEndDate:date}}
   }
 

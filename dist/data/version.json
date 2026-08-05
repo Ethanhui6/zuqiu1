@@ -1,0 +1,22 @@
+{
+  "version": "20.0.0",
+  "channel": "mobile-product-structure",
+  "buildDate": "2026-08-03",
+  "schemaVersion": 23,
+  "scoreVersion": "2026.08.03.2",
+  "data": {
+    "clubs": 500,
+    "achievements": 330,
+    "hiddenAchievements": 50,
+    "activeEvents": 1120,
+    "uniqueEventTitles": 640,
+    "eventChoices": 5600,
+    "effectiveEventCombinations": 12800
+  },
+  "leaderboard": {
+    "local": true,
+    "worldApi": true,
+    "serverAuthoritativeScore": true
+  },
+  "buildVersion": "20.0.0-20260803-1"
+}

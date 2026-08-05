@@ -29,7 +29,7 @@ export function createRadarChart(attrs,position,{size=220,animated=true,caption=
     const config=POSITION_CONFIG[nextPosition]||POSITION_CONFIG.ST,keeper=config.group==='keeper',labels=keeper?ATTR_LABELS.keeper:ATTR_LABELS.outfield,values=ATTR_KEYS.map(key=>Number(nextAttrs[key]||0)),coords=coordinates(values),ovr=calculateOvr(nextAttrs,nextPosition),color=GROUP_COLOR[config.group]||'#1677ff';
     wrap.style.setProperty('--radar-color',color);wrap.dataset.group=config.group;
     const aria=ATTR_KEYS.map(key=>`${labels[key]} ${nextAttrs[key]}`).join('，');wrap.setAttribute('role','img');wrap.setAttribute('aria-label',`${config.name}能力图：${aria}，位置总评 ${ovr}`);title.textContent=`${config.name}能力图，${aria}，位置总评 ${ovr}`;
-    labelNodes.forEach((node,index)=>node.textContent=labels[ATTR_KEYS[index]]);valueNodes.forEach((node,index)=>node.textContent=String(values[index]));
+    labelNodes.forEach((node,index)=>node.textContent=labels[ATTR_KEYS[index]]);valueNodes.forEach((node,index)=>node.textContent=String(Math.round(values[index])));
     shape.setAttribute('points',points(values));pointNodes.forEach((node,index)=>{node.setAttribute('cx',coords[index].x);node.setAttribute('cy',coords[index].y)});
     gradeNode.textContent=grade(ovr);if(captionNode){captionNode.replaceChildren(el('strong',{text:`${config.name} · ${ovr}`}),document.createTextNode(`　能力等级 ${grade(ovr)}`));}
   }

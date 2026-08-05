@@ -1,7 +1,7 @@
 import {TRAINING_PLANS} from '../../app/config.js';
 import {DeterministicRng} from '../../services/rng.js';
 import {clamp} from '../../utils/format.js';
-import {calculateOvr} from '../career/ovr.js';
+import {applyDevelopment, ensureDevelopmentState} from '../../core/playerDevelopmentEngine.js';
 
 export function getTrainingPlans(save){return TRAINING_PLANS.map(plan=>({...plan,selected:save.career.trainingPlan===plan.id}))}
 
@@ -12,22 +12,13 @@ function ageFactor(age){if(age<=18)return 1.35;if(age<=21)return 1.22;if(age<=24
 export function resolveTraining(save,club,{scale=1}={}){
   const plan=TRAINING_PLANS.find(x=>x.id===save.career.trainingPlan)||TRAINING_PLANS[6];
   const rng=new DeterministicRng(save.rng.seed,save.rng.state);rng.counter=save.rng.counter||0;
-  const p=save.player,s=save.status,h=p.hidden;
-  const facility=(club.youth+club.rep)/200;
-  const professionalism=(h.professionalism+h.discipline+h.learning)/300;
-  const fatiguePenalty=1-clamp(s.fatigue/150,0,.55);
-  const injuryPenalty=s.injury?.severity?Math.max(.25,1-s.injury.severity):1;
-  const talent=p.talent?.growthMultiplier||1;
-  const multiplier=ageFactor(p.age)*facility*professionalism*fatiguePenalty*injuryPenalty*talent;
-  const gains=[];
+  const p=save.player,s=save.status;
+  ensureDevelopmentState(save);
+  const rawGains={};
   for(const key of plan.focus){
-    const base=plan.intensity*(4+rng.next()*5)*multiplier*scale;
-    p.xp[key]=(p.xp[key]||0)+base;
-    const threshold=65+(p.attrs[key]-50)*4.5;
-    let levels=0;
-    while(p.xp[key]>=threshold&&p.attrs[key]<Math.min(99,p.potential+2)){p.xp[key]-=threshold;p.attrs[key]++;levels++}
-    if(levels)gains.push({key,levels});
+    rawGains[key]=plan.intensity*(8+rng.next()*8)*scale;
   }
+  const development=applyDevelopment(save,rawGains,{source:'training',club,trainingEfficiency:1,reason:`${plan.name}训练结算`});
   s.fatigue=clamp(s.fatigue+plan.fatigue*scale,0,100);s.fitness=clamp(s.fitness-plan.intensity*2*scale+(plan.id==='recovery'?16*scale:0),0,100);
   const professional=(save.career.traits?.unlocked||[]).includes('professional'),riskModifier=professional?.78:1;
   const risk=clamp(((plan.risk+(p.hidden.injuryProne||30)*.15+s.fatigue*.10-club.youth*.05)/100)*Math.max(.2,scale)*riskModifier,0,.65);
@@ -35,8 +26,8 @@ export function resolveTraining(save,club,{scale=1}={}){
   if(rng.bool(risk)){
     const severity=.08+rng.next()*.42;injury={name:severity>.34?'肌肉拉伤':'轻微不适',severity,remainingMatches:severity>.34?rng.int(2,5):1};s.injury=injury;s.fitness=clamp(s.fitness-15,0,100);
   }
-  p.ovr=calculateOvr(p.attrs,p.position);save.rng=rng.snapshot();
-  return{plan,gains,injury,multiplier:Number(multiplier.toFixed(2))};
+  save.rng=rng.snapshot();
+  return{plan,gains:development.changes,rawGains,growth:development,injury,multiplier:Number(development.modifiers.multiplier.toFixed(2))};
 }
 
 
@@ -60,7 +51,7 @@ export function recommendTrainingPlan(save){
   if(save.status.fatigue>=68||save.status.fitness<=52)return{planId:'recovery',title:'本周建议恢复训练',reason:'疲劳或体能已经接近风险区间。',risk:'低'};
   const active=save.career.objectives?.active||[],position=save.player.position;
   if(active.some(id=>/goal|score|attack/.test(id))||['ST','LW','RW','SS'].includes(position))return{planId:'shooting',title:'教练建议重点射门',reason:'当前位置和阶段目标需要提高终结效率。',risk:'中'};
-  if(['CB','LB','RB','CDM','GK'].includes(position))return{planId:'defense',title:'教练建议防守专项',reason:'球队希望你提高防守稳定性和位置判断。',risk:'中'};
+  if(['CB','LB','RB','CDM','GK'].includes(position))return{planId:'defending',title:'教练建议防守专项',reason:'球队希望你提高防守稳定性和位置判断。',risk:'中'};
   if(save.career.squadCompetition?.rank>=3)return{planId:'tactics',title:'教练建议战术课堂',reason:'提高战术适配和训练评价有助于争取上场。',risk:'低'};
   return{planId:'personal',title:'可以安排个人特训',reason:'当前体能允许争取更高成长收益。',risk:'高'};
 }

@@ -32,6 +32,7 @@ export function renderCareerPage(container,ctx){
       compactPlayerCard(save,club,()=>openPlayerDetail(save,club)),
       careerConsole(save,club,repo,()=>openCareerData(save,club,repo))
     ]),
+    recentGrowthSummary(save),
     el('div',{className:'v20-home-twin'},[
       objectiveSummaryCard(save,()=>openObjectiveSheet(save,store,ctx)),
       facilitySummaryCard(save,()=>openFacilitiesCenter(save,club,ctx))
@@ -169,9 +170,9 @@ function homeTrainingCard(save,club,store,ctx){
   if(!completed){
     const actions=el('div',{className:'v20-inline-actions'});
     actions.append(button('采用并训练',{className:'button button--primary',onClick:async()=>{
-      let result;store.update(state=>{selectTrainingPlan(state,plan.id);state.career.weekState??={trainingDone:false,eventDone:false,matchDone:false,trainingResult:null};if(state.career.weekState.trainingDone)throw new Error('本周训练已经完成');result=resolveTraining(state,club,{scale:1});state.career.weekState.trainingDone=true;state.career.weekState.trainingResult=result},'home-training-resolved');
+      const before=trainingSnapshot(save);let result;store.update(state=>{selectTrainingPlan(state,plan.id);state.career.weekState??={trainingDone:false,eventDone:false,matchDone:false,trainingResult:null};if(state.career.weekState.trainingDone)throw new Error('本周训练已经完成');result=resolveTraining(state,club,{scale:1});state.career.weekState.trainingDone=true;state.career.weekState.trainingResult=result},'home-training-resolved');
       await animationDirector.play('training-progress',{id:`home:${save.career.gameClock.currentDate}`,label:result.plan.name,growth:(result.gains||[]).reduce((sum,item)=>sum+item.levels,0),fatigue:Math.round(save.status.fatigue),risk:result.injury?70:15},{token:`home-training:${save.career.gameClock.currentDate}`});
-      showTrainingResult(result,ctx);
+      showTrainingResult(result,ctx,before);
     }}),button('查看训练详情',{className:'button button--secondary',onClick:()=>ctx.navigate('training')}));section.append(actions)
   }
   return section;
@@ -193,7 +194,7 @@ function recentAdvance(save){
 function openPlayerDetail(save,club){
   const p=save.player,content=el('div',{className:'v20-player-detail'},[
     el('div',{className:'v20-player-detail__hero'},[el('div',{className:'v20-player-avatar v20-player-avatar--large',text:String(p.displayName||p.name).slice(-2)}),el('div',{},[el('h2',{text:p.displayName||p.name}),el('p',{text:`${p.nation} · ${p.age}岁 · ${club.cn} · ${save.career.squadLevel}`}),el('div',{className:'v20-tag-row'},[el('span',{text:`OVR ${p.ovr}`}),el('span',{text:`潜力 ${p.potential}`}),el('span',{text:p.style})])])]),
-    createRadarChart(p.attrs,p.position,{size:260}),
+    roundedRadarChart(p.attrs,p.position),
     el('div',{className:'v20-metric-grid'},[stat('身价',formatMoney(save.finance.marketValue)),stat('周薪',formatMoney(save.finance.weeklyWage)),stat('合同',`${save.career.contract.years}年`),stat('粉丝',formatNumber(totalFans(save)))]),
     el('div',{className:'v20-info-list'},[infoRow('队内角色',save.career.teamRole),infoRow('当前状态',save.status.injury?save.status.injury.name:'健康可用'),infoRow('第二位置',(p.secondaryPositions||[]).join('、')||'尚未开发'),infoRow('成长模板',p.talent?.name||'均衡成长')])
   ]);openSheet({title:'球员详情',subtitle:`${POSITION_CONFIG[p.position]?.name||p.position} · ${p.number}号`,content,size:'large'})
@@ -309,10 +310,59 @@ function openMessages(save,ctx){
   openSheet({title:'消息中心',subtitle:`${messages.length}条未读`,content,size:'large'})
 }
 
-function showTrainingResult(result,ctx){
-  const gains=(result.gains||[]).map(item=>`${attrLabel(item.key)} +${item.levels}`);
-  openSheet({title:'本周训练完成',subtitle:result.plan.name,content:el('div',{className:'v20-result-card'},[el('div',{className:`result-orb result-orb--${result.injury?'bad':'good'}`,text:result.injury?'受伤':'完成'}),el('h3',{text:result.injury?result.injury.name:'训练计划已结算'}),el('p',{text:gains.length?`属性提升：${gains.join('、')}`:'成长经验已写入对应属性。'}),el('div',{className:'v20-metric-grid'},[stat('疲劳',Math.round(ctx.store.state.status.fatigue)),stat('体能',Math.round(ctx.store.state.status.fitness)),stat('综合能力',ctx.store.state.player.ovr)])]),actions:[{label:'留在首页',className:'button button--primary',onClick:()=>ctx.refresh()},{label:'查看训练详情',className:'button button--secondary',onClick:()=>ctx.navigate('training')}]})
+function recentGrowthSummary(save){
+  const record=latestGrowthRecord(save),content=el('section',{className:'v20-recent-growth'});
+  if(!record)return content.append(el('div',{className:'v20-section-heading'},[el('div',{},[el('small',{text:'最近成长'}),el('strong',{text:'暂无成长记录'})])]),el('p',{className:'muted',text:'完成训练或比赛后，属性经验和进度会显示在这里。'}));
+  const changes=careerGrowthChanges(record),chips=changes.slice(0,3).map(item=>el('span',{text:growthChip(item,save)}));
+  const before=numberValue(record.ovrBefore??record.before?.ovr,save.player?.ovr),after=numberValue(record.ovrAfter??record.after?.ovr,save.player?.ovr);
+  content.append(el('div',{className:'v20-section-heading'},[el('div',{},[el('small',{text:'最近成长'}),el('strong',{text:record.reason||growthSourceLabel(record.source)})]),el('span',{className:'muted',text:record.date||`第${record.week||save.career?.calendar?.week||1}周`})]),el('div',{className:'v20-summary-chip-row'},chips.length?chips:[el('span',{text:'成长记录已保存'})]),el('div',{className:'v20-metric-grid'},[stat('OVR',`${Math.round(before)} → ${Math.round(after)}`),stat('属性项目',changes.length),record.breakthroughs?.length?stat('整数突破',record.breakthroughs.length):null].filter(Boolean)));
+  return content;
 }
+
+function latestGrowthRecord(save){
+  return save.career?.lastGrowth||save.career?.lastDevelopment||save.lastGrowth||save.lastDevelopment||save.career?.growthLog?.at(-1)||save.player?.growth?.log?.at(-1)||null;
+}
+function careerGrowthChanges(record){
+  const changes=record?.changes;
+  if(Array.isArray(changes))return changes.filter(item=>item&&item.key);
+  if(changes&&typeof changes==='object')return Object.entries(changes).map(([key,value])=>({key,delta:value,xp:record.xp?.[key]}));
+  if(record?.xp&&typeof record.xp==='object')return Object.entries(record.xp).map(([key,value])=>({key,xp:value}));
+  return [];
+}
+function growthChip(item,save){
+  const xp=numberValue(item.xp??item.experience,NaN),progress=numberValue(item.progress,NaN),parts=[attrLabel(item.key)];
+  if(Number.isFinite(xp))parts.push(`+${xp.toFixed(2)}经验`);
+  if(Number.isFinite(progress))parts.push(`${Math.round(progress)}%`);
+  else if(save?.player?.xp?.[item.key]!==undefined)parts.push(`当前经验 ${Math.round(numberValue(save.player.xp[item.key],0))}`);
+  return parts.join(' ');
+}
+function growthSourceLabel(source){return{training:'训练结算',match:'比赛成长','training-event':'训练事件',objective:'阶段目标',facility:'设施反馈'}[source]||'成长记录'}
+function trainingSnapshot(save){return{ovr:save.player?.ovr,fatigue:save.status?.fatigue,fitness:save.status?.fitness,injury:save.status?.injury}}
+function showTrainingResult(result,ctx,before={}){
+  const save=ctx.store.state,growth=result?.growth||result?.development||{},changes=careerGrowthChanges({changes:result?.gains}),after={ovr:save.player?.ovr,fatigue:save.status?.fatigue,fitness:save.status?.fitness};
+  openSheet({title:'本周训练完成',subtitle:result?.plan?.name||'训练结算',content:el('div',{className:'v20-result-card'},[
+    el('div',{className:`result-orb result-orb--${result?.injury?'bad':'good'}`,text:result?.injury?'受伤':'完成'}),
+    el('h3',{text:result?.injury?.name||result?.summary||'训练计划已结算'}),el('p',{text:result?.summary||'训练成长和状态变化已经写入当前存档。'}),
+    careerGrowthFeedback(growth,changes),
+    el('div',{className:'v20-metric-grid'},[
+      stat('疲劳',`${Math.round(numberValue(before.fatigue,after.fatigue))} → ${Math.round(numberValue(after.fatigue,0))}`),
+      stat('体能',`${Math.round(numberValue(before.fitness,after.fitness))} → ${Math.round(numberValue(after.fitness,0))}`),
+      stat('伤病风险',result?.injury?`已触发：${result.injury.name}`:`计划 ${Math.round(numberValue(result?.plan?.risk,0))}%`),
+      stat('综合能力 OVR',`${Math.round(numberValue(growth.ovrBefore,before.ovr??after.ovr))} → ${Math.round(numberValue(growth.ovrAfter,after.ovr))}`)
+    ])
+  ]),actions:[{label:'留在首页',className:'button button--primary',onClick:()=>ctx.refresh()},{label:'查看训练详情',className:'button button--secondary',onClick:()=>ctx.navigate('training')}]});
+}
+function careerGrowthFeedback(growth,changes=[]){
+  const rows=changes.map(item=>{const xp=numberValue(item.xp??item.experience??item.amount,NaN),progress=numberValue(item.progress,NaN),before=item.displayBefore??item.valueBefore,after=item.displayAfter??item.valueAfter,parts=[];if(Number.isFinite(xp))parts.push(`经验 +${xp.toFixed(2)}`);if(Number.isFinite(progress))parts.push(`进度 ${Math.round(progress)}%`);if(Number.isFinite(Number(before))||Number.isFinite(Number(after)))parts.push(`属性 ${Math.round(numberValue(before,after))} → ${Math.round(numberValue(after,before))}`);return stat(attrLabel(item.key),parts.join(' · ')||'已记录')});
+  const breakthroughs=[...(growth?.breakthroughs||[]),...changes.filter(item=>Number(item.levels)>0).map(item=>item.key)].filter((key,index,array)=>array.indexOf(key)===index).map(key=>attrLabel(key));
+  return el('section',{className:'v20-detail-section'},[el('h3',{text:'本次成长'}),rows.length?el('div',{className:'v20-metric-grid'},rows):el('p',{className:'muted',text:'本次没有可用的属性成长明细。'}),breakthroughs.length?el('p',{className:'growth-breakthrough',text:`整数突破：${breakthroughs.join('、')}`}):null]);
+}
+function roundedRadarChart(attrs,position){
+  const keys=['pac','sho','pas','dri','def','phy'],chart=createRadarChart(attrs,position,{size:260,animated:false});
+  chart.querySelectorAll('.radar-value').forEach((node,index)=>{node.textContent=String(Math.round(numberValue(attrs[keys[index]],0)))});
+  chart.setAttribute('aria-label',`${POSITION_CONFIG[position]?.name||position}能力图：${keys.map(key=>`${attrLabel(key)} ${Math.round(numberValue(attrs[key],0))}`).join('，')}`);return chart;
+}
+function numberValue(value,fallback=0){return Number.isFinite(Number(value))?Number(value):fallback}
 
 function showRetirement(ending){openSheet({title:'职业生涯已经结束',subtitle:ending.name,content:el('div',{className:'v20-result-card'},[el('div',{className:'result-orb result-orb--good',text:'🏆'}),el('h2',{text:ending.name}),el('p',{text:ending.desc})])})}
 function progressView(save,target){

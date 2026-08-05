@@ -1,8 +1,10 @@
+import {hashString,keyedRandom} from '../services/rng.js';
+
 const SEVERITY = { minor: { weeks:[1,2], risk:8 }, moderate:{weeks:[3,6],risk:18}, major:{weeks:[8,20],risk:30} };
-export function createInjury({ type='脚踝扭伤', severity='minor', date, bodyPart='脚踝' }={}) {
+export function createInjury({ type='脚踝扭伤', severity='minor', date, bodyPart='脚踝', seed }={}) {
   const [min,max] = SEVERITY[severity].weeks;
-  const weeks = min + Math.floor(Math.random()*(max-min+1));
-  return { id:`inj-${Date.now()}-${Math.random().toString(36).slice(2,6)}`,type,severity,bodyPart,status:'active',remainingDays:weeks*7,progress:0,relapseRisk:SEVERITY[severity].risk,treatment:'steady',createdAt:date || new Date().toISOString().slice(0,10) };
+  const createdAt=date || '1970-01-01', rng=keyedRandom(seed||createdAt,type,severity,bodyPart), weeks=rng.int(min,max);
+  return { id:`inj-${hashString(`${createdAt}:${type}:${severity}:${bodyPart}:${rng.state}`).toString(36)}`,type,severity,bodyPart,status:'active',remainingDays:weeks*7,progress:0,relapseRisk:SEVERITY[severity].risk,treatment:'steady',createdAt };
 }
 export function advanceInjury(injury, days=1, context={}) {
   const next={...injury};

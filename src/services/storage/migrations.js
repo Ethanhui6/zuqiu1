@@ -2,6 +2,7 @@ import {APP_VERSION,SAVE_SCHEMA,DEFAULT_AUTO_PAUSE,DEFAULT_STRATEGIES} from '../
 import {createSeed,hashString} from '../rng.js';
 import {addGameDays} from '../../utils/gameDate.js';
 import {seasonBounds} from '../../systems/career/gameClock.js';
+import {ensureDevelopmentState} from '../../core/playerDevelopmentEngine.js';
 
 const oldKeys=['green-pitch-career-v18','football-career-save','career-sim-save','zuqiu-save','footballCareerSave','green-pitch-save'];
 const num=(v,d=0)=>Number.isFinite(Number(v))?Number(v):d;
@@ -88,7 +89,7 @@ export function normalizeSave(save){
   save.fans={local:300,club:500,global:0,social:250,mediaHeat:2,commercialValue:1,sentiment:55,history:[],...(save.fans||{})};save.fans.history??=[];
   save.finance={cash:2000,marketValue:120000,weeklyWage:save.career.contract.weeklyWage||300,sponsorships:[],...(save.finance||{})};save.finance.sponsorships??=[];
   save.achievements={unlocked:[],notified:[],score:0,...(save.achievements||{})};save.achievements.unlocked??=[];save.achievements.notified??=[];
-  save.meta={migrationNotes:[],checksum:'',lastRecovery:null,...(save.meta||{})};save.meta.migrationNotes??=[];save.meta.ranking={runId:null,eligible:false,lastSequence:0,lastSyncAt:null,status:'local-only',...(save.meta.ranking||{})};
+  save.meta={migrationNotes:[],checksum:'',lastRecovery:null,...(save.meta||{})};save.meta.migrationNotes??=[];save.meta.ranking={runId:null,eligible:false,lastSequence:0,lastSyncAt:null,status:'local-only',...(save.meta.ranking||{})};save.career.growthLog=Array.isArray(save.career.growthLog)?save.career.growthLog.slice(-120):[];ensureDevelopmentState(save);
   return save;
 }
 

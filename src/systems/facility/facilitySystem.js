@@ -2,6 +2,7 @@ import {DeterministicRng} from '../../services/rng.js';
 import {clamp} from '../../utils/format.js';
 import {applyFanChange} from '../fan/fanSystem.js';
 import {applyRelation} from '../relationship/relationshipSystem.js';
+import {applyDevelopment} from '../../core/playerDevelopmentEngine.js';
 
 const PHASE_LOCKED=new Set(['academy','medical','shop','press','locker']);
 
@@ -24,11 +25,11 @@ export function facilityAvailable(save,id){return !ensureState(save).locks[phase
 export function performFacilityAction(save,club,id){
   if(!facilityAvailable(save,id))return{ok:false,title:'本阶段已经使用',summary:'该设施的本阶段互动已经完成，请推进时间后再来。'};
   const rng=new DeterministicRng(save.rng.seed,save.rng.state);rng.counter=save.rng.counter||0;
-  let result;
+  let result,growth=null;
   if(id==='academy'){
     const focus=save.player.position==='GK'?'pas':save.player.position==='CB'?'def':save.player.position==='ST'?'sho':'pas';
     const gain=Math.round(8+(club.youth-50)*.22+rng.int(0,8));
-    save.player.xp[focus]=(save.player.xp[focus]||0)+gain;
+    growth=applyDevelopment(save,{[focus]:gain},{source:'facility',club,reason:'academy facility review'});
     save.status.coachTrust=clamp(save.status.coachTrust+(save.career.squadLevel==='一线队'?1:3),0,100);
     result={ok:true,title:'青训复盘完成',summary:`教练组围绕你的${focus==='sho'?'终结':focus==='def'?'防守':'战术理解'}进行了复盘，获得 ${gain} 点专项经验。`};
   }else if(id==='medical'){
@@ -55,5 +56,5 @@ export function performFacilityAction(save,club,id){
     if(good){applyRelation(save,'teammates',{trust:4,respect:3,familiarity:5,conflict:-2});save.status.morale=clamp(save.status.morale+4,0,100);result={ok:true,title:'更衣室关系升温',summary:'你主动参与队内沟通，队友信任与士气得到提升。'}}
     else{applyRelation(save,'teammates',{trust:-2,rivalry:4,conflict:4});save.status.morale=clamp(save.status.morale-3,0,100);result={ok:false,title:'沟通没有取得共识',summary:'竞争关系暂时加剧，后续比赛中的队友配合会受到影响。'}}
   }else throw new Error('未知设施互动');
-  lock(save,id);record(save,id,result.title,result.summary);save.rng=rng.snapshot();return result;
+  result.growth=growth;lock(save,id);record(save,id,result.title,result.summary);save.rng=rng.snapshot();return result;
 }

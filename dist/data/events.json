@@ -1,0 +1,96 @@
+{
+  "version": "10.0.0",
+  "totalTemplates": 240,
+  "categories": {
+    "training": {
+      "name": "训练",
+      "url": "./data/events/training.json",
+      "count": 16,
+      "weight": 1
+    },
+    "match-prep": {
+      "name": "比赛准备",
+      "url": "./data/events/match-prep.json",
+      "count": 16,
+      "weight": 1
+    },
+    "match": {
+      "name": "比赛表现",
+      "url": "./data/events/match.json",
+      "count": 16,
+      "weight": 1
+    },
+    "coach": {
+      "name": "教练关系",
+      "url": "./data/events/coach.json",
+      "count": 16,
+      "weight": 1
+    },
+    "selection": {
+      "name": "阵容竞争",
+      "url": "./data/events/selection.json",
+      "count": 16,
+      "weight": 1
+    },
+    "locker-room": {
+      "name": "更衣室",
+      "url": "./data/events/locker-room.json",
+      "count": 16,
+      "weight": 1
+    },
+    "teammate": {
+      "name": "队友关系",
+      "url": "./data/events/teammate.json",
+      "count": 16,
+      "weight": 1
+    },
+    "media": {
+      "name": "媒体",
+      "url": "./data/events/media.json",
+      "count": 16,
+      "weight": 1
+    },
+    "fans": {
+      "name": "球迷",
+      "url": "./data/events/fans.json",
+      "count": 16,
+      "weight": 1
+    },
+    "agent": {
+      "name": "经纪团队",
+      "url": "./data/events/agent.json",
+      "count": 16,
+      "weight": 1
+    },
+    "transfer": {
+      "name": "转会市场",
+      "url": "./data/events/transfer.json",
+      "count": 16,
+      "weight": 1
+    },
+    "contract": {
+      "name": "合同",
+      "url": "./data/events/contract.json",
+      "count": 16,
+      "weight": 1
+    },
+    "injury": {
+      "name": "伤病与恢复",
+      "url": "./data/events/injury.json",
+      "count": 16,
+      "weight": 1
+    },
+    "national-team": {
+      "name": "国家队",
+      "url": "./data/events/national-team.json",
+      "count": 16,
+      "weight": 1
+    },
+    "life": {
+      "name": "生活与商业",
+      "url": "./data/events/life.json",
+      "count": 16,
+      "weight": 1
+    }
+  }
+}

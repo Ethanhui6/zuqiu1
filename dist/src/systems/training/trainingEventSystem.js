@@ -1,6 +1,7 @@
 import {DeterministicRng} from '../../services/rng.js';
 import {clamp} from '../../utils/format.js';
 import {applyRelation} from '../relationship/relationshipSystem.js';
+import {applyDevelopment} from '../../core/playerDevelopmentEngine.js';
 
 const EVENTS=[
   {id:'coach-intensity',title:'教练临时安排高强度合练',desc:'教练希望你在关键比赛前提高训练强度。',when:s=>!s.status.injury&&s.status.fatigue<70,choices:[
@@ -58,7 +59,7 @@ export function resolveTrainingEvent(save,choiceId){
   const state=ensureState(save),event=state.current;if(!event||event.resolved)throw new Error('当前没有待处理训练事件');const choice=event.choices.find(item=>item.id===choiceId);if(!choice)throw new Error('训练事件选项不存在');
   const effects=choice.effects||{},before={fitness:save.status.fitness,fatigue:save.status.fatigue,coachTrust:save.status.coachTrust,fans:save.fans.social};
   const focus=(save.career.trainingPlan==='shooting'?'sho':save.career.trainingPlan==='speed'?'pac':save.career.trainingPlan==='defense'?'def':'pas');
-  if(effects.xp)save.player.xp[focus]=(save.player.xp[focus]||0)+effects.xp;
+  const growth=applyDevelopment(save,{[focus]:Math.max(0,effects.xp||0)},{source:'training-event',reason:`${event.title}：${choice.name}`});
   if(effects.fitness)save.status.fitness=clamp(save.status.fitness+effects.fitness,0,100);
   if(effects.fatigue)save.status.fatigue=clamp(save.status.fatigue+effects.fatigue,0,100);
   if(effects.coachTrust)save.status.coachTrust=clamp(save.status.coachTrust+effects.coachTrust,0,100);
@@ -67,7 +68,7 @@ export function resolveTrainingEvent(save,choiceId){
   if(effects.positionFit){save.career.positionFit=clamp(Number(save.career.positionFit||50)+effects.positionFit,0,100)}
   if(effects.trait){save.career.traits.progress[effects.trait]=(save.career.traits.progress[effects.trait]||0)+12}
   const risk=Number(effects.injuryRisk||0);if(risk>0){const rng=new DeterministicRng(save.rng.seed,save.rng.state);rng.counter=save.rng.counter||0;if(rng.bool(Math.min(.55,risk/100))){save.status.injury={name:risk>=15?'肌肉拉伤':'轻微不适',severity:risk>=15?.28:.1,remainingMatches:risk>=15?2:1,recurrenceRisk:20+risk};save.status.fitness=clamp(save.status.fitness-12,0,100)}save.rng=rng.snapshot()}
-  event.resolved=true;event.choiceId=choice.id;event.result={summary:choice.hint,effects:structuredClone(effects),before,after:{fitness:save.status.fitness,fatigue:save.status.fatigue,coachTrust:save.status.coachTrust,fans:save.fans.social,injury:save.status.injury?.name||null}};
+  event.resolved=true;event.choiceId=choice.id;event.result={summary:choice.hint,effects:structuredClone(effects),growth,before,after:{fitness:save.status.fitness,fatigue:save.status.fatigue,coachTrust:save.status.coachTrust,fans:save.fans.social,injury:save.status.injury?.name||null}};
   const key=weekKey(save);state.resolvedWeeks.push(key);state.resolvedWeeks=state.resolvedWeeks.slice(-60);state.history.unshift({id:event.id,templateId:event.templateId,title:event.title,choice:choice.name,date:save.career.gameClock?.currentDate,result:event.result});state.history=state.history.slice(0,50);state.current=null;
   save.career.history.push({type:'training-event',year:save.career.year,title:event.title,text:`${choice.name}：${choice.hint}`});return{event,choice,result:event.result};
 }

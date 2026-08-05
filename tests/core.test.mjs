@@ -3,6 +3,7 @@ import assert from 'node:assert/strict';
 import { applyDevelopment, computeOverall, seasonTargetRange } from '../src/core/playerDevelopmentEngine.js';
 import { createInjury, advanceInjury, chooseTreatment } from '../src/core/injuryEngine.js';
 import { EventEngine } from '../src/core/eventEngine.js';
+import { recommendTrainingPlan } from '../src/systems/training/trainingSystem.js';
 
 const player={name:'测试球员',position:'中场',age:18,potential:88,ovr:60,stats:{speed:60,shooting:56,passing:64,dribbling:63,defending:48,physical:55}};
 
@@ -17,6 +18,11 @@ test('年龄阶段目标区间正确',()=>{
   assert.deepEqual(seasonTargetRange(18,88),[4,9]);
   assert.deepEqual(seasonTargetRange(21,82),[2,6]);
   assert.deepEqual(seasonTargetRange(25,80),[0,3]);
+});
+
+test('训练推荐使用现有训练方案 ID',()=>{
+  const save={status:{injury:null,fatigue:10,fitness:80},career:{objectives:{active:[]},squadCompetition:{rank:4}},player:{position:'CB'}};
+  assert.equal(recommendTrainingPlan(save).planId,'defending');
 });
 
 test('伤病状态能随时间进入恢复并最终清除',()=>{
