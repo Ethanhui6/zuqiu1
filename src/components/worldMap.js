@@ -10,21 +10,26 @@ const CONTINENTS = {
   '大洋洲':'M82 68 96 72 94 86 83 84 77 76Z'
 };
 
-export function worldMapView(state){
+export function worldMapView(state, sourceClubs = CLUBS){
+  const clubs = sourceClubs;
+  const availableContinents = Object.keys(CONTINENTS).filter(name=>clubs.some(club=>club.continent===name));
+  const countries = continent => [...new Set(clubs.filter(club=>club.continent===continent).map(club=>club.country))];
+  const leagues = country => [...new Set(clubs.filter(club=>club.country===country).map(club=>club.league))];
+  const leagueClubs = league => clubs.filter(club=>club.league===league);
   const selectedContinent=state.transfer.continent;
   const selectedCountry=state.transfer.country;
   const selectedLeague=state.transfer.league;
   const selectedClub=state.transfer.club;
-  const visibleClubs=selectedLeague?clubsForLeague(selectedLeague):selectedCountry?CLUBS.filter(c=>c.country===selectedCountry):selectedContinent?CLUBS.filter(c=>c.continent===selectedContinent):CLUBS;
+  const visibleClubs=selectedLeague?leagueClubs(selectedLeague):selectedCountry?clubs.filter(c=>c.country===selectedCountry):selectedContinent?clubs.filter(c=>c.continent===selectedContinent):clubs;
   const regions=Object.entries(CONTINENTS).map(([name,path])=>`<path class="continent ${selectedContinent===name?'active':''}" data-continent="${name}" d="${path}"/>`).join('');
   const nodes=visibleClubs.map(c=>`<g class="club-node ${selectedClub===c.id?'active':''}" data-club="${c.id}" transform="translate(${c.x},${c.y})"><circle r="1.8"/><text x="3" y="1">${c.name}</text></g>`).join('');
   const selector = !selectedContinent
-    ? `<div class="action-grid">${continents.map(c=>`<button class="action-tile" data-continent="${c}">${icon('map')}<h3>${c}</h3><p>${CLUBS.filter(x=>x.continent===c).length} 家球队节点</p></button>`).join('')}</div>`
+    ? `<div class="action-grid">${availableContinents.map(c=>`<button class="action-tile" data-continent="${c}">${icon('map')}<h3>${c}</h3><p>${clubs.filter(x=>x.continent===c).length} 家球队节点</p></button>`).join('')}</div>`
     : !selectedCountry
-      ? `<div class="choice-grid">${countriesFor(selectedContinent).map(c=>`<button class="choice-card" data-country="${c}">${icon('country')}<h3>${c}</h3><p>${CLUBS.filter(x=>x.country===c).length} 家球队</p></button>`).join('')}</div>`
+      ? `<div class="choice-grid">${countries(selectedContinent).map(c=>`<button class="choice-card" data-country="${c}">${icon('country')}<h3>${c}</h3><p>${clubs.filter(x=>x.country===c).length} 家球队</p></button>`).join('')}</div>`
       : !selectedLeague
-        ? `<div class="choice-grid">${leaguesFor(selectedCountry).map(l=>`<button class="choice-card" data-league="${l}">${icon('league')}<h3>${l}</h3><p>进入联赛球队层</p></button>`).join('')}</div>`
-        : `<div class="grid-2">${clubsForLeague(selectedLeague).map(c=>clubCard(c,selectedClub===c.id)).join('')}</div>`;
+        ? `<div class="choice-grid">${leagues(selectedCountry).map(l=>`<button class="choice-card" data-league="${l}">${icon('league')}<h3>${l}</h3><p>进入联赛球队层</p></button>`).join('')}</div>`
+        : `<div class="grid-2">${leagueClubs(selectedLeague).map(c=>clubCard(c,selectedClub===c.id)).join('')}</div>`;
   return `<section class="surface-card world-map-shell"><div class="map-toolbar"><button class="icon-button" data-map-back aria-label="返回上一级">${icon('back')}</button><div style="flex:1"><div class="card-kicker">${icon('map','sm')} 球队世界</div><strong>${selectedLeague||selectedCountry||selectedContinent||'世界地图'}</strong></div><button class="icon-button" data-map-reset aria-label="重置地图">${icon('recovery')}</button></div><div class="map-stage"><svg class="map-svg" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid meet">${regions}${nodes}</svg></div><div class="map-breadcrumb"><span class="map-crumb">世界</span>${selectedContinent?`<span class="map-crumb">${selectedContinent}</span>`:''}${selectedCountry?`<span class="map-crumb">${selectedCountry}</span>`:''}${selectedLeague?`<span class="map-crumb">${selectedLeague}</span>`:''}</div></section><div style="height:12px"></div>${selector}`;
 }
 
