@@ -1,5 +1,6 @@
 const STORAGE_KEY = 'football-career-v20';
 const VERSION = 20;
+import { normalizePlayer } from './playerDevelopmentEngine.js';
 
 export function createDefaultState() {
   return {
@@ -11,9 +12,9 @@ export function createDefaultState() {
     player: null,
     season: { year: '2026/27', week: 1, progress: 0, appearances: 0, goals: 0, assists: 0, rating: 0, objectives: [] },
     schedule: [
-      { id: 'm1', date: '2026-07-06', competition: '季前热身赛', opponent: '河畔竞技', venue: '主场', status: 'upcoming' },
-      { id: 'm2', date: '2026-07-13', competition: '青年联赛', opponent: '北城学院', venue: '客场', status: 'upcoming' },
-      { id: 'm3', date: '2026-07-20', competition: '青年联赛', opponent: '海港青年队', venue: '主场', status: 'upcoming' }
+      { id: 'm1', date: '2026-07-06', competition: '?????', opponent: '????', venue: '??', status: 'upcoming' },
+      { id: 'm2', date: '2026-07-13', competition: '????', opponent: '????', venue: '??', status: 'upcoming' },
+      { id: 'm3', date: '2026-07-20', competition: '????', opponent: '?????', venue: '??', status: 'upcoming' }
     ],
     injuries: [],
     relationships: { coach: 52, teammates: 48, captain: 45, fans: 1200, media: 36, rivalry: 18 },
@@ -25,7 +26,7 @@ export function createDefaultState() {
   };
 }
 
-function migrate(input) {
+export function migrateState(input) {
   const base = createDefaultState();
   if (!input || typeof input !== 'object') return base;
   const state = { ...base, ...input };
@@ -38,6 +39,12 @@ function migrate(input) {
   state.events = { ...base.events, ...(input.events || {}) };
   state.transfer = { ...base.transfer, ...(input.transfer || {}) };
   state.ui = { ...base.ui, ...(input.ui || {}) };
+  state.schedule = Array.isArray(input.schedule) ? input.schedule : [];
+  state.career.growthLog = Array.isArray(state.career.growthLog) ? state.career.growthLog : [];
+  if (state.player) {
+    state.player = normalizePlayer(state.player);
+    state.player.previousStats ??= { ...state.player.stats };
+  }
   state.version = VERSION;
   return state;
 }
@@ -48,13 +55,13 @@ export class Store {
     this.state = this.load();
   }
   load() {
-    try { return migrate(JSON.parse(localStorage.getItem(STORAGE_KEY))); }
+    try { return migrateState(JSON.parse(localStorage.getItem(STORAGE_KEY))); }
     catch { return createDefaultState(); }
   }
   get() { return this.state; }
   set(updater, { persist = true } = {}) {
     const next = typeof updater === 'function' ? updater(structuredClone(this.state)) : updater;
-    this.state = migrate(next);
+    this.state = migrateState(next);
     if (persist) this.save();
     this.listeners.forEach(fn => fn(this.state));
     return this.state;
@@ -71,5 +78,5 @@ export class Store {
   }
   subscribe(fn) { this.listeners.add(fn); return () => this.listeners.delete(fn); }
   export() { return JSON.stringify(this.state, null, 2); }
-  import(raw) { this.state = migrate(JSON.parse(raw)); this.save(); this.listeners.forEach(fn => fn(this.state)); }
+  import(raw) { this.state = migrateState(JSON.parse(raw)); this.save(); this.listeners.forEach(fn => fn(this.state)); }
 }

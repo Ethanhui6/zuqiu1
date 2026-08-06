@@ -1,8 +1,9 @@
 const SEVERITY = { minor: { weeks:[1,2], risk:8 }, moderate:{weeks:[3,6],risk:18}, major:{weeks:[8,20],risk:30} };
-export function createInjury({ type='脚踝扭伤', severity='minor', date, bodyPart='脚踝' }={}) {
+import { keyedRandom } from '../services/rng.js';
+export function createInjury({ type='????', severity='minor', date, bodyPart='??', rng=keyedRandom('injury', date || 'today', type, severity) }={}) {
   const [min,max] = SEVERITY[severity].weeks;
-  const weeks = min + Math.floor(Math.random()*(max-min+1));
-  return { id:`inj-${Date.now()}-${Math.random().toString(36).slice(2,6)}`,type,severity,bodyPart,status:'active',remainingDays:weeks*7,progress:0,relapseRisk:SEVERITY[severity].risk,treatment:'steady',createdAt:date || new Date().toISOString().slice(0,10) };
+  const weeks = rng.int(min,max);
+  return { id:`inj-${rng.int(100000,999999)}`,type,severity,bodyPart,status:'active',remainingDays:weeks*7,progress:0,relapseRisk:SEVERITY[severity].risk,treatment:'steady',createdAt:date || new Date().toISOString().slice(0,10) };
 }
 export function advanceInjury(injury, days=1, context={}) {
   const next={...injury};
@@ -21,7 +22,7 @@ export function advanceInjury(injury, days=1, context={}) {
   return next;
 }
 export function chooseTreatment(injury, treatment) {
-  const map = { light:{label:'轻量恢复',risk:-1}, steady:{label:'稳妥治疗',risk:-3}, aggressive:{label:'激进复出',risk:5} };
+  const map = { light:{label:'????',risk:-1}, steady:{label:'????',risk:-3}, aggressive:{label:'????',risk:5} };
   const next={...injury,treatment};
   next.relapseRisk=Math.max(1,next.relapseRisk+(map[treatment]?.risk||0));
   return next;

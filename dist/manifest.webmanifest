@@ -1,9 +1,0 @@
-{
-  "name": "绿茵浮沉 · 足球生涯",
-  "short_name": "绿茵浮沉",
-  "start_url": "./",
-  "display": "standalone",
-  "background_color": "#f4f7fb",
-  "theme_color": "#f4f7fb",
-  "icons": [{"src":"./icon.svg","sizes":"any","type":"image/svg+xml","purpose":"any maskable"}]
-}

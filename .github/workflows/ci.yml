@@ -1,0 +1,39 @@
+name: Football Career CI
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+      - name: Install
+        run: npm ci
+      - name: Unit tests
+        run: npm test
+      - name: Static checks
+        run: node tests/static-check.mjs
+      - name: Core progression audits
+        run: |
+          node tests/pace-playability.mjs
+          node tests/time-system-v19.1.mjs
+          node tests/acceptance-tests.mjs
+          node tests/runtime-audit.mjs
+          node tests/v20-product-audit.mjs
+      - name: Production build
+        run: npm run build
+      - name: Upload production artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: football-career-dist
+          path: dist
+          if-no-files-found: error
