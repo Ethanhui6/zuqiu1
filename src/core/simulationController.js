@@ -13,19 +13,19 @@ export class SimulationController {
   describe(action,state=this.store.get()){
     const match=this.nextMatch(state);
     const map={
-      nextEvent:{label:'????',target:this.nextEventDate(state),days:daysBetween(state.simulation.date,this.nextEventDate(state)),pause:'???????',summary:false},
-      nextMatch:{label:'?????',target:match?.date||state.simulation.date,days:match?daysBetween(state.simulation.date,match.date):0,pause:'?????',summary:true},
-      week:{label:'????',target:addDays(state.simulation.date,7),days:7,pause:'???????',summary:true},
-      month:{label:'?????',target:addDays(state.simulation.date,30),days:30,pause:'???????',summary:true},
-      halfSeason:{label:'?????',target:addDays(state.simulation.date,120),days:120,pause:'??????????',summary:true},
-      window:{label:'???????',target:`${new Date(state.simulation.date).getUTCFullYear()+1}-01-01`,days:daysBetween(state.simulation.date,`${new Date(state.simulation.date).getUTCFullYear()+1}-01-01`),pause:'??????',summary:true},
-      seasonEnd:{label:'???????',target:`${new Date(state.simulation.date).getUTCFullYear()+1}-06-30`,days:daysBetween(state.simulation.date,`${new Date(state.simulation.date).getUTCFullYear()+1}-06-30`),pause:'????',summary:true}
+      nextEvent:{label:'下一事件',target:this.nextEventDate(state),days:daysBetween(state.simulation.date,this.nextEventDate(state)),pause:'遇到待处理事件',summary:false},
+      nextMatch:{label:'下一场比赛',target:match?.date||state.simulation.date,days:match?daysBetween(state.simulation.date,match.date):0,pause:'比赛前准备',summary:true},
+      week:{label:'推进一周',target:addDays(state.simulation.date,7),days:7,pause:'关键事件或比赛',summary:true},
+      month:{label:'推进一个月',target:addDays(state.simulation.date,30),days:30,pause:'关键事件或比赛',summary:true},
+      halfSeason:{label:'推进半赛季',target:addDays(state.simulation.date,120),days:120,pause:'比赛、伤病或转会窗口',summary:true},
+      window:{label:'推进至转会窗口',target:`${new Date(state.simulation.date).getUTCFullYear()+1}-01-01`,days:daysBetween(state.simulation.date,`${new Date(state.simulation.date).getUTCFullYear()+1}-01-01`),pause:'转会窗口开启',summary:true},
+      seasonEnd:{label:'推进至赛季结束',target:`${new Date(state.simulation.date).getUTCFullYear()+1}-06-30`,days:daysBetween(state.simulation.date,`${new Date(state.simulation.date).getUTCFullYear()+1}-06-30`),pause:'赛季结束',summary:true}
     };
     return map[action];
   }
   async advance(action){
     if(this.running) return {status:'busy'};
-    const desc=this.describe(action); if(!desc) throw new Error('??????');
+    const desc=this.describe(action); if(!desc) throw new Error('未知推进方式');
     if(this.store.get().simulation.paused) return {status:'paused'};
     this.running=true; this.cancelled=false;
     const max=Math.max(0,desc.days); let processed=0; let stopReason='target'; let generatedEvent=null; let matchReady=null;
@@ -40,7 +40,7 @@ export class SimulationController {
         state.season.progress=Math.max(0,Math.min(100,Math.round(daysBetween(`${new Date(nextDate).getUTCFullYear()}-07-01`,nextDate)/365*100)));
         state.injuries=state.injuries.map(injury=>advanceInjury(injury,1,{date:nextDate,recoveryBonus:state.training.autoStrategy==='recovery'?.18:0}));
         if(state.player && (state.season.week%2===0) && !state.simulation.processedKeys.includes(`micro:${state.season.week}`)){
-          applyGrowthToState(state,{passing:.02,physical:.015},{source:'????',fatigue:state.player.fatigue||0,facility:74,coachQuality:72,injured:state.injuries.some(x=>x.status==='active')});
+          applyGrowthToState(state,{passing:.02,physical:.015},{source:'时间推进',fatigue:state.player.fatigue||0,facility:74,coachQuality:72,injured:state.injuries.some(x=>x.status==='active')});
           state.simulation.processedKeys.push(`micro:${state.season.week}`);
         }
         return state;

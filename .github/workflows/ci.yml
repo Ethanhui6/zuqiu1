@@ -18,6 +18,8 @@ jobs:
           cache: npm
       - name: Install
         run: npm ci
+      - name: Text integrity
+        run: npm run check:text
       - name: Unit tests
         run: npm test
       - name: Static checks
