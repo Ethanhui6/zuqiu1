@@ -17,3 +17,5 @@ npm run build
 - `CLOUDFLARE_ACCOUNT_ID`
 
 GitHub Actions 会构建 `dist` 并部署到 Cloudflare Pages 项目 `zuqiu1`。
+
+Pages 原生 Git 部署配置：构建命令为 `npm run build`，构建输出目录为 `dist`；GitHub Actions 负责测试和构建校验，不重复发布 Pages。
