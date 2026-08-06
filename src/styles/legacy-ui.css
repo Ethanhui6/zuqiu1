@@ -1,0 +1,138 @@
+/* Canonical visual layer: legacy Apple football UI over the current game runtime. */
+:root {
+  --color-bg: #f2f2f7;
+  --color-surface: rgba(255, 255, 255, .86);
+  --color-surface-solid: #fff;
+  --color-surface-secondary: rgba(0, 0, 0, .045);
+  --color-text-primary: #1c1c1e;
+  --color-text-secondary: #3a3a3c;
+  --color-text-tertiary: #8e8e93;
+  --color-accent: #007aff;
+  --color-accent-soft: rgba(0, 122, 255, .1);
+  --color-border: rgba(0, 0, 0, .08);
+  --color-separator: rgba(0, 0, 0, .12);
+  --radius-sm: 12px;
+  --radius-md: 14px;
+  --radius-lg: 18px;
+  --radius-xl: 22px;
+  --shadow-card: 0 6px 20px rgba(0, 0, 0, .04);
+  --shadow-sheet: 0 18px 48px rgba(0, 0, 0, .22);
+}
+
+html, body { background: var(--color-bg); overflow-x: hidden; }
+body { color: var(--color-text-primary); }
+.app-shell { background: var(--color-bg); }
+.v20-app-header {
+  height: calc(60px + var(--safe-top));
+  padding: var(--safe-top) 12px 0;
+  background: rgba(242, 242, 247, .82);
+  border-bottom: 1px solid var(--color-border);
+  backdrop-filter: blur(22px) saturate(180%);
+  -webkit-backdrop-filter: blur(22px) saturate(180%);
+}
+.v20-header-player { grid-template-columns: 38px minmax(0, 1fr); gap: 8px; min-height: 44px; }
+.v20-header-avatar { width: 38px; height: 38px; border-radius: 13px; background: var(--color-accent); color: #fff; box-shadow: none; }
+.v20-header-player__copy strong { font-size: 13px; }
+.v20-header-player__copy small { font-size: 10px; }
+.v20-header-icon-button, .v20-save-button, .v20-pace-chip { min-height: 42px; border-radius: 13px; }
+.v20-pace-chip { background: var(--color-accent-soft); }
+.v20-save-button { background: transparent; }
+.v20-main-viewport { background: var(--color-bg); }
+.v20-tab-bar {
+  width: min(calc(100% - 20px), 650px);
+  height: calc(68px + var(--safe-bottom));
+  margin: 0 auto max(8px, var(--safe-bottom));
+  padding: 6px 6px var(--safe-bottom);
+  border: 1px solid rgba(255, 255, 255, .92);
+  border-radius: 24px;
+  background: rgba(255, 255, 255, .84);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, .08);
+  backdrop-filter: blur(24px) saturate(180%);
+  -webkit-backdrop-filter: blur(24px) saturate(180%);
+}
+.v20-tab-button { min-height: 52px; border-radius: 18px; color: var(--color-text-tertiary); }
+.v20-tab-button.is-active { color: var(--color-accent); background: var(--color-accent-soft); }
+.v20-tab-button .ui-icon { font-size: 18px; }
+.v20-tab-button__label { font-size: 11px; }
+.page { max-width: 760px; padding: 14px 12px 30px; }
+.page h1 { font-size: 28px; letter-spacing: -.02em; }
+.page h2 { font-size: 19px; letter-spacing: 0; }
+.glass-card, .v20-focus-card, .v20-player-snapshot, .v20-career-console, .v20-home-mini-card,
+.v20-training-reminder, .v20-pace-card, .v20-recent-summary, .v20-settings-list,
+.v20-transfer-offer-card, .v20-match-result-hero, .v20-match-summary-card, .v20-post-match-highlight {
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-card);
+  background: var(--color-surface);
+}
+.v20-career-page { display: grid; gap: 12px; max-width: 760px; }
+.v20-focus-card { min-height: 78px; padding: 12px; border-left: 4px solid var(--color-accent); }
+.v20-focus-icon { width: 40px; height: 40px; border-radius: 13px; }
+.v20-focus-copy strong { font-size: 15px; }
+.v20-focus-copy span, .v20-focus-copy p { font-size: 11px; }
+.v20-career-pair { grid-template-columns: 1fr; gap: 12px; }
+.v20-player-snapshot { min-height: 188px; padding: 14px; background: linear-gradient(145deg, #fff9df, #d7a73c); color: #2b1e06; }
+.v20-player-avatar { width: 64px; height: 64px; border-radius: 18px; background: rgba(255,255,255,.65); color: #6b4b0d; }
+.v20-player-name, .v20-player-club { color: inherit; }
+.profile-grid > .player-card {
+  padding: 16px;
+  border-radius: 22px;
+  border-color: rgba(173, 117, 0, .22);
+  background: linear-gradient(145deg, #fff9df, #d7a73c);
+  color: #2b1e06;
+  box-shadow: 0 12px 30px rgba(212, 175, 55, .2);
+}
+.profile-grid > .player-card::after { background: rgba(255, 255, 255, .2); }
+.profile-grid > .player-card .player-avatar { width: 72px; height: 72px; border-radius: 20px; }
+.profile-grid > .player-card .player-card__identity p,
+.profile-grid > .player-card .mini-fact small { color: rgba(43, 30, 6, .7); }
+.profile-grid > .player-card .mini-fact { background: rgba(255, 255, 255, .42); border-color: rgba(43, 30, 6, .1); }
+.v20-career-console { padding: 14px; }
+.v20-home-twin { gap: 10px; }
+.v20-home-mini-card { min-height: 108px; padding: 12px; }
+.v20-advance-panel, .v20-training-reminder, .v20-pace-card, .v20-recent-summary { border-radius: var(--radius-lg); }
+.save-select-root { padding: max(16px, var(--safe-top)) 12px max(18px, var(--safe-bottom)); }
+.save-select { width: min(100%, 760px); }
+.save-hero { margin: 8px auto 18px; }
+.hero-ball { font-size: 38px; margin-bottom: 6px; }
+.save-hero h1 { font-size: 25px; margin-bottom: 8px; }
+.save-hero p { font-size: 13px; color: var(--color-text-secondary); }
+.save-grid { gap: 10px; }
+.save-card, .save-card--new { border-radius: var(--radius-lg); box-shadow: var(--shadow-card); }
+.save-card { padding: 14px; }
+.save-card--new { min-height: 128px; }
+.new-plus { font-size: 30px; }
+.onboarding-root { min-height: 100dvh; background: var(--color-bg); }
+.player-setup { min-height: 100dvh; }
+.setup-header { min-height: 60px; padding: max(10px, var(--safe-top)) 14px 8px; background: rgba(242,242,247,.86); border-bottom: 1px solid var(--color-border); }
+.setup-main { width: min(100%, 760px); margin: 0 auto; padding: 12px; }
+.setup-panel { padding: 14px; border-radius: var(--radius-lg); background: var(--color-surface); border: 1px solid var(--color-border); box-shadow: var(--shadow-card); }
+.setup-actions { position: sticky; bottom: 0; z-index: 4; width: min(100%, 760px); margin: 0 auto; padding: 8px 12px max(8px, var(--safe-bottom)); background: rgba(242,242,247,.88); border-top: 1px solid var(--color-border); backdrop-filter: blur(18px); }
+.setup-actions .button { min-height: 46px; border-radius: 14px; }
+.setup-progress-track { height: 5px; border-radius: 4px; }
+.form-grid, .choice-grid, .talent-grid { gap: 9px; }
+.field input, .field select, .search-input, .select-input { min-height: 46px; padding: 10px 12px; border-radius: 13px; }
+.position-layout { gap: 12px; }
+.pitch-selector { border-radius: 18px; }
+.selection-card, .talent-card, .club-select-card, .pace-mode-card { border-radius: 15px; }
+.sheet { border-radius: 22px; box-shadow: var(--shadow-sheet); }
+.sheet-head { padding: 12px 16px; }
+.sheet-body { padding: 14px; }
+.v20-settings-group { margin-top: 14px; }
+.v20-settings-list { border-radius: var(--radius-lg); }
+.v20-settings-row { min-height: 62px; padding: 9px 11px; }
+.v20-settings-copy strong { font-size: 13px; }
+.v20-settings-copy small { font-size: 10px; }
+.v20-settings-icon { width: 34px; height: 34px; border-radius: 11px; }
+.ui-icon { stroke-width: 1.8; }
+
+@media (min-width: 768px) {
+  .v20-career-pair { grid-template-columns: minmax(240px, .8fr) minmax(0, 1.2fr); }
+  .v20-app-header { padding-left: max(18px, calc((100vw - 760px) / 2)); padding-right: max(18px, calc((100vw - 760px) / 2)); }
+}
+@media (max-width: 479px) {
+  .v20-header-action-label, .v20-save-button__label { display: none; }
+  .v20-app-header { grid-template-columns: 42px minmax(0, 1fr) 82px; }
+  .page { padding-left: 10px; padding-right: 10px; }
+  .v20-home-twin, .v20-summary-strip, .v20-match-summary-grid, .v20-transfer-strategy-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}

@@ -1,0 +1,35 @@
+{
+  "LegacyVisualReference": {
+    "url": "https://26c7cd02.zuqiu-4tt.pages.dev/",
+    "source": "legacy/preview.html + legacy/css/style.css",
+    "viewports": [
+      {"width": 375, "height": 812},
+      {"width": 390, "height": 844},
+      {"width": 393, "height": 852},
+      {"width": 430, "height": 932},
+      {"width": 1440, "height": 900}
+    ]
+  },
+  "FeatureMigrationMap": [
+    {"route": "saves", "legacyReference": "welcome / save slots", "currentProblem": "V20 welcome screen is too sparse", "retainedFunctionality": ["slot list", "create", "continue", "delete", "import/export"], "replacementComponent": "saveSelectPage", "completionStatus": "in-progress"},
+    {"route": "create", "legacyReference": "compact wizard sheet", "currentProblem": "six-step flow uses a large dashboard layout", "retainedFunctionality": ["identity", "body", "position pitch", "style", "talent report", "academy and pace"], "replacementComponent": "onboardingPage", "completionStatus": "in-progress"},
+    {"route": "career", "legacyReference": "compact player header and action cards", "currentProblem": "V20 uses a wide split console", "retainedFunctionality": ["attention", "growth", "events", "time advance", "objectives", "facilities", "save"], "replacementComponent": "careerPage + appShell", "completionStatus": "in-progress"},
+    {"route": "profile", "legacyReference": "player detail and radar", "currentProblem": "detail density and hierarchy need legacy treatment", "retainedFunctionality": ["attributes", "radar", "career stats", "relations", "achievements"], "replacementComponent": "profilePage + playerCard", "completionStatus": "planned"},
+    {"route": "training", "legacyReference": "training cards", "currentProblem": "V20 controls are over-expanded", "retainedFunctionality": ["recommendation", "plans", "fatigue", "risk", "settlement"], "replacementComponent": "trainingPage", "completionStatus": "planned"},
+    {"route": "match", "legacyReference": "match event sheet", "currentProblem": "match detail needs compact result hierarchy", "retainedFunctionality": ["fixture", "choices", "result", "performance", "review"], "replacementComponent": "matchPage", "completionStatus": "planned"},
+    {"route": "transfer", "legacyReference": "club offer cards", "currentProblem": "offer lists need tighter scan density", "retainedFunctionality": ["window", "offers", "contract", "club detail"], "replacementComponent": "transferPage", "completionStatus": "planned"},
+    {"route": "more", "legacyReference": "grouped compact settings list", "currentProblem": "secondary pages need one consistent list system", "retainedFunctionality": ["world", "honours", "rankings", "settings", "saves"], "replacementComponent": "morePage + sheets", "completionStatus": "planned"},
+    {"route": "world", "legacyReference": "world map explorer", "currentProblem": "map hierarchy needs legacy spacing", "retainedFunctionality": ["continent", "country", "league", "club"], "replacementComponent": "worldPage", "completionStatus": "planned"}
+  ],
+  "CanonicalDesignSystem": {
+    "tokens": "src/styles/legacy-ui.css",
+    "iconSystem": "src/components/icons.js",
+    "navigation": "src/components/appShell.js",
+    "overlays": "src/components/sheet.js"
+  },
+  "UIReplacementRegistry": {
+    "productionEntry": "src/main.js",
+    "legacyRuntime": "reference-only; never shipped as a second entry",
+    "removedWhenReplaced": ["V20 wide split career layout", "duplicated navigation", "duplicated overlay runtime"]
+  }
+}
