@@ -1,0 +1,29 @@
+{
+  "countryCode": "GB-ENG",
+  "locale": "en-GB",
+  "givenNamesMale": [
+    "Ethan",
+    "Jack",
+    "Oliver",
+    "Harry",
+    "Noah",
+    "George",
+    "Leo"
+  ],
+  "familyNames": [
+    "Walker",
+    "Harrison",
+    "Smith",
+    "Taylor",
+    "Bennett",
+    "Hughes",
+    "Wilson"
+  ],
+  "nameOrder": "given-family",
+  "separator": " ",
+  "displayScript": "latin",
+  "romanizationOptional": false,
+  "nicknameRules": [
+    "short-given-name"
+  ]
+}

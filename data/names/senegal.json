@@ -1,0 +1,25 @@
+{
+  "countryCode": "SN",
+  "locale": "fr-SN",
+  "givenNamesMale": [
+    "Mamadou",
+    "Ibrahima",
+    "Ousmane",
+    "Sadio",
+    "Cheikh",
+    "Idrissa"
+  ],
+  "familyNames": [
+    "Diop",
+    "Ndiaye",
+    "Fall",
+    "Ba",
+    "Sarr",
+    "Diallo"
+  ],
+  "nameOrder": "given-family",
+  "separator": " ",
+  "displayScript": "latin",
+  "romanizationOptional": false,
+  "nicknameRules": []
+}

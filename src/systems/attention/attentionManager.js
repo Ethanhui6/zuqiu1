@@ -35,7 +35,7 @@ export function collectAttentionItems(save,repo){
   const messages=unreadMessages(save);
   for(const message of messages.slice(0,3))items.push(item(`message:${message.id}`,message.action||'more',message.type==='必须处理'?'important':'info',message.title,message.text,'●',message.action||'messages'));
   const unseen=(save.achievements?.unlocked||[]).filter(id=>!(save.achievements?.notified||[]).includes(id));
-  if(unseen.length)items.push(item(`honours:${unseen.join(',')}`,'more','info',`${unseen.length}项新成就待查看`,'荣誉室已经记录新的里程碑。','🏆','honours'));
+  if(unseen.length)items.push(item(`honours:${unseen.join(',')}`,'more','info',`${unseen.length}项新成就待查看`,'荣誉室已经记录新的里程碑。','trophy','honours'));
   const next=upcomingFixtures(save,repo,1)[0];
   if(next){const opponent=repo.getClub(next.opponentId);items.push(item(`fixture:${next.id}`,'match','info',`下一场对阵${opponent?.cn||'对手'}`,`${next.competition} · ${next.home?'主场':'客场'} · ${next.importance}`,'⚽'))}
   return items.sort((a,b)=>(LEVEL_WEIGHT[b.level]||0)-(LEVEL_WEIGHT[a.level]||0));

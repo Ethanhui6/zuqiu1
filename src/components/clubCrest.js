@@ -1,28 +1,33 @@
-import {el} from '../utils/dom.js';
-const PLACEHOLDER='./assets/crests/placeholder.svg';
+import { el } from '../utils/dom.js';
 
-export function crestSvg(club,{size=48}={}){
-  const label=String(club?.cn||club?.name||club?.id||'FC').trim();
-  const safeLabel=label.replace(/[&<>"']/g,char=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[char]));
-  const initials=label.replace(/[^\p{L}\p{N}]/gu,'').slice(0,2)||'FC';
-  const seed=[...String(club?.id||label)].reduce((sum,char)=>sum+char.codePointAt(0),0);
-  const hue=seed%360;
-  return `<svg class="club-crest club-crest--fallback" width="${size}" height="${size}" viewBox="0 0 64 64" role="img" aria-label="${safeLabel}队徽"><path fill="hsl(${hue} 45% 34%)" stroke="hsl(${(hue+42)%360} 70% 68%)" stroke-width="3" d="M10 8h44v20c0 14-8 23-22 28C18 51 10 42 10 28Z"/><path fill="none" stroke="currentColor" stroke-width="2" opacity=".45" d="M16 18h32M32 10v38"/><text x="32" y="36" fill="currentColor" font-size="13" font-family="system-ui,sans-serif" font-weight="800" text-anchor="middle">${initials}</text></svg>`;
+const sizeMap = { large: 72, normal: 56, small: 44 };
+
+export function normalizeClubName(value) {
+  return String(value || '').normalize('NFKC').toLocaleLowerCase().replace(/[\s.·'’‘`-]+/g, '').replace(/足球俱乐部|footballclub|fc$/i, '');
+}
+export function getClubById(clubId, clubs = []) { return clubs.find(club => club?.id === clubId) || null; }
+export function resolveClubAlias(name, clubs = []) {
+  const key = normalizeClubName(name);
+  return clubs.find(club => [club.id, club.cn, club.name, club.nameZh, club.en, club.nameEn, club.native, ...(club.aliases || [])].some(alias => normalizeClubName(alias) === key)) || null;
+}
+export function getClubCrest(club) { const value = club?.crestPath || club?.crest || ''; return validateClubCrest(value) ? value : null; }
+export function validateClubCrest(value) { return typeof value === 'string' && /^\.\/assets\/clubs\/[^/]+\/[^/]+\.(?:svg|png|webp)$/i.test(value); }
+
+export function crestSvg(club, { size = 48, decorative = false } = {}) {
+  const label = `${club?.cn || club?.name || club?.nameZh || '俱乐部'}队徽`;
+  const path = getClubCrest(club);
+  if (!path) return `<span class="club-crest club-crest--inline club-crest--missing" role="img" aria-label="${decorative ? '' : `${escapeHtml(label)}资源暂未匹配`}" data-crest-status="missing">—</span>`;
+  return `<img class="club-crest club-crest--inline" src="${escapeHtml(path)}" alt="${decorative ? '' : escapeHtml(label)}" width="${Number(size) || 48}" height="${Number(size) || 48}" loading="lazy" decoding="async">`;
 }
 
-function localCrestPath(club){
-  const path=club?.crestPath||club?.crest||'';
-  return typeof path==='string'&&path.startsWith('./assets/crests/')?path:PLACEHOLDER;
+export function createClubCrest(club, { size = 'normal', decorative = false } = {}) {
+  const pixels = sizeMap[size] || sizeMap.normal;
+  const label = `${club?.cn || club?.name || club?.nameZh || '俱乐部'}队徽`;
+  const path = getClubCrest(club);
+  if (!path) return el('span', { className: `club-crest club-crest--${size} club-crest--missing`, attrs: { role: 'img', 'aria-label': decorative ? '' : `${label}资源暂未匹配`, 'data-crest-status': 'missing' }, text: '—' });
+  const image = el('img', { className: `club-crest club-crest--${size}`, attrs: { src: path, alt: decorative ? '' : label, width: pixels, height: pixels, loading: 'lazy', decoding: 'async' } });
+  image.addEventListener('error', () => { image.replaceWith(createClubCrest({ ...club, crest: null }, { size, decorative })); });
+  return image;
 }
 
-export function createClubCrest(club,{size='normal',decorative=false}={}){
-  const className=`club-crest club-crest--${size}`;
-  if(localCrestPath(club)===PLACEHOLDER){const fallback=el('span',{className:`${className} club-crest-fallback`,attrs:{'aria-label':decorative?'':`${club?.cn||club?.name||'俱乐部'}队徽`}});fallback.innerHTML=crestSvg(club,{size:size==='large'?72:size==='small'?44:56});return fallback;}
-  const img=el('img',{className,attrs:{src:localCrestPath(club),alt:decorative?'':`${club?.cn||'俱乐部'}队徽`,width:size==='large'?72:size==='small'?44:56,height:size==='large'?72:size==='small'?44:56,loading:'lazy',decoding:'async'}});
-  img.dataset.fallback='0';
-  img.addEventListener('error',()=>{
-    if(img.dataset.fallback==='1')return;
-    img.dataset.fallback='1';img.src=PLACEHOLDER;img.alt=decorative?'':'俱乐部队徽占位图';
-  });
-  return img;
-}
+function escapeHtml(value) { return String(value).replace(/[&<>"']/g, char => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[char])); }

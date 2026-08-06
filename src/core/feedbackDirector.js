@@ -1,4 +1,5 @@
 import { icon } from '../components/icons.js';
+import { audioManager } from './audioManager.js';
 
 const BASE_FEEDBACK_CATALOG = {
   click:{tone:'neutral',icon:'check',effect:'tap',title:'已选择'}, select:{tone:'neutral',icon:'check',effect:'focus',title:'选项已锁定'}, save:{tone:'success',icon:'save',effect:'save',title:'存档完成'}, pause:{tone:'warning',icon:'pause',effect:'freeze',title:'推进已暂停'}, resume:{tone:'success',icon:'play',effect:'resume',title:'继续推进'},
@@ -24,7 +25,11 @@ export const FEEDBACK_CATALOG = Object.freeze({...BASE_FEEDBACK_CATALOG,...GENER
 export const feedbackScenarioCount = Object.keys(FEEDBACK_CATALOG).length;
 
 export class FeedbackDirector {
-  constructor(root=document.body){ this.root=root; this.stack=null; }
+  constructor(root=document.body){ this.root=root; this.stack=null; this.soundEnabled=true; }
+  setSoundEnabled(enabled){ this.soundEnabled=Boolean(enabled); audioManager.setMuted(!this.soundEnabled); }
+  sound(kind='tap'){
+    if(this.soundEnabled)audioManager.play(kind==='success'?'correct':kind==='failure'?'failure':'tap');
+  }
   ensureStack(){ if(!this.stack){ this.stack=document.createElement('div'); this.stack.className='toast-stack'; document.body.append(this.stack);} return this.stack; }
   emit(type, detail=''){
     const item=FEEDBACK_CATALOG[type]||FEEDBACK_CATALOG.click;
@@ -34,6 +39,7 @@ export class FeedbackDirector {
     this.ensureStack().append(toast);
     setTimeout(()=>toast.remove(),2600);
     if(['attributeUp','talentReveal','award','hiddenEnding','recovered'].includes(type)) this.burst(item.title,item.icon);
+    if(['attributeUp','award','matchEnd','trainingComplete','recovered','failure','newEvent','newRecord','save','todo'].includes(type)) this.sound(item.tone==='danger'?'failure':type==='newRecord'||type==='award'?'record':type==='newEvent'?'event':item.tone==='success'?'success':'tap');
     return toast;
   }
   emitScenario(index, detail=''){

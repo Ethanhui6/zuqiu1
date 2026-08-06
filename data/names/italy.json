@@ -1,0 +1,25 @@
+{
+  "countryCode": "IT",
+  "locale": "it-IT",
+  "givenNamesMale": [
+    "Marco",
+    "Lorenzo",
+    "Matteo",
+    "Andrea",
+    "Luca",
+    "Davide"
+  ],
+  "familyNames": [
+    "Romano",
+    "Bianchi",
+    "Rossi",
+    "Conti",
+    "Esposito",
+    "Ferrari"
+  ],
+  "nameOrder": "given-family",
+  "separator": " ",
+  "displayScript": "latin",
+  "romanizationOptional": false,
+  "nicknameRules": []
+}

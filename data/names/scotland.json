@@ -1,0 +1,27 @@
+{
+  "countryCode": "GB-SCT",
+  "locale": "en-GB",
+  "givenNamesMale": [
+    "Callum",
+    "Finlay",
+    "Lewis",
+    "Hamish",
+    "Jamie",
+    "Ross"
+  ],
+  "familyNames": [
+    "McLean",
+    "Fraser",
+    "Murray",
+    "Campbell",
+    "Graham",
+    "Stewart"
+  ],
+  "nameOrder": "given-family",
+  "separator": " ",
+  "displayScript": "latin",
+  "romanizationOptional": false,
+  "nicknameRules": [
+    "short-given-name"
+  ]
+}

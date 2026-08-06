@@ -1,0 +1,27 @@
+{
+  "countryCode": "BR",
+  "locale": "pt-BR",
+  "givenNamesMale": [
+    "Tiago",
+    "João",
+    "Gabriel",
+    "Pedro",
+    "Matheus",
+    "Rafael"
+  ],
+  "familyNames": [
+    "Silva",
+    "Santos",
+    "Oliveira",
+    "Souza",
+    "Pereira",
+    "Costa"
+  ],
+  "nameOrder": "given-family",
+  "separator": " ",
+  "displayScript": "latin",
+  "romanizationOptional": false,
+  "nicknameRules": [
+    "football-nickname"
+  ]
+}

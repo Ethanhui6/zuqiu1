@@ -1,0 +1,25 @@
+{
+  "countryCode": "SA",
+  "locale": "ar-SA",
+  "givenNamesMale": [
+    "محمد",
+    "عبدالله",
+    "سلمان",
+    "عمر",
+    "خالد",
+    "فيصل"
+  ],
+  "familyNames": [
+    "العتيبي",
+    "الغامدي",
+    "الدوسري",
+    "القحطاني",
+    "الحربي",
+    "الشمري"
+  ],
+  "nameOrder": "given-family",
+  "separator": " ",
+  "displayScript": "native",
+  "romanizationOptional": true,
+  "nicknameRules": []
+}

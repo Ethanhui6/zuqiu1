@@ -1,0 +1,25 @@
+{
+  "countryCode": "NL",
+  "locale": "nl-NL",
+  "givenNamesMale": [
+    "Daan",
+    "Sem",
+    "Lars",
+    "Finn",
+    "Bram",
+    "Thijs"
+  ],
+  "familyNames": [
+    "de Vries",
+    "van Dijk",
+    "Jansen",
+    "Bakker",
+    "Smit",
+    "de Jong"
+  ],
+  "nameOrder": "given-family",
+  "separator": " ",
+  "displayScript": "latin",
+  "romanizationOptional": false,
+  "nicknameRules": []
+}

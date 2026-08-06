@@ -1,0 +1,25 @@
+{
+  "countryCode": "MA",
+  "locale": "ar-MA",
+  "givenNamesMale": [
+    "Youssef",
+    "Amine",
+    "Hamza",
+    "Ayoub",
+    "Zakaria",
+    "Rachid"
+  ],
+  "familyNames": [
+    "Alaoui",
+    "Bennani",
+    "El Idrissi",
+    "Amrani",
+    "Tazi",
+    "Berrada"
+  ],
+  "nameOrder": "given-family",
+  "separator": " ",
+  "displayScript": "latin",
+  "romanizationOptional": false,
+  "nicknameRules": []
+}

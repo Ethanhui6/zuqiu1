@@ -1,0 +1,25 @@
+{
+  "countryCode": "TR",
+  "locale": "tr-TR",
+  "givenNamesMale": [
+    "Emir",
+    "Arda",
+    "Kerem",
+    "Efe",
+    "Mert",
+    "Can"
+  ],
+  "familyNames": [
+    "Yılmaz",
+    "Kaya",
+    "Demir",
+    "Şahin",
+    "Çelik",
+    "Aydın"
+  ],
+  "nameOrder": "given-family",
+  "separator": " ",
+  "displayScript": "latin",
+  "romanizationOptional": false,
+  "nicknameRules": []
+}

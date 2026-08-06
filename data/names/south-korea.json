@@ -1,0 +1,27 @@
+{
+  "countryCode": "KR",
+  "locale": "ko-KR",
+  "givenNamesMale": [
+    "敏俊",
+    "贤宇",
+    "志勋",
+    "道允",
+    "建宇",
+    "俊赫",
+    "成民"
+  ],
+  "familyNames": [
+    "金",
+    "李",
+    "朴",
+    "崔",
+    "郑",
+    "姜",
+    "尹"
+  ],
+  "nameOrder": "family-given",
+  "separator": "",
+  "displayScript": "native",
+  "romanizationOptional": true,
+  "nicknameRules": []
+}

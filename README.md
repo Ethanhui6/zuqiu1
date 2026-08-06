@@ -11,9 +11,6 @@ npm run build
 
 ## 部署
 
-上传全部文件到 GitHub 仓库根目录并提交到 `main`。仓库需配置：
+项目 `zuqiu` 使用 Cloudflare Pages 的 GitHub 原生连接：GitHub Actions 只负责测试和构建，Pages 负责 PR 预览与生产分支部署。不要提交 `dist/`，也不要使用 Wrangler 重复发布。
 
-- `CLOUDFLARE_API_TOKEN`
-- `CLOUDFLARE_ACCOUNT_ID`
-
-GitHub Actions 会验证并构建 `dist`，再部署到 Cloudflare Pages 项目 `zuqiu`（生产候选：[zuqiu-4tt.pages.dev](https://zuqiu-4tt.pages.dev)）。
+完整流程见 [README_DEPLOY.md](README_DEPLOY.md)。

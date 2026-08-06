@@ -1,0 +1,26 @@
+{
+  "countryCode": "US",
+  "locale": "en-US",
+  "givenNamesMale": [
+    "Ethan",
+    "Jack",
+    "Michael",
+    "Jordan",
+    "Noah",
+    "Cameron",
+    "Luis"
+  ],
+  "familyNames": [
+    "Walker",
+    "Johnson",
+    "Brown",
+    "Williams",
+    "Garcia",
+    "Miller"
+  ],
+  "nameOrder": "given-family",
+  "separator": " ",
+  "displayScript": "latin",
+  "romanizationOptional": false,
+  "nicknameRules": []
+}

@@ -1,0 +1,25 @@
+{
+  "countryCode": "OTHER",
+  "locale": "en-US",
+  "givenNamesMale": [
+    "Alex",
+    "Sam",
+    "Noah",
+    "Leo",
+    "Milan",
+    "Kai"
+  ],
+  "familyNames": [
+    "Morgan",
+    "Taylor",
+    "Lee",
+    "Martin",
+    "Silva",
+    "Novak"
+  ],
+  "nameOrder": "given-family",
+  "separator": " ",
+  "displayScript": "latin",
+  "romanizationOptional": false,
+  "nicknameRules": []
+}

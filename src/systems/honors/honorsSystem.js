@@ -1,4 +1,5 @@
 const YEAR_PATTERN = /^(\d{4})\/(\d{2})$/;
+import { applyGrowthToState } from '../../core/playerDevelopmentEngine.js';
 
 export function ensureHonors(state) {
   const honors = state.career.honors = {
@@ -28,7 +29,19 @@ function addOnce(list, item) {
 }
 
 function simulatedHonor(id, name, season, club, category) {
-  return { id, name, season, club, category, dataOrigin: 'generated-fallback', source: 'career simulation' };
+  const assetId = /金靴|Golden Boot/.test(name) ? 'golden-boot' : /年轻|Young/.test(name) ? 'young' : /最佳|Player/.test(name) ? 'player-year' : /杯|Champion/.test(name) ? 'league' : 'legend';
+  return { id, assetId, name, season, club, category, dataOrigin: 'generated-fallback', source: 'career simulation' };
+}
+
+function nextSeasonFixtures(state) {
+  const opponents = ['河畔竞技', '北城学院', '海港青年队', '山城体育', '东港联队', '中央公园'];
+  const start = String(state.season.year).slice(0, 4);
+  return opponents.map((opponent, index) => ({
+    id: `${state.season.year}-fixture-${index}`,
+    date: `${Number(start)}-${String(7 + Math.floor(index / 2)).padStart(2, '0')}-${String(6 + (index % 2) * 7).padStart(2, '0')}`,
+    competition: index % 3 === 0 ? '国内杯赛' : '青年联赛', opponent,
+    venue: index % 2 ? '客场' : '主场', status: 'upcoming', season: state.season.year
+  }));
 }
 
 export function settleSeason(state) {
@@ -43,7 +56,6 @@ export function settleSeason(state) {
   const goals = Number(season.goals || 0);
   const assists = Number(season.assists || 0);
   const rating = Number(season.rating || 0);
-  if (appearances === 0) return { alreadySettled: false, trophies: [], personalAwards: [], record: null };
   const trophies = [];
   const personalAwards = [];
   if (appearances >= 12 && rating >= 7.4) trophies.push(simulatedHonor(`${key}:league`, 'League Champion', season.year, club, 'team'));
@@ -54,10 +66,49 @@ export function settleSeason(state) {
   trophies.forEach(item => addOnce(honors.trophies, item));
   personalAwards.forEach(item => addOnce(honors.personalAwards, item));
 
-  const record = { id: key, year: season.year, club, clubId: player?.clubId || null, appearances, goals, assists, rating, trophies: trophies.map(item => item.name), personalAwards: personalAwards.map(item => item.name), dataOrigin: 'generated-fallback' };
+  const startOvr = Number(season.startOvr ?? player?.ovr ?? 0);
+  const endOvr = Number(player?.ovr ?? startOvr);
+  const startValue = Number(season.startMarketValue ?? state.career.marketValue ?? 0);
+  const endValue = Number(state.career.marketValue ?? startValue);
+  const grade = rating >= 8.4 ? 'SSS' : rating >= 7.8 ? 'SS' : rating >= 7.2 ? 'S' : 'A';
+  const record = {
+    id: key, year: season.year, club, clubId: player?.clubId || null, crestPath: player?.crestPath || null,
+    age: player?.age ?? null, position: player?.position || '未知', appearances, starts: Number(season.starts || 0), goals, assists,
+    cleanSheets: Number(season.cleanSheets || 0), saves: Number(season.saves || 0), penaltySaves: Number(season.penaltySaves || 0),
+    rating, playerOfMatch: Number(season.playerOfMatch || 0), trophies: trophies.map(item => item.name), personalAwards: personalAwards.map(item => item.name),
+    startOvr, endOvr, ovrChange: Number((endOvr - startOvr).toFixed(2)), startValue, endValue, valueChange: endValue - startValue,
+    coachTrustChange: Number(season.coachTrustChange || 0), grade, highlights: season.highlights || [], transfer: season.transfer || null,
+    contract: season.contract || null, injuries: season.injuries || [], dataOrigin: 'generated-fallback'
+  };
   honors.seasons.unshift(record);
   state.career.history.unshift({ date: state.simulation.date, type: 'season-summary', title: `${season.year} season summary`, recordId: key, dataOrigin: 'generated-fallback' });
-  state.season = { ...season, year: nextSeason(season.year), week: 1, progress: 0, appearances: 0, goals: 0, assists: 0, rating: 0 };
+  const nextYear = nextSeason(season.year);
+  if (player?.stats) {
+    state.career.growthLog ??= [];
+    const age = Number(player.age || 18);
+    applyGrowthToState(state, age <= 24 ? { passing: .08, physical: .08 } : { passing: .03, physical: -.04 }, { source: '赛季结算成长', fatigue: 0, facility: 74, coachQuality: 72, mode: 'standard', injured: false });
+  }
+  if (player) player.age = Number(player.age || 18) + 1;
+  state.career ??= {};
+  state.career.marketValue = Math.max(0, Math.round(endValue * (1 + (endOvr - startOvr) / 100 + (Number(player?.age || 18) <= 25 ? .04 : -.02))));
+  state.career.contractMonths = Math.max(0, Number(state.career.contractMonths || 0) - 12);
+  if (state.career.contractMonths === 0) {
+    state.career.contractStatus = '到期待处理';
+    state.ui ??= {};
+    state.ui.todos ??= [];
+    if (!state.ui.todos.some(item => item.id === `contract-${nextYear}`)) state.ui.todos.push({ id: `contract-${nextYear}`, type: '合同', title: '合同到期，转会窗口已开启', date: state.simulation.date });
+  }
+  state.training ??= {};
+  state.training.seasonTrainingCount = 0;
+  state.training.currentOpportunity = null;
+  state.training.completedWeek = 0;
+  state.schedule = nextSeasonFixtures({ ...state, season: { ...season, year: nextYear } });
+  state.season = { ...season, year: nextYear, week: 1, progress: 0, appearances: 0, starts: 0, goals: 0, assists: 0, rating: 0, cleanSheets: 0, saves: 0, penaltySaves: 0, playerOfMatch: 0, keyNodes: 0, startOvr: player?.ovr ?? endOvr, startMarketValue: state.career.marketValue, highlights: [], injuries: [] };
+  state.news ??= { items: [], unread: 0 };
+  state.news.items ??= [];
+  state.news.items.unshift({ id: `season-open-${nextYear}`, date: state.simulation.date, type: '赛季', title: `${nextYear}赛季注册完成`, copy: `${player?.club || club}已生成新赛程，年龄、身价、合同和能力快照已更新。`, read: false });
+  state.news.items = state.news.items.slice(0, 40);
+  state.news.unread = state.news.items.filter(item => !item.read).length;
   return { alreadySettled: false, trophies, personalAwards, record };
 }
 
