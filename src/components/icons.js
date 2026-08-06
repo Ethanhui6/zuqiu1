@@ -1,6 +1,8 @@
 const ICONS = {
   speed:'<path d="M4 13h7l-2 7 7-10h-7l2-6Z"/>',
   shooting:'<circle cx="12" cy="12" r="8"/><path d="M12 4v16M4 12h16M7 7l10 10M17 7 7 17"/>',
+  target:'<circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3"/>',
+  goalkeeper:'<path d="M5 4h14v16H5Z"/><path d="M8 9h8M8 14h8"/><circle cx="12" cy="12" r="2"/>',
   passing:'<path d="M4 12h12M12 7l5 5-5 5"/><circle cx="5" cy="12" r="2"/>',
   dribbling:'<circle cx="6" cy="18" r="2"/><circle cx="18" cy="6" r="2"/><path d="M7.5 16.5 16.5 7.5M8 7c3-2 5 1 3 3s0 5 4 4"/>',
   defending:'<path d="M12 3 5 6v5c0 5 3 8 7 10 4-2 7-5 7-10V6Z"/><path d="m9 12 2 2 4-5"/>',

@@ -7,7 +7,7 @@ export function createDefaultState() {
     version: VERSION,
     route: 'career',
     createdAt: new Date().toISOString(),
-    settings: { mode: 'standard', theme: 'dark', autoSkipLow: true, autoPauseCritical: true, motion: 'full', sound: true, haptics: true },
+    settings: { mode: 'standard', theme: 'light', autoSkipLow: true, autoPauseCritical: true, motion: 'full', sound: true, haptics: true },
     simulation: { paused: false, speed: 1, date: '2026-07-01', processedKeys: [], summaries: [], queue: [] },
     player: null,
     season: { year: '2026/27', week: 1, progress: 0, appearances: 0, goals: 0, assists: 0, rating: 0, objectives: [] },
@@ -21,6 +21,7 @@ export function createDefaultState() {
     career: { marketValue: 650000, weeklySalary: 1800, contractMonths: 30, clubInterest: [], achievements: [], growthLog: [], injuryLog: [], history: [], honors: { trophies: [], personalAwards: [], seasons: [], retirement: null, legendProfile: null } },
     training: { selectedPlan: null, completedWeek: 0, autoStrategy: 'balanced', plansUsed: [], lastResult: null },
     events: { pending: [], history: [], cooldowns: {}, seasonCounts: {}, careerCounts: {}, characterMemory: {}, forcedPauses: 0, resolved: [] },
+    news: { items: [], unread: 0 },
     transfer: { continent: null, country: null, league: null, club: null, offers: [], watchlist: [] },
     ui: { notices: [], lastFeedback: null }
   };
@@ -31,7 +32,7 @@ export function migrateState(input) {
   if (!input || typeof input !== 'object') return base;
   const state = { ...base, ...input };
   state.settings = { ...base.settings, ...(input.settings || {}) };
-  if (!['system','dark','light'].includes(state.settings.theme)) state.settings.theme = 'dark';
+  if (!['system','dark','light'].includes(state.settings.theme)) state.settings.theme = 'light';
   state.simulation = { ...base.simulation, ...(input.simulation || {}) };
   state.season = { ...base.season, ...(input.season || {}) };
   state.relationships = { ...base.relationships, ...(input.relationships || {}) };
@@ -39,6 +40,9 @@ export function migrateState(input) {
   state.career.honors = { ...base.career.honors, ...(input.career?.honors || {}) };
   state.training = { ...base.training, ...(input.training || {}) };
   state.events = { ...base.events, ...(input.events || {}) };
+  state.news = { ...base.news, ...(input.news || {}) };
+  state.news.items = Array.isArray(state.news.items) ? state.news.items : [];
+  state.news.unread = state.news.items.filter(item => !item.read).length;
   state.transfer = { ...base.transfer, ...(input.transfer || {}) };
   state.ui = { ...base.ui, ...(input.ui || {}) };
   state.player = normalizePlayer(input.player);
