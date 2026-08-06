@@ -109,6 +109,12 @@ svg { display: block; }
 .sheet,.dialog { background:rgba(18,26,37,.98); border-color:var(--line); color:var(--text); }
 .sheet-head { background:rgba(18,26,37,.9); }
 .toast { background:rgba(22,31,44,.96); border-color:var(--line); }
+.continent { fill:#1d4439; stroke:#4f8e76; }
+.continent:hover,.continent.active { fill:#2e7358; filter:drop-shadow(0 8px 12px rgba(44,150,103,.22)); }
+.club-node circle { fill:#172535; stroke:var(--blue); }
+.continent { fill:#1d4439; stroke:#4f8e76; }
+.continent:hover,.continent.active { fill:#2e7358; filter:drop-shadow(0 8px 12px rgba(44,150,103,.22)); }
+.club-node circle { fill:#172535; stroke:var(--blue); }
 .result-panel,.scout-reveal { background:linear-gradient(145deg,#1d2c40,#1b2532); }
 .map-stage { background:linear-gradient(180deg,#15283a,#101b28); }
 .club-node circle { fill:#172535; }
@@ -118,6 +124,11 @@ svg { display: block; }
 .choice-card { color:var(--text); }
 .share-card { background:linear-gradient(145deg,#172638,#1b222d); border-color:rgba(201,148,26,.32); }
 .share-card__legend { display:flex; align-items:center; justify-content:space-between; gap:12px; margin:10px 0 16px; color:var(--gold); }
+.input { background:var(--surface-solid); color:var(--text); border-color:var(--line-strong); }
+.icon-button { background:rgba(22,31,44,.88); border-color:var(--line); color:var(--text-2); }
+.glass-tabbar { background:rgba(18,26,37,.9); border-color:var(--line); }
+.map-stage { background:linear-gradient(180deg,#15283a,#101b28); }
+.toast { background:rgba(22,31,44,.96); border-color:var(--line); }
 
 .glass-tabbar {
   position:fixed; z-index:var(--z-tab); left:50%; transform:translateX(-50%); bottom:max(8px, var(--safe-bottom));
@@ -299,3 +310,11 @@ button.surface-card:active, .surface-card[role="button"]:active { transform:scal
 @media (prefers-reduced-motion: reduce) {
   *,*::before,*::after{animation-duration:.001ms;animation-iteration-count:1;scroll-behavior:auto;transition-duration:.001ms}
 }
+.input { background:var(--surface-solid); color:var(--text); border-color:var(--line-strong); }
+.icon-button { background:rgba(22,31,44,.88); border-color:var(--line); color:var(--text-2); }
+.glass-tabbar { background:rgba(18,26,37,.9); border-color:var(--line); }
+.map-stage { background:linear-gradient(180deg,#15283a,#101b28); }
+.toast { background:rgba(22,31,44,.96); border-color:var(--line); }
+.continent { fill:#1d4439; stroke:#4f8e76; }
+.continent:hover,.continent.active { fill:#2e7358; filter:drop-shadow(0 8px 12px rgba(44,150,103,.22)); }
+.club-node circle { fill:#172535; stroke:var(--blue); }

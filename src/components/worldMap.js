@@ -23,7 +23,9 @@ export function worldMapView(state, sourceClubs = CLUBS){
   const selectedClub=state.transfer.club;
   const visibleClubs=selectedLeague?leagueClubs(selectedLeague):selectedCountry?clubs.filter(c=>c.country===selectedCountry):selectedContinent?clubs.filter(c=>c.continent===selectedContinent):clubs;
   const regions=Object.entries(CONTINENTS).map(([name,path])=>`<path class="continent ${selectedContinent===name?'active':''}" data-continent="${name}" d="${path}"/>`).join('');
-  const nodes=visibleClubs.map(c=>`<g class="club-node ${selectedClub===c.id?'active':''}" data-club="${c.id}" transform="translate(${c.x},${c.y})"><circle r="1.8"/><text x="3" y="1">${c.name}</text></g>`).join('');
+  const nodeStep=Math.max(1,Math.ceil(visibleClubs.length/80));
+  const mapClubs=visibleClubs.filter((_,index)=>index%nodeStep===0);
+  const nodes=mapClubs.map(c=>`<g class="club-node ${selectedClub===c.id?'active':''}" data-club="${c.id}" transform="translate(${c.x},${c.y})"><circle r="1.8"/>${selectedLeague?`<text x="3" y="1">${c.name}</text>`:''}</g>`).join('');
   const selector = !selectedContinent
     ? `<div class="action-grid">${availableContinents.map(c=>`<button class="action-tile" data-continent="${c}">${icon('map')}<h3>${c}</h3><p>${clubs.filter(x=>x.continent===c).length} 家球队节点</p></button>`).join('')}</div>`
     : !selectedCountry
