@@ -14,7 +14,10 @@ test('football data keeps provenance and deterministic fallback metadata', () =>
   assert.equal(registry.validation.valid, true, registry.validation.errors.join('; '));
   assert.equal(club.isReal, true);
   assert.equal(club.provenance.dataOrigin, 'curated');
+  assert.ok(club.sourceName);
   assert.ok(club.provenance.sourceName);
+  assert.ok(registry.countries.length >= 20);
+  assert.equal(registry.stats.availablePlayers, 9000);
   assert.ok(registry.rosterForClub(club.id).length >= 11);
   assert.equal(registry.rosterForClub('missing-club', { seed: 'stable' })[0].isReal, false);
   assert.equal(createGeneratedPlayer({ clubId: club.id, seed: 'stable' }).provenance.dataOrigin, 'generated-fallback');

@@ -60,6 +60,7 @@ function normalizeAttrs(attrs = {}, position) {
 export function normalizeClub(club = {}) {
   const id = String(club.id || club.code || '');
   const hash = hashSeed(id);
+  const meta = provenance(club, 'identity', DATA_ORIGINS.CURATED);
   return {
     ...club,
     id,
@@ -74,8 +75,9 @@ export function normalizeClub(club = {}) {
     style: club.style || club.tactic || 'balanced',
     formation: club.formation || '4-3-3',
     salary: club.salary || 'simulation range',
-    isReal: club.isReal ?? true,
-    provenance: provenance(club, 'identity', DATA_ORIGINS.CURATED),
+    ...meta,
+    isReal: club.isReal ?? meta.isReal,
+    provenance: meta,
     dataOrigin: {
       identity: sourceOrigin(club, 'identity', DATA_ORIGINS.CURATED),
       profile: sourceOrigin(club, 'profile', DATA_ORIGINS.CURATED),
@@ -86,6 +88,7 @@ export function normalizeClub(club = {}) {
 
 export function normalizePlayer(player = {}) {
   const position = POSITIONS.includes(player.position || player.pos) ? (player.position || player.pos) : 'CM';
+  const meta = provenance(player, 'identity', DATA_ORIGINS.CURATED);
   return {
     ...player,
     id: String(player.id || `${player.clubId || 'free'}-${player.name || player.cn || 'player'}`),
@@ -94,8 +97,9 @@ export function normalizePlayer(player = {}) {
     clubId: player.clubId || null,
     ovr: Number(player.ovr || 0),
     attrs: normalizeAttrs(player.attrs, position),
-    isReal: player.isReal ?? true,
-    provenance: provenance(player, 'identity', DATA_ORIGINS.CURATED),
+    ...meta,
+    isReal: player.isReal ?? meta.isReal,
+    provenance: meta,
     dataOrigin: {
       identity: sourceOrigin(player, 'identity', DATA_ORIGINS.CURATED),
       ratings: sourceOrigin(player, 'ratings', DATA_ORIGINS.CURATED)
@@ -116,6 +120,7 @@ export function createGeneratedPlayer({ clubId = 'free-agent', position = 'CM', 
     ovr,
     attrs,
     isReal: false,
+    ...provenance({ isReal: false }, 'identity', DATA_ORIGINS.GENERATED_FALLBACK),
     provenance: provenance({ isReal: false }, 'identity', DATA_ORIGINS.GENERATED_FALLBACK),
     dataOrigin: { identity: DATA_ORIGINS.GENERATED_FALLBACK, ratings: DATA_ORIGINS.GENERATED_FALLBACK }
   };
@@ -162,6 +167,8 @@ export function createWorldRegistry({ clubs = [], leagues = [], players = [], tr
   }));
   const validation = validateRegistry({ clubs: normalizedClubs, leagues: normalizedLeagues, players: normalizedPlayers });
   const clubById = new Map(normalizedClubs.map(club => [club.id, club]));
+  const leagueById = new Map(normalizedLeagues.map(league => [league.id, league]));
+  const countries = [...new Set(normalizedClubs.map(club => club.country).filter(Boolean))].map(name => ({ id: name, name, isReal: true, dataOrigin: DATA_ORIGINS.CURATED }));
   const playersByClub = new Map();
   for (const player of normalizedPlayers) {
     if (!playersByClub.has(player.clubId)) playersByClub.set(player.clubId, []);
@@ -179,8 +186,12 @@ export function createWorldRegistry({ clubs = [], leagues = [], players = [], tr
       dataOrigin: sourceOrigin(trophy, 'identity', DATA_ORIGINS.CURATED)
     })),
     validation,
-    stats: { ...validation.counts, trophies: trophies.length },
+    countries,
+    stats: { ...validation.counts, realPlayers: normalizedPlayers.filter(player => player.isReal).length, availablePlayers: normalizedClubs.length * 18, trophies: trophies.length, countries: countries.length },
     getClub(id) { return clubById.get(id) || normalizedClubs[0] || null; },
+    getLeague(id) { return leagueById.get(id) || normalizedLeagues[0] || null; },
+    leaguesForCountry(country) { return normalizedLeagues.filter(league => league.country === country); },
+    clubsForLeague(leagueId) { return normalizedClubs.filter(club => club.leagueId === leagueId || club.league === leagueId); },
     search(query, limit = 20) {
       const needle = String(query || '').trim().toLocaleLowerCase();
       if (!needle) return normalizedClubs.slice(0, limit);

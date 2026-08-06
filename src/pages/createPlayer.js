@@ -58,7 +58,7 @@ export function createPlayerWizard(app){
     root.querySelector('[data-next]')?.addEventListener('click',()=>{
       if(step===0 && !draft.name.trim()){app.feedback.emit('failure','请先填写球员姓名');return;}
       if(step<5){step++; if(step===3)app.feedback.emit('scoutReport','报告已生成'); if(step===4)app.feedback.emit('talentReveal',report.tier); render(); return;}
-      const club=academyClubs(draft.position).find(c=>c.id===draft.club)||academyClubs(draft.position)[0]; const player={...draft,club:club.name,clubId:club.id,team:'青年队',age:Math.max(16,new Date().getUTCFullYear()-Number(draft.birth.slice(0,4))),stats:report.stats,potential:report.potential,ovr:computeOverall(report.stats,draft.position),fatigue:18,morale:72,fitness:84,coachTrust:52,status:'健康',previousStats:{...report.stats}};
+      const club=academyClubs(draft.position).find(c=>c.id===draft.club)||academyClubs(draft.position)[0]; const player={...draft,club:club.name,clubId:club.id,team:'青年队',age:Math.max(16,new Date().getUTCFullYear()-Number(draft.birth.slice(0,4))),stats:report.stats,potential:report.potential,ovr:computeOverall(report.stats,draft.position),fatigue:18,morale:72,fitness:84,coachTrust:52,status:'健康',previousStats:{...report.stats},squad:dataRepository.registry?.rosterForClub(club.id,{seed:draft.name||'career-start'})||[]};
       app.store.set(s=>{s.player=player;s.career.history.push({date:s.simulation.date,type:'签约',text:`加入${club.name}青年队`});return s;});
       app.feedback.emit('promoted',`正式加入${club.name}青年队`); app.mount();
     });
