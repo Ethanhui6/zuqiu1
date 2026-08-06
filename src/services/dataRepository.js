@@ -1,11 +1,15 @@
+import { createWorldRegistry } from '../data/worldRegistry.js';
+
 const cache=new Map();
 async function json(path){if(cache.has(path))return cache.get(path);const p=fetch(path,{cache:'no-cache'}).then(r=>{if(!r.ok)throw new Error(`数据读取失败：${path}`);return r.json()});cache.set(path,p);return p}
 export class DataRepository{
   async init(){
-    const [clubs,templates,achievements,positions,eventIndex,storyChains,version]=await Promise.all([
-      json('./data/clubs.json'),json('./data/legend-templates.json'),json('./data/achievements.json'),json('./data/positions.json'),json('./data/events/index.json'),json('./data/events/story-chains.json'),json('./data/version.json')
+    const [clubs,templates,achievements,positions,eventIndex,storyChains,version,players,trophies]=await Promise.all([
+      json('./data/clubs.json'),json('./data/legend-templates.json'),json('./data/achievements.json'),json('./data/positions.json'),json('./data/events/index.json'),json('./data/events/story-chains.json'),json('./data/version.json'),json('./data/players.json'),json('./data/trophies.json')
     ]);
-    this.clubs=this.enrichClubs(clubs.clubs||clubs);this.leagues=clubs.leagues||[];this.templates=templates;this.achievements=achievements;this.positions=positions;this.eventIndex=eventIndex;this.storyChains=Array.isArray(storyChains)?storyChains:(storyChains.events||[]);this.version=version;return this;
+    this.clubs=this.enrichClubs(clubs.clubs||clubs);this.leagues=clubs.leagues||[];this.templates=templates;this.achievements=achievements;this.positions=positions;this.eventIndex=eventIndex;this.storyChains=Array.isArray(storyChains)?storyChains:(storyChains.events||[]);this.version=version;
+    this.registry=createWorldRegistry({clubs:this.clubs,leagues:this.leagues,players,trophies});
+    this.clubs=this.registry.clubs;this.leagues=this.registry.leagues;this.players=this.registry.players;this.trophies=this.registry.trophies;return this;
   }
   enrichClubs(clubs){
     const tactics=['控球推进','高位压迫','快速反击','边路传中','中路渗透','稳守反击'];
@@ -19,6 +23,7 @@ export class DataRepository{
     }));
   }
   getClub(id){return this.clubs.find(x=>x.id===id)||this.clubs[0]}
+  searchClubs(query,limit=20){return this.registry?.search(query,limit)||[]}
   getTemplates(position){const target=position==='SS'?'CAM':position;return this.templates.filter(x=>x.position===target)}
   async loadEventCategory(category){const path=`./data/events/${category}.json`;const data=await json(path);return Array.isArray(data)?data:(data.events||[])}
 }
