@@ -134,12 +134,45 @@ svg { display: block; }
 :root[data-theme="light"] .sheet-head { background:rgba(255,255,255,.92); }
 :root[data-theme="light"] .input { background:var(--surface-solid); color:var(--text); }
 
-body:has(.app-shell) { height:100dvh; overflow:hidden; }
-.app-shell { height:100dvh; min-height:0; }
-.app-main { min-height:100%; overflow-y:auto; overscroll-behavior-y:contain; -webkit-overflow-scrolling:touch; }
+body:has(.app-shell) { min-height:100svh; min-height:100dvh; height:auto; overflow-x:hidden; overflow-y:auto; }
+.app-shell { min-height:100svh; min-height:100dvh; height:auto; }
+.app-main { min-height:0; overflow:visible; overscroll-behavior-y:auto; -webkit-overflow-scrolling:touch; }
 body.has-open-sheet { overflow:hidden; }
+
+/* Keep the document as the single scroll surface on Safari and desktop browsers. */
+body:has(.app-shell) { min-height:100svh; min-height:100dvh; height:auto; overflow-x:hidden; overflow-y:auto; }
+.app-shell { min-height:100svh; min-height:100dvh; height:auto; }
+.app-main { min-height:0; overflow:visible; overscroll-behavior-y:auto; -webkit-overflow-scrolling:touch; }
+.sheet { max-height:min(88svh,900px); max-height:min(88dvh,900px); overflow:auto; }
+:root[data-theme="light"] .glass-tabbar,
+:root[data-theme="light"] .app-topbar { background:rgba(255,255,255,.86); border-color:var(--line); }
+:root[data-theme="light"] .surface-card,
+:root[data-theme="light"] .action-tile,
+:root[data-theme="light"] .sim-option,
+:root[data-theme="light"] .icon-button { background:var(--surface); color:var(--text); border-color:var(--line); }
+:root[data-theme="light"] .player-hero,
+:root[data-theme="light"] .notice-card,
+:root[data-theme="light"] .notice-card.critical,
+:root[data-theme="light"] .result-panel,
+:root[data-theme="light"] .scout-reveal,
+:root[data-theme="light"] .plan-card.selected { background:var(--surface); color:var(--text); border-color:var(--line); }
+:root[data-theme="dark"] .glass-tabbar,
+:root[data-theme="dark"] .app-topbar { background:rgba(18,26,37,.92); border-color:var(--line); }
+:root[data-theme="dark"] .surface-card,
+:root[data-theme="dark"] .action-tile,
+:root[data-theme="dark"] .sim-option,
+:root[data-theme="dark"] .icon-button,
+:root[data-theme="dark"] .sheet,
+:root[data-theme="dark"] .dialog,
+:root[data-theme="dark"] .sheet-head { background:var(--surface-solid); color:var(--text); border-color:var(--line); }
+:root[data-theme="dark"] .player-hero,
+:root[data-theme="dark"] .notice-card,
+:root[data-theme="dark"] .notice-card.critical,
+:root[data-theme="dark"] .result-panel,
+:root[data-theme="dark"] .scout-reveal,
+:root[data-theme="dark"] .plan-card.selected { background:var(--surface); color:var(--text); border-color:var(--line); }
 .overlay { background:rgba(4,10,18,.62); }
-.sheet { max-height:min(88dvh,900px); background:rgba(18,26,37,.98); border-color:var(--line); color:var(--text); }
+.sheet { max-height:min(88svh,900px); max-height:min(88dvh,900px); background:var(--surface-solid); border-color:var(--line); color:var(--text); }
 .sheet-head { background:rgba(18,26,37,.94); }
 .sheet-close-button, .sheet [data-close-sheet] { flex:0 0 auto; }
 .glass-tabbar { grid-template-columns:repeat(6,minmax(0,1fr)); bottom:max(8px,var(--safe-bottom)); }
@@ -177,6 +210,61 @@ body.has-open-sheet { overflow:hidden; }
 .glass-tabbar { background:rgba(18,26,37,.9); border-color:var(--line); }
 .map-stage { background:linear-gradient(180deg,#15283a,#101b28); }
 .toast { background:rgba(22,31,44,.96); border-color:var(--line); }
+
+/* Final semantic overrides keep legacy visual rules from leaking between themes. */
+:root[data-theme="light"] body { background:linear-gradient(180deg,#f8fbff 0,#f4f7fb 48%,#eaf0f7 100%); }
+:root[data-theme="light"] .app-topbar,
+:root[data-theme="light"] .glass-tabbar { background:rgba(255,255,255,.86); border-color:var(--line); }
+:root[data-theme="light"] .surface-card,
+:root[data-theme="light"] .action-tile,
+:root[data-theme="light"] .sim-option,
+:root[data-theme="light"] .icon-button { background:var(--surface); color:var(--text); border-color:var(--line); }
+:root[data-theme="light"] .player-hero,
+:root[data-theme="light"] .notice-card,
+:root[data-theme="light"] .notice-card.critical,
+:root[data-theme="light"] .result-panel,
+:root[data-theme="light"] .scout-reveal,
+:root[data-theme="light"] .plan-card.selected { background:var(--surface); color:var(--text); border-color:var(--line); }
+:root[data-theme="light"] .sheet,
+:root[data-theme="light"] .dialog,
+:root[data-theme="light"] .sheet-head { background:var(--surface-solid); color:var(--text); border-color:var(--line); }
+:root[data-theme="light"] .input { background:var(--surface-solid); color:var(--text); border-color:var(--line-strong); }
+:root[data-theme="light"] .map-stage { background:linear-gradient(180deg,#eaf5ff,#f4f9ff); }
+:root[data-theme="light"] .map-crumb,
+:root[data-theme="light"] .empty-visual,
+:root[data-theme="light"] .stat-cell,
+:root[data-theme="light"] .change-item,
+:root[data-theme="light"] .plan-meta span { background:var(--surface-muted); }
+
+:root[data-theme="dark"] body { background:linear-gradient(180deg,#111c29 0,#0b1017 46%,#080c12 100%); }
+:root[data-theme="dark"] .app-topbar,
+:root[data-theme="dark"] .glass-tabbar { background:rgba(18,26,37,.92); border-color:var(--line); }
+:root[data-theme="dark"] .surface-card,
+:root[data-theme="dark"] .action-tile,
+:root[data-theme="dark"] .sim-option,
+:root[data-theme="dark"] .icon-button,
+:root[data-theme="dark"] .sheet,
+:root[data-theme="dark"] .dialog,
+:root[data-theme="dark"] .sheet-head { background:var(--surface-solid); color:var(--text); border-color:var(--line); }
+:root[data-theme="dark"] .player-hero,
+:root[data-theme="dark"] .notice-card,
+:root[data-theme="dark"] .notice-card.critical,
+:root[data-theme="dark"] .result-panel,
+:root[data-theme="dark"] .scout-reveal,
+:root[data-theme="dark"] .plan-card.selected { background:var(--surface); color:var(--text); border-color:var(--line); }
+:root[data-theme="dark"] .input { background:var(--surface-solid); color:var(--text); border-color:var(--line-strong); }
+:root[data-theme="dark"] .map-stage { background:linear-gradient(180deg,#15283a,#101b28); }
+.match-interactions { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:10px; margin-top:12px; }
+.match-interaction { min-height:104px; display:grid; align-content:start; gap:7px; }
+.match-interaction .icon { color:var(--blue); }
+.match-interaction strong { display:block; }
+.match-interaction small { color:var(--text-2); line-height:1.4; }
+.field-note { align-content:center; min-height:46px; padding:10px 12px; border-radius:14px; background:var(--surface-muted); color:var(--text); }
+.field-note .field-label { color:var(--text-2); font-size:12px; }
+.field-note strong { display:block; font-size:13px; margin-top:3px; }
+.field-note small { color:var(--text-2); font-size:11px; margin-top:3px; }
+.news-list { display:grid; gap:12px; }
+.news-item { padding:15px; }
 
 .glass-tabbar {
   position:fixed; z-index:var(--z-tab); left:50%; transform:translateX(-50%); bottom:max(8px, var(--safe-bottom));
@@ -341,8 +429,9 @@ button.surface-card:active, .surface-card[role="button"]:active { transform:scal
   .choice-grid { grid-template-columns:1fr 1fr; }
   .page-head { align-items:flex-start; }
   .page-subtitle { max-width:72vw; }
-  .sheet { max-height:90vh; }
+  .sheet { max-height:90svh; max-height:90dvh; }
   .map-stage,.map-svg{min-height:310px}
+  .match-interactions { grid-template-columns:repeat(2,minmax(0,1fr)); }
 }
 @media (max-width: 350px) {
   .grid-2, .grid-3, .action-grid, .choice-grid, .sim-grid { grid-template-columns:1fr; }

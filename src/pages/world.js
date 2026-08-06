@@ -6,7 +6,7 @@ export function worldPage(app,state){
   const clubs=dataRepository.clubs?.length?dataRepository.clubs:CLUBS;
   const root=document.createElement('section');
   root.className='page world-page';
-  root.innerHTML=`<div class="page-head"><div><h1 class="page-title">Football World</h1><p class="page-subtitle">Explore continents, countries, leagues, and clubs.</p></div><span class="badge blue">${clubs.length} clubs</span></div>${worldMapView(state,clubs,{immersive:true})}`;
+  root.innerHTML=`<div class="page-head"><div><h1 class="page-title">足球世界</h1><p class="page-subtitle">按洲、国家、联赛和球队探索职业机会</p></div><span class="badge blue">${clubs.length} 支球队</span></div>${worldMapView(state,clubs,{immersive:true})}`;
   root.addEventListener('click',event=>{
     const transfer=state.transfer;
     const continent=event.target.closest('[data-continent]')?.dataset.continent;
