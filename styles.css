@@ -7,6 +7,7 @@
 @import url('./src/styles/v20-product.css');
 @import url('./src/styles/v19-guidance.css');
 @import url('./src/styles/pace-v18.3.css');
+@import url('./src/styles/legacy-ui.css');
 .page-subtitle { margin:7px 0 0; color:var(--text-2); font-size:14px; }
 
 .app-topbar {
