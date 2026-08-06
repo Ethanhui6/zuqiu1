@@ -13,8 +13,8 @@ const player={name:'test',position:'??',age:18,potential:88,ovr:60,stats:{speed:
 
 test('production entry loads only the current application',()=>{
   const index=fs.readFileSync(new URL('../index.html',import.meta.url),'utf8');
-  assert.match(index,/src="\.\/src\/app\.js"/);
-  assert.doesNotMatch(index,/(client\/|legacy\/|src\/main\.js)/);
+  assert.match(index,/src="\.\/src\/main\.js"/);
+  assert.doesNotMatch(index,/(client\/|legacy\/)/);
 });
 
 test('state migration normalizes player and required collections',()=>{
