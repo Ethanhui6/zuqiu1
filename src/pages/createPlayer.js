@@ -65,7 +65,7 @@ export function createPlayerWizard(app){
   };
   render(); return root;
 }
-function field(label,name,value,type='text',placeholder=''){return `<div class="field"><label>${label}</label><input class="input" name="${name}" type="${type}" value="${value??''}" placeholder="${placeholder}" /></div>`;}
+function field(label,name,value,type='text',placeholder=''){const id=`player-${name}`;const dateAttrs=type==='date'?' min="1985-01-01" max="2010-12-31"':'';return `<div class="field field--${type}"><label for="${id}">${label}</label><input id="${id}" class="input" name="${name}" type="${type}" value="${value??''}" placeholder="${placeholder}"${dateAttrs} /></div>`;}
 function selectField(label,name,options,value){return `<div class="field"><label>${label}</label><select class="input" name="${name}">${options.map(x=>`<option ${x===value?'selected':''}>${x}</option>`).join('')}</select></div>`;}
 function styleCopy(name){return {爆发型:'速度和纵向冲击优先',技术型:'控球、变向和小空间处理',组织型:'视野、传球与节奏控制',终结型:'跑位、射门和禁区效率',防守型:'站位、拦截与身体对抗',全能型:'各项均衡，适应多位置','自定义混合':'在确认前保留二次调整空间'}[name];}
 function cn(key){return {speed:'速度',shooting:'射门',passing:'传球',dribbling:'盘带',defending:'防守',physical:'身体'}[key]||key;}

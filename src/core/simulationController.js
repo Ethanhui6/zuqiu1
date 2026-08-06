@@ -1,5 +1,6 @@
 import { advanceInjury } from './injuryEngine.js';
 import { applyGrowthToState } from './playerDevelopmentEngine.js';
+import { keyedRandom } from '../services/rng.js';
 
 const addDays=(date,days)=>{ const d=new Date(`${date}T00:00:00Z`); d.setUTCDate(d.getUTCDate()+days); return d.toISOString().slice(0,10); };
 const daysBetween=(a,b)=>Math.round((new Date(`${b}T00:00:00Z`)-new Date(`${a}T00:00:00Z`))/86400000);
@@ -23,14 +24,38 @@ export class SimulationController {
     };
     return map[action];
   }
+  settleFastMatch(state,match){
+    if(!state.player||!match||match.status!=='upcoming')return false;
+    const rng=keyedRandom(match.id,match.date,state.player.ovr,state.season.appearances);
+    const played=rng.bool(.84);
+    const rating=Number((played?Math.max(5.8,Math.min(9.1,6.2+(state.player.ovr-55)/34+rng.next()*.9)):0).toFixed(1));
+    const goals=played&&rng.bool(['ST','LW','RW','SS','CAM'].includes(state.player.position)?.24:.10)?1:0;
+    const assists=played&&rng.bool(['CM','CAM','LW','RW'].includes(state.player.position)?.22:.12)?1:0;
+    const teamGoals=played?goals+(rng.bool(.48)?1:0):0;
+    const opponentGoals=rng.int(0,2);
+    match.status='played';match.score=`${teamGoals}-${opponentGoals}`;match.rating=rating;match.played=played;match.auto=true;
+    if(!played){state.career.history.push({date:state.simulation.date,type:'比赛',summary:`${state.player.club} ${teamGoals}-${opponentGoals} ${match.opponent}`,rating:0,goals:0,assists:0,minutes:0,auto:true});return true;}
+    const oldApps=state.season.appearances;
+    applyGrowthToState(state,{passing:.04,physical:.03},{source:'快速模式比赛',fatigue:state.player.fatigue||0,facility:74,coachQuality:72,injured:false});
+    state.player.fatigue=Math.max(0,Math.min(100,(state.player.fatigue||0)+8));
+    state.player.fitness=Math.max(10,100-state.player.fatigue*.7);
+    state.season.appearances=oldApps+1;state.season.goals+=goals;state.season.assists+=assists;
+    state.season.rating=Number(((state.season.rating*oldApps+rating)/(oldApps+1)).toFixed(2));
+    state.career.marketValue=Math.max(0,state.career.marketValue+Math.round((rating-6)*18000+goals*50000+assists*32000));
+    state.career.history.push({date:state.simulation.date,type:'比赛',summary:`${state.player.club} ${teamGoals}-${opponentGoals} ${match.opponent}`,rating,goals,assists,minutes:played?Math.round(55+rng.next()*30):0,auto:true});
+    return true;
+  }
   async advance(action){
     if(this.running) return {status:'busy'};
     const desc=this.describe(action); if(!desc) throw new Error('未知推进方式');
     if(this.store.get().simulation.paused) return {status:'paused'};
     const dueMatch=action==='nextMatch'&&this.nextMatch(this.store.get());
-    if(dueMatch?.date===this.store.get().simulation.date) return {status:'ok',processed:0,stopReason:'match',event:null,match:dueMatch,description:desc};
+    if(dueMatch?.date===this.store.get().simulation.date){
+      if(this.store.get().settings.mode==='fast'&&!dueMatch.important){this.store.set(state=>{this.settleFastMatch(state,dueMatch);return state;});return {status:'ok',processed:0,autoMatches:1,stopReason:'match-auto',event:null,match:dueMatch,description:desc};}
+      return {status:'ok',processed:0,stopReason:'match',event:null,match:dueMatch,description:desc};
+    }
     this.running=true; this.cancelled=false;
-    const max=Math.max(0,desc.days); let processed=0; let stopReason='target'; let generatedEvent=null; let matchReady=null;
+    const max=Math.max(0,desc.days); let processed=0; let autoMatches=0; let stopReason='target'; let generatedEvent=null; let matchReady=null;
     for(let i=0;i<max;i++){
       if(this.cancelled||this.store.get().simulation.paused){ stopReason='paused'; break; }
       this.store.set(state=>{
@@ -51,7 +76,10 @@ export class SimulationController {
       });
       processed++;
       const state=this.store.get(); const match=this.nextMatch(state);
-      if(match && match.date===state.simulation.date){ matchReady=match; stopReason='match'; break; }
+      if(match && match.date===state.simulation.date){
+        if(state.settings.mode==='fast'&&!match.important){this.store.set(next=>{this.settleFastMatch(next,match);return next;});autoMatches++;continue;}
+        matchReady=match; stopReason='match'; break;
+      }
       if(action==='nextEvent' && state.simulation.date>=desc.target){
         this.store.set(s=>{generatedEvent=this.eventEngine.schedule(s,{priority:'important'});return s;}); stopReason='event'; break;
       }
@@ -66,6 +94,6 @@ export class SimulationController {
     }
     this.store.set(state=>{ if(desc.summary && processed>0) state.simulation.summaries.unshift({date:state.simulation.date,action,days:processed,reason:stopReason}); return state; });
     this.running=false;
-    return {status:'ok',processed,stopReason,event:generatedEvent,match:matchReady,description:desc};
+    return {status:'ok',processed,autoMatches,stopReason,event:generatedEvent,match:matchReady,description:desc};
   }
 }

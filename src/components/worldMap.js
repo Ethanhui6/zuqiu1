@@ -11,7 +11,7 @@ const CONTINENTS = {
   '大洋洲':'M82 68 96 72 94 86 83 84 77 76Z'
 };
 
-export function worldMapView(state, sourceClubs = CLUBS){
+export function worldMapView(state, sourceClubs = CLUBS, { immersive = false } = {}){
   const clubs = sourceClubs;
   const availableContinents = Object.keys(CONTINENTS).filter(name=>clubs.some(club=>club.continent===name));
   const countries = continent => [...new Set(clubs.filter(club=>club.continent===continent).map(club=>club.country))];
@@ -23,9 +23,17 @@ export function worldMapView(state, sourceClubs = CLUBS){
   const selectedClub=state.transfer.club;
   const visibleClubs=selectedLeague?leagueClubs(selectedLeague):selectedCountry?clubs.filter(c=>c.country===selectedCountry):selectedContinent?clubs.filter(c=>c.continent===selectedContinent):clubs;
   const regions=Object.entries(CONTINENTS).map(([name,path])=>`<path class="continent ${selectedContinent===name?'active':''}" data-continent="${name}" d="${path}"/>`).join('');
-  const nodeStep=Math.max(1,Math.ceil(visibleClubs.length/80));
-  const mapClubs=visibleClubs.filter((_,index)=>index%nodeStep===0);
-  const nodes=mapClubs.map(c=>`<g class="club-node ${selectedClub===c.id?'active':''}" data-club="${c.id}" transform="translate(${c.x},${c.y})"><circle r="1.8"/>${selectedLeague?`<text x="3" y="1">${c.name}</text>`:''}</g>`).join('');
+  const mapClubs=selectedLeague?visibleClubs:[];
+  const buckets=new Map();
+  mapClubs.forEach(club=>{
+    const key=`${Math.floor((club.x||50)/8)}:${Math.floor((club.y||50)/8)}`;
+    const bucket=buckets.get(key)||[];bucket.push(club);buckets.set(key,bucket);
+  });
+  const nodes=[...buckets.values()].map(bucket=>{
+    const club=bucket[0],x=bucket.reduce((sum,item)=>sum+(item.x||50),0)/bucket.length,y=bucket.reduce((sum,item)=>sum+(item.y||50),0)/bucket.length;
+    const label=bucket.length>1?`<text x="3" y="1">+${bucket.length}</text>`:`<text x="3" y="1">${club.name}</text>`;
+    return `<g class="club-node ${selectedClub===club.id?'active':''}" data-club="${club.id}" transform="translate(${x},${y})"><circle r="${bucket.length>1?3:2}"/><title>${bucket.map(item=>item.name).join(', ')}</title>${immersive||bucket.length===1?label:''}</g>`;
+  }).join('');
   const selector = !selectedContinent
     ? `<div class="action-grid">${availableContinents.map(c=>`<button class="action-tile" data-continent="${c}">${icon('map')}<h3>${c}</h3><p>${clubs.filter(x=>x.continent===c).length} 家球队节点</p></button>`).join('')}</div>`
     : !selectedCountry

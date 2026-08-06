@@ -7,7 +7,7 @@ export function createDefaultState() {
     version: VERSION,
     route: 'career',
     createdAt: new Date().toISOString(),
-    settings: { mode: 'standard', autoSkipLow: true, autoPauseCritical: true, motion: 'full', sound: true, haptics: true },
+    settings: { mode: 'standard', theme: 'dark', autoSkipLow: true, autoPauseCritical: true, motion: 'full', sound: true, haptics: true },
     simulation: { paused: false, speed: 1, date: '2026-07-01', processedKeys: [], summaries: [], queue: [] },
     player: null,
     season: { year: '2026/27', week: 1, progress: 0, appearances: 0, goals: 0, assists: 0, rating: 0, objectives: [] },
@@ -31,6 +31,7 @@ export function migrateState(input) {
   if (!input || typeof input !== 'object') return base;
   const state = { ...base, ...input };
   state.settings = { ...base.settings, ...(input.settings || {}) };
+  if (!['system','dark','light'].includes(state.settings.theme)) state.settings.theme = 'dark';
   state.simulation = { ...base.simulation, ...(input.simulation || {}) };
   state.season = { ...base.season, ...(input.season || {}) };
   state.relationships = { ...base.relationships, ...(input.relationships || {}) };
