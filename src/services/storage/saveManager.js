@@ -68,7 +68,7 @@ export class SaveManager{
     this.setCurrent(id);this.save(save,id);return id;
   }
   delete(id){localStorage.removeItem(slotKey(id));localStorage.removeItem(backupKey(id));this.writeIndex(this.list().filter(x=>x.id!==id));if(this.currentSlot()===id)localStorage.removeItem(CURRENT_KEY)}
-  export(save){const blob=new Blob([JSON.stringify(wrap(structuredClone(save)),null,2)],{type:'application/json'});const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download=`${save.player?.name||'球员'}-绿茵浮沉-V${APP_VERSION}存档.json`;a.click();setTimeout(()=>URL.revokeObjectURL(url),1000)}
+  export(save){const blob=new Blob([JSON.stringify(wrap(structuredClone(save)),null,2)],{type:'application/json'});const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download=`${save.player?.name||'球员'}-绿茵浮沉-V18存档.json`;a.click();setTimeout(()=>URL.revokeObjectURL(url),1000)}
   async import(file){
     if(!file)throw new Error('没有选择存档文件');if(file.size>8*1024*1024)throw new Error('存档文件超过8MB限制');
     const text=await file.text();const raw=safeParse(text);if(!raw)throw new Error('存档不是有效的JSON文件');

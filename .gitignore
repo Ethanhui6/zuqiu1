@@ -3,9 +3,12 @@ Thumbs.db
 *.log
 .wrangler/
 node_modules/
+legacy/assets/
 dist/
+outputs/
 test-results/
+playwright-report/
+*.zip
 .env
 .env.*
 !.env.example
-legacy/assets/

@@ -1,6 +1,6 @@
 const KEYS=[['speed','速度'],['shooting','射门'],['passing','传球'],['dribbling','盘带'],['defending','防守'],['physical','身体']];
 const center=110, radius=78;
-const point=(index,value)=>{ const a=(-Math.PI/2)+(Math.PI*2*index/6); const n=Number(value),safe=Number.isFinite(n)?Math.max(0,Math.min(100,n)):0,r=radius*(safe/100); return [center+Math.cos(a)*r,center+Math.sin(a)*r]; };
+const point=(index,value)=>{ const a=(-Math.PI/2)+(Math.PI*2*index/6); const number=Number(value); const r=radius*(Math.max(0,Math.min(100,Number.isFinite(number)?number:0))/100); return [center+Math.cos(a)*r,center+Math.sin(a)*r]; };
 const polygon=values=>values.map((v,i)=>point(i,v).join(',')).join(' ');
 
 export function radarChart(current={},previous={},potential=80){

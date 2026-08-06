@@ -27,6 +27,8 @@ export class SimulationController {
     if(this.running) return {status:'busy'};
     const desc=this.describe(action); if(!desc) throw new Error('未知推进方式');
     if(this.store.get().simulation.paused) return {status:'paused'};
+    const dueMatch=action==='nextMatch'&&this.nextMatch(this.store.get());
+    if(dueMatch?.date===this.store.get().simulation.date) return {status:'ok',processed:0,stopReason:'match',event:null,match:dueMatch,description:desc};
     this.running=true; this.cancelled=false;
     const max=Math.max(0,desc.days); let processed=0; let stopReason='target'; let generatedEvent=null; let matchReady=null;
     for(let i=0;i<max;i++){
@@ -36,12 +38,14 @@ export class SimulationController {
         const key=`day:${nextDate}`;
         if(state.simulation.processedKeys.includes(key)) return state;
         state.simulation.date=nextDate; state.simulation.processedKeys.push(key); state.simulation.processedKeys=state.simulation.processedKeys.slice(-400);
-        state.season.week=1+Math.floor(daysBetween(`${new Date(nextDate).getUTCFullYear()}-07-01`,nextDate)/7);
-        state.season.progress=Math.max(0,Math.min(100,Math.round(daysBetween(`${new Date(nextDate).getUTCFullYear()}-07-01`,nextDate)/365*100)));
+        const year=new Date(`${nextDate}T00:00:00Z`).getUTCFullYear(),seasonStart=`${new Date(`${nextDate}T00:00:00Z`).getUTCMonth()>=6?year:year-1}-07-01`;
+        state.season.week=1+Math.floor(daysBetween(seasonStart,nextDate)/7);
+        state.season.progress=Math.max(0,Math.min(100,Math.round(daysBetween(seasonStart,nextDate)/365*100)));
         state.injuries=state.injuries.map(injury=>advanceInjury(injury,1,{date:nextDate,recoveryBonus:state.training.autoStrategy==='recovery'?.18:0}));
-        if(state.player && (state.season.week%2===0) && !state.simulation.processedKeys.includes(`micro:${state.season.week}`)){
-          applyGrowthToState(state,{passing:.02,physical:.015},{source:'时间推进',fatigue:state.player.fatigue||0,facility:74,coachQuality:72,injured:state.injuries.some(x=>x.status==='active')});
-          state.simulation.processedKeys.push(`micro:${state.season.week}`);
+        const microKey=`micro:${seasonStart.slice(0,4)}:${state.season.week}`;
+        if(state.player && (state.season.week%2===0) && !state.simulation.processedKeys.includes(microKey)){
+          applyGrowthToState(state,{passing:.02,physical:.015},{source:'日常成长',fatigue:state.player.fatigue||0,facility:74,coachQuality:72,injured:state.injuries.some(x=>x.status==='active')});
+          state.simulation.processedKeys.push(microKey);
         }
         return state;
       });
@@ -60,8 +64,6 @@ export class SimulationController {
       }
       await Promise.resolve();
     }
-    const dueToday=this.nextMatch(this.store.get());
-    if(action==='nextMatch'&&dueToday?.date===this.store.get().simulation.date){matchReady=dueToday;stopReason='match';}
     this.store.set(state=>{ if(desc.summary && processed>0) state.simulation.summaries.unshift({date:state.simulation.date,action,days:processed,reason:stopReason}); return state; });
     this.running=false;
     return {status:'ok',processed,stopReason,event:generatedEvent,match:matchReady,description:desc};

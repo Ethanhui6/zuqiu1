@@ -40,20 +40,12 @@ export function applyDevelopment(player, gains, context = {}) {
   return { player: next, changes, overallChange: next.ovr - oldOvr, breakthroughs: ATTRS.filter(k => Math.floor(next.stats[k]) > Math.floor(before[k])) };
 }
 
-export function applyGrowthToState(state, gains, context = {}) {
-  if (!state?.player) return { player: state?.player, changes: {}, overallChange: 0, breakthroughs: [] };
-  const before = { ...state.player.stats };
-  const out = applyDevelopment(state.player, gains, context);
-  state.player = { ...out.player, previousStats: before };
-  state.career ??= {};
-  state.career.growthLog ??= [];
-  state.career.growthLog.push({
-    date: state.simulation?.date,
-    source: context.source || '成长结算',
-    changes: out.changes,
-    before
-  });
-  return { ...out, player: state.player };
+export function applyGrowthToState(state,gains,{source='成长',date=state.simulation?.date,...context}={}) {
+  const before={...state.player.stats};
+  const out=applyDevelopment(state.player,gains,context);
+  state.player={...out.player,previousStats:before};
+  state.career.growthLog.push({date,source,changes:out.changes,before});
+  return {...out,player:state.player};
 }
 
 export function seasonTargetRange(age, potential) {

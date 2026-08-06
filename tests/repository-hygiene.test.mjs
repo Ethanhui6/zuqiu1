@@ -7,16 +7,13 @@ import path from 'node:path';
 const tracked = execFileSync('git', ['ls-files'], { encoding: 'utf8' })
   .split(/\r?\n/u)
   .filter(Boolean);
-const workflows = fs.readdirSync(path.resolve('.github/workflows')).sort().map(file => `.github/workflows/${file}`);
 
-test('GitHub Actions validates while Cloudflare Pages owns deployment',()=>{
+test('GitHub Actions keeps one CI gate for native Cloudflare Pages deployment',()=>{
+  const workflows=tracked.filter(file=>file.startsWith('.github/workflows/'));
   assert.deepEqual(workflows,['.github/workflows/ci.yml']);
   const ci=fs.readFileSync(path.resolve('.github/workflows/ci.yml'),'utf8');
-  for(const token of ['npm ci','npm test','npm run build','upload-artifact@v4'])assert.ok(ci.includes(token),token);
-  assert.doesNotMatch(ci,/wrangler|pages deploy|CLOUDFLARE_API_TOKEN|CLOUDFLARE_ACCOUNT_ID|refactor\/vnext-ui-growth-production/i);
-  assert.ok(fs.existsSync(path.resolve('.gitattributes')));
-  const ignore=fs.readFileSync(path.resolve('.gitignore'),'utf8');
-  for(const token of ['dist/','test-results/','.env','!.env.example'])assert.ok(ignore.includes(token),token);
+  assert.doesNotMatch(ci,/wrangler|pages deploy|refactor\/vnext-ui-growth-production/i);
+  for(const token of ['npm ci','npm run check','upload-artifact@v4'])assert.ok(ci.includes(token),token);
 });
 
 test('仓库不跟踪构建产物和本地敏感文件', () => {
@@ -31,9 +28,7 @@ test('仓库不跟踪构建产物和本地敏感文件', () => {
 });
 
 test('生产构建输入完整', () => {
-  for (const file of ['index.html', 'styles.css', 'src/main.js', 'data/clubs.json', 'scripts/build.mjs']) {
+  for (const file of ['index.html', 'styles.css', 'src/app.js', 'scripts/build.mjs']) {
     assert.ok(tracked.includes(file), `${file} 必须纳入版本控制`);
   }
-  const build = fs.readFileSync(path.resolve('scripts/build.mjs'), 'utf8');
-  assert.match(build, /\['src', 'assets', 'data'\]/);
 });

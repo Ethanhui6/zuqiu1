@@ -72,7 +72,7 @@ assert.ok(report.uniqueEvents/report.totalEvents>=.82,`事件唯一率过低：$
 assert.ok(Object.keys(report.eventTypeShare).length>=8,'事件类型分布不足');
 assert.ok(report.majorCareerNodes>=2,'重大职业节点不足');
 
-const reportDir=new URL('../test-results/',import.meta.url);await fs.mkdir(reportDir,{recursive:true});
+const reportDir=new URL('../test-results/twenty-season/',import.meta.url);await fs.mkdir(reportDir,{recursive:true});
 const reportJson=new URL('V19_20_SEASON_REPORT.json',reportDir),reportMd=new URL('V19_20_SEASON_REPORT.md',reportDir);
 await fs.writeFile(reportJson,JSON.stringify(report,null,2)+'\n');
 const typeLines=Object.entries(report.eventTypeShare).sort((a,b)=>b[1]-a[1]).map(([k,v])=>`- ${k}: ${v}%`).join('\n');

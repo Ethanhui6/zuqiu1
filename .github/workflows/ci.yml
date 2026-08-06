@@ -1,8 +1,10 @@
-name: Football Career CI
+name: CI
 
 on:
-  push:
   pull_request:
+  push:
+    branches:
+      - main
 
 permissions:
   contents: read
@@ -16,26 +18,10 @@ jobs:
         with:
           node-version: 20
           cache: npm
-      - name: Install
-        run: npm ci
-      - name: Text integrity
-        run: npm run check:text
-      - name: Unit tests
-        run: npm test
-      - name: Static checks
-        run: node tests/static-check.mjs
-      - name: Core progression audits
-        run: |
-          node tests/pace-playability.mjs
-          node tests/time-system-v19.1.mjs
-          node tests/acceptance-tests.mjs
-          node tests/runtime-audit.mjs
-          node tests/v20-product-audit.mjs
-      - name: Production build
-        run: npm run build
-      - name: Upload production artifact
-        uses: actions/upload-artifact@v4
+      - run: npm ci
+      - run: npm run check
+      - uses: actions/upload-artifact@v4
         with:
-          name: football-career-dist
+          name: production-build
           path: dist
           if-no-files-found: error

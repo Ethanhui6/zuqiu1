@@ -5,7 +5,7 @@ import {RELATION_KEYS,RELATION_LABELS,relationshipScore} from '../systems/relati
 import {formatMoney} from '../utils/format.js';
 import {showToast} from '../components/toast.js';
 import {saveManager} from '../services/storage/saveManager.js';
-import {APP_VERSION,POSITION_CONFIG} from '../app/config.js';
+import {POSITION_CONFIG} from '../app/config.js';
 import {TRAINING_STRATEGIES,MATCH_STRATEGIES,CAREER_STRATEGIES,getPaceMode,getSpeed,setStrategies} from '../systems/pace/paceSystem.js';
 import {ANIMATION_MODES} from '../animations/settings/animationSettings.js';
 import {animationDirector} from '../animations/director/animationDirector.js';
@@ -32,7 +32,7 @@ function settings(save,store,onReturnToSlots,repo,ctx){
   const paceButton=button('',{className:'settings-open-row',ariaLabel:'打开游戏节奏设置',onClick:()=>ctx.openPaceSettings?.()});
   paceButton.append(el('span',{},[el('strong',{text:'游戏节奏'}),el('small',{text:'推进速度、自动模拟和关键节点暂停统一在这里管理。'})]),el('span',{className:'settings-open-row__value',text:`${pace.name} · ${speed.id==='turbo'?'极速':speed.label} ›`}));
   card.append(
-    el('div',{className:'setting-row setting-row--static'},[el('div',{},[el('strong',{text:'界面外观'}),el('small',{text:`V${APP_VERSION}统一使用iOS浅色界面和玻璃悬浮导航。`})]),el('span',{className:'tag tag--accent',text:'浅色'})]),
+    el('div',{className:'setting-row setting-row--static'},[el('div',{},[el('strong',{text:'界面外观'}),el('small',{text:'V19统一使用iOS浅色界面和玻璃悬浮导航。'})]),el('span',{className:'tag tag--accent',text:'浅色'})]),
     paceButton,
     settingRow('自动训练策略','快速推进时使用的训练方向',training),
     settingRow('自动比赛策略','普通比赛自动决策偏好',match),

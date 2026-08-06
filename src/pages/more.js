@@ -15,8 +15,6 @@ const items=[
 export function morePage(app,state){
   const root=document.createElement('section');root.className='page';
   root.innerHTML=`<div class="page-head"><div><h1 class="page-title">更多</h1><p class="page-subtitle">完整的生涯、世界与设置中心</p></div><span class="badge blue">V20</span></div><div class="stack">${group('游戏与世界',items.slice(0,4))}${group('生涯设施',items.slice(4,8))}${group('系统',items.slice(8))}</div>`;
-  const build=document.createElement('p');build.className='card-copy';build.style.margin='16px 4px 0';build.textContent='\u7248\u672c\u4fe1\u606f\u52a0\u8f7d\u4e2d...';root.append(build);
-  fetch('./build-meta.json',{cache:'no-store'}).then(response=>response.ok?response.json():null).then(meta=>{if(meta)build.textContent=`\u7248\u672c ${meta.version} \u00b7 ${String(meta.commitSha).slice(0,7)} \u00b7 ${meta.deploymentTarget} \u00b7 ${meta.buildTime}`;else build.textContent='\u7248\u672c\u4fe1\u606f\u4e0d\u53ef\u7528';}).catch(()=>{build.textContent='\u7248\u672c\u4fe1\u606f\u4e0d\u53ef\u7528';});
   root.addEventListener('click',e=>{const key=e.target.closest('[data-more]')?.dataset.more;if(!key)return;({simulation:()=>app.openSimulation(),world:()=>app.navigate('transfer'),leaderboard:()=>app.openLeaderboard(),career:()=>app.openCareerHub(),analytics:()=>app.openAnalytics(),medical:()=>app.openMedical(),locker:()=>app.openLocker(),contract:()=>app.openContract(),settings:()=>app.openSettings()})[key]?.();});
   return root;
 }

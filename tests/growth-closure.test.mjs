@@ -9,18 +9,18 @@ import { trainingPreview } from '../src/pages/training.js';
 import { createInjury } from '../src/core/injuryEngine.js';
 import { keyedRandom } from '../src/services/rng.js';
 
-const player={name:'test',position:'??',age:18,potential:88,ovr:60,stats:{speed:60,shooting:56,passing:64,dribbling:63,defending:48,physical:55}};
+const player={name:'test',position:'中场',age:18,potential:88,ovr:60,stats:{speed:60,shooting:56,passing:64,dribbling:63,defending:48,physical:55}};
 
 test('production entry loads only the current application',()=>{
   const index=fs.readFileSync(new URL('../index.html',import.meta.url),'utf8');
-  assert.match(index,/src="\.\/src\/main\.js"/);
-  assert.doesNotMatch(index,/(client\/|legacy\/)/);
+  assert.match(index,/src="\.\/src\/app\.js"/);
+  assert.doesNotMatch(index,/(client\/|legacy\/|src\/main\.js)/);
 });
 
 test('state migration normalizes player and required collections',()=>{
-  const state=migrateState({player:{position:'??',stats:{speed:'70',passing:80}},career:{growthLog:null},schedule:null});
+  const state=migrateState({player:{position:'中场',stats:{speed:'70',passing:80}},career:{growthLog:null},schedule:null});
   assert.deepEqual(Object.keys(state.player.stats),['speed','shooting','passing','dribbling','defending','physical']);
-  assert.equal(state.player.ovr,computeOverall(state.player.stats,'??'));
+  assert.equal(state.player.ovr,computeOverall(state.player.stats,'中场'));
   assert.deepEqual(state.player.previousStats,state.player.stats);
   assert.deepEqual(state.schedule,[]);assert.deepEqual(state.career.growthLog,[]);
 });

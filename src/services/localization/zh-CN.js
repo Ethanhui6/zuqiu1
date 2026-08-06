@@ -35,7 +35,7 @@ const zhCN = {
   damagedSave:'存档损坏，已尝试从备份恢复。',
   importSuccess:'存档导入成功',
   importFailed:'存档导入失败，请检查文件格式。',
-  migrationDone:'旧存档已迁移到当前版本。',
+  migrationDone:'旧存档已迁移到 V18。',
   season:'赛季',
   youthTeam:'青年队',
   firstTeam:'一线队',

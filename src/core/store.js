@@ -39,14 +39,19 @@ export function migrateState(input) {
   state.events = { ...base.events, ...(input.events || {}) };
   state.transfer = { ...base.transfer, ...(input.transfer || {}) };
   state.ui = { ...base.ui, ...(input.ui || {}) };
+  state.player = normalizePlayer(input.player);
+  if (state.player) state.player.previousStats = normalizeStats(input.player?.previousStats, state.player.stats);
   state.schedule = Array.isArray(input.schedule) ? input.schedule : [];
+  state.injuries = Array.isArray(input.injuries) ? input.injuries : [];
   state.career.growthLog = Array.isArray(state.career.growthLog) ? state.career.growthLog : [];
-  if (state.player) {
-    state.player = normalizePlayer(state.player);
-    state.player.previousStats ??= { ...state.player.stats };
-  }
+  state.career.history = Array.isArray(state.career.history) ? state.career.history : [];
+  state.training.plansUsed = Array.isArray(state.training.plansUsed) ? state.training.plansUsed : [];
   state.version = VERSION;
   return state;
+}
+
+function normalizeStats(stats, fallback) {
+  return Object.fromEntries(Object.keys(fallback).map(key=>[key,Number.isFinite(Number(stats?.[key]))?Number(stats[key]):fallback[key]]));
 }
 
 export class Store {
@@ -78,5 +83,5 @@ export class Store {
   }
   subscribe(fn) { this.listeners.add(fn); return () => this.listeners.delete(fn); }
   export() { return JSON.stringify(this.state, null, 2); }
-  import(raw) { this.state = migrateState(JSON.parse(raw)); this.save(); this.listeners.forEach(fn => fn(this.state)); }
+  import(raw) { const next=migrateState(JSON.parse(raw)); this.state=next; this.save(); this.listeners.forEach(fn => fn(this.state)); }
 }
