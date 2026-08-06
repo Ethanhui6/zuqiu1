@@ -86,3 +86,22 @@ export function retireCareer(state) {
   };
   return honors.retirement;
 }
+
+export function createCareerShareCard(state) {
+  const honors = ensureHonors(state);
+  const current = state.season || {};
+  const totals = honors.seasons.reduce((total, season) => ({
+    appearances: total.appearances + Number(season.appearances || 0),
+    goals: total.goals + Number(season.goals || 0),
+    assists: total.assists + Number(season.assists || 0)
+  }), {
+    appearances: Number(current.appearances || 0),
+    goals: Number(current.goals || 0),
+    assists: Number(current.assists || 0)
+  });
+  const legend = honors.legendProfile || { tier: '职业生涯进行中', score: Math.min(100, 35 + honors.seasons.length * 8 + honors.trophies.length * 6 + honors.personalAwards.length * 5) };
+  const player = state.player?.displayName || state.player?.name || '我的球员';
+  const club = state.player?.club || '自由球员';
+  const text = `${player} · ${legend.tier}\n${club}\n${totals.appearances}场 ${totals.goals}球 ${totals.assists}助攻 · ${honors.trophies.length}座奖杯 · ${honors.personalAwards.length}项个人荣誉`;
+  return { player, club, legend, totals, trophies: honors.trophies.length, personalAwards: honors.personalAwards.length, seasons: honors.seasons.length, text };
+}

@@ -116,6 +116,8 @@ svg { display: block; }
 .map-crumb { background:rgba(178,195,216,.1); }
 .empty-visual,.stat-cell,.change-item,.plan-meta span { background:rgba(178,195,216,.08); }
 .choice-card { color:var(--text); }
+.share-card { background:linear-gradient(145deg,#172638,#1b222d); border-color:rgba(201,148,26,.32); }
+.share-card__legend { display:flex; align-items:center; justify-content:space-between; gap:12px; margin:10px 0 16px; color:var(--gold); }
 
 .glass-tabbar {
   position:fixed; z-index:var(--z-tab); left:50%; transform:translateX(-50%); bottom:max(8px, var(--safe-bottom));

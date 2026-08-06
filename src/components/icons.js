@@ -45,6 +45,7 @@ const ICONS = {
   play:'<path d="m8 5 11 7-11 7Z"/>',
   fast:'<path d="m3 5 8 7-8 7ZM12 5l8 7-8 7Z"/>',
   save:'<path d="M5 3h12l3 3v15H4V3Z"/><path d="M8 3v6h8V3M8 21v-7h8v7"/>',
+  share:'<circle cx="18" cy="5" r="2.5"/><circle cx="6" cy="12" r="2.5"/><circle cx="18" cy="19" r="2.5"/><path d="m8.2 11 7.5-4.5M8.2 13l7.5 4.5"/>',
   message:'<path d="M4 5h16v11H8l-4 4Z"/><path d="M8 9h8M8 12h5"/>',
   todo:'<path d="M6 3h12v18H6Z"/><path d="m9 9 2 2 4-4M9 15h6"/>',
   risk:'<path d="m12 3 10 18H2Z"/><path d="M12 9v5M12 18h.01"/>',
