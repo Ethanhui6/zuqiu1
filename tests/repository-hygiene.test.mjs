@@ -8,14 +8,12 @@ const tracked = execFileSync('git', ['ls-files'], { encoding: 'utf8' })
   .split(/\r?\n/u)
   .filter(Boolean);
 
-test('GitHub Actions has one CI gate and one dist-only Cloudflare deployment',()=>{
+test('GitHub Actions keeps one CI gate for native Cloudflare Pages deployment',()=>{
   const workflows=tracked.filter(file=>file.startsWith('.github/workflows/'));
-  assert.deepEqual(workflows,['.github/workflows/ci.yml','.github/workflows/deploy.yml']);
+  assert.deepEqual(workflows,['.github/workflows/ci.yml']);
   const ci=fs.readFileSync(path.resolve('.github/workflows/ci.yml'),'utf8');
   assert.doesNotMatch(ci,/wrangler|pages deploy|refactor\/vnext-ui-growth-production/i);
-  const deploy=fs.readFileSync(path.resolve('.github/workflows/deploy.yml'),'utf8');
-  for(const token of ['npm ci','npm run check','upload-artifact@v4','wrangler-action@v3','pages deploy dist','--project-name=zuqiu','pr-${{ github.event.number }}','concurrency:'])assert.ok(deploy.includes(token),token);
-  assert.doesNotMatch(deploy,/--project-name=zuqiu1/);
+  for(const token of ['npm ci','npm run check','upload-artifact@v4'])assert.ok(ci.includes(token),token);
 });
 
 test('仓库不跟踪构建产物和本地敏感文件', () => {
