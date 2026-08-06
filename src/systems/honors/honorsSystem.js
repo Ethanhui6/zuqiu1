@@ -6,6 +6,7 @@ export function ensureHonors(state) {
     personalAwards: [],
     seasons: [],
     retirement: null,
+    legendProfile: null,
     ...(state.career.honors || {})
   };
   honors.trophies = Array.isArray(honors.trophies) ? honors.trophies : [];
@@ -63,6 +64,14 @@ export function settleSeason(state) {
 export function retireCareer(state) {
   const honors = ensureHonors(state);
   if (honors.retirement) return honors.retirement;
+  const totals = honors.seasons.reduce((total, season) => ({
+    appearances: total.appearances + season.appearances,
+    goals: total.goals + season.goals,
+    assists: total.assists + season.assists
+  }), { appearances: 0, goals: 0, assists: 0 });
+  const score = Math.min(100, 35 + honors.seasons.length * 8 + honors.trophies.length * 6 + honors.personalAwards.length * 5);
+  const tier = score >= 90 ? 'all-time legend' : score >= 70 ? 'club legend' : score >= 50 ? 'fan favourite' : 'career professional';
+  honors.legendProfile = { score, tier, player: state.player?.name || null, club: state.player?.club || null, dataOrigin: 'generated-fallback' };
   honors.retirement = {
     date: state.simulation.date,
     age: state.player?.age || null,
@@ -70,6 +79,9 @@ export function retireCareer(state) {
     seasons: honors.seasons.length,
     trophies: honors.trophies.length,
     personalAwards: honors.personalAwards.length,
+    totals,
+    legendProfile: honors.legendProfile,
+    summary: `${totals.appearances} appearances, ${totals.goals} goals, ${honors.trophies.length + honors.personalAwards.length} honors`,
     dataOrigin: 'generated-fallback'
   };
   return honors.retirement;

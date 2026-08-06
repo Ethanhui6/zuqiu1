@@ -18,7 +18,7 @@ export function createDefaultState() {
     ],
     injuries: [],
     relationships: { coach: 52, teammates: 48, captain: 45, fans: 1200, media: 36, rivalry: 18 },
-    career: { marketValue: 650000, weeklySalary: 1800, contractMonths: 30, clubInterest: [], achievements: [], growthLog: [], injuryLog: [], history: [], honors: { trophies: [], personalAwards: [], seasons: [], retirement: null } },
+    career: { marketValue: 650000, weeklySalary: 1800, contractMonths: 30, clubInterest: [], achievements: [], growthLog: [], injuryLog: [], history: [], honors: { trophies: [], personalAwards: [], seasons: [], retirement: null, legendProfile: null } },
     training: { selectedPlan: null, completedWeek: 0, autoStrategy: 'balanced', plansUsed: [], lastResult: null },
     events: { pending: [], history: [], cooldowns: {}, seasonCounts: {}, careerCounts: {}, characterMemory: {}, forcedPauses: 0, resolved: [] },
     transfer: { continent: null, country: null, league: null, club: null, offers: [], watchlist: [] },

@@ -25,5 +25,7 @@ test('honors migration and retirement preserve explicit collections', () => {
   const retirement = retireCareer(save);
   assert.equal(save.career.honors.trophies[0].id, 'kept');
   assert.equal(retirement.trophies, 1);
+  assert.equal(retirement.legendProfile.tier, 'career professional');
+  assert.match(retirement.summary, /0 appearances/);
   assert.equal(retireCareer(save), retirement);
 });
