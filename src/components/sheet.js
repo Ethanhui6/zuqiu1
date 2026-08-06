@@ -68,13 +68,13 @@ export function openSheet({title,subtitle='',content,actions=[],dismissible=true
   closing=false;previousFocus=document.activeElement;lockPageScroll();
   document.documentElement.classList.add('has-open-sheet');document.body.classList.add('has-open-sheet');
 
-  backdrop=el('div',{className:'sheet-backdrop',attrs:{'aria-hidden':'false'}});
+  backdrop=el('div',{className:'overlay',attrs:{'aria-hidden':'false'}});
   current=el('section',{className:`sheet sheet--${size}`,attrs:{role:'dialog','aria-modal':'true','aria-label':title,tabindex:'-1'}});
   current.dataset.dismissible=String(dismissible);
   const handle=el('div',{className:'sheet-handle',attrs:{'aria-hidden':'true'}});
   const closeButton=dismissible?button('关闭',{className:'sheet-close-button',ariaLabel:'关闭弹窗',onClick:closeSheet}):null;
-  const head=el('header',{className:'sheet-header'},[
-    el('div',{className:'sheet-heading'},[el('h2',{text:title}),subtitle?el('p',{text:subtitle}):null]),closeButton
+  const head=el('header',{className:'sheet-head'},[
+    el('div',{className:'sheet-heading'},[el('h2',{className:'sheet-title',text:title}),subtitle?el('p',{className:'card-copy',text:subtitle}):null]),closeButton
   ]);
   const body=el('div',{className:'sheet-body',attrs:{tabindex:'0'}});
   if(typeof content==='string')body.textContent=content;else if(content)body.append(content);

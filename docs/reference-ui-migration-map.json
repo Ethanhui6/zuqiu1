@@ -1,0 +1,17 @@
+{
+  "reference": "https://26c7cd02.zuqiu-4tt.pages.dev/",
+  "logicSource": "https://da79fedc.zuqiu-4tt.pages.dev/#saves",
+  "viewports": ["320x568", "360x800", "375x812", "390x844", "393x852", "430x932", "768x1024", "1440x900"],
+  "routes": [
+    {"route":"saves","currentComponent":"saveSelectPage","referencePage":"saves","logicToKeep":"local save slots, import, export, delete","uiToDelete":"legacy save selector","replacementComponent":"ReferenceSaveSelector","dataDependencies":"saveManager","mobileStatus":"verified","migrationStatus":"rebuilding"},
+    {"route":"create","currentComponent":"onboardingPage","referencePage":"create player","logicToKeep":"draft, validation, position, talent, academy, pace","uiToDelete":"legacy setup panels","replacementComponent":"ReferenceCreatePlayer","dataDependencies":"careerSystem, radarChart","mobileStatus":"verified","migrationStatus":"connected"},
+    {"route":"career","currentComponent":"careerPage","referencePage":"career home","logicToKeep":"calendar, attention, objectives, simulation","uiToDelete":"V20 console cards","replacementComponent":"ReferenceCareerHome","dataDependencies":"timeAdvanceSystem, attentionManager","mobileStatus":"verified","migrationStatus":"connected"},
+    {"route":"profile","currentComponent":"profilePage","referencePage":"player detail","logicToKeep":"player data, growth, honors, relationships","uiToDelete":"V20 player detail","replacementComponent":"ReferencePlayerDetail","dataDependencies":"career state, radarChart","mobileStatus":"verified","migrationStatus":"connected"},
+    {"route":"training","currentComponent":"trainingPage","referencePage":"training","logicToKeep":"plans, training events, growth, fatigue","uiToDelete":"V20 training dashboard","replacementComponent":"ReferenceTraining","dataDependencies":"trainingSystem, trainingEventSystem","mobileStatus":"verified","migrationStatus":"connected"},
+    {"route":"match","currentComponent":"matchPage","referencePage":"match","logicToKeep":"fixtures, match choices, result, growth","uiToDelete":"V20 match interface","replacementComponent":"ReferenceMatch","dataDependencies":"matchSystem, scheduleSystem","mobileStatus":"verified","migrationStatus":"connected"},
+    {"route":"transfer","currentComponent":"transferPage","referencePage":"transfer","logicToKeep":"offers, interest, contract, negotiation","uiToDelete":"V20 transfer console","replacementComponent":"ReferenceTransfer","dataDependencies":"transferSystem","mobileStatus":"verified","migrationStatus":"connected"},
+    {"route":"more","currentComponent":"morePage","referencePage":"more","logicToKeep":"settings, facilities, saves, navigation","uiToDelete":"V20 settings list","replacementComponent":"ReferenceMore","dataDependencies":"saveManager, facility systems","mobileStatus":"verified","migrationStatus":"connected"},
+    {"route":"world","currentComponent":"worldPage","referencePage":"world map","logicToKeep":"continents, countries, leagues, clubs","uiToDelete":"V20 map container","replacementComponent":"ReferenceWorld","dataDependencies":"worldExplorerSystem, dataRepository","mobileStatus":"verified","migrationStatus":"connected"},
+    {"route":"rankings","currentComponent":"rankingsPage","referencePage":"honors and rankings","logicToKeep":"local and server ranking","uiToDelete":"V20 ranking panels","replacementComponent":"ReferenceRankings","dataDependencies":"rankingSync","mobileStatus":"verified","migrationStatus":"connected"}
+  ]
+}
