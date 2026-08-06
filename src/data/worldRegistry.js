@@ -30,6 +30,19 @@ function sourceOrigin(entity, field, fallback) {
   if (entity?.dataSource?.verified === true) return DATA_ORIGINS.VERIFIED_PUBLIC;
   return fallback;
 }
+function provenance(entity, kind, fallbackOrigin) {
+  const source = entity?.dataSource || {};
+  const origin = sourceOrigin(entity, kind, fallbackOrigin);
+  const isReal = entity?.isReal ?? (origin !== DATA_ORIGINS.GENERATED_FALLBACK);
+  return {
+    isReal: Boolean(isReal),
+    dataOrigin: origin,
+    sourceName: entity?.sourceName || source.sourceName || source.identity || (isReal ? 'Curated public football data' : 'Deterministic fallback generator'),
+    sourceReference: entity?.sourceReference || source.sourceReference || source.reference || (isReal ? 'project-curated-record' : 'deterministic-generator'),
+    lastVerifiedAt: entity?.lastVerifiedAt || source.lastVerifiedAt || null,
+    confidence: Number.isFinite(Number(entity?.confidence)) ? Number(entity.confidence) : (isReal ? 0.82 : 0.45)
+  };
+}
 function hashSeed(value) {
   let hash = 2166136261;
   for (const char of String(value)) hash = Math.imul(hash ^ char.charCodeAt(0), 16777619);
@@ -47,6 +60,7 @@ function normalizeAttrs(attrs = {}, position) {
 export function normalizeClub(club = {}) {
   const id = String(club.id || club.code || '');
   const hash = hashSeed(id);
+  const meta = provenance(club, 'identity', DATA_ORIGINS.CURATED);
   return {
     ...club,
     id,
@@ -61,6 +75,9 @@ export function normalizeClub(club = {}) {
     style: club.style || club.tactic || 'balanced',
     formation: club.formation || '4-3-3',
     salary: club.salary || 'simulation range',
+    ...meta,
+    isReal: club.isReal ?? meta.isReal,
+    provenance: meta,
     dataOrigin: {
       identity: sourceOrigin(club, 'identity', DATA_ORIGINS.CURATED),
       profile: sourceOrigin(club, 'profile', DATA_ORIGINS.CURATED),
@@ -71,6 +88,7 @@ export function normalizeClub(club = {}) {
 
 export function normalizePlayer(player = {}) {
   const position = POSITIONS.includes(player.position || player.pos) ? (player.position || player.pos) : 'CM';
+  const meta = provenance(player, 'identity', DATA_ORIGINS.CURATED);
   return {
     ...player,
     id: String(player.id || `${player.clubId || 'free'}-${player.name || player.cn || 'player'}`),
@@ -79,6 +97,9 @@ export function normalizePlayer(player = {}) {
     clubId: player.clubId || null,
     ovr: Number(player.ovr || 0),
     attrs: normalizeAttrs(player.attrs, position),
+    ...meta,
+    isReal: player.isReal ?? meta.isReal,
+    provenance: meta,
     dataOrigin: {
       identity: sourceOrigin(player, 'identity', DATA_ORIGINS.CURATED),
       ratings: sourceOrigin(player, 'ratings', DATA_ORIGINS.CURATED)
@@ -91,7 +112,18 @@ export function createGeneratedPlayer({ clubId = 'free-agent', position = 'CM', 
   const rnd = random(`${seed}|${clubId}|${pos}|${index}`);
   const attrs = Object.fromEntries(Object.entries(PROFILE[pos]).map(([key, value]) => [key, Math.round(value + (rnd() - 0.5) * 12)]));
   const ovr = Math.round(Object.values(attrs).reduce((sum, value) => sum + value, 0) / ATTRS.length);
-  return { id: `generated-${clubId}-${pos}-${index}`, name: `Academy prospect ${index + 1}`, position: pos, clubId, ovr, attrs, dataOrigin: { identity: DATA_ORIGINS.GENERATED_FALLBACK, ratings: DATA_ORIGINS.GENERATED_FALLBACK } };
+  return {
+    id: `generated-${clubId}-${pos}-${index}`,
+    name: `Academy prospect ${index + 1}`,
+    position: pos,
+    clubId,
+    ovr,
+    attrs,
+    isReal: false,
+    ...provenance({ isReal: false }, 'identity', DATA_ORIGINS.GENERATED_FALLBACK),
+    provenance: provenance({ isReal: false }, 'identity', DATA_ORIGINS.GENERATED_FALLBACK),
+    dataOrigin: { identity: DATA_ORIGINS.GENERATED_FALLBACK, ratings: DATA_ORIGINS.GENERATED_FALLBACK }
+  };
 }
 
 export function validateRegistry({ clubs = [], leagues = [], players = [] } = {}) {
@@ -111,6 +143,12 @@ export function validateRegistry({ clubs = [], leagues = [], players = [] } = {}
   for (const player of players) {
     if (player.clubId && !clubIds.has(player.clubId)) errors.push(`player ${player.id} references missing club ${player.clubId}`);
     if (!POSITIONS.includes(player.position)) errors.push(`player ${player.id} has invalid position ${player.position}`);
+    if (typeof player.isReal !== 'boolean') errors.push(`player ${player.id} missing isReal`);
+    if (!player.provenance?.dataOrigin) errors.push(`player ${player.id} missing provenance`);
+  }
+  for (const club of clubs) {
+    if (typeof club.isReal !== 'boolean') errors.push(`club ${club.id} missing isReal`);
+    if (!club.provenance?.dataOrigin) errors.push(`club ${club.id} missing provenance`);
   }
   return { valid: errors.length === 0, errors, counts: { clubs: clubs.length, leagues: leagues.length, players: players.length } };
 }
@@ -120,9 +158,17 @@ function searchable(item) { return [item.id, item.name, item.cn, item.native, it
 export function createWorldRegistry({ clubs = [], leagues = [], players = [], trophies = [] } = {}) {
   const normalizedClubs = clubs.map(normalizeClub);
   const normalizedPlayers = players.map(normalizePlayer);
-  const normalizedLeagues = leagues.map(league => ({ ...league, id: String(league.id || ''), dataOrigin: sourceOrigin(league, 'identity', DATA_ORIGINS.CURATED) }));
+  const normalizedLeagues = leagues.map(league => ({
+    ...league,
+    id: String(league.id || ''),
+    isReal: league.isReal ?? true,
+    provenance: provenance(league, 'identity', DATA_ORIGINS.CURATED),
+    dataOrigin: sourceOrigin(league, 'identity', DATA_ORIGINS.CURATED)
+  }));
   const validation = validateRegistry({ clubs: normalizedClubs, leagues: normalizedLeagues, players: normalizedPlayers });
   const clubById = new Map(normalizedClubs.map(club => [club.id, club]));
+  const leagueById = new Map(normalizedLeagues.map(league => [league.id, league]));
+  const countries = [...new Set(normalizedClubs.map(club => club.country).filter(Boolean))].map(name => ({ id: name, name, isReal: true, dataOrigin: DATA_ORIGINS.CURATED }));
   const playersByClub = new Map();
   for (const player of normalizedPlayers) {
     if (!playersByClub.has(player.clubId)) playersByClub.set(player.clubId, []);
@@ -133,10 +179,19 @@ export function createWorldRegistry({ clubs = [], leagues = [], players = [], tr
     clubs: normalizedClubs,
     leagues: normalizedLeagues,
     players: normalizedPlayers,
-    trophies: trophies.map(trophy => ({ ...trophy, dataOrigin: sourceOrigin(trophy, 'identity', DATA_ORIGINS.CURATED) })),
+    trophies: trophies.map(trophy => ({
+      ...trophy,
+      isReal: trophy.isReal ?? true,
+      provenance: provenance(trophy, 'identity', DATA_ORIGINS.CURATED),
+      dataOrigin: sourceOrigin(trophy, 'identity', DATA_ORIGINS.CURATED)
+    })),
     validation,
-    stats: { ...validation.counts, trophies: trophies.length },
+    countries,
+    stats: { ...validation.counts, realPlayers: normalizedPlayers.filter(player => player.isReal).length, availablePlayers: normalizedClubs.length * 18, trophies: trophies.length, countries: countries.length },
     getClub(id) { return clubById.get(id) || normalizedClubs[0] || null; },
+    getLeague(id) { return leagueById.get(id) || normalizedLeagues[0] || null; },
+    leaguesForCountry(country) { return normalizedLeagues.filter(league => league.country === country); },
+    clubsForLeague(leagueId) { return normalizedClubs.filter(club => club.leagueId === leagueId || club.league === leagueId); },
     search(query, limit = 20) {
       const needle = String(query || '').trim().toLocaleLowerCase();
       if (!needle) return normalizedClubs.slice(0, limit);
@@ -146,6 +201,9 @@ export function createWorldRegistry({ clubs = [], leagues = [], players = [], tr
       const result = [...(playersByClub.get(clubId) || []).slice(0, limit)];
       for (let index = result.length; index < limit; index++) result.push(createGeneratedPlayer({ clubId, index, position: POSITIONS[index % POSITIONS.length], seed }));
       return result;
+    },
+    rosterForClub(clubId, options = {}) {
+      return this.playersForClub(clubId, { limit: 18, ...options });
     }
   };
 }

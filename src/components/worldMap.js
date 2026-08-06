@@ -1,5 +1,6 @@
 import { CLUBS, continents, countriesFor, leaguesFor, clubsForLeague } from '../data/clubs.js';
 import { icon } from './icons.js';
+import { crestSvg } from './clubCrest.js';
 
 const CONTINENTS = {
   '北美洲':'M5 23 17 12 29 16 34 27 26 35 19 34 13 44 8 39Z',
@@ -22,7 +23,9 @@ export function worldMapView(state, sourceClubs = CLUBS){
   const selectedClub=state.transfer.club;
   const visibleClubs=selectedLeague?leagueClubs(selectedLeague):selectedCountry?clubs.filter(c=>c.country===selectedCountry):selectedContinent?clubs.filter(c=>c.continent===selectedContinent):clubs;
   const regions=Object.entries(CONTINENTS).map(([name,path])=>`<path class="continent ${selectedContinent===name?'active':''}" data-continent="${name}" d="${path}"/>`).join('');
-  const nodes=visibleClubs.map(c=>`<g class="club-node ${selectedClub===c.id?'active':''}" data-club="${c.id}" transform="translate(${c.x},${c.y})"><circle r="1.8"/><text x="3" y="1">${c.name}</text></g>`).join('');
+  const nodeStep=Math.max(1,Math.ceil(visibleClubs.length/80));
+  const mapClubs=visibleClubs.filter((_,index)=>index%nodeStep===0);
+  const nodes=mapClubs.map(c=>`<g class="club-node ${selectedClub===c.id?'active':''}" data-club="${c.id}" transform="translate(${c.x},${c.y})"><circle r="1.8"/>${selectedLeague?`<text x="3" y="1">${c.name}</text>`:''}</g>`).join('');
   const selector = !selectedContinent
     ? `<div class="action-grid">${availableContinents.map(c=>`<button class="action-tile" data-continent="${c}">${icon('map')}<h3>${c}</h3><p>${clubs.filter(x=>x.continent===c).length} 家球队节点</p></button>`).join('')}</div>`
     : !selectedCountry
@@ -34,5 +37,5 @@ export function worldMapView(state, sourceClubs = CLUBS){
 }
 
 export function clubCard(c,active=false){
-  return `<button class="surface-card interactive ${active?'glow':''}" data-club="${c.id}"><div class="card-row"><div class="icon-tile">${icon('club')}</div><span class="badge blue">适配 ${Math.round((c.academy+c.opportunity)/2)}%</span></div><h3 class="card-title">${c.name}</h3><p class="card-copy">${c.city} · ${c.league}<br>${c.style}</p><div class="plan-meta"><span>青训 ${c.academy}</span><span>竞争 ${c.competition}</span><span>机会 ${c.opportunity}</span></div></button>`;
+  return `<button class="surface-card interactive ${active?'glow':''}" data-club="${c.id}"><div class="card-row"><div class="club-card-crest">${crestSvg(c,{size:48})}</div><span class="badge blue">适配 ${Math.round((c.academy+c.opportunity)/2)}%</span></div><h3 class="card-title">${c.name}</h3><p class="card-copy">${c.city||'城市资料未核实'} · ${c.league||c.leagueCn}<br>${c.style||c.tactic}</p><div class="plan-meta"><span>青训 ${c.academy}</span><span>竞争 ${c.competition}</span><span>机会 ${c.opportunity}</span></div></button>`;
 }

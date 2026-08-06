@@ -1,30 +1,30 @@
 :root {
-  color-scheme: light;
-  --bg: #f4f7fb;
-  --bg-strong: #eaf0f8;
-  --surface: rgba(255,255,255,.82);
-  --surface-solid: #fff;
-  --surface-muted: #f8fafc;
-  --text: #152033;
-  --text-2: #536178;
-  --text-3: #7b879b;
-  --line: rgba(84,102,130,.14);
-  --line-strong: rgba(84,102,130,.24);
-  --blue: #3478f6;
-  --blue-2: #5f9cff;
-  --blue-soft: #eaf2ff;
+  color-scheme: dark;
+  --bg: #0b1017;
+  --bg-strong: #131c27;
+  --surface: rgba(22,31,44,.86);
+  --surface-solid: #161f2c;
+  --surface-muted: #101721;
+  --text: #f2f5f7;
+  --text-2: #aab6c5;
+  --text-3: #748196;
+  --line: rgba(178,195,216,.14);
+  --line-strong: rgba(178,195,216,.28);
+  --blue: #65a9ff;
+  --blue-2: #8bc3ff;
+  --blue-soft: rgba(65,137,219,.18);
   --green: #22a06b;
-  --green-soft: #e8f8f1;
+  --green-soft: rgba(42,171,112,.18);
   --orange: #e87a25;
-  --orange-soft: #fff1e5;
+  --orange-soft: rgba(232,122,37,.18);
   --red: #d94b5a;
-  --red-soft: #ffedf0;
+  --red-soft: rgba(217,75,90,.18);
   --purple: #805ad5;
-  --purple-soft: #f2ebff;
+  --purple-soft: rgba(128,90,213,.2);
   --gold: #c9941a;
-  --gold-soft: #fff7dd;
-  --shadow-1: 0 1px 2px rgba(31,47,76,.04), 0 10px 30px rgba(31,47,76,.08);
-  --shadow-2: 0 18px 55px rgba(31,47,76,.14);
+  --gold-soft: rgba(201,148,26,.2);
+  --shadow-1: 0 1px 2px rgba(0,0,0,.3), 0 10px 30px rgba(0,0,0,.22);
+  --shadow-2: 0 18px 55px rgba(0,0,0,.42);
   --r-xs: 10px;
   --r-sm: 14px;
   --r-md: 18px;
@@ -61,9 +61,9 @@ body {
   font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", "PingFang SC", "Hiragino Sans GB", sans-serif;
   color: var(--text);
   background:
-    radial-gradient(circle at 8% -10%, rgba(95,156,255,.18), transparent 34%),
-    radial-gradient(circle at 96% 8%, rgba(128,90,213,.11), transparent 30%),
-    linear-gradient(180deg, #f8fbff 0, var(--bg) 40%, #f6f8fb 100%);
+    radial-gradient(circle at 8% -10%, rgba(95,156,255,.16), transparent 34%),
+    radial-gradient(circle at 96% 8%, rgba(128,90,213,.1), transparent 30%),
+    linear-gradient(180deg, #111c29 0, var(--bg) 40%, #080c12 100%);
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
@@ -97,6 +97,38 @@ svg { display: block; }
 .identity-meta { color:var(--text-2); font-size:12px; margin-top:2px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
 .top-actions { display:flex; align-items:center; gap:8px; }
 .top-save { display:none; }
+
+/* Dark football baseline: keep the existing layout and motion, change only its material system. */
+.app-topbar { background:rgba(11,16,23,.78); border-bottom-color:rgba(178,195,216,.12); }
+.surface-card,.action-tile,.sim-option,.icon-button { background:var(--surface); border-color:var(--line); box-shadow:var(--shadow-1); }
+.player-hero { background:linear-gradient(150deg,rgba(31,45,63,.96),rgba(18,28,41,.92)); }
+.notice-card { background:linear-gradient(145deg,rgba(38,40,45,.98),rgba(58,43,31,.92)); }
+.notice-card.critical { background:linear-gradient(145deg,rgba(38,34,43,.98),rgba(62,34,43,.92)); }
+.input { background:var(--surface-solid); color:var(--text); }
+.plan-card.selected { background:linear-gradient(145deg,#1e324b,#172536); }
+.sheet,.dialog { background:rgba(18,26,37,.98); border-color:var(--line); color:var(--text); }
+.sheet-head { background:rgba(18,26,37,.9); }
+.toast { background:rgba(22,31,44,.96); border-color:var(--line); }
+.continent { fill:#1d4439; stroke:#4f8e76; }
+.continent:hover,.continent.active { fill:#2e7358; filter:drop-shadow(0 8px 12px rgba(44,150,103,.22)); }
+.club-node circle { fill:#172535; stroke:var(--blue); }
+.continent { fill:#1d4439; stroke:#4f8e76; }
+.continent:hover,.continent.active { fill:#2e7358; filter:drop-shadow(0 8px 12px rgba(44,150,103,.22)); }
+.club-node circle { fill:#172535; stroke:var(--blue); }
+.result-panel,.scout-reveal { background:linear-gradient(145deg,#1d2c40,#1b2532); }
+.map-stage { background:linear-gradient(180deg,#15283a,#101b28); }
+.club-node circle { fill:#172535; }
+.club-node text { fill:var(--text); }
+.map-crumb { background:rgba(178,195,216,.1); }
+.empty-visual,.stat-cell,.change-item,.plan-meta span { background:rgba(178,195,216,.08); }
+.choice-card { color:var(--text); }
+.share-card { background:linear-gradient(145deg,#172638,#1b222d); border-color:rgba(201,148,26,.32); }
+.share-card__legend { display:flex; align-items:center; justify-content:space-between; gap:12px; margin:10px 0 16px; color:var(--gold); }
+.input { background:var(--surface-solid); color:var(--text); border-color:var(--line-strong); }
+.icon-button { background:rgba(22,31,44,.88); border-color:var(--line); color:var(--text-2); }
+.glass-tabbar { background:rgba(18,26,37,.9); border-color:var(--line); }
+.map-stage { background:linear-gradient(180deg,#15283a,#101b28); }
+.toast { background:rgba(22,31,44,.96); border-color:var(--line); }
 
 .glass-tabbar {
   position:fixed; z-index:var(--z-tab); left:50%; transform:translateX(-50%); bottom:max(8px, var(--safe-bottom));
@@ -278,3 +310,11 @@ button.surface-card:active, .surface-card[role="button"]:active { transform:scal
 @media (prefers-reduced-motion: reduce) {
   *,*::before,*::after{animation-duration:.001ms;animation-iteration-count:1;scroll-behavior:auto;transition-duration:.001ms}
 }
+.input { background:var(--surface-solid); color:var(--text); border-color:var(--line-strong); }
+.icon-button { background:rgba(22,31,44,.88); border-color:var(--line); color:var(--text-2); }
+.glass-tabbar { background:rgba(18,26,37,.9); border-color:var(--line); }
+.map-stage { background:linear-gradient(180deg,#15283a,#101b28); }
+.toast { background:rgba(22,31,44,.96); border-color:var(--line); }
+.continent { fill:#1d4439; stroke:#4f8e76; }
+.continent:hover,.continent.active { fill:#2e7358; filter:drop-shadow(0 8px 12px rgba(44,150,103,.22)); }
+.club-node circle { fill:#172535; stroke:var(--blue); }
