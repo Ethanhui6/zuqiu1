@@ -9,6 +9,7 @@ export const DATA_ORIGINS = Object.freeze({
 const ORIGIN_VALUES = new Set(Object.values(DATA_ORIGINS));
 const POSITIONS = ['ST', 'LW', 'RW', 'CAM', 'CM', 'CDM', 'LB', 'RB', 'CB', 'GK'];
 const ATTRS = ['pac', 'sho', 'pas', 'dri', 'def', 'phy'];
+const CONTINENT_BY_PREFIX = { CHN: '亚洲', JPN: '亚洲', KOR: '亚洲', KSA: '亚洲', AUS: '大洋洲', ENG: '欧洲', ESP: '欧洲', GER: '欧洲', ITA: '欧洲', FRA: '欧洲', NED: '欧洲', POR: '欧洲', ARG: '南美洲', BRA: '南美洲', USA: '北美洲', MEX: '北美洲', RSA: '非洲' };
 const PROFILE = {
   ST: { pac: 72, sho: 68, pas: 48, dri: 60, def: 30, phy: 62 },
   LW: { pac: 75, sho: 58, pas: 52, dri: 70, def: 30, phy: 48 },
@@ -44,15 +45,22 @@ function normalizeAttrs(attrs = {}, position) {
 }
 
 export function normalizeClub(club = {}) {
+  const id = String(club.id || club.code || '');
+  const hash = hashSeed(id);
   return {
     ...club,
-    id: String(club.id || club.code || ''),
+    id,
     name: club.name || club.cn || club.native || club.id,
     league: club.league || club.leagueCn || club.leagueId,
+    continent: club.continent || CONTINENT_BY_PREFIX[id.slice(0, 3)] || '欧洲',
+    x: club.x ?? 8 + hash % 84,
+    y: club.y ?? 10 + (hash >>> 8) % 80,
     academy: club.academy ?? club.youth ?? 50,
     competition: club.competition ?? club.rep ?? 50,
     opportunity: club.opportunity ?? club.youthUsage ?? 50,
     style: club.style || club.tactic || 'balanced',
+    formation: club.formation || '4-3-3',
+    salary: club.salary || 'simulation range',
     dataOrigin: {
       identity: sourceOrigin(club, 'identity', DATA_ORIGINS.CURATED),
       profile: sourceOrigin(club, 'profile', DATA_ORIGINS.CURATED),
