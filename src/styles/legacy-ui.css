@@ -54,6 +54,7 @@ body { color: var(--color-text-primary); }
 .v20-tab-button.is-active { color: var(--color-accent); background: var(--color-accent-soft); }
 .v20-tab-button .ui-icon { font-size: 18px; }
 .v20-tab-button__label { font-size: 11px; }
+.v20-scroll-hint { display: none !important; }
 .page { max-width: 760px; padding: 14px 12px 30px; }
 .page h1 { font-size: 28px; letter-spacing: -.02em; }
 .page h2 { font-size: 19px; letter-spacing: 0; }
@@ -127,6 +128,10 @@ body { color: var(--color-text-primary); }
 .ui-icon { stroke-width: 1.8; }
 
 @media (min-width: 768px) {
+  .page { max-width: 1180px; padding: 18px 24px 44px; }
+  .v20-career-page { max-width: 1180px; }
+  .save-select { width: min(100%, 980px); }
+  .setup-main, .setup-actions { width: min(100%, 980px); }
   .v20-career-pair { grid-template-columns: minmax(240px, .8fr) minmax(0, 1.2fr); }
   .v20-app-header { padding-left: max(18px, calc((100vw - 760px) / 2)); padding-right: max(18px, calc((100vw - 760px) / 2)); }
 }
