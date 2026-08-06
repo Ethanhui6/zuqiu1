@@ -10,10 +10,10 @@ export function normalizePlayer(player) {
   return { ...player, stats, potential: clamp(Number(player.potential ?? 75), 50, 99), ovr: computeOverall(stats, player.position) };
 }
 
-export function computeOverall(stats, position = '??') {
-  const weights = position.includes('??') ? {speed:.05,shooting:.02,passing:.18,dribbling:.05,defending:.35,physical:.35}
-    : position.includes('??') ? {speed:.16,shooting:.05,passing:.16,dribbling:.10,defending:.31,physical:.22}
-    : position.includes('??') || position.includes('??') ? {speed:.24,shooting:.29,passing:.12,dribbling:.20,defending:.03,physical:.12}
+export function computeOverall(stats, position = '中场') {
+  const weights = position.includes('门将') ? {speed:.05,shooting:.02,passing:.18,dribbling:.05,defending:.35,physical:.35}
+    : position.includes('后卫') ? {speed:.16,shooting:.05,passing:.16,dribbling:.10,defending:.31,physical:.22}
+    : position.includes('前锋') || position.includes('边锋') ? {speed:.24,shooting:.29,passing:.12,dribbling:.20,defending:.03,physical:.12}
     : {speed:.15,shooting:.15,passing:.25,dribbling:.20,defending:.10,physical:.15};
   return Math.round(ATTRS.reduce((sum,key)=>sum + (Number(stats[key])||0)*weights[key],0));
 }
@@ -49,7 +49,7 @@ export function applyGrowthToState(state, gains, context = {}) {
   state.career.growthLog ??= [];
   state.career.growthLog.push({
     date: state.simulation?.date,
-    source: context.source || '????',
+    source: context.source || '成长结算',
     changes: out.changes,
     before
   });
