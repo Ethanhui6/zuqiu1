@@ -10,7 +10,7 @@ const shortCommitSha = commitSha === 'local' ? 'local' : commitSha.slice(0, 7);
 const branch = process.env.GITHUB_HEAD_REF || process.env.GITHUB_REF_NAME || process.env.CF_PAGES_BRANCH || process.env.BRANCH_NAME || 'local';
 const environment = branch === 'main' ? 'production' : 'preview';
 const deploymentTarget = 'cloudflare-pages';
-if (!dist.startsWith(`${root}${path.sep}`)) throw new Error('?????????');
+if (!dist.startsWith(`${root}${path.sep}`)) throw new Error('拒绝清理非项目目录');
 await fs.rm(dist, { recursive: true, force: true });
 await fs.mkdir(dist, { recursive: true });
 
@@ -21,7 +21,7 @@ for (const directory of ['src', 'assets']) {
   await fs.cp(path.join(root, directory), path.join(dist, directory), { recursive: true });
 }
 const buildMeta = { version: manifest.version, commitSha, shortCommitSha, branch, buildTime: new Date().toISOString(), environment, deploymentTarget };
-await fs.writeFile(path.join(dist, 'build-meta.json'), JSON.stringify(buildMeta, null, 2));
+await fs.writeFile(path.join(dist, 'build-meta.json'), JSON.stringify(buildMeta, null, 2), 'utf8');
 const worker = await fs.readFile(path.join(root, 'sw.js'), 'utf8');
-await fs.writeFile(path.join(dist, 'sw.js'), worker.replaceAll('__BUILD_ID__', commitSha));
+await fs.writeFile(path.join(dist, 'sw.js'), worker.replaceAll('__BUILD_ID__', commitSha), 'utf8');
 console.log(JSON.stringify({ status: 'PASS', output: 'dist', entry: 'index.html', ...buildMeta }, null, 2));

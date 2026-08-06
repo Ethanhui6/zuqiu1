@@ -12,9 +12,9 @@ export function createDefaultState() {
     player: null,
     season: { year: '2026/27', week: 1, progress: 0, appearances: 0, goals: 0, assists: 0, rating: 0, objectives: [] },
     schedule: [
-      { id: 'm1', date: '2026-07-06', competition: '?????', opponent: '????', venue: '??', status: 'upcoming' },
-      { id: 'm2', date: '2026-07-13', competition: '????', opponent: '????', venue: '??', status: 'upcoming' },
-      { id: 'm3', date: '2026-07-20', competition: '????', opponent: '?????', venue: '??', status: 'upcoming' }
+      { id: 'm1', date: '2026-07-06', competition: '季前热身赛', opponent: '河畔竞技', venue: '主场', status: 'upcoming' },
+      { id: 'm2', date: '2026-07-13', competition: '青年联赛', opponent: '北城学院', venue: '客场', status: 'upcoming' },
+      { id: 'm3', date: '2026-07-20', competition: '青年联赛', opponent: '海港青年队', venue: '主场', status: 'upcoming' }
     ],
     injuries: [],
     relationships: { coach: 52, teammates: 48, captain: 45, fans: 1200, media: 36, rivalry: 18 },

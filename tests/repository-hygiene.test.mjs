@@ -19,7 +19,7 @@ test('GitHub Actions validates while Cloudflare Pages owns deployment',()=>{
   for(const token of ['dist/','test-results/','.env','!.env.example'])assert.ok(ignore.includes(token),token);
 });
 
-test('????????????????', () => {
+test('仓库不跟踪构建产物和本地敏感文件', () => {
   const forbidden = tracked.filter((file) =>
     file.startsWith('dist/')
     || file.endsWith('.zip')
@@ -30,8 +30,8 @@ test('????????????????', () => {
   assert.deepEqual(forbidden, []);
 });
 
-test('????????', () => {
+test('生产构建输入完整', () => {
   for (const file of ['index.html', 'styles.css', 'src/app.js', 'scripts/build.mjs']) {
-    assert.ok(tracked.includes(file), `${file} ????????`);
+    assert.ok(tracked.includes(file), `${file} 必须纳入版本控制`);
   }
 });
