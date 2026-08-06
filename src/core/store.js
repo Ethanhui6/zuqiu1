@@ -18,7 +18,7 @@ export function createDefaultState() {
     ],
     injuries: [],
     relationships: { coach: 52, teammates: 48, captain: 45, fans: 1200, media: 36, rivalry: 18 },
-    career: { marketValue: 650000, weeklySalary: 1800, contractMonths: 30, clubInterest: [], achievements: [], growthLog: [], injuryLog: [], history: [] },
+    career: { marketValue: 650000, weeklySalary: 1800, contractMonths: 30, clubInterest: [], achievements: [], growthLog: [], injuryLog: [], history: [], honors: { trophies: [], personalAwards: [], seasons: [], retirement: null } },
     training: { selectedPlan: null, completedWeek: 0, autoStrategy: 'balanced', plansUsed: [], lastResult: null },
     events: { pending: [], history: [], cooldowns: {}, seasonCounts: {}, careerCounts: {}, characterMemory: {}, forcedPauses: 0, resolved: [] },
     transfer: { continent: null, country: null, league: null, club: null, offers: [], watchlist: [] },
@@ -35,6 +35,7 @@ export function migrateState(input) {
   state.season = { ...base.season, ...(input.season || {}) };
   state.relationships = { ...base.relationships, ...(input.relationships || {}) };
   state.career = { ...base.career, ...(input.career || {}) };
+  state.career.honors = { ...base.career.honors, ...(input.career?.honors || {}) };
   state.training = { ...base.training, ...(input.training || {}) };
   state.events = { ...base.events, ...(input.events || {}) };
   state.transfer = { ...base.transfer, ...(input.transfer || {}) };
@@ -45,6 +46,9 @@ export function migrateState(input) {
   state.injuries = Array.isArray(input.injuries) ? input.injuries : [];
   state.career.growthLog = Array.isArray(state.career.growthLog) ? state.career.growthLog : [];
   state.career.history = Array.isArray(state.career.history) ? state.career.history : [];
+  state.career.honors.trophies = Array.isArray(state.career.honors.trophies) ? state.career.honors.trophies : [];
+  state.career.honors.personalAwards = Array.isArray(state.career.honors.personalAwards) ? state.career.honors.personalAwards : [];
+  state.career.honors.seasons = Array.isArray(state.career.honors.seasons) ? state.career.honors.seasons : [];
   state.training.plansUsed = Array.isArray(state.training.plansUsed) ? state.training.plansUsed : [];
   state.version = VERSION;
   return state;
