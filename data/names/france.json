@@ -1,0 +1,25 @@
+{
+  "countryCode": "FR",
+  "locale": "fr-FR",
+  "givenNamesMale": [
+    "Lucas",
+    "Théo",
+    "Hugo",
+    "Louis",
+    "Gabriel",
+    "Jules"
+  ],
+  "familyNames": [
+    "Moreau",
+    "Bernard",
+    "Martin",
+    "Dubois",
+    "Leroy",
+    "Fontaine"
+  ],
+  "nameOrder": "given-family",
+  "separator": " ",
+  "displayScript": "latin",
+  "romanizationOptional": false,
+  "nicknameRules": []
+}

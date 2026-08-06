@@ -1,0 +1,25 @@
+{
+  "countryCode": "BE",
+  "locale": "nl-BE",
+  "givenNamesMale": [
+    "Noah",
+    "Louis",
+    "Arthur",
+    "Milan",
+    "Jules",
+    "Victor"
+  ],
+  "familyNames": [
+    "Peeters",
+    "Janssens",
+    "Dubois",
+    "Lambert",
+    "Maes",
+    "Willems"
+  ],
+  "nameOrder": "given-family",
+  "separator": " ",
+  "displayScript": "latin",
+  "romanizationOptional": false,
+  "nicknameRules": []
+}

@@ -13,6 +13,7 @@ import {getPaceMode,getSpeed,paceSummary} from '../systems/pace/paceSystem.js';
 import {totalFans} from '../systems/fan/fanSystem.js';
 import {ADVANCE_TARGETS,POSITION_CONFIG} from '../app/config.js';
 import {animationDirector} from '../animations/director/animationDirector.js';
+import {createTrophyIcon} from '../components/trophyIcon.js';
 import {ensureSquadCompetition} from '../systems/squad/squadCompetitionSystem.js';
 import {generateStateMessages,markMessageRead,unreadMessages} from '../systems/messages/messageCenterSystem.js';
 import {updateCareerDirector} from '../systems/ai/careerAIDirector.js';
@@ -218,7 +219,7 @@ function openObjectiveSheet(save,store,ctx){
 
 function openFacilitiesCenter(save,club,ctx){
   const summaries=facilitySummaries(save),content=el('div',{className:'v20-facility-center'}),grid=el('div',{className:'v20-facility-grid'});
-  const items=[['analysis','▥'],['medical','✚'],['locker','▦'],['honours','🏆']];for(const[id,icon]of items){const item=summaries[id];grid.append(button('',{className:'v20-facility-tile',onClick:()=>{closeSheet();requestAnimationFrame(()=>id==='analysis'?openDataAnalysis(save,club,ctx):id==='medical'?openMedicalCenter(save,club,ctx):id==='locker'?openLockerRoom(save,club,ctx):openHonoursRoom(save,club,ctx))}},[el('span',{className:'v20-facility-icon',text:icon}),el('strong',{text:item.title}),el('small',{text:item.status}),el('b',{text:item.value}),item.attention?el('span',{className:'v20-attention-dot',text:'!'}):null]))}
+  const items=[['analysis','▥'],['medical','✚'],['locker','▦'],['honours','trophy']];for(const[id,iconName]of items){const item=summaries[id];grid.append(button('',{className:'v20-facility-tile',onClick:()=>{closeSheet();requestAnimationFrame(()=>id==='analysis'?openDataAnalysis(save,club,ctx):id==='medical'?openMedicalCenter(save,club,ctx):id==='locker'?openLockerRoom(save,club,ctx):openHonoursRoom(save,club,ctx))}},[id==='honours'?createTrophyIcon({id:'league'},{size:'small',decorative:true}):el('span',{className:'v20-facility-icon',text:iconName}),el('strong',{text:item.title}),el('small',{text:item.status}),el('b',{text:item.value}),item.attention?el('span',{className:'v20-attention-dot',text:'!'}):null]))}
   content.append(grid,el('details',{className:'v20-secondary-facilities'},[el('summary',{text:'查看更多设施'}),el('div',{className:'v20-info-list'},[infoRow('训练中心','训练计划、训练事件和智能建议'),infoRow('战术室','比赛策略与位置适配'),infoRow('关系网络','教练、队友、队长与经纪人关系'),infoRow('生涯档案','完整职业历史和关键节点')]) ]));
   openSheet({title:'数据与设施中心',subtitle:club.cn,content,size:'large'})
 }
@@ -297,7 +298,7 @@ function openHonoursRoom(save,club,ctx){
   const trophies=(save.career.trophies||[]),achievements=(save.achievements.unlocked||[]),history=(save.career.history||[]).filter(item=>/award|trophy|achievement|冠军|奖/.test(`${item.type}${item.title}`)).slice(-12).reverse();
   const content=el('div',{className:'v20-honours-detail'},[
     el('div',{className:'v20-metric-grid'},[stat('团队奖杯',save.career.careerStats.titles),stat('个人成就',achievements.length),stat('生涯纪录',Object.keys(save.career.records||{}).length),stat('代表比赛',save.career.careerStats.bigGames||0)]),
-    el('section',{className:'v20-trophy-shelf'},[el('h3',{text:'奖杯陈列'}),...(trophies.slice(-8).reverse().map(t=>el('article',{className:'v20-trophy-card'},[el('span',{text:'🏆'}),el('div',{},[el('strong',{text:safeText(t.name,'生涯荣誉')}),el('small',{text:`${t.year||save.career.year}年`})])]))),trophies.length?null:el('p',{className:'muted',text:'尚未获得正式团队奖杯，接近完成的成就会在这里显示。'})]),
+    el('section',{className:'v20-trophy-shelf'},[el('h3',{text:'奖杯陈列'}),...(trophies.slice(-8).reverse().map(t=>el('article',{className:'v20-trophy-card'},[createTrophyIcon(t,{size:'small'}),el('div',{},[el('strong',{text:safeText(t.name,'生涯荣誉')}),el('small',{text:`${t.year||save.career.year}年`})])]))),trophies.length?null:el('p',{className:'muted',text:'尚未获得正式团队奖杯，接近完成的成就会在这里显示。'})]),
     el('section',{className:'v20-detail-section'},[el('h3',{text:'生涯时间线'}),...(history.length?history.map(item=>infoRow(item.title||'生涯里程碑',item.text||`${item.year||''}年`)):[el('p',{className:'muted',text:'暂无新的荣誉记录。'})])])
   ]);void animationDirector.play('trophy-reveal',{id:`honours:${save.career.season}`,label:trophies.at(-1)?.name||'荣誉室'},{token:`honours:${save.career.season}`});openSheet({title:'荣誉室',subtitle:club.cn,content,size:'large',actions:[{label:'查看全部生涯档案',className:'button button--primary',onClick:()=>ctx.navigate('profile')}]})
 }
@@ -314,7 +315,7 @@ function showTrainingResult(result,ctx){
   openSheet({title:'本周训练完成',subtitle:result.plan.name,content:el('div',{className:'v20-result-card'},[el('div',{className:`result-orb result-orb--${result.injury?'bad':'good'}`,text:result.injury?'受伤':'完成'}),el('h3',{text:result.injury?result.injury.name:'训练计划已结算'}),el('p',{text:gains.length?`属性提升：${gains.join('、')}`:'成长经验已写入对应属性。'}),el('div',{className:'v20-metric-grid'},[stat('疲劳',Math.round(ctx.store.state.status.fatigue)),stat('体能',Math.round(ctx.store.state.status.fitness)),stat('综合能力',ctx.store.state.player.ovr)])]),actions:[{label:'留在首页',className:'button button--primary',onClick:()=>ctx.refresh()},{label:'查看训练详情',className:'button button--secondary',onClick:()=>ctx.navigate('training')}]})
 }
 
-function showRetirement(ending){openSheet({title:'职业生涯已经结束',subtitle:ending.name,content:el('div',{className:'v20-result-card'},[el('div',{className:'result-orb result-orb--good',text:'🏆'}),el('h2',{text:ending.name}),el('p',{text:ending.desc})])})}
+function showRetirement(ending){openSheet({title:'职业生涯已经结束',subtitle:ending.name,content:el('div',{className:'v20-result-card'},[createTrophyIcon({id:'legend',name:'生涯总结'},{size:'large',decorative:true}),el('h2',{text:ending.name}),el('p',{text:ending.desc})])})}
 function progressView(save,target){
   const status=el('strong',{text:'正在处理职业日程'}),bar=el('i',{attrs:{style:`width:${save.career.seasonProgress}%`}}),date=el('span',{text:formatGameDate(save.career.gameClock.currentDate)}),root=el('div',{className:'advance-progress'},[el('div',{className:'calendar-flip',text:'◫'}),el('span',{className:'eyebrow',text:ADVANCE_TARGETS.find(x=>x.id===target)?.label||'时间推进'}),status,el('div',{className:'advance-progress__meta'},[date,el('span',{text:`第${save.career.season}赛季`})]),el('div',{className:'season-timeline'},[bar]),el('p',{className:'muted',text:'普通训练和比赛正在自动结算，出现重大节点会立即暂停。'})]);
   return{root,status,update(info){status.textContent=info.label||'正在推进';date.textContent=info.date?formatGameDate(info.date):`第${info.week}周`;bar.style.width=`${info.progress||0}%`;root.classList.remove('is-ticking');void root.offsetWidth;root.classList.add('is-ticking')}}

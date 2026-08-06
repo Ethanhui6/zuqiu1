@@ -17,21 +17,23 @@ try{
   }
 
   const context=await browser.newContext({viewport:{width:390,height:844},hasTouch:true}),page=await context.newPage(),errors=[];page.on('pageerror',e=>errors.push(e.message));await page.goto(base,{waitUntil:'networkidle'});
-  await page.locator('input[name="name"]').fill('验收球员');await page.locator('[data-next]').click();
+  await page.locator('[data-next]').click();
   await page.locator('[data-position]').nth(5).click();await page.locator('[data-next]').click();
   await page.locator('[data-style]').nth(1).click();await page.locator('[data-next]').click();
   assert.ok(await page.locator('.scout-reveal').isVisible());await page.locator('[data-next]').click();
-  await page.locator('[data-club]').first().click();await page.locator('[data-next]').click();await page.locator('[data-next]').click();
+  await page.locator('[data-club]').first().click();
   await page.locator('.app-shell').waitFor();
 
-  for(const route of ['career','training','transfer','world','more']){await page.locator(`[data-route="${route}"]`).click();assert.ok(await page.locator(`[data-route="${route}"].active`).isVisible())}
-  await page.locator('[data-route="transfer"]').click();assert.equal(await page.locator('.world-map-shell').count(),0);await page.locator('[data-open-world]').click();assert.ok(await page.locator('.world-page').isVisible());assert.match(await page.locator('.page-title').textContent(),/足球世界/);
-  await page.locator('[data-route="training"]').click();await page.locator('[data-plan]').nth(1).click();
-  await page.locator('.sheet .result-panel').waitFor();const growth=await page.evaluate(()=>JSON.parse(localStorage.getItem('football-career-v20')).career.growthLog);assert.equal(growth.length,1);assert.ok(Object.values(growth[0].changes).some(value=>value>0));
-  await page.locator('[data-close-sheet]').click();await page.waitForTimeout(200);assert.equal(await page.locator('#overlay-root .overlay').count(),0);
+  for(const route of ['career','training','transfer','clubs','more']){await page.locator(`[data-route="${route}"]`).click();assert.ok(await page.locator(`[data-route="${route}"].active`).isVisible())}
+  await page.locator('[data-route="transfer"]').click();assert.equal(await page.locator('.world-map-shell').count(),0);await page.locator('[data-open-clubs]').click();assert.ok(await page.locator('.clubs-page').isVisible());assert.match(await page.locator('.page-title').textContent(),/俱乐部/);
+  await page.evaluate(()=>{const save=JSON.parse(localStorage.getItem('football-career-v20'));save.settings.mode='fast';save.schedule=[];save.simulation.date='2026-08-01';save.simulation.processedKeys=[];save.events.pending=[];save.events.history=[{id:'mobile-audit-seed'}];localStorage.setItem('football-career-v20',JSON.stringify(save));});await page.reload({waitUntil:'networkidle'});
+  await page.locator('[data-route="training"]').click();assert.equal(await page.locator('[data-training-plan]').count(),0);await page.locator('[data-open-simulation]').click();await page.locator('[data-continue]').click();await page.waitForTimeout(800);await page.locator('[data-training-plan]').first().waitFor();await page.locator('[data-training-plan]').first().click();
+  await page.locator('.sheet [data-skip]').click();
+  await page.locator('.sheet .result-panel').waitFor();const growth=await page.evaluate(()=>JSON.parse(localStorage.getItem('football-career-v20')).career.growthLog);assert.ok(growth.length>=1);assert.ok(Object.values(growth.at(-1).changes).some(value=>value>0));
+  await page.waitForTimeout(2200);assert.equal(await page.locator('#overlay-root .overlay').count(),0);
 
-  await page.locator('[data-top-speed]').click();await page.locator('[data-sim="nextMatch"]').click();await page.waitForTimeout(250);await page.locator('[data-route="match"]').click();assert.equal(await page.locator('[data-match-interaction]').count(),8);await page.locator('[data-match-interaction="penalty"]').click();await page.locator('[data-play]').click();await page.locator('.sheet [data-home]').waitFor();
+  await page.locator('[data-route="match"]').click();assert.equal(await page.locator('[data-match-interaction]').count(),5);await page.locator('[data-match-interaction]').first().click();await page.locator('[data-play]').click();await page.locator('.sheet [data-home]').waitFor();
   const played=await page.evaluate(()=>JSON.parse(localStorage.getItem('football-career-v20')).schedule.some(match=>match.status==='played'));assert.equal(played,true);await page.locator('[data-close-sheet]').click();await page.waitForTimeout(200);assert.equal(await page.locator('#overlay-root .overlay').count(),0);
   await page.reload({waitUntil:'networkidle'});assert.ok(await page.locator('.app-shell').isVisible());assert.equal(await page.locator('input[name="name"]').count(),0);assert.equal(await page.evaluate(()=>document.documentElement.dataset.theme),'light');assert.deepEqual(errors,[]);await context.close();
 }finally{await browser.close();await new Promise(resolve=>server.close(resolve))}
-console.log(JSON.stringify({status:'PASS',engine:'current index.html via system Chromium',viewports:results,flow:['six-step player creation without manual age or birthday','bottom navigation','world and transfer separation','direct training settlement','eight match interactions','sheet cleanup','save reload'],screenshots:path.relative(process.cwd(),shots),physicalSafari:false},null,2));
+console.log(JSON.stringify({status:'PASS',engine:'current index.html via system Chromium',viewports:results,flow:['five-step player creation with optional name and generated identity','direct club-card signing','bottom navigation','club directory and transfer separation','key-node training settlement','position-filtered match interactions from the sixteen-option catalog','sheet cleanup','save reload'],screenshots:path.relative(process.cwd(),shots),physicalSafari:false},null,2));

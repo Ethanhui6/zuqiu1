@@ -1,0 +1,25 @@
+{
+  "countryCode": "EG",
+  "locale": "ar-EG",
+  "givenNamesMale": [
+    "Mohamed",
+    "Omar",
+    "Ahmed",
+    "Youssef",
+    "Karim",
+    "Mahmoud"
+  ],
+  "familyNames": [
+    "Hassan",
+    "Ali",
+    "Ibrahim",
+    "Mostafa",
+    "Sayed",
+    "Mansour"
+  ],
+  "nameOrder": "given-family",
+  "separator": " ",
+  "displayScript": "latin",
+  "romanizationOptional": false,
+  "nicknameRules": []
+}

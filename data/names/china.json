@@ -1,0 +1,27 @@
+{
+  "countryCode": "CN",
+  "locale": "zh-CN",
+  "givenNamesMale": [
+    "亦非",
+    "子豪",
+    "嘉俊",
+    "伟",
+    "宇轩",
+    "浩然",
+    "明哲"
+  ],
+  "familyNames": [
+    "李",
+    "张",
+    "王",
+    "刘",
+    "陈",
+    "赵",
+    "周"
+  ],
+  "nameOrder": "family-given",
+  "separator": "",
+  "displayScript": "native",
+  "romanizationOptional": true,
+  "nicknameRules": []
+}

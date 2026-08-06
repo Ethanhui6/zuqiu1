@@ -1,0 +1,25 @@
+{
+  "countryCode": "GB-WLS",
+  "locale": "en-GB",
+  "givenNamesMale": [
+    "Rhys",
+    "Dylan",
+    "Owain",
+    "Morgan",
+    "Gareth",
+    "Iwan"
+  ],
+  "familyNames": [
+    "Evans",
+    "Jones",
+    "Davies",
+    "Williams",
+    "Griffiths",
+    "Thomas"
+  ],
+  "nameOrder": "given-family",
+  "separator": " ",
+  "displayScript": "latin",
+  "romanizationOptional": false,
+  "nicknameRules": []
+}

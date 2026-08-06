@@ -1,0 +1,27 @@
+{
+  "countryCode": "GH",
+  "locale": "en-GH",
+  "givenNamesMale": [
+    "Kwame",
+    "Kojo",
+    "Kofi",
+    "Yaw",
+    "Nana",
+    "Daniel"
+  ],
+  "familyNames": [
+    "Mensah",
+    "Owusu",
+    "Asante",
+    "Boateng",
+    "Adjei",
+    "Amoah"
+  ],
+  "nameOrder": "given-family",
+  "separator": " ",
+  "displayScript": "latin",
+  "romanizationOptional": false,
+  "nicknameRules": [
+    "football-nickname"
+  ]
+}

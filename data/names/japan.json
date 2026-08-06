@@ -1,0 +1,27 @@
+{
+  "countryCode": "JP",
+  "locale": "ja-JP",
+  "givenNamesMale": [
+    "悠真",
+    "莲",
+    "拓海",
+    "翔太",
+    "海斗",
+    "阳一",
+    "直树"
+  ],
+  "familyNames": [
+    "佐藤",
+    "高桥",
+    "中村",
+    "铃木",
+    "伊藤",
+    "小林",
+    "渡边"
+  ],
+  "nameOrder": "family-given",
+  "separator": "",
+  "displayScript": "native",
+  "romanizationOptional": true,
+  "nicknameRules": []
+}

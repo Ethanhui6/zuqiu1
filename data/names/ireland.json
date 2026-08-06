@@ -1,0 +1,25 @@
+{
+  "countryCode": "IE",
+  "locale": "en-IE",
+  "givenNamesMale": [
+    "Cian",
+    "Ronan",
+    "Seán",
+    "Oisín",
+    "Liam",
+    "Conor"
+  ],
+  "familyNames": [
+    "Murphy",
+    "Kelly",
+    "Byrne",
+    "Doyle",
+    "Ryan",
+    "O’Brien"
+  ],
+  "nameOrder": "given-family",
+  "separator": " ",
+  "displayScript": "latin",
+  "romanizationOptional": false,
+  "nicknameRules": []
+}

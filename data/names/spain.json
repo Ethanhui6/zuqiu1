@@ -1,0 +1,25 @@
+{
+  "countryCode": "ES",
+  "locale": "es-ES",
+  "givenNamesMale": [
+    "Álvaro",
+    "Daniel",
+    "Mateo",
+    "Sergio",
+    "Hugo",
+    "Javier"
+  ],
+  "familyNames": [
+    "García",
+    "Martínez",
+    "López",
+    "Sánchez",
+    "Fernández",
+    "Navarro"
+  ],
+  "nameOrder": "given-family",
+  "separator": " ",
+  "displayScript": "latin",
+  "romanizationOptional": false,
+  "nicknameRules": []
+}

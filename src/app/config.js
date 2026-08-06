@@ -16,6 +16,8 @@ export const POSITION_CONFIG = {
   CDM:{name:'后腰',group:'midfield',x:50,y:60,roles:['防守屏障','拖后组织者','抢球机器','节拍型后腰','全能六号位'],focus:['def','pas','phy','dri'],weights:{pac:.08,sho:.05,pas:.24,dri:.13,def:.29,phy:.21}},
   CM:{name:'中前卫',group:'midfield',x:35,y:47,roles:['全能往返中场','节拍器','推进型中场','全能中场','后插上得分手'],focus:['pas','dri','phy','def'],weights:{pac:.10,sho:.11,pas:.30,dri:.23,def:.11,phy:.15}},
   CAM:{name:'前腰',group:'creative',x:50,y:33,roles:['古典组织核心','前场创造者','影子核心','自由攻击手','高压前腰'],focus:['pas','dri','sho','pac'],weights:{pac:.11,sho:.16,pas:.29,dri:.30,def:.03,phy:.11}},
+  LM:{name:'左前卫',group:'wide-midfield',x:20,y:47,roles:['边路组织者','回防型前卫','传中发动机','内收连接者'],focus:['pac','pas','dri','def'],weights:{pac:.20,sho:.08,pas:.25,dri:.22,def:.12,phy:.13}},
+  RM:{name:'右前卫',group:'wide-midfield',x:80,y:47,roles:['边路组织者','回防型前卫','传中发动机','内收连接者'],focus:['pac','pas','dri','def'],weights:{pac:.20,sho:.08,pas:.25,dri:.22,def:.12,phy:.13}},
   LW:{name:'左边锋',group:'attack',x:20,y:28,roles:['内切边锋','爆发型边锋','边路组织者','宽度型边锋','自由前场攻击手'],focus:['pac','dri','sho','pas'],weights:{pac:.27,sho:.20,pas:.13,dri:.28,def:.02,phy:.10}},
   RW:{name:'右边锋',group:'attack',x:80,y:28,roles:['内切边锋','爆发型边锋','边路组织者','宽度型边锋','自由前场攻击手'],focus:['pac','dri','sho','pas'],weights:{pac:.27,sho:.20,pas:.13,dri:.28,def:.02,phy:.10}},
   SS:{name:'影锋',group:'attack',x:50,y:22,roles:['第二前锋','游弋型影锋','反击尖刀','连接型前锋','禁区幽灵'],focus:['sho','dri','pas','pac'],weights:{pac:.18,sho:.25,pas:.18,dri:.25,def:.02,phy:.12}},
@@ -103,6 +105,5 @@ export const CAREER_SETTINGS = {
   winterWindowMonth:5,
   summerWindowMonth:1,
   maxRerolls:3,
-  worldPageSize:18,
   achievementPageSize:36
 };

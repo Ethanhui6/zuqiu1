@@ -10,6 +10,7 @@ import {
 } from '../systems/facility/facilityExperienceSystem.js';
 import {markSectionViewed} from '../systems/attention/attentionManager.js';
 import {animationDirector} from '../animations/director/animationDirector.js';
+import {createTrophyIcon} from './trophyIcon.js';
 
 export function openFacilityCenter({store,repo,ctx}){
   const save=store.state,club=repo.getClub(save.career.clubId),summaries=facilitySummaries(save);
@@ -177,7 +178,7 @@ export function openHonoursRoom({store,repo,ctx}){
     el('section',{className:'v20-trophy-shelf'},[
       el('h3',{text:'奖杯陈列'}),
       ...trophies.slice(-8).reverse().map(trophy=>el('article',{className:'v20-trophy-card'},[
-        el('span',{text:'◇'}),el('div',{},[el('strong',{text:safeText(trophy.name,'生涯荣誉')}),el('small',{text:`${trophy.year||save.career.year}年`})])
+        createTrophyIcon(trophy,{size:'small'}),el('div',{},[el('strong',{text:safeText(trophy.name,'生涯荣誉')}),el('small',{text:`${trophy.year||save.career.year}年`})])
       ])),
       trophies.length?null:el('p',{className:'muted',text:'尚未获得正式团队奖杯，接近完成的成就会在这里显示。'})
     ]),

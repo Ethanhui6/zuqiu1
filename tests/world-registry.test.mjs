@@ -11,6 +11,9 @@ test('world registry validates the shipped world data and preserves its scale', 
   assert.equal(registry.stats.clubs, 500);
   assert.equal(registry.validation.valid, true, registry.validation.errors.join('; '));
   assert.equal(registry.getClub('CHN1-SHA').dataOrigin.ratings, 'estimated');
+  assert.equal(registry.getClub('COL1-01').continent, '南美洲');
+  assert.equal(registry.getClub('CHI1-01').continent, '南美洲');
+  assert.equal(registry.getClub('URU1-01').continent, '南美洲');
   assert.equal(registry.trophies[0].dataOrigin, 'curated');
 });
 

@@ -16,5 +16,6 @@ for (const file of ['index.html', 'styles.css', 'icon.svg', 'manifest.webmanifes
 for (const directory of ['src', 'assets', 'data']) {
   await fs.cp(path.join(root, directory), path.join(dist, directory), { recursive: true });
 }
+await fs.rm(path.join(dist, 'data', 'maps'), { recursive: true, force: true });
 await fs.writeFile(path.join(dist, 'build-meta.json'), JSON.stringify({ version, builtAt: new Date().toISOString() }, null, 2));
 console.log(JSON.stringify({ status: 'PASS', output: 'dist', entry: 'index.html', version }, null, 2));

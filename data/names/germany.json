@@ -1,0 +1,25 @@
+{
+  "countryCode": "DE",
+  "locale": "de-DE",
+  "givenNamesMale": [
+    "Lukas",
+    "Jonas",
+    "Felix",
+    "Leon",
+    "Emil",
+    "Maximilian"
+  ],
+  "familyNames": [
+    "Schneider",
+    "Weber",
+    "Müller",
+    "Fischer",
+    "Wagner",
+    "Becker"
+  ],
+  "nameOrder": "given-family",
+  "separator": " ",
+  "displayScript": "latin",
+  "romanizationOptional": false,
+  "nicknameRules": []
+}

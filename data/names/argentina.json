@@ -1,0 +1,27 @@
+{
+  "countryCode": "AR",
+  "locale": "es-AR",
+  "givenNamesMale": [
+    "Mateo",
+    "Thiago",
+    "Julián",
+    "Franco",
+    "Nicolás",
+    "Tomás"
+  ],
+  "familyNames": [
+    "González",
+    "Rodríguez",
+    "Gómez",
+    "Fernández",
+    "Díaz",
+    "Pérez"
+  ],
+  "nameOrder": "given-family",
+  "separator": " ",
+  "displayScript": "latin",
+  "romanizationOptional": false,
+  "nicknameRules": [
+    "football-nickname"
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "countryCode": "NG",
+  "locale": "en-NG",
+  "givenNamesMale": [
+    "Chinedu",
+    "Tobi",
+    "Emeka",
+    "Daniel",
+    "Ifeanyi",
+    "Kelechi"
+  ],
+  "familyNames": [
+    "Okafor",
+    "Adeyemi",
+    "Obi",
+    "Eze",
+    "Bello",
+    "Musa"
+  ],
+  "nameOrder": "given-family",
+  "separator": " ",
+  "displayScript": "latin",
+  "romanizationOptional": false,
+  "nicknameRules": [
+    "football-nickname"
+  ]
+}

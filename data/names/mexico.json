@@ -1,0 +1,27 @@
+{
+  "countryCode": "MX",
+  "locale": "es-MX",
+  "givenNamesMale": [
+    "Santiago",
+    "Diego",
+    "Emiliano",
+    "Mateo",
+    "Luis",
+    "Ángel"
+  ],
+  "familyNames": [
+    "Hernández",
+    "García",
+    "Martínez",
+    "López",
+    "Ramírez",
+    "Torres"
+  ],
+  "nameOrder": "given-family",
+  "separator": " ",
+  "displayScript": "latin",
+  "romanizationOptional": false,
+  "nicknameRules": [
+    "football-nickname"
+  ]
+}

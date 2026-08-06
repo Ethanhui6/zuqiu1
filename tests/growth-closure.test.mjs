@@ -39,8 +39,8 @@ test('growth helper updates snapshot potential and log once',()=>{
 
 test('training and match route through one growth transaction each',()=>{
   const app=fs.readFileSync(new URL('../src/app.js',import.meta.url),'utf8');
-  const training=app.slice(app.indexOf('completeTraining('),app.indexOf('playMatch('));
-  const match=app.slice(app.indexOf('playMatch('),app.indexOf('openInjuryCenter('));
+  const training=app.slice(app.indexOf('app.completeTraining=function'),app.indexOf('app.openSimulation=function'));
+  const match=app.slice(app.indexOf('resolveMatchAfterInteraction(match'),app.indexOf('playMatch(match'));
   for(const method of [training,match]){
     assert.equal((method.match(/applyGrowthToState\(/g)||[]).length,1);
     assert.doesNotMatch(method,/applyDevelopment\(|growthLog\.push|previousStats\s*=/);
@@ -62,8 +62,8 @@ test('radar and training preview use finite bounded calculated values',()=>{
 });
 
 test('fast mode auto-settles ordinary fixtures into the career record',async()=>{
-  const state=createDefaultState();state.settings.mode='fast';state.player=structuredClone(player);state.simulation.date='2026-07-05';
-  const store={get:()=>state,set:fn=>fn(state)};const controller=new SimulationController(store,{schedule:()=>null});
+  let state=createDefaultState();state.settings.mode='fast';state.player=structuredClone(player);state.simulation.date='2026-07-05';
+  const store={get:()=>state,set:fn=>{state=migrateState(fn(structuredClone(state)));return state;}};const controller=new SimulationController(store,{schedule:()=>null});
   const result=await controller.advance('nextMatch');
   assert.equal(result.autoMatches,1);
   assert.equal(state.schedule[0].status,'played');

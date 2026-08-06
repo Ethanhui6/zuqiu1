@@ -70,5 +70,95 @@
     "cn": "传奇名人堂",
     "native": "Hall of Fame",
     "image": "assets/trophies/legend.svg"
+  },
+  {
+    "id": "premier-league",
+    "cn": "英超冠军",
+    "native": "Premier League Champion",
+    "image": "assets/trophies/premier-league.svg"
+  },
+  {
+    "id": "fa-cup",
+    "cn": "足总杯冠军",
+    "native": "FA Cup Champion",
+    "image": "assets/trophies/fa-cup.svg"
+  },
+  {
+    "id": "league-cup",
+    "cn": "联赛杯冠军",
+    "native": "League Cup Champion",
+    "image": "assets/trophies/league-cup.svg"
+  },
+  {
+    "id": "la-liga",
+    "cn": "西甲冠军",
+    "native": "La Liga Champion",
+    "image": "assets/trophies/la-liga.svg"
+  },
+  {
+    "id": "bundesliga",
+    "cn": "德甲冠军",
+    "native": "Bundesliga Champion",
+    "image": "assets/trophies/bundesliga.svg"
+  },
+  {
+    "id": "serie-a",
+    "cn": "意甲冠军",
+    "native": "Serie A Champion",
+    "image": "assets/trophies/serie-a.svg"
+  },
+  {
+    "id": "ligue-1",
+    "cn": "法甲冠军",
+    "native": "Ligue 1 Champion",
+    "image": "assets/trophies/ligue-1.svg"
+  },
+  {
+    "id": "europa",
+    "cn": "欧联杯冠军",
+    "native": "UEFA Europa League",
+    "image": "assets/trophies/europa.svg"
+  },
+  {
+    "id": "afc",
+    "cn": "亚冠冠军",
+    "native": "AFC Champions League",
+    "image": "assets/trophies/afc.svg"
+  },
+  {
+    "id": "euros",
+    "cn": "欧洲杯冠军",
+    "native": "UEFA European Championship",
+    "image": "assets/trophies/euros.svg"
+  },
+  {
+    "id": "copa-america",
+    "cn": "美洲杯冠军",
+    "native": "Copa America",
+    "image": "assets/trophies/copa-america.svg"
+  },
+  {
+    "id": "asian-cup",
+    "cn": "亚洲杯冠军",
+    "native": "AFC Asian Cup",
+    "image": "assets/trophies/asian-cup.svg"
+  },
+  {
+    "id": "best-keeper",
+    "cn": "最佳门将",
+    "native": "Best Goalkeeper",
+    "image": "assets/trophies/best-keeper.svg"
+  },
+  {
+    "id": "assists-king",
+    "cn": "助攻王",
+    "native": "Assist Leader",
+    "image": "assets/trophies/assists-king.svg"
+  },
+  {
+    "id": "best-xi",
+    "cn": "年度最佳阵容",
+    "native": "Team of the Year",
+    "image": "assets/trophies/best-xi.svg"
   }
 ]

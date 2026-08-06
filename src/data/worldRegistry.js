@@ -9,7 +9,7 @@ export const DATA_ORIGINS = Object.freeze({
 const ORIGIN_VALUES = new Set(Object.values(DATA_ORIGINS));
 const POSITIONS = ['ST', 'LW', 'RW', 'CAM', 'CM', 'CDM', 'LB', 'RB', 'CB', 'GK'];
 const ATTRS = ['pac', 'sho', 'pas', 'dri', 'def', 'phy'];
-const CONTINENT_BY_PREFIX = { CHN: '亚洲', JPN: '亚洲', KOR: '亚洲', KSA: '亚洲', AUS: '大洋洲', ENG: '欧洲', ESP: '欧洲', GER: '欧洲', ITA: '欧洲', FRA: '欧洲', NED: '欧洲', POR: '欧洲', ARG: '南美洲', BRA: '南美洲', USA: '北美洲', MEX: '北美洲', RSA: '非洲' };
+const CONTINENT_BY_PREFIX = { CHN: '亚洲', JPN: '亚洲', KOR: '亚洲', KSA: '亚洲', AUS: '大洋洲', ENG: '欧洲', ESP: '欧洲', GER: '欧洲', ITA: '欧洲', FRA: '欧洲', NED: '欧洲', POR: '欧洲', ARG: '南美洲', BRA: '南美洲', COL: '南美洲', CHI: '南美洲', URU: '南美洲', USA: '北美洲', MEX: '北美洲', RSA: '非洲' };
 const PROFILE = {
   ST: { pac: 72, sho: 68, pas: 48, dri: 60, def: 30, phy: 62 },
   LW: { pac: 75, sho: 58, pas: 52, dri: 70, def: 30, phy: 48 },
