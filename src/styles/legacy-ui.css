@@ -74,6 +74,19 @@ body { color: var(--color-text-primary); }
 .v20-player-snapshot { min-height: 188px; padding: 14px; background: linear-gradient(145deg, #fff9df, #d7a73c); color: #2b1e06; }
 .v20-player-avatar { width: 64px; height: 64px; border-radius: 18px; background: rgba(255,255,255,.65); color: #6b4b0d; }
 .v20-player-name, .v20-player-club { color: inherit; }
+.profile-grid > .player-card {
+  padding: 16px;
+  border-radius: 22px;
+  border-color: rgba(173, 117, 0, .22);
+  background: linear-gradient(145deg, #fff9df, #d7a73c);
+  color: #2b1e06;
+  box-shadow: 0 12px 30px rgba(212, 175, 55, .2);
+}
+.profile-grid > .player-card::after { background: rgba(255, 255, 255, .2); }
+.profile-grid > .player-card .player-avatar { width: 72px; height: 72px; border-radius: 20px; }
+.profile-grid > .player-card .player-card__identity p,
+.profile-grid > .player-card .mini-fact small { color: rgba(43, 30, 6, .7); }
+.profile-grid > .player-card .mini-fact { background: rgba(255, 255, 255, .42); border-color: rgba(43, 30, 6, .1); }
 .v20-career-console { padding: 14px; }
 .v20-home-twin { gap: 10px; }
 .v20-home-mini-card { min-height: 108px; padding: 12px; }
