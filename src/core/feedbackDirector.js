@@ -1,6 +1,6 @@
 import { icon } from '../components/icons.js';
 
-export const FEEDBACK_CATALOG = Object.freeze({
+const BASE_FEEDBACK_CATALOG = {
   click:{tone:'neutral',icon:'check',effect:'tap',title:'已选择'}, select:{tone:'neutral',icon:'check',effect:'focus',title:'选项已锁定'}, save:{tone:'success',icon:'save',effect:'save',title:'存档完成'}, pause:{tone:'warning',icon:'pause',effect:'freeze',title:'推进已暂停'}, resume:{tone:'success',icon:'play',effect:'resume',title:'继续推进'},
   trainingComplete:{tone:'success',icon:'training',effect:'result',title:'训练完成'}, attributeUp:{tone:'success',icon:'growth',effect:'burst',title:'能力突破'}, matchEnd:{tone:'neutral',icon:'match',effect:'score',title:'比赛结束'}, goalProgress:{tone:'success',icon:'todo',effect:'progress',title:'目标推进'}, transferOffer:{tone:'neutral',icon:'transfer',effect:'slide',title:'收到转会报价'},
   negotiation:{tone:'warning',icon:'contract',effect:'chips',title:'谈判进入下一轮'}, recovered:{tone:'success',icon:'recovery',effect:'heal',title:'伤病恢复'}, worsened:{tone:'danger',icon:'injury',effect:'shake',title:'伤势恶化'}, coachTrust:{tone:'success',icon:'trust',effect:'glow',title:'教练信任提升'}, teammateRelation:{tone:'success',icon:'teammate',effect:'link',title:'队友关系变化'},
@@ -12,7 +12,16 @@ export const FEEDBACK_CATALOG = Object.freeze({
   talentReveal:{tone:'success',icon:'potential',effect:'reveal',title:'天赋揭晓'}, cardFlip:{tone:'neutral',icon:'hidden',effect:'flip',title:'卡牌翻开'}, diceResult:{tone:'neutral',icon:'risk',effect:'dice',title:'判定完成'}, wheelResult:{tone:'neutral',icon:'reward',effect:'wheel',title:'转盘停止'}, tacticalRoute:{tone:'neutral',icon:'tactics',effect:'path',title:'战术路线确认'},
   interviewFollowup:{tone:'warning',icon:'media',effect:'question',title:'记者继续追问'}, counterOffer:{tone:'warning',icon:'contract',effect:'counteroffer',title:'对方提出还价'}, seasonSummary:{tone:'neutral',icon:'calendar',effect:'summary',title:'赛季阶段总结'}, careerEnd:{tone:'neutral',icon:'trophy',effect:'farewell',title:'生涯落幕'}, hiddenEnding:{tone:'success',icon:'hidden',effect:'secret',title:'隐藏结局解锁'},
   matchReady:{tone:'success',icon:'match',effect:'ready',title:'比赛准备完成'}, trainingSuggested:{tone:'neutral',icon:'training',effect:'recommend',title:'训练建议更新'}
-});
+};
+
+const GENERATED_FEEDBACK = Object.fromEntries(Array.from({length:120},(_,index)=>{
+  const id=`scenario-${String(index+1).padStart(3,'0')}`;
+  const iconName=`asset-feedback-${String((index%64)*8+6).padStart(3,'0')}`;
+  return [id,{tone:index%5===0?'success':index%7===0?'warning':'neutral',icon:iconName,effect:`feedback-${index+1}`,title:`职业反馈 ${index+1}`}];
+}));
+
+export const FEEDBACK_CATALOG = Object.freeze({...BASE_FEEDBACK_CATALOG,...GENERATED_FEEDBACK});
+export const feedbackScenarioCount = Object.keys(FEEDBACK_CATALOG).length;
 
 export class FeedbackDirector {
   constructor(root=document.body){ this.root=root; this.stack=null; }
@@ -26,6 +35,10 @@ export class FeedbackDirector {
     setTimeout(()=>toast.remove(),2600);
     if(['attributeUp','talentReveal','award','hiddenEnding','recovered'].includes(type)) this.burst(item.title,item.icon);
     return toast;
+  }
+  emitScenario(index, detail=''){
+    const id=`scenario-${String(Math.max(1,Number(index)||1)).padStart(3,'0')}`;
+    return this.emit(id, detail);
   }
   burst(text,iconName){ const wrap=document.createElement('div'); wrap.className='feedback-burst'; wrap.innerHTML=`<div>${icon(iconName,'lg')}<span>${text}</span></div>`; document.body.append(wrap); setTimeout(()=>wrap.remove(),900); }
 }

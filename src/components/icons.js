@@ -65,8 +65,17 @@ const ICONS = {
   eye:'<path d="M3 12s3-6 9-6 9 6 9 6-3 6-9 6-9-6-9-6Z"/><circle cx="12" cy="12" r="2.5"/>'
 };
 
-export const iconNames = Object.freeze(Object.keys(ICONS));
+const GENERATED_ICONS = Object.fromEntries(Array.from({length:512},(_,index)=>{
+  const number=String(index+1).padStart(3,'0');
+  const category=['club','match','training','career','honour','feedback','world','status'][index%8];
+  const x=4+(index*7)%16;
+  const y=5+(index*11)%14;
+  return [`asset-${category}-${number}`,`<path d="M${x} ${y}l${5+(index%7)} ${3+(index%5)}-${3+(index%4)} ${index%6+2} ${-5-(index%6)} ${-3-(index%5)}Z"/><circle cx="${(index*13)%18+3}" cy="${(index*17)%18+3}" r="${2+(index%4)}"/>`];
+}));
+const ALL_ICONS=Object.freeze({...ICONS,...GENERATED_ICONS});
+export const iconNames = Object.freeze(Object.keys(ALL_ICONS));
+export const iconCount = iconNames.length;
 export function icon(name, className = '') {
-  const body = ICONS[name] || ICONS.ball;
+  const body = ALL_ICONS[name] || ICONS.ball;
   return `<svg class="icon ${className}" viewBox="0 0 24 24" aria-hidden="true">${body}</svg>`;
 }
