@@ -61,6 +61,17 @@ test('radar and training preview use finite bounded calculated values',()=>{
   assert.ok(Number.isFinite(preview.changes.passing)&&preview.changes.passing>0&&preview.changes.passing!==1);
 });
 
+test('fast mode auto-settles ordinary fixtures into the career record',async()=>{
+  const state=createDefaultState();state.settings.mode='fast';state.player=structuredClone(player);state.simulation.date='2026-07-05';
+  const store={get:()=>state,set:fn=>fn(state)};const controller=new SimulationController(store,{schedule:()=>null});
+  const result=await controller.advance('nextMatch');
+  assert.equal(result.autoMatches,1);
+  assert.equal(state.schedule[0].status,'played');
+  assert.equal(state.schedule[0].auto,true);
+  assert.equal(state.career.history.at(-1).auto,true);
+  assert.ok(state.season.appearances>=0&&state.season.goals>=0&&state.season.assists>=0);
+});
+
 test('active injury and app randomness is deterministic and contains no Math.random',()=>{
   const a=createInjury({date:'2026-07-01',rng:keyedRandom('injury')});
   const b=createInjury({date:'2026-07-01',rng:keyedRandom('injury')});

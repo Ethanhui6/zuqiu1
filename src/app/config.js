@@ -94,7 +94,7 @@ export const NAV_ITEMS = [
   {id:'more',label:'更多',icon:'•••'}
 ];
 
-export const THEME_MODES = ['light'];
+export const THEME_MODES = ['system','dark','light'];
 
 export const CAREER_SETTINGS = {
   startAge:[16,18],

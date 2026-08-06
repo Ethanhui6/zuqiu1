@@ -18,8 +18,10 @@ import { morePage } from './pages/more.js';
 import { CLUBS } from './data/clubs.js';
 import { dataRepository } from './services/dataRepository.js';
 import { createCareerShareCard, ensureHonors, retireCareer, settleSeason } from './systems/honors/honorsSystem.js';
+import { applyTheme } from './app/theme.js';
+import { worldPage } from './pages/world.js';
 
-const ROUTES={career:['home','生涯'],match:['match','比赛'],training:['training','训练'],transfer:['transfer','转会'],more:['settings','更多']};
+const ROUTES={career:['home','生涯'],match:['match','比赛'],training:['training','训练'],transfer:['transfer','转会'],world:['map','世界'],more:['settings','更多']};
 const ATTR_CN={speed:'速度',shooting:'射门',passing:'传球',dribbling:'盘带',defending:'防守',physical:'身体'};
 const clamp=(v,min,max)=>Math.max(min,Math.min(max,v));
 
@@ -41,6 +43,7 @@ class App {
     if(!this.store.get().events.pending.length && !this.store.get().events.history.length){this.store.set(s=>{this.events.schedule(s,{priority:'normal'});return s;});}
   }
   render(){
+    applyTheme(this.store.get().settings.theme);
     const shell=this.root.querySelector('.app-shell');
     if(!this.store.get().player){if(!this.root.querySelector('.wizard-shell'))this.root.replaceChildren(createPlayerWizard(this));return;}
     if(!shell){this.mount();return;}
@@ -50,7 +53,7 @@ class App {
     shell.querySelector('[data-tabbar]').innerHTML=this.tabbar(state);
     this.bindShell();
   }
-  page(state){ return ({career:careerPage,match:matchPage,training:trainingPage,transfer:transferPage,more:morePage}[state.route]||careerPage)(this,state); }
+  page(state){ return ({career:careerPage,match:matchPage,training:trainingPage,transfer:transferPage,world:worldPage,more:morePage}[state.route]||careerPage)(this,state); }
   topbar(state){const p=state.player;return `<header class="app-topbar"><div class="identity"><div class="avatar">${p.number}</div><div class="identity-copy"><div class="identity-name">${p.name}</div><div class="identity-meta">${p.club} · ${p.age}岁 · €${Math.round(state.career.marketValue/1000)}K</div></div></div><div class="top-actions"><button class="icon-button ${state.simulation.paused?'active':''}" data-top-pause aria-label="${state.simulation.paused?'继续':'暂停'}">${icon(state.simulation.paused?'play':'pause')}</button><button class="app-button ghost" data-top-speed>${icon('fast','sm')}${state.simulation.paused?'暂停':`${state.simulation.speed}×`}</button><button class="icon-button top-save" data-top-save aria-label="保存">${icon('save')}</button></div></header>`;}
   tabbar(state){return `<nav class="glass-tabbar" aria-label="主导航">${Object.entries(ROUTES).map(([key,[ico,label]])=>`<button class="tab-item ${state.route===key?'active':''}" data-route="${key}">${icon(ico)}<span class="tab-label">${label}</span></button>`).join('')}</nav>`;}
   bindShell(){
@@ -100,6 +103,7 @@ class App {
   openSettings(){const s=this.store.get();this.overlay.sheet('设置与存档',`<div class="stack"><section class="surface-card"><div class="card-kicker">体验设置</div>${settingToggle('sound','音效',s.settings.sound)}${settingToggle('haptics','触控反馈',s.settings.haptics)}${settingToggle('autoSkipLow','自动跳过低优先事件',s.settings.autoSkipLow)}${settingToggle('autoPauseCritical','关键事件自动暂停',s.settings.autoPauseCritical)}</section><section class="surface-card"><div class="card-kicker">存档管理</div><div class="card-row" style="margin-top:12px"><button class="app-button ghost" data-export>导出存档</button><label class="app-button ghost">导入存档<input type="file" data-import accept="application/json" hidden></label><button class="app-button danger" data-reset>重置</button></div></section></div>`,{onMount:el=>{el.querySelectorAll('[data-setting]').forEach(x=>x.onchange=()=>this.store.set(st=>{st.settings[x.dataset.setting]=x.checked;return st;}));el.querySelector('[data-export]').onclick=()=>{const blob=new Blob([this.store.export()],{type:'application/json'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='football-career-save.json';a.click();URL.revokeObjectURL(a.href);this.feedback.emit('save','存档文件已导出');};el.querySelector('[data-import]').onchange=async e=>{try{this.store.import(await e.target.files[0].text());this.feedback.emit('save','存档已导入');this.overlay.close();}catch{this.feedback.emit('saveConflict','文件无法读取');}};el.querySelector('[data-reset]').onclick=()=>{if(confirm('确定重置全部生涯数据？')){this.store.reset();this.overlay.close();this.mount();}};}});}
 }
 
+App.prototype.openThemeSettings=function(){const current=this.store.get().settings.theme;this.overlay.sheet('Appearance',`<div class="choice-grid">${[['system','System'],['dark','Dark'],['light','Light']].map(([id,label])=>`<button class="choice-card ${current===id?'active':''}" data-theme-mode="${id}"><h3>${label}</h3><p>Use the app theme consistently.</p></button>`).join('')}</div>`,{onMount:el=>el.querySelectorAll('[data-theme-mode]').forEach(btn=>btn.onclick=()=>{this.store.set(state=>{state.settings.theme=btn.dataset.themeMode;return state;});applyTheme(btn.dataset.themeMode);this.overlay.close();})});};
 function summaryCard(iconName,title,body){return `<section class="surface-card"><div class="card-kicker">${icon(iconName,'sm')} ${title}</div><div style="height:10px"></div>${body}</section>`;}
 function facilityTile(iconName,title,copy,key){return `<button class="action-tile" data-facility="${key}"><div class="icon-tile">${icon(iconName)}</div><h3>${title}</h3><p>${copy}</p></button>`;}
 function treatmentCard(id,title,copy){return `<button class="surface-card interactive" data-treatment="${id}"><div class="icon-tile">${icon(id==='aggressive'?'fast':id==='light'?'recovery':'medical')}</div><h3 class="card-title">${title}</h3><p class="card-copy">${copy}</p></button>`;}
