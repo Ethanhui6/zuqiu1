@@ -11,8 +11,8 @@ Local repository state is the source of truth. A phase may move to `PASS` only a
 | 4 | Full-season match simulation | PASS |
 | 5 | Career pacing | PASS |
 | 6 | Fast-mode feedback | PASS |
-| 7 | Development curve | IN_PROGRESS |
-| 8 | Development feedback animation | LOCKED |
+| 7 | Development curve | PASS |
+| 8 | Development feedback animation | IN_PROGRESS |
 | 9 | Career timeline | LOCKED |
 | 10 | Club interactions | LOCKED |
 | 11 | Toast system | LOCKED |
@@ -154,7 +154,7 @@ Phase 6 gate result: `PASS` on 2026-08-08. Phase 7 is now the only unlocked phas
 - [x] Every cohort grows, reaches a measurable peak, and declines before age 36 without invalid OVR values.
 - [x] Phase 5 pacing, season review, five-season differentiation, and full retirement regressions pass.
 - [x] Full automated suite (108/108), repository hygiene (3/3), production build, three-season browser replay, and 12-viewport mobile regressions pass for version 20.8.0.
-- [ ] GitHub Actions `verify` passes for the Phase 7 Pull Request.
-- [ ] Cloudflare Pages creates a successful preview for the Phase 7 commit.
+- [x] GitHub Actions `verify` passes for Pull Request #40.
+- [x] Cloudflare Pages creates a successful preview for commit `90a746b`.
 
-Phase 7 remains `IN_PROGRESS` until all local and remote checks pass.
+Phase 7 gate result: `PASS` on 2026-08-08. Phase 8 is now the only unlocked phase.

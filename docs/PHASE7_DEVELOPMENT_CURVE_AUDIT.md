@@ -43,4 +43,7 @@ All 500 careers grew above their starting OVR, reached a finite peak, and declin
 - Production build: PASS, version 20.8.0.
 - Browser-driven three-season career replay: PASS at 390x844.
 - Full mobile audit: PASS at 12 viewports from 320x568 to 1920x1080.
-- GitHub and Cloudflare evidence are recorded when the phase closes.
+- Implementation commit: `90a746b`.
+- Pull Request: #40, stacked on `codex/phase-6-fast-feedback`.
+- GitHub Actions `verify`: PASS.
+- Cloudflare Pages native preview for `90a746b`: PASS.
