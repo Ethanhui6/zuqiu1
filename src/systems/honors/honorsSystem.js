@@ -114,10 +114,15 @@ export function settleSeason(state) {
   personalAwards.forEach(item => addOnce(honors.personalAwards, item));
 
   const startOvr = Number(season.startOvr ?? player?.ovr ?? 0);
-  const endOvr = Number(player?.ovr ?? startOvr);
   const startValue = Number(season.startMarketValue ?? state.career.marketValue ?? 0);
   const endValue = Number(state.career.marketValue ?? startValue);
   const startStats = { ...(season.startStats || player?.previousStats || player?.stats || {}) };
+  if (player?.stats) {
+    state.career.growthLog ??= [];
+    applySeasonDevelopment(state);
+    player = state.player;
+  }
+  const endOvr = Number(player?.ovr ?? startOvr);
   const endStats = { ...(player?.stats || {}) };
   const recordedHighlights = (season.highlights || []).map(item => typeof item === 'string' ? item : item?.title || item?.summary).filter(Boolean);
   const transferClub = season.transfer?.club || season.transfer?.clubName || season.transfer?.name;
@@ -135,11 +140,6 @@ export function settleSeason(state) {
   honors.seasons.unshift(record);
   state.career.history.unshift({ date: state.simulation.date, type: 'season-summary', title: `${season.year} season summary`, recordId: key, dataOrigin: 'generated-fallback' });
   const nextYear = nextSeason(season.year);
-  if (player?.stats) {
-    state.career.growthLog ??= [];
-    applySeasonDevelopment(state);
-    player = state.player;
-  }
   if (player) player.age = Number(player.age || 18) + 1;
   state.career ??= {};
   state.career.offSeason = createOffSeason(nextYear);
