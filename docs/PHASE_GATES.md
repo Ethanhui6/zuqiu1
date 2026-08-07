@@ -14,8 +14,8 @@ Local repository state is the source of truth. A phase may move to `PASS` only a
 | 7 | Development curve | PASS |
 | 8 | Development feedback animation | PASS |
 | 9 | Career timeline | PASS |
-| 10 | Club interactions | IN_PROGRESS |
-| 11 | Toast system | LOCKED |
+| 10 | Club interactions | PASS |
+| 11 | Toast system | IN_PROGRESS |
 | 12 | Career events | LOCKED |
 | 13 | Mini-games | LOCKED |
 | 14 | Position, play style, and trait isolation | LOCKED |
@@ -202,7 +202,7 @@ Phase 9 gate result: `PASS` on 2026-08-08. Phase 10 is now the only unlocked pha
 - [x] Browser results remain visible until acknowledgement; runtime errors and horizontal overflow remain zero.
 - [x] Full automated suite passes: 111/111; repository hygiene passes: 3/3; production build passes as version 20.11.0.
 - [x] Phase 6 feedback, external transfer, full 12-viewport, and seven-phone-width regressions pass.
-- [ ] GitHub Actions `verify` passes for the Phase 10 Pull Request.
-- [ ] Cloudflare Pages creates a successful native preview for the Phase 10 implementation commit.
+- [x] GitHub Actions `verify` passes for Pull Request #43.
+- [x] Cloudflare Pages creates a successful native preview for implementation commit `321b1c6`.
 
-Phase 10 gate result: `IN_PROGRESS`. Local acceptance is complete; remote delivery checks remain open.
+Phase 10 gate result: `PASS` on 2026-08-08. Phase 11 is now the only unlocked phase.

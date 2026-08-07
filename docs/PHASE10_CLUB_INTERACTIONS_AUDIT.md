@@ -41,4 +41,8 @@ One shared resolver records cooldowns and history while updating the existing ca
 - Full mobile audit: PASS at 12 viewports from 320x568 to 1920x1080.
 - Phase 2 layout audit: PASS at seven mobile widths from 320 to 430 px.
 
-Remote implementation commit, Pull Request, GitHub Actions, and Cloudflare Pages evidence will be recorded after the feature branch is pushed.
+- Implementation commit: `321b1c6`.
+- Pull Request: #43, stacked on `codex/phase-9-career-timeline`.
+- GitHub Actions `verify`: PASS.
+- Cloudflare Pages native preview for `321b1c6`: PASS.
+- Preview: `https://1c99c4d0.zuqiu-4tt.pages.dev`.
