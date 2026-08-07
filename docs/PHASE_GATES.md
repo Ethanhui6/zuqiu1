@@ -9,7 +9,7 @@ Local repository state is the source of truth. A phase may move to `PASS` only a
 | 2 | Global UI and layout | PASS |
 | 3 | Match hub UI | PASS |
 | 4 | Full-season match simulation | PASS |
-| 5 | Career pacing | LOCKED |
+| 5 | Career pacing | PASS |
 | 6 | Fast-mode feedback | LOCKED |
 | 7 | Development curve | LOCKED |
 | 8 | Development feedback animation | LOCKED |
@@ -112,3 +112,18 @@ Phase 3 gate result: `PASS` on 2026-08-08. Phase 4 is now the only unlocked phas
 - [x] Production build passes as version 20.5.0.
 
 Phase 4 gate result: `PASS` on 2026-08-08. Phase 5 is now the only unlocked phase.
+
+## Phase 5 Gate
+
+- [x] Fast seasons expose two fixed career-event windows without weekly player input.
+- [x] Training and event windows survive same-day fixture collisions by triggering on the next free day in their week.
+- [x] Every tested fast season contains two interactive training nodes, two to four career events, zero forced interactive matches, and at least 34 automatic fixture settlements.
+- [x] Fast-season pacing remains within the 20-35 second interaction budget.
+- [x] Five independent careers complete age 16 to 30 without weekly advancement actions.
+- [x] One independent career completes age 16 to retirement at age 38.
+- [x] A browser-driven 390x844 replay completes three seasons with two training and two career-event stops per season.
+- [x] Full automated tests pass: 108/108; repository hygiene passes: 3/3.
+- [x] The full 12-viewport mobile audit remains green.
+- [x] Production build passes as version 20.6.0.
+
+Phase 5 gate result: `PASS` on 2026-08-08. Phase 6 is now the only unlocked phase.

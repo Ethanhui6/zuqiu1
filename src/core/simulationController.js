@@ -86,13 +86,13 @@ export function recordMatchResult(state,match,result={}){
 
 // Fast mode is intentionally a short career-management loop, not a timed simulation.
 export const FAST_SEASON_PACE=Object.freeze({
-  mode:'fast', trainingWeeks:Object.freeze([6,20]), maxTrainingNodes:2, autoEventCheckDays:8,
-  targetSeconds:Object.freeze({min:15,max:30}), expectedActions:Object.freeze({advance:3,training:2}),
-  actionSeconds:Object.freeze({advance:2,training:7})
+  mode:'fast', trainingWeeks:Object.freeze([6,20]), eventWeeks:Object.freeze([12,32]), maxTrainingNodes:2, autoEventCheckDays:8,
+  targetSeconds:Object.freeze({min:20,max:35}), expectedActions:Object.freeze({advance:5,training:2,events:2}),
+  actionSeconds:Object.freeze({advance:2,training:7,event:2.5})
 });
-export const assessFastSeasonPace=({advanceActions=FAST_SEASON_PACE.expectedActions.advance,trainingChoices=FAST_SEASON_PACE.expectedActions.training}={})=>{
-  const estimatedSeconds=advanceActions*FAST_SEASON_PACE.actionSeconds.advance+trainingChoices*FAST_SEASON_PACE.actionSeconds.training;
-  return {advanceActions,trainingChoices,estimatedSeconds,withinTarget:estimatedSeconds>=FAST_SEASON_PACE.targetSeconds.min&&estimatedSeconds<=FAST_SEASON_PACE.targetSeconds.max};
+export const assessFastSeasonPace=({advanceActions=FAST_SEASON_PACE.expectedActions.advance,trainingChoices=FAST_SEASON_PACE.expectedActions.training,eventChoices=FAST_SEASON_PACE.expectedActions.events}={})=>{
+  const estimatedSeconds=advanceActions*FAST_SEASON_PACE.actionSeconds.advance+trainingChoices*FAST_SEASON_PACE.actionSeconds.training+eventChoices*FAST_SEASON_PACE.actionSeconds.event;
+  return {advanceActions,trainingChoices,eventChoices,estimatedSeconds,withinTarget:estimatedSeconds>=FAST_SEASON_PACE.targetSeconds.min&&estimatedSeconds<=FAST_SEASON_PACE.targetSeconds.max};
 };
 
 export class CareerDirector {
@@ -199,9 +199,14 @@ export class CareerDirector {
         matchReady=match; stopReason='match'; break;
       }
       const trainingKey=`training-node:${state.season.year}:${state.season.week}`;
-      if(!state.training.currentOpportunity&&Number(state.training.seasonTrainingCount||0)<FAST_SEASON_PACE.maxTrainingNodes&&FAST_SEASON_PACE.trainingWeeks.includes(state.season.week)&&new Date(`${state.simulation.date}T00:00:00Z`).getUTCDay()===1&&!state.simulation.processedKeys.includes(trainingKey)){
+      if(!state.training.currentOpportunity&&Number(state.training.seasonTrainingCount||0)<FAST_SEASON_PACE.maxTrainingNodes&&FAST_SEASON_PACE.trainingWeeks.includes(state.season.week)&&!state.simulation.processedKeys.includes(trainingKey)){
         this.store.set(next=>{next.simulation.processedKeys.push(trainingKey);trainingOpportunity=createTrainingOpportunity(next,{seed:`${next.simulation.date}:${trainingKey}`});return next;});
         if(trainingOpportunity){stopReason='training';break;}
+      }
+      const paceEventKey=`pace-event:${state.season.year}:${state.season.week}`;
+      if(state.settings.mode===FAST_SEASON_PACE.mode&&FAST_SEASON_PACE.eventWeeks.includes(state.season.week)&&!state.events.pending.length&&!state.simulation.processedKeys.includes(paceEventKey)){
+        this.store.set(next=>{next.simulation.processedKeys.push(paceEventKey);generatedEvent=this.eventEngine.schedule(next,{priority:'important'});return next;});
+        if(generatedEvent){stopReason='event';break;}
       }
       if(action==='nextEvent' && state.simulation.date>=desc.target){
         this.store.set(s=>{generatedEvent=this.eventEngine.schedule(s,{priority:'important'});return s;}); stopReason='event'; break;
