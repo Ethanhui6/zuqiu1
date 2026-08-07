@@ -121,7 +121,7 @@ export function createGeneratedPlayer({ clubId = 'free-agent', country = '', pos
   const rnd = random(`${seed}|${clubId}|${pos}|${index}`);
   const attrs = Object.fromEntries(Object.entries(PROFILE[pos]).map(([key, value]) => [key, Math.round(value + (rnd() - 0.5) * 12)]));
   const ovr = Math.round(Object.values(attrs).reduce((sum, value) => sum + value, 0) / ATTRS.length);
-  const generatedName = Object.keys(nameProfiles).length ? generatePlayerName(country, `${seed}|${clubId}|${index}`, nameProfiles).displayName : `青年队球员 ${index + 1}`;
+  const generatedName = Object.keys(nameProfiles).length ? generatePlayerName(country, `${seed}|${clubId}|${index}`, nameProfiles).displayName : `青年队球员 ${index + 1}-${hashSeed(`${clubId}|${seed}`) % 10000}`;
   return {
     id: `generated-${clubId}-${pos}-${index}`,
     name: generatedName,
@@ -188,6 +188,8 @@ export function createWorldRegistry({ clubs = [], leagues = [], players = [], tr
     playersByClub.get(player.clubId).push(player);
   }
   const reservedRealNames = new Set(normalizedPlayers.filter(player => player.isReal).map(player => player.name));
+  const generatedNamesByScope = new Map();
+  const rosterCache = new Map();
   const all = normalizedClubs.map(item => ({ item, text: searchable(item) }));
   return {
     clubs: normalizedClubs,
@@ -216,16 +218,24 @@ export function createWorldRegistry({ clubs = [], leagues = [], players = [], tr
       return (playersByClub.get(clubId) || []).filter(player => player.isReal && year >= player.snapshotSeason && year <= player.simulatedEndSeason).slice(0, limit);
     },
     playersForClub(clubId, { limit = 11, seed = 'fallback', seasonYear = snapshotSeason } = {}) {
+      const year = Number(seasonYear) || snapshotSeason;
+      const cacheKey = `${clubId}|${year}|${seed}|${limit}`;
+      if (rosterCache.has(cacheKey)) return rosterCache.get(cacheKey);
       const result = [...this.realRosterForClub(clubId, { limit, seasonYear })];
       const club = clubById.get(clubId);
+      const scopeKey = `${year}|${seed}`;
+      const usedNames = generatedNamesByScope.get(scopeKey) || new Set();
+      generatedNamesByScope.set(scopeKey, usedNames);
       for (let index = result.length; index < limit; index++) {
         let generated;
         for (let retry = 0; retry < 32; retry++) {
           generated = createGeneratedPlayer({ clubId, country: club?.country, index, position: POSITIONS[index % POSITIONS.length], seed: `${seed}|name-${retry}`, nameProfiles });
-          if (!result.some(player => player.name === generated.name) && !reservedRealNames.has(generated.name)) break;
+          if (!result.some(player => player.name === generated.name) && !reservedRealNames.has(generated.name) && !usedNames.has(generated.name)) break;
         }
+        usedNames.add(generated.name);
         result.push(generated);
       }
+      rosterCache.set(cacheKey, result);
       return result;
     },
     rosterForClub(clubId, options = {}) {
