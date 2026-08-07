@@ -10,7 +10,7 @@ export function createAppShell({onNavigate,onSave,onBack,onHome,onPaceSettings}=
 
   const left=el('div',{className:'v20-header-side v20-header-side--left'});
   const back=button('',{className:'v20-header-icon-button v20-header-back',ariaLabel:'返回生涯首页',onClick:onBack});
-  back.append(el('span',{text:'‹',attrs:{'aria-hidden':'true'}}),el('span',{className:'v20-header-action-label',text:'生涯'}));
+  back.append(icon('back','sm'),el('span',{className:'v20-header-action-label',text:'生涯'}));
   left.append(back);
 
   const identity=button('',{className:'v20-header-player',ariaLabel:'返回生涯首页',onClick:onHome});
@@ -24,7 +24,7 @@ export function createAppShell({onNavigate,onSave,onBack,onHome,onPaceSettings}=
 
   const right=el('div',{className:'v20-header-side v20-header-side--right'});
   const paceButton=button('',{className:'v20-pace-chip',ariaLabel:'打开职业节奏设置',onClick:onPaceSettings});
-  paceButton.append(el('span',{text:'◷',attrs:{'aria-hidden':'true'}}),el('span',{className:'v20-pace-chip__value',text:'1倍'}));
+  paceButton.append(icon('speed','sm'),el('span',{className:'v20-pace-chip__value',text:'1倍'}));
   const save=button('',{className:'v20-save-button',ariaLabel:'保存当前生涯',onClick:()=>{
     save.classList.remove('is-saved');save.classList.add('is-saving');
     const result=onSave?.();
@@ -35,7 +35,7 @@ export function createAppShell({onNavigate,onSave,onBack,onHome,onPaceSettings}=
       clearTimeout(save._savedTimer);save._savedTimer=setTimeout(()=>{save.classList.remove('is-saved');if(label)label.textContent='保存'},1200);
     });
   }});
-  save.append(el('span',{className:'v20-save-button__icon',text:'✓',attrs:{'aria-hidden':'true'}}),el('span',{className:'v20-save-button__label',text:'保存'}));
+  save.append(icon('save','sm v20-save-button__icon'),el('span',{className:'v20-save-button__label',text:'保存'}));
   right.append(paceButton,save);
   header.append(left,identity,right);
 
@@ -44,12 +44,13 @@ export function createAppShell({onNavigate,onSave,onBack,onHome,onPaceSettings}=
   NAV_ITEMS.forEach(item=>{
     const navButton=button('',{className:'tab-button v20-tab-button',ariaLabel:item.label,onClick:()=>onNavigate?.(item.id)});
     navButton.dataset.route=item.id;
-    navButton.append(icon(item.icon),el('span',{className:'tab-button__label',text:item.label}),el('span',{className:'tab-badge',attrs:{'aria-hidden':'true'}}));
+    const navIcon={career:'home',match:'match',training:'training',transfer:'transfer',more:'more'}[item.id]||item.icon;
+    navButton.append(icon(navIcon),el('span',{className:'tab-button__label',text:item.label}),el('span',{className:'tab-badge',attrs:{'aria-hidden':'true'}}));
     nav.append(navButton);
   });
 
   const scrollHint=button('',{className:'scroll-hint v20-scroll-hint',ariaLabel:'下方还有内容，向下滚动'});
-  scrollHint.append(el('span',{text:'继续向下'}),el('span',{className:'scroll-hint__chevron',text:'⌄',attrs:{'aria-hidden':'true'}}));
+  scrollHint.append(el('span',{text:'继续向下'}),icon('chevron','sm scroll-hint__chevron'));
   const scrollController=installScrollController(main,scrollHint);
   const overlayRoot=el('div',{className:'OverlayRoot overlay-root',attrs:{id:'overlay-root','data-app-region':'overlays','aria-live':'off'}});
   const toastRoot=el('div',{className:'ToastRoot toast-root',attrs:{id:'toast-root','data-app-region':'toasts','aria-live':'polite'}});
