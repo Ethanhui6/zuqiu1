@@ -14,6 +14,11 @@ test('every generated award and registered trophy has an explicit local asset', 
   }
 });
 
+test('every obtainable award uses its own local asset', () => {
+  const assets = GENERATED_AWARD_IDS.map(id => trophyAsset(id));
+  assert.equal(new Set(assets).size, assets.length);
+});
+
 test('registered trophy assets exist and unknown awards never become league trophies', () => {
   for (const asset of Object.values(TROPHY_ASSETS)) assert.ok(fs.existsSync(new URL(`../${asset.slice(2)}`, import.meta.url)));
   const fallback = trophyMarkup({ id: 'unknown-award', name: 'Unknown award' });

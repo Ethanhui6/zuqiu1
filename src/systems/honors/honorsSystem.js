@@ -86,7 +86,8 @@ function addOnce(list, item) {
 
 function simulatedHonor(id, name, season, club, category) {
   const assetId = /金靴|Golden Boot/.test(name) ? 'golden-boot' : /年轻|Young/.test(name) ? 'young' : /最佳|Player/.test(name) ? 'player-year' : /杯|Champion/.test(name) ? 'league' : 'legend';
-  return { id, assetId: id.includes('domestic') ? 'domestic' : id.includes('league') ? 'league' : assetId, name, season, club, category, dataOrigin: 'generated-fallback', source: 'career simulation' };
+  const generatedId = id.slice(id.lastIndexOf(':') + 1);
+  return { id, assetId: { league: 'league-title', domestic: 'domestic-cup', 'golden-boot': 'golden-boot', 'player-year': 'player-of-season', young: 'young-player' }[generatedId] || assetId, name, season, club, category, dataOrigin: 'generated-fallback', source: 'career simulation' };
 }
 
 function nextSeasonFixtures(state) {
