@@ -22,7 +22,7 @@ const unique = items => [...new Set(items.filter(Boolean))];
 const escapeHtml = value => String(value ?? '').replace(/[&<>"']/g, char => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[char]));
 const clubName = club => club?.cn || club?.name || club?.nameZh || club?.native || '未知俱乐部';
 const englishName = club => club?.nameEn || club?.en || club?.english || club?.native || clubName(club);
-const location = club => [club?.country, club?.leagueCn || club?.league, club?.city].filter(value => value && value !== '未核实').join(' · ');
+const location = club => [club?.country, club?.leagueCn || club?.league, cityName(club)].filter(value => value && value !== '未核实').join(' · ');
 
 export function clubsPage(app, state) {
   const clubs = list();
@@ -75,7 +75,7 @@ function clubProfile(club, state, clubs, currentId, theme) {
   const goal = seasonGoal(club, clubRank);
   const themeStyle = `--club-accent:${theme.accent};--club-accent-soft:${theme.soft};`;
   return `<div class="club-profile" style="${themeStyle}">
-    <section class="club-hero"><div class="club-hero-line"></div><div class="club-hero-main"><div class="club-hero-crest">${crestSvg(club, { size: 96 })}</div><div class="club-hero-copy"><div class="card-kicker">${current ? '当前效力 · 球队档案' : '候选球队 · 球队档案'}</div><h2>${escapeHtml(clubName(club))}</h2><p class="club-hero-english">${escapeHtml(englishName(club))}</p><p class="card-copy">${escapeHtml(location(club) || '联赛资料待补充')}</p><div class="tag-row"><span class="badge club-accent-badge">联赛第 ${clubRank} 名</span><span class="badge blue">声望 ${clamp(club.rep || club.reputation)}</span><span class="badge gold">目标：${goal}</span></div></div></div><div class="club-hero-facts"><div><span>主教练</span><strong>${escapeHtml(coachName(club))}</strong></div><div><span>主场</span><strong>${escapeHtml(stadiumName(club))}</strong></div><div><span>赛季目标</span><strong>${escapeHtml(goal)}</strong></div></div><div class="club-hero-actions"><button class="app-button ghost" data-club-action="compare">${icon('club','sm')} 关注球队</button><button class="app-button primary" data-club-action="contact">${icon('agent','sm')} 请求沟通</button></div></section>
+    <section class="club-hero"><div class="club-hero-line"></div><div class="club-hero-main"><div class="club-hero-crest">${crestSvg(club, { size: 96 })}</div><div class="club-hero-copy"><div class="card-kicker">${current ? '当前效力 · 球队档案' : '候选球队 · 球队档案'}</div><h2>${escapeHtml(clubName(club))}</h2><p class="club-hero-english">${escapeHtml(englishName(club))}</p><p class="card-copy">${escapeHtml(location(club) || '联赛资料待补充')}</p><div class="tag-row"><span class="badge club-accent-badge">联赛第 ${clubRank} 名</span><span class="badge blue">声望 ${clamp(club.rep || club.reputation)}</span><span class="badge gold">目标：${goal}</span></div></div></div><div class="club-hero-facts"><div><span>城市</span><strong>${escapeHtml(cityName(club))}</strong></div><div><span>主教练</span><strong>${escapeHtml(coachName(club))}</strong></div><div><span>主场</span><strong>${escapeHtml(stadiumName(club))}</strong></div></div><div class="club-hero-actions"><button class="app-button ghost" data-club-action="compare">${icon('club','sm')} 关注球队</button><button class="app-button primary" data-club-action="contact">${icon('agent','sm')} 请求沟通</button></div></section>
     ${myStatus(club, state, clubs, current)}
     ${seasonSection(club, state, clubRank, goal)}
     ${squadSection(club, state, current)}
@@ -125,7 +125,7 @@ function squadSection(club, state, current) {
   const player = state.player || {};
   const rawPosition = player.position || 'CM';
   const position = rosterPosition(rawPosition);
-  const roster = (dataRepository.rosterForClub(club.id, { limit: 30, seed: player.name || 'career' }) || []).filter(item => item.position === position).slice(0, 5);
+  const roster = (dataRepository.rosterForClub(club.id, { limit: 50, seed: player.name || 'career' }) || []).filter(item => item.position === position).slice(0, 5);
   const rows = [...roster, { id: 'player', cn: player.name || '你的球员', name: player.name || '你的球员', position, ovr: number(player.ovr, 60), isPlayer: true }].sort((a, b) => number(b.ovr) - number(a.ovr));
   return `<section class="club-roster-section"><div class="section-heading"><div><div class="card-kicker">${icon('users','sm')} 阵容竞争 · ${POSITION_NAMES[rawPosition] || POSITION_NAMES[position] || rawPosition}</div><h2 class="card-title">同位置出场顺位</h2><p class="card-copy">只比较${POSITION_NAMES[rawPosition] || POSITION_NAMES[position] || position}，不会把门将和场上球员放在同一条竞争线上。</p></div><span class="badge blue">${rows.length} 人</span></div><div class="club-roster-table">${rows.map((item, index) => rosterRow(item, index, club, current)).join('')}</div></section>`;
 }
@@ -138,7 +138,7 @@ function rosterRow(item, index, club, current) {
 }
 
 function tacticsSection(club, state) {
-  const position = state.player?.position || 'CM';
+  const position = rosterPosition(state.player?.position || 'CM');
   const style = tacticProfile(club.tactic || club.style);
   return `<section class="club-info-section"><div class="card-kicker">${icon('tactics','sm')} 战术画像</div><h3 class="card-title">${escapeHtml(club.formation || '4-3-3')} · ${escapeHtml(club.tactic || club.style || '均衡推进')}</h3><div class="tag-row"><span class="badge blue">${style.attack}</span><span class="badge purple">${style.press}</span><span class="badge green">${style.width}</span></div><div class="club-detail-lines"><div><span>你的战术职责</span><strong>${positionDuty(position)}</strong></div><div><span>球队传球节奏</span><strong>${style.tempo}</strong></div><div><span>防线高度</span><strong>${style.line}</strong></div></div></section>`;
 }
@@ -226,6 +226,7 @@ function seasonGoal(club, rank) {
 
 function coachName(club) { return club?.coachName || COACH_NAMES[hash(club?.id) % COACH_NAMES.length]; }
 function stadiumName(club) { return club?.stadium || `${club?.city || club?.country || '球队'}主场`; }
+function cityName(club) { return club?.city || String(club?.cn || club?.name || club?.country || '球队').replace(/足球俱乐部$/, ''); }
 function hash(value) { let result = 2166136261; for (const char of String(value || 'club')) result = Math.imul(result ^ char.charCodeAt(0), 16777619); return result >>> 0; }
 
 function getClubTheme(club) {
@@ -246,7 +247,10 @@ function positionDuty(position) {
   return { GK: '高位站位 · 出球 · 禁区控制', ST: '禁区终结 · 前场压迫 · 背身支点', CF: '禁区终结 · 前场压迫 · 背身支点', LW: '内收推进 · 一对一 · 反抢', LM: '边路推进 · 回收防守 · 反抢', RW: '边路拉开 · 内切 · 反抢', RM: '边路推进 · 内切 · 反抢', CAM: '肋部接应 · 最后一传 · 反抢', SS: '肋部接应 · 禁区后插 · 反抢', CM: '攻守转换 · 节奏控制 · 接应', CDM: '保护防线 · 出球 · 拦截', LB: '套边推进 · 回收防守', LWB: '套边推进 · 回收防守', RB: '套边推进 · 回收防守', RWB: '套边推进 · 回收防守', CB: '防线站位 · 对抗 · 出球' }[position] || '攻守转换 · 接应';
 }
 
-function rosterPosition(position) { return POSITION_ALIASES[position] || position; }
+function rosterPosition(position) {
+  const direct = POSITION_ALIASES[position] || position;
+  return Object.entries(POSITION_NAMES).find(([, name]) => name === direct)?.[0] || direct;
+}
 
 // Kept as a small compatibility seam for existing page audits and callers.
 function selectedDetail(club, state, clubs, currentId, theme) { return clubProfile(club, state, clubs, currentId, theme); }
