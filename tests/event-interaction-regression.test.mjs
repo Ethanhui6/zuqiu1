@@ -16,6 +16,7 @@ test('events remain resolvable across positions and reject duplicate resolution'
       state.simulation.date = new Date(Date.UTC(2026, 6, 1 + index * 9)).toISOString().slice(0, 10);
       const event = engine.schedule(state);
       assert.ok(event, `${position} should receive event ${index + 1}`);
+      assert.notEqual(event.category, '比赛');
       assert.ok(event.choices.length >= 2);
       const result = engine.resolve(state, event.id, event.choices[0].id);
       assert.equal(result.eventId, event.id);
