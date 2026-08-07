@@ -1,9 +1,9 @@
 {
-  "version": "20.0.0",
-  "channel": "mobile-product-structure",
-  "buildDate": "2026-08-03",
+  "version": "20.1.0",
+  "channel": "phase-7-14-complete",
+  "buildDate": "2026-08-08",
   "schemaVersion": 23,
-  "scoreVersion": "2026.08.03.2",
+  "scoreVersion": "2026.08.08.1",
   "data": {
     "clubs": 500,
     "achievements": 330,
@@ -18,5 +18,5 @@
     "worldApi": true,
     "serverAuthoritativeScore": true
   },
-  "buildVersion": "20.0.0-20260803-1"
+  "buildVersion": "20.1.0-20260808-1"
 }

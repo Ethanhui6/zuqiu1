@@ -20,4 +20,8 @@ test('real squad snapshots lead the first season and retire deterministically', 
   assert.equal(futureA.some(player => player.isReal), false);
   const realNames = new Set(registry.players.filter(player => player.isReal).map(player => player.name));
   assert.equal(futureA.some(player => realNames.has(player.name)), false);
+
+  const left = registry.rosterForClub('ENG1-ARS', { limit: 18, seasonYear: 2040, seed: 'shared-match' });
+  const right = registry.rosterForClub('ENG1-CHE', { limit: 18, seasonYear: 2040, seed: 'shared-match' });
+  assert.equal(new Set([...left, ...right].map(player => player.name)).size, left.length + right.length);
 });
