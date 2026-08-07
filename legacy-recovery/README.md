@@ -18,7 +18,7 @@ These files are recovery evidence only. Do not import them from the production a
 
 ## Confirmed replay observations
 
-Six full browser-driven careers completed without a gameplay blocker:
+Ten browser-driven careers completed without a gameplay blocker:
 
 | Route | Mode | Result | Player actions |
 | --- | --- | --- | --- |
@@ -28,8 +28,12 @@ Six full browser-driven careers completed without a gameplay blocker:
 | CB | Express | age 41, 25 seasons, 3 clubs | 13 choices, 18 result confirms |
 | CM | Express | age 41, 25 seasons, 4 clubs | 16 choices, 22 result confirms |
 | LW | Express | age 41, 25 seasons, 4 clubs | 16 choices, 21 result confirms |
+| GK, resumed after a browser timeout | Express | age 40, 24 seasons, 3 clubs | final segment: 3 choices, 4 result confirms |
+| RW | Express | age 41, 25 seasons, 4 clubs | 14 choices, 20 result confirms |
+| ST | Express | age 41, 25 seasons, 4 clubs | 14 choices, 19 result confirms |
+| CDM | Express | age 41, 25 seasons, 2 clubs | 16 choices, 22 result confirms |
 
-The final four planned replays were interrupted by the browser automation session timeout and are intentionally not counted as complete.
+The goalkeeper route survived a browser-session timeout at age 34 and was resumed to its normal retirement screen. Its full route completed, but the pre-timeout action counters could not be recovered without reading browser storage, so only its verified final segment is listed.
 
 ## Reusable behavior findings
 
