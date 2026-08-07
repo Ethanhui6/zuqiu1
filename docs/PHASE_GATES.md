@@ -18,8 +18,8 @@ Local repository state is the source of truth. A phase may move to `PASS` only a
 | 11 | Toast system | PASS |
 | 12 | Career events | PASS |
 | 13 | Mini-games | PASS |
-| 14 | Position, play style, and trait isolation | IN_PROGRESS |
-| 15 | Elite-club entry | LOCKED |
+| 14 | Position, play style, and trait isolation | PASS |
+| 15 | Elite-club entry | IN_PROGRESS |
 | 16 | Nationality, name, and starting-club synchronization | LOCKED |
 | 17 | Real-player database | LOCKED |
 | 18 | Random-name system | LOCKED |
@@ -261,7 +261,7 @@ Phase 13 gate result: `PASS` on 2026-08-08. Phase 14 is now the only unlocked ph
 - [x] Goalkeeper radar axes are 扑救、手控、开球、反应、站位、指挥; outfield positions retain 速度、射门、传球、盘带、防守、身体.
 - [x] Real Chromium validates all 12 selectable positions at 390x844 with no illegal option, runtime error, or horizontal overflow.
 - [x] Full automated tests (120/120), production build, repository hygiene, Phase 5 pacing, Phase 6 lifecycle, seven-phone-width layout, and 12-viewport mobile regressions pass for version 20.15.0.
-- [ ] GitHub Actions `verify` passes for the Phase 14 Pull Request.
-- [ ] Cloudflare Pages creates a successful native preview for the Phase 14 commit.
+- [x] GitHub Actions `verify` passes for Pull Request #47 and implementation commit `e7149dc`.
+- [x] Cloudflare Pages creates a successful native preview for implementation commit `e7149dc`: `https://9929bf06.zuqiu-4tt.pages.dev`.
 
-Phase 14 gate result: `IN_PROGRESS`. Phase 15 remains locked.
+Phase 14 gate result: `PASS` on 2026-08-08. Phase 15 is now the only unlocked phase.
