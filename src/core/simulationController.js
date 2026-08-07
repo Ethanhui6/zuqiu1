@@ -22,6 +22,7 @@ export class SimulationController {
     state.schedule=[...played,...opponents.map((opponent,index)=>({id:`${state.season.year}-fixture-${index}-${state.simulation.date}`,date:addDays(state.simulation.date,7+index*21),competition:index%3===0?'国内杯赛':'青年联赛',opponent,venue:index%2?'客场':'主场',status:'upcoming',season:state.season.year}))];
   }
   nextNode(state=this.store.get()){
+    if (state.career?.offSeason?.status === 'active') return { type: 'off-season', label: '安排休赛期', action: 'offSeason', blocked: true };
     if (state.events?.pending?.length) return { type: 'event', label: '处理待办事件', action: 'nextEvent', blocked: true };
     if (state.training?.currentOpportunity) return { type: 'training', label: '处理关键训练机会', action: 'training', blocked: true, target: state.training.currentOpportunity.createdAt };
     const match = this.nextMatch(state);

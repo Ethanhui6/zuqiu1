@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { settleSeason, seasonReviewNext } from '../src/systems/honors/honorsSystem.js';
+import { completeOffSeason, resolveOffSeasonActivity, settleSeason, seasonReviewNext } from '../src/systems/honors/honorsSystem.js';
 import { SimulationController } from '../src/core/simulationController.js';
 import { migrateState } from '../src/core/store.js';
 
@@ -17,6 +17,15 @@ test('season settlement records radar snapshots, rolls date forward, and gives a
   assert.equal(save.season.year, '2027/28');
   assert.equal(save.player.age, 21);
   assert.equal(save.season.startStats.passing, save.player.stats.passing);
+  assert.equal(seasonReviewNext(save).type, 'off-season');
+  const controller = new SimulationController({ get: () => save, set: update => update(save) }, { schedule: () => null });
+  assert.equal(controller.nextNode(save).type, 'off-season');
+  save.player.fatigue = 90;
+  save.player.fitness = 30;
+  const activity = resolveOffSeasonActivity(save, 'recovery');
+  assert.equal(activity.id, 'recovery');
+  assert.ok(save.player.fatigue < 90);
+  assert.equal(completeOffSeason(save), true);
   assert.equal(seasonReviewNext(save).type, 'next-season');
   save.career.contractMonths = 0;
   assert.equal(seasonReviewNext(save).type, 'contract');

@@ -1,5 +1,18 @@
 const YEAR_PATTERN = /^(\d{4})\/(\d{2})$/;
 import { applyGrowthToState } from '../../core/playerDevelopmentEngine.js';
+import { advanceInjury } from '../../core/injuryEngine.js';
+
+const clamp = (value, min, max) => Math.max(min, Math.min(max, value));
+const OFF_SEASON_ACTIVITIES = [
+  { id: 'recovery', title: '集中恢复', copy: '医疗团队安排了恢复周期，优先降低疲劳与伤病风险。', fatigue: -42, fitness: 34, morale: 4, recoveryDays: 28 },
+  { id: 'family', title: '回归生活', copy: '和家人短暂相处，重新整理赛季后的情绪与压力。', fatigue: -24, fitness: 14, morale: 12, recoveryDays: 14 },
+  { id: 'agent', title: '经纪人会面', copy: '梳理新赛季目标与合同方向，保持职业选择的主动权。', fatigue: -10, fitness: 6, morale: 6, recoveryDays: 7 },
+  { id: 'commercial', title: '商业邀约', copy: '完成有限的商业活动，换取球迷和市场关注。', fatigue: 4, fitness: -2, morale: 5, recoveryDays: 7 },
+  { id: 'teammates', title: '队友聚会', copy: '在季前与队友重建默契，带着更好的气氛归队。', fatigue: -12, fitness: 8, morale: 10, recoveryDays: 10 },
+  { id: 'media', title: '媒体专访', copy: '回应赛季焦点，让外界听见你的职业规划。', fatigue: 2, fitness: 0, morale: 4, recoveryDays: 7 },
+  { id: 'fans', title: '球迷日', copy: '与支持者见面，为新赛季积累信心与连接。', fatigue: -4, fitness: 4, morale: 9, recoveryDays: 7 },
+  { id: 'personal', title: '个人充电', copy: '暂时离开聚光灯，按自己的节奏完成生活安排。', fatigue: -30, fitness: 20, morale: 8, recoveryDays: 21 }
+];
 
 export function ensureHonors(state) {
   const honors = state.career.honors = {
@@ -20,6 +33,35 @@ function nextSeason(year) {
   const match = YEAR_PATTERN.exec(String(year || ''));
   const start = match ? Number(match[1]) : new Date().getUTCFullYear();
   return `${start + 1}/${String((start + 2) % 100).padStart(2, '0')}`;
+}
+
+function createOffSeason(nextYear) {
+  const start = Number(String(nextYear).slice(0, 4)) || 0;
+  const activities = [OFF_SEASON_ACTIVITIES[0], OFF_SEASON_ACTIVITIES[1 + start % (OFF_SEASON_ACTIVITIES.length - 1)]].map(item => ({ ...item }));
+  return { season: nextYear, status: 'active', activities, completed: [] };
+}
+
+export function resolveOffSeasonActivity(state, activityId) {
+  const offSeason = state.career?.offSeason;
+  const activity = offSeason?.activities?.find(item => item.id === activityId);
+  if (!activity || offSeason.completed.includes(activityId)) return null;
+  const player = state.player;
+  if (player) {
+    player.fatigue = clamp(Number(player.fatigue || 0) + activity.fatigue, 0, 100);
+    player.fitness = clamp(Number(player.fitness || 100) + activity.fitness, 10, 100);
+    player.morale = clamp(Number(player.morale || 50) + activity.morale, 0, 100);
+  }
+  state.injuries = (state.injuries || []).map(injury => advanceInjury(injury, activity.recoveryDays, { date: state.simulation.date, recoveryBonus: .35 }));
+  offSeason.completed.push(activityId);
+  state.career.history.unshift({ date: state.simulation.date, type: 'off-season', title: activity.title, summary: activity.copy });
+  return activity;
+}
+
+export function completeOffSeason(state) {
+  const offSeason = state.career?.offSeason;
+  if (!offSeason || offSeason.status !== 'active') return false;
+  offSeason.status = 'complete';
+  return true;
 }
 
 function addOnce(list, item) {
@@ -93,6 +135,7 @@ export function settleSeason(state) {
   }
   if (player) player.age = Number(player.age || 18) + 1;
   state.career ??= {};
+  state.career.offSeason = createOffSeason(nextYear);
   state.career.marketValue = Math.max(0, Math.round(endValue * (1 + (endOvr - startOvr) / 100 + (Number(player?.age || 18) <= 25 ? .04 : -.02))));
   state.career.contractMonths = Math.max(0, Number(state.career.contractMonths || 0) - 12);
   if (state.career.contractMonths === 0) {
@@ -117,6 +160,7 @@ export function settleSeason(state) {
 }
 
 export function seasonReviewNext(state) {
+  if (state.career?.offSeason?.status === 'active') return { type: 'off-season', title: '进入休赛期', copy: '赛季已结束。安排恢复与场外事务后，再开启新的赛程。', button: '安排休赛期' };
   if ((state.transfer?.offers || []).some(offer => ['pending', 'active'].includes(offer.status))) return { type: 'transfer', title: '查看转会报价', copy: '转会窗口中有待处理的报价。', button: '查看报价' };
   if (Number(state.career?.contractMonths || 0) === 0) return { type: 'contract', title: '处理续约或转会', copy: '当前合同已经到期，需要决定下一站。', button: '处理合同' };
   return { type: 'next-season', title: '进入下一赛季', copy: '新赛程已生成，继续你的职业生涯。', button: '开始新赛季' };

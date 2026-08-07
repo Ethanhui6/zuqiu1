@@ -24,6 +24,13 @@ export function careerPage(app, state) {
     ${newsBroadcast(news)}${growthHighlight(lastGrowth, state)}${seasonHistory(state)}
     <div style="height:14px"></div><div class="grid-2">${compactCard('todo', '赛季目标', state.season.objectives.length ? `${state.season.objectives.length}项进行中` : '尚未选择阶段重点', 'goals', state.season.objectives.length ? 'green' : 'orange')}${compactCard('analytics', '数据与设施', '分析、医疗、更衣室、荣誉室', 'facilities', 'blue')}${compactCard('growth', '成长趋势', `${recentGrowth(state)} · OVR ${player.ovr}`, 'growth', 'purple')}${compactCard('training', '训练机会', opportunity ? `${opportunity.choices.length} 个方案待选择` : '普通周自动模拟', 'training', opportunity ? 'orange' : 'green')}${compactCard('message', '待处理事件', pending ? pending.title : '当前没有未处理事件', 'events', pending ? 'red' : 'green')}${compactCard('fast', '推进控制', state.simulation.paused ? '已暂停，可继续推进' : `当前${modeLabel(state.settings.mode)}模式`, 'simulation', 'blue')}</div>`;
   root.addEventListener('click', event => { const action = event.target.closest('[data-action]')?.dataset.action; if (action) handle(action, app, state); });
+  if (state.career?.offSeason?.status === 'active') {
+    const button = document.createElement('button');
+    button.className = 'app-button primary';
+    button.textContent = '安排休赛期';
+    button.onclick = () => app.openOffSeason();
+    root.prepend(button);
+  }
   return root;
 }
 
