@@ -1,0 +1,216 @@
+﻿<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>足一把-生涯模拟器 - 中国球员生涯</title>
+<meta name="description" content="从足校到退役，把一个中国球员的一生走一遍。选择、代价，和一份没人替你写的履历。">
+<meta name="theme-color" content="#0e100f">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>⚽</text></svg>">
+<link rel="stylesheet" href="style.css?v=40">
+</head>
+<body>
+
+<header class="topbar">
+  <button class="brand" id="brand-home">
+    <span class="brand-mark">⚽</span>足一把-生涯模拟器
+  </button>
+  <!-- 姊妹站入口。照姊妹站 D:\guess 的 .brand-links 做的：两个都是实心色块 + 呼吸圆点，
+       分量相同（那边试过把其中一个降成描边款，被否掉了，这里别再改成一主一次）。
+       窄屏这一组会整体折到第二行，见 style.css 顶栏那一节。 -->
+  <div class="brand-links">
+    <a class="brand-link" href="https://zuyiba.pages.dev/" target="_blank" rel="noopener">
+      <span class="bl-dot" aria-hidden="true"></span>
+      <span class="bl-txt">猜球员链接</span>
+    </a>
+    <a class="brand-link" href="https://playerclubs.pages.dev/" target="_blank" rel="noopener">
+      <span class="bl-dot" aria-hidden="true"></span>
+      <span class="bl-txt">看转会历史猜球员链接</span>
+    </a>
+  </div>
+  <button id="btn-help" class="corner-btn">玩法</button>
+</header>
+
+<main id="app">
+
+  <!-- ========== 首页 ========== -->
+  <section id="view-intro" class="view intro">
+    <p class="eyebrow">生涯模拟器</p>
+    <h1 class="hero-title">从足校到退役<br>把一辈子走一遍</h1>
+
+    <div class="hero-art" id="hero-art"></div>
+
+    <p class="hero-sub">
+      选出身，做选择，承担后果。能力、关系、清白、名气四条线一起往前走，
+      最后给你一份没人替你写的履历。
+    </p>
+
+    <div class="segmented" id="mode-seg">
+      <button class="seg" data-mode="long">硬核</button>
+      <button class="seg selected" data-mode="normal">普通</button>
+      <button class="seg" data-mode="express">快进</button>
+    </div>
+    <p class="seg-note" id="seg-note">每两个赛季一次决策，节奏适中</p>
+
+    <!-- 种子。留空就随机；填上和别人一样的，走出来的是同一段人生。
+         任何字符串都行 —— sim.js 里 rngState 是 hashStr(String(seed)) 现算的。 -->
+    <div class="seed-box">
+      <label for="in-seed">种子</label>
+      <input id="in-seed" type="text" inputmode="text" maxlength="32"
+             placeholder="留空随机" autocomplete="off" spellcheck="false">
+    </div>
+
+    <div class="btn-stack">
+      <button id="btn-start" class="btn btn-primary">开始生涯</button>
+      <!-- 一段生涯都还没走完的时候，game.js 会把它藏起来 -->
+      <button id="btn-archive" class="btn hidden">生涯历史档案</button>
+    </div>
+  </section>
+
+  <!-- ========== 身份（三步共用一个容器）========== -->
+  <section id="view-identity" class="view hidden">
+    <div class="step-head">
+      <div class="step-title" id="step-title"></div>
+      <div class="progress"><div class="progress-fill" id="step-progress"></div></div>
+      <div class="step-sub" id="step-sub"></div>
+    </div>
+    <div id="step-body"></div>
+  </section>
+
+  <!-- ========== 生涯（两栏结构整个由 JS 渲染）========== -->
+  <section id="view-career" class="view hidden">
+    <div id="career-root"></div>
+  </section>
+
+  <!-- ========== 结算 ========== -->
+  <section id="view-summary" class="view hidden">
+    <div id="summary-area"></div>
+  </section>
+
+  <!-- ========== 生涯历史档案（退役过的每一段，只存在本机）========== -->
+  <section id="view-archive" class="view hidden">
+    <div id="archive-area"></div>
+  </section>
+
+</main>
+
+<!-- 底部固定操作栏，只有身份流程用 -->
+<div class="actionbar hidden" id="actionbar">
+  <button class="btn btn-back" id="btn-back">返回</button>
+  <button class="btn btn-primary" id="btn-next">继续</button>
+</div>
+
+<!-- ========== 玩法弹窗 ========== -->
+<div id="help-modal" class="overlay hidden">
+  <div class="modal">
+    <button class="modal-close" data-close="help-modal">✕</button>
+    <h2>玩法说明</h2>
+    <p class="news-link"><button id="btn-open-news" class="mini-btn">看看最近更新了什么</button></p>
+    <p>你是一个 16 岁的球员，一路踢到退役。每隔一到三个赛季做一次选择，中间的比赛自动模拟。</p>
+
+    <h3>四条线</h3>
+    <ul>
+      <li><strong>能力</strong>　决定数据、荣誉、谁会来买你。二十六七岁见顶，之后一路往下。</li>
+      <li><strong>关系</strong>　影响国字号征召、队内首发、哨子松紧。高不一定是好事。</li>
+      <li><strong>清白</strong>　平时看不见，反腐、查税、抽检的时候一次性结账。会随时间自然往下掉。</li>
+      <li><strong>名气</strong>　影响舆论事件和场外收入。骂你的人也算名气。</li>
+    </ul>
+
+    <h3>几条规矩</h3>
+    <ul>
+      <li>连续几期出场太少，俱乐部就不续约了；没人报价就只能退役。</li>
+      <li>出国踢球以后，国内那套事件不会再找你，换成另一套麻烦。</li>
+      <li>结局称号由整段生涯算出来，不是随机的。</li>
+      <li>同一个种子会走出同样的一生，想复盘就把种子记下来。</li>
+    </ul>
+  </div>
+</div>
+
+<!-- ========== 更新公告 ==========
+     版本号在 game.js 顶上的 NEWS_VER。改了这里的内容就把那个数也改掉，
+     不然回访的老玩家不会再弹一次。 -->
+<div id="news-modal" class="overlay hidden">
+  <div class="modal">
+    <button class="modal-close" data-close="news-modal">✕</button>
+    <h2>更新公告</h2>
+    <p class="news-date">2026 年 8 月 4 日</p>
+
+    <!-- 原来这儿置顶的是交流群群号，换成刷新提示：改了 css/js，
+         浏览器拿着旧缓存的话新东西一样都不会出现。 -->
+    <p class="news-refresh">更新了，记得刷新页面</p>
+
+    <!-- 这一版公告只留姊妹站两条，玩法更新那几条上一版的内容删掉了 -->
+    <ul class="news-list">
+      <li>看转会历史猜球员：<a href="https://playerclubs.pages.dev/" target="_blank" rel="noopener">playerclubs.pages.dev</a></li>
+      <li>猜球员：<a href="https://zuyiba.pages.dev/" target="_blank" rel="noopener">zuyiba.pages.dev</a></li>
+    </ul>
+  </div>
+</div>
+
+<!-- ========== 分享弹窗 ========== -->
+<div id="share-modal" class="overlay hidden">
+  <div class="modal share-modal">
+    <button class="modal-close" data-close="share-modal">✕</button>
+    <!-- 从历史档案翻出来的卡，这一行会换成「第 N 世 · 生涯结束」 -->
+    <p class="share-eyebrow" id="share-eyebrow">生涯结束</p>
+    <h2 class="share-title">你的生涯总结卡</h2>
+
+    <!-- 卡片整个画在 canvas 上：屏幕上看到的和存下来的是同一张图。
+         微信内置浏览器里 canvas 长按不出菜单、navigator.share / ClipboardItem 也都没有，
+         所以那边把画好的 canvas 转成同尺寸的 <img> 顶上去 —— 长按 img 才会弹出微信原生的
+         「发送给朋友 / 保存图片」，发出去也才是图片消息而不是 .png 文件。 -->
+    <div class="share-card-wrap">
+      <canvas id="share-canvas"></canvas>
+      <img id="share-img" class="hidden" alt="生涯总结卡">
+    </div>
+    <p id="share-tip" class="share-tip hidden">长按上面这张图 → 发送给朋友 / 保存图片</p>
+
+    <label class="share-toggle">
+      <span>显示姓名</span>
+      <input type="checkbox" id="share-name" checked>
+      <i></i>
+    </label>
+
+    <div class="share-actions">
+      <button class="share-btn" data-share="share" title="分享">
+        <svg viewBox="0 0 24 24"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/>
+          <circle cx="18" cy="19" r="3"/><path d="M8.6 10.6l6.8-4M8.6 13.4l6.8 4"/></svg>
+      </button>
+      <button class="share-btn" data-share="copy" title="复制图片">
+        <svg viewBox="0 0 24 24"><rect x="9" y="9" width="11" height="12" rx="2"/>
+          <path d="M15 5H6a2 2 0 0 0-2 2v9"/></svg>
+      </button>
+      <button class="share-btn" data-share="save" title="保存图片">
+        <svg viewBox="0 0 24 24"><path d="M12 4v11M8 11l4 4 4-4"/><path d="M5 19h14"/></svg>
+      </button>
+    </div>
+  </div>
+</div>
+
+<footer class="footer">
+  <p>数值虚构，如有雷同纯属巧合</p>
+  <!-- 署名排版照姊妹站 D:\guessplayer 的 #credit：署名一行、网址单独一行，
+       字距撑开，网址用 border-bottom 当下划线（离字远一点，小字不糊）。 -->
+  <p class="footer-by">
+    <span class="afd-row">
+      <a class="afd-url" href="https://afdian.com/a/ahazei" target="_blank" rel="noopener noreferrer">afdian.com/a/ahazei</a>
+      <a class="brand-link afd-pill" href="https://afdian.com/a/ahazei" target="_blank" rel="noopener noreferrer">
+        <span class="bl-dot" aria-hidden="true"></span>爱发电支持我
+      </a>
+    </span>
+    by bilibili:神来我也日<br>
+    <a href="https://space.bilibili.com/50911720" target="_blank" rel="noopener noreferrer">space.bilibili.com/50911720</a>
+  </p>
+</footer>
+
+<script src="data.js?v=39"></script>
+<script src="events.js?v=39"></script>
+<!-- 海外俱乐部的真实队徽映射；缺哪支就回退到 game.js 里按队色现画的那版 -->
+<script src="crests.js?v=39"></script>
+<!-- 分享卡右下角那张二维码自己算，不请求外部服务：跨域图片会污染 canvas -->
+<script src="qr.js?v=39"></script>
+<!-- 引擎（纯逻辑，不认识 DOM）。必须排在 game.js 前面：game.js 一加载就从 window.SIM 取名字 -->
+<script src="sim.js?v=39"></script>
+<script src="game.js?v=39"></script>
+</body>
+</html>
