@@ -26,7 +26,7 @@ export class HighlightDirector {
 
   next(state) {
     const position = normalizePosition(state?.player?.position);
-    const recent = new Set(state?.recentHighlights || []);
+    const recent = new Set([...(state?.recentHighlights || []), ...(state?.recentMatchEvents || [])]);
     const recentMiniGames = new Set(state?.recentMiniGames || []);
     let pool = HIGHLIGHTS.filter(item => item.positions.includes(position) && !recent.has(item.id) && !recentMiniGames.has(miniGameForInteraction(item.interactionId)?.id));
     if (!pool.length) pool = HIGHLIGHTS.filter(item => item.positions.includes(position));

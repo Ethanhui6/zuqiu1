@@ -33,8 +33,10 @@ export function createMatchState({ match = {}, player = {}, seed = 0, tactic = '
     tacticalContext: { id: tactic },
     miniGame: null,
     recentHighlights: [],
+    recentMatchEvents: [],
     recentMiniGames: [],
-    highlights: []
+    highlights: [],
+    currentEvent: null
   };
 }
 
@@ -57,9 +59,12 @@ export function advanceMatchState(state, highlight, { score = 50, success = fals
   };
   if (success && next.zone !== 'attacking') next.zone = ZONES[Math.min(ZONES.indexOf(next.zone) + 1, 2)];
   if (!success && next.zone !== 'defensive') next.zone = ZONES[Math.max(ZONES.indexOf(next.zone) - 1, 0)];
-  const record = { id: highlight.id, minute: next.matchMinute, title: highlight.title, zone: next.zone, score: quality, success };
+  const templateId = highlight.templateId || highlight.id;
+  const record = { id: highlight.id, templateId, minute: next.matchMinute, title: highlight.title, zone: next.zone, score: quality, success };
   next.highlights.push(record);
+  next.recentMatchEvents = [...(next.recentMatchEvents || []), templateId].slice(-6);
   next.recentHighlights = [...next.recentHighlights, highlight.id].slice(-4);
   if (highlight.miniGame?.id) next.recentMiniGames = [...next.recentMiniGames, highlight.miniGame.id].slice(-4);
+  next.currentEvent = { id: highlight.id, templateId, title: highlight.title, interactionId: highlight.interactionId };
   return next;
 }
