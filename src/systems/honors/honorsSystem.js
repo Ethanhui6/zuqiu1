@@ -135,7 +135,7 @@ export function settleSeason(state) {
     rating, playerOfMatch: Number(season.playerOfMatch || 0), trophies: trophies.map(item => item.name), personalAwards: personalAwards.map(item => item.name),
     startOvr, endOvr, ovrChange: Number((endOvr - startOvr).toFixed(2)), startValue, endValue, valueChange: endValue - startValue,
     coachTrustChange: Number(season.coachTrustChange || 0), grade, highlights, startStats, endStats, transfer: season.transfer || null,
-    contract: season.contract || null, injuries: season.injuries || [], dataOrigin: 'generated-fallback'
+    contract: season.contract || null, injuries: season.injuries || [], teamRole: player?.status || state.career?.teamRole || null, dataOrigin: 'generated-fallback'
   };
   honors.seasons.unshift(record);
   state.career.history.unshift({ date: state.simulation.date, type: 'season-summary', title: `${season.year} season summary`, recordId: key, dataOrigin: 'generated-fallback' });

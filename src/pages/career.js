@@ -50,14 +50,47 @@ function growthHighlight(changes, state) {
 }
 
 export function seasonHistory(state) {
-  const rows = ensureHonors(state).seasons || [];
-  if (!rows.length) return '';
-  return `<section class="season-timeline"><div class="section-heading"><div><div class="card-kicker">${icon('calendar', 'sm')} 永久赛季履历</div><h2 class="card-title">你的成长时间轴</h2></div><span class="badge gold">${rows.length} 个赛季</span></div><div class="stack">${rows.map((row, index) => {
-    const honors = [...(row.trophies || []), ...(row.personalAwards || [])];
-    const highlights = row.highlights?.length ? row.highlights : [`赛季初 OVR ${row.startOvr || '—'} → 赛季末 OVR ${row.endOvr || '—'} · ${row.grade || 'A'} 级赛季`];
-    return `<details class="season-record" ${index === 0 ? 'open' : ''}><summary><span class="season-crest">${crestSvg({ id: row.clubId || row.club, name: row.club, crestPath: row.crestPath }, { size: 38 })}</span><span class="season-record-main"><strong>${row.year} · ${row.club}</strong><small>${row.age}岁 · ${row.position || '未知位置'} · ${row.appearances} 场 · 评分 ${row.rating || '—'}</small></span><span class="badge ${index === 0 ? 'blue' : 'green'}">${row.grade || 'A'}</span></summary><div class="season-record-body"><div class="stat-grid">${[['出场', row.appearances], ['进球', row.goals], ['助攻', row.assists], ['赛季末 OVR', row.endOvr || '—'], ['身价变化', row.valueChange > 0 ? `+${Math.round(row.valueChange / 1000)}K` : `${Math.round(row.valueChange / 1000)}K`], ['荣誉', honors.length]].map(([label, value]) => `<div class="stat-cell"><div class="stat-value">${value}</div><div class="stat-label">${label}</div></div>`).join('')}</div>${honors.length ? `<div class="tag-row">${honors.map(name => `<span class="badge gold">${name}</span>`).join('')}</div>` : ''}<div class="card-kicker">重大节点</div><p class="card-copy season-highlight">${highlights.join(' · ')}</p></div></details>`;
-  }).join('')}</div></section>`;
+  const nodes=buildCareerTimeline(state),seasonCount=nodes.filter(node=>node.type==='season').length;
+  if(!seasonCount)return'';
+  return `<section class="career-timeline"><div class="section-heading"><div><div class="card-kicker">${icon('calendar','sm')} 永久职业履历</div><h2 class="card-title">职业生涯时间轴</h2></div><span class="badge gold">${seasonCount} 个赛季</span></div><div class="career-timeline__rail">${nodes.map(timelineNode).join('')}</div></section>`;
 }
+
+export function buildCareerTimeline(state){
+  const honors=ensureHonors(state),rows=[...(honors.seasons||[])].sort((a,b)=>seasonStart(a.year)-seasonStart(b.year)||String(a.id).localeCompare(String(b.id))),nodes=[],seen=new Set(),history=state.career?.history||[];
+  let debuted=false,scored=false;
+  const add=node=>{if(!node?.id||seen.has(node.id))return;seen.add(node.id);nodes.push(node)};
+  for(const row of rows){
+    const seasonKey=row.id||`${row.year}:${row.clubId||row.club}`,seasonHistory=history.filter(item=>historySeason(item)===seasonStart(row.year));
+    add({id:`season:${seasonKey}`,type:'season',season:row.year,row});
+    if(!debuted&&Number(row.appearances)>0){add(milestone(seasonKey,row,'debut','职业首秀',`在${row.club}完成职业比赛首次出场。`));debuted=true}
+    if(!scored&&Number(row.goals)>0){add(milestone(seasonKey,row,'first-goal','职业生涯首球',`在${row.year}赛季攻入职业生涯首球。`));scored=true}
+    const transferClub=row.transfer?.club||row.transfer?.clubName||row.transfer?.name;if(transferClub)add(milestone(seasonKey,row,'transfer',`转会至 ${transferClub}`,'职业道路进入新的俱乐部阶段。'));
+    for(const injury of row.injuries||[]){const title=typeof injury==='string'?injury:injury.name||injury.type||'赛季伤病';add(milestone(seasonKey,row,'injury',title,'伤病影响了本赛季的出场与成长。'))}
+    for(const name of row.trophies||[])add(milestone(seasonKey,row,'trophy',name,'随队获得团队荣誉。'));
+    for(const name of row.personalAwards||[])add(milestone(seasonKey,row,milestoneType(name),name,'个人表现获得正式认可。'));
+    if(/队长/.test(String(row.teamRole||'')))add(milestone(seasonKey,row,'captain','成为球队队长','承担更高的场上责任与更衣室责任。'));
+    for(const text of row.highlights||[]){const type=milestoneType(text)||'highlight';add(milestone(seasonKey,row,type,text,'赛季重大节点。'))}
+    for(const item of seasonHistory){if(item.type==='awards')continue;const type=milestoneType(`${item.type||''} ${item.title||''} ${item.text||item.summary||''}`);if(type)add(milestone(seasonKey,row,type,item.title||item.text||item.summary||'职业节点',item.text||item.summary||'职业生涯记录。'))}
+  }
+  if(honors.retirement){const last=rows.at(-1),key=last?.id||'career';add({id:`retirement:${honors.retirement.date||honors.retirement.age||key}`,type:'retirement',season:last?.year||null,title:'正式退役',copy:honors.retirement.summary||'职业生涯正式结束。',date:honors.retirement.date||null})}
+  return nodes;
+}
+
+function seasonStart(value){return Number(String(value||'').slice(0,4))||0}
+function historySeason(item){if(item?.date){const date=new Date(`${item.date}T00:00:00Z`);return date.getUTCFullYear()-(date.getUTCMonth()<6?1:0)}const year=Number(item?.year);return year>=1900?year:seasonStart(item?.season)}
+function milestoneType(value){const text=String(value||'');if(/退役/.test(text))return'retirement';if(/金球|Ballon|世界年度最佳/.test(text))return'ballon-dor';if(/金童|Young Player|年轻球员/.test(text))return'golden-boy';if(/国家队|national/i.test(text))return'national';if(/伤愈|复出|recovery/i.test(text))return'comeback';if(/伤病|受伤|拉伤|扭伤|injury/i.test(text))return'injury';if(/转会|租借|transfer|loan/i.test(text))return'transfer';if(/队长|captain/i.test(text))return'captain';if(/首球|首次进球/.test(text))return'first-goal';if(/首秀|首次出场/.test(text))return'debut';if(/冠军|奖杯|Cup|Champion|Golden Boot|Player of the Year/i.test(text))return'trophy';return null}
+function milestone(seasonKey,row,type,title,copy){const normalized=String(title).replace(/^(赢得|获得)\s*/,'').toLocaleLowerCase().replace(/\s+/g,'-');return{id:`milestone:${seasonKey}:${type}:${normalized}`,type,season:row.year,title,copy,row}}
+function timelineNode(node){
+  if(node.type==='season'){
+    const row=node.row,honors=[...(row.trophies||[]),...(row.personalAwards||[])];
+    return `<article class="career-timeline-node career-timeline-node--season" data-timeline-id="${safe(node.id)}" data-timeline-type="season" data-season="${safe(row.year)}"><span class="career-timeline-marker season-crest">${crestSvg({id:row.clubId||row.club,name:row.club,crestPath:row.crestPath},{size:44})}</span><div class="career-timeline-content"><div class="career-timeline-title"><div><small>${safe(row.year)} · ${Number(row.age)||'—'}岁 · ${safe(row.position||'未知位置')}</small><strong>${safe(row.club)}</strong></div><span class="badge blue">OVR ${row.startOvr??'—'} → ${row.endOvr??'—'}</span></div><div class="career-timeline-stats">${[['出场',row.appearances],['进球',row.goals],['助攻',row.assists],['评分',formatRating(row.rating)],['荣誉',honors.length]].map(([label,value])=>`<span><b>${safe(value??0)}</b><small>${label}</small></span>`).join('')}</div>${honors.length?`<div class="tag-row">${honors.map(name=>`<span class="badge gold">${safe(name)}</span>`).join('')}</div>`:''}</div></article>`;
+  }
+  const labels={debut:'首秀','first-goal':'首球',transfer:'转会',national:'国家队',injury:'伤病',comeback:'复出',trophy:'冠军与荣誉','golden-boy':'金童','ballon-dor':'金球',captain:'队长',retirement:'退役',highlight:'重大节点'};
+  const icons={debut:'play','first-goal':'match',transfer:'transfer',national:'club',injury:'medical',comeback:'recovery',trophy:'trophy','golden-boy':'trophy','ballon-dor':'trophy',captain:'teammate',retirement:'trophy',highlight:'record'};
+  return `<article class="career-timeline-node career-timeline-node--milestone is-${node.type}" data-timeline-id="${safe(node.id)}" data-timeline-type="${node.type}" data-season="${safe(node.season||'')}"><span class="career-timeline-marker">${icon(icons[node.type]||'calendar','sm')}</span><div class="career-timeline-content"><small>${safe(node.season||node.date||'职业节点')} · ${labels[node.type]||'重大节点'}</small><strong>${safe(node.title)}</strong><p>${safe(node.copy)}</p></div></article>`;
+}
+function safe(value){return String(value??'').replace(/[&<>"']/g,char=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[char]))}
+function formatRating(value){const number=Number(value);return Number.isFinite(number)&&number>0?number.toFixed(2):'—'}
 
 function compactCard(iconName, title, copy, action, tone) { return `<button class="surface-card interactive" data-action="${action}"><div class="card-row"><div class="icon-tile">${icon(iconName)}</div><span class="badge ${tone}">${title === '待处理事件' ? '待办' : '详情'}</span></div><h3 class="card-title">${title}</h3><p class="card-copy">${copy}</p><div class="card-footer"><span class="card-copy">点击查看</span>${icon('chevron', 'sm card-arrow')}</div></button>`; }
 function primaryAction(node, state) { const action = node.type === 'event' ? 'event' : node.type === 'training' ? 'training' : node.type === 'off-season' ? 'off-season' : node.type === 'match' && node.target <= state.simulation.date ? 'match' : 'simulation'; const label = action === 'event' ? '处理事件' : action === 'training' ? '参加训练' : action === 'off-season' ? '规划下一赛季' : action === 'match' ? '进入比赛' : node.type === 'season' ? '进入赛季总结' : '推进到下一关键节点'; const context = node.label || '下一关键节点'; return `<div class="page-fixed-action career-fixed-action"><span><small>当前节点</small><strong>${context}</strong></span><button class="app-button primary" data-action="${action}">${icon(action === 'simulation' ? 'fast' : action === 'event' ? 'message' : action === 'training' ? 'training' : 'play', 'sm')}${label}</button></div>`; }

@@ -174,3 +174,19 @@ Phase 7 gate result: `PASS` on 2026-08-08. Phase 8 is now the only unlocked phas
 - [x] Cloudflare Pages creates a successful preview for commit `1e72ce9`.
 
 Phase 8 gate result: `PASS` on 2026-08-08. Phase 9 is now the only unlocked phase.
+
+## Phase 9 Gate
+
+- [x] The repeated season-card list is replaced by one chronological career timeline.
+- [x] Timeline data is projected from existing season honors, career history, and retirement records without a duplicate store.
+- [x] Every season shows its crest, club, age, position, starting and ending OVR, appearances, goals, assists, rating, and honors.
+- [x] Debut, first goal, transfer, national team, injury, comeback, trophy, Golden Boy, Ballon d'Or, captain, retirement, and other major milestones are represented.
+- [x] Timeline IDs remain stable and duplicate-free across a deterministic ten-season career.
+- [x] The career home page and Honors Room use the same timeline renderer.
+- [x] Real Chromium passes at 320x844, 390x844, and 430x844 with ten loaded crests, 28 unique nodes, no broken images, and no horizontal overflow.
+- [x] Full automated suite passes: 110/110; production build passes as version 20.10.0.
+- [x] Phase 5 pacing and retirement, Phase 8 feedback, three-season replay, 30-result-node, full 12-viewport, and seven-phone-width regressions pass.
+- [ ] GitHub Actions `verify` passes for the Phase 9 Pull Request.
+- [ ] Cloudflare Pages creates a successful native preview for the Phase 9 implementation commit.
+
+Phase 9 gate result: `IN_PROGRESS`. Local acceptance is complete; remote delivery checks remain open.
