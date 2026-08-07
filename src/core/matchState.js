@@ -1,4 +1,4 @@
-import { normalizePosition } from './interactiveMatchEngine.js';
+import { normalizePosition } from './positionResolver.js';
 
 const clamp = (value, min, max) => Math.max(min, Math.min(max, Number(value) || 0));
 
@@ -33,8 +33,11 @@ export function createMatchState({ match = {}, player = {}, seed = 0, tactic = '
     tacticalContext: { id: tactic },
     miniGame: null,
     recentHighlights: [],
+    recentMatchEvents: [],
     recentMiniGames: [],
-    highlights: []
+    usedMiniGames: [],
+    highlights: [],
+    currentEvent: null
   };
 }
 
@@ -57,9 +60,19 @@ export function advanceMatchState(state, highlight, { score = 50, success = fals
   };
   if (success && next.zone !== 'attacking') next.zone = ZONES[Math.min(ZONES.indexOf(next.zone) + 1, 2)];
   if (!success && next.zone !== 'defensive') next.zone = ZONES[Math.max(ZONES.indexOf(next.zone) - 1, 0)];
-  const record = { id: highlight.id, minute: next.matchMinute, title: highlight.title, zone: next.zone, score: quality, success };
+  const templateId = highlight.templateId || highlight.id;
+  const record = { id: highlight.id, templateId, minute: next.matchMinute, title: highlight.title, zone: next.zone, score: quality, success };
+  if (highlight.interactionId === 'tackle' && !success && !skipped) {
+    record.card = quality < 22 ? 'red' : 'yellow';
+    next.cards[record.card] += 1;
+  }
   next.highlights.push(record);
+  next.recentMatchEvents = [...(next.recentMatchEvents || []), templateId].slice(-6);
   next.recentHighlights = [...next.recentHighlights, highlight.id].slice(-4);
-  if (highlight.miniGame?.id) next.recentMiniGames = [...next.recentMiniGames, highlight.miniGame.id].slice(-4);
+  if (highlight.miniGame?.id) {
+    next.recentMiniGames = [...next.recentMiniGames, highlight.miniGame.id].slice(-4);
+    next.usedMiniGames = [...new Set([...(next.usedMiniGames || []), highlight.miniGame.id])];
+  }
+  next.currentEvent = { id: highlight.id, templateId, title: highlight.title, interactionId: highlight.interactionId };
   return next;
 }

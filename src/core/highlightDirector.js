@@ -1,4 +1,4 @@
-import { normalizePosition } from './interactiveMatchEngine.js';
+import { normalizePosition } from './positionResolver.js';
 import { miniGameForInteraction } from './miniGameLibrary.js';
 
 const HIGHLIGHTS = Object.freeze([
@@ -26,11 +26,11 @@ export class HighlightDirector {
 
   next(state) {
     const position = normalizePosition(state?.player?.position);
-    const recent = new Set(state?.recentHighlights || []);
-    const recentMiniGames = new Set(state?.recentMiniGames || []);
-    let pool = HIGHLIGHTS.filter(item => item.positions.includes(position) && !recent.has(item.id) && !recentMiniGames.has(miniGameForInteraction(item.interactionId)?.id));
-    if (!pool.length) pool = HIGHLIGHTS.filter(item => item.positions.includes(position));
-    if (!pool.length) pool = HIGHLIGHTS.filter(item => !recent.has(item.id));
+    const recent = new Set([...(state?.recentHighlights || []), ...(state?.recentMatchEvents || [])]);
+    const usedMiniGames = new Set(state?.usedMiniGames || state?.recentMiniGames || []);
+    let pool = HIGHLIGHTS.filter(item => item.positions.includes(position) && !recent.has(item.id) && !usedMiniGames.has(miniGameForInteraction(item.interactionId)?.id));
+    if (!pool.length) pool = HIGHLIGHTS.filter(item => item.positions.includes(position) && !usedMiniGames.has(miniGameForInteraction(item.interactionId)?.id));
+    if (!pool.length) return null;
     const total = pool.reduce((sum, item) => sum + item.weight, 0);
     let roll = hash(this.seed + (state?.highlights?.length || 0) * 97, position) % total;
     const selected = pool.find(item => (roll -= item.weight) < 0) || pool[0];

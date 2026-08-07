@@ -1,29 +1,72 @@
 import { advanceInjury } from './injuryEngine.js';
+import { matchAvailability, serveSuspension } from './disciplineEngine.js';
 import { applyGrowthToState } from './playerDevelopmentEngine.js';
 import { keyedRandom } from '../services/rng.js';
 import { createTrainingOpportunity } from './trainingOpportunities.js';
 import { addNews } from './newsEngine.js';
+import { dataRepository } from '../services/dataRepository.js';
+import { CLUBS } from '../data/clubs.js';
 
 const addDays=(date,days)=>{ const d=new Date(`${date}T00:00:00Z`); d.setUTCDate(d.getUTCDate()+days); return d.toISOString().slice(0,10); };
 const daysBetween=(a,b)=>Math.round((new Date(`${b}T00:00:00Z`)-new Date(`${a}T00:00:00Z`))/86400000);
+export const FICTIONAL_OPPONENTS=new Set(['河畔竞技','北城学院','海港青年队','山城体育','东港联队','中央公园']);
 
-export class SimulationController {
+export function createRealFixtures(state,clubs=dataRepository.clubs?.length?dataRepository.clubs:CLUBS){
+  const player=state.player,current=clubs.find(club=>club.id===player?.clubId)||clubs.find(club=>(club.cn||club.name)===player?.club)||{id:player?.clubId||'career-club',name:player?.club,country:player?.country||player?.nation,continent:player?.continent,league:player?.league};
+  if(!player||clubs.length<2)return [];
+  const league=club=>club.leagueId||club.leagueCn||club.league;
+  const order=[...clubs].filter(club=>club.id!==current.id).sort((a,b)=>{
+    const priority=club=>(league(club)===league(current)?0:club.country===current.country?1:club.continent&&club.continent===current.continent?2:3);
+    return priority(a)-priority(b)||fixtureHash(`${state.season?.year}:${current.id}:${a.id}`)-fixtureHash(`${state.season?.year}:${current.id}:${b.id}`);
+  }).slice(0,6);
+  const competitions=['季前热身赛',current.leagueCn||current.league||player.league||'联赛','国内杯赛',current.leagueCn||current.league||player.league||'联赛','洲际赛事',current.leagueCn||current.league||player.league||'联赛'];
+  return order.map((opponent,index)=>({id:`${state.season?.year||'season'}-${current.id}-${opponent.id}-${index}`,date:addDays(state.simulation.date,5+index*21),competition:competitions[index],opponent:opponent.cn||opponent.name,opponentId:opponent.id,opponentCrest:opponent.crest||opponent.crestPath||null,opponentLeague:opponent.leagueCn||opponent.league||null,venue:index%2?'客场':'主场',status:'upcoming',important:state.settings?.mode!=='fast'&&(index===2||index===4),season:state.season?.year}));
+}
+
+export function replaceFictionalFixtures(state,clubs=dataRepository.clubs||[]){
+  if(!(state.schedule||[]).some(match=>match.status==='upcoming'&&FICTIONAL_OPPONENTS.has(match.opponent)))return false;
+  const replacements=createRealFixtures(state,clubs);
+  if(!replacements.length)return false;
+  const preserved=(state.schedule||[]).filter(match=>match.status!=='upcoming'||!FICTIONAL_OPPONENTS.has(match.opponent));
+  state.schedule=[...preserved,...replacements].sort((a,b)=>String(a.date).localeCompare(String(b.date)));
+  return true;
+}
+
+function fixtureHash(value){let hash=2166136261;for(const char of String(value))hash=Math.imul(hash^char.charCodeAt(0),16777619);return hash>>>0;}
+
+// Fast mode is intentionally a short career-management loop, not a timed simulation.
+export const FAST_SEASON_PACE=Object.freeze({
+  mode:'fast', trainingWeeks:Object.freeze([6,20]), maxTrainingNodes:2, autoEventCheckDays:8,
+  targetSeconds:Object.freeze({min:15,max:30}), expectedActions:Object.freeze({advance:3,training:2}),
+  actionSeconds:Object.freeze({advance:2,training:7})
+});
+export const assessFastSeasonPace=({advanceActions=FAST_SEASON_PACE.expectedActions.advance,trainingChoices=FAST_SEASON_PACE.expectedActions.training}={})=>{
+  const estimatedSeconds=advanceActions*FAST_SEASON_PACE.actionSeconds.advance+trainingChoices*FAST_SEASON_PACE.actionSeconds.training;
+  return {advanceActions,trainingChoices,estimatedSeconds,withinTarget:estimatedSeconds>=FAST_SEASON_PACE.targetSeconds.min&&estimatedSeconds<=FAST_SEASON_PACE.targetSeconds.max};
+};
+
+export class CareerDirector {
   constructor(store,eventEngine){ this.store=store; this.eventEngine=eventEngine; this.running=false; this.cancelled=false; }
   pause(){ this.cancelled=true; this.running=false; this.store.set(s=>{s.simulation.paused=true;return s;}); }
   resume(){ this.cancelled=false; this.store.set(s=>{s.simulation.paused=false;return s;}); }
   nextMatch(state){ return state.schedule.find(m=>m.status==='upcoming' && m.date>=state.simulation.date) || null; }
+  isKeyMatch(match){ return Boolean(match?.important); }
+  shouldAutoSimulateMatch(match){ return Boolean(match)&&!this.isKeyMatch(match); }
   nextEventDate(state){ const offset=2+((state.events.history.length+state.season.week)%5); return addDays(state.simulation.date,offset); }
+  seasonEndDate(state){ const date=new Date(`${state.simulation.date}T00:00:00Z`),year=date.getUTCFullYear(); return `${date.getUTCMonth()>=6?year+1:year}-06-30`; }
   ensureFixtures(state){
     if(!state.player||state.season.progress>=99)return;
+    replaceFictionalFixtures(state);
     if(state.schedule.some(match=>match.status==='upcoming'&&match.date>=state.simulation.date))return;
-    const opponents=['河畔竞技','北城学院','海港青年队','山城体育','东港联队','中央公园'];
     const played=state.schedule.filter(match=>match.status==='played');
-    state.schedule=[...played,...opponents.map((opponent,index)=>({id:`${state.season.year}-fixture-${index}-${state.simulation.date}`,date:addDays(state.simulation.date,7+index*21),competition:index%3===0?'国内杯赛':'青年联赛',opponent,venue:index%2?'客场':'主场',status:'upcoming',season:state.season.year}))];
+    state.schedule=[...played,...createRealFixtures(state)];
   }
   nextNode(state=this.store.get()){
+    if (state.career?.offSeason?.status === 'active') return { type: 'off-season', label: '安排休赛期', action: 'offSeason', blocked: true };
     if (state.events?.pending?.length) return { type: 'event', label: '处理待办事件', action: 'nextEvent', blocked: true };
     if (state.training?.currentOpportunity) return { type: 'training', label: '处理关键训练机会', action: 'training', blocked: true, target: state.training.currentOpportunity.createdAt };
     const match = this.nextMatch(state);
+    if (!match||this.shouldAutoSimulateMatch(match)) return { type: 'time', label: '快速结算到下一个职业节点', target: this.seasonEndDate(state), action: 'seasonEnd', match };
     if (match) return { type: 'match', label: `准备 ${match.competition}`, target: match.date, action: 'nextMatch', match };
     if (state.season?.progress >= 99) return { type: 'season', label: '赛季结算', target: state.simulation.date, action: 'seasonEnd' };
     return { type: 'time', label: '推进至下一关键节点', target: addDays(state.simulation.date, 30), action: 'month' };
@@ -37,13 +80,15 @@ export class SimulationController {
       month:{label:'推进一个月',target:addDays(state.simulation.date,30),days:30,pause:'关键事件或比赛',summary:true},
       halfSeason:{label:'推进半赛季',target:addDays(state.simulation.date,120),days:120,pause:'比赛、伤病或转会窗口',summary:true},
       window:{label:'推进至转会窗口',target:`${new Date(state.simulation.date).getUTCFullYear()+1}-01-01`,days:daysBetween(state.simulation.date,`${new Date(state.simulation.date).getUTCFullYear()+1}-01-01`),pause:'转会窗口开启',summary:true},
-      seasonEnd:{label:'推进至赛季结束',target:`${new Date(state.simulation.date).getUTCFullYear()+1}-06-30`,days:daysBetween(state.simulation.date,`${new Date(state.simulation.date).getUTCFullYear()+1}-06-30`),pause:'赛季结束',summary:true}
+      seasonEnd:{label:'推进至赛季结束',target:this.seasonEndDate(state),days:daysBetween(state.simulation.date,this.seasonEndDate(state)),pause:'赛季结束',summary:true}
     };
     return map[action];
   }
-  settleFastMatch(state,match){
+  settleAutoMatch(state,match){
     const fixture=state.schedule.find(item=>item.id===match?.id);
     if(!state.player||!fixture||fixture.status!=='upcoming')return false;
+    const unavailable=matchAvailability(state);
+    if(unavailable){fixture.status='played';fixture.score='—';fixture.rating=0;fixture.played=false;fixture.auto=true;fixture.unavailable=unavailable.type;if(unavailable.type==='suspension')serveSuspension(state,fixture.id);state.career.history.push({date:state.simulation.date,type:'比赛',summary:`${state.player.club} 缺阵 ${fixture.opponent}`,rating:0,goals:0,assists:0,minutes:0,auto:true,unavailable:unavailable.type});return true;}
     const rng=keyedRandom(fixture.id,fixture.date,state.player.ovr,state.season.appearances);
     const played=rng.bool(.84);
     const rating=Number((played?Math.max(5.8,Math.min(9.1,6.2+(state.player.ovr-55)/34+rng.next()*.9)):0).toFixed(1));
@@ -54,7 +99,7 @@ export class SimulationController {
     fixture.status='played';fixture.score=`${teamGoals}-${opponentGoals}`;fixture.rating=rating;fixture.played=played;fixture.auto=true;
     if(!played){state.career.history.push({date:state.simulation.date,type:'比赛',summary:`${state.player.club} ${teamGoals}-${opponentGoals} ${fixture.opponent}`,rating:0,goals:0,assists:0,minutes:0,auto:true});return true;}
     const oldApps=state.season.appearances;
-    applyGrowthToState(state,{passing:.04,physical:.03},{source:'快速模式比赛',fatigue:state.player.fatigue||0,facility:74,coachQuality:72,mode:state.settings.mode,injured:false});
+    applyGrowthToState(state,{passing:.04,physical:.03},{source:'自动模拟比赛',fatigue:state.player.fatigue||0,facility:74,coachQuality:72,mode:state.settings.mode,injured:false});
     state.player.fatigue=Math.max(0,Math.min(100,(state.player.fatigue||0)+8));
     state.player.fitness=Math.max(10,100-state.player.fatigue*.7);
     state.season.appearances=oldApps+1;state.season.goals+=goals;state.season.assists+=assists;
@@ -72,7 +117,7 @@ export class SimulationController {
     if(this.store.get().training.currentOpportunity)return {status:'needs-training',trainingOpportunity:this.store.get().training.currentOpportunity,processed:0,stopReason:'training'};
     const dueMatch=action==='nextMatch'&&this.nextMatch(this.store.get());
     if(dueMatch?.date===this.store.get().simulation.date){
-      if(this.store.get().settings.mode==='fast'&&!dueMatch.important){this.store.set(state=>{this.settleFastMatch(state,dueMatch);return state;});return {status:'ok',processed:0,autoMatches:1,stopReason:'match-auto',event:null,match:dueMatch,description:desc};}
+      if(this.shouldAutoSimulateMatch(dueMatch)||matchAvailability(this.store.get())){this.store.set(state=>{this.settleAutoMatch(state,dueMatch);return state;});return {status:'ok',processed:0,autoMatches:1,stopReason:'match-auto',event:null,match:dueMatch,description:desc};}
       return {status:'ok',processed:0,stopReason:'match',event:null,match:dueMatch,description:desc};
     }
     this.running=true; this.cancelled=false;
@@ -98,11 +143,11 @@ export class SimulationController {
       processed++;
       const state=this.store.get(); const match=this.nextMatch(state);
       if(match && match.date===state.simulation.date){
-        if(state.settings.mode==='fast'&&!match.important){this.store.set(next=>{this.settleFastMatch(next,match);return next;});autoMatches++;continue;}
+        if(this.shouldAutoSimulateMatch(match)||matchAvailability(state)){this.store.set(next=>{this.settleAutoMatch(next,match);return next;});autoMatches++;continue;}
         matchReady=match; stopReason='match'; break;
       }
       const trainingKey=`training-node:${state.season.year}:${state.season.week}`;
-      if(!state.training.currentOpportunity&&Number(state.training.seasonTrainingCount||0)<2&&[6,20].includes(state.season.week)&&new Date(`${state.simulation.date}T00:00:00Z`).getUTCDay()===1&&!state.simulation.processedKeys.includes(trainingKey)){
+      if(!state.training.currentOpportunity&&Number(state.training.seasonTrainingCount||0)<FAST_SEASON_PACE.maxTrainingNodes&&FAST_SEASON_PACE.trainingWeeks.includes(state.season.week)&&new Date(`${state.simulation.date}T00:00:00Z`).getUTCDay()===1&&!state.simulation.processedKeys.includes(trainingKey)){
         this.store.set(next=>{next.simulation.processedKeys.push(trainingKey);trainingOpportunity=createTrainingOpportunity(next,{seed:`${next.simulation.date}:${trainingKey}`});return next;});
         if(trainingOpportunity){stopReason='training';break;}
       }
@@ -110,8 +155,8 @@ export class SimulationController {
         this.store.set(s=>{generatedEvent=this.eventEngine.schedule(s,{priority:'important'});return s;}); stopReason='event'; break;
       }
       if(['week','month','halfSeason','window','seasonEnd'].includes(action)){
-        const density=state.settings.mode==='legend'?3:state.settings.mode==='fast'?8:state.settings.mode==='ultra'?12:5;
-        if(processed%density===0 && !state.events.pending.length){
+        const density=state.settings.mode==='legend'?3:state.settings.mode===FAST_SEASON_PACE.mode?FAST_SEASON_PACE.autoEventCheckDays:state.settings.mode==='ultra'?12:5;
+        if(processed%density===0 && !state.events.pending.length && !(state.settings.mode===FAST_SEASON_PACE.mode&&state.settings.autoSkipLow!==false)){
           this.store.set(s=>{generatedEvent=this.eventEngine.schedule(s,{priority:state.settings.mode==='legend'?'important':'normal'});return s;});
           if(generatedEvent && state.settings.autoPauseCritical && generatedEvent.priority==='important'){stopReason='event';break;}
         }
@@ -123,3 +168,6 @@ export class SimulationController {
     return {status:'ok',processed,autoMatches,stopReason,event:generatedEvent,match:matchReady,trainingOpportunity,description:desc};
   }
 }
+
+// Preserves existing imports while the production entry uses CareerDirector directly.
+export { CareerDirector as SimulationController };

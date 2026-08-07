@@ -14,6 +14,7 @@ const ICONS = {
   injury:'<path d="M9 3h6v6h6v6h-6v6H9v-6H3V9h6Z"/>',
   medical:'<path d="M8 4h8v4h4v12H4V8h4Z"/><path d="M10 12h4M12 10v4"/>',
   recovery:'<path d="M5 11a7 7 0 1 0 2-5"/><path d="M5 4v7h7"/>',
+  refresh:'<path d="M20 7v5h-5"/><path d="M4 17v-5h5"/><path d="M18 12a6 6 0 0 0-10-4L5 11M6 12a6 6 0 0 0 10 4l3-3"/>',
   training:'<path d="M4 18h16M6 15l3-6 3 3 4-7 2 10"/>',
   match:'<circle cx="12" cy="12" r="9"/><path d="m12 7 3 2-1 4h-4L9 9Z"/>',
   transfer:'<path d="M5 7h11M13 4l3 3-3 3M19 17H8M11 14l-3 3 3 3"/>',

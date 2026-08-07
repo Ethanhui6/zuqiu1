@@ -27,7 +27,7 @@ function countrySlug(country) {
 function parseInfo(value) {
   const fields = {};
   for (const key of ['fullName', 'localName', 'shortName', 'city', 'founded']) {
-    const match = String(value || '').match(new RegExp(`^\\s+${key}:\\s*(.+)$`, 'm'));
+    const match = String(value || '').match(new RegExp(`^\\s*${key}:\\s*(.+)$`, 'm'));
     if (match) fields[key] = text(match[1]);
   }
   return fields;
@@ -60,7 +60,6 @@ const clubsFile = JSON.parse(await fs.readFile(path.join(root, 'data', 'clubs.js
 const clubs = clubsFile.clubs || clubsFile;
 const tree = JSON.parse(await curl(`https://api.github.com/repos/${sourceRepo}/git/trees/${sourceRef}?recursive=1`));
 if (tree.truncated) throw new Error('源仓库树被 GitHub 截断，拒绝猜测资源映射');
-const treePaths = new Set(tree.tree.map(item => item.path));
 const svgPaths = tree.tree.filter(item => item.type === 'blob' && item.path.includes('/clubs/') && item.path.includes('/svg/') && item.path.endsWith('.svg') && !['mono', 'line', 'kit', 'wordmark', 'icon', 'graph'].some(term => item.path.toLocaleLowerCase().includes(term)));
 const folders = new Map();
 for (const item of svgPaths) {
@@ -74,10 +73,12 @@ const candidates = [...folders.entries()].map(([folder, files]) => {
     const year = file => Number(file.match(/v(\d{4})/)?.[1] || 0);
     return year(b) - year(a) || a.length - b.length;
   });
-  return { folder, svgPath: sorted[0], infoPath: `${folder}/info/info.zh-cn.yaml` };
+  const infoFiles = tree.tree.filter(item => item.type === 'blob' && item.path.startsWith(`${folder}/info/`) && /\.ya?ml$/i.test(item.path));
+  const infoPath = infoFiles.find(item => /\.zh-cn\.ya?ml$/i.test(item.path))?.path || infoFiles[0]?.path || null;
+  return { folder, svgPath: sorted[0], infoPath };
 });
 const infoResults = await pool(candidates, async candidate => {
-  if (!treePaths.has(candidate.infoPath)) return { ...candidate, info: {} };
+  if (!candidate.infoPath) return { ...candidate, info: {} };
   const raw = await curl(`https://raw.githubusercontent.com/${sourceRepo}/${sourceRef}/${encodedPath(candidate.infoPath)}`);
   return { ...candidate, info: parseInfo(raw) };
 });

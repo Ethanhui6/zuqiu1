@@ -15,7 +15,7 @@ test('移动端安全区与最小点击区域已定义',()=>{
 });
 
 test('核心路由与控制器均已接入',()=>{
-  for(const token of ['careerPage','matchPage','trainingPage','transferPage','morePage','SimulationController','EventEngine']) assert.ok(app.includes(token));
+  for(const token of ['careerPage','matchPage','trainingPage','transferPage','morePage','CareerDirector','EventEngine']) assert.ok(app.includes(token));
 });
 
 test('图标系统超过50个独立入口',()=>{

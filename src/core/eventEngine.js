@@ -14,6 +14,7 @@ const CHAIN_MAP = Object.freeze({
   'locker-balance': 'media-mistake',
   'media-mistake': 'locker-balance'
 });
+const isMatchTemplate = template => template?.kind === 'match' || template?.category === '比赛';
 
 function ensureEvents(state) {
   state.events ??= {};
@@ -70,7 +71,7 @@ function eventImpact(state, choice, event) {
 }
 
 export class EventEngine {
-  constructor(templates = EVENT_TEMPLATES) { this.templates = templates; }
+  constructor(templates = EVENT_TEMPLATES, { kind = 'career' } = {}) { this.templates = templates; this.kind = kind; }
   fingerprint(template) { return hash(`${template.id}:${template.category}:${template.interaction}:${template.choices.map(choice => choice.id).join('|')}`).toString(36); }
 
   flushDelayed(state) {
@@ -88,6 +89,7 @@ export class EventEngine {
 
   eligible(state, template) {
     const events = ensureEvents(state);
+    if (this.kind === 'career' && isMatchTemplate(template)) return false;
     if (template.positions?.length && !template.positions.includes(state.player?.position)) return false;
     const fingerprint = this.fingerprint(template);
     const day = dayIndex(state.simulation.date);
@@ -106,6 +108,7 @@ export class EventEngine {
   schedule(state, { priority = 'normal', forceTemplate = null, chainDepth = 0 } = {}) {
     const events = ensureEvents(state);
     this.flushDelayed(state);
+    if (this.kind === 'career' && isMatchTemplate(forceTemplate)) return null;
     const candidates = forceTemplate ? [forceTemplate] : this.templates.filter(template => this.eligible(state, template));
     if (!candidates.length) return null;
     const seed = dayIndex(state.simulation.date) + events.history.length * 17 + Number(state.season?.week || 1) * 13;
@@ -114,6 +117,7 @@ export class EventEngine {
     const scene = selectScene(template, { recentIds: events.sceneHistory.slice(-3), seed: hash(`${seed}:${template.id}:${currentRarity}`) });
     const event = {
       id: `evt-${seed}-${template.id}-${events.history.length}`,
+      kind: this.kind,
       templateId: template.id,
       fingerprint: this.fingerprint(template),
       priority,

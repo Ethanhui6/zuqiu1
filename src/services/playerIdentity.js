@@ -16,6 +16,38 @@ function pick(list, random) { return list[Math.floor(random() * list.length)] ||
 function fileFor(country) { return COUNTRY_FILES[country] || 'other'; }
 function weightedPick(list, random) { const entries = list.map(value => typeof value === 'string' ? { value, weight: 1 } : { value: value.name, weight: Number(value.weight || 1) }); const total = entries.reduce((sum, item) => sum + item.weight, 0); let roll = random() * total; return entries.find(item => (roll -= item.weight) <= 0)?.value || entries.at(-1)?.value || ''; }
 
+const CHINA_FAMILY_EXTRA = '王李张刘陈杨黄赵周吴徐孙胡朱高林何郭马罗梁宋郑谢韩唐冯于董萧程曹袁邓许傅沈曾彭吕苏卢蒋蔡贾丁魏薛叶阎余潘杜戴夏钟汪田任姜范方石姚谭廖邹熊金陆郝孔白崔康毛邱秦江史顾侯邵孟龙万段钱汤尹黎易常武乔贺赖龚文'.split('');
+const CHINA_GIVEN_EXTRA = '天宇浩然子轩嘉豪明哲俊杰思远博文家伟志远晨阳泽凯文昊俊驰修远安邦子涵雨泽亦凡承恩景行知远书言宏远云帆启航星河远航'.split('');
+function chinaPools(profile) {
+  const baseFamilyNames = profile.familyNames || [];
+  const baseGivenNames = profile.givenNamesMale || [];
+  if (baseFamilyNames.length < 2 || baseGivenNames.length < 2) return { familyNames: baseFamilyNames, givenNames: baseGivenNames };
+  const familyNames = [...new Set([...baseFamilyNames, ...CHINA_FAMILY_EXTRA])];
+  const chars = [...new Set(CHINA_GIVEN_EXTRA)];
+  const givenNames = [...baseGivenNames];
+  for (const first of chars) for (const second of chars) if (first !== second) givenNames.push(`${first}${second}`);
+  return { familyNames, givenNames: [...new Set(givenNames)] };
+}
+function expandedPools(profile) {
+  const separator = profile.separator ?? ' ';
+  const givenBase = (profile.givenNamesMale || []).map(value => typeof value === 'string' ? value : value.name).filter(Boolean);
+  const familyBase = (profile.familyNames || []).map(value => typeof value === 'string' ? value : value.name).filter(Boolean);
+  if (givenBase.length < 2 || familyBase.length < 2) return { givenNames: givenBase, familyNames: familyBase };
+  const givenNames = [...givenBase], familyNames = [...familyBase];
+  for (const first of givenBase) for (const second of givenBase) if (first !== second) givenNames.push(`${first}${separator}${second}`);
+  for (const first of familyBase) for (const second of familyBase) if (first !== second) familyNames.push(`${first}-${second}`);
+  return { givenNames: [...new Set(givenNames)], familyNames: [...new Set(familyNames)] };
+}
+function chineseParts(profile, random) {
+  const pools = chinaPools(profile);
+  for (let attempt = 0; attempt < 12; attempt++) {
+    const familyName = weightedPick(pools.familyNames, random);
+    const givenName = weightedPick(pools.givenNames, random);
+    if (givenName && givenName[0] !== familyName && !/^(.).?\1$/.test(givenName)) return { givenName, familyName };
+  }
+  return { givenName: pools.givenNames[0] || '天佑', familyName: pools.familyNames[0] || '王' };
+}
+
 export function formatPlayerName({ givenName = '', familyName = '' } = {}, profile = {}) {
   const order = profile.nameOrder || 'given-family';
   const separator = profile.separator ?? ' ';
@@ -29,7 +61,8 @@ export function generateFootballNickname(countryCode, seed, profiles = {}) {
 export function generatePlayerName(countryCode, seed = 'player', profiles = {}) {
   const profile = profiles[fileFor(countryCode)] || profiles.other || { givenNamesMale: ['Alex'], familyNames: ['Morgan'], nameOrder: 'given-family', separator: ' ' };
   const random = rng(`${seed}|name|${countryCode}`);
-  const parts = { givenName: weightedPick(profile.givenNamesMale, random), familyName: weightedPick(profile.familyNames, random) };
+  const pools = fileFor(countryCode) === 'china' ? chinaPools(profile) : expandedPools(profile);
+  const parts = fileFor(countryCode) === 'china' ? chineseParts(profile, random) : { givenName: weightedPick(pools.givenNames, random), familyName: weightedPick(pools.familyNames, random) };
   return { ...parts, displayName: formatPlayerName(parts, profile), nickname: generateFootballNickname(countryCode, seed, profiles), countryCode: profile.countryCode, locale: profile.locale };
 }
 export function validatePlayerName(input) {
@@ -45,15 +78,27 @@ export function generateStartingClubOffers(playerProfile, worldState = {}, seed 
   const position = playerProfile.position;
   const nearby = new Set(NEIGHBORS[nation] || []);
   const local = clubs.filter(club => club.country === nation).sort((a, b) => scoreClub(b, playerProfile) - scoreClub(a, playerProfile));
-  const localOffers = local.slice(0, 5).map((club, index) => offer(club, index === 0 ? '家乡球队' : index === 1 ? '强队青训' : '本国青训', index === 0 ? '本地关系成长快，设施与竞争保持真实差异。' : index === 1 ? '竞争更激烈，但高水平训练与比赛机会更多。' : '本国联赛环境稳定，优先按位置需求安排成长。', position));
+  const eligible = local.filter(club => evaluateClubFit(playerProfile, club).eligible);
+  const localPool = [...eligible, ...local.filter(club => !eligible.includes(club))].slice(0, 5);
+  const localOffers = localPool.map((club, index) => offer(club, index === 0 ? '家乡球队' : Number(club.rep || club.reputation) >= 80 ? '强队青训' : '本国青训', playerProfile, index === 0));
   if (localOffers.length >= 3) return localOffers.slice(0, 5);
   const related = clubs.filter(club => nearby.has(club.country) && !local.some(item => item.id === club.id)).sort((a, b) => scoreClub(b, playerProfile) - scoreClub(a, playerProfile));
-  const result = [...localOffers, ...related.slice(0, 3 - localOffers.length).map(club => offer(club, '邻近青训项目', `经纪人通过${nation}与${club.country}的青年合作项目递交资料。`, position))];
-  if (result.length < 3) result.push(...clubs.filter(club => !result.some(item => item.clubId === club.id)).slice(0, 3 - result.length).map(club => offer(club, '海外球探机会', '海外球探在青年赛事中发现你，适应风险会在事件中体现。', position)));
+  const result = [...localOffers, ...related.slice(0, 3 - localOffers.length).map(club => offer(club, '邻近青训项目', playerProfile))];
+  if (result.length < 3) result.push(...clubs.filter(club => !result.some(item => item.clubId === club.id)).slice(0, 3 - result.length).map(club => offer(club, '海外球探机会', playerProfile)));
   return result.slice(0, 5);
 }
 
 function scoreClub(club, profile) { return Number(club.youth || club.youthUsage || 0) * .5 + Number(club.opportunity || club.youthUsage || 0) * .3 + (club.needs || []).includes(profile.position) * 20 + (club.city && profile.birthplace && club.city === profile.birthplace ? 16 : 0) - Number(club.rep || club.reputation || 0) * .05; }
-function offer(club, type, reason, position) { return { clubId: club.id, club, type, reason, positionFit: (club.needs || []).includes(position) ? '该位置有明确需求' : '按青训轮换安排', squad: type === '强队青训' ? '高水平青年队' : type === '海外球探机会' ? '海外项目' : '青年队', contract: `${Math.max(1, Math.round((club.youth || 60) / 25))}年`, weeklyWage: Math.max(100, Math.round(100 + Number(club.finance || 60) * 4)), adaptationRisk: type === '海外球探机会' ? '中等' : '低' }; }
+export function evaluateClubFit(profile, club) {
+  const ovr = Number(profile.ovr || 55), potential = Number(profile.potential || ovr + 12), age = Number(profile.age || 16), rep = Number(club.rep || club.reputation || 60);
+  const need = (club.needs || []).includes(profile.position), local = !profile.country && !profile.nation || club.country === (profile.country || profile.nation);
+  const recent = Number(profile.recentRating || profile.rating || 6.5);
+  const score = Math.round(ovr * .58 + potential * .24 + Math.max(0, 19 - age) * 2 + (need ? 7 : 0) + Math.max(-3, recent - 6.5) * 3);
+  const required = Math.round(rep - 8 + (local ? 0 : 4));
+  const eligible = score >= required;
+  const reasons = [need ? '该位置有明确需求' : '需要竞争现有位置', potential >= 86 ? '潜力符合重点培养标准' : '潜力处于常规观察范围', local ? '不占外援适应名额' : '需要额外评估注册与适应'];
+  return { score, required, eligible, reasons, role: age <= 19 ? score >= required + 12 ? '一线队轮换观察' : '青年队培养' : score >= required + 10 ? '轮换球员' : '阵容竞争' };
+}
+function offer(club, type, profile, home = false) { const fit = evaluateClubFit(profile, club); const reason = `${home ? '本地培养关系稳定；' : ''}${fit.reasons.join('；')}。综合 ${fit.score}，门槛 ${fit.required}。`; return { clubId: club.id, club, type, reason, eligible: fit.eligible, score: fit.score, required: fit.required, requirements: fit.reasons, positionFit: fit.reasons[0], squad: fit.role, contract: `${Math.max(1, Math.round((club.youth || 60) / 25))}年`, weeklyWage: Math.max(100, Math.round(100 + Number(club.finance || 60) * 4)), adaptationRisk: type === '海外球探机会' ? '中等' : '低' }; }
 
 export { COUNTRY_FILES, fileFor };

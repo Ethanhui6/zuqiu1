@@ -1,3 +1,5 @@
+import { generatePlayerName } from '../services/playerIdentity.js';
+
 export const DATA_ORIGINS = Object.freeze({
   OFFICIAL: 'official',
   VERIFIED_PUBLIC: 'verified-public',
@@ -107,14 +109,16 @@ export function normalizePlayer(player = {}) {
   };
 }
 
-export function createGeneratedPlayer({ clubId = 'free-agent', position = 'CM', index = 0, seed = '' } = {}) {
+export function createGeneratedPlayer({ clubId = 'free-agent', country = '', position = 'CM', index = 0, seed = '', nameProfiles = {} } = {}) {
   const pos = POSITIONS.includes(position) ? position : 'CM';
   const rnd = random(`${seed}|${clubId}|${pos}|${index}`);
   const attrs = Object.fromEntries(Object.entries(PROFILE[pos]).map(([key, value]) => [key, Math.round(value + (rnd() - 0.5) * 12)]));
   const ovr = Math.round(Object.values(attrs).reduce((sum, value) => sum + value, 0) / ATTRS.length);
+  const generatedName = Object.keys(nameProfiles).length ? generatePlayerName(country, `${seed}|${clubId}|${index}`, nameProfiles).displayName : `青年队球员 ${index + 1}`;
   return {
     id: `generated-${clubId}-${pos}-${index}`,
-    name: `Academy prospect ${index + 1}`,
+    name: generatedName,
+    cn: generatedName,
     position: pos,
     clubId,
     ovr,
@@ -155,7 +159,7 @@ export function validateRegistry({ clubs = [], leagues = [], players = [] } = {}
 
 function searchable(item) { return [item.id, item.name, item.cn, item.native, item.country, item.league, item.leagueCn, item.nation].filter(Boolean).join(' ').toLocaleLowerCase(); }
 
-export function createWorldRegistry({ clubs = [], leagues = [], players = [], trophies = [] } = {}) {
+export function createWorldRegistry({ clubs = [], leagues = [], players = [], trophies = [], nameProfiles = {} } = {}) {
   const normalizedClubs = clubs.map(normalizeClub);
   const normalizedPlayers = players.map(normalizePlayer);
   const normalizedLeagues = leagues.map(league => ({
@@ -199,7 +203,15 @@ export function createWorldRegistry({ clubs = [], leagues = [], players = [], tr
     },
     playersForClub(clubId, { limit = 11, seed = 'fallback' } = {}) {
       const result = [...(playersByClub.get(clubId) || []).slice(0, limit)];
-      for (let index = result.length; index < limit; index++) result.push(createGeneratedPlayer({ clubId, index, position: POSITIONS[index % POSITIONS.length], seed }));
+      const club = clubById.get(clubId);
+      for (let index = result.length; index < limit; index++) {
+        let generated;
+        for (let retry = 0; retry < 32; retry++) {
+          generated = createGeneratedPlayer({ clubId, country: club?.country, index, position: POSITIONS[index % POSITIONS.length], seed: `${seed}|name-${retry}`, nameProfiles });
+          if (!result.some(player => player.name === generated.name)) break;
+        }
+        result.push(generated);
+      }
       return result;
     },
     rosterForClub(clubId, options = {}) {

@@ -4,11 +4,18 @@ function ensureNews(state) {
   return state.news;
 }
 
+function importance(item = {}) {
+  if (Number.isFinite(Number(item.importance))) return Number(item.importance);
+  if (item.priority === 'important' || ['赛季', '转会', '伤病'].includes(item.type)) return 3;
+  if (['比赛', '联赛', '市场', '生涯'].includes(item.type)) return 2;
+  return 1;
+}
+
 export function addNews(state, item) {
   const news = ensureNews(state);
   const title = String(item.title || '职业动态');
   if (news.items.some(existing => existing.id === item.id || existing.title === title)) return news.items.find(existing => existing.id === item.id || existing.title === title);
-  const entry = { id: item.id || `news-${state.simulation?.date || 'date'}-${news.items.length}`, date: state.simulation?.date, type: '生涯', read: false, ...item, title };
+  const entry = { id: item.id || `news-${state.simulation?.date || 'date'}-${news.items.length}`, date: state.simulation?.date, type: '生涯', read: false, ...item, title, importance: importance(item) };
   news.items.unshift(entry);
   news.items = news.items.slice(0, 40);
   news.unread = news.items.filter(item => !item.read).length;
@@ -25,4 +32,8 @@ export function ensureHomeNews(state) {
   return news.items;
 }
 
-export function homeNews(state) { return ensureNews(state).items.slice(0, 3); }
+export function homeNews(state) {
+  const ranked = [...ensureNews(state).items].sort((a, b) => importance(b) - importance(a));
+  const featured = ranked.filter(item => importance(item) >= 2);
+  return (featured.length >= 3 ? featured : ranked).slice(0, 5);
+}

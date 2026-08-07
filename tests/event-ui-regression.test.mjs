@@ -48,6 +48,8 @@ async function resolveEvent(page, closeWithHeader, expectedHistory) {
   const choice = page.locator('[data-choice]').first();
   await choice.waitFor();
   await choice.scrollIntoViewIfNeeded();
+  const eventText = await page.locator('#overlay-root .overlay').innerText();
+  assert.doesNotMatch(eventText, /可能影响：|消耗：|当前状态适配|后续Flag/);
   const hit = await choice.evaluate(element => {
     const box = element.getBoundingClientRect();
     const top = document.elementFromPoint(box.left + box.width / 2, box.top + box.height / 2);

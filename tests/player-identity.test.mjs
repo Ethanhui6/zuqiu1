@@ -23,6 +23,13 @@ test('manual names are optional but invalid input is rejected', () => {
   assert.equal(validatePlayerName('<script>').valid, false);
 });
 
+test('generated Chinese names stay varied and avoid repeated-character artifacts', () => {
+  const names = Array.from({ length: 1000 }, (_, index) => generatePlayerName('中国', `bulk-${index}`, profiles).displayName);
+  const duplicateCount = names.length - new Set(names).size;
+  assert.ok(duplicateCount / names.length < .05, `duplicate rate ${(duplicateCount / names.length).toFixed(3)}`);
+  assert.equal(names.some(name => /^(.)\1/.test(name) || /(.)\1$/.test(name)), false);
+});
+
 test('starting offers stay in the selected country and differ by route', () => {
   const offers = generateStartingClubOffers({ country: '中国', position: 'ST', birthplace: '上海', ovr: 58 }, { clubs }, 'club-seed');
   assert.ok(offers.length >= 3 && offers.length <= 5);

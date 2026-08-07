@@ -1,5 +1,7 @@
 import { animationDirector } from '../core/animationDirector.js';
 import { audioManager } from '../core/audioManager.js';
+import { activateMiniGame, createMiniGameSession, resolveMiniGame } from '../core/miniGameLibrary.js';
+import { freeKickTrajectory } from '../core/freeKickTrajectory.js';
 
 const clamp = (value, min = 0, max = 100) => Math.max(min, Math.min(max, Number(value) || 0));
 const directions = ['左', '中', '右'];
@@ -9,6 +11,9 @@ export function createTrainingGame(game, { onComplete, onSkip, motion = 'full' }
   const node = document.createElement('section');
   node.className = `training-game training-game--${game.mechanic}`;
   node.tabIndex = 0;
+  let miniGame = createMiniGameSession(game.mechanic, 'trainingGame');
+  const updateMiniGame = next => { miniGame = next; node.dataset.miniGameState = miniGame.status; };
+  updateMiniGame(miniGame);
   node.innerHTML = `<header class="training-game__intro"><div><span class="eyebrow">${game.name}</span><h3>${game.target}专项</h3><p>${game.instruction}</p></div><div class="training-game__facts"><span>风险 ${game.risk}%</span><span>疲劳 ${game.fatigue > 0 ? '+' : ''}${game.fatigue}</span></div></header><div class="training-game__countdown" data-countdown>3</div><div class="training-game__area" data-area hidden></div><p class="training-game__feedback" data-feedback aria-live="polite">准备开始</p><footer class="training-game__footer"><span data-time>准备</span><button class="app-button ghost" data-skip>跳过本次训练</button></footer>`;
   const area = node.querySelector('[data-area]');
   const feedback = node.querySelector('[data-feedback]');
@@ -27,13 +32,15 @@ export function createTrainingGame(game, { onComplete, onSkip, motion = 'full' }
     ended = true; clear(); const finalScore = Math.round(clamp(score));
     const grade = finalScore >= 90 ? 'S' : finalScore >= 80 ? 'A' : finalScore >= 65 ? 'B' : finalScore >= 50 ? 'C' : 'D';
     const record = { gameId: game.id, name: game.name, score: finalScore, grade, detail: detail || '训练动作已记录', ...extra };
+    updateMiniGame(resolveMiniGame(miniGame, record));
+    record.miniGame = miniGame;
     node.dataset.result = grade; node.classList.add(finalScore >= 65 ? 'is-success' : 'is-failure');
     setFeedback(`${grade}级 · ${finalScore}分 · ${record.detail}`); timeLabel.textContent = '已完成';
     audioManager.play(finalScore >= 90 ? 'record' : finalScore >= 65 ? 'correct' : 'wrong');
     animationDirector.pulse(node, finalScore >= 65 ? 'success-pop' : 'shake');
     window.setTimeout(() => onComplete?.(record), 280);
   };
-  const skip = () => { if (ended) return; ended = true; clear(); onSkip?.({ gameId: game.id, name: game.name, score: 45, grade: 'C', detail: '已跳过，按保守表现记录', skipped: true }); };
+  const skip = () => { if (ended) return; ended = true; clear(); const record = { gameId: game.id, name: game.name, score: 45, grade: 'C', detail: '已跳过，按保守表现记录', skipped: true }; updateMiniGame(resolveMiniGame(activateMiniGame(miniGame), record)); node.dataset.result = 'skipped'; onSkip?.({ ...record, miniGame }); };
   listen(node.querySelector('[data-skip]'), 'click', skip);
   node.destroy = () => { ended = true; clear(); };
 
@@ -43,6 +50,30 @@ export function createTrainingGame(game, { onComplete, onSkip, motion = 'full' }
     frame = requestAnimationFrame(tick); timer = window.setTimeout(onTimeout, seconds * 1000);
   };
   const control = (label, attrs = '') => `<button class="training-control" type="button" ${attrs}>${label}</button>`;
+  const renderCurvePreview = () => {
+    const preview = area.querySelector('[data-curve-preview]');
+    if (!preview) return null;
+    const curve = safe(area.querySelector('[data-curve]')?.value, 60);
+    const angle = safe(area.querySelector('[data-angle]')?.value, 52);
+    const power = safe(area.querySelector('[data-power]')?.value, 64);
+    const trajectory = freeKickTrajectory({ curve, angle, power });
+    preview.innerHTML = `<svg viewBox="0 0 100 160" aria-label="任意球球路预览" role="img"><rect width="100" height="160" fill="#19734c"/><path d="M0 116h100M0 72h100" stroke="#dff7dc" stroke-opacity=".42"/><path d="M11 10h78v27H11z" fill="none" stroke="#fff" stroke-width="2"/><path d="M16 37h68" stroke="#fff" stroke-width="2"/><g fill="#17365d">${[37,44,51,58,65].map(x => `<circle cx="${x}" cy="92" r="4"/>`).join('')}</g><circle cx="${trajectory.targetX}" cy="${trajectory.targetY}" r="6" fill="#f6bf3e" fill-opacity=".35" stroke="#fff" stroke-width="1.5"/><path d="${trajectory.path}" fill="none" stroke="#f6bf3e" stroke-width="2.3" stroke-dasharray="4 3"/><circle data-curve-ball cx="50" cy="146" r="3.7" fill="#fff" stroke="#17202b" stroke-width="1"/></svg>`;
+    return { preview, ...trajectory };
+  };
+  const curveObserver = new MutationObserver(() => { if (area.querySelector('[data-curve-preview]')) renderCurvePreview(); });
+  curveObserver.observe(area, { childList: true });
+  cleanups.push(() => curveObserver.disconnect());
+  listen(area, 'input', event => { if (event.target.matches('[data-curve],[data-angle],[data-power]') && area.querySelector('[data-curve-preview]')) renderCurvePreview(); });
+  listen(area, 'click', event => {
+    const submit = event.target.closest('[data-submit]'); const scene = area.querySelector('[data-curve-preview]') && renderCurvePreview();
+    if (!submit || !scene) return;
+    event.preventDefault(); event.stopImmediatePropagation();
+    const values = ['curve', 'angle', 'power'].map(key => safe(area.querySelector(`[data-${key}]`).value));
+    const score = 100 - values.reduce((sum, value, index) => sum + Math.abs(value - [62, 50, 66][index]) * .75, 0);
+    const ball = scene.preview.querySelector('[data-curve-ball]'); const started = performance.now();
+    const animate = now => { const t = Math.min(1, (now - started) / 640); const inv = 1 - t; ball.setAttribute('cx', String(inv * inv * 50 + 2 * inv * t * scene.controlX + t * t * scene.targetX)); ball.setAttribute('cy', String(inv * inv * 146 + 2 * inv * t * scene.controlY + t * t * scene.targetY)); if (t < 1) frame = requestAnimationFrame(animate); else finish(score, '弧线绕过人墙并接近目标'); };
+    frame = requestAnimationFrame(animate);
+  }, true);
 
   function reaction() {
     area.innerHTML = `<div class="reaction-lane"><span data-light>等待信号</span></div><button class="app-button primary" data-react disabled>起跑</button>`;
@@ -80,9 +111,9 @@ export function createTrainingGame(game, { onComplete, onSkip, motion = 'full' }
     timer = setTimeout(tick, 620);
   }
   function startMechanic() {
+    updateMiniGame(activateMiniGame(miniGame));
     ({ reaction, rhythm, aim, 'three-choice': threeChoice, curve, dodge, 'moving-target': movingTarget, 'timing-window': timingWindow, aerial, 'contact-window': contactWindow, balance, lights, memory, tactical, swipe, 'hold-release': holdRelease, 'drag-target': dragTarget, 'power-target': powerTarget, 'safe-rhythm': safeRhythm, 'keep-zone': keepZone }[game.mechanic] || (() => finish(50, '按保守表现结算')) )();
   }
   start();
   return node;
 }
-

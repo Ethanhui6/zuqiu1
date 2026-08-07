@@ -1,4 +1,4 @@
-import {APP_VERSION,ATTR_KEYS,CAREER_SETTINGS,POSITION_CONFIG,SAVE_SCHEMA,TALENT_RARITY,DEFAULT_AUTO_PAUSE,DEFAULT_STRATEGIES} from '../../app/config.js';
+import {APP_VERSION,ATTR_KEYS,CAREER_SETTINGS,POSITION_CONFIG,STYLE_BONUSES,SAVE_SCHEMA,TALENT_RARITY,DEFAULT_AUTO_PAUSE,DEFAULT_STRATEGIES} from '../../app/config.js';
 import {DeterministicRng,createSeed} from '../../services/rng.js';
 import {clamp} from '../../utils/format.js';
 import {calculateOvr,careerStage,teamRole} from './ovr.js';
@@ -60,7 +60,7 @@ function openingHook(draft,club,rng){
 
 export function createNewSave(draft,club,slotId){
   const seed=draft.seed||createSeed();const rng=new DeterministicRng(seed);const cfg=POSITION_CONFIG[draft.position]||POSITION_CONFIG.ST;
-  const attrs={...baseAttrs};for(const key of cfg.focus)attrs[key]+=rng.int(2,6);if(draft.talent.rarityKey==='legend'&&draft.sourceTemplate){for(const key of ATTR_KEYS)attrs[key]=clamp(Math.round(attrs[key]*.55+draft.sourceTemplate.attrs[key]*.45),45,78)}
+  const attrs={...baseAttrs};for(const key of cfg.focus)attrs[key]+=rng.int(2,6);for(const [key,bonus] of Object.entries(STYLE_BONUSES[draft.style]||{}))attrs[key]=clamp(attrs[key]+bonus,35,99);if(draft.talent.rarityKey==='legend'&&draft.sourceTemplate){for(const key of ATTR_KEYS)attrs[key]=clamp(Math.round(attrs[key]*.55+draft.sourceTemplate.attrs[key]*.45),45,78)}
   const age=clamp(Number(draft.age)||17,16,18);const ovr=calculateOvr(attrs,draft.position);
   const storedPace=loadPacePreferences()||{};
   const save={schemaVersion:SAVE_SCHEMA,gameVersion:APP_VERSION,createdAt:Date.now(),updatedAt:Date.now(),rng:{...rng.snapshot()},settings:{theme:'light',reducedMotion:false,animationMode:'standard',pace:{...storedPace,mode:draft.paceMode||storedPace.mode||'standard',autoPause:{...DEFAULT_AUTO_PAUSE,...(storedPace.autoPause||{})}}},

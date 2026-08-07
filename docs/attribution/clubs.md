@@ -5,26 +5,26 @@
 
 | clubId | 文件 | 来源页面 | 状态 |
 | --- | --- | --- | --- |
-| CHN1-SHA | 未匹配 | 已完成源仓库和中文元数据匹配，未找到可确认文件 | 未匹配 |
-| CHN1-SHS | 未匹配 | 已完成源仓库和中文元数据匹配，未找到可确认文件 | 未匹配 |
-| CHN1-BGA | 未匹配 | 已完成源仓库和中文元数据匹配，未找到可确认文件 | 未匹配 |
-| CHN1-SDT | 未匹配 | 已完成源仓库和中文元数据匹配，未找到可确认文件 | 未匹配 |
-| CHN1-CDR | 未匹配 | 已完成源仓库和中文元数据匹配，未找到可确认文件 | 未匹配 |
-| CHN1-ZHE | 未匹配 | 已完成源仓库和中文元数据匹配，未找到可确认文件 | 未匹配 |
-| CHN1-TJT | 未匹配 | 已完成源仓库和中文元数据匹配，未找到可确认文件 | 未匹配 |
-| CHN1-WHT | 未匹配 | 已完成源仓库和中文元数据匹配，未找到可确认文件 | 未匹配 |
-| CHN1-HEN | 未匹配 | 已完成源仓库和中文元数据匹配，未找到可确认文件 | 未匹配 |
-| CHN1-QDH | 未匹配 | 已完成源仓库和中文元数据匹配，未找到可确认文件 | 未匹配 |
-| CHN1-CCY | 未匹配 | 已完成源仓库和中文元数据匹配，未找到可确认文件 | 未匹配 |
+| CHN1-SHA | `assets/clubs/china/chn1-sha.svg` | https://github.com/FCLOGO/fclogo.top/blob/main/src/data/logos/CFA/clubs/001-100/Shanghai Port/svg/shanghai-port-v2021.svg | 已下载 SVG |
+| CHN1-SHS | `assets/clubs/china/chn1-shs.svg` | https://github.com/FCLOGO/fclogo.top/blob/main/src/data/logos/CFA/clubs/001-100/Shanghai Shenhua/svg/shanghai-shenhua-v2022.svg | 已下载 SVG |
+| CHN1-BGA | `assets/clubs/china/chn1-bga.svg` | https://github.com/FCLOGO/fclogo.top/blob/main/src/data/logos/CFA/clubs/001-100/Beijing Guoan/svg/beijing-guoan-v2022.svg | 已下载 SVG |
+| CHN1-SDT | `assets/clubs/china/chn1-sdt.svg` | https://github.com/FCLOGO/fclogo.top/blob/main/src/data/logos/CFA/clubs/001-100/Shandong Taishan/svg/shandong-taishan-v2022.svg | 已下载 SVG |
+| CHN1-CDR | `assets/clubs/china/chn1-cdr.svg` | https://github.com/FCLOGO/fclogo.top/blob/main/src/data/logos/CFA/clubs/001-100/Chengdu Rongcheng/svg/chengdu-rongcheng-v2021.svg | 已下载 SVG |
+| CHN1-ZHE | `assets/clubs/china/chn1-zhe.svg` | https://github.com/FCLOGO/fclogo.top/blob/main/src/data/logos/CFA/clubs/001-100/Zhejiang Professional/svg/zhejiang-professional-v2022.svg | 已下载 SVG |
+| CHN1-TJT | `assets/clubs/china/chn1-tjt.svg` | https://github.com/FCLOGO/fclogo.top/blob/main/src/data/logos/CFA/clubs/001-100/Tianjin Jinmen Tiger/svg/tianjin-jinmen-tiger-v2021.svg | 已下载 SVG |
+| CHN1-WHT | `assets/clubs/china/chn1-wht.svg` | https://github.com/FCLOGO/fclogo.top/blob/main/src/data/logos/CFA/clubs/001-100/Wuhan Three Towns/svg/wuhan-three-towns-v2019.svg | 已下载 SVG |
+| CHN1-HEN | `assets/clubs/china/chn1-hen.svg` | https://github.com/FCLOGO/fclogo.top/blob/main/src/data/logos/CFA/clubs/001-100/Henan FC/svg/henan-fc-v2023.svg | 已下载 SVG |
+| CHN1-QDH | `assets/clubs/china/chn1-qdh.svg` | https://github.com/FCLOGO/fclogo.top/blob/main/src/data/logos/CFA/clubs/001-100/Qingdao Hainiu/svg/qingdao-hainiu-v2022.svg | 已下载 SVG |
+| CHN1-CCY | `assets/clubs/china/chn1-ccy.svg` | https://github.com/FCLOGO/fclogo.top/blob/main/src/data/logos/CFA/clubs/001-100/Changchun Yatai/svg/changchun-yatai-v2007.svg | 已下载 SVG |
 | CHN1-DLY | `assets/clubs/china/chn1-dly.svg` | https://github.com/FCLOGO/fclogo.top/blob/main/src/data/logos/CFA/clubs/001-100/Dalian Yingbo/svg/Dalian-Yingbo-v2025.svg | 已下载 SVG |
 | CHN2-LNT | `assets/clubs/china/chn2-lnt.svg` | https://github.com/FCLOGO/fclogo.top/blob/main/src/data/logos/CFA/clubs/001-100/Liaoning Tieren/svg/liaoning-tieren-v2024.svg | 已下载 SVG |
 | CHN2-CTL | `assets/clubs/china/chn2-ctl.svg` | https://github.com/FCLOGO/fclogo.top/blob/main/src/data/logos/CFA/clubs/001-100/Chongqing TLL/svg/chongqing-tonglianglong-v2023.svg | 已下载 SVG |
 | CHN2-GZB | `assets/clubs/china/chn2-gzb.svg` | https://github.com/FCLOGO/fclogo.top/blob/main/src/data/logos/CFA/clubs/001-100/Guangzhou Power/svg/guangdong-gz-power-v2024.svg | 已下载 SVG |
-| CHN2-SZD | 未匹配 | 已完成源仓库和中文元数据匹配，未找到可确认文件 | 未匹配 |
-| CHN2-NJC | 未匹配 | 已完成源仓库和中文元数据匹配，未找到可确认文件 | 未匹配 |
-| CHN2-SJZ | 未匹配 | 已完成源仓库和中文元数据匹配，未找到可确认文件 | 未匹配 |
+| CHN2-SZD | `assets/clubs/china/chn2-szd.svg` | https://github.com/FCLOGO/fclogo.top/blob/main/src/data/logos/CFA/clubs/001-100/Suzhou Dongwu/svg/suzhou-dongwu-v2018.svg | 已下载 SVG |
+| CHN2-NJC | `assets/clubs/china/chn2-njc.svg` | https://github.com/FCLOGO/fclogo.top/blob/main/src/data/logos/CFA/clubs/001-100/Nanjing City/svg/nanjing-city-v2022.svg | 已下载 SVG |
+| CHN2-SJZ | `assets/clubs/china/chn2-sjz.svg` | https://github.com/FCLOGO/fclogo.top/blob/main/src/data/logos/CFA/clubs/001-100/Shijiazhuang Gongfu/svg/Shijiazhuang-Gongfu-v2025.svg | 已下载 SVG |
 | CHN2-GXP | `assets/clubs/china/chn2-gxp.svg` | https://github.com/FCLOGO/fclogo.top/blob/main/src/data/logos/CFA/clubs/001-100/Guangxi Pingguo/svg/Guangxi-Pingguo-v2025.svg | 已下载 SVG |
-| CHN2-YBL | 未匹配 | 已完成源仓库和中文元数据匹配，未找到可确认文件 | 未匹配 |
+| CHN2-YBL | `assets/clubs/china/chn2-ybl.svg` | https://github.com/FCLOGO/fclogo.top/blob/main/src/data/logos/CFA/clubs/001-100/Yanbian Longding/svg/yanbian-longding-v2024.svg | 已下载 SVG |
 | JPN1-URD | `assets/clubs/japan/jpn1-urd.svg` | https://github.com/FCLOGO/fclogo.top/blob/main/src/data/logos/JFA/clubs/020_Urawa Reds/svg/urawa-reds-v2000.svg | 已下载 SVG |
 | JPN1-KAW | `assets/clubs/japan/jpn1-kaw.svg` | https://github.com/FCLOGO/fclogo.top/blob/main/src/data/logos/JFA/clubs/003_Kawasaki Frontale/svg/kawasaki-frontale-v2005.svg | 已下载 SVG |
 | JPN1-YFM | `assets/clubs/japan/jpn1-yfm.svg` | https://github.com/FCLOGO/fclogo.top/blob/main/src/data/logos/JFA/clubs/002_Yokohama Marinos/svg/yokohama-marinos-v1999.svg | 已下载 SVG |

@@ -23,6 +23,12 @@ const escapeHtml = value => String(value ?? '').replace(/[&<>"']/g, char => ({ '
 const clubName = club => club?.cn || club?.name || club?.nameZh || club?.native || '未知俱乐部';
 const englishName = club => club?.nameEn || club?.en || club?.english || club?.native || clubName(club);
 const location = club => [club?.country, club?.leagueCn || club?.league, cityName(club)].filter(value => value && value !== '未核实').join(' · ');
+const ACTIONS = {
+  current: [['coach','coach','与主教练沟通'],['minutes','starter','询问出场机会'],['position','formation','讨论场上位置'],['training','training','调整训练'],['loan','transfer','请求外租'],['stay','club','表达留队意愿'],['transfer-request','transfer','提交转会申请'],['teammate','teammate','与队友互动'],['captain','trust','与队长交流'],['management','business','与管理层沟通']],
+  external: [['compare','club','比较球队定位'],['interest','growth','表达兴趣'],['agent','agent','让经纪人接触'],['contact','message','请求沟通'],['expected-contract','contract','查看预期合同']]
+};
+
+export const clubInteractionActions = current => ACTIONS[current ? 'current' : 'external'].map(([id]) => id);
 
 export function clubsPage(app, state) {
   const clubs = list();
@@ -69,13 +75,13 @@ export function clubsPage(app, state) {
 }
 
 function clubProfile(club, state, clubs, currentId, theme) {
-  const current = club.id === currentId;
+  const current = club.id === currentId || clubName(club) === state.player?.club;
   const player = state.player || {};
   const clubRank = rankFor(club, clubs);
   const goal = seasonGoal(club, clubRank);
   const themeStyle = `--club-accent:${theme.accent};--club-accent-soft:${theme.soft};`;
   return `<div class="club-profile" style="${themeStyle}">
-    <section class="club-hero"><div class="club-hero-line"></div><div class="club-hero-main"><div class="club-hero-crest">${crestSvg(club, { size: 96 })}</div><div class="club-hero-copy"><div class="card-kicker">${current ? '当前效力 · 球队档案' : '候选球队 · 球队档案'}</div><h2>${escapeHtml(clubName(club))}</h2><p class="club-hero-english">${escapeHtml(englishName(club))}</p><p class="card-copy">${escapeHtml(location(club) || '联赛资料待补充')}</p><div class="tag-row"><span class="badge club-accent-badge">联赛第 ${clubRank} 名</span><span class="badge blue">声望 ${clamp(club.rep || club.reputation)}</span><span class="badge gold">目标：${goal}</span></div></div></div><div class="club-hero-facts"><div><span>城市</span><strong>${escapeHtml(cityName(club))}</strong></div><div><span>主教练</span><strong>${escapeHtml(coachName(club))}</strong></div><div><span>主场</span><strong>${escapeHtml(stadiumName(club))}</strong></div></div><div class="club-hero-actions"><button class="app-button ghost" data-club-action="compare">${icon('club','sm')} 关注球队</button><button class="app-button primary" data-club-action="contact">${icon('agent','sm')} 请求沟通</button></div></section>
+    <section class="club-hero"><div class="club-hero-line"></div><div class="club-hero-main"><div class="club-hero-crest">${crestSvg(club, { size: 96 })}</div><div class="club-hero-copy"><div class="card-kicker">${current ? '当前效力 · 球队档案' : '候选球队 · 球队档案'}</div><h2>${escapeHtml(clubName(club))}</h2><p class="club-hero-english">${escapeHtml(englishName(club))}</p><p class="card-copy">${escapeHtml(location(club) || '联赛资料待补充')}</p><div class="tag-row"><span class="badge club-accent-badge">联赛第 ${clubRank} 名</span><span class="badge blue">声望 ${clamp(club.rep || club.reputation)}</span><span class="badge gold">目标：${goal}</span></div></div></div><div class="club-hero-facts"><div><span>城市</span><strong>${escapeHtml(cityName(club))}</strong></div><div><span>主教练</span><strong>${escapeHtml(coachName(club))}</strong></div><div><span>主场</span><strong>${escapeHtml(stadiumName(club))}</strong></div></div>${clubActionButtons(current,state,club)}</section>
     ${myStatus(club, state, clubs, current)}
     ${seasonSection(club, state, clubRank, goal)}
     ${squadSection(club, state, current)}
@@ -84,6 +90,11 @@ function clubProfile(club, state, clubs, currentId, theme) {
     ${contractSection(club, state, current)}
     ${honorsSection(club, state)}
   </div>`;
+}
+
+function clubActionButtons(current,state,club) {
+  const actions=ACTIONS[current?'current':'external'];
+  return `<div class="club-hero-actions club-action-grid">${actions.map(([id,iconName,label])=>{const until=state.clubInteractions?.cooldowns?.[`${club.id}:${id}`],cooling=until&&until>state.simulation.date;return `<button class="app-button ${id==='contact'||id==='coach'?'primary':'ghost'}" data-club-action="${id}" ${cooling?'disabled':''}>${icon(iconName,'sm')}<span>${cooling?`冷却至 ${until}`:label}</span></button>`;}).join('')}</div>`;
 }
 
 function myStatus(club, state, clubs, current) {

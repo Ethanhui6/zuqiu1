@@ -1,5 +1,7 @@
 import { advanceMatchState } from '../core/matchState.js';
 import { createMatchMiniPitch } from './matchMiniPitch.js';
+import { activateMiniGame, createMiniGameSession, resolveMiniGame } from '../core/miniGameLibrary.js';
+import { freeKickTrajectory } from '../core/freeKickTrajectory.js';
 
 const clamp = (value, min = 0, max = 100) => Math.max(min, Math.min(max, Number(value) || 0));
 
@@ -21,6 +23,9 @@ function button(label, attrs = '') {
 export function createInteractiveMatch({ option, player, seed = 0, matchState, highlight, onComplete, onSkip } = {}) {
   const node = document.createElement('div');
   node.className = 'interactive-match';
+  let miniGame = createMiniGameSession(matchState?.miniGame?.id || option?.mechanic, 'interactiveMatch');
+  const updateMiniGame = next => { miniGame = next; node.dataset.miniGameState = miniGame.status; };
+  updateMiniGame(miniGame);
   let liveState = structuredClone(matchState || { matchMinute: 0, possession: 50, teamMomentum: 50, pressure: 50, player: { energy: player?.fitness || 80, rating: 6 }, zone: 'middle' });
   node.innerHTML = `
     <div class="game-intro">
@@ -71,23 +76,27 @@ export function createInteractiveMatch({ option, player, seed = 0, matchState, h
     stopAnimation();
     const finalScore = Math.round(clamp(score));
     liveState = advanceMatchState(liveState, highlight, { score: finalScore, success: finalScore >= 60 });
+    updateMiniGame(resolveMiniGame(miniGame, { score: finalScore, detail, skipped: false }));
+    liveState.miniGame = { ...liveState.miniGame, status: miniGame.status, result: miniGame.result };
     pitch.update(liveState);
     renderLiveState();
     node.dataset.result = finalScore >= 60 ? 'success' : 'failure';
     setFeedback(`${finalScore >= 60 ? '处理成功' : '处理失误'} · ${finalScore} 分${detail ? ` · ${detail}` : ''}`);
     node.classList.add(finalScore >= 60 ? 'game-success' : 'game-failure');
-    window.setTimeout(() => onComplete?.({ score: finalScore, detail, skipped: false, matchState: liveState }), 260);
+    window.setTimeout(() => onComplete?.({ score: finalScore, detail, skipped: false, matchState: liveState, miniGame }), 260);
   };
   const skip = () => {
     if (ended) return;
     ended = true;
     stopAnimation();
     liveState = advanceMatchState(liveState, highlight, { score: 50, skipped: true });
+    updateMiniGame(resolveMiniGame(activateMiniGame(miniGame), { score: 50, detail: 'skipped', skipped: true }));
+    liveState.miniGame = { ...liveState.miniGame, status: miniGame.status, result: miniGame.result };
     pitch.update(liveState);
     renderLiveState();
     node.dataset.result = 'skipped';
     setFeedback('已跳过，按中性表现结算');
-    onSkip?.({ score: 50, detail: 'skipped', skipped: true, matchState: liveState });
+    onSkip?.({ score: 50, detail: 'skipped', skipped: true, matchState: liveState, miniGame });
   };
   listen(node.querySelector('[data-skip]'), 'click', skip);
   node.destroy = () => { ended = true; stopAnimation(); };
@@ -153,9 +162,16 @@ export function createInteractiveMatch({ option, player, seed = 0, matchState, h
   }
 
   function curve() {
-    area.innerHTML = `<div class="game-sliders"><label>弧线 <input type="range" min="0" max="100" value="62" data-curve></label><label>旋转 <input type="range" min="0" max="100" value="48" data-spin></label><label>力度 <input type="range" min="0" max="100" value="66" data-force></label></div><div class="wall-preview"><span class="wall"></span><span class="curve-ball"></span></div><button class="app-button primary" data-submit>踢出弧线球</button>`;
+    const render = () => {
+      const trajectory = freeKickTrajectory({ curve: area.querySelector('[data-curve]').value, angle: area.querySelector('[data-angle]').value, power: area.querySelector('[data-power]').value });
+      area.querySelector('[data-curve-preview]').innerHTML = `<svg viewBox="0 0 100 160" aria-label="任意球球路预览" role="img"><rect width="100" height="160" fill="#19734c"/><path d="M0 116h100M0 72h100" stroke="#dff7dc" stroke-opacity=".42"/><path d="M11 10h78v27H11z" fill="none" stroke="#fff" stroke-width="2"/><path d="M16 37h68" stroke="#fff" stroke-width="2"/><g fill="#17365d">${[37,44,51,58,65].map(x => `<circle cx="${x}" cy="92" r="4"/>`).join('')}</g><circle cx="${trajectory.targetX}" cy="${trajectory.targetY}" r="6" fill="#f6bf3e" fill-opacity=".35" stroke="#fff" stroke-width="1.5"/><path d="${trajectory.path}" fill="none" stroke="#f6bf3e" stroke-width="2.3" stroke-dasharray="4 3"/><circle cx="50" cy="146" r="3.7" fill="#fff" stroke="#17202b" stroke-width="1"/></svg>`;
+      return trajectory;
+    };
+    area.innerHTML = `<div class="game-sliders"><label>弧线 <input type="range" min="0" max="100" value="62" data-curve></label><label>角度 <input type="range" min="0" max="100" value="50" data-angle></label><label>力度 <input type="range" min="0" max="100" value="66" data-power></label></div><div class="curve-preview" data-curve-preview></div><button class="app-button primary" data-submit>踢出弧线球</button>`;
+    render();
+    area.querySelectorAll('[data-curve],[data-angle],[data-power]').forEach(control => listen(control, 'input', render));
     listen(area.querySelector('[data-submit]'), 'click', () => {
-      const values = ['curve', 'spin', 'force'].map(key => Number(area.querySelector(`[data-${key}]`).value));
+      const values = ['curve', 'angle', 'power'].map(key => Number(area.querySelector(`[data-${key}]`).value));
       const targets = [62 + seedNumber(seed, 1) % 15, 44 + seedNumber(seed, 2) % 18, 56 + seedNumber(seed, 3) % 20];
       finish(100 - values.reduce((sum, value, i) => sum + Math.abs(value - targets[i]) * .9, 0), '人墙与门将参与判定');
     });
@@ -280,6 +296,7 @@ export function createInteractiveMatch({ option, player, seed = 0, matchState, h
   }
 
   function startGame() {
+    updateMiniGame(activateMiniGame(miniGame));
     switch (option?.mechanic) {
       case 'moving-target': movingTarget({ header: option.id === 'header' }); break;
       case 'aim-power': aimPower(); break;
@@ -299,8 +316,9 @@ export function createInteractiveMatch({ option, player, seed = 0, matchState, h
     }
   }
 
-  countdown.hidden = true;
-  startGame();
+  area.hidden = true;
+  countdown.hidden = false;
+  beginCountdown();
   return node;
 }
 

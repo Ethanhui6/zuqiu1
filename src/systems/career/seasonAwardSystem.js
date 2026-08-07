@@ -13,7 +13,7 @@ function ensureRecords(save){
 }
 function addAward(save,{id,name,type='个人奖项',clubId,league,season,detail=''}){
   const key=`${id}-${season}-${clubId||'national'}`;if(save.career.trophies.some(x=>x.key===key))return null;
-  const award={key,id,name,type,clubId:clubId||null,league:league||null,season,year:save.career.year,detail};save.career.trophies.push(award);return award;
+  const award={key,id,assetId:id,name,type,clubId:clubId||null,league:league||null,season,year:save.career.year,detail};save.career.trophies.push(award);return award;
 }
 function chance(rng,value){return rng.bool(clamp(value,0,0.92))}
 
