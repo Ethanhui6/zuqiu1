@@ -249,3 +249,19 @@ Phase 12 gate result: `PASS` on 2026-08-08. Phase 13 is now the only unlocked ph
 - [x] Cloudflare Pages creates a successful native preview for implementation commit `bf72bf2`: `https://19f735ec.zuqiu-4tt.pages.dev`.
 
 Phase 13 gate result: `PASS` on 2026-08-08. Phase 14 is now the only unlocked phase.
+
+## Phase 14 Gate
+
+- [x] Position aliases and allowed-position entries are normalized through one `PositionResolver`.
+- [x] `PlayStyleEligibility` controls creation UI, rerolls, draft validation, and save migration at the data layer.
+- [x] `TraitEligibility` controls creation traits and runtime career-trait unlocks at the data layer.
+- [x] GK, CB, LB, RB, CDM, CM, CAM, LW, RW, ST, LM, and RM each expose at least one legal play style and trait.
+- [x] ST never receives the sweeper-keeper style or goalkeeper-only command trait; GK never receives outfield pressing or set-piece traits.
+- [x] Illegal draft and saved selections are normalized before they reach gameplay.
+- [x] Goalkeeper radar axes are 扑救、手控、开球、反应、站位、指挥; outfield positions retain 速度、射门、传球、盘带、防守、身体.
+- [x] Real Chromium validates all 12 selectable positions at 390x844 with no illegal option, runtime error, or horizontal overflow.
+- [x] Full automated tests (120/120), production build, repository hygiene, Phase 5 pacing, Phase 6 lifecycle, seven-phone-width layout, and 12-viewport mobile regressions pass for version 20.15.0.
+- [ ] GitHub Actions `verify` passes for the Phase 14 Pull Request.
+- [ ] Cloudflare Pages creates a successful native preview for the Phase 14 commit.
+
+Phase 14 gate result: `IN_PROGRESS`. Phase 15 remains locked.
