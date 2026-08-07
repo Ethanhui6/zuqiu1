@@ -91,6 +91,12 @@ export class EventEngine {
     const events = ensureEvents(state);
     if (this.kind === 'career' && isMatchTemplate(template)) return false;
     if (template.positions?.length && !template.positions.includes(state.player?.position)) return false;
+    const conditions=template.conditions||{},age=Number(state.player?.age||16),ovr=Number(state.player?.ovr||0);
+    if(Number.isFinite(Number(conditions.minAge))&&age<Number(conditions.minAge))return false;
+    if(Number.isFinite(Number(conditions.maxAge))&&age>Number(conditions.maxAge))return false;
+    if(Number.isFinite(Number(conditions.minOvr))&&ovr<Number(conditions.minOvr))return false;
+    if(conditions.requiresInjury&&!state.injuries?.some(injury=>!['recovered','archived'].includes(injury.status)))return false;
+    if(conditions.requiresOffSeason&&state.career?.offSeason?.status!=='active')return false;
     const fingerprint = this.fingerprint(template);
     const day = dayIndex(state.simulation.date);
     const recent = events.history.slice(-8);
@@ -159,6 +165,7 @@ export class EventEngine {
       rarity: event.rarity,
       choiceId,
       choiceLabel: choice.label,
+      resultText: outcome.success ? choice.successText : choice.failureText,
       effects: outcome.effects,
       outcome: outcome.success ? 'success' : 'failure',
       chance: outcome.chance,

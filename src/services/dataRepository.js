@@ -6,12 +6,12 @@ async function json(path){if(cache.has(path))return cache.get(path);const p=fetc
 export class DataRepository{
   async init(){
     const nameFiles=['china','japan','south-korea','england','scotland','wales','ireland','france','germany','spain','portugal','italy','netherlands','belgium','brazil','argentina','usa','mexico','saudi-arabia','turkey','nigeria','ghana','senegal','morocco','egypt','other'];
-    const [clubs,templates,achievements,positions,eventIndex,storyChains,version,players,trophies,sources,positionEvents,...names]=await Promise.all([
-      json('./data/clubs.json'),json('./data/legend-templates.json'),json('./data/achievements.json'),json('./data/positions.json'),json('./data/events/index.json'),json('./data/events/story-chains.json'),json('./data/version.json'),json('./data/players.json'),json('./data/trophies.json'),json('./data/data-sources.json'),json('./data/events/position-events.json')
+    const [clubs,templates,achievements,positions,eventIndex,storyChains,version,players,trophies,sources,careerEvents,positionEvents,...names]=await Promise.all([
+      json('./data/clubs.json'),json('./data/legend-templates.json'),json('./data/achievements.json'),json('./data/positions.json'),json('./data/events/index.json'),json('./data/events/story-chains.json'),json('./data/version.json'),json('./data/players.json'),json('./data/trophies.json'),json('./data/data-sources.json'),json('./data/events/career-events.json'),json('./data/events/position-events.json')
       ,...nameFiles.map(file=>json(`./data/names/${file}.json`))
     ]);
     this.clubs=this.enrichClubs(clubs.clubs||clubs);this.leagues=clubs.leagues||[];this.templates=templates;this.achievements=achievements;this.positions=positions;this.eventIndex=eventIndex;this.storyChains=Array.isArray(storyChains)?storyChains:(storyChains.events||[]);this.version=version;this.sources=sources;
-    this.nameProfiles=Object.fromEntries(nameFiles.map((file,index)=>[file,names[index]]));this.positionEvents=Array.isArray(positionEvents)?positionEvents:(positionEvents.events||[]);
+    this.nameProfiles=Object.fromEntries(nameFiles.map((file,index)=>[file,names[index]]));this.careerEvents=Array.isArray(careerEvents)?careerEvents:(careerEvents.events||[]);this.positionEvents=Array.isArray(positionEvents)?positionEvents:(positionEvents.events||[]);
     this.registry=createWorldRegistry({clubs:this.clubs,leagues:this.leagues,players,trophies,nameProfiles:this.nameProfiles});
     this.clubs=this.registry.clubs;this.leagues=this.registry.leagues;this.countries=this.registry.countries;this.players=this.registry.players;this.trophies=this.registry.trophies;return this;
   }
