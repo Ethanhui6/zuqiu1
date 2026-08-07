@@ -1,6 +1,6 @@
 {
-  "version": "20.12.0",
-  "channel": "strict-phase-11",
+  "version": "20.13.0",
+  "channel": "strict-phase-12",
   "buildDate": "2026-08-08",
   "schemaVersion": 23,
   "scoreVersion": "2026.08.08.1",
@@ -8,15 +8,15 @@
     "clubs": 500,
     "achievements": 330,
     "hiddenAchievements": 50,
-    "activeEvents": 1120,
-    "uniqueEventTitles": 640,
-    "eventChoices": 5600,
-    "effectiveEventCombinations": 12800
+    "activeEvents": 568,
+    "uniqueEventTitles": 568,
+    "eventChoices": 1704,
+    "effectiveEventCombinations": 3408
   },
   "leaderboard": {
     "local": true,
     "worldApi": true,
     "serverAuthoritativeScore": true
   },
-  "buildVersion": "20.12.0-20260808-1"
+  "buildVersion": "20.13.0-20260808-1"
 }

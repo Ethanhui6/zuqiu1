@@ -221,3 +221,17 @@ Phase 10 gate result: `PASS` on 2026-08-08. Phase 11 is now the only unlocked ph
 - [x] Cloudflare Pages creates a successful native preview for implementation commit `df0ae7a`.
 
 Phase 11 gate result: `PASS` on 2026-08-08. Phase 12 is now the only unlocked phase.
+
+## Phase 12 Gate
+
+- [x] The production runtime loads at least 500 career events rather than relying on release metadata.
+- [x] All 21 required career domains contain at least 20 distinct incidents.
+- [x] Event IDs, titles, choice text, and success/failure result text pass duplicate and similarity checks.
+- [x] Every event has structured trigger conditions, context, three decisions, outcomes, and state effects.
+- [x] GK, CB, LB/RB, CDM, CM, CAM, LW/RW, and ST each have eight dedicated events and reject incompatible positions.
+- [x] Real Chromium resolves and persists one event for every required position group with no duplicate resolution, browser error, or horizontal overflow.
+- [x] Full automated tests (115/115), production build, career pacing, 30-node result lifecycle, seven-phone-width layout, and 12-viewport mobile regressions pass for version 20.13.0.
+- [ ] GitHub Actions `verify` passes for the Phase 12 Pull Request.
+- [ ] Cloudflare Pages creates a successful native preview for the Phase 12 commit.
+
+Phase 12 gate result: `IN_PROGRESS`. Phase 13 remains locked.
