@@ -265,3 +265,18 @@ Phase 13 gate result: `PASS` on 2026-08-08. Phase 14 is now the only unlocked ph
 - [x] Cloudflare Pages creates a successful native preview for implementation commit `e7149dc`: `https://9929bf06.zuqiu-4tt.pages.dev`.
 
 Phase 14 gate result: `PASS` on 2026-08-08. Phase 15 is now the only unlocked phase.
+
+## Phase 15 Gate
+
+- [x] Elite-club evaluation returns `DIRECT_CONTRACT`, `ACADEMY`, `TRIAL`, `SCOUT_WATCH`, `RESERVE_TEAM`, `LOAN_DEVELOPMENT`, or `REJECTED`.
+- [x] Entry resolution uses age, OVR, potential, club reputation, position need, nationality fit, and recent rating.
+- [x] Low-OVR high-potential teenagers retain academy, trial, scout-watch, or loan-development routes.
+- [x] A deterministic 4 x 4 x 4 age/OVR/potential matrix reaches all seven entry routes rather than collapsing to rejection.
+- [x] Creation cards, club contact checks, squad paths, contract copy, and career history share the same entry result.
+- [x] Only `REJECTED` is disabled, and production UI no longer reduces insufficient ability to “未达门槛”.
+- [x] Real Chromium validates a 90+ potential low-OVR creation path at 390x844 with five actionable academy offers, no runtime error, and no horizontal overflow.
+- [x] Full automated tests (122/122), production build, repository hygiene, Phase 5 pacing, Phase 6 lifecycle, seven-phone-width layout, and 12-viewport mobile regressions pass for version 20.16.0.
+- [ ] GitHub Actions `verify` passes for the Phase 15 Pull Request.
+- [ ] Cloudflare Pages creates a successful native preview for the Phase 15 commit.
+
+Phase 15 gate result: `IN_PROGRESS`. Phase 16 remains locked.
