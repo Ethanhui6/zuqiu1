@@ -9,6 +9,7 @@ export const DATA_ORIGINS = Object.freeze({
 });
 
 const ORIGIN_VALUES = new Set(Object.values(DATA_ORIGINS));
+export const REAL_SQUAD_SNAPSHOT_SEASON = 2026;
 const POSITIONS = ['ST', 'LW', 'RW', 'CAM', 'CM', 'CDM', 'LB', 'RB', 'CB', 'GK'];
 const ATTRS = ['pac', 'sho', 'pas', 'dri', 'def', 'phy'];
 const CONTINENT_BY_PREFIX = { CHN: '亚洲', JPN: '亚洲', KOR: '亚洲', KSA: '亚洲', AUS: '大洋洲', ENG: '欧洲', ESP: '欧洲', GER: '欧洲', ITA: '欧洲', FRA: '欧洲', NED: '欧洲', POR: '欧洲', ARG: '南美洲', BRA: '南美洲', COL: '南美洲', CHI: '南美洲', URU: '南美洲', USA: '北美洲', MEX: '北美洲', RSA: '非洲' };
@@ -88,19 +89,25 @@ export function normalizeClub(club = {}) {
   };
 }
 
-export function normalizePlayer(player = {}) {
+export function normalizePlayer(player = {}, snapshotSeason = REAL_SQUAD_SNAPSHOT_SEASON) {
   const position = POSITIONS.includes(player.position || player.pos) ? (player.position || player.pos) : 'CM';
+  const id = String(player.id || `${player.clubId || 'free'}-${player.name || player.cn || 'player'}`);
   const meta = provenance(player, 'identity', DATA_ORIGINS.CURATED);
+  const isReal = player.isReal ?? meta.isReal;
+  const sourceSeason = Number(player.snapshotSeason || player.snapshotYear || snapshotSeason);
+  const simulatedEndSeason = Number(player.simulatedEndSeason || sourceSeason + 4 + (hashSeed(id) % 7));
   return {
     ...player,
-    id: String(player.id || `${player.clubId || 'free'}-${player.name || player.cn || 'player'}`),
+    id,
     name: player.name || player.cn || player.id,
     position,
     clubId: player.clubId || null,
     ovr: Number(player.ovr || 0),
     attrs: normalizeAttrs(player.attrs, position),
     ...meta,
-    isReal: player.isReal ?? meta.isReal,
+    isReal,
+    snapshotSeason: isReal ? sourceSeason : null,
+    simulatedEndSeason: isReal ? simulatedEndSeason : null,
     provenance: meta,
     dataOrigin: {
       identity: sourceOrigin(player, 'identity', DATA_ORIGINS.CURATED),
@@ -124,6 +131,8 @@ export function createGeneratedPlayer({ clubId = 'free-agent', country = '', pos
     ovr,
     attrs,
     isReal: false,
+    snapshotSeason: null,
+    simulatedEndSeason: null,
     ...provenance({ isReal: false }, 'identity', DATA_ORIGINS.GENERATED_FALLBACK),
     provenance: provenance({ isReal: false }, 'identity', DATA_ORIGINS.GENERATED_FALLBACK),
     dataOrigin: { identity: DATA_ORIGINS.GENERATED_FALLBACK, ratings: DATA_ORIGINS.GENERATED_FALLBACK }
@@ -159,9 +168,9 @@ export function validateRegistry({ clubs = [], leagues = [], players = [] } = {}
 
 function searchable(item) { return [item.id, item.name, item.cn, item.native, item.country, item.league, item.leagueCn, item.nation].filter(Boolean).join(' ').toLocaleLowerCase(); }
 
-export function createWorldRegistry({ clubs = [], leagues = [], players = [], trophies = [], nameProfiles = {} } = {}) {
+export function createWorldRegistry({ clubs = [], leagues = [], players = [], trophies = [], nameProfiles = {}, snapshotSeason = REAL_SQUAD_SNAPSHOT_SEASON } = {}) {
   const normalizedClubs = clubs.map(normalizeClub);
-  const normalizedPlayers = players.map(normalizePlayer);
+  const normalizedPlayers = players.map(player => normalizePlayer(player, snapshotSeason));
   const normalizedLeagues = leagues.map(league => ({
     ...league,
     id: String(league.id || ''),
@@ -178,6 +187,7 @@ export function createWorldRegistry({ clubs = [], leagues = [], players = [], tr
     if (!playersByClub.has(player.clubId)) playersByClub.set(player.clubId, []);
     playersByClub.get(player.clubId).push(player);
   }
+  const reservedRealNames = new Set(normalizedPlayers.filter(player => player.isReal).map(player => player.name));
   const all = normalizedClubs.map(item => ({ item, text: searchable(item) }));
   return {
     clubs: normalizedClubs,
@@ -201,14 +211,18 @@ export function createWorldRegistry({ clubs = [], leagues = [], players = [], tr
       if (!needle) return normalizedClubs.slice(0, limit);
       return all.filter(({ text }) => text.includes(needle)).slice(0, limit).map(({ item }) => item);
     },
-    playersForClub(clubId, { limit = 11, seed = 'fallback' } = {}) {
-      const result = [...(playersByClub.get(clubId) || []).slice(0, limit)];
+    realRosterForClub(clubId, { limit = 18, seasonYear = snapshotSeason } = {}) {
+      const year = Number(seasonYear) || snapshotSeason;
+      return (playersByClub.get(clubId) || []).filter(player => player.isReal && year >= player.snapshotSeason && year <= player.simulatedEndSeason).slice(0, limit);
+    },
+    playersForClub(clubId, { limit = 11, seed = 'fallback', seasonYear = snapshotSeason } = {}) {
+      const result = [...this.realRosterForClub(clubId, { limit, seasonYear })];
       const club = clubById.get(clubId);
       for (let index = result.length; index < limit; index++) {
         let generated;
         for (let retry = 0; retry < 32; retry++) {
           generated = createGeneratedPlayer({ clubId, country: club?.country, index, position: POSITIONS[index % POSITIONS.length], seed: `${seed}|name-${retry}`, nameProfiles });
-          if (!result.some(player => player.name === generated.name)) break;
+          if (!result.some(player => player.name === generated.name) && !reservedRealNames.has(generated.name)) break;
         }
         result.push(generated);
       }

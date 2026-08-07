@@ -136,7 +136,8 @@ function squadSection(club, state, current) {
   const player = state.player || {};
   const rawPosition = player.position || 'CM';
   const position = rosterPosition(rawPosition);
-  const roster = (dataRepository.rosterForClub(club.id, { limit: 50, seed: player.name || 'career' }) || []).filter(item => item.position === position).slice(0, 5);
+  const seasonYear = Number(String(state.simulation?.date || '2026').slice(0, 4));
+  const roster = (dataRepository.rosterForClub(club.id, { limit: 50, seed: player.name || 'career', seasonYear }) || []).filter(item => item.position === position).slice(0, 5);
   const rows = [...roster, { id: 'player', cn: player.name || '你的球员', name: player.name || '你的球员', position, ovr: number(player.ovr, 60), isPlayer: true }].sort((a, b) => number(b.ovr) - number(a.ovr));
   return `<section class="club-roster-section"><div class="section-heading"><div><div class="card-kicker">${icon('users','sm')} 阵容竞争 · ${POSITION_NAMES[rawPosition] || POSITION_NAMES[position] || rawPosition}</div><h2 class="card-title">同位置出场顺位</h2><p class="card-copy">只比较${POSITION_NAMES[rawPosition] || POSITION_NAMES[position] || position}，不会把门将和场上球员放在同一条竞争线上。</p></div><span class="badge blue">${rows.length} 人</span></div><div class="club-roster-table">${rows.map((item, index) => rosterRow(item, index, club, current)).join('')}</div></section>`;
 }
@@ -214,7 +215,8 @@ function rankFor(club, clubs) {
 
 function competitionRank(club, player, state) {
   const position = rosterPosition(player.position || 'CM');
-  const roster = dataRepository.rosterForClub(club.id, { limit: 30, seed: player.name || 'career' }).filter(item => item.position === position);
+  const seasonYear = Number(String(state.simulation?.date || '2026').slice(0, 4));
+  const roster = dataRepository.rosterForClub(club.id, { limit: 30, seed: player.name || 'career', seasonYear }).filter(item => item.position === position);
   return 1 + roster.filter(item => number(item.ovr) > number(player.ovr, 60)).length;
 }
 
