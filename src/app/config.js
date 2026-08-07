@@ -9,7 +9,7 @@ export const ATTR_LABELS = {
 };
 
 export const POSITION_CONFIG = {
-  GK:{name:'门将',group:'keeper',x:50,y:91,roles:['门线反应型','现代清道夫门将','制空型门将','出球型门将','一对一专家'],focus:['pac','sho','pas','dri','phy'],weights:{pac:.25,sho:.25,pas:.18,dri:.14,def:.08,phy:.10}},
+  GK:{name:'门将',group:'keeper',x:50,y:91,roles:['门线反应型','现代清道夫门将','制空型门将','出球型门将','一对一专家','扫荡覆盖型门将'],focus:['pac','sho','pas','dri','phy'],weights:{pac:.25,sho:.25,pas:.18,dri:.14,def:.08,phy:.10}},
   LB:{name:'左后卫',group:'defense',x:18,y:73,roles:['防守型边后卫','进攻型边后卫','内收型边后卫','翼卫发动机','边路锁链'],focus:['pac','def','phy','pas'],weights:{pac:.21,sho:.03,pas:.16,dri:.12,def:.30,phy:.18}},
   CB:{name:'中后卫',group:'defense',x:42,y:76,roles:['出球中卫','制空中卫','上抢中卫','拖后中卫','全能防线核心'],focus:['def','phy','pas','pac'],weights:{pac:.08,sho:.02,pas:.13,dri:.06,def:.41,phy:.30}},
   RB:{name:'右后卫',group:'defense',x:82,y:73,roles:['防守型边后卫','进攻型边后卫','内收型边后卫','翼卫发动机','边路锁链'],focus:['pac','def','phy','pas'],weights:{pac:.21,sho:.03,pas:.16,dri:.12,def:.30,phy:.18}},
@@ -21,8 +21,13 @@ export const POSITION_CONFIG = {
   LW:{name:'左边锋',group:'attack',x:20,y:28,roles:['内切边锋','爆发型边锋','边路组织者','宽度型边锋','自由前场攻击手'],focus:['pac','dri','sho','pas'],weights:{pac:.27,sho:.20,pas:.13,dri:.28,def:.02,phy:.10}},
   RW:{name:'右边锋',group:'attack',x:80,y:28,roles:['内切边锋','爆发型边锋','边路组织者','宽度型边锋','自由前场攻击手'],focus:['pac','dri','sho','pas'],weights:{pac:.27,sho:.20,pas:.13,dri:.28,def:.02,phy:.10}},
   SS:{name:'影锋',group:'attack',x:50,y:22,roles:['第二前锋','游弋型影锋','反击尖刀','连接型前锋','禁区幽灵'],focus:['sho','dri','pas','pac'],weights:{pac:.18,sho:.25,pas:.18,dri:.25,def:.02,phy:.12}},
-  ST:{name:'中锋',group:'attack',x:50,y:11,roles:['禁区终结者','支点中锋','全能前锋','速度型前锋','伪九号'],focus:['sho','pac','phy','dri'],weights:{pac:.19,sho:.31,pas:.08,dri:.18,def:.03,phy:.21}}
+  ST:{name:'中锋',group:'attack',x:50,y:11,roles:['禁区终结者','支点中锋','全能前锋','速度型前锋','伪九号','反越位终结者'],focus:['sho','pac','phy','dri'],weights:{pac:.19,sho:.31,pas:.08,dri:.18,def:.03,phy:.21}}
 };
+
+export const STYLE_BONUSES = Object.freeze({
+  '扫荡覆盖型门将':{pac:3,pas:2,phy:1},
+  '反越位终结者':{pac:2,sho:3,dri:1}
+});
 
 export const TALENT_RARITY = {
   common:{name:'普通',weight:70,color:'#8E8E93',potential:[72,82],growth:1},

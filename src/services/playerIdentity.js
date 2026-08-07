@@ -16,6 +16,38 @@ function pick(list, random) { return list[Math.floor(random() * list.length)] ||
 function fileFor(country) { return COUNTRY_FILES[country] || 'other'; }
 function weightedPick(list, random) { const entries = list.map(value => typeof value === 'string' ? { value, weight: 1 } : { value: value.name, weight: Number(value.weight || 1) }); const total = entries.reduce((sum, item) => sum + item.weight, 0); let roll = random() * total; return entries.find(item => (roll -= item.weight) <= 0)?.value || entries.at(-1)?.value || ''; }
 
+const CHINA_FAMILY_EXTRA = '王李张刘陈杨黄赵周吴徐孙胡朱高林何郭马罗梁宋郑谢韩唐冯于董萧程曹袁邓许傅沈曾彭吕苏卢蒋蔡贾丁魏薛叶阎余潘杜戴夏钟汪田任姜范方石姚谭廖邹熊金陆郝孔白崔康毛邱秦江史顾侯邵孟龙万段钱汤尹黎易常武乔贺赖龚文'.split('');
+const CHINA_GIVEN_EXTRA = '天宇浩然子轩嘉豪明哲俊杰思远博文家伟志远晨阳泽凯文昊俊驰修远安邦子涵雨泽亦凡承恩景行知远书言宏远云帆启航星河远航'.split('');
+function chinaPools(profile) {
+  const baseFamilyNames = profile.familyNames || [];
+  const baseGivenNames = profile.givenNamesMale || [];
+  if (baseFamilyNames.length < 2 || baseGivenNames.length < 2) return { familyNames: baseFamilyNames, givenNames: baseGivenNames };
+  const familyNames = [...new Set([...baseFamilyNames, ...CHINA_FAMILY_EXTRA])];
+  const chars = [...new Set(CHINA_GIVEN_EXTRA)];
+  const givenNames = [...baseGivenNames];
+  for (const first of chars) for (const second of chars) if (first !== second) givenNames.push(`${first}${second}`);
+  return { familyNames, givenNames: [...new Set(givenNames)] };
+}
+function expandedPools(profile) {
+  const separator = profile.separator ?? ' ';
+  const givenBase = (profile.givenNamesMale || []).map(value => typeof value === 'string' ? value : value.name).filter(Boolean);
+  const familyBase = (profile.familyNames || []).map(value => typeof value === 'string' ? value : value.name).filter(Boolean);
+  if (givenBase.length < 2 || familyBase.length < 2) return { givenNames: givenBase, familyNames: familyBase };
+  const givenNames = [...givenBase], familyNames = [...familyBase];
+  for (const first of givenBase) for (const second of givenBase) if (first !== second) givenNames.push(`${first}${separator}${second}`);
+  for (const first of familyBase) for (const second of familyBase) if (first !== second) familyNames.push(`${first}-${second}`);
+  return { givenNames: [...new Set(givenNames)], familyNames: [...new Set(familyNames)] };
+}
+function chineseParts(profile, random) {
+  const pools = chinaPools(profile);
+  for (let attempt = 0; attempt < 12; attempt++) {
+    const familyName = weightedPick(pools.familyNames, random);
+    const givenName = weightedPick(pools.givenNames, random);
+    if (givenName && givenName[0] !== familyName && !/^(.).?\1$/.test(givenName)) return { givenName, familyName };
+  }
+  return { givenName: pools.givenNames[0] || '天佑', familyName: pools.familyNames[0] || '王' };
+}
+
 export function formatPlayerName({ givenName = '', familyName = '' } = {}, profile = {}) {
   const order = profile.nameOrder || 'given-family';
   const separator = profile.separator ?? ' ';
@@ -29,7 +61,8 @@ export function generateFootballNickname(countryCode, seed, profiles = {}) {
 export function generatePlayerName(countryCode, seed = 'player', profiles = {}) {
   const profile = profiles[fileFor(countryCode)] || profiles.other || { givenNamesMale: ['Alex'], familyNames: ['Morgan'], nameOrder: 'given-family', separator: ' ' };
   const random = rng(`${seed}|name|${countryCode}`);
-  const parts = { givenName: weightedPick(profile.givenNamesMale, random), familyName: weightedPick(profile.familyNames, random) };
+  const pools = fileFor(countryCode) === 'china' ? chinaPools(profile) : expandedPools(profile);
+  const parts = fileFor(countryCode) === 'china' ? chineseParts(profile, random) : { givenName: weightedPick(pools.givenNames, random), familyName: weightedPick(pools.familyNames, random) };
   return { ...parts, displayName: formatPlayerName(parts, profile), nickname: generateFootballNickname(countryCode, seed, profiles), countryCode: profile.countryCode, locale: profile.locale };
 }
 export function validatePlayerName(input) {

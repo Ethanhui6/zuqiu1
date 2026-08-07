@@ -204,7 +204,14 @@ export function createWorldRegistry({ clubs = [], leagues = [], players = [], tr
     playersForClub(clubId, { limit = 11, seed = 'fallback' } = {}) {
       const result = [...(playersByClub.get(clubId) || []).slice(0, limit)];
       const club = clubById.get(clubId);
-      for (let index = result.length; index < limit; index++) result.push(createGeneratedPlayer({ clubId, country: club?.country, index, position: POSITIONS[index % POSITIONS.length], seed, nameProfiles }));
+      for (let index = result.length; index < limit; index++) {
+        let generated;
+        for (let retry = 0; retry < 32; retry++) {
+          generated = createGeneratedPlayer({ clubId, country: club?.country, index, position: POSITIONS[index % POSITIONS.length], seed: `${seed}|name-${retry}`, nameProfiles });
+          if (!result.some(player => player.name === generated.name)) break;
+        }
+        result.push(generated);
+      }
       return result;
     },
     rosterForClub(clubId, options = {}) {

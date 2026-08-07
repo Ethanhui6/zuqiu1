@@ -40,6 +40,7 @@ test('match center exposes one direct game-mode action', () => {
   const page = fs.readFileSync(new URL('../src/pages/match.js', import.meta.url), 'utf8');
   const game = fs.readFileSync(new URL('../src/components/interactiveMatch.js', import.meta.url), 'utf8');
   assert.match(page, /data-play/);
+  assert.equal((page.match(/<button[^>]*data-play/g) || []).length, 1);
   assert.doesNotMatch(page, /data-tactic|data-match-interaction/);
   assert.match(game, /data-mini-pitch-host/);
   assert.match(game, /matchState/);
