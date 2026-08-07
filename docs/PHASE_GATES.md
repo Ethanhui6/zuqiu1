@@ -231,7 +231,7 @@ Phase 11 gate result: `PASS` on 2026-08-08. Phase 12 is now the only unlocked ph
 - [x] GK, CB, LB/RB, CDM, CM, CAM, LW/RW, and ST each have eight dedicated events and reject incompatible positions.
 - [x] Real Chromium resolves and persists one event for every required position group with no duplicate resolution, browser error, or horizontal overflow.
 - [x] Full automated tests (115/115), production build, career pacing, 30-node result lifecycle, seven-phone-width layout, and 12-viewport mobile regressions pass for version 20.13.0.
-- [ ] GitHub Actions `verify` passes for the Phase 12 Pull Request.
-- [ ] Cloudflare Pages creates a successful native preview for the Phase 12 commit.
+- [x] GitHub Actions `verify` passes for Pull Request #45 and implementation commit `29d17d1`.
+- [x] Cloudflare Pages creates a successful native preview for implementation commit `29d17d1`: `https://0ecbe1f8.zuqiu-4tt.pages.dev`.
 
-Phase 12 gate result: `IN_PROGRESS`. Phase 13 remains locked.
+Phase 12 gate result: `PASS` on 2026-08-08. Phase 13 is now the only unlocked phase.

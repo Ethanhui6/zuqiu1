@@ -28,3 +28,5 @@ Date: 2026-08-08
 - Static quality gate: `node --test tests/phase12-career-events.test.mjs`.
 - Chromium gate: `node tests/phase12-career-events-gate.mjs`.
 - Full regression, pacing, result lifecycle, layout, and mobile audits are recorded in `docs/PHASE_GATES.md`.
+- GitHub Actions `verify`: PASS for implementation commit `29d17d1`.
+- Native Cloudflare Pages preview: `https://0ecbe1f8.zuqiu-4tt.pages.dev`, version 20.13.0, commit `29d17d1`.
