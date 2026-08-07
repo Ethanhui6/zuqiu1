@@ -46,4 +46,5 @@ The same browser session verified persistent acknowledgement for one interactive
 - Phase 2 layout regression: PASS at seven compact mobile viewports.
 - Phase 3 Match Hub regression: PASS across ten matches and six formations.
 - Full mobile layout audit: PASS at all 12 required viewports.
-- GitHub Actions and Cloudflare preview are recorded in `PHASE_GATES.md` when the phase closes.
+- GitHub Actions `verify`: PASS on Pull Request #39.
+- Cloudflare Pages native preview: PASS for commit `13a8dfd`.

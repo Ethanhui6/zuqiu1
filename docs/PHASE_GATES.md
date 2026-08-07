@@ -10,8 +10,8 @@ Local repository state is the source of truth. A phase may move to `PASS` only a
 | 3 | Match hub UI | PASS |
 | 4 | Full-season match simulation | PASS |
 | 5 | Career pacing | PASS |
-| 6 | Fast-mode feedback | IN_PROGRESS |
-| 7 | Development curve | LOCKED |
+| 6 | Fast-mode feedback | PASS |
+| 7 | Development curve | IN_PROGRESS |
 | 8 | Development feedback animation | LOCKED |
 | 9 | Career timeline | LOCKED |
 | 10 | Club interactions | LOCKED |
@@ -138,7 +138,7 @@ Phase 5 gate result: `PASS` on 2026-08-08. Phase 6 is now the only unlocked phas
 - [x] Full automated tests pass: 108/108; repository hygiene passes: 3/3.
 - [x] Phase 2 layout, Phase 3 Match Hub, and all 12 mobile/desktop viewport regressions pass.
 - [x] Production build passes as version 20.7.0.
-- [ ] GitHub Actions `verify` passes for the Phase 6 Pull Request.
-- [ ] Cloudflare Pages creates a successful preview for the Phase 6 commit.
+- [x] GitHub Actions `verify` passes for Pull Request #39.
+- [x] Cloudflare Pages creates a successful preview for commit `13a8dfd`.
 
-Phase 6 remains `IN_PROGRESS` until both remote checks pass.
+Phase 6 gate result: `PASS` on 2026-08-08. Phase 7 is now the only unlocked phase.
