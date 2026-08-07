@@ -65,7 +65,8 @@ const ICONS = {
   filter:'<path d="M4 6h16M7 12h10M10 18h4"/>',
   check:'<path d="m5 12 4 4L19 6"/>',
   lock:'<rect x="5" y="10" width="14" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/>',
-  eye:'<path d="M3 12s3-6 9-6 9 6 9 6-3 6-9 6-9-6-9-6Z"/><circle cx="12" cy="12" r="2.5"/>'
+  eye:'<path d="M3 12s3-6 9-6 9 6 9 6-3 6-9 6-9-6-9-6Z"/><circle cx="12" cy="12" r="2.5"/>',
+  more:'<circle cx="5" cy="12" r="1.5"/><circle cx="12" cy="12" r="1.5"/><circle cx="19" cy="12" r="1.5"/>'
 };
 
 const GENERATED_ICONS = Object.fromEntries(Array.from({length:512},(_,index)=>{
@@ -78,7 +79,8 @@ const GENERATED_ICONS = Object.fromEntries(Array.from({length:512},(_,index)=>{
 const ALL_ICONS=Object.freeze({...ICONS,...GENERATED_ICONS});
 export const iconNames = Object.freeze(Object.keys(ALL_ICONS));
 export const iconCount = iconNames.length;
+export function hasIcon(name){return typeof name==='string'&&Object.prototype.hasOwnProperty.call(ALL_ICONS,name);}
 export function icon(name, className = '') {
-  const body = ALL_ICONS[name] || ICONS.ball;
-  return `<svg class="icon ${className}" viewBox="0 0 24 24" aria-hidden="true">${body}</svg>`;
+  const body = hasIcon(name) ? ALL_ICONS[name] : ICONS.ball;
+  return `<svg class="icon ui-icon ${className}" viewBox="0 0 24 24" aria-hidden="true">${body}</svg>`;
 }

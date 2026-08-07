@@ -24,7 +24,7 @@ export function createDefaultState() {
     news: { items: [], unread: 0 },
     random: { seed: null, history: [], last: null },
     transfer: { continent: null, country: null, city: null, league: null, club: null, offers: [], watchlist: [], clubDirectory: {} },
-    ui: { notices: [], lastFeedback: null, todos: [], lastOutcome: null }
+  ui: { notices: [], lastFeedback: null, todos: [], lastOutcome: null, matchState: null }
   };
 }
 
@@ -63,6 +63,7 @@ export function migrateState(input) {
   }
   state.ui = { ...base.ui, ...(input.ui || {}) };
   state.ui.todos = Array.isArray(state.ui.todos) ? state.ui.todos : [];
+  state.ui.matchState = state.ui.matchState && typeof state.ui.matchState === 'object' ? state.ui.matchState : null;
   if (state.season.startOvr == null && state.player) state.season.startOvr = state.player.ovr;
   if (!Number.isFinite(Number(state.season.startMarketValue))) state.season.startMarketValue = state.career.marketValue || base.season.startMarketValue;
   state.player = normalizePlayer(input.player);

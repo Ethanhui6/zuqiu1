@@ -1,3 +1,5 @@
+import {icon as renderIcon} from '../components/icons.js';
+
 export function el(tag,{className='',text='',attrs={},dataset={}}={},children=[]){
   const node=document.createElement(tag);
   if(className)node.className=className;
@@ -11,7 +13,11 @@ export function el(tag,{className='',text='',attrs={},dataset={}}={},children=[]
   return node;
 }
 export function clear(node){while(node.firstChild)node.firstChild.remove();return node}
-export function icon(text){return el('span',{className:'ui-icon',text,attrs:{'aria-hidden':'true'}})}
+export function icon(name,className=''){
+  const template=document.createElement('template');
+  template.innerHTML=renderIcon(name,className);
+  return template.content.firstElementChild;
+}
 function bindPressFeedback(node){
   const end=()=>node.classList.remove('is-pressing');
   node.addEventListener('pointerdown',event=>{if(!node.disabled&&(event.pointerType!=='mouse'||event.button===0))node.classList.add('is-pressing')});

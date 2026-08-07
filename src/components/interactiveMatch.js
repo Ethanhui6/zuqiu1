@@ -1,3 +1,6 @@
+import { advanceMatchState } from '../core/matchState.js';
+import { createMatchMiniPitch } from './matchMiniPitch.js';
+
 const clamp = (value, min = 0, max = 100) => Math.max(min, Math.min(max, Number(value) || 0));
 
 const DIRECTIONS = ['left', 'center', 'right'];
@@ -15,17 +18,21 @@ function button(label, attrs = '') {
   return `<button class="game-control" type="button" ${attrs}>${label}</button>`;
 }
 
-export function createInteractiveMatch({ option, player, seed = 0, onComplete, onSkip } = {}) {
+export function createInteractiveMatch({ option, player, seed = 0, matchState, highlight, onComplete, onSkip } = {}) {
   const node = document.createElement('div');
   node.className = 'interactive-match';
+  let liveState = structuredClone(matchState || { matchMinute: 0, possession: 50, teamMomentum: 50, pressure: 50, player: { energy: player?.fitness || 80, rating: 6 }, zone: 'middle' });
   node.innerHTML = `
     <div class="game-intro">
       <span class="badge blue">${option?.name || '比赛互动'}</span>
       <span class="badge green">${statLabel(option?.stat)} · ${player?.position || ''}</span>
+      ${matchState?.miniGame?.difficulty ? `<span class="badge orange">难度 ${matchState.miniGame.difficulty}</span>` : ''}
     </div>
+    <div class="match-live-state" data-match-live-state aria-live="polite"></div>
+    <div data-mini-pitch-host></div>
     <p class="card-copy game-instruction">${option?.copy || '完成一次比赛中的关键操作。'}</p>
-    <div class="game-countdown" data-countdown aria-live="polite">3</div>
-    <div class="game-area" data-game-area hidden></div>
+    <div class="game-countdown" data-countdown aria-live="polite" hidden>3</div>
+    <div class="game-area" data-game-area></div>
     <div class="game-feedback" data-game-feedback aria-live="polite">准备观察局势</div>
     <div class="game-footer"><button class="app-button ghost" type="button" data-skip>跳过本次互动</button><span class="card-copy" data-time-left></span></div>`;
 
@@ -33,6 +40,9 @@ export function createInteractiveMatch({ option, player, seed = 0, onComplete, o
   const countdown = node.querySelector('[data-countdown]');
   const feedback = node.querySelector('[data-game-feedback]');
   const timeLeft = node.querySelector('[data-time-left]');
+  const liveStateNode = node.querySelector('[data-match-live-state]');
+  const pitch = createMatchMiniPitch({ state: liveState, highlight });
+  node.querySelector('[data-mini-pitch-host]')?.append(pitch);
   const cleanups = [];
   let ended = false;
   let raf = 0;
@@ -44,6 +54,11 @@ export function createInteractiveMatch({ option, player, seed = 0, onComplete, o
     if (target) cleanups.push(() => target.removeEventListener(type, handler, options));
   };
   const setFeedback = text => { if (feedback) feedback.textContent = text; };
+  const renderLiveState = () => {
+    if (!liveStateNode) return;
+    liveStateNode.innerHTML = `<span><small>比赛时间</small><strong>${liveState.matchMinute}′</strong></span><span><small>控球</small><strong>${Math.round(liveState.possession)}%</strong></span><span><small>动量</small><strong>${Math.round(liveState.teamMomentum)}</strong></span><span><small>评分</small><strong>${liveState.player?.rating?.toFixed?.(1) || '6.0'}</strong></span>`;
+  };
+  renderLiveState();
   const stopAnimation = () => {
     if (raf) cancelAnimationFrame(raf);
     if (timer) clearTimeout(timer);
@@ -55,18 +70,24 @@ export function createInteractiveMatch({ option, player, seed = 0, onComplete, o
     ended = true;
     stopAnimation();
     const finalScore = Math.round(clamp(score));
+    liveState = advanceMatchState(liveState, highlight, { score: finalScore, success: finalScore >= 60 });
+    pitch.update(liveState);
+    renderLiveState();
     node.dataset.result = finalScore >= 60 ? 'success' : 'failure';
     setFeedback(`${finalScore >= 60 ? '处理成功' : '处理失误'} · ${finalScore} 分${detail ? ` · ${detail}` : ''}`);
     node.classList.add(finalScore >= 60 ? 'game-success' : 'game-failure');
-    window.setTimeout(() => onComplete?.({ score: finalScore, detail, skipped: false }), 260);
+    window.setTimeout(() => onComplete?.({ score: finalScore, detail, skipped: false, matchState: liveState }), 260);
   };
   const skip = () => {
     if (ended) return;
     ended = true;
     stopAnimation();
+    liveState = advanceMatchState(liveState, highlight, { score: 50, skipped: true });
+    pitch.update(liveState);
+    renderLiveState();
     node.dataset.result = 'skipped';
     setFeedback('已跳过，按中性表现结算');
-    onSkip?.({ score: 50, detail: 'skipped', skipped: true });
+    onSkip?.({ score: 50, detail: 'skipped', skipped: true, matchState: liveState });
   };
   listen(node.querySelector('[data-skip]'), 'click', skip);
   node.destroy = () => { ended = true; stopAnimation(); };
@@ -278,7 +299,8 @@ export function createInteractiveMatch({ option, player, seed = 0, onComplete, o
     }
   }
 
-  beginCountdown();
+  countdown.hidden = true;
+  startGame();
   return node;
 }
 

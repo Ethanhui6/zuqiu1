@@ -1,5 +1,6 @@
 import { icon } from '../components/icons.js';
 import { audioManager } from './audioManager.js';
+import { MEANINGFUL_FEEDBACK_CATALOG, meaningfulFeedbackCount, miniGameFeedbackId } from './semanticFeedback.js';
 
 const BASE_FEEDBACK_CATALOG = {
   click:{tone:'neutral',icon:'check',effect:'tap',title:'已选择'}, select:{tone:'neutral',icon:'check',effect:'focus',title:'选项已锁定'}, save:{tone:'success',icon:'save',effect:'save',title:'存档完成'}, pause:{tone:'warning',icon:'pause',effect:'freeze',title:'推进已暂停'}, resume:{tone:'success',icon:'play',effect:'resume',title:'继续推进'},
@@ -21,8 +22,9 @@ const GENERATED_FEEDBACK = Object.fromEntries(Array.from({length:120},(_,index)=
   return [id,{tone:index%5===0?'success':index%7===0?'warning':'neutral',icon:iconName,effect:`feedback-${index+1}`,title:`职业反馈 ${index+1}`}];
 }));
 
-export const FEEDBACK_CATALOG = Object.freeze({...BASE_FEEDBACK_CATALOG,...GENERATED_FEEDBACK});
+export const FEEDBACK_CATALOG = Object.freeze({...BASE_FEEDBACK_CATALOG,...GENERATED_FEEDBACK,...MEANINGFUL_FEEDBACK_CATALOG});
 export const feedbackScenarioCount = Object.keys(FEEDBACK_CATALOG).length;
+export { meaningfulFeedbackCount };
 
 export class FeedbackDirector {
   constructor(root=document.body){ this.root=root; this.stack=null; this.soundEnabled=true; }
@@ -38,13 +40,14 @@ export class FeedbackDirector {
     toast.innerHTML=`${icon(item.icon)}<div><div class="toast-title">${item.title}</div>${detail?`<div class="toast-copy">${detail}</div>`:''}</div>`;
     this.ensureStack().append(toast);
     setTimeout(()=>toast.remove(),2600);
-    if(['attributeUp','talentReveal','award','hiddenEnding','recovered'].includes(type)) this.burst(item.title,item.icon);
-    if(['attributeUp','award','matchEnd','trainingComplete','recovered','failure','newEvent','newRecord','save','todo'].includes(type)) this.sound(item.tone==='danger'?'failure':type==='newRecord'||type==='award'?'record':type==='newEvent'?'event':item.tone==='success'?'success':'tap');
+    if(item.burst || ['attributeUp','talentReveal','award','hiddenEnding','recovered'].includes(type)) this.burst(item.title,item.icon,item.tone);
+    if(item.sound) this.sound(item.sound); else if(['attributeUp','award','matchEnd','trainingComplete','recovered','failure','newEvent','newRecord','save','todo'].includes(type)) this.sound(item.tone==='danger'?'failure':type==='newRecord'||type==='award'?'record':type==='newEvent'?'event':item.tone==='success'?'success':'tap');
     return toast;
   }
+  emitMiniGame(mechanic, success, detail='') { const id=miniGameFeedbackId(mechanic,success); return id ? this.emit(id,detail) : this.emit(success?'select':'failure',detail); }
   emitScenario(index, detail=''){
     const id=`scenario-${String(Math.max(1,Number(index)||1)).padStart(3,'0')}`;
     return this.emit(id, detail);
   }
-  burst(text,iconName){ const wrap=document.createElement('div'); wrap.className='feedback-burst'; wrap.innerHTML=`<div>${icon(iconName,'lg')}<span>${text}</span></div>`; document.body.append(wrap); setTimeout(()=>wrap.remove(),900); }
+  burst(text,iconName,tone='success'){ const wrap=document.createElement('div'); wrap.className='feedback-burst'; wrap.dataset.tone=tone; wrap.innerHTML=`<div>${icon(iconName,'lg')}<span>${text}</span></div>`; document.body.append(wrap); setTimeout(()=>wrap.remove(),900); }
 }
