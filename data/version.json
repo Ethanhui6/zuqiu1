@@ -1,5 +1,5 @@
 {
-  "version": "20.1.0",
+  "version": "20.2.0",
   "channel": "phase-7-14-complete",
   "buildDate": "2026-08-08",
   "schemaVersion": 23,
@@ -18,5 +18,5 @@
     "worldApi": true,
     "serverAuthoritativeScore": true
   },
-  "buildVersion": "20.1.0-20260808-1"
+  "buildVersion": "20.2.0-20260808-1"
 }
