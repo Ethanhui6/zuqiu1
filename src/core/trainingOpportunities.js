@@ -1,4 +1,4 @@
-import { trainingGameById } from '../data/trainingGames.js';
+import { trainingGameById, trainingGamesByPlan } from '../data/trainingGames.js';
 import { keyedRandom } from '../services/rng.js';
 
 const POOLS = Object.freeze({
@@ -69,7 +69,7 @@ export function createTrainingOpportunity(state, { seed = state.simulation?.date
   const choices = [...pool].sort((a, b) => fitScore(b, state) - fitScore(a, state)).slice(0, count).map(plan => ({
     ...plan,
     group,
-    game: trainingGameById(plan.gameId),
+    game: rng.pick(trainingGamesByPlan(trainingGameById(plan.gameId).plan)) || trainingGameById(plan.gameId),
     fit: Math.max(42, Math.min(96, Math.round(62 + fitScore(plan, state) / 8)))
   }));
   const opportunity = {

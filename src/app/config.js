@@ -1,4 +1,4 @@
-export const APP_VERSION = '20.13.0';
+export const APP_VERSION = '20.14.0';
 export const SAVE_SCHEMA = 23;
 export const SAVE_SLOTS = 3;
 
