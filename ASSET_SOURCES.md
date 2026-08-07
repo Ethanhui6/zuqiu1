@@ -4,6 +4,11 @@ Internal asset record for the personal-use game build. No source or license text
 
 | Asset group | Local file | Source page | License name |
 | --- | --- | --- | --- |
+| Club crest | `./assets/clubs/china/chn1-sha.svg` | https://github.com/FCLOGO/fclogo.top/blob/main/src/data/logos/CFA/clubs/001-100/Shanghai%20Port/svg/shanghai-port-v2021.svg | MIT repository license; club marks remain the property of their owners |
+| Club crest | `./assets/clubs/china/chn1-shs.svg` | https://github.com/FCLOGO/fclogo.top/blob/main/src/data/logos/CFA/clubs/001-100/Shanghai%20Shenhua/svg/shanghai-shenhua-v2022.svg | MIT repository license; club marks remain the property of their owners |
+| Club crest | `./assets/clubs/china/chn1-bga.svg` | https://github.com/FCLOGO/fclogo.top/blob/main/src/data/logos/CFA/clubs/001-100/Beijing%20Guoan/svg/beijing-guoan-v2022.svg | MIT repository license; club marks remain the property of their owners |
+| Club crest | `./assets/clubs/china/chn1-sdt.svg` | https://github.com/FCLOGO/fclogo.top/blob/main/src/data/logos/CFA/clubs/001-100/Shandong%20Taishan/svg/shandong-taishan-v2022.svg | MIT repository license; club marks remain the property of their owners |
+| Club crest | `./assets/clubs/china/chn1-cdr.svg` | https://github.com/FCLOGO/fclogo.top/blob/main/src/data/logos/CFA/clubs/001-100/Chengdu%20Rongcheng/svg/chengdu-rongcheng-v2021.svg | MIT repository license; club marks remain the property of their owners |
 | Club crest | `./assets/clubs/china/chn1-dly.svg` | https://github.com/FCLOGO/fclogo.top/blob/main/src/data/logos/CFA/clubs/001-100/Dalian Yingbo/svg/Dalian-Yingbo-v2025.svg | MIT repository license; club marks remain the property of their owners |
 | Club crest | `./assets/clubs/china/chn2-lnt.svg` | https://github.com/FCLOGO/fclogo.top/blob/main/src/data/logos/CFA/clubs/001-100/Liaoning Tieren/svg/liaoning-tieren-v2024.svg | MIT repository license; club marks remain the property of their owners |
 | Club crest | `./assets/clubs/china/chn2-ctl.svg` | https://github.com/FCLOGO/fclogo.top/blob/main/src/data/logos/CFA/clubs/001-100/Chongqing TLL/svg/chongqing-tonglianglong-v2023.svg | MIT repository license; club marks remain the property of their owners |
