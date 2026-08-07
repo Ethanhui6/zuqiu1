@@ -292,7 +292,7 @@ Phase 15 gate result: `PASS` on 2026-08-08. Phase 16 is now the only unlocked ph
 - [x] One hundred nationality-locked rerolls produce zero nationality or pool changes.
 - [x] Real Chromium validates Japan-to-England identity and offer synchronization at 390x844 with no runtime error or horizontal overflow.
 - [x] Full automated tests (125/125), production build, repository hygiene, Phase 5 pacing, Phase 6 lifecycle, seven-phone-width layout, and 12-viewport mobile regressions pass for version 20.17.0.
-- [ ] GitHub Actions `verify` passes for the Phase 16 Pull Request.
-- [ ] Cloudflare Pages creates a successful native preview for the Phase 16 commit.
+- [x] GitHub Actions `verify` passes for Pull Request #49 and implementation commit `3d8ddcc`.
+- [x] Cloudflare Pages creates a successful native preview for implementation commit `3d8ddcc`: `https://2127f03d.zuqiu-4tt.pages.dev`.
 
-Phase 16 gate result: `IN_PROGRESS`. Phase 17 remains locked.
+Phase 16 gate result: `PASS` on 2026-08-08. Phase 17 is now the only unlocked phase.
