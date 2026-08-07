@@ -1,11 +1,11 @@
-export const APP_VERSION = '20.14.0';
+export const APP_VERSION = '20.15.0';
 export const SAVE_SCHEMA = 23;
 export const SAVE_SLOTS = 3;
 
 export const ATTR_KEYS = ['pac','sho','pas','dri','def','phy'];
 export const ATTR_LABELS = {
   outfield:{pac:'速度',sho:'射门',pas:'传球',dri:'盘带',def:'防守',phy:'身体'},
-  keeper:{pac:'扑救',sho:'反应',pas:'站位',dri:'手控球',def:'开球',phy:'一对一'}
+  keeper:{pac:'扑救',sho:'手控',pas:'开球',dri:'反应',def:'站位',phy:'指挥'}
 };
 
 export const POSITION_CONFIG = {

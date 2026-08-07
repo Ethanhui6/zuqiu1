@@ -1,7 +1,7 @@
 import { isGoalkeeperPosition } from '../core/positionResolver.js';
 
 const OUTFIELD_KEYS=[['speed','速度'],['shooting','射门'],['passing','传球'],['dribbling','盘带'],['defending','防守'],['physical','身体']];
-const KEEPER_KEYS=[['saves','扑救'],['reaction','反应'],['positioning','站位'],['handling','手控球'],['aerial','出击'],['distribution','开球']];
+const KEEPER_KEYS=[['saves','扑救'],['handling','手控'],['distribution','开球'],['reaction','反应'],['positioning','站位'],['aerial','指挥']];
 const center=110,radius=78;
 const bounded=value=>{const number=Number(value);return Math.max(0,Math.min(100,Number.isFinite(number)?number:0))};
 const point=(index,value)=>{const angle=-Math.PI/2+Math.PI*2*index/6,number=Number(value),distance=radius*(Math.max(0,Math.min(100,Number.isFinite(number)?number:0))/100);return[center+Math.cos(angle)*distance,center+Math.sin(angle)*distance]};

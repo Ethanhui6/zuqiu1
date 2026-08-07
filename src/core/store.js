@@ -1,6 +1,8 @@
 const STORAGE_KEY = 'football-career-v20';
 const VERSION = 23;
 import { normalizePlayer } from './playerDevelopmentEngine.js';
+import { playStyleEligibility, traitEligibility } from './positionResolver.js';
+import { PLAYER_STYLE_DEFINITIONS, SECONDARY_TRAITS } from '../data/playerProfiles.js';
 
 export function createDefaultState() {
   return {
@@ -72,7 +74,11 @@ export function migrateState(input) {
   if (state.season.startOvr == null && state.player) state.season.startOvr = state.player.ovr;
   if (!Number.isFinite(Number(state.season.startMarketValue))) state.season.startMarketValue = state.career.marketValue || base.season.startMarketValue;
   state.player = normalizePlayer(input.player);
-  if (state.player) state.player.previousStats = normalizeStats(input.player?.previousStats, state.player.stats);
+  if (state.player) {
+    state.player.style = playStyleEligibility.resolve(state.player.position, state.player.style, PLAYER_STYLE_DEFINITIONS);
+    state.player.secondaryTrait = traitEligibility.resolve(state.player.position, state.player.secondaryTrait, SECONDARY_TRAITS);
+    state.player.previousStats = normalizeStats(input.player?.previousStats, state.player.stats);
+  }
   if (!state.season.startStats || typeof state.season.startStats !== 'object') state.season.startStats = state.player ? { ...state.player.stats } : null;
   state.schedule = Array.isArray(input.schedule) ? input.schedule : [];
   state.injuries = Array.isArray(input.injuries) ? input.injuries : [];

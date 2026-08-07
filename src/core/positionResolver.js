@@ -41,7 +41,26 @@ export class PositionResolver {
   }
 
   fits(position, positions = []) {
-    return positions.includes(this.resolve(position));
+    const code = this.resolve(position);
+    return positions.some(candidate => this.resolve(candidate) === code);
+  }
+}
+
+export class PlayStyleEligibility {
+  eligible(position, style) { return positionFits(position, style?.positions || []); }
+  filter(position, styles = []) { return styles.filter(style => this.eligible(position, style)); }
+  resolve(position, selected, styles = []) {
+    const eligible = this.filter(position, styles);
+    return eligible.find(style => style.id === selected)?.id || eligible[0]?.id || '';
+  }
+}
+
+export class TraitEligibility {
+  eligible(position, trait) { return !trait?.positions?.length || positionFits(position, trait.positions); }
+  filter(position, traits = []) { return traits.filter(trait => this.eligible(position, trait)); }
+  resolve(position, selected, traits = []) {
+    const eligible = this.filter(position, traits);
+    return eligible.find(trait => trait.id === selected)?.id || eligible[0]?.id || '';
   }
 }
 
@@ -50,3 +69,5 @@ export const normalizePosition = position => positionResolver.resolve(position);
 export const getPositionProfile = position => positionResolver.profile(position);
 export const positionFits = (position, positions) => positionResolver.fits(position, positions);
 export const isGoalkeeperPosition = position => normalizePosition(position) === 'GK';
+export const playStyleEligibility = new PlayStyleEligibility();
+export const traitEligibility = new TraitEligibility();
