@@ -10,7 +10,7 @@ export function createDefaultState() {
     settings: { mode: 'fast', theme: 'light', autoSkipLow: true, autoPauseCritical: true, motion: 'full', sound: true, haptics: true },
     simulation: { paused: false, speed: 1, date: '2026-07-01', processedKeys: [], summaries: [], queue: [], lastKeyNode: null },
     player: null,
-    season: { year: '2026/27', week: 1, progress: 0, appearances: 0, goals: 0, assists: 0, rating: 0, objectives: [], startOvr: null, startMarketValue: 650000, keyNodes: 0 },
+    season: { year: '2026/27', week: 1, progress: 0, appearances: 0, goals: 0, assists: 0, rating: 0, objectives: [], startOvr: null, startMarketValue: 650000, startStats: null, keyNodes: 0 },
     schedule: [
       { id: 'm1', date: '2026-07-06', competition: '季前热身赛', opponent: '河畔竞技', venue: '主场', status: 'upcoming' },
       { id: 'm2', date: '2026-07-13', competition: '青年联赛', opponent: '北城学院', venue: '客场', status: 'upcoming' },
@@ -68,6 +68,7 @@ export function migrateState(input) {
   if (!Number.isFinite(Number(state.season.startMarketValue))) state.season.startMarketValue = state.career.marketValue || base.season.startMarketValue;
   state.player = normalizePlayer(input.player);
   if (state.player) state.player.previousStats = normalizeStats(input.player?.previousStats, state.player.stats);
+  if (!state.season.startStats || typeof state.season.startStats !== 'object') state.season.startStats = state.player ? { ...state.player.stats } : null;
   state.schedule = Array.isArray(input.schedule) ? input.schedule : [];
   state.injuries = Array.isArray(input.injuries) ? input.injuries : [];
   state.career.growthLog = Array.isArray(state.career.growthLog) ? state.career.growthLog : [];

@@ -70,6 +70,8 @@ export function settleSeason(state) {
   const endOvr = Number(player?.ovr ?? startOvr);
   const startValue = Number(season.startMarketValue ?? state.career.marketValue ?? 0);
   const endValue = Number(state.career.marketValue ?? startValue);
+  const startStats = { ...(season.startStats || player?.previousStats || player?.stats || {}) };
+  const endStats = { ...(player?.stats || {}) };
   const grade = rating >= 8.4 ? 'SSS' : rating >= 7.8 ? 'SS' : rating >= 7.2 ? 'S' : 'A';
   const record = {
     id: key, year: season.year, club, clubId: player?.clubId || null, crestPath: player?.crestPath || null,
@@ -77,7 +79,7 @@ export function settleSeason(state) {
     cleanSheets: Number(season.cleanSheets || 0), saves: Number(season.saves || 0), penaltySaves: Number(season.penaltySaves || 0),
     rating, playerOfMatch: Number(season.playerOfMatch || 0), trophies: trophies.map(item => item.name), personalAwards: personalAwards.map(item => item.name),
     startOvr, endOvr, ovrChange: Number((endOvr - startOvr).toFixed(2)), startValue, endValue, valueChange: endValue - startValue,
-    coachTrustChange: Number(season.coachTrustChange || 0), grade, highlights: season.highlights || [], transfer: season.transfer || null,
+    coachTrustChange: Number(season.coachTrustChange || 0), grade, highlights: season.highlights || [], startStats, endStats, transfer: season.transfer || null,
     contract: season.contract || null, injuries: season.injuries || [], dataOrigin: 'generated-fallback'
   };
   honors.seasons.unshift(record);
@@ -103,13 +105,20 @@ export function settleSeason(state) {
   state.training.currentOpportunity = null;
   state.training.completedWeek = 0;
   state.schedule = nextSeasonFixtures({ ...state, season: { ...season, year: nextYear } });
-  state.season = { ...season, year: nextYear, week: 1, progress: 0, appearances: 0, starts: 0, goals: 0, assists: 0, rating: 0, cleanSheets: 0, saves: 0, penaltySaves: 0, playerOfMatch: 0, keyNodes: 0, startOvr: player?.ovr ?? endOvr, startMarketValue: state.career.marketValue, highlights: [], injuries: [] };
+  state.simulation.date = `${String(nextYear).slice(0, 4)}-07-01`;
+  state.season = { ...season, year: nextYear, week: 1, progress: 0, appearances: 0, starts: 0, goals: 0, assists: 0, rating: 0, cleanSheets: 0, saves: 0, penaltySaves: 0, playerOfMatch: 0, keyNodes: 0, startOvr: player?.ovr ?? endOvr, startMarketValue: state.career.marketValue, startStats: { ...(player?.stats || {}) }, highlights: [], injuries: [] };
   state.news ??= { items: [], unread: 0 };
   state.news.items ??= [];
   state.news.items.unshift({ id: `season-open-${nextYear}`, date: state.simulation.date, type: '赛季', title: `${nextYear}赛季注册完成`, copy: `${player?.club || club}已生成新赛程，年龄、身价、合同和能力快照已更新。`, read: false });
   state.news.items = state.news.items.slice(0, 40);
   state.news.unread = state.news.items.filter(item => !item.read).length;
   return { alreadySettled: false, trophies, personalAwards, record };
+}
+
+export function seasonReviewNext(state) {
+  if ((state.transfer?.offers || []).some(offer => ['pending', 'active'].includes(offer.status))) return { type: 'transfer', title: '查看转会报价', copy: '转会窗口中有待处理的报价。', button: '查看报价' };
+  if (Number(state.career?.contractMonths || 0) === 0) return { type: 'contract', title: '处理续约或转会', copy: '当前合同已经到期，需要决定下一站。', button: '处理合同' };
+  return { type: 'next-season', title: '进入下一赛季', copy: '新赛程已生成，继续你的职业生涯。', button: '开始新赛季' };
 }
 
 export function retireCareer(state) {

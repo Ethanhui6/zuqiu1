@@ -47,8 +47,8 @@ test('fast mode batches ordinary matches and stops at important matches', async 
   ];
   const store = { get: () => state, set: updater => updater(state) };
   const controller = new SimulationController(store, { schedule: () => null });
-  assert.equal(controller.nextNode(state).action, 'month');
-  const result = await controller.advance('month');
+  assert.equal(controller.nextNode(state).action, 'seasonEnd');
+  const result = await controller.advance('seasonEnd');
   assert.equal(result.stopReason, 'match');
   assert.equal(result.match.id, 'important-1');
   assert.equal(state.schedule.filter(match => match.auto).length, 2);

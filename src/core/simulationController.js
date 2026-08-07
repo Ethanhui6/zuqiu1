@@ -13,6 +13,7 @@ export class SimulationController {
   resume(){ this.cancelled=false; this.store.set(s=>{s.simulation.paused=false;return s;}); }
   nextMatch(state){ return state.schedule.find(m=>m.status==='upcoming' && m.date>=state.simulation.date) || null; }
   nextEventDate(state){ const offset=2+((state.events.history.length+state.season.week)%5); return addDays(state.simulation.date,offset); }
+  seasonEndDate(state){ const date=new Date(`${state.simulation.date}T00:00:00Z`),year=date.getUTCFullYear(); return `${date.getUTCMonth()>=6?year+1:year}-06-30`; }
   ensureFixtures(state){
     if(!state.player||state.season.progress>=99)return;
     if(state.schedule.some(match=>match.status==='upcoming'&&match.date>=state.simulation.date))return;
@@ -24,7 +25,7 @@ export class SimulationController {
     if (state.events?.pending?.length) return { type: 'event', label: '处理待办事件', action: 'nextEvent', blocked: true };
     if (state.training?.currentOpportunity) return { type: 'training', label: '处理关键训练机会', action: 'training', blocked: true, target: state.training.currentOpportunity.createdAt };
     const match = this.nextMatch(state);
-    if (['fast', 'legend'].includes(state.settings?.mode) && match && !match.important) return { type: 'time', label: '推进到下一个关键节点', target: match.date, action: 'month', match };
+    if (['fast', 'legend'].includes(state.settings?.mode) && (!match || !match.important)) return { type: 'time', label: '快速结算到下一个职业节点', target: this.seasonEndDate(state), action: 'seasonEnd', match };
     if (match) return { type: 'match', label: `准备 ${match.competition}`, target: match.date, action: 'nextMatch', match };
     if (state.season?.progress >= 99) return { type: 'season', label: '赛季结算', target: state.simulation.date, action: 'seasonEnd' };
     return { type: 'time', label: '推进至下一关键节点', target: addDays(state.simulation.date, 30), action: 'month' };
@@ -38,7 +39,7 @@ export class SimulationController {
       month:{label:'推进一个月',target:addDays(state.simulation.date,30),days:30,pause:'关键事件或比赛',summary:true},
       halfSeason:{label:'推进半赛季',target:addDays(state.simulation.date,120),days:120,pause:'比赛、伤病或转会窗口',summary:true},
       window:{label:'推进至转会窗口',target:`${new Date(state.simulation.date).getUTCFullYear()+1}-01-01`,days:daysBetween(state.simulation.date,`${new Date(state.simulation.date).getUTCFullYear()+1}-01-01`),pause:'转会窗口开启',summary:true},
-      seasonEnd:{label:'推进至赛季结束',target:`${new Date(state.simulation.date).getUTCFullYear()+1}-06-30`,days:daysBetween(state.simulation.date,`${new Date(state.simulation.date).getUTCFullYear()+1}-06-30`),pause:'赛季结束',summary:true}
+      seasonEnd:{label:'推进至赛季结束',target:this.seasonEndDate(state),days:daysBetween(state.simulation.date,this.seasonEndDate(state)),pause:'赛季结束',summary:true}
     };
     return map[action];
   }
