@@ -88,7 +88,8 @@ function clubsForLeague(club,state){
 
 function expectedLineup(club,state,{includePlayer=false}={}){
   const slots=['GK','LB','CB','CB','RB','CM','CM','LW','CAM','RW','ST'];
-  const source=club.id===state.player.clubId&&Array.isArray(state.player.squad)?state.player.squad:dataRepository.rosterForClub?.(club.id,{limit:32,seed:state.player.name||'career'})||[];
+  const seasonYear=Number(String(state.simulation?.date||'2026').slice(0,4));
+  const source=club.id===state.player.clubId&&Array.isArray(state.player.squad)?state.player.squad:dataRepository.rosterForClub?.(club.id,{limit:32,seed:state.player.name||'career',seasonYear})||[];
   const pool=source.map((player,index)=>({id:player.id||`${club.id}-${index}`,name:player.cn||player.name||`球员 ${index+1}`,position:player.position||slots[index%slots.length],ovr:Math.round(value(player.ovr,Math.max(50,value(club.rep??club.reputation,58)-8)))}));
   if(includePlayer)pool.unshift({id:'player',name:state.player.name,position:state.player.position,ovr:Math.round(state.player.ovr),isPlayer:true});
   return slots.map((position,index)=>{
