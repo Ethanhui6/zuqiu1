@@ -1,5 +1,5 @@
 const YEAR_PATTERN = /^(\d{4})\/(\d{2})$/;
-import { applyGrowthToState } from '../../core/playerDevelopmentEngine.js';
+import { applySeasonDevelopment } from '../../core/playerDevelopmentEngine.js';
 import { createRealFixtures } from '../../core/simulationController.js';
 import { advanceInjury } from '../../core/injuryEngine.js';
 
@@ -137,8 +137,7 @@ export function settleSeason(state) {
   const nextYear = nextSeason(season.year);
   if (player?.stats) {
     state.career.growthLog ??= [];
-    const age = Number(player.age || 18);
-    applyGrowthToState(state, age <= 24 ? { speed: 1.5, shooting: 1.5, passing: 1.5, dribbling: 1.5, defending: 1.5, physical: 1.5 } : { passing: .03, physical: -.04 }, { source: '赛季结算成长', fatigue: 0, facility: 74, coachQuality: 72, mode: 'standard', injured: false });
+    applySeasonDevelopment(state);
     player = state.player;
   }
   if (player) player.age = Number(player.age || 18) + 1;
