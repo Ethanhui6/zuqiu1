@@ -15,6 +15,8 @@ test('season settlement records radar snapshots, rolls date forward, and gives a
   assert.equal(settled.record.endStats.speed, 80);
   assert.equal(save.simulation.date, '2027-07-01');
   assert.equal(save.season.year, '2027/28');
+  assert.equal(save.player.age, 21);
+  assert.equal(save.season.startStats.passing, save.player.stats.passing);
   assert.equal(seasonReviewNext(save).type, 'next-season');
   save.career.contractMonths = 0;
   assert.equal(seasonReviewNext(save).type, 'contract');

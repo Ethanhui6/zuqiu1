@@ -47,7 +47,7 @@ function nextSeasonFixtures(state) {
 export function settleSeason(state) {
   const honors = ensureHonors(state);
   const season = state.season;
-  const player = state.player;
+  let player = state.player;
   const club = player?.club || 'Unknown club';
   const key = `${season.year}:${player?.clubId || club}`;
   if (honors.seasons.some(record => record.id === key)) return { alreadySettled: true, trophies: [], personalAwards: [], record: null };
@@ -89,6 +89,7 @@ export function settleSeason(state) {
     state.career.growthLog ??= [];
     const age = Number(player.age || 18);
     applyGrowthToState(state, age <= 24 ? { passing: .08, physical: .08 } : { passing: .03, physical: -.04 }, { source: '赛季结算成长', fatigue: 0, facility: 74, coachQuality: 72, mode: 'standard', injured: false });
+    player = state.player;
   }
   if (player) player.age = Number(player.age || 18) + 1;
   state.career ??= {};
