@@ -280,3 +280,19 @@ Phase 14 gate result: `PASS` on 2026-08-08. Phase 15 is now the only unlocked ph
 - [x] Cloudflare Pages creates a successful native preview for implementation commit `e825197`: `https://ca81f191.zuqiu-4tt.pages.dev`.
 
 Phase 15 gate result: `PASS` on 2026-08-08. Phase 16 is now the only unlocked phase.
+
+## Phase 16 Gate
+
+- [x] `PlayerOriginProfile` keeps nationality, name locale, starting country, starting league pool, starting club pool, region, and language atomic.
+- [x] Every selectable nationality resolves at least three valid starting clubs and one valid league.
+- [x] Countries without a local league snapshot use an explicit regional youth pathway rather than an unrelated silent fallback.
+- [x] Changing nationality refreshes generated identity and starting pools together.
+- [x] Locking nationality preserves its origin while names, attributes, potential, and position can reroll.
+- [x] One hundred consecutive unlocked rerolls produce zero origin or starting-pool mismatches.
+- [x] One hundred nationality-locked rerolls produce zero nationality or pool changes.
+- [x] Real Chromium validates Japan-to-England identity and offer synchronization at 390x844 with no runtime error or horizontal overflow.
+- [x] Full automated tests (125/125), production build, repository hygiene, Phase 5 pacing, Phase 6 lifecycle, seven-phone-width layout, and 12-viewport mobile regressions pass for version 20.17.0.
+- [x] GitHub Actions `verify` passes for Pull Request #49 and implementation commit `3d8ddcc`.
+- [x] Cloudflare Pages creates a successful native preview for implementation commit `3d8ddcc`: `https://2127f03d.zuqiu-4tt.pages.dev`.
+
+Phase 16 gate result: `PASS` on 2026-08-08. Phase 17 is now the only unlocked phase.
