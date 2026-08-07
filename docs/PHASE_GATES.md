@@ -190,3 +190,19 @@ Phase 8 gate result: `PASS` on 2026-08-08. Phase 9 is now the only unlocked phas
 - [x] Cloudflare Pages creates a successful native preview for implementation commit `9a9d324`.
 
 Phase 9 gate result: `PASS` on 2026-08-08. Phase 10 is now the only unlocked phase.
+
+## Phase 10 Gate
+
+- [x] All ten current-club buttons open a concrete secondary interaction instead of resolving through a toast alone.
+- [x] Every interaction presents a specific situation and three decisions, within the required two-to-four choice range.
+- [x] Every choice opens a persistent result surface with visible changes and animation feedback.
+- [x] One resolver records cooldowns and history while updating career data, relationships, training strategy, career intent, or transfer requests.
+- [x] All 30 choices produce a result and persisted gameplay changes in the deterministic unit gate.
+- [x] Real Chromium completes all ten actions at 320x844, 390x844, and 430x844, covering every choice across 30 browser interactions.
+- [x] Browser results remain visible until acknowledgement; runtime errors and horizontal overflow remain zero.
+- [x] Full automated suite passes: 111/111; repository hygiene passes: 3/3; production build passes as version 20.11.0.
+- [x] Phase 6 feedback, external transfer, full 12-viewport, and seven-phone-width regressions pass.
+- [ ] GitHub Actions `verify` passes for the Phase 10 Pull Request.
+- [ ] Cloudflare Pages creates a successful native preview for the Phase 10 implementation commit.
+
+Phase 10 gate result: `IN_PROGRESS`. Local acceptance is complete; remote delivery checks remain open.
