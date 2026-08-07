@@ -14,7 +14,7 @@ export function createDefaultState() {
     schedule: [],
     injuries: [],
     discipline: { yellowCards: 0, redCards: 0, suspensions: [], history: [] },
-    relationships: { coach: 52, teammates: 48, captain: 45, fans: 1200, media: 36, rivalry: 18 },
+    relationships: { coach: 52, teammates: 48, captain: 45, management: 50, fans: 1200, media: 36, rivalry: 18 },
     career: { marketValue: 650000, weeklySalary: 1800, contractMonths: 30, clubInterest: [], achievements: [], growthLog: [], injuryLog: [], history: [], honors: { trophies: [], personalAwards: [], seasons: [], retirement: null, legendProfile: null } },
     training: { selectedPlan: null, completedWeek: 0, autoStrategy: 'balanced', plansUsed: [], lastResult: null, sessions: [], bestScores: {}, streak: 0, unlockedGames: [], challenge: { target: 3, progress: 0, reward: '教练信任 +3' }, facilityLevel: 1, coachBonus: 0, currentOpportunity: null, seasonTrainingCount: 0, opportunityHistory: [], resolvedNodes: [] },
     events: { pending: [], history: [], cooldowns: {}, sceneCooldowns: {}, sceneHistory: [], seasonCounts: {}, careerCounts: {}, characterMemory: {}, forcedPauses: 0, resolved: [], delayedEffects: [], chains: [], lastInteractionIds: [] },

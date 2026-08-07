@@ -38,6 +38,7 @@ import { pickOutcomeAnimation } from './core/outcomeAnimations.js';
 import { resolveTrainingOpportunity } from './core/trainingOpportunities.js';
 import { trophyMarkup } from './components/trophyIcon.js';
 import { evaluateClubFit } from './services/playerIdentity.js';
+import { clubInteractionScenario, resolveClubInteraction as settleClubInteraction } from './core/clubInteractionEngine.js';
 
 const ROUTES={career:['home','生涯'],match:['match','比赛'],training:['training','训练'],transfer:['transfer','转会'],clubs:['club','俱乐部'],more:['settings','更多']};
 const ATTR_CN={speed:'速度',shooting:'射门',passing:'传球',dribbling:'盘带',defending:'防守',physical:'身体'};
@@ -184,6 +185,7 @@ class App {
     if(!current&&!externalOpen.includes(action))return this.feedback.emit('failure','该操作只适用于当前俱乐部');
     const fit=evaluateClubFit({...player,country:player.country||player.nation,recentRating:snapshot.season.rating||6.5},club);
     if(!current&&['interest','agent','contact','expected-contract'].includes(action)&&!fit.eligible)return this.feedback.emit('failure',`当前综合 ${fit.score}，未达到球队门槛 ${fit.required}`);
+    if(current&&clubInteractionScenario(action))return this.openClubInteraction(action,club);
     const labels={compare:'加入比较',interest:'表达兴趣',agent:'经纪人接触',contact:'请求沟通','expected-contract':'查看预期合同',coach:'与主教练沟通',minutes:'询问出场机会',position:'讨论场上位置',training:'调整训练',loan:'请求外租',stay:'表达留队意愿','transfer-request':'提交转会申请',teammate:'与队友互动',captain:'与队长交流',management:'与管理层沟通',renew:'请求续约'};
     this.store.set(state=>{
       state.clubInteractions.cooldowns[key]=addDateDays(state.simulation.date,current?7:14);
@@ -202,6 +204,16 @@ class App {
     });
     this.feedback.emit(action==='contact'?'transferOffer':'select',`${club.cn||club.name} · ${labels[action]||'互动已记录'}`);
     if(!current&&(action==='contact'||action==='expected-contract'))this.openTransferOffer({...club,fit});
+  }
+  openClubInteraction(action,club){
+    const scenario=clubInteractionScenario(action);if(!scenario)return;
+    this.overlay.sheet(scenario.title,`<section class="surface-card" data-club-interaction="${action}"><div class="card-kicker">${icon('message','sm')} ${escapeHtml(club.cn||club.name||'当前俱乐部')} · 具体沟通</div><h3 class="card-title">${escapeHtml(scenario.title)}</h3><p class="card-copy">${escapeHtml(scenario.situation)}</p></section><div class="event-divider"></div><section class="event-choice-section"><div class="card-kicker">选择回应</div><h3 class="card-title">你准备怎么处理？</h3><div class="stack">${scenario.choices.map(item=>`<button class="surface-card decision-card interactive" data-club-choice="${item.id}"><strong>${escapeHtml(item.label)}</strong><p class="card-copy">${escapeHtml(item.hint)}</p></button>`).join('')}</div></section>`,{onMount:el=>el.querySelectorAll('[data-club-choice]').forEach(button=>button.onclick=()=>this.resolveClubInteraction(action,button.dataset.clubChoice,club))});
+  }
+  resolveClubInteraction(action,choiceId,club){
+    let result;this.store.set(state=>{result=settleClubInteraction(state,{action,choiceId,club});return state;});
+    const changes=Object.entries(result.changes);
+    this.feedback.emit(result.animation==='offer-enter'?'transferOffer':'select',result.choiceLabel);
+    this.overlay.sheet('沟通结果',`<section class="result-panel success-pop" data-club-interaction-result="${action}" data-result-animation="${result.animation}"><div class="card-kicker">${icon('check','sm')} 决策已落实</div><h3 class="card-title">${escapeHtml(result.choiceLabel)}</h3><p class="card-copy">${escapeHtml(result.result)}</p><div class="change-grid">${changes.map(([label,value])=>`<div class="change-item"><b>${escapeHtml(label)} ${typeof value==='number'&&value>0?'+':''}${escapeHtml(value)}</b><span>已写入当前职业存档</span></div>`).join('')}</div><div class="card-footer"><span class="card-copy">再次沟通日期：${result.cooldownUntil}</span></div></section><button class="app-button primary" style="width:100%;margin-top:12px" data-club-result-continue>返回俱乐部</button>`,{dismissible:false,onMount:el=>el.querySelector('[data-club-result-continue]').onclick=()=>{this.overlay.close();this.navigate('clubs');}});
   }
   openTransferOffer(club){
     const wage=Math.round((club.salary||club.finance*350||1800)/100)*100,role=club.fit?.role||(club.opportunity>80?'轮换承诺':'竞争位置'),clubName=club.cn||club.name;
