@@ -10,13 +10,14 @@ export function createDefaultState() {
     settings: { mode: 'fast', theme: 'light', autoSkipLow: true, autoPauseCritical: true, motion: 'full', sound: true, haptics: true },
     simulation: { paused: false, speed: 1, date: '2026-07-01', processedKeys: [], summaries: [], queue: [], lastKeyNode: null },
     player: null,
-    season: { year: '2026/27', week: 1, progress: 0, appearances: 0, goals: 0, assists: 0, rating: 0, objectives: [], startOvr: null, startMarketValue: 650000, startStats: null, keyNodes: 0 },
+    season: { year: '2026/27', week: 1, progress: 0, appearances: 0, goals: 0, assists: 0, rating: 0, yellowCards: 0, redCards: 0, objectives: [], startOvr: null, startMarketValue: 650000, startStats: null, keyNodes: 0 },
     schedule: [
       { id: 'm1', date: '2026-07-06', competition: '季前热身赛', opponent: '河畔竞技', venue: '主场', status: 'upcoming' },
       { id: 'm2', date: '2026-07-13', competition: '青年联赛', opponent: '北城学院', venue: '客场', status: 'upcoming' },
       { id: 'm3', date: '2026-07-20', competition: '青年联赛', opponent: '海港青年队', venue: '主场', status: 'upcoming' }
     ],
     injuries: [],
+    discipline: { yellowCards: 0, redCards: 0, suspensions: [], history: [] },
     relationships: { coach: 52, teammates: 48, captain: 45, fans: 1200, media: 36, rivalry: 18 },
     career: { marketValue: 650000, weeklySalary: 1800, contractMonths: 30, clubInterest: [], achievements: [], growthLog: [], injuryLog: [], history: [], honors: { trophies: [], personalAwards: [], seasons: [], retirement: null, legendProfile: null } },
     training: { selectedPlan: null, completedWeek: 0, autoStrategy: 'balanced', plansUsed: [], lastResult: null, sessions: [], bestScores: {}, streak: 0, unlockedGames: [], challenge: { target: 3, progress: 0, reward: '教练信任 +3' }, facilityLevel: 1, coachBonus: 0, currentOpportunity: null, seasonTrainingCount: 0, opportunityHistory: [], resolvedNodes: [] },
@@ -71,6 +72,9 @@ export function migrateState(input) {
   if (!state.season.startStats || typeof state.season.startStats !== 'object') state.season.startStats = state.player ? { ...state.player.stats } : null;
   state.schedule = Array.isArray(input.schedule) ? input.schedule : [];
   state.injuries = Array.isArray(input.injuries) ? input.injuries : [];
+  state.discipline = { ...base.discipline, ...(input.discipline || {}) };
+  state.discipline.suspensions = Array.isArray(state.discipline.suspensions) ? state.discipline.suspensions : [];
+  state.discipline.history = Array.isArray(state.discipline.history) ? state.discipline.history : [];
   state.career.growthLog = Array.isArray(state.career.growthLog) ? state.career.growthLog : [];
   state.career.history = Array.isArray(state.career.history) ? state.career.history : [];
   state.career.honors.trophies = Array.isArray(state.career.honors.trophies) ? state.career.honors.trophies : [];

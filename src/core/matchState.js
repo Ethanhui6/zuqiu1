@@ -62,6 +62,10 @@ export function advanceMatchState(state, highlight, { score = 50, success = fals
   if (!success && next.zone !== 'defensive') next.zone = ZONES[Math.max(ZONES.indexOf(next.zone) - 1, 0)];
   const templateId = highlight.templateId || highlight.id;
   const record = { id: highlight.id, templateId, minute: next.matchMinute, title: highlight.title, zone: next.zone, score: quality, success };
+  if (highlight.interactionId === 'tackle' && !success && !skipped) {
+    record.card = quality < 22 ? 'red' : 'yellow';
+    next.cards[record.card] += 1;
+  }
   next.highlights.push(record);
   next.recentMatchEvents = [...(next.recentMatchEvents || []), templateId].slice(-6);
   next.recentHighlights = [...next.recentHighlights, highlight.id].slice(-4);

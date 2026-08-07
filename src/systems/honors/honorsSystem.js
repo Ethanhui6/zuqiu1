@@ -136,7 +136,7 @@ export function settleSeason(state) {
   const record = {
     id: key, year: season.year, club, clubId: player?.clubId || null, crestPath: player?.crestPath || null,
     age: player?.age ?? null, position: player?.position || '未知', appearances, starts: Number(season.starts || 0), goals, assists,
-    cleanSheets: Number(season.cleanSheets || 0), saves: Number(season.saves || 0), penaltySaves: Number(season.penaltySaves || 0),
+    cleanSheets: Number(season.cleanSheets || 0), saves: Number(season.saves || 0), penaltySaves: Number(season.penaltySaves || 0), yellowCards: Number(season.yellowCards || 0), redCards: Number(season.redCards || 0),
     rating, playerOfMatch: Number(season.playerOfMatch || 0), trophies: trophies.map(item => item.name), personalAwards: personalAwards.map(item => item.name),
     startOvr, endOvr, ovrChange: Number((endOvr - startOvr).toFixed(2)), startValue, endValue, valueChange: endValue - startValue,
     coachTrustChange: Number(season.coachTrustChange || 0), grade, highlights, startStats, endStats, transfer: season.transfer || null,
@@ -168,7 +168,7 @@ export function settleSeason(state) {
   state.training.completedWeek = 0;
   state.schedule = nextSeasonFixtures({ ...state, season: { ...season, year: nextYear } });
   state.simulation.date = `${String(nextYear).slice(0, 4)}-07-01`;
-  state.season = { ...season, year: nextYear, week: 1, progress: 0, appearances: 0, starts: 0, goals: 0, assists: 0, rating: 0, cleanSheets: 0, saves: 0, penaltySaves: 0, playerOfMatch: 0, keyNodes: 0, startOvr: player?.ovr ?? endOvr, startMarketValue: state.career.marketValue, startStats: { ...(player?.stats || {}) }, highlights: [], injuries: [] };
+  state.season = { ...season, year: nextYear, week: 1, progress: 0, appearances: 0, starts: 0, goals: 0, assists: 0, rating: 0, cleanSheets: 0, saves: 0, penaltySaves: 0, yellowCards: 0, redCards: 0, playerOfMatch: 0, keyNodes: 0, startOvr: player?.ovr ?? endOvr, startMarketValue: state.career.marketValue, startStats: { ...(player?.stats || {}) }, highlights: [], injuries: [] };
   state.news ??= { items: [], unread: 0 };
   state.news.items ??= [];
   state.news.items.unshift({ id: `season-open-${nextYear}`, date: state.simulation.date, type: '赛季', title: `${nextYear}赛季注册完成`, copy: `${player?.club || club}已生成新赛程，年龄、身价、合同和能力快照已更新。`, read: false });

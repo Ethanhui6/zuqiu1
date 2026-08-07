@@ -3,6 +3,7 @@ import { metric, statGrid, emptyState } from '../components/ui.js';
 import { crestSvg, resolveClubAlias } from '../components/clubCrest.js';
 import { CLUBS } from '../data/clubs.js';
 import { dataRepository } from '../services/dataRepository.js';
+import { matchAvailability } from '../core/disciplineEngine.js';
 
 export function matchPage(app,state){
   const match=state.schedule.find(m=>m.status==='upcoming'&&m.date>=state.simulation.date);
@@ -12,12 +13,12 @@ export function matchPage(app,state){
   const opponentClub=resolveClub(match?.opponentId||match?.opponent,clubs);
   const currentSnapshot=clubSnapshot(currentClub,state,'current');
   const opponentSnapshot=clubSnapshot(opponentClub,state,'opponent');
-  const playerStatus=matchPlayerStatus(state.player,currentSnapshot);
+  const playerStatus=matchPlayerStatus(state.player,currentSnapshot,state);
   const root=document.createElement('section');root.className='page';
   root.innerHTML=`<div class="page-head"><div><h1 class="page-title">比赛中心</h1><p class="page-subtitle">战术与关键镜头由你的操作决定</p></div>${match?`<span class="badge blue">${match.date}</span>`:''}</div>
-  ${match?`${matchPreview(match,currentSnapshot,opponentSnapshot,state,playerStatus)}<div style="height:14px"></div><button class="app-button primary match-enter-button" style="width:100%" data-play>${icon('play','sm')}进入比赛</button>`:emptyState('暂无即将进行的比赛','推进日期或查看完整赛程。','calendar')}
+  ${match?`${matchPreview(match,currentSnapshot,opponentSnapshot,state,playerStatus)}<div style="height:14px"></div><button class="app-button primary match-enter-button" style="width:100%" data-play ${playerStatus.available === false ? 'disabled' : ''}>${icon('play','sm')}${playerStatus.available === false ? playerStatus.label : '进入比赛'}</button>`:emptyState('暂无即将进行的比赛','推进日期或查看完整赛程。','calendar')}
   ${last?`<div style="height:18px"></div><section class="surface-card"><div class="card-kicker">最近一场</div><h2 class="card-title">${last.summary}</h2>${statGrid([['评分',last.rating],['进球',last.goals],['助攻',last.assists],['出场',`${last.minutes}′`]])}<button class="app-button ghost" style="margin-top:14px" data-last>查看比赛时间线</button></section>`:''}`;
-  root.querySelector('[data-play]')?.addEventListener('click',()=>app.openMatchStrategy(match));
+  root.querySelector('[data-play]')?.addEventListener('click',()=>playerStatus.available !== false&&app.openMatchStrategy(match));
   root.querySelector('[data-last]')?.addEventListener('click',()=>app.openLastMatch());
   return root;
 }
@@ -95,7 +96,9 @@ function expectedLineup(club,state,{includePlayer=false}={}){
   });
 }
 
-function matchPlayerStatus(player,current){
+function matchPlayerStatus(player,current,state){
+  const unavailable=matchAvailability(state);
+  if(unavailable)return{...unavailable,starts:false,available:false};
   if(player.fitness<55)return{label:'体能受限',copy:'教练会根据你的恢复情况决定出场时间。',starts:false};
   if(player.ovr>=Math.max(62,current.strength-7))return{label:'预计首发',copy:'赛前状态符合首发要求，关键镜头将围绕你展开。',starts:true};
   return{label:'替补待命',copy:'先从替补席观察比赛，表现机会随时会出现。',starts:false};

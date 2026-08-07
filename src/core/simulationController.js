@@ -1,4 +1,5 @@
 import { advanceInjury } from './injuryEngine.js';
+import { matchAvailability, serveSuspension } from './disciplineEngine.js';
 import { applyGrowthToState } from './playerDevelopmentEngine.js';
 import { keyedRandom } from '../services/rng.js';
 import { createTrainingOpportunity } from './trainingOpportunities.js';
@@ -60,6 +61,8 @@ export class CareerDirector {
   settleAutoMatch(state,match){
     const fixture=state.schedule.find(item=>item.id===match?.id);
     if(!state.player||!fixture||fixture.status!=='upcoming')return false;
+    const unavailable=matchAvailability(state);
+    if(unavailable){fixture.status='played';fixture.score='—';fixture.rating=0;fixture.played=false;fixture.auto=true;fixture.unavailable=unavailable.type;if(unavailable.type==='suspension')serveSuspension(state,fixture.id);state.career.history.push({date:state.simulation.date,type:'比赛',summary:`${state.player.club} 缺阵 ${fixture.opponent}`,rating:0,goals:0,assists:0,minutes:0,auto:true,unavailable:unavailable.type});return true;}
     const rng=keyedRandom(fixture.id,fixture.date,state.player.ovr,state.season.appearances);
     const played=rng.bool(.84);
     const rating=Number((played?Math.max(5.8,Math.min(9.1,6.2+(state.player.ovr-55)/34+rng.next()*.9)):0).toFixed(1));
@@ -88,7 +91,7 @@ export class CareerDirector {
     if(this.store.get().training.currentOpportunity)return {status:'needs-training',trainingOpportunity:this.store.get().training.currentOpportunity,processed:0,stopReason:'training'};
     const dueMatch=action==='nextMatch'&&this.nextMatch(this.store.get());
     if(dueMatch?.date===this.store.get().simulation.date){
-      if(this.shouldAutoSimulateMatch(dueMatch)){this.store.set(state=>{this.settleAutoMatch(state,dueMatch);return state;});return {status:'ok',processed:0,autoMatches:1,stopReason:'match-auto',event:null,match:dueMatch,description:desc};}
+      if(this.shouldAutoSimulateMatch(dueMatch)||matchAvailability(this.store.get())){this.store.set(state=>{this.settleAutoMatch(state,dueMatch);return state;});return {status:'ok',processed:0,autoMatches:1,stopReason:'match-auto',event:null,match:dueMatch,description:desc};}
       return {status:'ok',processed:0,stopReason:'match',event:null,match:dueMatch,description:desc};
     }
     this.running=true; this.cancelled=false;
@@ -114,7 +117,7 @@ export class CareerDirector {
       processed++;
       const state=this.store.get(); const match=this.nextMatch(state);
       if(match && match.date===state.simulation.date){
-        if(this.shouldAutoSimulateMatch(match)){this.store.set(next=>{this.settleAutoMatch(next,match);return next;});autoMatches++;continue;}
+        if(this.shouldAutoSimulateMatch(match)||matchAvailability(state)){this.store.set(next=>{this.settleAutoMatch(next,match);return next;});autoMatches++;continue;}
         matchReady=match; stopReason='match'; break;
       }
       const trainingKey=`training-node:${state.season.year}:${state.season.week}`;
