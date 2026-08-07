@@ -39,4 +39,8 @@ The existing feedback catalog, toast visuals, sounds, bursts, pointer behavior, 
 - Phase 2 layout audit: PASS at seven mobile widths from 320 to 430 px.
 - Existing semantic feedback, audio, and mini-game feedback tests remain green.
 
-Remote implementation commit, Pull Request, GitHub Actions, and Cloudflare Pages evidence will be recorded after the feature branch is pushed.
+- Implementation commit: `df0ae7a`.
+- Pull Request: #44, stacked on `codex/phase-10-club-interactions`.
+- GitHub Actions `verify`: PASS.
+- Cloudflare Pages native preview for `df0ae7a`: PASS.
+- Preview: `https://802b5eef.zuqiu-4tt.pages.dev`.
