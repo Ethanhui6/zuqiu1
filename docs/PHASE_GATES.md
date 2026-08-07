@@ -11,8 +11,8 @@ Local repository state is the source of truth. A phase may move to `PASS` only a
 | 4 | Full-season match simulation | PASS |
 | 5 | Career pacing | PASS |
 | 6 | Fast-mode feedback | PASS |
-| 7 | Development curve | IN_PROGRESS |
-| 8 | Development feedback animation | LOCKED |
+| 7 | Development curve | PASS |
+| 8 | Development feedback animation | IN_PROGRESS |
 | 9 | Career timeline | LOCKED |
 | 10 | Club interactions | LOCKED |
 | 11 | Toast system | LOCKED |
@@ -142,3 +142,19 @@ Phase 5 gate result: `PASS` on 2026-08-08. Phase 6 is now the only unlocked phas
 - [x] Cloudflare Pages creates a successful preview for commit `13a8dfd`.
 
 Phase 6 gate result: `PASS` on 2026-08-08. Phase 7 is now the only unlocked phase.
+
+## Phase 7 Gate
+
+- [x] Annual development no longer uses a fixed `+1` or `+5` settlement rule.
+- [x] Growth considers age, base and dynamic potential, minutes, rating, training, league level, facilities, coach trust, morale, injuries, position, and PlayStyle.
+- [x] Outfield players move through fast growth, clear growth, maturity, peak, stability, and two decline stages.
+- [x] Goalkeepers mature, peak, and decline later than equivalent outfield players.
+- [x] Wonderkid, Late Bloomer, Early Peak, Plateau, Injury Setback, and Career Revival trajectories are implemented and tested.
+- [x] Five cohorts of 100 players each complete deterministic simulations from age 16 to 36.
+- [x] Every cohort grows, reaches a measurable peak, and declines before age 36 without invalid OVR values.
+- [x] Phase 5 pacing, season review, five-season differentiation, and full retirement regressions pass.
+- [x] Full automated suite (108/108), repository hygiene (3/3), production build, three-season browser replay, and 12-viewport mobile regressions pass for version 20.8.0.
+- [x] GitHub Actions `verify` passes for Pull Request #40.
+- [x] Cloudflare Pages creates a successful preview for commit `90a746b`.
+
+Phase 7 gate result: `PASS` on 2026-08-08. Phase 8 is now the only unlocked phase.
