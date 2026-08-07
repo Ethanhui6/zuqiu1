@@ -43,7 +43,7 @@ Local repository state is the source of truth. A phase may move to `PASS` only a
 - [x] Full automated test suite passes on the current local worktree: 108/108.
 - [x] Production build passes on the current local worktree: version 20.4.0.
 - [x] Repository hygiene and secret scans pass.
-- [x] Required mobile viewport audit passes at 320, 360, 375, 390, 393, 428, 430, 768, 1280, 1440, and 1920 px.
+- [x] Required mobile viewport audit passes at 320, 360, 375, 390, 393, 414, 428, 430, 768, 1280, 1440, and 1920 px.
 - [x] Browser-driven flow covers player creation through signing.
 - [x] Browser-driven flow covers training, club, match preview, mini-game, and match result.
 - [x] Browser-driven flow covers three seasons, three season reviews, transfer, and the next season.
