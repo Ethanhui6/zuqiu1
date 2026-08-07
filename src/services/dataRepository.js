@@ -25,7 +25,7 @@ export class DataRepository{
       youth:c.youth??Math.max(45,Math.min(95,c.rep-3+(i%11))),finance:c.finance??Math.max(35,Math.min(98,c.rep-8+(i%17))),fanBase:c.fanBase??Math.round(80000*Math.pow(Math.max(1,c.rep-49),2.05)),
       stadiumCapacity:c.stadiumCapacity??Math.round(8000+(c.rep-50)*1150+(i%9)*700),tactic:c.tactic||tactics[i%tactics.length],recruitment:c.recruitment||recruitment[i%recruitment.length],
       youthUsage:c.youthUsage??Math.max(25,Math.min(95,45+(i%46))),needs:c.needs||['ST','CM','CB','GK'].slice(i%3,(i%3)+2),honours:c.honours||'历史荣誉资料待核对。',
-      crest,crestPath:crest,crestStatus:crest?'exact':'unmatched',crestSource:c.crestSource||CLUB_CRESTS[c.id]?.source||null,
+      crest,crestPath:crest,crestStatus:crest?'exact':'fallback',crestSource:c.crestSource||CLUB_CRESTS[c.id]?.source||null,
       dataSource:{identity:'项目内置真实俱乐部名称库',ratings:'独立模拟评级',unverifiedFields:['city','attack','defense','youth','finance','fanBase','stadiumCapacity','tactic','recruitment','youthUsage','needs']}
     };});
   }
