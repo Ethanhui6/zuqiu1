@@ -7,7 +7,7 @@ export function createDefaultState() {
     version: VERSION,
     route: 'career',
     createdAt: new Date().toISOString(),
-    settings: { mode: 'standard', theme: 'light', autoSkipLow: true, autoPauseCritical: true, motion: 'full', sound: true, haptics: true },
+    settings: { mode: 'fast', theme: 'light', autoSkipLow: true, autoPauseCritical: true, motion: 'full', sound: true, haptics: true },
     simulation: { paused: false, speed: 1, date: '2026-07-01', processedKeys: [], summaries: [], queue: [], lastKeyNode: null },
     player: null,
     season: { year: '2026/27', week: 1, progress: 0, appearances: 0, goals: 0, assists: 0, rating: 0, objectives: [], startOvr: null, startMarketValue: 650000, keyNodes: 0 },

@@ -24,6 +24,7 @@ export class SimulationController {
     if (state.events?.pending?.length) return { type: 'event', label: '处理待办事件', action: 'nextEvent', blocked: true };
     if (state.training?.currentOpportunity) return { type: 'training', label: '处理关键训练机会', action: 'training', blocked: true, target: state.training.currentOpportunity.createdAt };
     const match = this.nextMatch(state);
+    if (['fast', 'legend'].includes(state.settings?.mode) && match && !match.important) return { type: 'time', label: '推进到下一个关键节点', target: match.date, action: 'month', match };
     if (match) return { type: 'match', label: `准备 ${match.competition}`, target: match.date, action: 'nextMatch', match };
     if (state.season?.progress >= 99) return { type: 'season', label: '赛季结算', target: state.simulation.date, action: 'seasonEnd' };
     return { type: 'time', label: '推进至下一关键节点', target: addDays(state.simulation.date, 30), action: 'month' };
@@ -111,7 +112,7 @@ export class SimulationController {
       }
       if(['week','month','halfSeason','window','seasonEnd'].includes(action)){
         const density=state.settings.mode==='legend'?3:state.settings.mode==='fast'?8:state.settings.mode==='ultra'?12:5;
-        if(processed%density===0 && !state.events.pending.length){
+        if(processed%density===0 && !state.events.pending.length && !(state.settings.mode==='fast'&&state.settings.autoSkipLow!==false)){
           this.store.set(s=>{generatedEvent=this.eventEngine.schedule(s,{priority:state.settings.mode==='legend'?'important':'normal'});return s;});
           if(generatedEvent && state.settings.autoPauseCritical && generatedEvent.priority==='important'){stopReason='event';break;}
         }

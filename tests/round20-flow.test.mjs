@@ -37,6 +37,23 @@ test('ordinary weeks advance automatically and stop at a generated training node
   assert.equal(state.training.currentOpportunity.choices.length <= 4, true);
 });
 
+test('fast mode batches ordinary matches and stops at important matches', async () => {
+  const state = createDefaultState();
+  state.player = structuredClone(player);
+  state.schedule = [
+    { id: 'ordinary-1', date: '2026-07-08', competition: '青年联赛', opponent: '河畔竞技', status: 'upcoming', important: false },
+    { id: 'ordinary-2', date: '2026-07-15', competition: '青年联赛', opponent: '北城学院', status: 'upcoming', important: false },
+    { id: 'important-1', date: '2026-07-29', competition: '国内杯决赛', opponent: '海港青年队', status: 'upcoming', important: true }
+  ];
+  const store = { get: () => state, set: updater => updater(state) };
+  const controller = new SimulationController(store, { schedule: () => null });
+  assert.equal(controller.nextNode(state).action, 'month');
+  const result = await controller.advance('month');
+  assert.equal(result.stopReason, 'match');
+  assert.equal(result.match.id, 'important-1');
+  assert.equal(state.schedule.filter(match => match.auto).length, 2);
+});
+
 test('keeper radar uses the six goalkeeper fields and save migration keeps them', () => {
   const current = { speed: 70, shooting: 50, passing: 68, dribbling: 62, defending: 74, physical: 71, goalkeeping: { saves: 76, reaction: 81, positioning: 73, handling: 69, aerial: 65, distribution: 72 } };
   const html = radarChart(current, current, 90, 'GK');
