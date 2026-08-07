@@ -7,8 +7,8 @@ Local repository state is the source of truth. A phase may move to `PASS` only a
 | 0 | Local project audit | PASS |
 | 1 | Legacy site research and recovery | PASS |
 | 2 | Global UI and layout | PASS |
-| 3 | Match hub UI | IN_PROGRESS |
-| 4 | Full-season match simulation | LOCKED |
+| 3 | Match hub UI | PASS |
+| 4 | Full-season match simulation | IN_PROGRESS |
 | 5 | Career pacing | LOCKED |
 | 6 | Fast-mode feedback | LOCKED |
 | 7 | Development curve | LOCKED |
@@ -79,3 +79,21 @@ Phase 1 gate result: `PASS` on 2026-08-08. Phase 2 is now the only unlocked phas
 - [x] Generated 320 x 568 and 1280 x 720 screenshots were visually checked.
 
 Phase 2 gate result: `PASS` on 2026-08-08. Phase 3 is now the only unlocked phase.
+
+## Phase 3 Gate
+
+- [x] Match Hub first surface shows competition, both crests, home/away state, rank, strength, form, formation, and player status.
+- [x] Player status covers starting, substitute, and not-selected states with position, fitness, and morale.
+- [x] The page contains exactly one enabled and uncovered `进入比赛` CTA.
+- [x] The inline 22-row lineup was replaced with a dedicated Formation Sheet.
+- [x] Formation Sheet switches between home and away teams and renders eleven named pitch nodes per side.
+- [x] The career player is highlighted on the pitch or in an explicit bench/status row.
+- [x] Six formations are supported and exercised in the browser gate.
+- [x] Ten different matches pass across home/away states and 320 to 1280 px viewports.
+- [x] Formal lineup UI contains no technical placeholder names.
+- [x] Full automated tests pass: 108/108.
+- [x] Production build passes: version 20.4.0.
+- [x] Repository hygiene passes: 3/3.
+- [x] Phase 2 layout regression and the 12-viewport mobile audit remain green.
+
+Phase 3 gate result: `PASS` on 2026-08-08. Phase 4 is now the only unlocked phase.
