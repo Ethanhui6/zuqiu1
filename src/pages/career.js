@@ -2,6 +2,7 @@ import { icon } from '../components/icons.js';
 import { metric, statGrid } from '../components/ui.js';
 import { crestSvg } from '../components/clubCrest.js';
 import { ensureHonors } from '../systems/honors/honorsSystem.js';
+import { homeNews } from '../core/newsEngine.js';
 
 export function careerPage(app, state) {
   const player = state.player;
@@ -14,7 +15,7 @@ export function careerPage(app, state) {
     : opportunity ? { icon: 'training', title: '关键训练机会已到达', copy: `${opportunity.position} · ${opportunity.choices.length} 个方案可选`, action: 'training', label: '选择方案' }
     : next ? { icon: 'match', title: '下一场比赛准备', copy: `${next.date} · ${next.venue} 对阵 ${next.opponent}`, action: 'match', label: '查看准备' } : null;
   const lastGrowth = state.training.lastResult?.changes || state.career.growthLog.at(-1)?.changes || {};
-  const news = state.news.items.slice(0, 3);
+  const news = homeNews(state);
   const root = document.createElement('section');
   root.className = 'page career-page';
   root.innerHTML = `<div class="page-head"><div><h1 class="page-title">生涯控制台</h1><p class="page-subtitle">${state.simulation.date} · ${state.season.year} 第${Math.max(1, state.season.week)}周</p></div><span class="badge ${state.simulation.paused ? 'orange' : 'green'}">${state.simulation.paused ? '已暂停' : '推进中'}</span></div>
