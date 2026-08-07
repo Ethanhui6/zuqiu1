@@ -18,15 +18,16 @@ export class DataRepository{
   enrichClubs(clubs){
     const tactics=['控球推进','高位压迫','快速反击','边路传中','中路渗透','稳守反击'];
     const recruitment=['本国青年','高潜新星','即战力球员','技术型球员','身体型球员','国际市场'];
+    const formations=['4-3-3','4-2-3-1','4-4-2','3-5-2','3-4-2-1','4-3-1-2'];
     return clubs.map((c,i)=>{
       const crest = c.crest || c.crestPath || CLUB_CRESTS[c.id]?.path || null;
       return {
-      ...c,city:c.city||null,reputation:c.rep,attack:c.attack??Math.max(45,c.rep+(i%5)-2),defense:c.defense??Math.max(45,c.rep+((i*3)%5)-2),
+      ...c,city:c.city||null,formation:c.formation||formations[i%formations.length],reputation:c.rep,attack:c.attack??Math.max(45,c.rep+(i%5)-2),defense:c.defense??Math.max(45,c.rep+((i*3)%5)-2),
       youth:c.youth??Math.max(45,Math.min(95,c.rep-3+(i%11))),finance:c.finance??Math.max(35,Math.min(98,c.rep-8+(i%17))),fanBase:c.fanBase??Math.round(80000*Math.pow(Math.max(1,c.rep-49),2.05)),
       stadiumCapacity:c.stadiumCapacity??Math.round(8000+(c.rep-50)*1150+(i%9)*700),tactic:c.tactic||tactics[i%tactics.length],recruitment:c.recruitment||recruitment[i%recruitment.length],
       youthUsage:c.youthUsage??Math.max(25,Math.min(95,45+(i%46))),needs:c.needs||['ST','CM','CB','GK'].slice(i%3,(i%3)+2),honours:c.honours||'历史荣誉资料待核对。',
       crest,crestPath:crest,crestStatus:!crest?'fallback':c.crestSource?.generated?'generated':'exact',crestSource:c.crestSource||CLUB_CRESTS[c.id]?.source||null,
-      dataSource:{identity:'项目内置真实俱乐部名称库',ratings:'独立模拟评级',unverifiedFields:['city','attack','defense','youth','finance','fanBase','stadiumCapacity','tactic','recruitment','youthUsage','needs']}
+      dataSource:{identity:'项目内置真实俱乐部名称库',ratings:'独立模拟评级',unverifiedFields:['city','formation','attack','defense','youth','finance','fanBase','stadiumCapacity','tactic','recruitment','youthUsage','needs']}
     };});
   }
   getClub(id){return this.clubs.find(x=>x.id===id)||this.clubs[0]}
