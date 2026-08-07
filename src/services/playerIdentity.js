@@ -9,6 +9,15 @@ const COUNTRY_FILES = {
   '加纳': 'ghana', GH: 'ghana', '塞内加尔': 'senegal', SN: 'senegal', '摩洛哥': 'morocco', MA: 'morocco', '埃及': 'egypt', EG: 'egypt'
 };
 const NEIGHBORS = { 中国: ['日本', '韩国'], 日本: ['韩国', '中国'], 韩国: ['日本', '中国'], 英格兰: ['苏格兰', '威尔士'], 巴西: ['阿根廷', '葡萄牙'], 阿根廷: ['巴西', '西班牙'], 西班牙: ['葡萄牙', '法国'], 葡萄牙: ['西班牙', '巴西'], 德国: ['荷兰', '法国'], 法国: ['比利时', '德国'], 意大利: ['法国', '德国'] };
+export const CLUB_ENTRY_ROUTES = Object.freeze({
+  DIRECT_CONTRACT: { label: '直接职业合同', squad: '一线队直接合同', contract: '职业合同' },
+  ACADEMY: { label: '青训录取', squad: 'U18青训重点培养', contract: '青训合同' },
+  TRIAL: { label: '试训邀请', squad: '季前试训名单', contract: '试训协议' },
+  SCOUT_WATCH: { label: '球探观察', squad: '球探观察名单', contract: '观察期4周' },
+  RESERVE_TEAM: { label: '预备队合同', squad: '预备队培养', contract: '预备队合同' },
+  LOAN_DEVELOPMENT: { label: '租借培养', squad: '签约后租借培养', contract: '培养合同' },
+  REJECTED: { label: '暂不接纳', squad: '继续发展后再评估', contract: '暂无方案' }
+});
 
 function hash(seed) { let value = 2166136261; for (const char of String(seed || '')) value = Math.imul(value ^ char.codePointAt(0), 16777619); return value >>> 0; }
 function rng(seed) { let state = hash(seed); return () => ((state = Math.imul(1664525, state) + 1013904223) >>> 0) / 4294967296; }
@@ -95,10 +104,17 @@ export function evaluateClubFit(profile, club) {
   const recent = Number(profile.recentRating || profile.rating || 6.5);
   const score = Math.round(ovr * .58 + potential * .24 + Math.max(0, 19 - age) * 2 + (need ? 7 : 0) + Math.max(-3, recent - 6.5) * 3);
   const required = Math.round(rep - 8 + (local ? 0 : 4));
-  const eligible = score >= required;
-  const reasons = [need ? '该位置有明确需求' : '需要竞争现有位置', potential >= 86 ? '潜力符合重点培养标准' : '潜力处于常规观察范围', local ? '不占外援适应名额' : '需要额外评估注册与适应'];
-  return { score, required, eligible, reasons, role: age <= 19 ? score >= required + 12 ? '一线队轮换观察' : '青年队培养' : score >= required + 10 ? '轮换球员' : '阵容竞争' };
+  const entryRoute = score >= required - 2 && ovr >= 82 ? 'DIRECT_CONTRACT'
+    : age <= 18 && potential >= 88 ? 'ACADEMY'
+    : age <= 20 && potential >= 84 && score >= required - 25 ? 'TRIAL'
+    : age <= 18 && potential >= 80 ? 'SCOUT_WATCH'
+    : score >= required - 12 ? 'RESERVE_TEAM'
+    : age <= 22 && potential >= 80 && score >= required - 24 ? 'LOAN_DEVELOPMENT'
+    : 'REJECTED';
+  const entry = CLUB_ENTRY_ROUTES[entryRoute],eligible=entryRoute!=='REJECTED';
+  const reasons = [need ? '该位置有明确需求' : '需要竞争现有位置', potential >= 86 ? '潜力符合重点培养标准' : '潜力处于常规观察范围', local ? '不占外援适应名额' : '需要额外评估注册与适应', eligible?`当前入口：${entry.label}`:'当前能力与潜力组合尚无可行入口'];
+  return { score, required, eligible, entryRoute, entryLabel:entry.label, reasons, role:entry.squad, contractType:entry.contract };
 }
-function offer(club, type, profile, home = false) { const fit = evaluateClubFit(profile, club); const reason = `${home ? '本地培养关系稳定；' : ''}${fit.reasons.join('；')}。综合 ${fit.score}，门槛 ${fit.required}。`; return { clubId: club.id, club, type, reason, eligible: fit.eligible, score: fit.score, required: fit.required, requirements: fit.reasons, positionFit: fit.reasons[0], squad: fit.role, contract: `${Math.max(1, Math.round((club.youth || 60) / 25))}年`, weeklyWage: Math.max(100, Math.round(100 + Number(club.finance || 60) * 4)), adaptationRisk: type === '海外球探机会' ? '中等' : '低' }; }
+function offer(club, type, profile, home = false) { const fit = evaluateClubFit(profile, club); const years=Math.max(1,Math.round((club.youth||60)/25));const reason = `${home ? '本地培养关系稳定；' : ''}${fit.reasons.join('；')}。综合 ${fit.score}，门槛 ${fit.required}。`; return { clubId: club.id, club, type, reason, eligible: fit.eligible, entryRoute:fit.entryRoute, entryLabel:fit.entryLabel, score: fit.score, required: fit.required, requirements: fit.reasons, positionFit: fit.reasons[0], squad: fit.role, contract: fit.entryRoute==='REJECTED'?fit.contractType:`${fit.contractType} · ${years}年`, weeklyWage: fit.entryRoute==='SCOUT_WATCH'?0:Math.max(100,Math.round(100+Number(club.finance||60)*4)), adaptationRisk: type === '海外球探机会' ? '中等' : '低' }; }
 
 export { COUNTRY_FILES, fileFor };

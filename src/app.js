@@ -184,7 +184,7 @@ class App {
     const externalOpen=['compare','interest','agent','contact','expected-contract'];
     if(!current&&!externalOpen.includes(action))return this.feedback.emit('failure','该操作只适用于当前俱乐部');
     const fit=evaluateClubFit({...player,country:player.country||player.nation,recentRating:snapshot.season.rating||6.5},club);
-    if(!current&&['interest','agent','contact','expected-contract'].includes(action)&&!fit.eligible)return this.feedback.emit('failure',`当前综合 ${fit.score}，未达到球队门槛 ${fit.required}`);
+    if(!current&&['interest','agent','contact','expected-contract'].includes(action)&&!fit.eligible)return this.feedback.emit('failure',`${fit.entryLabel}：${fit.reasons.at(-1)}`);
     if(current&&clubInteractionScenario(action))return this.openClubInteraction(action,club);
     const labels={compare:'加入比较',interest:'表达兴趣',agent:'经纪人接触',contact:'请求沟通','expected-contract':'查看预期合同',coach:'与主教练沟通',minutes:'询问出场机会',position:'讨论场上位置',training:'调整训练',loan:'请求外租',stay:'表达留队意愿','transfer-request':'提交转会申请',teammate:'与队友互动',captain:'与队长交流',management:'与管理层沟通',renew:'请求续约'};
     this.store.set(state=>{
