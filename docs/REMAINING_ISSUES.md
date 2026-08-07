@@ -12,6 +12,10 @@ Only verified, unresolved issues belong here.
 
 No unresolved P0 or P1 runtime defect was confirmed by the Phase 0 gate.
 
+## Legacy Reference Findings
+
+- The recovered old site's UI rendering consumes its seeded simulation RNG. Initial states match for the same seed, but later rendered replays can diverge. This is reference evidence only and must not be copied into the current engine.
+
 ## Resolved During Phase 0
 
 - The Phase 0 browser gate initially assumed advancement remained on the Career route; it now follows the application's real automatic Training navigation.
