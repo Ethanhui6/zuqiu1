@@ -7,6 +7,17 @@ import { addNews } from './newsEngine.js';
 const addDays=(date,days)=>{ const d=new Date(`${date}T00:00:00Z`); d.setUTCDate(d.getUTCDate()+days); return d.toISOString().slice(0,10); };
 const daysBetween=(a,b)=>Math.round((new Date(`${b}T00:00:00Z`)-new Date(`${a}T00:00:00Z`))/86400000);
 
+// Fast mode is intentionally a short career-management loop, not a timed simulation.
+export const FAST_SEASON_PACE=Object.freeze({
+  mode:'fast', trainingWeeks:Object.freeze([6,20]), maxTrainingNodes:2, autoEventCheckDays:8,
+  targetSeconds:Object.freeze({min:15,max:30}), expectedActions:Object.freeze({advance:3,training:2}),
+  actionSeconds:Object.freeze({advance:2,training:7})
+});
+export const assessFastSeasonPace=({advanceActions=FAST_SEASON_PACE.expectedActions.advance,trainingChoices=FAST_SEASON_PACE.expectedActions.training}={})=>{
+  const estimatedSeconds=advanceActions*FAST_SEASON_PACE.actionSeconds.advance+trainingChoices*FAST_SEASON_PACE.actionSeconds.training;
+  return {advanceActions,trainingChoices,estimatedSeconds,withinTarget:estimatedSeconds>=FAST_SEASON_PACE.targetSeconds.min&&estimatedSeconds<=FAST_SEASON_PACE.targetSeconds.max};
+};
+
 export class SimulationController {
   constructor(store,eventEngine){ this.store=store; this.eventEngine=eventEngine; this.running=false; this.cancelled=false; }
   pause(){ this.cancelled=true; this.running=false; this.store.set(s=>{s.simulation.paused=true;return s;}); }
@@ -26,7 +37,7 @@ export class SimulationController {
     if (state.events?.pending?.length) return { type: 'event', label: '处理待办事件', action: 'nextEvent', blocked: true };
     if (state.training?.currentOpportunity) return { type: 'training', label: '处理关键训练机会', action: 'training', blocked: true, target: state.training.currentOpportunity.createdAt };
     const match = this.nextMatch(state);
-    if (['fast', 'legend'].includes(state.settings?.mode) && (!match || !match.important)) return { type: 'time', label: '快速结算到下一个职业节点', target: this.seasonEndDate(state), action: 'seasonEnd', match };
+    if ([FAST_SEASON_PACE.mode, 'legend'].includes(state.settings?.mode) && (!match || !match.important)) return { type: 'time', label: '快速结算到下一个职业节点', target: this.seasonEndDate(state), action: 'seasonEnd', match };
     if (match) return { type: 'match', label: `准备 ${match.competition}`, target: match.date, action: 'nextMatch', match };
     if (state.season?.progress >= 99) return { type: 'season', label: '赛季结算', target: state.simulation.date, action: 'seasonEnd' };
     return { type: 'time', label: '推进至下一关键节点', target: addDays(state.simulation.date, 30), action: 'month' };
@@ -75,7 +86,7 @@ export class SimulationController {
     if(this.store.get().training.currentOpportunity)return {status:'needs-training',trainingOpportunity:this.store.get().training.currentOpportunity,processed:0,stopReason:'training'};
     const dueMatch=action==='nextMatch'&&this.nextMatch(this.store.get());
     if(dueMatch?.date===this.store.get().simulation.date){
-      if(this.store.get().settings.mode==='fast'&&!dueMatch.important){this.store.set(state=>{this.settleFastMatch(state,dueMatch);return state;});return {status:'ok',processed:0,autoMatches:1,stopReason:'match-auto',event:null,match:dueMatch,description:desc};}
+      if(this.store.get().settings.mode===FAST_SEASON_PACE.mode&&!dueMatch.important){this.store.set(state=>{this.settleFastMatch(state,dueMatch);return state;});return {status:'ok',processed:0,autoMatches:1,stopReason:'match-auto',event:null,match:dueMatch,description:desc};}
       return {status:'ok',processed:0,stopReason:'match',event:null,match:dueMatch,description:desc};
     }
     this.running=true; this.cancelled=false;
@@ -101,11 +112,11 @@ export class SimulationController {
       processed++;
       const state=this.store.get(); const match=this.nextMatch(state);
       if(match && match.date===state.simulation.date){
-        if(state.settings.mode==='fast'&&!match.important){this.store.set(next=>{this.settleFastMatch(next,match);return next;});autoMatches++;continue;}
+        if(state.settings.mode===FAST_SEASON_PACE.mode&&!match.important){this.store.set(next=>{this.settleFastMatch(next,match);return next;});autoMatches++;continue;}
         matchReady=match; stopReason='match'; break;
       }
       const trainingKey=`training-node:${state.season.year}:${state.season.week}`;
-      if(!state.training.currentOpportunity&&Number(state.training.seasonTrainingCount||0)<2&&[6,20].includes(state.season.week)&&new Date(`${state.simulation.date}T00:00:00Z`).getUTCDay()===1&&!state.simulation.processedKeys.includes(trainingKey)){
+      if(!state.training.currentOpportunity&&Number(state.training.seasonTrainingCount||0)<FAST_SEASON_PACE.maxTrainingNodes&&FAST_SEASON_PACE.trainingWeeks.includes(state.season.week)&&new Date(`${state.simulation.date}T00:00:00Z`).getUTCDay()===1&&!state.simulation.processedKeys.includes(trainingKey)){
         this.store.set(next=>{next.simulation.processedKeys.push(trainingKey);trainingOpportunity=createTrainingOpportunity(next,{seed:`${next.simulation.date}:${trainingKey}`});return next;});
         if(trainingOpportunity){stopReason='training';break;}
       }
@@ -113,8 +124,8 @@ export class SimulationController {
         this.store.set(s=>{generatedEvent=this.eventEngine.schedule(s,{priority:'important'});return s;}); stopReason='event'; break;
       }
       if(['week','month','halfSeason','window','seasonEnd'].includes(action)){
-        const density=state.settings.mode==='legend'?3:state.settings.mode==='fast'?8:state.settings.mode==='ultra'?12:5;
-        if(processed%density===0 && !state.events.pending.length && !(state.settings.mode==='fast'&&state.settings.autoSkipLow!==false)){
+        const density=state.settings.mode==='legend'?3:state.settings.mode===FAST_SEASON_PACE.mode?FAST_SEASON_PACE.autoEventCheckDays:state.settings.mode==='ultra'?12:5;
+        if(processed%density===0 && !state.events.pending.length && !(state.settings.mode===FAST_SEASON_PACE.mode&&state.settings.autoSkipLow!==false)){
           this.store.set(s=>{generatedEvent=this.eventEngine.schedule(s,{priority:state.settings.mode==='legend'?'important':'normal'});return s;});
           if(generatedEvent && state.settings.autoPauseCritical && generatedEvent.priority==='important'){stopReason='event';break;}
         }
