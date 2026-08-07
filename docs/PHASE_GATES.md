@@ -12,8 +12,8 @@ Local repository state is the source of truth. A phase may move to `PASS` only a
 | 5 | Career pacing | PASS |
 | 6 | Fast-mode feedback | PASS |
 | 7 | Development curve | PASS |
-| 8 | Development feedback animation | IN_PROGRESS |
-| 9 | Career timeline | LOCKED |
+| 8 | Development feedback animation | PASS |
+| 9 | Career timeline | IN_PROGRESS |
 | 10 | Club interactions | LOCKED |
 | 11 | Toast system | LOCKED |
 | 12 | Career events | LOCKED |
@@ -170,7 +170,7 @@ Phase 7 gate result: `PASS` on 2026-08-08. Phase 8 is now the only unlocked phas
 - [x] Chromium verifies live radar movement and no horizontal overflow at 390x844; the full 12-viewport and seven-phone-width layout gates pass.
 - [x] Full automated suite passes: 109/109; Phase 5 pacing, Phase 7 curves, three-season browser replay, 30-node feedback, and full-career regressions pass.
 - [x] Production build passes as version 20.9.0.
-- [ ] GitHub Actions `verify` passes for the Phase 8 Pull Request.
-- [ ] Cloudflare Pages creates a successful preview for the Phase 8 commit.
+- [x] GitHub Actions `verify` passes for Pull Request #41.
+- [x] Cloudflare Pages creates a successful preview for commit `1e72ce9`.
 
-Phase 8 remains `IN_PROGRESS` until all local and remote checks pass.
+Phase 8 gate result: `PASS` on 2026-08-08. Phase 9 is now the only unlocked phase.

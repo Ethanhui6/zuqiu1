@@ -41,4 +41,7 @@ The season settlement order was corrected so annual development is applied befor
 - Browser-driven 30-result-node gate: PASS.
 - Full mobile audit: PASS at 12 viewports from 320x568 to 1920x1080.
 - Phase 2 layout audit: PASS at seven mobile widths from 320 to 430 px.
-- GitHub and Cloudflare evidence will be recorded when the phase closes.
+- Implementation commit: `1e72ce9`.
+- Pull Request: #41, stacked on `codex/phase-7-development-curve`.
+- GitHub Actions `verify`: PASS.
+- Cloudflare Pages native preview for `1e72ce9`: PASS.
