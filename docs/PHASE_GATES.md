@@ -13,8 +13,8 @@ Local repository state is the source of truth. A phase may move to `PASS` only a
 | 6 | Fast-mode feedback | PASS |
 | 7 | Development curve | PASS |
 | 8 | Development feedback animation | PASS |
-| 9 | Career timeline | IN_PROGRESS |
-| 10 | Club interactions | LOCKED |
+| 9 | Career timeline | PASS |
+| 10 | Club interactions | IN_PROGRESS |
 | 11 | Toast system | LOCKED |
 | 12 | Career events | LOCKED |
 | 13 | Mini-games | LOCKED |
@@ -186,7 +186,7 @@ Phase 8 gate result: `PASS` on 2026-08-08. Phase 9 is now the only unlocked phas
 - [x] Real Chromium passes at 320x844, 390x844, and 430x844 with ten loaded crests, 28 unique nodes, no broken images, and no horizontal overflow.
 - [x] Full automated suite passes: 110/110; production build passes as version 20.10.0.
 - [x] Phase 5 pacing and retirement, Phase 8 feedback, three-season replay, 30-result-node, full 12-viewport, and seven-phone-width regressions pass.
-- [ ] GitHub Actions `verify` passes for the Phase 9 Pull Request.
-- [ ] Cloudflare Pages creates a successful native preview for the Phase 9 implementation commit.
+- [x] GitHub Actions `verify` passes for Pull Request #42.
+- [x] Cloudflare Pages creates a successful native preview for implementation commit `9a9d324`.
 
-Phase 9 gate result: `IN_PROGRESS`. Local acceptance is complete; remote delivery checks remain open.
+Phase 9 gate result: `PASS` on 2026-08-08. Phase 10 is now the only unlocked phase.

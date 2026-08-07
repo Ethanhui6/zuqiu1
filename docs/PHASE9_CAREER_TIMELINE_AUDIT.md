@@ -43,4 +43,8 @@ The same timeline renderer is used on the career home page and in the Honors Roo
 - Full mobile audit: PASS at 12 viewports from 320x568 to 1920x1080.
 - Phase 2 layout audit: PASS at seven mobile widths from 320 to 430 px.
 
-Remote implementation commit, Pull Request, GitHub Actions, and Cloudflare Pages evidence will be recorded after the feature branch is pushed.
+- Implementation commit: `9a9d324`.
+- Pull Request: #42, stacked on `codex/phase-8-development-feedback`.
+- GitHub Actions `verify`: PASS.
+- Cloudflare Pages native preview for `9a9d324`: PASS.
+- Preview: `https://bcdca620.zuqiu-4tt.pages.dev`.
