@@ -5,8 +5,8 @@ Local repository state is the source of truth. A phase may move to `PASS` only a
 | Phase | Scope | Status |
 | ---: | --- | --- |
 | 0 | Local project audit | PASS |
-| 1 | Legacy site research and recovery | IN_PROGRESS |
-| 2 | Global UI and layout | LOCKED |
+| 1 | Legacy site research and recovery | PASS |
+| 2 | Global UI and layout | IN_PROGRESS |
 | 3 | Match hub UI | LOCKED |
 | 4 | Full-season match simulation | LOCKED |
 | 5 | Career pacing | LOCKED |
@@ -49,4 +49,17 @@ Local repository state is the source of truth. A phase may move to `PASS` only a
 - [x] Browser-driven flow covers three seasons, three season reviews, transfer, and the next season.
 - [x] Operation counts, age/date nodes, pause reasons, resolved issues, and regressions are recorded in `docs/PHASE0_REPLAY_REPORT.md`.
 
-Phase 0 gate result: `PASS` on 2026-08-08. Phase 1 is now the only unlocked phase.
+Phase 0 gate result: `PASS` on 2026-08-08. It unlocked Phase 1.
+
+## Phase 1 Gate
+
+- [x] Public legacy artifacts were inventoried and locally preserved.
+- [x] Four encoding-damaged public scripts were recaptured and validated in a local browser.
+- [x] Ten distinct browser-driven careers reached retirement without a dead end.
+- [x] Long, normal, and express pacing modes were exercised.
+- [x] High, ordinary, and low trajectories; bench/regular roles; transfers; overseas and elite leagues; injuries; national team; trophies; slumps; and retirement were covered.
+- [x] Player operation counts and result-confirmation counts were recorded.
+- [x] The legacy Career Loop, growth trend, peak ages, decline, and transfer cadence were extracted.
+- [x] Recovery artifacts remain isolated from the current production build.
+
+Phase 1 gate result: `PASS` on 2026-08-08. Phase 2 is now the only unlocked phase.
