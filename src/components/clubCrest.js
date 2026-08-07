@@ -16,7 +16,7 @@ export function validateClubCrest(value) { return typeof value === 'string' && /
 export function crestSvg(club, { size = 48, decorative = false } = {}) {
   const label = `${club?.cn || club?.name || club?.nameZh || '俱乐部'}队徽`;
   const path = getClubCrest(club);
-  if (!path) return `<span class="club-crest club-crest--inline club-crest--missing" role="img" aria-label="${decorative ? '' : `${escapeHtml(label)}资源暂未匹配`}" data-crest-status="missing">—</span>`;
+  if (!path) return `<span class="club-crest club-crest--inline club-crest--missing" role="img" aria-label="${decorative ? '' : `${escapeHtml(label)}资源暂未匹配`}" data-crest-status="missing">${crestMonogram(club)}</span>`;
   return `<img class="club-crest club-crest--inline" src="${escapeHtml(path)}" alt="${decorative ? '' : escapeHtml(label)}" width="${Number(size) || 48}" height="${Number(size) || 48}" loading="lazy" decoding="async">`;
 }
 
@@ -24,10 +24,11 @@ export function createClubCrest(club, { size = 'normal', decorative = false } = 
   const pixels = sizeMap[size] || sizeMap.normal;
   const label = `${club?.cn || club?.name || club?.nameZh || '俱乐部'}队徽`;
   const path = getClubCrest(club);
-  if (!path) return el('span', { className: `club-crest club-crest--${size} club-crest--missing`, attrs: { role: 'img', 'aria-label': decorative ? '' : `${label}资源暂未匹配`, 'data-crest-status': 'missing' }, text: '—' });
+  if (!path) return el('span', { className: `club-crest club-crest--${size} club-crest--missing`, attrs: { role: 'img', 'aria-label': decorative ? '' : `${label}资源暂未匹配`, 'data-crest-status': 'missing' }, text: crestMonogram(club) });
   const image = el('img', { className: `club-crest club-crest--${size}`, attrs: { src: path, alt: decorative ? '' : label, width: pixels, height: pixels, loading: 'lazy', decoding: 'async' } });
   image.addEventListener('error', () => { image.replaceWith(createClubCrest({ ...club, crest: null }, { size, decorative })); });
   return image;
 }
 
 function escapeHtml(value) { return String(value).replace(/[&<>"']/g, char => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[char])); }
+function crestMonogram(club) { return escapeHtml(String(club?.code || club?.id || club?.cn || club?.name || 'FC').replace(/[^a-z0-9]/gi, '').slice(-3).toUpperCase() || 'FC'); }

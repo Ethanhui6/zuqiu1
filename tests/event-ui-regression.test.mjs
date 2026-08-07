@@ -82,14 +82,16 @@ test('event choices stay clickable on mobile and desktop across 30 resolutions',
   const browser = await chromium.launch({ headless: true, executablePath });
   const base = `http://127.0.0.1:${server.address().port}/?no-sw=1`;
   try {
-    for (const [position, viewport, hasTouch] of [
-      ['ST', { width: 390, height: 844 }, true],
-      ['GK', { width: 1280, height: 720 }, false]
+    for (const [position, viewport, hasTouch, count] of [
+      ['ST', { width: 390, height: 844 }, true, 8],
+      ['CM', { width: 375, height: 812 }, true, 7],
+      ['CB', { width: 428, height: 926 }, true, 7],
+      ['GK', { width: 1280, height: 720 }, false, 8]
     ]) {
       const page = await browser.newPage({ viewport, hasTouch });
       await page.goto(base, { waitUntil: 'networkidle' });
       await createCareer(page, position);
-      for (let index = 0; index < 15; index += 1) {
+      for (let index = 0; index < count; index += 1) {
         await queueEvent(page, position, index);
         await page.reload({ waitUntil: 'networkidle' });
         await resolveEvent(page, index === 0, index + 1);
