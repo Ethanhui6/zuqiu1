@@ -162,4 +162,4 @@ check('用户界面无指定内部英文和危险直出标记',()=>{
   for(const word of ['[object Object]','Loading','Continue','Transfer Offer','Season Complete','Career Complete'])assert.equal(content.includes(word),false,word);
 });
 
-console.log(JSON.stringify({status:'PASS',version:'20.2.0',passed:checks.length,cases:checks},null,2));
+console.log(JSON.stringify({status:'PASS',version:'20.3.0',passed:checks.length,cases:checks},null,2));

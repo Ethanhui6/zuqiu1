@@ -40,4 +40,4 @@ save.career.weekState.trainingDone=true;
 save.career.objectives.active=['starter','fitness'];
 assert.equal(getRecommendedAction(save,repo).id,'fixture','全部待办完成后应提示下一场比赛');
 
-console.log(JSON.stringify({status:'PASS',version:'20.2.0',cases:['导航徽标连接真实待办数量','关键事件优先级','比赛优先级','转会优先级','训练优先级','完成待办后引导下一场比赛']},null,2));
+console.log(JSON.stringify({status:'PASS',version:'20.3.0',cases:['导航徽标连接真实待办数量','关键事件优先级','比赛优先级','转会优先级','训练优先级','完成待办后引导下一场比赛']},null,2));
