@@ -39,7 +39,26 @@ export const MINI_GAME_LIBRARY = Object.freeze([
   define('direction-clue', '脚型预判', 'direction', 'defending', 'interactiveMatch', ['GK']),
   define('position-window', '站位窗口', 'position', 'physical', 'interactiveMatch', ['GK']),
   define('target-power', '出球力度', 'power', 'passing', 'interactiveMatch', ['GK']),
-  define('strategy-meter', '补时策略', 'strategy', 'physical', 'interactiveMatch')
+  define('strategy-meter', '补时策略', 'strategy', 'physical', 'interactiveMatch'),
+  define('pressing-shadow', '压迫影子', 'tap-pursuit', 'physical', 'trainingGame', ['ST', 'LW', 'RW', 'CAM', 'CM', 'CDM']),
+  define('first-touch-gate', '第一脚闸门', 'prediction-timing', 'dribbling', 'trainingGame', ['ST', 'LW', 'RW', 'CAM', 'CM']),
+  define('passing-angle', '传球角度', 'aim-power', 'passing', 'trainingGame', ['CB', 'LB', 'RB', 'CDM', 'CM', 'CAM']),
+  define('crossing-zone', '传中落区', 'drag-target', 'passing', 'trainingGame', ['LB', 'RB', 'LW', 'RW', 'CM']),
+  define('finishing-combo', '终结组合', 'sequence-target', 'shooting', 'trainingGame', ['ST', 'LW', 'RW', 'CAM']),
+  define('weak-foot-volley', '逆足凌空', 'reaction-timing', 'shooting', 'trainingGame', ['ST', 'LW', 'RW', 'CAM', 'CM']),
+  define('rondo-scan', '抢圈扫描', 'memory-route', 'passing', 'trainingGame', ['CDM', 'CM', 'CAM', 'CB']),
+  define('defensive-line', '防线协同', 'drag-line', 'defending', 'trainingGame', ['CB', 'LB', 'RB', 'CDM']),
+  define('interception-read', '拦截预判', 'clue-prediction', 'defending', 'trainingGame', ['CB', 'LB', 'RB', 'CDM', 'CM']),
+  define('jockey-mirror', '侧身镜像', 'mirror-sequence', 'defending', 'trainingGame', ['CB', 'LB', 'RB', 'CDM']),
+  define('clearance-height', '解围高度', 'hold-direction', 'physical', 'trainingGame', ['CB', 'LB', 'RB', 'CDM', 'GK']),
+  define('corner-run', '角球跑位', 'draw-path', 'speed', 'trainingGame', ['ST', 'LW', 'RW', 'CAM', 'CB']),
+  define('second-ball', '二点反应', 'rebound-target', 'shooting', 'trainingGame', ['ST', 'LW', 'RW', 'CAM', 'CM']),
+  define('counter-route', '反击路线', 'multi-stage', 'passing', 'trainingGame', ['ST', 'LW', 'RW', 'CAM', 'CM']),
+  define('overlap-timing', '套边时机', 'runner-timing', 'speed', 'trainingGame', ['LB', 'RB', 'LW', 'RW', 'CM']),
+  define('keeper-double-save', '门将二连扑', 'direction-sequence', 'defending', 'trainingGame', ['GK']),
+  define('keeper-sweeper', '门将扫荡', 'prediction-window', 'speed', 'trainingGame', ['GK']),
+  define('keeper-angle', '门将封角', 'drag-angle', 'defending', 'trainingGame', ['GK']),
+  define('set-piece-routine', '定位球套路', 'memory-sequence', 'passing', 'trainingGame', ['ST', 'LW', 'RW', 'CAM', 'CM', 'CB'])
 ]);
 
 export const MINI_GAME_COUNT = MINI_GAME_LIBRARY.length;

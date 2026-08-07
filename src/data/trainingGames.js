@@ -20,10 +20,28 @@ export const TRAINING_GAMES = Object.freeze([
   game('keeper-high-ball', '门将高空球', 'drag-target', '制空', 'keeper', '把门将拖到落点，再点击起跳摘球。', 10, 7),
   game('keeper-distribution', '门将开球', 'power-target', '开球', 'keeper', '选择传球目标并控制力度，把球送到队友脚下。', 5, 5),
   game('rehab-rhythm', '康复训练', 'safe-rhythm', '恢复', 'recovery', '保持舒缓节奏，过量操作会增加复发风险。', 2, -9),
-  game('core-stability', '核心稳定', 'keep-zone', '身体', 'physical', '用方向键或拖动让平衡点留在安全区域内。', 6, 5)
+  game('core-stability', '核心稳定', 'keep-zone', '身体', 'physical', '用方向键或拖动让平衡点留在安全区域内。', 6, 5),
+  game('pressing-shadow', '压迫影子', 'pressing-shadow', '身体', 'physical', '连续点击对手的下一处持球点，完成三段压迫路线。', 12, 9),
+  game('first-touch-gate', '第一脚闸门', 'first-touch-gate', '盘带', 'dribbling', '观察来球方向，在足球进入接球窗口时选择第一脚处理。', 8, 6),
+  game('passing-angle', '传球角度', 'passing-angle', '传球', 'passing', '选择穿越防线的角度，再控制力度把球送到队友脚下。', 7, 6),
+  game('crossing-zone', '传中落区', 'crossing-zone', '传球', 'passing', '拖动落点避开门将和后卫，把球送入目标区域。', 9, 7),
+  game('finishing-combo', '终结组合', 'finishing-combo', '射门', 'shooting', '按顺序完成摆脱、调整和射门，最后点击球门目标。', 13, 9),
+  game('weak-foot-volley', '逆足凌空', 'weak-foot-volley', '射门', 'shooting', '等待足球落入凌空窗口，用逆足完成一次触球。', 14, 9),
+  game('rondo-scan', '抢圈扫描', 'rondo-scan', '传球', 'tactics', '记住队友亮起的顺序，在防守者合围前复现传球路线。', 5, 5),
+  game('defensive-line', '防线协同', 'defensive-line', '防守', 'defending', '拖动防守核心，让整条防线与越位线保持一致。', 8, 7),
+  game('interception-read', '拦截预判', 'interception-read', '防守', '读取持球队员身体朝向，预判下一条传球路线。', 7, 6),
+  game('jockey-mirror', '侧身镜像', 'jockey-mirror', '防守', '镜像回应进攻者的连续变向，保持封堵距离。', 10, 7),
+  game('clearance-height', '解围高度', 'clearance-height', '身体', 'physical', '选择解围方向并控制蓄力时间，把球送离危险区。', 11, 8),
+  game('corner-run', '角球跑位', 'corner-run', '速度', 'speed', '在球场上画出绕开后卫的跑位路线并抵达目标点。', 10, 7),
+  game('second-ball', '二点反应', 'second-ball', '射门', 'shooting', '观察足球反弹，连续命中三个变化中的二点落区。', 12, 8),
+  game('counter-route', '反击路线', 'counter-route', '传球', 'tactics', '连续完成出球、推进和终结三阶段选择。', 8, 6),
+  game('overlap-timing', '套边时机', 'overlap-timing', '速度', 'speed', '等待边后卫跑入空当，再点击送出套边信号。', 9, 7),
+  game('keeper-double-save', '门将二连扑', 'keeper-double-save', '扑救', 'keeper', '根据两次射门提示连续选择扑救方向。', 13, 9),
+  game('keeper-sweeper', '门将扫荡', 'keeper-sweeper', '出击', 'keeper', '判断直塞路线，并在足球进入出击窗口时拦截。', 12, 8),
+  game('keeper-angle', '门将封角', 'keeper-angle', '站位', 'keeper', '拖动门将缩小射门角度，同时保持在球门与足球之间。', 8, 6),
+  game('set-piece-routine', '定位球套路', 'set-piece-routine', '传球', 'setpiece', '记住三名队友的启动顺序，再完成整套定位球配合。', 7, 6)
 ]);
 
 export const TRAINING_GAME_COUNT = TRAINING_GAMES.length;
 export const trainingGameById = id => TRAINING_GAMES.find(item => item.id === id) || TRAINING_GAMES[0];
 export const trainingGamesByPlan = plan => TRAINING_GAMES.filter(item => item.plan === plan);
-

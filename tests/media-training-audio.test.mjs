@@ -17,8 +17,8 @@ test('scene registry ships 56 unique self-authored local assets', () => {
   for (const scene of SCENE_REGISTRY) assert.equal(fs.existsSync(new URL(`../${scene.art.slice(2)}`, import.meta.url)), true, scene.id);
 });
 
-test('training games expose twenty different input mechanisms', () => {
-  assert.equal(TRAINING_GAME_COUNT, 20);
+test('training games expose thirty-nine different input mechanisms', () => {
+  assert.equal(TRAINING_GAME_COUNT, 39);
   assert.equal(new Set(TRAINING_GAMES.map(game => game.id)).size, TRAINING_GAME_COUNT);
   assert.equal(new Set(TRAINING_GAMES.map(game => game.mechanic)).size, TRAINING_GAME_COUNT);
   assert.ok(TRAINING_GAMES.every(game => game.instruction && game.target && game.risk >= 0));
