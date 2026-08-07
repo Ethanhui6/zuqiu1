@@ -45,15 +45,27 @@ export function generateStartingClubOffers(playerProfile, worldState = {}, seed 
   const position = playerProfile.position;
   const nearby = new Set(NEIGHBORS[nation] || []);
   const local = clubs.filter(club => club.country === nation).sort((a, b) => scoreClub(b, playerProfile) - scoreClub(a, playerProfile));
-  const localOffers = local.slice(0, 5).map((club, index) => offer(club, index === 0 ? '家乡球队' : index === 1 ? '强队青训' : '本国青训', index === 0 ? '本地关系成长快，设施与竞争保持真实差异。' : index === 1 ? '竞争更激烈，但高水平训练与比赛机会更多。' : '本国联赛环境稳定，优先按位置需求安排成长。', position));
+  const eligible = local.filter(club => evaluateClubFit(playerProfile, club).eligible);
+  const localPool = [...eligible, ...local.filter(club => !eligible.includes(club))].slice(0, 5);
+  const localOffers = localPool.map((club, index) => offer(club, index === 0 ? '家乡球队' : Number(club.rep || club.reputation) >= 80 ? '强队青训' : '本国青训', playerProfile, index === 0));
   if (localOffers.length >= 3) return localOffers.slice(0, 5);
   const related = clubs.filter(club => nearby.has(club.country) && !local.some(item => item.id === club.id)).sort((a, b) => scoreClub(b, playerProfile) - scoreClub(a, playerProfile));
-  const result = [...localOffers, ...related.slice(0, 3 - localOffers.length).map(club => offer(club, '邻近青训项目', `经纪人通过${nation}与${club.country}的青年合作项目递交资料。`, position))];
-  if (result.length < 3) result.push(...clubs.filter(club => !result.some(item => item.clubId === club.id)).slice(0, 3 - result.length).map(club => offer(club, '海外球探机会', '海外球探在青年赛事中发现你，适应风险会在事件中体现。', position)));
+  const result = [...localOffers, ...related.slice(0, 3 - localOffers.length).map(club => offer(club, '邻近青训项目', playerProfile))];
+  if (result.length < 3) result.push(...clubs.filter(club => !result.some(item => item.clubId === club.id)).slice(0, 3 - result.length).map(club => offer(club, '海外球探机会', playerProfile)));
   return result.slice(0, 5);
 }
 
 function scoreClub(club, profile) { return Number(club.youth || club.youthUsage || 0) * .5 + Number(club.opportunity || club.youthUsage || 0) * .3 + (club.needs || []).includes(profile.position) * 20 + (club.city && profile.birthplace && club.city === profile.birthplace ? 16 : 0) - Number(club.rep || club.reputation || 0) * .05; }
-function offer(club, type, reason, position) { return { clubId: club.id, club, type, reason, positionFit: (club.needs || []).includes(position) ? '该位置有明确需求' : '按青训轮换安排', squad: type === '强队青训' ? '高水平青年队' : type === '海外球探机会' ? '海外项目' : '青年队', contract: `${Math.max(1, Math.round((club.youth || 60) / 25))}年`, weeklyWage: Math.max(100, Math.round(100 + Number(club.finance || 60) * 4)), adaptationRisk: type === '海外球探机会' ? '中等' : '低' }; }
+export function evaluateClubFit(profile, club) {
+  const ovr = Number(profile.ovr || 55), potential = Number(profile.potential || ovr + 12), age = Number(profile.age || 16), rep = Number(club.rep || club.reputation || 60);
+  const need = (club.needs || []).includes(profile.position), local = !profile.country && !profile.nation || club.country === (profile.country || profile.nation);
+  const recent = Number(profile.recentRating || profile.rating || 6.5);
+  const score = Math.round(ovr * .58 + potential * .24 + Math.max(0, 19 - age) * 2 + (need ? 7 : 0) + Math.max(-3, recent - 6.5) * 3);
+  const required = Math.round(rep - 8 + (local ? 0 : 4));
+  const eligible = score >= required;
+  const reasons = [need ? '该位置有明确需求' : '需要竞争现有位置', potential >= 86 ? '潜力符合重点培养标准' : '潜力处于常规观察范围', local ? '不占外援适应名额' : '需要额外评估注册与适应'];
+  return { score, required, eligible, reasons, role: age <= 19 ? score >= required + 12 ? '一线队轮换观察' : '青年队培养' : score >= required + 10 ? '轮换球员' : '阵容竞争' };
+}
+function offer(club, type, profile, home = false) { const fit = evaluateClubFit(profile, club); const reason = `${home ? '本地培养关系稳定；' : ''}${fit.reasons.join('；')}。综合 ${fit.score}，门槛 ${fit.required}。`; return { clubId: club.id, club, type, reason, eligible: fit.eligible, score: fit.score, required: fit.required, requirements: fit.reasons, positionFit: fit.reasons[0], squad: fit.role, contract: `${Math.max(1, Math.round((club.youth || 60) / 25))}年`, weeklyWage: Math.max(100, Math.round(100 + Number(club.finance || 60) * 4)), adaptationRisk: type === '海外球探机会' ? '中等' : '低' }; }
 
 export { COUNTRY_FILES, fileFor };

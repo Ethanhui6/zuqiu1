@@ -1,5 +1,6 @@
 const YEAR_PATTERN = /^(\d{4})\/(\d{2})$/;
 import { applyGrowthToState } from '../../core/playerDevelopmentEngine.js';
+import { createRealFixtures } from '../../core/simulationController.js';
 import { advanceInjury } from '../../core/injuryEngine.js';
 
 const clamp = (value, min, max) => Math.max(min, Math.min(max, value));
@@ -90,17 +91,6 @@ function simulatedHonor(id, name, season, club, category) {
   return { id, assetId: { league: 'league-title', domestic: 'domestic-cup', 'golden-boot': 'golden-boot', 'player-year': 'player-of-season', young: 'young-player' }[generatedId] || assetId, name, season, club, category, dataOrigin: 'generated-fallback', source: 'career simulation' };
 }
 
-function nextSeasonFixtures(state) {
-  const opponents = ['河畔竞技', '北城学院', '海港青年队', '山城体育', '东港联队', '中央公园'];
-  const start = String(state.season.year).slice(0, 4);
-  return opponents.map((opponent, index) => ({
-    id: `${state.season.year}-fixture-${index}`,
-    date: `${Number(start)}-${String(7 + Math.floor(index / 2)).padStart(2, '0')}-${String(6 + (index % 2) * 7).padStart(2, '0')}`,
-    competition: index % 3 === 0 ? '国内杯赛' : '青年联赛', opponent,
-    venue: index % 2 ? '客场' : '主场', status: 'upcoming', season: state.season.year
-  }));
-}
-
 export function settleSeason(state) {
   const honors = ensureHonors(state);
   const season = state.season;
@@ -166,9 +156,9 @@ export function settleSeason(state) {
   state.training.seasonTrainingCount = 0;
   state.training.currentOpportunity = null;
   state.training.completedWeek = 0;
-  state.schedule = nextSeasonFixtures({ ...state, season: { ...season, year: nextYear } });
   state.simulation.date = `${String(nextYear).slice(0, 4)}-07-01`;
   state.season = { ...season, year: nextYear, week: 1, progress: 0, appearances: 0, starts: 0, goals: 0, assists: 0, rating: 0, cleanSheets: 0, saves: 0, penaltySaves: 0, yellowCards: 0, redCards: 0, playerOfMatch: 0, keyNodes: 0, startOvr: player?.ovr ?? endOvr, startMarketValue: state.career.marketValue, startStats: { ...(player?.stats || {}) }, highlights: [], injuries: [] };
+  state.schedule = createRealFixtures(state);
   state.news ??= { items: [], unread: 0 };
   state.news.items ??= [];
   state.news.items.unshift({ id: `season-open-${nextYear}`, date: state.simulation.date, type: '赛季', title: `${nextYear}赛季注册完成`, copy: `${player?.club || club}已生成新赛程，年龄、身价、合同和能力快照已更新。`, read: false });

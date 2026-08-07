@@ -4,9 +4,35 @@ import { applyGrowthToState } from './playerDevelopmentEngine.js';
 import { keyedRandom } from '../services/rng.js';
 import { createTrainingOpportunity } from './trainingOpportunities.js';
 import { addNews } from './newsEngine.js';
+import { dataRepository } from '../services/dataRepository.js';
+import { CLUBS } from '../data/clubs.js';
 
 const addDays=(date,days)=>{ const d=new Date(`${date}T00:00:00Z`); d.setUTCDate(d.getUTCDate()+days); return d.toISOString().slice(0,10); };
 const daysBetween=(a,b)=>Math.round((new Date(`${b}T00:00:00Z`)-new Date(`${a}T00:00:00Z`))/86400000);
+export const FICTIONAL_OPPONENTS=new Set(['河畔竞技','北城学院','海港青年队','山城体育','东港联队','中央公园']);
+
+export function createRealFixtures(state,clubs=dataRepository.clubs?.length?dataRepository.clubs:CLUBS){
+  const player=state.player,current=clubs.find(club=>club.id===player?.clubId)||clubs.find(club=>(club.cn||club.name)===player?.club)||{id:player?.clubId||'career-club',name:player?.club,country:player?.country||player?.nation,continent:player?.continent,league:player?.league};
+  if(!player||clubs.length<2)return [];
+  const league=club=>club.leagueId||club.leagueCn||club.league;
+  const order=[...clubs].filter(club=>club.id!==current.id).sort((a,b)=>{
+    const priority=club=>(league(club)===league(current)?0:club.country===current.country?1:club.continent&&club.continent===current.continent?2:3);
+    return priority(a)-priority(b)||fixtureHash(`${state.season?.year}:${current.id}:${a.id}`)-fixtureHash(`${state.season?.year}:${current.id}:${b.id}`);
+  }).slice(0,6);
+  const competitions=['季前热身赛',current.leagueCn||current.league||player.league||'联赛','国内杯赛',current.leagueCn||current.league||player.league||'联赛','洲际赛事',current.leagueCn||current.league||player.league||'联赛'];
+  return order.map((opponent,index)=>({id:`${state.season?.year||'season'}-${current.id}-${opponent.id}-${index}`,date:addDays(state.simulation.date,5+index*21),competition:competitions[index],opponent:opponent.cn||opponent.name,opponentId:opponent.id,opponentCrest:opponent.crest||opponent.crestPath||null,opponentLeague:opponent.leagueCn||opponent.league||null,venue:index%2?'客场':'主场',status:'upcoming',important:state.settings?.mode!=='fast'&&(index===2||index===4),season:state.season?.year}));
+}
+
+export function replaceFictionalFixtures(state,clubs=dataRepository.clubs||[]){
+  if(!(state.schedule||[]).some(match=>match.status==='upcoming'&&FICTIONAL_OPPONENTS.has(match.opponent)))return false;
+  const replacements=createRealFixtures(state,clubs);
+  if(!replacements.length)return false;
+  const preserved=(state.schedule||[]).filter(match=>match.status!=='upcoming'||!FICTIONAL_OPPONENTS.has(match.opponent));
+  state.schedule=[...preserved,...replacements].sort((a,b)=>String(a.date).localeCompare(String(b.date)));
+  return true;
+}
+
+function fixtureHash(value){let hash=2166136261;for(const char of String(value))hash=Math.imul(hash^char.charCodeAt(0),16777619);return hash>>>0;}
 
 // Fast mode is intentionally a short career-management loop, not a timed simulation.
 export const FAST_SEASON_PACE=Object.freeze({
@@ -30,10 +56,10 @@ export class CareerDirector {
   seasonEndDate(state){ const date=new Date(`${state.simulation.date}T00:00:00Z`),year=date.getUTCFullYear(); return `${date.getUTCMonth()>=6?year+1:year}-06-30`; }
   ensureFixtures(state){
     if(!state.player||state.season.progress>=99)return;
+    replaceFictionalFixtures(state);
     if(state.schedule.some(match=>match.status==='upcoming'&&match.date>=state.simulation.date))return;
-    const opponents=['河畔竞技','北城学院','海港青年队','山城体育','东港联队','中央公园'];
     const played=state.schedule.filter(match=>match.status==='played');
-    state.schedule=[...played,...opponents.map((opponent,index)=>({id:`${state.season.year}-fixture-${index}-${state.simulation.date}`,date:addDays(state.simulation.date,7+index*21),competition:index%3===0?'国内杯赛':'青年联赛',opponent,venue:index%2?'客场':'主场',status:'upcoming',season:state.season.year}))];
+    state.schedule=[...played,...createRealFixtures(state)];
   }
   nextNode(state=this.store.get()){
     if (state.career?.offSeason?.status === 'active') return { type: 'off-season', label: '安排休赛期', action: 'offSeason', blocked: true };
