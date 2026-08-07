@@ -1,4 +1,4 @@
-import { normalizePosition } from './interactiveMatchEngine.js';
+import { normalizePosition } from './positionResolver.js';
 import { miniGameForInteraction } from './miniGameLibrary.js';
 
 const HIGHLIGHTS = Object.freeze([

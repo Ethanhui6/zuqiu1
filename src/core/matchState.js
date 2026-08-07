@@ -1,4 +1,4 @@
-import { normalizePosition } from './interactiveMatchEngine.js';
+import { normalizePosition } from './positionResolver.js';
 
 const clamp = (value, min, max) => Math.max(min, Math.min(max, Number(value) || 0));
 

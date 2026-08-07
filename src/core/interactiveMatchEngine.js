@@ -1,3 +1,7 @@
+import { POSITION_EVENT_POOL, normalizePosition, positionFits } from './positionResolver.js';
+
+export { POSITION_EVENT_POOL, normalizePosition };
+
 const clamp = (value, min = 0, max = 100) => Math.max(min, Math.min(max, Number(value) || 0));
 
 export const MATCH_INTERACTIONS = Object.freeze([
@@ -19,36 +23,6 @@ export const MATCH_INTERACTIONS = Object.freeze([
   { id: 'stoppage-decision', name: '伤停补时决策', mechanic: 'strategy-meter', icon: 'tactics', stat: 'physical', copy: '在拖延、冒险进攻和稳守反击间配合局势。', positions: ['GK', 'CB', 'LB', 'RB', 'CDM', 'CM', 'CAM', 'LW', 'RW', 'ST'] }
 ]);
 
-const POSITION_ALIASES = {
-  GK: 'GK', '门将': 'GK',
-  CB: 'CB', '中后卫': 'CB',
-  LB: 'LB', '左后卫': 'LB', '翼卫': 'LB',
-  RB: 'RB', '右后卫': 'RB',
-  CDM: 'CDM', '后腰': 'CDM',
-  CM: 'CM', '中场': 'CM', '中前卫': 'CM',
-  CAM: 'CAM', '前腰': 'CAM',
-  LW: 'LW', '左边锋': 'LW', '边锋': 'LW',
-  RW: 'RW', '右边锋': 'RW',
-  ST: 'ST', '中锋': 'ST', '前锋': 'ST'
-};
-
-export const POSITION_EVENT_POOL = Object.freeze({
-  GK: ['goalkeeper-save', 'goalkeeper-charge', 'penalty-save', 'aerial-claim', 'distribution', 'stoppage-decision'],
-  CB: ['tackle', 'header', 'body-duel', 'passing-lane', 'stoppage-decision'],
-  LB: ['tackle', 'passing-lane', 'dribble-dodge', 'through-ball', 'stoppage-decision'],
-  RB: ['tackle', 'passing-lane', 'dribble-dodge', 'through-ball', 'stoppage-decision'],
-  CDM: ['tackle', 'body-duel', 'passing-lane', 'through-ball', 'stoppage-decision'],
-  CM: ['passing-lane', 'through-ball', 'body-duel', 'tackle', 'stoppage-decision'],
-  CAM: ['through-ball', 'dribble-dodge', 'free-kick', 'shooting', 'stoppage-decision'],
-  LW: ['dribble-dodge', 'through-ball', 'shooting', 'penalty', 'stoppage-decision'],
-  RW: ['dribble-dodge', 'through-ball', 'shooting', 'penalty', 'stoppage-decision'],
-  ST: ['shooting', 'penalty', 'one-on-one', 'header', 'free-kick', 'stoppage-decision']
-});
-
-export function normalizePosition(position) {
-  return POSITION_ALIASES[position] || 'CM';
-}
-
 export function getMatchInteractionsForPosition(position) {
   const code = normalizePosition(position);
   const allowed = new Set(POSITION_EVENT_POOL[code] || POSITION_EVENT_POOL.CM);
@@ -63,9 +37,11 @@ function deterministicScore(seed, stat) {
 export function resolveMatchInteraction({ id = 'shooting', player, seed = 0, input = null } = {}) {
   const option = MATCH_INTERACTIONS.find(item => item.id === id) || MATCH_INTERACTIONS[0];
   const stats = player?.stats || {};
+  const position = normalizePosition(player?.position);
+  const positionFit = !player?.position || positionFits(position, option.positions) ? 1 : .65;
   const stat = Number(stats[option.stat] || player?.ovr || 50);
   const stateTarget = Number(input?.matchState?.miniGame?.difficulty);
-  const target = Number.isFinite(stateTarget) ? clamp(stateTarget, 35, 90) : clamp(54 + stat * .23, 60, 86);
+  const target = Number.isFinite(stateTarget) ? clamp(stateTarget, 35, 90) : clamp(54 + stat * .23 + (1 - positionFit) * 14, 60, 90);
   const manualScore = Number(input?.score);
   const score = Number.isFinite(manualScore) ? clamp(manualScore) : deterministicScore(seed, stat);
   const success = input?.skipped ? false : score >= target;
@@ -73,6 +49,8 @@ export function resolveMatchInteraction({ id = 'shooting', player, seed = 0, inp
   return {
     option,
     stat,
+    position,
+    positionFit,
     score: Math.round(score),
     target: Math.round(target),
     success,
