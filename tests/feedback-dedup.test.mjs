@@ -10,6 +10,7 @@ test('identical feedback shares one toast during a rapid repeat', () => {
   try {
     const first = director.emit('click', '已选择');
     assert.equal(director.emit('click', '已选择'), first);
-    assert.notEqual(director.emit('click', '另一项'), first);
+    assert.equal(director.emit('click', '另一项'), first);
+    assert.notEqual(director.emit('save', '另一项'), first);
   } finally { globalThis.document = originalDocument; globalThis.setTimeout = originalTimeout; }
 });
