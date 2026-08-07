@@ -35,10 +35,13 @@ function interactionFor(template, position) {
 
 function weightFor(template, state, tactic, position) {
   const text = textOf(template);
+  const style = typeof tactic === 'string' ? tactic : tactic?.style || 'balanced';
+  const keywords = Array.isArray(tactic?.keywords) ? tactic.keywords : [];
   const score = Number(state?.score?.home || 0) - Number(state?.score?.away || 0);
   const fatigue = Number(state?.player?.energy ?? 80);
   let weight = Math.max(1, Number(template.weight) || 1);
-  if (STRATEGY_HINTS[tactic]?.test(text)) weight += tactic === 'balanced' ? 0 : 3;
+  if (keywords.some(keyword => text.includes(keyword))) weight += 4;
+  if (STRATEGY_HINTS[style]?.test(text)) weight += style === 'balanced' ? 0 : 2;
   if (score < 0 && /进攻|终结|射门|突破|直塞/.test(text)) weight += 2;
   if (score > 0 && /回防|稳守|控制|保球|解围/.test(text)) weight += 2;
   if (Number(state?.matchMinute || 0) >= 70 && /末段|最后|终场|冲刺/.test(text)) weight += 2;
@@ -78,7 +81,8 @@ export class MatchEventEngine {
     const weighted = pool.map(template => ({ template, weight: weightFor(template, state, tactic, position) })).filter(item => item.weight > 0);
     if (!weighted.length) return null;
     const total = weighted.reduce((sum, item) => sum + item.weight, 0);
-    let roll = hash(`${state?.seed || state?.matchId || 0}:${state?.matchMinute || 0}:${state?.recentMatchEvents?.length || 0}:${position}:${tactic}`) % total;
+    const tacticId = typeof tactic === 'string' ? tactic : tactic?.id || tactic?.style || 'balanced';
+    let roll = hash(`${state?.seed || state?.matchId || 0}:${state?.matchMinute || 0}:${state?.recentMatchEvents?.length || 0}:${position}:${tacticId}`) % total;
     const picked = weighted.find(item => (roll -= item.weight) < 0)?.template || weighted[0]?.template;
     if (!picked) return null;
     const interactionId = interactionFor(picked, position);
