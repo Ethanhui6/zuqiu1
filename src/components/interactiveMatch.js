@@ -26,6 +26,7 @@ export function createInteractiveMatch({ option, player, seed = 0, matchState, h
     <div class="game-intro">
       <span class="badge blue">${option?.name || '比赛互动'}</span>
       <span class="badge green">${statLabel(option?.stat)} · ${player?.position || ''}</span>
+      ${matchState?.miniGame?.difficulty ? `<span class="badge orange">难度 ${matchState.miniGame.difficulty}</span>` : ''}
     </div>
     <div class="match-live-state" data-match-live-state aria-live="polite"></div>
     <div data-mini-pitch-host></div>

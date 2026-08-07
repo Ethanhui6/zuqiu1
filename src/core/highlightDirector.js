@@ -1,4 +1,5 @@
 import { normalizePosition } from './interactiveMatchEngine.js';
+import { miniGameForInteraction } from './miniGameLibrary.js';
 
 const HIGHLIGHTS = Object.freeze([
   { id: 'pressing-turnover', title: '高位压迫后的二点球', copy: '对手回传出现迟疑，下一步取决于你的处理。', interactionId: 'tackle', positions: ['CB', 'LB', 'RB', 'CDM', 'CM'], zone: 'defensive', weight: 3 },
@@ -26,14 +27,15 @@ export class HighlightDirector {
   next(state) {
     const position = normalizePosition(state?.player?.position);
     const recent = new Set(state?.recentHighlights || []);
-    let pool = HIGHLIGHTS.filter(item => item.positions.includes(position) && !recent.has(item.id));
+    const recentMiniGames = new Set(state?.recentMiniGames || []);
+    let pool = HIGHLIGHTS.filter(item => item.positions.includes(position) && !recent.has(item.id) && !recentMiniGames.has(miniGameForInteraction(item.interactionId)?.id));
     if (!pool.length) pool = HIGHLIGHTS.filter(item => item.positions.includes(position));
     if (!pool.length) pool = HIGHLIGHTS.filter(item => !recent.has(item.id));
     const total = pool.reduce((sum, item) => sum + item.weight, 0);
     let roll = hash(this.seed + (state?.highlights?.length || 0) * 97, position) % total;
     const selected = pool.find(item => (roll -= item.weight) < 0) || pool[0];
     const minute = Math.min(90, Math.max(6, (state?.matchMinute || 0) + 8 + hash(this.seed, selected.id) % 18));
-    return { ...selected, minute };
+    return { ...selected, minute, miniGame: miniGameForInteraction(selected.interactionId) };
   }
 }
 

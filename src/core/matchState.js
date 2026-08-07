@@ -31,7 +31,9 @@ export function createMatchState({ match = {}, player = {}, seed = 0, tactic = '
     injuries: [],
     zone: 'middle',
     tacticalContext: { id: tactic },
+    miniGame: null,
     recentHighlights: [],
+    recentMiniGames: [],
     highlights: []
   };
 }
@@ -58,5 +60,6 @@ export function advanceMatchState(state, highlight, { score = 50, success = fals
   const record = { id: highlight.id, minute: next.matchMinute, title: highlight.title, zone: next.zone, score: quality, success };
   next.highlights.push(record);
   next.recentHighlights = [...next.recentHighlights, highlight.id].slice(-4);
+  if (highlight.miniGame?.id) next.recentMiniGames = [...next.recentMiniGames, highlight.miniGame.id].slice(-4);
   return next;
 }

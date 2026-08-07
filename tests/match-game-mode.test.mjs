@@ -3,6 +3,7 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import { createMatchState, advanceMatchState } from '../src/core/matchState.js';
 import { HighlightDirector } from '../src/core/highlightDirector.js';
+import { createMiniGameContext } from '../src/core/miniGameLibrary.js';
 
 const player = { position: 'ST', ovr: 68, fitness: 82, morale: 70 };
 
@@ -25,6 +26,14 @@ test('highlight director is deterministic, position-aware, and avoids immediate 
   const second = firstDirector.next(nextState);
   assert.notEqual(second.id, first.id);
   assert.ok(second.minute > first.minute);
+});
+
+test('match mini game context carries a bounded difficulty into the live state', () => {
+  const context = createMiniGameContext({ gameId: 'shooting', player, opponent: { defense: 72 }, match: { pressure: 68, importanceValue: 70 } });
+  const state = createMatchState({ player, seed: 8 });
+  state.miniGame = { id: context.game.id, difficulty: context.difficulty };
+  assert.equal(state.miniGame.id, 'moving-target');
+  assert.ok(state.miniGame.difficulty >= 10 && state.miniGame.difficulty <= 90);
 });
 
 test('match center exposes one direct game-mode action', () => {

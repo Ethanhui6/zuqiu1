@@ -64,7 +64,8 @@ export function resolveMatchInteraction({ id = 'shooting', player, seed = 0, inp
   const option = MATCH_INTERACTIONS.find(item => item.id === id) || MATCH_INTERACTIONS[0];
   const stats = player?.stats || {};
   const stat = Number(stats[option.stat] || player?.ovr || 50);
-  const target = clamp(54 + stat * .23, 60, 86);
+  const stateTarget = Number(input?.matchState?.miniGame?.difficulty);
+  const target = Number.isFinite(stateTarget) ? clamp(stateTarget, 35, 90) : clamp(54 + stat * .23, 60, 86);
   const manualScore = Number(input?.score);
   const score = Number.isFinite(manualScore) ? clamp(manualScore) : deterministicScore(seed, stat);
   const success = input?.skipped ? false : score >= target;
