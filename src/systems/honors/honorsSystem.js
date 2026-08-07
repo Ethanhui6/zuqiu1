@@ -13,6 +13,7 @@ const OFF_SEASON_ACTIVITIES = [
   { id: 'fans', title: '球迷日', copy: '与支持者见面，为新赛季积累信心与连接。', fatigue: -4, fitness: 4, morale: 9, recoveryDays: 7 },
   { id: 'personal', title: '个人充电', copy: '暂时离开聚光灯，按自己的节奏完成生活安排。', fatigue: -30, fitness: 20, morale: 8, recoveryDays: 21 }
 ];
+const OFF_SEASON_COMPLETION_RECOVERY = { fatigue: -8, fitness: 6, morale: 2, recoveryDays: 7 };
 
 export function ensureHonors(state) {
   const honors = state.career.honors = {
@@ -37,13 +38,16 @@ function nextSeason(year) {
 
 function createOffSeason(nextYear) {
   const start = Number(String(nextYear).slice(0, 4)) || 0;
-  const activities = [OFF_SEASON_ACTIVITIES[0], OFF_SEASON_ACTIVITIES[1 + start % (OFF_SEASON_ACTIVITIES.length - 1)]].map(item => ({ ...item }));
-  return { season: nextYear, status: 'active', activities, completed: [] };
+  const count = 1 + start % 3;
+  const activities = [OFF_SEASON_ACTIVITIES[0]];
+  for (let index = 1; index < count; index++) activities.push(OFF_SEASON_ACTIVITIES[1 + (start + index - 1) % (OFF_SEASON_ACTIVITIES.length - 1)]);
+  return { season: nextYear, status: 'active', activities: activities.map(item => ({ ...item })), completed: [], completionRecovery: false };
 }
 
 export function resolveOffSeasonActivity(state, activityId) {
   const offSeason = state.career?.offSeason;
   const activity = offSeason?.activities?.find(item => item.id === activityId);
+  if (offSeason) offSeason.completed ??= [];
   if (!activity || offSeason.completed.includes(activityId)) return null;
   const player = state.player;
   if (player) {
@@ -60,6 +64,16 @@ export function resolveOffSeasonActivity(state, activityId) {
 export function completeOffSeason(state) {
   const offSeason = state.career?.offSeason;
   if (!offSeason || offSeason.status !== 'active') return false;
+  if (!offSeason.completionRecovery) {
+    const player = state.player;
+    if (player) {
+      player.fatigue = clamp(Number(player.fatigue || 0) + OFF_SEASON_COMPLETION_RECOVERY.fatigue, 0, 100);
+      player.fitness = clamp(Number(player.fitness || 100) + OFF_SEASON_COMPLETION_RECOVERY.fitness, 10, 100);
+      player.morale = clamp(Number(player.morale || 50) + OFF_SEASON_COMPLETION_RECOVERY.morale, 0, 100);
+    }
+    state.injuries = (state.injuries || []).map(injury => advanceInjury(injury, OFF_SEASON_COMPLETION_RECOVERY.recoveryDays, { date: state.simulation.date, recoveryBonus: .2 }));
+    offSeason.completionRecovery = true;
+  }
   offSeason.status = 'complete';
   return true;
 }
