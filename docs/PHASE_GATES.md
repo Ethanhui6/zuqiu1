@@ -15,8 +15,8 @@ Local repository state is the source of truth. A phase may move to `PASS` only a
 | 8 | Development feedback animation | PASS |
 | 9 | Career timeline | PASS |
 | 10 | Club interactions | PASS |
-| 11 | Toast system | IN_PROGRESS |
-| 12 | Career events | LOCKED |
+| 11 | Toast system | PASS |
+| 12 | Career events | IN_PROGRESS |
 | 13 | Mini-games | LOCKED |
 | 14 | Position, play style, and trait isolation | LOCKED |
 | 15 | Elite-club entry | LOCKED |
@@ -206,3 +206,18 @@ Phase 9 gate result: `PASS` on 2026-08-08. Phase 10 is now the only unlocked pha
 - [x] Cloudflare Pages creates a successful native preview for implementation commit `321b1c6`.
 
 Phase 10 gate result: `PASS` on 2026-08-08. Phase 11 is now the only unlocked phase.
+
+## Phase 11 Gate
+
+- [x] Toast feedback is serialized through one queue with only one visible toast at a time.
+- [x] Repeated feedback of the same type is deduplicated for 2,000 milliseconds even when detail text changes.
+- [x] The pending queue is capped at three messages without changing existing feedback call sites.
+- [x] Twenty rapid failure emissions produce one visible toast in the deterministic gate.
+- [x] Twenty real rapid save-button clicks produce one visible toast at 320x844, 390x844, and 430x844.
+- [x] Toasts do not intercept pointer input, overflow horizontally, or produce browser errors.
+- [x] Full automated suite passes: 112/112; production build passes as version 20.12.0.
+- [x] Full 12-viewport and seven-phone-width layout regressions pass.
+- [x] GitHub Actions `verify` passes for Pull Request #44.
+- [x] Cloudflare Pages creates a successful native preview for implementation commit `df0ae7a`.
+
+Phase 11 gate result: `PASS` on 2026-08-08. Phase 12 is now the only unlocked phase.
