@@ -1,5 +1,5 @@
 const STORAGE_KEY = 'football-career-v20';
-const VERSION = 22;
+const VERSION = 23;
 import { normalizePlayer } from './playerDevelopmentEngine.js';
 
 export function createDefaultState() {
@@ -10,7 +10,7 @@ export function createDefaultState() {
     settings: { mode: 'fast', theme: 'light', autoSkipLow: true, autoPauseCritical: true, motion: 'full', sound: true, haptics: true },
     simulation: { paused: false, speed: 1, date: '2026-07-01', processedKeys: [], summaries: [], queue: [], lastKeyNode: null },
     player: null,
-    season: { year: '2026/27', week: 1, progress: 0, appearances: 0, goals: 0, assists: 0, rating: 0, yellowCards: 0, redCards: 0, objectives: [], startOvr: null, startMarketValue: 650000, startStats: null, keyNodes: 0 },
+    season: { year: '2026/27', week: 1, progress: 0, appearances: 0, starts: 0, minutes: 0, goals: 0, assists: 0, shots: 0, keyPasses: 0, tackles: 0, interceptions: 0, saves: 0, cleanSheets: 0, penaltySaves: 0, yellowCards: 0, redCards: 0, playerOfMatch: 0, injuryAbsences: 0, objectives: [], startOvr: null, startMarketValue: 650000, startStats: null, keyNodes: 0 },
     schedule: [],
     injuries: [],
     discipline: { yellowCards: 0, redCards: 0, suspensions: [], history: [] },

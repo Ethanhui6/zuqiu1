@@ -32,13 +32,13 @@ test('generated attributes are integers and follow position/body profiles', () =
   assert.ok(centreBack.stats.physical > winger.stats.physical);
 });
 
-test('fixtures use unique real clubs and signing fit has an explicit threshold', () => {
+test('fixtures build a full season from real clubs and signing fit has an explicit threshold', () => {
   const state = createDefaultState();
   const current = clubs[0];
   state.player = { name:'测试球员', clubId:current.id, club:current.cn, country:current.country, position:'ST', age:16, ovr:60, potential:84 };
   const fixtures = createRealFixtures(state, clubs);
-  assert.equal(fixtures.length, 6);
-  assert.equal(new Set(fixtures.map(item => item.opponentId)).size, fixtures.length);
+  assert.ok(fixtures.length >= 34 && fixtures.length <= 40);
+  assert.equal(new Set(fixtures.map(item => item.id)).size, fixtures.length);
   assert.ok(fixtures.every(item => clubs.some(club => club.id === item.opponentId)));
   assert.ok(fixtures.every(item => !FICTIONAL_OPPONENTS.has(item.opponent)));
   const fit = evaluateClubFit(state.player, current);

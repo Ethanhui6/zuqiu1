@@ -1,5 +1,5 @@
 import { advanceInjury } from './injuryEngine.js';
-import { matchAvailability, serveSuspension } from './disciplineEngine.js';
+import { matchAvailability, recordMatchCard, serveSuspension } from './disciplineEngine.js';
 import { applyGrowthToState } from './playerDevelopmentEngine.js';
 import { keyedRandom } from '../services/rng.js';
 import { createTrainingOpportunity } from './trainingOpportunities.js';
@@ -10,6 +10,7 @@ import { CLUBS } from '../data/clubs.js';
 const addDays=(date,days)=>{ const d=new Date(`${date}T00:00:00Z`); d.setUTCDate(d.getUTCDate()+days); return d.toISOString().slice(0,10); };
 const daysBetween=(a,b)=>Math.round((new Date(`${b}T00:00:00Z`)-new Date(`${a}T00:00:00Z`))/86400000);
 export const FICTIONAL_OPPONENTS=new Set(['河畔竞技','北城学院','海港青年队','山城体育','东港联队','中央公园']);
+export const SEASON_STAT_FIELDS=Object.freeze(['appearances','starts','minutes','goals','assists','shots','keyPasses','tackles','interceptions','saves','cleanSheets','yellowCards','redCards','playerOfMatch','injuryAbsences']);
 
 export function createRealFixtures(state,clubs=dataRepository.clubs?.length?dataRepository.clubs:CLUBS){
   const player=state.player,current=clubs.find(club=>club.id===player?.clubId)||clubs.find(club=>(club.cn||club.name)===player?.club)||{id:player?.clubId||'career-club',name:player?.club,country:player?.country||player?.nation,continent:player?.continent,league:player?.league};
@@ -18,9 +19,17 @@ export function createRealFixtures(state,clubs=dataRepository.clubs?.length?data
   const order=[...clubs].filter(club=>club.id!==current.id).sort((a,b)=>{
     const priority=club=>(league(club)===league(current)?0:club.country===current.country?1:club.continent&&club.continent===current.continent?2:3);
     return priority(a)-priority(b)||fixtureHash(`${state.season?.year}:${current.id}:${a.id}`)-fixtureHash(`${state.season?.year}:${current.id}:${b.id}`);
-  }).slice(0,6);
-  const competitions=['季前热身赛',current.leagueCn||current.league||player.league||'联赛','国内杯赛',current.leagueCn||current.league||player.league||'联赛','洲际赛事',current.leagueCn||current.league||player.league||'联赛'];
-  return order.map((opponent,index)=>({id:`${state.season?.year||'season'}-${current.id}-${opponent.id}-${index}`,date:addDays(state.simulation.date,5+index*21),competition:competitions[index],opponent:opponent.cn||opponent.name,opponentId:opponent.id,opponentCrest:opponent.crest||opponent.crestPath||null,opponentLeague:opponent.leagueCn||opponent.league||null,venue:index%2?'客场':'主场',status:'upcoming',important:state.settings?.mode!=='fast'&&(index===2||index===4),season:state.season?.year}));
+  });
+  const leagueOpponents=order.filter(club=>league(club)===league(current));
+  const opponents=leagueOpponents.length?leagueOpponents:order.slice(0,20);
+  const count=Math.max(34,Math.min(40,leagueOpponents.length*2+4));
+  const leagueName=current.leagueCn||current.league||player.league||'联赛';
+  const keyRounds=new Set(state.settings?.mode==='fast'?[]:[Math.floor(count*.48),count-1]);
+  const cupRounds=new Map([[Math.floor(count*.32),'国内杯赛'],[Math.floor(count*.72),'洲际赛事']]);
+  return Array.from({length:count},(_,index)=>{
+    const opponent=opponents[index%opponents.length],home=index%2===0;
+    return {id:`${state.season?.year||'season'}-${current.id}-${opponent.id}-${index}`,date:addDays(state.simulation.date,7+Math.round(index*322/(count-1))),competition:cupRounds.get(index)||leagueName,opponent:opponent.cn||opponent.name,opponentId:opponent.id,opponentCrest:opponent.crest||opponent.crestPath||null,opponentLeague:opponent.leagueCn||opponent.league||null,venue:home?'主场':'客场',home,status:'upcoming',important:keyRounds.has(index),round:index+1,season:state.season?.year};
+  });
 }
 
 export function replaceFictionalFixtures(state,clubs=dataRepository.clubs||[]){
@@ -33,6 +42,47 @@ export function replaceFictionalFixtures(state,clubs=dataRepository.clubs||[]){
 }
 
 function fixtureHash(value){let hash=2166136261;for(const char of String(value))hash=Math.imul(hash^char.charCodeAt(0),16777619);return hash>>>0;}
+
+function positionGroup(position){
+  if(position==='GK')return 'keeper';
+  if(['CB','LB','RB','LWB','RWB','DM','CDM'].includes(position))return 'defense';
+  if(['CM','CAM','AM','LM','RM'].includes(position))return 'midfield';
+  return 'attack';
+}
+
+function simulatedPlayerStats(player,rng,{played,starts,minutes,goals,assists,opponentGoals,rating}){
+  const group=positionGroup(player.position);
+  if(!played)return {played:false,starts:false,minutes:0,goals:0,assists:0,shots:0,keyPasses:0,tackles:0,interceptions:0,saves:0,cleanSheets:0,rating:0};
+  const stats={played:true,starts,minutes,goals,assists,shots:0,keyPasses:0,tackles:0,interceptions:0,saves:0,cleanSheets:0,rating};
+  if(group==='keeper'){stats.saves=rng.int(2,8);stats.keyPasses=rng.int(0,1);}
+  else if(group==='defense'){stats.shots=rng.int(goals,2);stats.keyPasses=rng.int(0,2);stats.tackles=rng.int(2,7);stats.interceptions=rng.int(1,5);}
+  else if(group==='midfield'){stats.shots=rng.int(goals,3);stats.keyPasses=rng.int(1,5);stats.tackles=rng.int(1,4);stats.interceptions=rng.int(0,3);}
+  else{stats.shots=rng.int(Math.max(1,goals),6);stats.keyPasses=rng.int(0,3);stats.tackles=rng.int(0,2);stats.interceptions=rng.int(0,1);}
+  stats.cleanSheets=opponentGoals===0&&['keeper','defense'].includes(group)?1:0;
+  return stats;
+}
+
+export function recordMatchResult(state,match,result={}){
+  const fixture=state.schedule.find(item=>item.id===match?.id);
+  if(!fixture||fixture.status!=='upcoming')return false;
+  const played=Boolean(result.played),rating=played?Math.max(0,Number(result.rating)||0):0;
+  const stats={played,starts:played&&Boolean(result.starts),minutes:played?Math.max(0,Number(result.minutes)||0):0,rating,yellowCards:result.card==='yellow'?1:0,redCards:result.card==='red'?1:0,playerOfMatch:played&&rating>=8.5?1:0,injuryAbsences:result.unavailable==='injury'?1:0};
+  for(const field of ['goals','assists','shots','keyPasses','tackles','interceptions','saves','cleanSheets'])stats[field]=played?Math.max(0,Number(result[field])||0):0;
+  fixture.status='played';fixture.score=result.score||'-';fixture.rating=rating;fixture.played=played;fixture.auto=Boolean(result.auto);fixture.unavailable=result.unavailable||null;fixture.playerStats={...stats};
+  if(result.card)recordMatchCard(state,result.card,{date:state.simulation.date,matchId:fixture.id});
+  if(result.unavailable==='suspension')serveSuspension(state,fixture.id);
+  if(result.unavailable==='injury')state.season.injuryAbsences=Number(state.season.injuryAbsences||0)+1;
+  if(played){
+    const oldApps=Number(state.season.appearances||0);
+    state.season.appearances=oldApps+1;
+    state.season.starts=Number(state.season.starts||0)+(stats.starts?1:0);
+    for(const field of ['minutes','goals','assists','shots','keyPasses','tackles','interceptions','saves','cleanSheets'])state.season[field]=Number(state.season[field]||0)+stats[field];
+    state.season.rating=Number(((Number(state.season.rating||0)*oldApps+rating)/(oldApps+1)).toFixed(2));
+    state.season.playerOfMatch=Number(state.season.playerOfMatch||0)+stats.playerOfMatch;
+  }
+  state.career.history.push({date:state.simulation.date,type:'比赛',summary:result.summary||`${state.player.club} ${fixture.score} ${fixture.opponent}`,...stats,auto:Boolean(result.auto),unavailable:result.unavailable||null,...(result.history||{})});
+  return true;
+}
 
 // Fast mode is intentionally a short career-management loop, not a timed simulation.
 export const FAST_SEASON_PACE=Object.freeze({
@@ -58,6 +108,7 @@ export class CareerDirector {
     if(!state.player||state.season.progress>=99)return;
     replaceFictionalFixtures(state);
     if(state.schedule.some(match=>match.status==='upcoming'&&match.date>=state.simulation.date))return;
+    if(state.schedule.some(match=>match.season===state.season.year))return;
     const played=state.schedule.filter(match=>match.status==='played');
     state.schedule=[...played,...createRealFixtures(state)];
   }
@@ -88,24 +139,25 @@ export class CareerDirector {
     const fixture=state.schedule.find(item=>item.id===match?.id);
     if(!state.player||!fixture||fixture.status!=='upcoming')return false;
     const unavailable=matchAvailability(state);
-    if(unavailable){fixture.status='played';fixture.score='—';fixture.rating=0;fixture.played=false;fixture.auto=true;fixture.unavailable=unavailable.type;if(unavailable.type==='suspension')serveSuspension(state,fixture.id);state.career.history.push({date:state.simulation.date,type:'比赛',summary:`${state.player.club} 缺阵 ${fixture.opponent}`,rating:0,goals:0,assists:0,minutes:0,auto:true,unavailable:unavailable.type});return true;}
+    if(unavailable)return recordMatchResult(state,fixture,{played:false,auto:true,unavailable:unavailable.type,summary:`${state.player.club} 缺阵 ${fixture.opponent}`});
     const rng=keyedRandom(fixture.id,fixture.date,state.player.ovr,state.season.appearances);
     const played=rng.bool(.84);
+    const starts=played&&rng.bool(.76);
+    const minutes=played?(starts?rng.int(70,90):rng.int(14,36)):0;
     const rating=Number((played?Math.max(5.8,Math.min(9.1,6.2+(state.player.ovr-55)/34+rng.next()*.9)):0).toFixed(1));
-    const goals=played&&rng.bool(['ST','LW','RW','SS','CAM'].includes(state.player.position)?.24:.10)?1:0;
-    const assists=played&&rng.bool(['CM','CAM','LW','RW'].includes(state.player.position)?.22:.12)?1:0;
+    const group=positionGroup(state.player.position);
+    const goals=played&&rng.bool(group==='attack'?.26:group==='midfield'?.12:group==='defense'?.05:.005)?1:0;
+    const assists=played&&rng.bool(group==='midfield'?.24:group==='attack'?.16:group==='defense'?.10:.02)?1:0;
     const teamGoals=played?goals+(rng.bool(.48)?1:0):0;
     const opponentGoals=rng.int(0,2);
-    fixture.status='played';fixture.score=`${teamGoals}-${opponentGoals}`;fixture.rating=rating;fixture.played=played;fixture.auto=true;
-    if(!played){state.career.history.push({date:state.simulation.date,type:'比赛',summary:`${state.player.club} ${teamGoals}-${opponentGoals} ${fixture.opponent}`,rating:0,goals:0,assists:0,minutes:0,auto:true});return true;}
-    const oldApps=state.season.appearances;
+    const stats=simulatedPlayerStats(state.player,rng,{played,starts,minutes,goals,assists,opponentGoals,rating});
+    const card=played?(rng.bool(.012)?'red':rng.bool(.075)?'yellow':null):null;
+    recordMatchResult(state,fixture,{...stats,score:`${teamGoals}-${opponentGoals}`,auto:true,card});
+    if(!played)return true;
     applyGrowthToState(state,{passing:.04,physical:.03},{source:'自动模拟比赛',fatigue:state.player.fatigue||0,facility:74,coachQuality:72,mode:state.settings.mode,injured:false});
     state.player.fatigue=Math.max(0,Math.min(100,(state.player.fatigue||0)+8));
     state.player.fitness=Math.max(10,100-state.player.fatigue*.7);
-    state.season.appearances=oldApps+1;state.season.goals+=goals;state.season.assists+=assists;
-    state.season.rating=Number(((state.season.rating*oldApps+rating)/(oldApps+1)).toFixed(2));
     state.career.marketValue=Math.max(0,state.career.marketValue+Math.round((rating-6)*18000+goals*50000+assists*32000));
-    state.career.history.push({date:state.simulation.date,type:'比赛',summary:`${state.player.club} ${teamGoals}-${opponentGoals} ${fixture.opponent}`,rating,goals,assists,minutes:played?Math.round(55+rng.next()*30):0,auto:true});
     addNews(state,{id:`auto-match-${fixture.id}`,type:'比赛',title:`${fixture.competition}完成自动结算`,copy:`${state.player.club} ${teamGoals}-${opponentGoals} ${fixture.opponent}，评分 ${rating}。`});
     return true;
   }

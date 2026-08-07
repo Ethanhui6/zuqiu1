@@ -8,7 +8,7 @@ Local repository state is the source of truth. A phase may move to `PASS` only a
 | 1 | Legacy site research and recovery | PASS |
 | 2 | Global UI and layout | PASS |
 | 3 | Match hub UI | PASS |
-| 4 | Full-season match simulation | IN_PROGRESS |
+| 4 | Full-season match simulation | PASS |
 | 5 | Career pacing | LOCKED |
 | 6 | Fast-mode feedback | LOCKED |
 | 7 | Development curve | LOCKED |
@@ -97,3 +97,18 @@ Phase 2 gate result: `PASS` on 2026-08-08. Phase 3 is now the only unlocked phas
 - [x] Phase 2 layout regression and the 12-viewport mobile audit remain green.
 
 Phase 3 gate result: `PASS` on 2026-08-08. Phase 4 is now the only unlocked phase.
+
+## Phase 4 Gate
+
+- [x] Every generated season contains 34 to 40 dated fixtures using clubs from the 500-club registry.
+- [x] Standard mode marks at most two key matches; ordinary matches remain automatic.
+- [x] Automatic and interactive matches write through one idempotent result recorder.
+- [x] Season and fixture records include starts, minutes, shots, key passes, tackles, interceptions, saves, clean sheets, cards, player-of-match awards, and injury absences.
+- [x] A deterministic 100-season Gate produces 20 to 40 appearances per season and distinct attacker, midfielder, defender, and goalkeeper records.
+- [x] Existing suspension behavior remains green: a red card prevents the next appearance and is served once.
+- [x] Browser validation confirms ordinary fixtures settle before the first training pause and are visible in club and career records.
+- [x] Phase 2 layout, Phase 3 Match Hub, and all 12 mobile/desktop viewport regressions pass.
+- [x] Full automated tests pass: 108/108; repository hygiene passes: 3/3.
+- [x] Production build passes as version 20.5.0.
+
+Phase 4 gate result: `PASS` on 2026-08-08. Phase 5 is now the only unlocked phase.
