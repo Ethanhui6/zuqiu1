@@ -5,7 +5,7 @@ import { MINI_GAME_COUNT, MINI_GAME_LIBRARY, createMiniGameContext, miniGameForI
 test('mini game library exposes 30+ real renderer-backed mechanisms', () => {
   assert.ok(MINI_GAME_COUNT >= 30);
   assert.equal(new Set(MINI_GAME_LIBRARY.map(item => item.id)).size, MINI_GAME_COUNT);
-  assert.ok(MINI_GAME_LIBRARY.every(item => item.input && item.stat && ['trainingGame', 'interactiveMatch'].includes(item.renderer)));
+  assert.ok(MINI_GAME_LIBRARY.every(item => item.input && item.stat && item.renderers.every(renderer => ['trainingGame', 'interactiveMatch'].includes(renderer))));
   assert.ok(new Set(MINI_GAME_LIBRARY.map(item => item.input)).size >= 10);
   for (const position of ['ST', 'LW', 'CM', 'CB', 'GK']) assert.ok(MINI_GAME_LIBRARY.some(item => item.positions.includes(position)));
 });

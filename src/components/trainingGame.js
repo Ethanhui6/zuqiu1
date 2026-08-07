@@ -1,5 +1,6 @@
 import { animationDirector } from '../core/animationDirector.js';
 import { audioManager } from '../core/audioManager.js';
+import { activateMiniGame, createMiniGameSession, resolveMiniGame } from '../core/miniGameLibrary.js';
 
 const clamp = (value, min = 0, max = 100) => Math.max(min, Math.min(max, Number(value) || 0));
 const directions = ['左', '中', '右'];
@@ -9,6 +10,9 @@ export function createTrainingGame(game, { onComplete, onSkip, motion = 'full' }
   const node = document.createElement('section');
   node.className = `training-game training-game--${game.mechanic}`;
   node.tabIndex = 0;
+  let miniGame = createMiniGameSession(game.mechanic, 'trainingGame');
+  const updateMiniGame = next => { miniGame = next; node.dataset.miniGameState = miniGame.status; };
+  updateMiniGame(miniGame);
   node.innerHTML = `<header class="training-game__intro"><div><span class="eyebrow">${game.name}</span><h3>${game.target}专项</h3><p>${game.instruction}</p></div><div class="training-game__facts"><span>风险 ${game.risk}%</span><span>疲劳 ${game.fatigue > 0 ? '+' : ''}${game.fatigue}</span></div></header><div class="training-game__countdown" data-countdown>3</div><div class="training-game__area" data-area hidden></div><p class="training-game__feedback" data-feedback aria-live="polite">准备开始</p><footer class="training-game__footer"><span data-time>准备</span><button class="app-button ghost" data-skip>跳过本次训练</button></footer>`;
   const area = node.querySelector('[data-area]');
   const feedback = node.querySelector('[data-feedback]');
@@ -27,13 +31,15 @@ export function createTrainingGame(game, { onComplete, onSkip, motion = 'full' }
     ended = true; clear(); const finalScore = Math.round(clamp(score));
     const grade = finalScore >= 90 ? 'S' : finalScore >= 80 ? 'A' : finalScore >= 65 ? 'B' : finalScore >= 50 ? 'C' : 'D';
     const record = { gameId: game.id, name: game.name, score: finalScore, grade, detail: detail || '训练动作已记录', ...extra };
+    updateMiniGame(resolveMiniGame(miniGame, record));
+    record.miniGame = miniGame;
     node.dataset.result = grade; node.classList.add(finalScore >= 65 ? 'is-success' : 'is-failure');
     setFeedback(`${grade}级 · ${finalScore}分 · ${record.detail}`); timeLabel.textContent = '已完成';
     audioManager.play(finalScore >= 90 ? 'record' : finalScore >= 65 ? 'correct' : 'wrong');
     animationDirector.pulse(node, finalScore >= 65 ? 'success-pop' : 'shake');
     window.setTimeout(() => onComplete?.(record), 280);
   };
-  const skip = () => { if (ended) return; ended = true; clear(); onSkip?.({ gameId: game.id, name: game.name, score: 45, grade: 'C', detail: '已跳过，按保守表现记录', skipped: true }); };
+  const skip = () => { if (ended) return; ended = true; clear(); const record = { gameId: game.id, name: game.name, score: 45, grade: 'C', detail: '已跳过，按保守表现记录', skipped: true }; updateMiniGame(resolveMiniGame(activateMiniGame(miniGame), record)); node.dataset.result = 'skipped'; onSkip?.({ ...record, miniGame }); };
   listen(node.querySelector('[data-skip]'), 'click', skip);
   node.destroy = () => { ended = true; clear(); };
 
@@ -106,6 +112,7 @@ export function createTrainingGame(game, { onComplete, onSkip, motion = 'full' }
     timer = setTimeout(tick, 620);
   }
   function startMechanic() {
+    updateMiniGame(activateMiniGame(miniGame));
     ({ reaction, rhythm, aim, 'three-choice': threeChoice, curve, dodge, 'moving-target': movingTarget, 'timing-window': timingWindow, aerial, 'contact-window': contactWindow, balance, lights, memory, tactical, swipe, 'hold-release': holdRelease, 'drag-target': dragTarget, 'power-target': powerTarget, 'safe-rhythm': safeRhythm, 'keep-zone': keepZone }[game.mechanic] || (() => finish(50, '按保守表现结算')) )();
   }
   start();

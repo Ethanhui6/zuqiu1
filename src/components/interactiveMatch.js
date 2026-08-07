@@ -1,5 +1,6 @@
 import { advanceMatchState } from '../core/matchState.js';
 import { createMatchMiniPitch } from './matchMiniPitch.js';
+import { activateMiniGame, createMiniGameSession, resolveMiniGame } from '../core/miniGameLibrary.js';
 
 const clamp = (value, min = 0, max = 100) => Math.max(min, Math.min(max, Number(value) || 0));
 
@@ -21,6 +22,9 @@ function button(label, attrs = '') {
 export function createInteractiveMatch({ option, player, seed = 0, matchState, highlight, onComplete, onSkip } = {}) {
   const node = document.createElement('div');
   node.className = 'interactive-match';
+  let miniGame = createMiniGameSession(matchState?.miniGame?.id || option?.mechanic, 'interactiveMatch');
+  const updateMiniGame = next => { miniGame = next; node.dataset.miniGameState = miniGame.status; };
+  updateMiniGame(miniGame);
   let liveState = structuredClone(matchState || { matchMinute: 0, possession: 50, teamMomentum: 50, pressure: 50, player: { energy: player?.fitness || 80, rating: 6 }, zone: 'middle' });
   node.innerHTML = `
     <div class="game-intro">
@@ -71,23 +75,27 @@ export function createInteractiveMatch({ option, player, seed = 0, matchState, h
     stopAnimation();
     const finalScore = Math.round(clamp(score));
     liveState = advanceMatchState(liveState, highlight, { score: finalScore, success: finalScore >= 60 });
+    updateMiniGame(resolveMiniGame(miniGame, { score: finalScore, detail, skipped: false }));
+    liveState.miniGame = { ...liveState.miniGame, status: miniGame.status, result: miniGame.result };
     pitch.update(liveState);
     renderLiveState();
     node.dataset.result = finalScore >= 60 ? 'success' : 'failure';
     setFeedback(`${finalScore >= 60 ? '处理成功' : '处理失误'} · ${finalScore} 分${detail ? ` · ${detail}` : ''}`);
     node.classList.add(finalScore >= 60 ? 'game-success' : 'game-failure');
-    window.setTimeout(() => onComplete?.({ score: finalScore, detail, skipped: false, matchState: liveState }), 260);
+    window.setTimeout(() => onComplete?.({ score: finalScore, detail, skipped: false, matchState: liveState, miniGame }), 260);
   };
   const skip = () => {
     if (ended) return;
     ended = true;
     stopAnimation();
     liveState = advanceMatchState(liveState, highlight, { score: 50, skipped: true });
+    updateMiniGame(resolveMiniGame(activateMiniGame(miniGame), { score: 50, detail: 'skipped', skipped: true }));
+    liveState.miniGame = { ...liveState.miniGame, status: miniGame.status, result: miniGame.result };
     pitch.update(liveState);
     renderLiveState();
     node.dataset.result = 'skipped';
     setFeedback('已跳过，按中性表现结算');
-    onSkip?.({ score: 50, detail: 'skipped', skipped: true, matchState: liveState });
+    onSkip?.({ score: 50, detail: 'skipped', skipped: true, matchState: liveState, miniGame });
   };
   listen(node.querySelector('[data-skip]'), 'click', skip);
   node.destroy = () => { ended = true; stopAnimation(); };
@@ -280,6 +288,7 @@ export function createInteractiveMatch({ option, player, seed = 0, matchState, h
   }
 
   function startGame() {
+    updateMiniGame(activateMiniGame(miniGame));
     switch (option?.mechanic) {
       case 'moving-target': movingTarget({ header: option.id === 'header' }); break;
       case 'aim-power': aimPower(); break;
@@ -299,8 +308,9 @@ export function createInteractiveMatch({ option, player, seed = 0, matchState, h
     }
   }
 
-  countdown.hidden = true;
-  startGame();
+  area.hidden = true;
+  countdown.hidden = false;
+  beginCountdown();
   return node;
 }
 
