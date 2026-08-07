@@ -9,6 +9,11 @@ const COUNTRY_FILES = {
   '加纳': 'ghana', GH: 'ghana', '塞内加尔': 'senegal', SN: 'senegal', '摩洛哥': 'morocco', MA: 'morocco', '埃及': 'egypt', EG: 'egypt'
 };
 const NEIGHBORS = { 中国: ['日本', '韩国'], 日本: ['韩国', '中国'], 韩国: ['日本', '中国'], 英格兰: ['苏格兰', '威尔士'], 巴西: ['阿根廷', '葡萄牙'], 阿根廷: ['巴西', '西班牙'], 西班牙: ['葡萄牙', '法国'], 葡萄牙: ['西班牙', '巴西'], 德国: ['荷兰', '法国'], 法国: ['比利时', '德国'], 意大利: ['法国', '德国'] };
+const ORIGIN_REGIONS = {
+  中国: '东亚', 日本: '东亚', 韩国: '东亚', 英格兰: '欧洲', 西班牙: '欧洲', 葡萄牙: '欧洲', 法国: '欧洲', 德国: '欧洲', 意大利: '欧洲', 荷兰: '欧洲', 比利时: '欧洲', 土耳其: '欧洲',
+  巴西: '南美洲', 阿根廷: '南美洲', 美国: '北美洲', 墨西哥: '北美洲', 沙特阿拉伯: '西亚', 尼日利亚: '非洲', 加纳: '非洲', 塞内加尔: '非洲', 摩洛哥: '非洲', 埃及: '非洲'
+};
+const STARTING_COUNTRY_FALLBACKS = { 尼日利亚: '南非', 加纳: '南非', 塞内加尔: '南非', 摩洛哥: '南非', 埃及: '卡塔尔' };
 export const CLUB_ENTRY_ROUTES = Object.freeze({
   DIRECT_CONTRACT: { label: '直接职业合同', squad: '一线队直接合同', contract: '职业合同' },
   ACADEMY: { label: '青训录取', squad: 'U18青训重点培养', contract: '青训合同' },
@@ -74,6 +79,22 @@ export function generatePlayerName(countryCode, seed = 'player', profiles = {}) 
   const parts = fileFor(countryCode) === 'china' ? chineseParts(profile, random) : { givenName: weightedPick(pools.givenNames, random), familyName: weightedPick(pools.familyNames, random) };
   return { ...parts, displayName: formatPlayerName(parts, profile), nickname: generateFootballNickname(countryCode, seed, profiles), countryCode: profile.countryCode, locale: profile.locale };
 }
+export function createPlayerOriginProfile(nationality, worldState = {}) {
+  const clubs = worldState.clubs || [], nameProfile = worldState.nameProfiles?.[fileFor(nationality)] || worldState.nameProfiles?.other || {};
+  const localClubs = clubs.filter(club => club.country === nationality);
+  const fallbackCountry = STARTING_COUNTRY_FALLBACKS[nationality] || clubs[0]?.country || nationality;
+  const startingCountry = localClubs.length ? nationality : fallbackCountry;
+  const startingClubs = localClubs.length ? localClubs : clubs.filter(club => club.country === startingCountry);
+  return {
+    nationality,
+    nameLocale: nameProfile.locale || 'en-US',
+    startingCountry,
+    startingLeaguePool: [...new Set(startingClubs.map(club => club.leagueId || club.leagueCn || club.league).filter(Boolean))],
+    startingClubPool: startingClubs.map(club => club.id),
+    region: ORIGIN_REGIONS[nationality] || '国际',
+    language: String(nameProfile.locale || 'en-US').split('-')[0]
+  };
+}
 export function validatePlayerName(input) {
   const value = String(input ?? '').trim();
   if (!value) return { valid: true, empty: true, value: '' };
@@ -85,11 +106,13 @@ export function generateStartingClubOffers(playerProfile, worldState = {}, seed 
   const clubs = worldState.clubs || [];
   const nation = playerProfile.country || playerProfile.nation || playerProfile.countryName;
   const position = playerProfile.position;
+  const originProfile = playerProfile.originProfile?.nationality === nation ? playerProfile.originProfile : createPlayerOriginProfile(nation, worldState);
+  const startingClubIds = new Set(originProfile.startingClubPool);
   const nearby = new Set(NEIGHBORS[nation] || []);
-  const local = clubs.filter(club => club.country === nation).sort((a, b) => scoreClub(b, playerProfile) - scoreClub(a, playerProfile));
+  const local = clubs.filter(club => startingClubIds.size ? startingClubIds.has(club.id) : club.country === nation).sort((a, b) => scoreClub(b, playerProfile) - scoreClub(a, playerProfile));
   const eligible = local.filter(club => evaluateClubFit(playerProfile, club).eligible);
   const localPool = [...eligible, ...local.filter(club => !eligible.includes(club))].slice(0, 5);
-  const localOffers = localPool.map((club, index) => offer(club, index === 0 ? '家乡球队' : Number(club.rep || club.reputation) >= 80 ? '强队青训' : '本国青训', playerProfile, index === 0));
+  const localOffers = localPool.map((club, index) => { const home = club.country === nation; return offer(club, home && index === 0 ? '家乡球队' : home ? Number(club.rep || club.reputation) >= 80 ? '强队青训' : '本国青训' : '区域青训通道', playerProfile, home && index === 0); });
   if (localOffers.length >= 3) return localOffers.slice(0, 5);
   const related = clubs.filter(club => nearby.has(club.country) && !local.some(item => item.id === club.id)).sort((a, b) => scoreClub(b, playerProfile) - scoreClub(a, playerProfile));
   const result = [...localOffers, ...related.slice(0, 3 - localOffers.length).map(club => offer(club, '邻近青训项目', playerProfile))];
@@ -115,6 +138,6 @@ export function evaluateClubFit(profile, club) {
   const reasons = [need ? '该位置有明确需求' : '需要竞争现有位置', potential >= 86 ? '潜力符合重点培养标准' : '潜力处于常规观察范围', local ? '不占外援适应名额' : '需要额外评估注册与适应', eligible?`当前入口：${entry.label}`:'当前能力与潜力组合尚无可行入口'];
   return { score, required, eligible, entryRoute, entryLabel:entry.label, reasons, role:entry.squad, contractType:entry.contract };
 }
-function offer(club, type, profile, home = false) { const fit = evaluateClubFit(profile, club); const years=Math.max(1,Math.round((club.youth||60)/25));const reason = `${home ? '本地培养关系稳定；' : ''}${fit.reasons.join('；')}。综合 ${fit.score}，门槛 ${fit.required}。`; return { clubId: club.id, club, type, reason, eligible: fit.eligible, entryRoute:fit.entryRoute, entryLabel:fit.entryLabel, score: fit.score, required: fit.required, requirements: fit.reasons, positionFit: fit.reasons[0], squad: fit.role, contract: fit.entryRoute==='REJECTED'?fit.contractType:`${fit.contractType} · ${years}年`, weeklyWage: fit.entryRoute==='SCOUT_WATCH'?0:Math.max(100,Math.round(100+Number(club.finance||60)*4)), adaptationRisk: type === '海外球探机会' ? '中等' : '低' }; }
+function offer(club, type, profile, home = false) { const fit = evaluateClubFit(profile, club); const years=Math.max(1,Math.round((club.youth||60)/25));const reason = `${home ? '本地培养关系稳定；' : type === '区域青训通道' ? '本国联赛数据暂缺，由同区域合作项目提供入口；' : ''}${fit.reasons.join('；')}。综合 ${fit.score}，门槛 ${fit.required}。`; return { clubId: club.id, club, type, reason, eligible: fit.eligible, entryRoute:fit.entryRoute, entryLabel:fit.entryLabel, score: fit.score, required: fit.required, requirements: fit.reasons, positionFit: fit.reasons[0], squad: fit.role, contract: fit.entryRoute==='REJECTED'?fit.contractType:`${fit.contractType} · ${years}年`, weeklyWage: fit.entryRoute==='SCOUT_WATCH'?0:Math.max(100,Math.round(100+Number(club.finance||60)*4)), adaptationRisk: ['海外球探机会','区域青训通道'].includes(type) ? '中等' : '低' }; }
 
 export { COUNTRY_FILES, fileFor };
