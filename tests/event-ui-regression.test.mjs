@@ -43,7 +43,7 @@ async function queueEvent(page, position, index) {
   }, { position, index });
 }
 
-async function resolveEvent(page, closeWithHeader, expectedHistory) {
+async function resolveEvent(page, expectedHistory) {
   await page.locator('[data-action="event"]').first().click();
   const choice = page.locator('[data-choice]').first();
   await choice.waitFor();
@@ -71,8 +71,8 @@ async function resolveEvent(page, closeWithHeader, expectedHistory) {
   const resolved = await page.evaluate(() => JSON.parse(localStorage.getItem('football-career-v20')));
   assert.equal(resolved.events.pending.length, 0);
   assert.equal(resolved.events.history.length, expectedHistory);
-  if (closeWithHeader) await page.locator('[data-close-sheet]').click();
-  else await page.locator('[data-result-back]').click();
+  assert.equal(await page.locator('[data-close-sheet]').count(), 0);
+  await page.locator('[data-result-continue]').click();
   await page.waitForTimeout(30);
   assert.equal(await page.locator('#overlay-root .overlay').count(), 0);
 }
@@ -96,7 +96,7 @@ test('event choices stay clickable on mobile and desktop across 30 resolutions',
       for (let index = 0; index < count; index += 1) {
         await queueEvent(page, position, index);
         await page.reload({ waitUntil: 'networkidle' });
-        await resolveEvent(page, index === 0, index + 1);
+        await resolveEvent(page, index + 1);
       }
       await page.close();
     }

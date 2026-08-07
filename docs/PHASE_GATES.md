@@ -10,7 +10,7 @@ Local repository state is the source of truth. A phase may move to `PASS` only a
 | 3 | Match hub UI | PASS |
 | 4 | Full-season match simulation | PASS |
 | 5 | Career pacing | PASS |
-| 6 | Fast-mode feedback | LOCKED |
+| 6 | Fast-mode feedback | IN_PROGRESS |
 | 7 | Development curve | LOCKED |
 | 8 | Development feedback animation | LOCKED |
 | 9 | Career timeline | LOCKED |
@@ -127,3 +127,18 @@ Phase 4 gate result: `PASS` on 2026-08-08. Phase 5 is now the only unlocked phas
 - [x] Production build passes as version 20.6.0.
 
 Phase 5 gate result: `PASS` on 2026-08-08. Phase 6 is now the only unlocked phase.
+
+## Phase 6 Gate
+
+- [x] Match, event, training/growth, season/trophy, transfer, injury, national-team event, and retirement outcomes route through persistent result surfaces.
+- [x] Persistent results cannot be dismissed by a close button, backdrop click, downward swipe, or Escape.
+- [x] Six browser-driven fast seasons produce 30 consecutive acknowledged result nodes: 12 training, 12 event, and 6 season-review results.
+- [x] The first training result remains visible for more than 2.2 seconds without player input.
+- [x] Browser runtime separately covers match, injury, transfer, and retirement acknowledgements.
+- [x] Full automated tests pass: 108/108; repository hygiene passes: 3/3.
+- [x] Phase 2 layout, Phase 3 Match Hub, and all 12 mobile/desktop viewport regressions pass.
+- [x] Production build passes as version 20.7.0.
+- [ ] GitHub Actions `verify` passes for the Phase 6 Pull Request.
+- [ ] Cloudflare Pages creates a successful preview for the Phase 6 commit.
+
+Phase 6 remains `IN_PROGRESS` until both remote checks pass.
