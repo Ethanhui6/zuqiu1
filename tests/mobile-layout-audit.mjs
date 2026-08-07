@@ -7,7 +7,7 @@ import {createAppServer} from '../scripts/serve.mjs';
 const executablePath=['C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe','C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe'].find(fs.existsSync);
 const server=createAppServer();await new Promise(resolve=>server.listen(0,'127.0.0.1',resolve));
 const browser=await chromium.launch({headless:true,executablePath}),base=`http://127.0.0.1:${server.address().port}/?no-sw=1`,shots=path.resolve('test-results/mobile');fs.mkdirSync(shots,{recursive:true});
-const viewports=[[320,568],[360,800],[375,812],[390,844],[393,852],[428,926],[430,932],[768,1024],[1280,720],[1440,900],[1920,1080]],results=[];
+const viewports=[[320,568],[360,800],[375,812],[390,844],[393,852],[414,896],[428,926],[430,932],[768,1024],[1280,720],[1440,900],[1920,1080]],results=[];
 try{
   for(const [width,height] of viewports){
     const page=await browser.newPage({viewport:{width,height},hasTouch:width<768}),errors=[];page.on('pageerror',e=>errors.push(e.message));await page.goto(base,{waitUntil:'networkidle'});
