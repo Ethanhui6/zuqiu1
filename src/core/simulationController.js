@@ -18,11 +18,13 @@ export const assessFastSeasonPace=({advanceActions=FAST_SEASON_PACE.expectedActi
   return {advanceActions,trainingChoices,estimatedSeconds,withinTarget:estimatedSeconds>=FAST_SEASON_PACE.targetSeconds.min&&estimatedSeconds<=FAST_SEASON_PACE.targetSeconds.max};
 };
 
-export class SimulationController {
+export class CareerDirector {
   constructor(store,eventEngine){ this.store=store; this.eventEngine=eventEngine; this.running=false; this.cancelled=false; }
   pause(){ this.cancelled=true; this.running=false; this.store.set(s=>{s.simulation.paused=true;return s;}); }
   resume(){ this.cancelled=false; this.store.set(s=>{s.simulation.paused=false;return s;}); }
   nextMatch(state){ return state.schedule.find(m=>m.status==='upcoming' && m.date>=state.simulation.date) || null; }
+  isKeyMatch(match){ return Boolean(match?.important); }
+  shouldAutoSimulateMatch(match){ return Boolean(match)&&!this.isKeyMatch(match); }
   nextEventDate(state){ const offset=2+((state.events.history.length+state.season.week)%5); return addDays(state.simulation.date,offset); }
   seasonEndDate(state){ const date=new Date(`${state.simulation.date}T00:00:00Z`),year=date.getUTCFullYear(); return `${date.getUTCMonth()>=6?year+1:year}-06-30`; }
   ensureFixtures(state){
@@ -37,7 +39,7 @@ export class SimulationController {
     if (state.events?.pending?.length) return { type: 'event', label: '处理待办事件', action: 'nextEvent', blocked: true };
     if (state.training?.currentOpportunity) return { type: 'training', label: '处理关键训练机会', action: 'training', blocked: true, target: state.training.currentOpportunity.createdAt };
     const match = this.nextMatch(state);
-    if ([FAST_SEASON_PACE.mode, 'legend'].includes(state.settings?.mode) && (!match || !match.important)) return { type: 'time', label: '快速结算到下一个职业节点', target: this.seasonEndDate(state), action: 'seasonEnd', match };
+    if (!match||this.shouldAutoSimulateMatch(match)) return { type: 'time', label: '快速结算到下一个职业节点', target: this.seasonEndDate(state), action: 'seasonEnd', match };
     if (match) return { type: 'match', label: `准备 ${match.competition}`, target: match.date, action: 'nextMatch', match };
     if (state.season?.progress >= 99) return { type: 'season', label: '赛季结算', target: state.simulation.date, action: 'seasonEnd' };
     return { type: 'time', label: '推进至下一关键节点', target: addDays(state.simulation.date, 30), action: 'month' };
@@ -55,7 +57,7 @@ export class SimulationController {
     };
     return map[action];
   }
-  settleFastMatch(state,match){
+  settleAutoMatch(state,match){
     const fixture=state.schedule.find(item=>item.id===match?.id);
     if(!state.player||!fixture||fixture.status!=='upcoming')return false;
     const rng=keyedRandom(fixture.id,fixture.date,state.player.ovr,state.season.appearances);
@@ -68,7 +70,7 @@ export class SimulationController {
     fixture.status='played';fixture.score=`${teamGoals}-${opponentGoals}`;fixture.rating=rating;fixture.played=played;fixture.auto=true;
     if(!played){state.career.history.push({date:state.simulation.date,type:'比赛',summary:`${state.player.club} ${teamGoals}-${opponentGoals} ${fixture.opponent}`,rating:0,goals:0,assists:0,minutes:0,auto:true});return true;}
     const oldApps=state.season.appearances;
-    applyGrowthToState(state,{passing:.04,physical:.03},{source:'快速模式比赛',fatigue:state.player.fatigue||0,facility:74,coachQuality:72,mode:state.settings.mode,injured:false});
+    applyGrowthToState(state,{passing:.04,physical:.03},{source:'自动模拟比赛',fatigue:state.player.fatigue||0,facility:74,coachQuality:72,mode:state.settings.mode,injured:false});
     state.player.fatigue=Math.max(0,Math.min(100,(state.player.fatigue||0)+8));
     state.player.fitness=Math.max(10,100-state.player.fatigue*.7);
     state.season.appearances=oldApps+1;state.season.goals+=goals;state.season.assists+=assists;
@@ -86,7 +88,7 @@ export class SimulationController {
     if(this.store.get().training.currentOpportunity)return {status:'needs-training',trainingOpportunity:this.store.get().training.currentOpportunity,processed:0,stopReason:'training'};
     const dueMatch=action==='nextMatch'&&this.nextMatch(this.store.get());
     if(dueMatch?.date===this.store.get().simulation.date){
-      if(this.store.get().settings.mode===FAST_SEASON_PACE.mode&&!dueMatch.important){this.store.set(state=>{this.settleFastMatch(state,dueMatch);return state;});return {status:'ok',processed:0,autoMatches:1,stopReason:'match-auto',event:null,match:dueMatch,description:desc};}
+      if(this.shouldAutoSimulateMatch(dueMatch)){this.store.set(state=>{this.settleAutoMatch(state,dueMatch);return state;});return {status:'ok',processed:0,autoMatches:1,stopReason:'match-auto',event:null,match:dueMatch,description:desc};}
       return {status:'ok',processed:0,stopReason:'match',event:null,match:dueMatch,description:desc};
     }
     this.running=true; this.cancelled=false;
@@ -112,7 +114,7 @@ export class SimulationController {
       processed++;
       const state=this.store.get(); const match=this.nextMatch(state);
       if(match && match.date===state.simulation.date){
-        if(state.settings.mode===FAST_SEASON_PACE.mode&&!match.important){this.store.set(next=>{this.settleFastMatch(next,match);return next;});autoMatches++;continue;}
+        if(this.shouldAutoSimulateMatch(match)){this.store.set(next=>{this.settleAutoMatch(next,match);return next;});autoMatches++;continue;}
         matchReady=match; stopReason='match'; break;
       }
       const trainingKey=`training-node:${state.season.year}:${state.season.week}`;
@@ -137,3 +139,6 @@ export class SimulationController {
     return {status:'ok',processed,autoMatches,stopReason,event:generatedEvent,match:matchReady,trainingOpportunity,description:desc};
   }
 }
+
+// Preserves existing imports while the production entry uses CareerDirector directly.
+export { CareerDirector as SimulationController };

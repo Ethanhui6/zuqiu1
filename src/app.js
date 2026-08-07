@@ -1,6 +1,6 @@
 import { Store } from './core/store.js';
 import { EventEngine } from './core/eventEngine.js';
-import { SimulationController } from './core/simulationController.js';
+import { CareerDirector } from './core/simulationController.js';
 import { FeedbackDirector } from './core/feedbackDirector.js';
 import { AnimationDirector } from './core/animationDirector.js';
 import { applyGrowthToState } from './core/playerDevelopmentEngine.js';
@@ -48,7 +48,7 @@ class App {
     this.overlay=new OverlayManager(document.querySelector('#overlay-root'));
     this.store=new Store();
     this.events=new EventEngine();
-    this.simulation=new SimulationController(this.store,this.events);
+    this.simulation=new CareerDirector(this.store,this.events);
     this.feedback=new FeedbackDirector(document.body);
     this.feedback.setSoundEnabled(this.store.get().settings.sound);
     audioManager.configure(this.store.get().settings.sound ? {} : { muted: true });
