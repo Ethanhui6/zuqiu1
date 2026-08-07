@@ -41,7 +41,8 @@ export class FeedbackDirector {
     const toast=document.createElement('div'); toast.className=`toast ${item.tone==='neutral'?'':item.tone}`;
     toast.dataset.effect=item.effect;
     toast.innerHTML=`${icon(item.icon)}<div><div class="toast-title">${item.title}</div>${detail?`<div class="toast-copy">${detail}</div>`:''}</div>`;
-    this.ensureStack().append(toast);
+    const stack=this.ensureStack();stack.append(toast);
+    while(stack.childElementCount>3)stack.firstElementChild.remove();
     this.lastFeedback={key,at:now,toast};
     setTimeout(()=>toast.remove(),2600);
     if(item.burst || ['attributeUp','talentReveal','award','hiddenEnding','recovered'].includes(type)) this.burst(item.title,item.icon,item.tone);

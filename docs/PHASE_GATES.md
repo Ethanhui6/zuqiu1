@@ -6,8 +6,8 @@ Local repository state is the source of truth. A phase may move to `PASS` only a
 | ---: | --- | --- |
 | 0 | Local project audit | PASS |
 | 1 | Legacy site research and recovery | PASS |
-| 2 | Global UI and layout | IN_PROGRESS |
-| 3 | Match hub UI | LOCKED |
+| 2 | Global UI and layout | PASS |
+| 3 | Match hub UI | IN_PROGRESS |
 | 4 | Full-season match simulation | LOCKED |
 | 5 | Career pacing | LOCKED |
 | 6 | Fast-mode feedback | LOCKED |
@@ -63,3 +63,19 @@ Phase 0 gate result: `PASS` on 2026-08-08. It unlocked Phase 1.
 - [x] Recovery artifacts remain isolated from the current production build.
 
 Phase 1 gate result: `PASS` on 2026-08-08. Phase 2 is now the only unlocked phase.
+
+## Phase 2 Gate
+
+- [x] Header, BottomNav, fixed action, Toast, Sheet, and Modal share named layout and stacking variables.
+- [x] Safe-area and page spacing values are centralized without changing established geometry.
+- [x] The visible toast queue is capped at three and cannot intercept pointer input.
+- [x] The fixed action remains the actual hit target while toasts are visible.
+- [x] The Phase 2 browser gate passes at 320, 375, 390, 393, 414, 428, and 430 px.
+- [x] Sheet, dialog, close cleanup, and dynamic viewport behavior pass in system Chromium.
+- [x] Full automated tests pass: 108/108.
+- [x] Production build passes: version 20.4.0.
+- [x] Repository hygiene passes: 3/3.
+- [x] The full mobile layout audit passes at all 12 required viewports.
+- [x] Generated 320 x 568 and 1280 x 720 screenshots were visually checked.
+
+Phase 2 gate result: `PASS` on 2026-08-08. Phase 3 is now the only unlocked phase.
