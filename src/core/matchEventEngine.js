@@ -71,13 +71,14 @@ export class MatchEventEngine {
     const candidates = this.eligible(state);
     if (!candidates.length) return null;
     const recentEvents = new Set([...(state?.recentMatchEvents || []), ...(state?.recentHighlights || [])]);
-    const recentGames = new Set(state?.recentMiniGames || []);
+    const usedGames = new Set(state?.usedMiniGames || state?.recentMiniGames || []);
     const fresh = candidates.filter(template => {
       if (recentEvents.has(template.id) || recentEvents.has(template.tags?.[1])) return false;
       const interaction = interactionFor(template, position);
-      return !recentGames.has(miniGameForInteraction(interaction)?.id);
+      return !usedGames.has(miniGameForInteraction(interaction)?.id);
     });
-    const pool = fresh.length ? fresh : candidates;
+    if (!fresh.length) return null;
+    const pool = fresh;
     const weighted = pool.map(template => ({ template, weight: weightFor(template, state, tactic, position) })).filter(item => item.weight > 0);
     if (!weighted.length) return null;
     const total = weighted.reduce((sum, item) => sum + item.weight, 0);

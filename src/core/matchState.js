@@ -35,6 +35,7 @@ export function createMatchState({ match = {}, player = {}, seed = 0, tactic = '
     recentHighlights: [],
     recentMatchEvents: [],
     recentMiniGames: [],
+    usedMiniGames: [],
     highlights: [],
     currentEvent: null
   };
@@ -64,7 +65,10 @@ export function advanceMatchState(state, highlight, { score = 50, success = fals
   next.highlights.push(record);
   next.recentMatchEvents = [...(next.recentMatchEvents || []), templateId].slice(-6);
   next.recentHighlights = [...next.recentHighlights, highlight.id].slice(-4);
-  if (highlight.miniGame?.id) next.recentMiniGames = [...next.recentMiniGames, highlight.miniGame.id].slice(-4);
+  if (highlight.miniGame?.id) {
+    next.recentMiniGames = [...next.recentMiniGames, highlight.miniGame.id].slice(-4);
+    next.usedMiniGames = [...new Set([...(next.usedMiniGames || []), highlight.miniGame.id])];
+  }
   next.currentEvent = { id: highlight.id, templateId, title: highlight.title, interactionId: highlight.interactionId };
   return next;
 }
