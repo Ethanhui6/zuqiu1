@@ -1,6 +1,7 @@
 import { animationDirector } from '../core/animationDirector.js';
 import { audioManager } from '../core/audioManager.js';
 import { activateMiniGame, createMiniGameSession, resolveMiniGame } from '../core/miniGameLibrary.js';
+import { freeKickTrajectory } from '../core/freeKickTrajectory.js';
 
 const clamp = (value, min = 0, max = 100) => Math.max(min, Math.min(max, Number(value) || 0));
 const directions = ['左', '中', '右'];
@@ -55,11 +56,9 @@ export function createTrainingGame(game, { onComplete, onSkip, motion = 'full' }
     const curve = safe(area.querySelector('[data-curve]')?.value, 60);
     const angle = safe(area.querySelector('[data-angle]')?.value, 52);
     const power = safe(area.querySelector('[data-power]')?.value, 64);
-    const targetX = clamp(50 + (angle - 50) * .32, 16, 84);
-    const controlX = clamp(50 + (curve - 50) * .48, 10, 90);
-    const controlY = clamp(106 - power * .44, 48, 92);
-    preview.innerHTML = `<svg viewBox="0 0 100 160" aria-label="任意球球路预览" role="img"><rect width="100" height="160" fill="#19734c"/><path d="M0 116h100M0 72h100" stroke="#dff7dc" stroke-opacity=".42"/><path d="M11 10h78v27H11z" fill="none" stroke="#fff" stroke-width="2"/><path d="M16 37h68" stroke="#fff" stroke-width="2"/><g fill="#17365d">${[37,44,51,58,65].map(x => `<circle cx="${x}" cy="92" r="4"/>`).join('')}</g><circle cx="${targetX}" cy="25" r="6" fill="#f6bf3e" fill-opacity=".35" stroke="#fff" stroke-width="1.5"/><path d="M 50 146 Q ${controlX} ${controlY} ${targetX} 25" fill="none" stroke="#f6bf3e" stroke-width="2.3" stroke-dasharray="4 3"/><circle data-curve-ball cx="50" cy="146" r="3.7" fill="#fff" stroke="#17202b" stroke-width="1"/></svg>`;
-    return { preview, targetX, controlX, controlY };
+    const trajectory = freeKickTrajectory({ curve, angle, power });
+    preview.innerHTML = `<svg viewBox="0 0 100 160" aria-label="任意球球路预览" role="img"><rect width="100" height="160" fill="#19734c"/><path d="M0 116h100M0 72h100" stroke="#dff7dc" stroke-opacity=".42"/><path d="M11 10h78v27H11z" fill="none" stroke="#fff" stroke-width="2"/><path d="M16 37h68" stroke="#fff" stroke-width="2"/><g fill="#17365d">${[37,44,51,58,65].map(x => `<circle cx="${x}" cy="92" r="4"/>`).join('')}</g><circle cx="${trajectory.targetX}" cy="${trajectory.targetY}" r="6" fill="#f6bf3e" fill-opacity=".35" stroke="#fff" stroke-width="1.5"/><path d="${trajectory.path}" fill="none" stroke="#f6bf3e" stroke-width="2.3" stroke-dasharray="4 3"/><circle data-curve-ball cx="50" cy="146" r="3.7" fill="#fff" stroke="#17202b" stroke-width="1"/></svg>`;
+    return { preview, ...trajectory };
   };
   const curveObserver = new MutationObserver(() => { if (area.querySelector('[data-curve-preview]')) renderCurvePreview(); });
   curveObserver.observe(area, { childList: true });
@@ -72,7 +71,7 @@ export function createTrainingGame(game, { onComplete, onSkip, motion = 'full' }
     const values = ['curve', 'angle', 'power'].map(key => safe(area.querySelector(`[data-${key}]`).value));
     const score = 100 - values.reduce((sum, value, index) => sum + Math.abs(value - [62, 50, 66][index]) * .75, 0);
     const ball = scene.preview.querySelector('[data-curve-ball]'); const started = performance.now();
-    const animate = now => { const t = Math.min(1, (now - started) / 640); const inv = 1 - t; ball.setAttribute('cx', String(inv * inv * 50 + 2 * inv * t * scene.controlX + t * t * scene.targetX)); ball.setAttribute('cy', String(inv * inv * 146 + 2 * inv * t * scene.controlY + t * t * 25)); if (t < 1) frame = requestAnimationFrame(animate); else finish(score, '弧线绕过人墙并接近目标'); };
+    const animate = now => { const t = Math.min(1, (now - started) / 640); const inv = 1 - t; ball.setAttribute('cx', String(inv * inv * 50 + 2 * inv * t * scene.controlX + t * t * scene.targetX)); ball.setAttribute('cy', String(inv * inv * 146 + 2 * inv * t * scene.controlY + t * t * scene.targetY)); if (t < 1) frame = requestAnimationFrame(animate); else finish(score, '弧线绕过人墙并接近目标'); };
     frame = requestAnimationFrame(animate);
   }, true);
 
