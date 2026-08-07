@@ -16,9 +16,9 @@ Local repository state is the source of truth. A phase may move to `PASS` only a
 | 9 | Career timeline | PASS |
 | 10 | Club interactions | PASS |
 | 11 | Toast system | PASS |
-| 12 | Career events | IN_PROGRESS |
-| 13 | Mini-games | LOCKED |
-| 14 | Position, play style, and trait isolation | LOCKED |
+| 12 | Career events | PASS |
+| 13 | Mini-games | PASS |
+| 14 | Position, play style, and trait isolation | IN_PROGRESS |
 | 15 | Elite-club entry | LOCKED |
 | 16 | Nationality, name, and starting-club synchronization | LOCKED |
 | 17 | Real-player database | LOCKED |
@@ -245,7 +245,7 @@ Phase 12 gate result: `PASS` on 2026-08-08. Phase 13 is now the only unlocked ph
 - [x] Normal training opportunities deterministically rotate the expanded game variants.
 - [x] Real Chromium renders and operates 100 random rounds across 36 games with 100 results, no lifecycle error, browser error, or horizontal overflow.
 - [x] Full automated tests (117/117), production build, Phase 5 pacing, Phase 6 lifecycle, seven-phone-width layout, and 12-viewport mobile regressions pass for version 20.14.0.
-- [ ] GitHub Actions `verify` passes for the Phase 13 Pull Request.
-- [ ] Cloudflare Pages creates a successful native preview for the Phase 13 commit.
+- [x] GitHub Actions `verify` passes for Pull Request #46 and implementation commit `bf72bf2`.
+- [x] Cloudflare Pages creates a successful native preview for implementation commit `bf72bf2`: `https://19f735ec.zuqiu-4tt.pages.dev`.
 
-Phase 13 gate result: `IN_PROGRESS`. Phase 14 remains locked.
+Phase 13 gate result: `PASS` on 2026-08-08. Phase 14 is now the only unlocked phase.

@@ -22,3 +22,7 @@ Date: 2026-08-08
 - Static gate: `node --test tests/phase13-mini-games.test.mjs`.
 - Browser gate: `node tests/phase13-mini-games-gate.mjs`.
 - Full regression and mobile evidence is recorded in `docs/PHASE_GATES.md`.
+- Implementation commit: `bf72bf2`.
+- Pull Request: `https://github.com/Ethanhui6/zuqiu1/pull/46`.
+- GitHub Actions `verify`: `PASS`.
+- Cloudflare Pages native preview: `PASS` at `https://19f735ec.zuqiu-4tt.pages.dev`.
