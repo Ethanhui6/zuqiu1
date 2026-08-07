@@ -1,3 +1,5 @@
+import { isGoalkeeperPosition } from '../core/positionResolver.js';
+
 const OUTFIELD_KEYS=[['speed','速度'],['shooting','射门'],['passing','传球'],['dribbling','盘带'],['defending','防守'],['physical','身体']];
 const KEEPER_KEYS=[['saves','扑救'],['reaction','反应'],['positioning','站位'],['handling','手控球'],['aerial','出击'],['distribution','开球']];
 const center=110, radius=78;
@@ -5,7 +7,7 @@ const point=(index,value)=>{ const a=(-Math.PI/2)+(Math.PI*2*index/6); const num
 const polygon=values=>values.map((v,i)=>point(i,v).join(',')).join(' ');
 
 export function radarChart(current={},previous={},potential=80,position=''){
-  const keeper=position==='GK'||String(position).includes('门将')||Boolean(current.goalkeeping);
+  const keeper=isGoalkeeperPosition(position);
   const KEYS=keeper?KEEPER_KEYS:OUTFIELD_KEYS;
   const values=(source,keys)=>keys.map(([key])=>keeper?source.goalkeeping?.[key]??({saves:source.defending,reaction:source.speed,positioning:source.defending,handling:source.dribbling,aerial:source.physical,distribution:source.passing}[key]||0):source[key]??0);
   const rings=[20,40,60,80,100].map(level=>`<polygon class="radar-grid" points="${polygon(KEYS.map(()=>level))}"/>`).join('');

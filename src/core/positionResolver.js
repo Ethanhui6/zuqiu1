@@ -1,8 +1,8 @@
 const POSITION_ALIASES = Object.freeze({
   GK: 'GK', '门将': 'GK',
   CB: 'CB', '中后卫': 'CB',
-  LB: 'LB', '左后卫': 'LB', '左翼卫': 'LB', '翼卫': 'LB',
-  RB: 'RB', '右后卫': 'RB', '右翼卫': 'RB',
+  LB: 'LB', LWB: 'LB', '左后卫': 'LB', '左翼卫': 'LB', '翼卫': 'LB',
+  RB: 'RB', RWB: 'RB', '右后卫': 'RB', '右翼卫': 'RB',
   CDM: 'CDM', DM: 'CDM', '后腰': 'CDM',
   CM: 'CM', '中场': 'CM', '中前卫': 'CM',
   CAM: 'CAM', AM: 'CAM', '前腰': 'CAM',
@@ -10,7 +10,7 @@ const POSITION_ALIASES = Object.freeze({
   RM: 'RW', '右前卫': 'RW',
   LW: 'LW', '左边锋': 'LW', '边锋': 'LW',
   RW: 'RW', '右边锋': 'RW',
-  SS: 'ST', '影锋': 'ST',
+  SS: 'ST', CF: 'ST', '影锋': 'ST',
   ST: 'ST', '中锋': 'ST', '前锋': 'ST'
 });
 
@@ -49,3 +49,4 @@ export const positionResolver = new PositionResolver();
 export const normalizePosition = position => positionResolver.resolve(position);
 export const getPositionProfile = position => positionResolver.profile(position);
 export const positionFits = (position, positions) => positionResolver.fits(position, positions);
+export const isGoalkeeperPosition = position => normalizePosition(position) === 'GK';
