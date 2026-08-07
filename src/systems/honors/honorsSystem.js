@@ -129,6 +129,9 @@ export function settleSeason(state) {
   const endValue = Number(state.career.marketValue ?? startValue);
   const startStats = { ...(season.startStats || player?.previousStats || player?.stats || {}) };
   const endStats = { ...(player?.stats || {}) };
+  const recordedHighlights = (season.highlights || []).map(item => typeof item === 'string' ? item : item?.title || item?.summary).filter(Boolean);
+  const transferClub = season.transfer?.club || season.transfer?.clubName || season.transfer?.name;
+  const highlights = [...new Set([...recordedHighlights, ...trophies.map(item => `赢得 ${item.name}`), ...personalAwards.map(item => `获得 ${item.name}`), ...(transferClub ? [`转会至 ${transferClub}`] : [])])];
   const grade = rating >= 8.4 ? 'SSS' : rating >= 7.8 ? 'SS' : rating >= 7.2 ? 'S' : 'A';
   const record = {
     id: key, year: season.year, club, clubId: player?.clubId || null, crestPath: player?.crestPath || null,
@@ -136,7 +139,7 @@ export function settleSeason(state) {
     cleanSheets: Number(season.cleanSheets || 0), saves: Number(season.saves || 0), penaltySaves: Number(season.penaltySaves || 0),
     rating, playerOfMatch: Number(season.playerOfMatch || 0), trophies: trophies.map(item => item.name), personalAwards: personalAwards.map(item => item.name),
     startOvr, endOvr, ovrChange: Number((endOvr - startOvr).toFixed(2)), startValue, endValue, valueChange: endValue - startValue,
-    coachTrustChange: Number(season.coachTrustChange || 0), grade, highlights: season.highlights || [], startStats, endStats, transfer: season.transfer || null,
+    coachTrustChange: Number(season.coachTrustChange || 0), grade, highlights, startStats, endStats, transfer: season.transfer || null,
     contract: season.contract || null, injuries: season.injuries || [], dataOrigin: 'generated-fallback'
   };
   honors.seasons.unshift(record);
