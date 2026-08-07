@@ -135,6 +135,8 @@ body:has(.app-shell) { min-height:100svh; min-height:100dvh; height:auto; overfl
 .app-shell { min-height:100svh; min-height:100dvh; height:auto; }
 .app-main { min-height:0; overflow:visible; overscroll-behavior-y:auto; -webkit-overflow-scrolling:touch; }
 body.has-open-sheet { overflow:hidden; }
+.training-game--curve .curve-preview { min-height:180px; overflow:hidden; background:var(--surface); color:inherit; }
+.training-game--curve .curve-preview svg { display:block; width:100%; height:180px; }
 
 /* P0 event controls: UI feedback never owns the business lock. */
 .decision-card { min-height:92px; touch-action:manipulation; user-select:none; border:1px solid var(--line); }

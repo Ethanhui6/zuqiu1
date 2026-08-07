@@ -43,6 +43,32 @@ export function createTrainingGame(game, { onComplete, onSkip, motion = 'full' }
     frame = requestAnimationFrame(tick); timer = window.setTimeout(onTimeout, seconds * 1000);
   };
   const control = (label, attrs = '') => `<button class="training-control" type="button" ${attrs}>${label}</button>`;
+  const renderCurvePreview = () => {
+    const preview = area.querySelector('[data-curve-preview]');
+    if (!preview) return null;
+    const curve = safe(area.querySelector('[data-curve]')?.value, 60);
+    const angle = safe(area.querySelector('[data-angle]')?.value, 52);
+    const power = safe(area.querySelector('[data-power]')?.value, 64);
+    const targetX = clamp(50 + (angle - 50) * .32, 16, 84);
+    const controlX = clamp(50 + (curve - 50) * .48, 10, 90);
+    const controlY = clamp(106 - power * .44, 48, 92);
+    preview.innerHTML = `<svg viewBox="0 0 100 160" aria-label="任意球球路预览" role="img"><rect width="100" height="160" fill="#19734c"/><path d="M0 116h100M0 72h100" stroke="#dff7dc" stroke-opacity=".42"/><path d="M11 10h78v27H11z" fill="none" stroke="#fff" stroke-width="2"/><path d="M16 37h68" stroke="#fff" stroke-width="2"/><g fill="#17365d">${[37,44,51,58,65].map(x => `<circle cx="${x}" cy="92" r="4"/>`).join('')}</g><circle cx="${targetX}" cy="25" r="6" fill="#f6bf3e" fill-opacity=".35" stroke="#fff" stroke-width="1.5"/><path d="M 50 146 Q ${controlX} ${controlY} ${targetX} 25" fill="none" stroke="#f6bf3e" stroke-width="2.3" stroke-dasharray="4 3"/><circle data-curve-ball cx="50" cy="146" r="3.7" fill="#fff" stroke="#17202b" stroke-width="1"/></svg>`;
+    return { preview, targetX, controlX, controlY };
+  };
+  const curveObserver = new MutationObserver(() => { if (area.querySelector('[data-curve-preview]')) renderCurvePreview(); });
+  curveObserver.observe(area, { childList: true });
+  cleanups.push(() => curveObserver.disconnect());
+  listen(area, 'input', event => { if (event.target.matches('[data-curve],[data-angle],[data-power]') && area.querySelector('[data-curve-preview]')) renderCurvePreview(); });
+  listen(area, 'click', event => {
+    const submit = event.target.closest('[data-submit]'); const scene = area.querySelector('[data-curve-preview]') && renderCurvePreview();
+    if (!submit || !scene) return;
+    event.preventDefault(); event.stopImmediatePropagation();
+    const values = ['curve', 'angle', 'power'].map(key => safe(area.querySelector(`[data-${key}]`).value));
+    const score = 100 - values.reduce((sum, value, index) => sum + Math.abs(value - [62, 50, 66][index]) * .75, 0);
+    const ball = scene.preview.querySelector('[data-curve-ball]'); const started = performance.now();
+    const animate = now => { const t = Math.min(1, (now - started) / 640); const inv = 1 - t; ball.setAttribute('cx', String(inv * inv * 50 + 2 * inv * t * scene.controlX + t * t * scene.targetX)); ball.setAttribute('cy', String(inv * inv * 146 + 2 * inv * t * scene.controlY + t * t * 25)); if (t < 1) frame = requestAnimationFrame(animate); else finish(score, '弧线绕过人墙并接近目标'); };
+    frame = requestAnimationFrame(animate);
+  }, true);
 
   function reaction() {
     area.innerHTML = `<div class="reaction-lane"><span data-light>等待信号</span></div><button class="app-button primary" data-react disabled>起跑</button>`;
@@ -85,4 +111,3 @@ export function createTrainingGame(game, { onComplete, onSkip, motion = 'full' }
   start();
   return node;
 }
-
