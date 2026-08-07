@@ -25,9 +25,10 @@ const GENERATED_FEEDBACK = Object.fromEntries(Array.from({length:120},(_,index)=
 export const FEEDBACK_CATALOG = Object.freeze({...BASE_FEEDBACK_CATALOG,...GENERATED_FEEDBACK,...MEANINGFUL_FEEDBACK_CATALOG});
 export const feedbackScenarioCount = Object.keys(FEEDBACK_CATALOG).length;
 export { meaningfulFeedbackCount };
+export const feedbackKey = (title, detail) => `${title}\u0000${String(detail).trim()}`;
 
 export class FeedbackDirector {
-  constructor(root=document.body){ this.root=root; this.stack=null; this.soundEnabled=true; }
+  constructor(root=document.body){ this.root=root; this.stack=null; this.soundEnabled=true; this.lastFeedback=null; }
   setSoundEnabled(enabled){ this.soundEnabled=Boolean(enabled); audioManager.setMuted(!this.soundEnabled); }
   sound(kind='tap'){
     if(this.soundEnabled)audioManager.play(kind==='success'?'correct':kind==='failure'?'failure':'tap');
@@ -35,10 +36,13 @@ export class FeedbackDirector {
   ensureStack(){ if(!this.stack){ this.stack=document.createElement('div'); this.stack.className='toast-stack'; document.body.append(this.stack);} return this.stack; }
   emit(type, detail=''){
     const item=FEEDBACK_CATALOG[type]||FEEDBACK_CATALOG.click;
+    const key=feedbackKey(item.title,detail),now=Date.now();
+    if(this.lastFeedback?.key===key&&now-this.lastFeedback.at<800)return this.lastFeedback.toast;
     const toast=document.createElement('div'); toast.className=`toast ${item.tone==='neutral'?'':item.tone}`;
     toast.dataset.effect=item.effect;
     toast.innerHTML=`${icon(item.icon)}<div><div class="toast-title">${item.title}</div>${detail?`<div class="toast-copy">${detail}</div>`:''}</div>`;
     this.ensureStack().append(toast);
+    this.lastFeedback={key,at:now,toast};
     setTimeout(()=>toast.remove(),2600);
     if(item.burst || ['attributeUp','talentReveal','award','hiddenEnding','recovered'].includes(type)) this.burst(item.title,item.icon,item.tone);
     if(item.sound) this.sound(item.sound); else if(['attributeUp','award','matchEnd','trainingComplete','recovered','failure','newEvent','newRecord','save','todo'].includes(type)) this.sound(item.tone==='danger'?'failure':type==='newRecord'||type==='award'?'record':type==='newEvent'?'event':item.tone==='success'?'success':'tap');
