@@ -12,8 +12,8 @@ Local repository state is the source of truth. A phase may move to `PASS` only a
 | 5 | Career pacing | PASS |
 | 6 | Fast-mode feedback | PASS |
 | 7 | Development curve | PASS |
-| 8 | Development feedback animation | IN_PROGRESS |
-| 9 | Career timeline | LOCKED |
+| 8 | Development feedback animation | PASS |
+| 9 | Career timeline | IN_PROGRESS |
 | 10 | Club interactions | LOCKED |
 | 11 | Toast system | LOCKED |
 | 12 | Career events | LOCKED |
@@ -158,3 +158,19 @@ Phase 6 gate result: `PASS` on 2026-08-08. Phase 7 is now the only unlocked phas
 - [x] Cloudflare Pages creates a successful preview for commit `90a746b`.
 
 Phase 7 gate result: `PASS` on 2026-08-08. Phase 8 is now the only unlocked phase.
+
+## Phase 8 Gate
+
+- [x] Training, interactive-match, and season-review results use one shared growth-feedback component.
+- [x] Every result displays previous OVR, current OVR, signed OVR change, and all six previous/current attribute values.
+- [x] Changed axes are highlighted and the SVG radar morphs from the exact stored before snapshot to the exact after snapshot.
+- [x] Reduced-motion users receive the complete final state without the radar animation.
+- [x] Season settlement records annual development before freezing `endOvr` and `endStats`, keeping the review, player save, and next-season start snapshot consistent.
+- [x] The deterministic gate validates animated, internally consistent feedback for 20 trainings, 20 matches, and 5 season reviews.
+- [x] Chromium verifies live radar movement and no horizontal overflow at 390x844; the full 12-viewport and seven-phone-width layout gates pass.
+- [x] Full automated suite passes: 109/109; Phase 5 pacing, Phase 7 curves, three-season browser replay, 30-node feedback, and full-career regressions pass.
+- [x] Production build passes as version 20.9.0.
+- [x] GitHub Actions `verify` passes for Pull Request #41.
+- [x] Cloudflare Pages creates a successful preview for commit `1e72ce9`.
+
+Phase 8 gate result: `PASS` on 2026-08-08. Phase 9 is now the only unlocked phase.
