@@ -24,3 +24,10 @@ test('missing squad slots use explicitly marked deterministic fallback players',
   assert.equal(player.dataOrigin.identity, 'generated-fallback');
   assert.equal(player.dataOrigin.ratings, 'generated-fallback');
 });
+
+test('generated squad names follow the supplied national profile', () => {
+  const profile = { china: { givenNamesMale: ['子豪'], familyNames: ['陈'], nameOrder: 'family-given', separator: '' } };
+  const player = createGeneratedPlayer({ clubId: 'CHN1-SHA', country: '中国', index: 1, seed: 'test', nameProfiles: profile });
+  assert.equal(player.name, '陈子豪');
+  assert.equal(player.cn, '陈子豪');
+});

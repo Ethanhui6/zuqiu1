@@ -12,7 +12,7 @@ export class DataRepository{
     ]);
     this.clubs=this.enrichClubs(clubs.clubs||clubs);this.leagues=clubs.leagues||[];this.templates=templates;this.achievements=achievements;this.positions=positions;this.eventIndex=eventIndex;this.storyChains=Array.isArray(storyChains)?storyChains:(storyChains.events||[]);this.version=version;this.sources=sources;
     this.nameProfiles=Object.fromEntries(nameFiles.map((file,index)=>[file,names[index]]));this.positionEvents=Array.isArray(positionEvents)?positionEvents:(positionEvents.events||[]);
-    this.registry=createWorldRegistry({clubs:this.clubs,leagues:this.leagues,players,trophies});
+    this.registry=createWorldRegistry({clubs:this.clubs,leagues:this.leagues,players,trophies,nameProfiles:this.nameProfiles});
     this.clubs=this.registry.clubs;this.leagues=this.registry.leagues;this.countries=this.registry.countries;this.players=this.registry.players;this.trophies=this.registry.trophies;return this;
   }
   enrichClubs(clubs){

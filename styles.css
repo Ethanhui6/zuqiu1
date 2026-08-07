@@ -283,8 +283,8 @@ body.has-open-sheet { overflow:hidden; }
 .club-offer-card:active { transform:scale(.985); }
 .club-offer-card.is-signing,.is-signing .club-offer-card:hover { transform:scale(.99); border-color:var(--green); background:var(--green-soft); }
 .club-offer-top { min-height:58px; display:flex; align-items:center; justify-content:space-between; gap:8px; }
-.club-offer-crest { width:54px; height:54px; object-fit:contain; border-radius:14px; background:var(--surface-muted); padding:4px; }
-.club-offer-crest--missing { display:grid; place-items:center; color:var(--text-3); border:1px dashed var(--line-strong); font-size:24px; }
+.club-offer-crest { display:grid; place-items:center; width:54px; height:54px; border-radius:14px; background:var(--surface-muted); padding:4px; }
+.club-offer-crest .club-crest { width:46px; height:46px; padding:0; border-radius:0; background:transparent; }
 .club-offer-card strong { font-size:15px; line-height:1.25; }
 .club-offer-card small,.club-offer-copy,.club-offer-metrics,.club-offer-contract { color:var(--text-2); font-size:10px; line-height:1.4; }
 .club-offer-copy { min-height:42px; }
