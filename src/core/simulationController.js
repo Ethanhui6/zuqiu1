@@ -3,7 +3,7 @@ import { matchAvailability, recordMatchCard, serveSuspension } from './disciplin
 import { applyGrowthToState } from './playerDevelopmentEngine.js';
 import { keyedRandom } from '../services/rng.js';
 import { createTrainingOpportunity } from './trainingOpportunities.js';
-import { addNews } from './newsEngine.js';
+import { addNews, generateWorldNews } from './newsEngine.js';
 import { dataRepository } from '../services/dataRepository.js';
 import { CLUBS } from '../data/clubs.js';
 import { generateTransferActivity } from './transferInboxEngine.js';
@@ -159,7 +159,7 @@ export class CareerDirector {
     state.player.fatigue=Math.max(0,Math.min(100,(state.player.fatigue||0)+8));
     state.player.fitness=Math.max(10,100-state.player.fatigue*.7);
     state.career.marketValue=Math.max(0,state.career.marketValue+Math.round((rating-6)*18000+goals*50000+assists*32000));
-    addNews(state,{id:`auto-match-${fixture.id}`,type:'比赛',title:`${fixture.competition}完成自动结算`,copy:`${state.player.club} ${teamGoals}-${opponentGoals} ${fixture.opponent}，评分 ${rating}。`});
+    if(fixture.important||goals||assists||rating>=8.2||card)addNews(state,{id:`auto-match-${fixture.id}`,type:'比赛',title:`${state.player.name}对${fixture.opponent}贡献焦点表现`,copy:`${fixture.competition}：${state.player.club} ${teamGoals}-${opponentGoals} ${fixture.opponent}，评分 ${rating}${goals?`、进球 ${goals}`:''}${assists?`、助攻 ${assists}`:''}。`});
     return true;
   }
   async advance(action){
@@ -192,6 +192,7 @@ export class CareerDirector {
           state.simulation.processedKeys.push(microKey);
         }
         if (nextDate.endsWith('-01')) {
+          generateWorldNews(state, dataRepository.clubs?.length ? dataRepository.clubs : CLUBS, dataRepository.players || [], nextDate);
           const activity = generateTransferActivity(state, dataRepository.clubs?.length ? dataRepository.clubs : CLUBS, nextDate);
           const offer = activity.find(item => item.stage === 'formal_offer');
           if (offer) addNews(state, { id: offer.id, date: nextDate, type: '转会', title: `${offer.clubName} 发来正式报价`, copy: '经纪人已把合同方案放入转会收件箱。', read: false });

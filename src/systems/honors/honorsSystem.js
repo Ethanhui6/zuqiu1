@@ -2,6 +2,7 @@ const YEAR_PATTERN = /^(\d{4})\/(\d{2})$/;
 import { applySeasonDevelopment } from '../../core/playerDevelopmentEngine.js';
 import { createRealFixtures } from '../../core/simulationController.js';
 import { advanceInjury } from '../../core/injuryEngine.js';
+import { addNews } from '../../core/newsEngine.js';
 
 const clamp = (value, min, max) => Math.max(min, Math.min(max, value));
 const OFF_SEASON_ACTIVITIES = [
@@ -198,11 +199,7 @@ export function settleSeason(state) {
   state.simulation.date = `${String(nextYear).slice(0, 4)}-07-01`;
   state.season = { ...season, year: nextYear, week: 1, progress: 0, appearances: 0, starts: 0, minutes: 0, goals: 0, assists: 0, shots: 0, keyPasses: 0, tackles: 0, interceptions: 0, rating: 0, cleanSheets: 0, saves: 0, penaltySaves: 0, yellowCards: 0, redCards: 0, suspensions: 0, playerOfMatch: 0, injuryAbsences: 0, keyNodes: 0, startOvr: player?.ovr ?? endOvr, startMarketValue: state.career.marketValue, startStats: { ...(player?.stats || {}) }, highlights: [], injuries: [] };
   state.schedule = createRealFixtures(state);
-  state.news ??= { items: [], unread: 0 };
-  state.news.items ??= [];
-  state.news.items.unshift({ id: `season-open-${nextYear}`, date: state.simulation.date, type: '赛季', title: `${nextYear}赛季注册完成`, copy: `${player?.club || club}已生成新赛程，年龄、身价、合同和能力快照已更新。`, read: false });
-  state.news.items = state.news.items.slice(0, 40);
-  state.news.unread = state.news.items.filter(item => !item.read).length;
+  addNews(state, { id: `season-open-${nextYear}`, date: state.simulation.date, type: '赛季', title: `${nextYear}赛季注册完成`, copy: `${player?.club || club}已生成新赛程，年龄、身价、合同和能力快照已更新。`, read: false });
   return { alreadySettled: false, trophies, personalAwards, record };
 }
 
