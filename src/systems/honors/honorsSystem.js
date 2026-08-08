@@ -17,6 +17,108 @@ const OFF_SEASON_ACTIVITIES = [
 ];
 const OFF_SEASON_COMPLETION_RECOVERY = { fatigue: -8, fitness: 6, morale: 2, recoveryDays: 7 };
 
+const HONOR_TEXT = Object.freeze({
+  leagueChampion: '\u8054\u8d5b\u51a0\u519b', domesticCup: '\u56fd\u5185\u676f\u8d5b\u51a0\u519b',
+  goldenBoot: '\u91d1\u9774\u5956', playerOfYear: '\u8d5b\u5b63\u6700\u4f73\u7403\u5458', youngPlayer: '\u8d5b\u5b63\u6700\u4f73\u5e74\u8f7b\u7403\u5458',
+  goldenGlove: '\u91d1\u624b\u5957\u5956', bestDefender: '\u6700\u4f73\u540e\u536b', bestMidfielder: '\u6700\u4f73\u4e2d\u573a',
+  bestForward: '\u6700\u4f73\u524d\u950b', bestXi: '\u8d5b\u5b63\u6700\u4f73\u9635\u5bb9', goldenBoy: '\u91d1\u7ae5\u5956',
+  ballon: '\u91d1\u7403\u5956', nationalDebut: '\u56fd\u5bb6\u961f\u9996\u79c0', leagueTitle: '\u8054\u8d5b\u51a0\u519b\u6210\u5c31'
+});
+
+const MILESTONE_DEFINITIONS = Object.freeze([
+  { id: 'debut', name: '\u751f\u6daf\u9996\u79c0', once: true, check: state => Number(state.season.appearances) > 0 },
+  { id: 'first-goal', name: '\u751f\u6daf\u9996\u7403', once: true, check: state => Number(state.season.goals) > 0 || state.career.honors.seasons.some(item => Number(item.goals) > 0) },
+  { id: 'first-assist', name: '\u9996\u6b21\u52a9\u653b', once: true, check: state => Number(state.season.assists) > 0 || state.career.honors.seasons.some(item => Number(item.assists) > 0) },
+  { id: 'first-start', name: '\u9996\u6b21\u9996\u53d1', once: true, check: state => Number(state.season.starts) > 0 || state.career.honors.seasons.some(item => Number(item.starts) > 0) },
+  { id: 'season-10-goals', name: '\u5355\u8d5b\u5b63 10 \u7403', once: false, check: state => Number(state.season.goals) >= 10 },
+  { id: 'season-20-goals', name: '\u5355\u8d5b\u5b63 20 \u7403', once: false, check: state => Number(state.season.goals) >= 20 },
+  { id: 'season-30-goals', name: '\u5355\u8d5b\u5b63 30 \u7403', once: false, check: state => Number(state.season.goals) >= 30 },
+  { id: 'season-10-assists', name: '\u5355\u8d5b\u5b63 10 \u6b21\u52a9\u653b', once: false, check: state => Number(state.season.assists) >= 10 },
+  { id: 'season-rating-75', name: '\u8d5b\u5b63\u8bc4\u5206 7.5', once: false, check: state => Number(state.season.rating) >= 7.5 },
+  { id: 'season-clean-sheets-10', name: '\u5355\u8d5b\u5b63 10 \u6b21\u96f6\u5c01', once: false, check: state => Number(state.season.cleanSheets) >= 10 },
+  { id: '100-appearances', name: '\u751f\u6daf\u767e\u573a', once: true, check: state => careerAppearances(state) >= 100 },
+  { id: '200-appearances', name: '\u751f\u6daf\u4e24\u767e\u573a', once: true, check: state => careerAppearances(state) >= 200 },
+  { id: '500-appearances', name: '\u751f\u6daf\u4e94\u767e\u573a', once: true, check: state => careerAppearances(state) >= 500 },
+  { id: 'national-debut', name: HONOR_TEXT.nationalDebut, once: true, check: state => Boolean(state.season.nationalTeam?.calledUp && Number(state.season.nationalTeam?.appearances) > 0) },
+  { id: 'league-title', name: HONOR_TEXT.leagueTitle, once: true, check: state => (state.season.trophies || []).some(item => item.assetId === 'league-title') },
+  { id: 'continental-title', name: '\u6d32\u9645\u51a0\u519b\u6210\u5c31', once: true, check: state => (state.season.trophies || []).some(item => item.assetId === 'continental-title') },
+  { id: 'world-cup-debut', name: '\u4e16\u754c\u676f\u9996\u79c0', once: true, check: state => state.season.nationalTournament === 'world-cup' && Number(state.season.nationalAppearances) > 0 },
+  { id: 'world-cup-title', name: '\u4e16\u754c\u676f\u51a0\u519b\u6210\u5c31', once: true, check: state => state.season.nationalTournament === 'world-cup' && state.season.nationalChampion === true }
+]);
+
+function careerAppearances(state) {
+  return Number(state.season?.appearances || 0) + (state.career?.honors?.seasons || []).reduce((total, item) => total + Number(item.appearances || 0), 0);
+}
+
+function leagueLabel(player) {
+  const value = String(player?.league || player?.leagueCn || '').toLowerCase();
+  if (/premier|英超|鑻辫秴/.test(value)) return '\u82f1\u8d85';
+  if (/la liga|laliga|西甲|瑗跨敳/.test(value)) return '\u897f\u7532';
+  if (/bundes|德甲|寰风敳/.test(value)) return '\u5fb7\u7532';
+  if (/serie|意甲|鎰忕敳/.test(value)) return '\u610f\u7532';
+  if (/ligue|法甲|娉曠敳/.test(value)) return '\u6cd5\u7532';
+  if (/china|中超|涓秴/.test(value)) return '\u4e2d\u8d85';
+  return '\u8054\u8d5b';
+}
+
+function objectiveValue(state, objective) {
+  if (objective.kind === 'trophy') return (state.season.trophies || []).some(item => item.assetId === objective.assetId) ? 1 : 0;
+  if (objective.kind === 'award') return (state.season.personalAwards || []).some(item => item.assetId === objective.assetId) ? 1 : 0;
+  return Number(state.season[objective.metric] || 0);
+}
+
+function refreshSeasonObjectives(state, final = false) {
+  const objectives = state.season.objectives || [];
+  for (const objective of objectives) {
+    const current = objectiveValue(state, objective);
+    objective.current = current;
+    objective.progress = Math.min(100, Math.round(current / Math.max(1, Number(objective.target || 1)) * 100));
+    if (final) {
+      objective.status = current >= objective.target ? 'complete' : 'missed';
+      objective.reason = objective.status === 'complete' ? '\u8fbe\u6210\u672c\u8d5b\u5b63\u76ee\u6807' : `\u6700\u7ec8\u8fbe\u6210 ${current}/${objective.target}，\u4e0b\u4e00\u8d5b\u5b63\u4ecd\u53ef\u6311\u6218`;
+    }
+  }
+  return objectives;
+}
+
+export function ensureSeasonObjectives(state) {
+  if (!state?.player || !state.season) return [];
+  if (!Array.isArray(state.season.objectives) || state.season.objectives.length === 0) {
+    const position = state.player.position || 'CM';
+    const personalMetric = position === 'GK' ? 'cleanSheets' : ['CM', 'CDM', 'CAM', 'LM', 'RM'].includes(position) ? 'assists' : 'goals';
+    const personalTarget = personalMetric === 'cleanSheets' ? 10 : personalMetric === 'assists' ? 8 : 10;
+    state.season.objectives = [
+      { id: `${state.season.year}:league-title`, name: `${leagueLabel(state.player)}${HONOR_TEXT.leagueChampion}`, group: 'team', kind: 'trophy', assetId: 'league-title', target: 1, current: 0, progress: 0, status: 'active', reward: '\u7403\u961f\u5956\u676f\u5019\u9009' },
+      { id: `${state.season.year}:personal-award`, name: personalMetric === 'cleanSheets' ? HONOR_TEXT.goldenGlove : personalMetric === 'assists' ? '\u52a9\u653b\u738b' : HONOR_TEXT.goldenBoot, group: 'personal', kind: 'metric', metric: personalMetric, target: personalTarget, current: 0, progress: 0, status: 'active', reward: '\u4e2a\u4eba\u8363\u8a89\u5019\u9009' },
+      { id: `${state.season.year}:appearances`, name: '\u7a33\u5b9a\u51fa\u573a', group: 'achievement', kind: 'metric', metric: 'appearances', target: state.player.age <= 18 ? 12 : 20, current: 0, progress: 0, status: 'active', reward: '\u6559\u7ec3\u4fe1\u4efb +5' },
+      { id: `${state.season.year}:rating`, name: '\u8d5b\u5b63\u5e73\u5747\u8bc4\u5206', group: 'achievement', kind: 'metric', metric: 'rating', target: 7.2, current: 0, progress: 0, status: 'active', reward: '\u89e3\u9501\u4e0b\u4e00\u53d1\u5c55\u8def\u7ebf' }
+    ];
+  }
+  return refreshSeasonObjectives(state);
+}
+
+export function updateSeasonObjectives(state, { final = false } = {}) {
+  ensureSeasonObjectives(state);
+  return refreshSeasonObjectives(state, final);
+}
+
+function unlockAchievements(state) {
+  const honors = ensureHonors(state), year = state.season.year, newly = [];
+  for (const definition of MILESTONE_DEFINITIONS) {
+    if (!definition.check(state)) continue;
+    const existing = honors.achievements.find(item => item.id === definition.id);
+    if (definition.once && existing) continue;
+    if (!definition.once && existing?.seasons?.includes(year)) continue;
+    const record = existing || { id: definition.id, name: definition.name, count: 0, seasons: [], repeatable: !definition.once, assetId: 'player-year' };
+    record.count += 1;
+    record.seasons = [...new Set([...(record.seasons || []), year])];
+    if (!existing) honors.achievements.push(record);
+    honors.achievementLog.push({ id: `${definition.id}:${year}`, achievementId: definition.id, name: definition.name, season: year, dataOrigin: 'generated-fallback' });
+    newly.push({ ...record, season: year });
+  }
+  return newly;
+}
+
 export function ensureHonors(state) {
   const honors = state.career.honors = {
     trophies: [],
@@ -30,6 +132,8 @@ export function ensureHonors(state) {
   honors.trophies = Array.isArray(honors.trophies) ? honors.trophies : [];
   honors.personalAwards = Array.isArray(honors.personalAwards) ? honors.personalAwards : [];
   honors.seasons = Array.isArray(honors.seasons) ? honors.seasons : [];
+  honors.achievements = Array.isArray(honors.achievements) ? honors.achievements : [];
+  honors.achievementLog = Array.isArray(honors.achievementLog) ? honors.achievementLog : [];
   return honors;
 }
 
@@ -124,10 +228,8 @@ function settleNationalTeamSeason(state) {
   return season.nationalTeam;
 }
 
-function simulatedHonor(id, name, season, club, category) {
-  const assetId = /金靴|Golden Boot/.test(name) ? 'golden-boot' : /年轻|Young/.test(name) ? 'young' : /最佳|Player/.test(name) ? 'player-year' : /杯|Champion/.test(name) ? 'league' : 'legend';
-  const generatedId = id.slice(id.lastIndexOf(':') + 1);
-  return { id, assetId: { league: 'league-title', domestic: 'domestic-cup', 'golden-boot': 'golden-boot', 'player-year': 'player-of-season', young: 'young-player', 'best-keeper': 'best-keeper', 'best-defender': 'best-defender', 'best-midfielder': 'best-midfielder', 'best-forward': 'best-forward', 'best-xi': 'best-xi', 'golden-boy': 'golden-boy', ballon: 'ballon', 'world-player': 'world-player', 'world-cup-golden-ball': 'world-cup-golden-ball', 'world-cup-golden-boot': 'world-cup-golden-boot', 'world-cup-best-young': 'world-cup-best-young' }[generatedId] || assetId, name, season, club, category, dataOrigin: 'generated-fallback', source: 'career simulation' };
+function simulatedHonor(id, name, season, club, category, assetId) {
+  return { id, assetId: assetId || 'legend', name, season, club, category, dataOrigin: 'generated-fallback', source: 'career simulation' };
 }
 
 export function settleSeason(state) {
@@ -139,6 +241,7 @@ export function settleSeason(state) {
   const existing = honors.seasons.find(record => record.id === key);
   if (existing) return { alreadySettled: true, trophies: [], personalAwards: [], record: existing };
 
+  ensureSeasonObjectives(state);
   settleNationalTeamSeason(state);
 
   const appearances = Number(season.appearances || 0);
@@ -147,24 +250,30 @@ export function settleSeason(state) {
   const rating = Number(season.rating || 0);
   const trophies = [];
   const personalAwards = [];
-  if (appearances >= 12 && rating >= 7.4) trophies.push(simulatedHonor(`${key}:league`, 'League Champion', season.year, club, 'team'));
-  if (appearances >= 10 && goals + assists >= 12) trophies.push(simulatedHonor(`${key}:domestic`, 'Domestic Cup', season.year, club, 'team'));
-  if (goals >= 10) personalAwards.push(simulatedHonor(`${key}:golden-boot`, 'Golden Boot', season.year, club, 'personal'));
-  if (rating >= 7.8 && appearances >= 15) personalAwards.push(simulatedHonor(`${key}:player-year`, 'Player of the Year', season.year, club, 'personal'));
-  if (player?.age <= 21 && rating >= 7.2 && appearances >= 12) personalAwards.push(simulatedHonor(`${key}:young`, 'Young Player of the Year', season.year, club, 'personal'));
+  const leagueChampion = season.leagueChampion ?? (appearances >= 12 && rating >= 7.4);
+  const domesticChampion = season.domesticCupChampion ?? (appearances >= 10 && goals + assists >= 12);
+  if (leagueChampion) trophies.push(simulatedHonor(`${key}:league`, `${leagueLabel(player)}${HONOR_TEXT.leagueChampion}`, season.year, club, 'team', 'league-title'));
+  if (domesticChampion) trophies.push(simulatedHonor(`${key}:domestic`, HONOR_TEXT.domesticCup, season.year, club, 'team', 'domestic-cup'));
+  if (goals >= 10) personalAwards.push(simulatedHonor(`${key}:golden-boot`, HONOR_TEXT.goldenBoot, season.year, club, 'personal', 'golden-boot'));
+  if (rating >= 7.8 && appearances >= 15) personalAwards.push(simulatedHonor(`${key}:player-year`, HONOR_TEXT.playerOfYear, season.year, club, 'personal', 'player-of-season'));
+  if (player?.age <= 21 && rating >= 7.2 && appearances >= 12) personalAwards.push(simulatedHonor(`${key}:young`, HONOR_TEXT.youngPlayer, season.year, club, 'personal', 'young-player'));
   const position = player?.position || 'CM';
-  if (position === 'GK' && season.cleanSheets >= 12) personalAwards.push(simulatedHonor(`${key}:best-keeper`, 'Best Goalkeeper', season.year, club, 'personal'));
-  if (['CB', 'LB', 'RB', 'CDM'].includes(position) && rating >= 7.3 && appearances >= 15) personalAwards.push(simulatedHonor(`${key}:best-defender`, 'Best Defender', season.year, club, 'personal'));
-  if (['CAM', 'CM', 'CDM'].includes(position) && rating >= 7.4 && assists >= 8) personalAwards.push(simulatedHonor(`${key}:best-midfielder`, 'Best Midfielder', season.year, club, 'personal'));
-  if (['ST', 'SS', 'LW', 'RW'].includes(position) && rating >= 7.4 && goals >= 12) personalAwards.push(simulatedHonor(`${key}:best-forward`, 'Best Forward', season.year, club, 'personal'));
-  if (rating >= 7.5 && appearances >= 15) personalAwards.push(simulatedHonor(`${key}:best-xi`, 'Team of the Year', season.year, club, 'personal'));
-  if (player?.age <= 21 && rating >= 7.8 && appearances >= 15) personalAwards.push(simulatedHonor(`${key}:golden-boy`, 'Golden Boy', season.year, club, 'personal'));
-  if (rating >= 8.4 && appearances >= 20) personalAwards.push(simulatedHonor(`${key}:ballon`, 'Ballon d’Or', season.year, club, 'personal'));
-  if (rating >= 8.1 && appearances >= 20) personalAwards.push(simulatedHonor(`${key}:world-player`, 'World Player of the Year', season.year, club, 'personal'));
+  if (position === 'GK' && season.cleanSheets >= 12 && appearances >= 15) personalAwards.push(simulatedHonor(`${key}:best-keeper`, HONOR_TEXT.goldenGlove, season.year, club, 'personal', 'best-keeper'));
+  if (['CB', 'LB', 'RB', 'CDM'].includes(position) && rating >= 7.3 && appearances >= 15) personalAwards.push(simulatedHonor(`${key}:best-defender`, HONOR_TEXT.bestDefender, season.year, club, 'personal', 'best-defender'));
+  if (['CAM', 'CM', 'CDM'].includes(position) && rating >= 7.4 && assists >= 8) personalAwards.push(simulatedHonor(`${key}:best-midfielder`, HONOR_TEXT.bestMidfielder, season.year, club, 'personal', 'best-midfielder'));
+  if (['ST', 'SS', 'LW', 'RW'].includes(position) && rating >= 7.4 && goals >= 12) personalAwards.push(simulatedHonor(`${key}:best-forward`, HONOR_TEXT.bestForward, season.year, club, 'personal', 'best-forward'));
+  if (rating >= 7.5 && appearances >= 15) personalAwards.push(simulatedHonor(`${key}:best-xi`, HONOR_TEXT.bestXi, season.year, club, 'personal', 'best-xi'));
+  if (player?.age <= 21 && rating >= 7.8 && appearances >= 15 && !honors.personalAwards.some(item => item.assetId === 'golden-boy')) personalAwards.push(simulatedHonor(`${key}:golden-boy`, HONOR_TEXT.goldenBoy, season.year, club, 'personal', 'golden-boy'));
+  if (rating >= 8.4 && appearances >= 20) personalAwards.push(simulatedHonor(`${key}:ballon`, HONOR_TEXT.ballon, season.year, club, 'personal', 'ballon'));
+  if (rating >= 8.1 && appearances >= 20) personalAwards.push(simulatedHonor(`${key}:world-player`, '\u4e16\u754c\u5e74\u5ea6\u6700\u4f73\u7403\u5458', season.year, club, 'personal', 'world-player'));
   const worldCup = season.competitionId === 'world-cup' || season.nationalTournament === 'world-cup';
-  if (worldCup && rating >= 8) personalAwards.push(simulatedHonor(`${key}:world-cup-golden-ball`, 'World Cup Golden Ball', season.year, club, 'personal'));
-  if (worldCup && goals >= 5) personalAwards.push(simulatedHonor(`${key}:world-cup-golden-boot`, 'World Cup Golden Boot', season.year, club, 'personal'));
-  if (worldCup && player?.age <= 21 && rating >= 7.4) personalAwards.push(simulatedHonor(`${key}:world-cup-best-young`, 'World Cup Best Young Player', season.year, club, 'personal'));
+  if (worldCup && rating >= 8) personalAwards.push(simulatedHonor(`${key}:world-cup-golden-ball`, '\u4e16\u754c\u676f\u91d1\u7403\u5956', season.year, club, 'personal', 'world-cup-golden-ball'));
+  if (worldCup && goals >= 5) personalAwards.push(simulatedHonor(`${key}:world-cup-golden-boot`, '\u4e16\u754c\u676f\u91d1\u9774\u5956', season.year, club, 'personal', 'world-cup-golden-boot'));
+  if (worldCup && player?.age <= 21 && rating >= 7.4) personalAwards.push(simulatedHonor(`${key}:world-cup-best-young`, '\u4e16\u754c\u676f\u6700\u4f73\u5e74\u8f7b\u7403\u5458', season.year, club, 'personal', 'world-cup-best-young'));
+  season.trophies = trophies.map(item => ({ ...item }));
+  season.personalAwards = personalAwards.map(item => ({ ...item }));
+  const objectiveResults = updateSeasonObjectives(state, { final: true }).map(item => ({ ...item }));
+  const newAchievements = unlockAchievements(state);
   trophies.forEach(item => addOnce(honors.trophies, item));
   personalAwards.forEach(item => addOnce(honors.personalAwards, item));
 
@@ -195,7 +304,7 @@ export function settleSeason(state) {
     competition: seasonCompetitions(state, season, player),
     age: player?.age ?? null, position: player?.position || '未知', appearances, starts: Number(season.starts || 0), minutes: Number(season.minutes || 0), goals, assists,
     shots: Number(season.shots || 0), keyPasses: Number(season.keyPasses || 0), tackles: Number(season.tackles || 0), interceptions: Number(season.interceptions || 0), cleanSheets: Number(season.cleanSheets || 0), saves: Number(season.saves || 0), penaltySaves: Number(season.penaltySaves || 0), yellowCards: Number(season.yellowCards || 0), redCards: Number(season.redCards || 0), injuryAbsences: Number(season.injuryAbsences || 0),
-    rating, playerOfMatch: Number(season.playerOfMatch || 0), positionStats: seasonPositionStats(position, season), trophies: trophies.map(item => item.name), personalAwards: personalAwards.map(item => item.name), trophyItems: trophies.map(item => ({ ...item })), personalAwardItems: personalAwards.map(item => ({ ...item })),
+    rating, playerOfMatch: Number(season.playerOfMatch || 0), positionStats: seasonPositionStats(position, season), trophies: trophies.map(item => item.name), personalAwards: personalAwards.map(item => item.name), trophyItems: trophies.map(item => ({ ...item })), personalAwardItems: personalAwards.map(item => ({ ...item })), achievements: newAchievements.map(item => item.name), newAchievements: newAchievements.map(item => ({ ...item })), objectiveResults, missedObjectives: objectiveResults.filter(item => item.status === 'missed').map(item => ({ id: item.id, name: item.name, current: item.current, target: item.target, reason: item.reason })),
     startOvr, endOvr, ovrChange: Number((endOvr - startOvr).toFixed(2)), startValue, endValue, valueChange: endValue - startValue,
     weeklySalary: Number(state.career?.weeklySalary || 0), coachTrustStart, coachTrustEnd, coachTrustChange: Number((coachTrustEnd - coachTrustStart).toFixed(2)), grade, highlights, majorEvents: highlights, startStats, endStats, transfer: season.transfer || null,
     contract: season.contract || null, injuries, suspensions: Number.isFinite(Number(season.suspensions)) ? Number(season.suspensions) : Math.max(suspensionRecords.length, Number(season.redCards || 0)), nationalTeam: { team: national.team || national.name || player?.nation || player?.country || '未入选', calledUp: Boolean(national.calledUp || Number(season.nationalAppearances || national.appearances || national.apps || 0) > 0), appearances: Number(season.nationalAppearances || national.appearances || national.apps || 0), goals: Number(season.nationalGoals || national.goals || 0) }, teamRole: state.career?.teamRole || player?.status || player?.team || '未记录', acknowledgedAt: null, dataOrigin: 'generated-fallback'
@@ -220,7 +329,8 @@ export function settleSeason(state) {
   state.training.currentOpportunity = null;
   state.training.completedWeek = 0;
   state.simulation.date = `${String(nextYear).slice(0, 4)}-07-01`;
-  state.season = { ...season, year: nextYear, week: 1, progress: 0, appearances: 0, starts: 0, minutes: 0, goals: 0, assists: 0, shots: 0, keyPasses: 0, tackles: 0, interceptions: 0, rating: 0, cleanSheets: 0, saves: 0, penaltySaves: 0, yellowCards: 0, redCards: 0, suspensions: 0, playerOfMatch: 0, injuryAbsences: 0, nationalTeam: null, nationalAppearances: 0, nationalGoals: 0, keyNodes: 0, startOvr: player?.ovr ?? endOvr, startMarketValue: state.career.marketValue, startStats: { ...(player?.stats || {}) }, highlights: [], injuries: [] };
+  state.season = { ...season, year: nextYear, week: 1, progress: 0, appearances: 0, starts: 0, minutes: 0, goals: 0, assists: 0, shots: 0, keyPasses: 0, tackles: 0, interceptions: 0, rating: 0, cleanSheets: 0, saves: 0, penaltySaves: 0, yellowCards: 0, redCards: 0, suspensions: 0, playerOfMatch: 0, injuryAbsences: 0, nationalTeam: null, nationalAppearances: 0, nationalGoals: 0, trophies: [], personalAwards: [], objectives: [], keyNodes: 0, startOvr: player?.ovr ?? endOvr, startMarketValue: state.career.marketValue, startStats: { ...(player?.stats || {}) }, highlights: [], injuries: [] };
+  ensureSeasonObjectives(state);
   state.schedule = createRealFixtures(state);
   addNews(state, { id: `season-open-${nextYear}`, date: state.simulation.date, type: '赛季', title: `${nextYear}赛季注册完成`, copy: `${player?.club || club}已生成新赛程，年龄、身价、合同和能力快照已更新。`, read: false });
   return { alreadySettled: false, trophies, personalAwards, record };

@@ -7,6 +7,7 @@ import { addNews, generateWorldNews } from './newsEngine.js';
 import { dataRepository } from '../services/dataRepository.js';
 import { CLUBS } from '../data/clubs.js';
 import { generateTransferActivity } from './transferInboxEngine.js';
+import { updateSeasonObjectives } from '../systems/honors/honorsSystem.js';
 
 const addDays=(date,days)=>{ const d=new Date(`${date}T00:00:00Z`); d.setUTCDate(d.getUTCDate()+days); return d.toISOString().slice(0,10); };
 const daysBetween=(a,b)=>Math.round((new Date(`${b}T00:00:00Z`)-new Date(`${a}T00:00:00Z`))/86400000);
@@ -82,6 +83,7 @@ export function recordMatchResult(state,match,result={}){
     state.season.playerOfMatch=Number(state.season.playerOfMatch||0)+stats.playerOfMatch;
   }
   state.career.history.push({date:state.simulation.date,type:'比赛',summary:result.summary||`${state.player.club} ${fixture.score} ${fixture.opponent}`,...stats,auto:Boolean(result.auto),unavailable:result.unavailable||null,...(result.history||{})});
+  updateSeasonObjectives(state);
   return true;
 }
 

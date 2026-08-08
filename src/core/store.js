@@ -17,7 +17,7 @@ export function createDefaultState() {
     injuries: [],
     discipline: { yellowCards: 0, redCards: 0, suspensions: [], history: [] },
     relationships: { coach: 52, teammates: 48, captain: 45, management: 50, fans: 1200, media: 36, rivalry: 18 },
-    career: { marketValue: 650000, weeklySalary: 1800, contractMonths: 30, clubInterest: [], achievements: [], growthLog: [], injuryLog: [], history: [], honors: { trophies: [], personalAwards: [], seasons: [], retirement: null, legendProfile: null } },
+    career: { marketValue: 650000, weeklySalary: 1800, contractMonths: 30, clubInterest: [], achievements: [], growthLog: [], injuryLog: [], history: [], honors: { trophies: [], personalAwards: [], seasons: [], achievements: [], achievementLog: [], retirement: null, legendProfile: null } },
     training: { selectedPlan: null, completedWeek: 0, autoStrategy: 'balanced', plansUsed: [], lastResult: null, sessions: [], bestScores: {}, streak: 0, unlockedGames: [], challenge: { target: 3, progress: 0, reward: '教练信任 +3' }, facilityLevel: 1, coachBonus: 0, currentOpportunity: null, seasonTrainingCount: 0, opportunityHistory: [], resolvedNodes: [] },
     events: { pending: [], history: [], cooldowns: {}, sceneCooldowns: {}, sceneHistory: [], seasonCounts: {}, careerCounts: {}, characterMemory: {}, forcedPauses: 0, resolved: [], delayedEffects: [], chains: [], lastInteractionIds: [] },
     news: { items: [], unread: 0 },
@@ -97,6 +97,8 @@ export function migrateState(input) {
   state.career.honors.trophies = Array.isArray(state.career.honors.trophies) ? state.career.honors.trophies : [];
   state.career.honors.personalAwards = Array.isArray(state.career.honors.personalAwards) ? state.career.honors.personalAwards : [];
   state.career.honors.seasons = Array.isArray(state.career.honors.seasons) ? state.career.honors.seasons : [];
+  state.career.honors.achievements = Array.isArray(state.career.honors.achievements) ? state.career.honors.achievements : [];
+  state.career.honors.achievementLog = Array.isArray(state.career.honors.achievementLog) ? state.career.honors.achievementLog : [];
   state.training.plansUsed = Array.isArray(state.training.plansUsed) ? state.training.plansUsed : [];
   state.training.sessions = Array.isArray(state.training.sessions) ? state.training.sessions : [];
   state.training.bestScores = state.training.bestScores && typeof state.training.bestScores === 'object' ? state.training.bestScores : {};
