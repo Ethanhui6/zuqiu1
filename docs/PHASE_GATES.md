@@ -382,3 +382,18 @@ Phase 21 gate result: `PASS` on 2026-08-08. Phase 22 is now the only unlocked ph
 - [x] Cloudflare Pages creates a successful native preview for implementation commit `d15916e`: `https://2df9b027.zuqiu-4tt.pages.dev`.
 
 Phase 22 gate result: `PASS` on 2026-08-08. Phase 23 is now the only unlocked phase.
+
+## Phase 23 Gate
+
+- [x] Each completed season creates exactly one review keyed by season and club.
+- [x] Ten consecutive seasons create 10 unique reviews with no missing, duplicate, or mismatched statistics.
+- [x] The review includes club crest and rank, competitions, appearances, starts, minutes, goals, assists, rating, and position statistics.
+- [x] OVR and six-axis radar changes, market value, weekly salary, team role, and coach trust are frozen into the review record.
+- [x] Injuries, injury absences, cards, suspensions, national-team activity, team trophies, personal awards, and major events remain separate visible sections.
+- [x] Fast Mode cannot skip the review; it is non-dismissible, survives reload, and is cleared only by the explicit Continue command.
+- [x] Real Chromium validates the complete review at 390x844 with a loaded crest, top-first opening position, no runtime errors, and no horizontal overflow.
+- [x] Full automated tests (141/141), production build, repository hygiene (3/3), Phase 5 pacing, Phase 6 lifecycle, and 12-viewport responsive audits pass for version 20.24.0.
+- [x] GitHub Actions `verify` passes for Phase 23 Pull Request #56 and implementation commit `33c24e2`.
+- [x] Cloudflare Pages creates a successful native preview for implementation commit `33c24e2`: `https://9072b27e.zuqiu-4tt.pages.dev`.
+
+Phase 23 gate result: `PASS` on 2026-08-08. Phase 24 is now the only unlocked phase.
