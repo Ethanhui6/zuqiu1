@@ -28,8 +28,8 @@ Local repository state is the source of truth. A phase may move to `PASS` only a
 | 21 | Club crests | PASS |
 | 22 | Trophies and awards | PASS |
 | 23 | Season review | PASS |
-| 24 | Injuries, cards, and suspensions | IN_PROGRESS |
-| 25 | World news | LOCKED |
+| 24 | Injuries, cards, and suspensions | PASS |
+| 25 | World news | IN_PROGRESS |
 | 26 | Color and game feel | LOCKED |
 | 27 | Full career from age 16 to retirement | LOCKED |
 | 28 | Final mobile regression | LOCKED |
@@ -410,7 +410,7 @@ Phase 23 gate result: `PASS` on 2026-08-08. Phase 24 is now the only unlocked ph
 - [x] Season Review retains injury, absence, yellow-card, red-card, and suspension totals.
 - [x] Real Chromium validates injury selection, recovery-only training with state change, and yellow-card suspension at 390x844 without runtime errors or horizontal overflow.
 - [x] Full automated tests (144/144), production build, repository hygiene (3/3), Phase 5 pacing, Phase 6 lifecycle, and 12-viewport responsive audits pass for version 20.25.0.
-- [ ] GitHub Actions `verify` passes for the Phase 24 Pull Request.
-- [ ] Cloudflare Pages creates a successful native preview for the Phase 24 implementation commit.
+- [x] GitHub Actions `verify` passes for Phase 24 Pull Request #57 and implementation commit `94df463`.
+- [x] Cloudflare Pages creates a successful native preview for implementation commit `94df463`: `https://2d4c00dd.zuqiu-4tt.pages.dev`.
 
-Phase 24 gate result: `IN_PROGRESS`. Phase 25 remains locked.
+Phase 24 gate result: `PASS` on 2026-08-08. Phase 25 is now the only unlocked phase.
