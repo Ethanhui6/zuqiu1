@@ -27,4 +27,18 @@ export function chooseTreatment(injury, treatment) {
   next.relapseRisk=Math.max(1,next.relapseRisk+(map[treatment]?.risk||0));
   return next;
 }
+export function recordInjury(state, injury) {
+  if (!injury || (state.injuries || []).some(item => item.id === injury.id)) return false;
+  state.injuries ??= [];
+  state.injuries.push(injury);
+  state.season ??= {};
+  state.season.injuries ??= [];
+  state.season.injuries.push({ id: injury.id, type: injury.type, severity: injury.severity, createdAt: injury.createdAt, originalDays: injury.originalDays || injury.remainingDays });
+  state.career ??= {};
+  state.career.injuryLog ??= [];
+  state.career.history ??= [];
+  state.career.injuryLog.push({ date: injury.createdAt, type: injury.type, severity: injury.severity, injuryId: injury.id });
+  state.career.history.push({ date: injury.createdAt, type: 'injury', title: injury.type, summary: `${injury.bodyPart}伤病进入医疗与恢复流程。`, injuryId: injury.id });
+  return injury;
+}
 export function activeInjury(injuries=[]) { return injuries.find(i=>!['recovered','archived'].includes(i.status)) || null; }

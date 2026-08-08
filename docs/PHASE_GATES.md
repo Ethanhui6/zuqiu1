@@ -27,8 +27,8 @@ Local repository state is the source of truth. A phase may move to `PASS` only a
 | 20 | Clubs and competitions | PASS |
 | 21 | Club crests | PASS |
 | 22 | Trophies and awards | PASS |
-| 23 | Season review | IN_PROGRESS |
-| 24 | Injuries, cards, and suspensions | LOCKED |
+| 23 | Season review | PASS |
+| 24 | Injuries, cards, and suspensions | IN_PROGRESS |
 | 25 | World news | LOCKED |
 | 26 | Color and game feel | LOCKED |
 | 27 | Full career from age 16 to retirement | LOCKED |
@@ -397,3 +397,20 @@ Phase 22 gate result: `PASS` on 2026-08-08. Phase 23 is now the only unlocked ph
 - [x] Cloudflare Pages creates a successful native preview for implementation commit `33c24e2`: `https://9072b27e.zuqiu-4tt.pages.dev`.
 
 Phase 23 gate result: `PASS` on 2026-08-08. Phase 24 is now the only unlocked phase.
+
+## Phase 24 Gate
+
+- [x] Active injuries remove the player from match selection and disable the match entry command.
+- [x] Injured players receive only the recovery training path, and completing it reduces remaining recovery time.
+- [x] Injury state reduces training growth and season injury absences reduce annual development.
+- [x] Every injury is recorded once in active injuries, season history, injury log, and career history.
+- [x] A red card creates a one-match suspension that blocks and is consumed by the next fixture.
+- [x] The fifth accumulated yellow card creates a one-match suspension that blocks and is consumed by the next fixture.
+- [x] Overlapping suspension and injury states consume the suspension first, then preserve the injury absence for the following match.
+- [x] Season Review retains injury, absence, yellow-card, red-card, and suspension totals.
+- [x] Real Chromium validates injury selection, recovery-only training with state change, and yellow-card suspension at 390x844 without runtime errors or horizontal overflow.
+- [x] Full automated tests (144/144), production build, repository hygiene (3/3), Phase 5 pacing, Phase 6 lifecycle, and 12-viewport responsive audits pass for version 20.25.0.
+- [ ] GitHub Actions `verify` passes for the Phase 24 Pull Request.
+- [ ] Cloudflare Pages creates a successful native preview for the Phase 24 implementation commit.
+
+Phase 24 gate result: `IN_PROGRESS`. Phase 25 remains locked.

@@ -196,7 +196,7 @@ export function settleSeason(state) {
   state.training.currentOpportunity = null;
   state.training.completedWeek = 0;
   state.simulation.date = `${String(nextYear).slice(0, 4)}-07-01`;
-  state.season = { ...season, year: nextYear, week: 1, progress: 0, appearances: 0, starts: 0, minutes: 0, goals: 0, assists: 0, shots: 0, keyPasses: 0, tackles: 0, interceptions: 0, rating: 0, cleanSheets: 0, saves: 0, penaltySaves: 0, yellowCards: 0, redCards: 0, playerOfMatch: 0, injuryAbsences: 0, keyNodes: 0, startOvr: player?.ovr ?? endOvr, startMarketValue: state.career.marketValue, startStats: { ...(player?.stats || {}) }, highlights: [], injuries: [] };
+  state.season = { ...season, year: nextYear, week: 1, progress: 0, appearances: 0, starts: 0, minutes: 0, goals: 0, assists: 0, shots: 0, keyPasses: 0, tackles: 0, interceptions: 0, rating: 0, cleanSheets: 0, saves: 0, penaltySaves: 0, yellowCards: 0, redCards: 0, suspensions: 0, playerOfMatch: 0, injuryAbsences: 0, keyNodes: 0, startOvr: player?.ovr ?? endOvr, startMarketValue: state.career.marketValue, startStats: { ...(player?.stats || {}) }, highlights: [], injuries: [] };
   state.schedule = createRealFixtures(state);
   state.news ??= { items: [], unread: 0 };
   state.news.items ??= [];

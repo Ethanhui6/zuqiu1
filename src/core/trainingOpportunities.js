@@ -49,7 +49,8 @@ export function trainingPool(position, state = {}) {
   const group = trainingPositionGroup(position);
   const tired = Number(state.player?.fatigue || 0) >= 72;
   const injured = (state.injuries || []).some(item => !['recovered', 'archived'].includes(item.status));
-  if (injured || tired) return [...POOLS.recovery, ...POOLS[group].filter(plan => plan.fatigue <= 6)];
+  if (injured) return POOLS.recovery;
+  if (tired) return [...POOLS.recovery, ...POOLS[group].filter(plan => plan.fatigue <= 6)];
   return POOLS[group];
 }
 
@@ -63,7 +64,7 @@ export function createTrainingOpportunity(state, { seed = state.simulation?.date
   if (!force && Number(state.training.seasonTrainingCount || 0) >= 2) return null;
   const pool = trainingPool(state.player?.position, state);
   if (!pool.length) return null;
-  const group = trainingPositionGroup(state.player?.position);
+  const group = pool.every(plan => plan.id === 'recovery-reset') ? 'recovery' : trainingPositionGroup(state.player?.position);
   const rng = keyedRandom(seed, state.player?.position || 'CM', state.season?.week || 1, state.training.seasonTrainingCount || 0);
   const count = Math.min(pool.length, 2 + rng.int(0, 2));
   const choices = [...pool].sort((a, b) => fitScore(b, state) - fitScore(a, state)).slice(0, count).map(plan => ({
@@ -87,6 +88,7 @@ export function resolveTrainingOpportunity(state, planId) {
   const current = state.training?.currentOpportunity;
   const plan = current?.choices?.find(item => item.id === planId) || trainingPlanById(planId);
   if (!plan) return null;
+  if ((state.injuries || []).some(item => !['recovered', 'archived'].includes(item.status)) && plan.id !== 'recovery-reset') return null;
   state.training.currentOpportunity = null;
   state.training.seasonTrainingCount = Number(state.training.seasonTrainingCount || 0) + 1;
   state.training.resolvedNodes ??= [];
