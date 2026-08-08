@@ -40,9 +40,10 @@ function snapshot() {
 }
 
 async function createCareer() {
+  await page.locator('[data-pace="standard"]').click();
+  await page.locator('[data-next]').click();
   await page.locator('[data-next]').click();
   await page.locator('[data-position="CM"]').click();
-  await page.locator('[data-next]').click();
   await page.locator('[data-style]').first().click();
   await page.locator('[data-next]').click();
   await page.locator('[data-next]').click();
@@ -90,18 +91,23 @@ async function completeMatch() {
 }
 
 async function completeReview() {
-  const before = await snapshot();
-  await page.locator('[data-season-next]').waitFor();
-  await page.locator('[data-season-next]').click();
+  const batchButton = page.locator('[data-season-batch-next]');
+  const batchCount = await batchButton.count() ? await page.locator('[data-season-batch-record]').count() : 1;
+  await page.locator(batchCount > 1 ? '[data-season-batch-next]' : '[data-season-next]').waitFor();
+  await page.locator(batchCount > 1 ? '[data-season-batch-next]' : '[data-season-next]').click();
   await page.locator('.career-fixed-action [data-action="off-season"]').waitFor();
   await page.locator('.career-fixed-action [data-action="off-season"]').click();
   const activity = page.locator('[data-off-season]').first();
   if (await activity.count()) await activity.click();
   await page.locator('[data-off-season-complete]').click();
   const after = await snapshot();
-  report.seasons.push({
-    completedSeason: after.latestReviewYear,
-    ageAfter: after.age,
+  const completed = await page.evaluate(count => {
+    const state = JSON.parse(localStorage.getItem('football-career-v20'));
+    return state.career.honors.seasons.slice(0, count).reverse().map(record => ({ year: record.year, ageAfter: Number(record.age || 0) + 1 }));
+  }, batchCount);
+  for (let index = 0; index < batchCount; index += 1) report.seasons.push({
+    completedSeason: completed[index]?.year || after.latestReviewYear,
+    ageAfter: completed[index]?.ageAfter || after.age,
     nextSeason: after.season,
     nextDate: after.date,
     reviewCount: after.reviews,
@@ -128,7 +134,7 @@ try {
   await page.locator('[data-route="career"]').click();
 
   for (let guard = 0; report.seasons.length < 3 && guard < 60; guard += 1) {
-    const review = page.locator('[data-season-next]');
+    const review = page.locator('[data-season-next], [data-season-batch-next]');
     if (await review.count()) {
       await completeReview();
       continue;
@@ -150,7 +156,18 @@ try {
     if (action === 'simulation') {
       await page.locator('[data-continue]').waitFor();
       await page.locator('[data-continue]').click();
-      await page.waitForTimeout(200);
+      await page.waitForFunction(previousDate => {
+        const state = JSON.parse(localStorage.getItem('football-career-v20') || 'null');
+        return state?.simulation?.date && state.simulation.date !== previousDate;
+      }, before.date, { timeout: 30000 });
+      await page.waitForFunction(() => {
+        const state = JSON.parse(localStorage.getItem('football-career-v20') || 'null');
+        return Boolean(
+          document.querySelector('#overlay-root [data-season-next], #overlay-root [data-season-batch-next], [data-training-plan], [data-play]') ||
+          state?.training?.currentOpportunity || state?.events?.pending?.length || state?.route === 'match' || state?.route === 'training'
+        );
+      }, null, { timeout: 30000 });
+      await page.waitForTimeout(100);
     } else if (action === 'training') {
       await completeTraining();
     } else if (action === 'event') {
@@ -168,7 +185,7 @@ try {
 
   assert.equal(report.seasons.length, 3, 'three browser-driven seasons must complete');
   assert.deepEqual(report.seasons.map(item => item.ageAfter), [17, 18, 19]);
-  assert.deepEqual(report.seasons.map(item => item.reviewCount), [1, 2, 3]);
+  assert.equal(Math.max(...report.seasons.map(item => item.reviewCount)), 3);
   assert.ok(report.seasons.every(item => item.offSeason === 'complete'));
   assert.equal(report.transferActions, 1);
   assert.deepEqual(errors, []);

@@ -1,4 +1,4 @@
-import {AUTO_PAUSE_RULES,EVENT_ANIMATION_SPEEDS,PACE_MODES,SPEED_LEVELS} from '../app/config.js';
+import {AUTO_PAUSE_RULES,EVENT_ANIMATION_SPEEDS,CAREER_PACE_MODES,SPEED_LEVELS} from '../app/config.js';
 import {el,button} from '../utils/dom.js';
 import {openSheet} from './sheet.js';
 import {showToast} from './toast.js';
@@ -9,8 +9,8 @@ export function openGamePaceSheet({store}){
   const content=el('div',{className:'pace-settings'});
   const speedGrid=el('div',{className:'pace-segment-grid pace-segment-grid--five',attrs:{role:'group','aria-label':'选择时间推进速度'}});
   const paceSelect=el('select',{className:'select-input',attrs:{'aria-label':'职业节奏模式'}});
-  Object.values(PACE_MODES).forEach(mode=>paceSelect.append(el('option',{text:`${mode.name} · 单赛季约${mode.seasonMinutes}`,attrs:{value:mode.id,selected:mode.id===save.settings.pace.mode}})));
-  paceSelect.addEventListener('change',()=>apply(state=>setPaceMode(state,paceSelect.value),'pace-mode',`职业节奏：${PACE_MODES[paceSelect.value].name}`));
+  CAREER_PACE_MODES.forEach(mode=>paceSelect.append(el('option',{text:`${mode.name} · 单赛季约${mode.seasonMinutes}`,attrs:{value:mode.id,selected:mode.id===save.settings.pace.mode}})));
+  paceSelect.addEventListener('change',()=>apply(state=>setPaceMode(state,paceSelect.value),'pace-mode',`职业节奏：${CAREER_PACE_MODES.find(mode=>mode.id===paceSelect.value)?.name||paceSelect.value}`));
 
   const eventSpeed=el('div',{className:'pace-segment-grid pace-segment-grid--three',attrs:{role:'group','aria-label':'普通事件动画速度'}});
   const speedButtons=new Map(),eventButtons=new Map();

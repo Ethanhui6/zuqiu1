@@ -17,7 +17,7 @@ test('each position group receives three distinct personal match strategies', ()
 test('match center opens strategy selection before starting runtime events', () => {
   const page = fs.readFileSync(new URL('../src/pages/match.js', import.meta.url), 'utf8');
   const app = fs.readFileSync(new URL('../src/app.js', import.meta.url), 'utf8');
-  assert.match(page, /app\.openMatchStrategy\(match\)/);
-  assert.match(app, /openMatchStrategy\(match\)/);
+  assert.match(page, /app\.openMatchStrategy\(match(?:,playerStatus)?\)/);
+  assert.match(app, /openMatchStrategy\(match,playerStatus=null\)/);
   assert.match(app, /new MatchEventEngine\(dataRepository\.positionEvents\|\|\[\]\)\.next\(matchState,\{tactic\}\)/);
 });

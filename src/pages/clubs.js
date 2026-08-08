@@ -29,6 +29,7 @@ const ACTIONS = {
 };
 
 export const clubInteractionActions = current => ACTIONS[current ? 'current' : 'external'].map(([id]) => id);
+ACTIONS.external.push(['transfer-request', 'transfer', '\u7533\u8bf7\u8f6c\u4f1a']);
 
 export function clubsPage(app, state) {
   const clubs = list();

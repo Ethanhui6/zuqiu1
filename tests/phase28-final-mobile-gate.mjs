@@ -100,8 +100,9 @@ async function createCareer(page, audit) {
   await audit('creation');
   await page.locator('[data-next]').click();
   await audit('creation');
-  await page.locator('[data-position="CM"]').click();
   await page.locator('[data-next]').click();
+  await audit('creation');
+  await page.locator('[data-position="CM"]').click();
   await audit('creation');
   await page.locator('[data-style]').first().click();
   await page.locator('[data-next]').click();

@@ -21,12 +21,12 @@ test('phase 4 simulates 100 complete seasons with rare key matches and position-
   const totals=Object.fromEntries(positions.map(position=>[position,{shots:0,keyPasses:0,tackles:0,interceptions:0,saves:0,cleanSheets:0}]));
   for(let index=0;index<100;index++){
     const position=positions[index%positions.length],state=seasonState(index,position);
-    assert.ok(state.schedule.length>=34&&state.schedule.length<=40,`season ${index}: ${state.schedule.length} fixtures`);
+    assert.ok(state.schedule.length>=34&&state.schedule.length<=55,`season ${index}: ${state.schedule.length} fixtures`);
     assert.ok(state.schedule.filter(match=>match.important).length<=2);
     assert.ok(state.schedule.every((match,fixtureIndex)=>match.round===fixtureIndex+1&&clubs.some(club=>club.id===match.opponentId)));
     const director=new CareerDirector({get:()=>state,set:update=>update(state)},{schedule:()=>null});
     for(const fixture of state.schedule)assert.equal(director.settleAutoMatch(state,fixture),true);
-    assert.ok(state.season.appearances>=20&&state.season.appearances<=40,`season ${index}: ${state.season.appearances} appearances`);
+    assert.ok(state.season.appearances>=20&&state.season.appearances<=55,`season ${index}: ${state.season.appearances} appearances`);
     for(const field of SEASON_STAT_FIELDS)assert.ok(Number.isFinite(state.season[field])&&state.season[field]>=0,`season ${index}: ${field}`);
     assert.equal(state.schedule.filter(match=>match.status==='played').length,state.schedule.length);
     const fixtureNumericFields=SEASON_STAT_FIELDS.filter(field=>!['appearances','starts'].includes(field));

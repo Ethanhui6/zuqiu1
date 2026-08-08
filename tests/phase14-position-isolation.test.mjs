@@ -17,8 +17,9 @@ test('phase 14 resolves every play style and secondary trait in the data layer',
     assert.ok(styles.every(style=>playStyleEligibility.eligible(position,style)),`${position} received an illegal style`);
     assert.ok(traits.every(trait=>traitEligibility.eligible(position,trait)),`${position} received an illegal trait`);
   }
-  assert.deepEqual(playerStylesForPosition('GK').map(style=>style.id),['清道夫门将']);
-  assert.ok(!playerStylesForPosition('ST').some(style=>style.id==='清道夫门将'));
+  assert.equal(playerStylesForPosition('GK').length, 5);
+  assert.ok(playerStylesForPosition('GK').every(style=>style.positions.includes('GK')));
+  assert.ok(!playerStylesForPosition('ST').some(style=>style.positions.includes('GK')));
   assert.ok(secondaryTraitsForPosition('GK').some(trait=>trait.id==='门将指挥'));
   assert.ok(!secondaryTraitsForPosition('ST').some(trait=>trait.id==='门将指挥'));
   assert.ok(!secondaryTraitsForPosition('GK').some(trait=>trait.id==='高强度压迫'));

@@ -56,12 +56,12 @@ test('phase 0 replay records three seasons of actions, age nodes, and blockers',
 
   assert.deepEqual(report.seasons.map(item => item.ageAfter), [17, 18, 19]);
   assert.ok(report.seasons.every(item => item.blockers.at(-1) === 'target'));
-  assert.ok(report.seasons.every(item => item.blockers.filter(reason => reason === 'training').length === 2));
+  assert.ok(report.seasons.every(item => item.blockers.filter(reason => reason === 'training').length === 1));
   assert.deepEqual({ ...report, seasons: report.seasons.map(item => item.blockers) }, {
-    advanceActions: 9,
-    trainingChoices: 6,
+    advanceActions: 6,
+    trainingChoices: 3,
     offSeasonActivities: 3,
     offSeasonCompletions: 3,
-    seasons: [['training', 'training', 'target'], ['training', 'training', 'target'], ['training', 'training', 'target']]
+    seasons: [['training', 'target'], ['training', 'target'], ['training', 'target']]
   });
 });

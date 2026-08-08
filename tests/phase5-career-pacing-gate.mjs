@@ -40,11 +40,11 @@ async function runCareer(seed,endAge){
       break;
     }
     const pace=assessFastSeasonPace(season);
-    assert.equal(season.trainingChoices,2,`${season.year}: training`);
+    assert.equal(season.trainingChoices,1,`${season.year}: training`);
     assert.ok(season.eventChoices>=2&&season.eventChoices<=4,`${season.year}: ${season.eventChoices} events`);
     assert.equal(season.interactiveMatches,0);
     assert.ok(season.autoMatches>=34,`${season.year}: ${season.autoMatches} automatic fixtures`);
-    assert.ok(season.advanceActions>=5&&season.advanceActions<=7,`${season.year}: ${season.advanceActions} advance actions`);
+    assert.ok(season.advanceActions>=2&&season.advanceActions<=4,`${season.year}: ${season.advanceActions} advance actions`);
     assert.equal(pace.withinTarget,true,`${season.year}: ${pace.estimatedSeconds} seconds`);
     seasons.push({...season,estimatedSeconds:pace.estimatedSeconds});
   }
@@ -56,7 +56,7 @@ test('phase 5 runs five careers from 16 to 30 without weekly input',async()=>{
     const {state,seasons}=await runCareer(seed,30);
     assert.equal(state.player.age,30);
     assert.equal(seasons.length,14);
-    assert.ok(seasons.every(season=>season.estimatedSeconds>=20&&season.estimatedSeconds<=35));
+    assert.ok(seasons.every(season=>season.estimatedSeconds>=15&&season.estimatedSeconds<=30));
   }
 });
 

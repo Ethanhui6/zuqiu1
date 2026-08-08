@@ -31,6 +31,7 @@ function club(id) {
 
 function career(config) {
   const state = createDefaultState();
+  state.settings.mode = 'fast';
   const current = club(config.start);
   const attributes = { speed: config.ovr, shooting: config.ovr, passing: config.ovr, dribbling: config.ovr, defending: config.ovr, physical: config.ovr };
   state.createdAt = `2026-07-01T00:00:00.000Z:${config.id}`;

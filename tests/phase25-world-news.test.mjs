@@ -9,6 +9,7 @@ import { addNews, generateWorldNews, homeNews, WORLD_NEWS_TOPICS } from '../src/
 
 function career() {
   const state = createDefaultState();
+  state.settings.mode = 'fast';
   state.player = { name: '测试球员', club: '阿森纳', clubId: 'arsenal', nation: '中国', age: 20, position: 'CM', potential: 88, ovr: 76, fitness: 90, fatigue: 12, morale: 74, coachTrust: 70, stats: { speed: 74, shooting: 68, passing: 82, dribbling: 78, defending: 67, physical: 72 } };
   return state;
 }

@@ -70,6 +70,10 @@ function eventImpact(state, choice, event) {
   return { success, chance: Number(chance.toFixed(3)), roll: Number(roll.toFixed(3)), effects };
 }
 
+export function estimateEventChance(state, event, choice) {
+  return eventImpact(state, choice, event).chance;
+}
+
 export class EventEngine {
   constructor(templates = EVENT_TEMPLATES, { kind = 'career' } = {}) { this.templates = templates; this.kind = kind; }
   fingerprint(template) { return hash(`${template.id}:${template.category}:${template.interaction}:${template.choices.map(choice => choice.id).join('|')}`).toString(36); }

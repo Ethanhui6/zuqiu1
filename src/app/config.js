@@ -1,4 +1,4 @@
-export const APP_VERSION = '20.31.0';
+export const APP_VERSION = '20.42.0';
 export const SAVE_SCHEMA = 23;
 export const SAVE_SLOTS = 3;
 
@@ -54,11 +54,13 @@ export const TRAINING_PLANS = [
 
 
 export const PACE_MODES = {
-  immersive:{id:'immersive',name:'沉浸模式',seasonMinutes:'45—70分钟',matchDetail:'多数比赛保留互动',eventFrequency:'每1—2周',autoSimulation:'较少',pausePolicy:'多数职业事件暂停',eventInterval:[1,2],ordinaryMatchMode:'timeline'},
-  standard:{id:'standard',name:'标准模式',seasonMinutes:'20—35分钟',matchDetail:'普通比赛快速时间线',eventFrequency:'每2—3周',autoSimulation:'中等',pausePolicy:'关键比赛与重大事件暂停',eventInterval:[2,3],ordinaryMatchMode:'timeline'},
-  fast:{id:'fast',name:'快速模式',seasonMinutes:'8—15分钟',matchDetail:'普通比赛一键结算',eventFrequency:'每4—5周',autoSimulation:'较高',pausePolicy:'只在重要节点暂停',eventInterval:[4,5],ordinaryMatchMode:'instant'},
-  legend:{id:'legend',name:'传奇速通模式',seasonMinutes:'3—7分钟',matchDetail:'仅保留职业转折',eventFrequency:'每6—8周',autoSimulation:'最高',pausePolicy:'传奇事件与重大转折暂停',eventInterval:[6,8],ordinaryMatchMode:'instant'}
+  immersive:{id:'immersive',name:'沉浸模式',seasonMinutes:'15—25分钟',seasonsPerRound:1,matchDetail:'完整比赛、事件和关系反馈',eventFrequency:'每1—2周',autoSimulation:'较少',pausePolicy:'重要节点逐一暂停',eventInterval:[1,2],ordinaryMatchMode:'timeline',visible:true},
+  standard:{id:'standard',name:'标准模式',seasonMinutes:'8—12分钟',seasonsPerRound:2,matchDetail:'普通比赛快速结算，关键比赛保留',eventFrequency:'每2—3周',autoSimulation:'中等',pausePolicy:'重大事件、决赛和转会暂停',eventInterval:[2,3],ordinaryMatchMode:'timeline',visible:true},
+  fast:{id:'fast',name:'极速模式',seasonMinutes:'4—6分钟',seasonsPerRound:3,matchDetail:'普通比赛和普通事件快速模拟',eventFrequency:'每4—5周',autoSimulation:'较高',pausePolicy:'只在职业转折节点暂停',eventInterval:[4,5],ordinaryMatchMode:'instant',visible:true},
+  // Legacy saves and tests used this id. Keep it loadable, but never show it as a fourth choice.
+  legend:{id:'legend',name:'极速模式',seasonMinutes:'4—6分钟',seasonsPerRound:3,matchDetail:'普通比赛和普通事件快速模拟',eventFrequency:'每6—8周',autoSimulation:'最高',pausePolicy:'只在职业转折节点暂停',eventInterval:[6,8],ordinaryMatchMode:'instant',visible:false,legacyAlias:'fast'}
 };
+export const CAREER_PACE_MODES = Object.freeze(Object.values(PACE_MODES).filter(mode=>mode.visible));
 
 export const SPEED_LEVELS = [
   {id:'paused',label:'暂停',multiplier:0,delay:0},

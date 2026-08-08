@@ -51,6 +51,7 @@ function hashSeed(value) {
   for (const char of String(value)) hash = Math.imul(hash ^ char.charCodeAt(0), 16777619);
   return hash >>> 0;
 }
+function idPart(value) { return String(value || 'player').normalize('NFKD').replace(/[^\p{L}\p{N}\-]+/gu, '-').replace(/^-+|-+$/g, '').toLowerCase() || 'player'; }
 function random(seed) {
   let value = hashSeed(seed);
   return () => { value = Math.imul(1664525, value) + 1013904223 >>> 0; return value / 4294967296; };
@@ -92,9 +93,10 @@ export function normalizeClub(club = {}) {
 
 export function normalizePlayer(player = {}, snapshotSeason = REAL_SQUAD_SNAPSHOT_SEASON) {
   const position = POSITIONS.includes(player.position || player.pos) ? (player.position || player.pos) : 'CM';
-  const id = String(player.id || `${player.clubId || 'free'}-${player.name || player.cn || 'player'}`);
   const meta = provenance(player, 'identity', DATA_ORIGINS.CURATED);
   const isReal = player.isReal ?? meta.isReal;
+  const playerName = player.name || player.cn || player.id || 'player';
+  const id = String(player.id || `${isReal ? 'real' : 'generated'}-${idPart(player.clubId || 'free')}-${idPart(playerName)}`);
   const sourceSeason = Number(player.snapshotSeason || player.snapshotYear || snapshotSeason);
   const simulatedEndSeason = Number(player.simulatedEndSeason || sourceSeason + 4 + (hashSeed(id) % 7));
   return {
@@ -173,11 +175,61 @@ export function validateRegistry({ clubs = [], leagues = [], players = [], troph
   return { valid: errors.length === 0, errors, counts: { clubs: clubs.length, leagues: leagues.length, players: players.length, competitions: competitions.length } };
 }
 
+export function auditWorldRegistry(registry, { seasonYear = REAL_SQUAD_SNAPSHOT_SEASON, minRoster = 23, maxRoster = 30 } = {}) {
+  const errors = [...(registry?.validation?.errors || [])];
+  const clubs = registry?.clubs || [];
+  const players = registry?.players || [];
+  if (clubs.length < 399) errors.push(`club count below release floor: ${clubs.length}`);
+  const clubIds = new Set(clubs.map(club => club.id));
+  for (const club of clubs) {
+    if (!club.id || !club.name || !(club.nameEn || club.en || club.native)) errors.push(`club ${club.id || 'unknown'} missing identity`);
+    if (!club.crest) errors.push(`club ${club.id || 'unknown'} missing crest`);
+    if (club.leagueId && !registry.leagues.some(league => league.id === club.leagueId)) errors.push(`club ${club.id} missing league`);
+  }
+  const realNames = new Map();
+  for (const player of players.filter(item => item.isReal)) {
+    if (!player.id || player.id.startsWith('generated-')) errors.push(`real player ${player.name} missing stable id`);
+    if (!player.name?.trim()) errors.push(`player ${player.id || 'unknown'} missing name`);
+    if (player.clubId && !clubIds.has(player.clubId)) errors.push(`player ${player.id} missing club`);
+    const identity = (typeof player.sourceReference === 'string' && player.sourceReference !== 'project-curated-record' ? player.sourceReference : null) || player.id || `${player.name}|${player.nation || ''}`;
+    const clubsForName = realNames.get(identity) || new Set();
+    clubsForName.add(player.clubId);
+    realNames.set(identity, clubsForName);
+  }
+  for (const [identity, clubsForName] of realNames) if (clubsForName.size > 1) errors.push(`real player assigned to multiple clubs: ${identity}`);
+  const rosterSizes = [];
+  const missingPositions = [];
+  for (const club of clubs) {
+    const roster = registry.rosterForClub(club.id, { limit: maxRoster, seasonYear, seed: 'world-audit' });
+    rosterSizes.push(roster.length);
+    if (roster.length < minRoster || roster.length > maxRoster) errors.push(`club ${club.id} roster outside ${minRoster}-${maxRoster}`);
+    const positions = new Set(roster.map(player => player.position));
+    if (!['GK', 'CB', 'CM', 'ST'].every(position => positions.has(position))) missingPositions.push(club.id);
+  }
+  if (missingPositions.length) errors.push(`clubs missing key positions: ${missingPositions.join(',')}`);
+  return {
+    valid: errors.length === 0,
+    errors,
+    counts: { clubs: clubs.length, leagues: registry.leagues.length, players: players.length, realPlayers: players.filter(player => player.isReal).length, competitions: registry.competitions.length },
+    roster: { min: Math.min(...rosterSizes), max: Math.max(...rosterSizes), clubs: rosterSizes.length, missingPositions }
+  };
+}
+
 function searchable(item) { return [item.id, item.name, item.cn, item.native, item.country, item.league, item.leagueCn, item.nation].filter(Boolean).join(' ').toLocaleLowerCase(); }
 
 export function createWorldRegistry({ clubs = [], leagues = [], players = [], trophies = [], competitions = [], nameProfiles = {}, snapshotSeason = REAL_SQUAD_SNAPSHOT_SEASON } = {}) {
   const normalizedClubs = clubs.map(normalizeClub);
   const normalizedPlayers = players.map(player => normalizePlayer(player, snapshotSeason));
+  const verifiedNames = new Set(normalizedPlayers.filter(player => player.sourceName === 'Wikidata' || player.dataOrigin?.identity === DATA_ORIGINS.VERIFIED_PUBLIC).map(player => player.name));
+  const playerKeys = new Set();
+  const uniquePlayers = normalizedPlayers.filter(player => {
+    const isVerified = player.sourceName === 'Wikidata' || player.dataOrigin?.identity === DATA_ORIGINS.VERIFIED_PUBLIC;
+    if (!isVerified && verifiedNames.has(player.name)) return false;
+    const key = isVerified ? (player.sourceReference || player.id) : `${player.name}|${player.clubId || ''}`;
+    if (playerKeys.has(key)) return false;
+    playerKeys.add(key);
+    return true;
+  });
   const normalizedLeagues = leagues.map(league => ({
     ...league,
     id: String(league.id || ''),
@@ -199,29 +251,29 @@ export function createWorldRegistry({ clubs = [], leagues = [], players = [], tr
     provenance: provenance(competition, 'identity', DATA_ORIGINS.CURATED),
     dataOrigin: sourceOrigin(competition, 'identity', DATA_ORIGINS.CURATED)
   }));
-  const validation = validateRegistry({ clubs: normalizedClubs, leagues: normalizedLeagues, players: normalizedPlayers, trophies: normalizedTrophies, competitions: normalizedCompetitions });
+  const validation = validateRegistry({ clubs: normalizedClubs, leagues: normalizedLeagues, players: uniquePlayers, trophies: normalizedTrophies, competitions: normalizedCompetitions });
   const clubById = new Map(normalizedClubs.map(club => [club.id, club]));
   const leagueById = new Map(normalizedLeagues.map(league => [league.id, league]));
   const competitionById = new Map(normalizedCompetitions.map(competition => [competition.id, competition]));
   const countries = [...new Set(normalizedClubs.map(club => club.country).filter(Boolean))].map(name => ({ id: name, name, isReal: true, dataOrigin: DATA_ORIGINS.CURATED }));
   const playersByClub = new Map();
-  for (const player of normalizedPlayers) {
+  for (const player of uniquePlayers) {
     if (!playersByClub.has(player.clubId)) playersByClub.set(player.clubId, []);
     playersByClub.get(player.clubId).push(player);
   }
-  const reservedRealNames = new Set(normalizedPlayers.filter(player => player.isReal).map(player => player.name));
+  const reservedRealNames = new Set(uniquePlayers.filter(player => player.isReal).map(player => player.name));
   const generatedNamesByScope = new Map();
   const rosterCache = new Map();
   const all = normalizedClubs.map(item => ({ item, text: searchable(item) }));
-  return {
+  const registry = {
     clubs: normalizedClubs,
     leagues: normalizedLeagues,
-    players: normalizedPlayers,
+    players: uniquePlayers,
     trophies: normalizedTrophies,
     competitions: normalizedCompetitions,
     validation,
     countries,
-    stats: { ...validation.counts, realPlayers: normalizedPlayers.filter(player => player.isReal).length, availablePlayers: normalizedClubs.length * 18, trophies: normalizedTrophies.length, countries: countries.length },
+    stats: { ...validation.counts, realPlayers: uniquePlayers.filter(player => player.isReal).length, availablePlayers: normalizedClubs.length * 18, trophies: normalizedTrophies.length, countries: countries.length },
     getClub(id) { return clubById.get(id) || normalizedClubs[0] || null; },
     getLeague(id) { return leagueById.get(id) || normalizedLeagues[0] || null; },
     getCompetition(id) { return competitionById.get(id) || null; },
@@ -260,7 +312,9 @@ export function createWorldRegistry({ clubs = [], leagues = [], players = [], tr
       return result;
     },
     rosterForClub(clubId, options = {}) {
-      return this.playersForClub(clubId, { limit: 18, ...options });
+      return this.playersForClub(clubId, { limit: 23, ...options });
     }
   };
+  registry.audit = auditWorldRegistry(registry);
+  return registry;
 }

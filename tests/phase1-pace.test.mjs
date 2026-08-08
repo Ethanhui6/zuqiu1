@@ -25,9 +25,9 @@ test('phase 1 fast season uses the fixed short-management pacing budget', async 
     break;
   }
   const pacing=assessFastSeasonPace({advanceActions,trainingChoices,eventChoices:0});
-  assert.deepEqual(FAST_SEASON_PACE.expectedActions,{advance:5,training:2,events:2});
-  assert.deepEqual({advanceActions,trainingChoices},{advanceActions:3,trainingChoices:2});
-  assert.equal(pacing.estimatedSeconds,20);
+  assert.deepEqual(FAST_SEASON_PACE.expectedActions,{advance:4,training:1,events:2});
+  assert.deepEqual({advanceActions,trainingChoices},{advanceActions:2,trainingChoices:1});
+  assert.equal(pacing.estimatedSeconds,15);
   assert.equal(pacing.withinTarget,true);
   assert.ok(autoMatches>=34,'ordinary fixtures must settle automatically');
   assert.equal(scheduledEvents,2,'fast mode must expose two deliberate career-event windows');
