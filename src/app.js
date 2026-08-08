@@ -40,7 +40,7 @@ import { resolveTrainingOpportunity } from './core/trainingOpportunities.js';
 import { trophyMarkup } from './components/trophyIcon.js';
 import { evaluateClubFit } from './services/playerIdentity.js';
 import { clubInteractionScenario, resolveClubInteraction as settleClubInteraction } from './core/clubInteractionEngine.js';
-import { acceptTransferOffer, recordTransferNegotiation } from './core/transferInboxEngine.js';
+import { acceptTransferOffer, ensureContractOffer, recordTransferNegotiation, requestTransferInterest } from './core/transferInboxEngine.js';
 
 const ROUTES={career:['home','生涯'],match:['match','比赛'],training:['training','训练'],transfer:['transfer','转会'],clubs:['club','俱乐部'],more:['settings','更多']};
 const ATTR_CN={speed:'速度',shooting:'射门',passing:'传球',dribbling:'盘带',defending:'防守',physical:'身体'};
@@ -188,10 +188,21 @@ class App {
     if(!club)return;
     const snapshot=this.store.get(),player=snapshot.player,current=club.id===player.clubId||(club.cn||club.name)===player.club,key=`${club.id}:${action}`,until=snapshot.clubInteractions.cooldowns[key];
     if(until&&until>snapshot.simulation.date)return this.feedback.emit('failure',`该互动冷却至 ${until}`);
-    const externalOpen=['compare','interest','agent','contact','expected-contract'];
+    const externalOpen=['compare','interest','agent','contact','expected-contract','transfer-request','loan'];
+    if(!current&&['transfer-request','loan'].includes(action)){
+      let result;
+      this.store.set(state=>{result=requestTransferInterest(state,dataRepository.clubs?.length?dataRepository.clubs:CLUBS,club.id,{loan:action==='loan'});return state;});
+      this.feedback.emit(result?.ok?'transferOffer':'failure',result?.ok?'\u7ecf\u7eaa\u4eba\u5df2\u63d0\u4ea4\u610f\u5411\uff0c\u7b49\u5f85\u7403\u961f\u56de\u5e94':'\u8be5\u7403\u961f\u7684\u610f\u5411\u5df2\u7ecf\u5728\u5904\u7406\u4e2d');
+      return;
+    }
     if(!current&&!externalOpen.includes(action))return this.feedback.emit('failure','该操作只适用于当前俱乐部');
     const fit=evaluateClubFit({...player,country:player.country||player.nation,recentRating:snapshot.season.rating||6.5},club);
     if(!current&&['interest','agent','contact','expected-contract'].includes(action)&&!fit.eligible)return this.feedback.emit('failure',`${fit.entryLabel}：${fit.reasons.at(-1)}`);
+    if(action==='renew'){
+      let offer=null;
+      this.store.set(state=>{offer=ensureContractOffer(state,dataRepository.clubs?.length?dataRepository.clubs:CLUBS,state.simulation.date);return state;});
+      if(offer)return this.openTransferOffer(club,offer);
+    }
     if(current&&clubInteractionScenario(action))return this.openClubInteraction(action,club);
     const labels={compare:'加入比较',interest:'表达兴趣',agent:'经纪人接触',contact:'请求沟通','expected-contract':'查看预期合同',coach:'与主教练沟通',minutes:'询问出场机会',position:'讨论场上位置',training:'调整训练',loan:'请求外租',stay:'表达留队意愿','transfer-request':'提交转会申请',teammate:'与队友互动',captain:'与队长交流',management:'与管理层沟通',renew:'请求续约'};
     this.store.set(state=>{
