@@ -6,6 +6,7 @@ import { homeNews } from '../core/newsEngine.js';
 
 export function careerPage(app, state) {
   const player = state.player;
+  const retirement = state.career?.honors?.retirement;
   const next = state.schedule.find(match => match.status === 'upcoming' && match.date >= state.simulation.date);
   const injury = state.injuries.find(item => !['recovered', 'archived'].includes(item.status));
   const pending = state.events.pending[0];
@@ -29,6 +30,15 @@ export function careerPage(app, state) {
     <section class="career-next-node"><div><span>下一关键节点</span><strong>${nextNode.label}</strong><small>${nextNode.target ? `${nextNode.target} · ` : ''}${nextNode.blocked ? '需要先完成当前待办' : '空白日期会自动结算'}</small></div><span class="badge ${nextNode.blocked ? 'orange' : 'blue'}">${nextNode.blocked ? '待处理' : modeLabel(state.settings.mode)}</span></section>
     <div style="height:14px"></div><div class="grid-2">${compactCard('todo', '赛季目标', state.season.objectives.length ? `${state.season.objectives.length}项进行中` : '尚未选择阶段重点', 'goals', state.season.objectives.length ? 'green' : 'orange')}${compactCard('analytics', '数据与设施', '分析、医疗、更衣室、荣誉室', 'facilities', 'blue')}${compactCard('growth', '成长趋势', `${recentGrowth(state)} · OVR ${player.ovr}`, 'growth', 'purple')}${compactCard('training', '训练机会', opportunity ? `${opportunity.choices.length} 个方案待选择` : '普通周自动模拟', 'training', opportunity ? 'orange' : 'green')}${compactCard('message', '待处理事件', pending ? pending.title : '当前没有未处理事件', 'events', pending ? 'red' : 'green')}</div>
     ${primaryAction(nextNode, state)}`;
+  if (retirement) {
+    const status = root.querySelector('.page-head > .badge');
+    status.className = 'badge gold';
+    status.textContent = '已退役';
+    const nodeStatus = root.querySelector('.career-next-node > .badge');
+    if (nodeStatus) { nodeStatus.className = 'badge gold'; nodeStatus.textContent = '已完成'; }
+    const nodeCopy = root.querySelector('.career-next-node small');
+    if (nodeCopy) nodeCopy.textContent = '完整履历已归档，可随时查看';
+  }
   root.addEventListener('click', event => { const action = event.target.closest('[data-action]')?.dataset.action; if (action) handle(action, app, state); });
   if (state.career?.offSeason?.status === 'active') {
     const button = document.createElement('button');
@@ -67,7 +77,7 @@ export function buildCareerTimeline(state){
     const transferClub=row.transfer?.club||row.transfer?.clubName||row.transfer?.name;if(transferClub)add(milestone(seasonKey,row,'transfer',`转会至 ${transferClub}`,'职业道路进入新的俱乐部阶段。'));
     for(const injury of row.injuries||[]){const title=typeof injury==='string'?injury:injury.name||injury.type||'赛季伤病';add(milestone(seasonKey,row,'injury',title,'伤病影响了本赛季的出场与成长。'))}
     for(const name of row.trophies||[])add(milestone(seasonKey,row,'trophy',name,'随队获得团队荣誉。'));
-    for(const name of row.personalAwards||[])add(milestone(seasonKey,row,milestoneType(name),name,'个人表现获得正式认可。'));
+    for(const name of row.personalAwards||[])add(milestone(seasonKey,row,milestoneType(name)||'trophy',name,'个人表现获得正式认可。'));
     if(/队长/.test(String(row.teamRole||'')))add(milestone(seasonKey,row,'captain','成为球队队长','承担更高的场上责任与更衣室责任。'));
     for(const text of row.highlights||[]){const type=milestoneType(text)||'highlight';add(milestone(seasonKey,row,type,text,'赛季重大节点。'))}
     for(const item of seasonHistory){if(item.type==='awards')continue;const type=milestoneType(`${item.type||''} ${item.title||''} ${item.text||item.summary||''}`);if(type)add(milestone(seasonKey,row,type,item.title||item.text||item.summary||'职业节点',item.text||item.summary||'职业生涯记录。'))}
@@ -93,9 +103,9 @@ function safe(value){return String(value??'').replace(/[&<>"']/g,char=>({'&':'&a
 function formatRating(value){const number=Number(value);return Number.isFinite(number)&&number>0?number.toFixed(2):'—'}
 
 function compactCard(iconName, title, copy, action, tone) { return `<button class="surface-card interactive" data-action="${action}"><div class="card-row"><div class="icon-tile">${icon(iconName)}</div><span class="badge ${tone}">${title === '待处理事件' ? '待办' : '详情'}</span></div><h3 class="card-title">${title}</h3><p class="card-copy">${copy}</p><div class="card-footer"><span class="card-copy">点击查看</span>${icon('chevron', 'sm card-arrow')}</div></button>`; }
-function primaryAction(node, state) { const action = node.type === 'event' ? 'event' : node.type === 'training' ? 'training' : node.type === 'off-season' ? 'off-season' : node.type === 'match' && node.target <= state.simulation.date ? 'match' : 'simulation'; const label = action === 'event' ? '处理事件' : action === 'training' ? '参加训练' : action === 'off-season' ? '规划下一赛季' : action === 'match' ? '进入比赛' : node.type === 'season' ? '进入赛季总结' : '推进到下一关键节点'; const context = node.label || '下一关键节点'; return `<div class="page-fixed-action career-fixed-action"><span><small>当前节点</small><strong>${context}</strong></span><button class="app-button primary" data-action="${action}">${icon(action === 'simulation' ? 'fast' : action === 'event' ? 'message' : action === 'training' ? 'training' : 'play', 'sm')}${label}</button></div>`; }
+function primaryAction(node, state) { const action = node.type === 'retirement' ? 'career-hub' : node.type === 'event' ? 'event' : node.type === 'training' ? 'training' : node.type === 'off-season' ? 'off-season' : node.type === 'match' && node.target <= state.simulation.date ? 'match' : 'simulation'; const label = action === 'career-hub' ? '查看生涯档案' : action === 'event' ? '处理事件' : action === 'training' ? '参加训练' : action === 'off-season' ? '规划下一赛季' : action === 'match' ? '进入比赛' : node.type === 'season' ? '进入赛季总结' : '推进到下一关键节点'; const context = node.label || '下一关键节点'; return `<div class="page-fixed-action career-fixed-action"><span><small>当前节点</small><strong>${context}</strong></span><button class="app-button primary" data-action="${action}">${icon(action === 'simulation' ? 'fast' : action === 'event' ? 'message' : action === 'training' ? 'training' : action === 'career-hub' ? 'record' : 'play', 'sm')}${label}</button></div>`; }
 function recentGrowth(state) { const last = state.career.growthLog.at(-1); if (!last) return '等待首次关键反馈'; const entries = Object.entries(last.changes || {}).filter(([, value]) => value > 0).sort((a, b) => b[1] - a[1]); return entries.length ? `${cn(entries[0][0])} +${entries[0][1].toFixed(2)}` : '近期保持稳定'; }
 function cn(key) { return { speed: '速度', shooting: '射门', passing: '传球', dribbling: '盘带', defending: '防守', physical: '身体' }[key] || key; }
 function modeLabel(value) { return { standard: '标准', fast: '快速', legend: '传奇', ultra: '极速' }[value] || '标准'; }
 function trainingSuggestion(player, injury) { if (injury) return '伤病恢复中，等待下一次康复安排'; if (player.fitness < 60) return '体能偏低，后台自动降低负荷'; const entries = Object.entries(player.stats).sort((a, b) => a[1] - b[1]); return `${cn(entries[0][0])}短板会影响下一次训练机会`; }
-function handle(action, app, state) { if (action === 'player-detail') return app.openPlayerDetail(); if (action === 'career-data') return app.openCareerData(); if (action === 'medical') return app.openMedical(); if (action === 'event') { const event = state.events.pending[0]; return event ? app.openEvent(event) : app.feedback.emit('empty', '当前没有待处理事件'); } if (action === 'training') return app.navigate('training'); if (action === 'off-season') return app.openOffSeason(); if (action === 'events') return app.openEventCenter(); if (action === 'news') return app.openNewsCenter(); if (action === 'simulation') return app.openSimulation(); if (action === 'goals') return app.openGoals(); if (action === 'facilities') return app.openFacilities(); if (action === 'growth') return app.openGrowth(); if (action === 'match') return app.navigate('match'); }
+function handle(action, app, state) { if (action === 'player-detail') return app.openPlayerDetail(); if (action === 'career-data') return app.openCareerData(); if (action === 'career-hub') return app.openCareerHub(); if (action === 'medical') return app.openMedical(); if (action === 'event') { const event = state.events.pending[0]; return event ? app.openEvent(event) : app.feedback.emit('empty', '当前没有待处理事件'); } if (action === 'training') return app.navigate('training'); if (action === 'off-season') return app.openOffSeason(); if (action === 'events') return app.openEventCenter(); if (action === 'news') return app.openNewsCenter(); if (action === 'simulation') return app.openSimulation(); if (action === 'goals') return app.openGoals(); if (action === 'facilities') return app.openFacilities(); if (action === 'growth') return app.openGrowth(); if (action === 'match') return app.navigate('match'); }

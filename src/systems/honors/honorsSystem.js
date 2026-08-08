@@ -103,6 +103,27 @@ function addOnce(list, item) {
   return true;
 }
 
+function settleNationalTeamSeason(state) {
+  const player = state.player, season = state.season;
+  const supplied = season.nationalTeam && typeof season.nationalTeam === 'object' ? season.nationalTeam : null;
+  const team = supplied?.team || supplied?.name || player?.nation || player?.country || player?.nationality || '未入选';
+  const eligible = supplied ? Boolean(supplied.calledUp || Number(supplied.appearances || supplied.apps || 0) > 0) : Number(player?.age || 0) >= 18 && Number(player?.ovr || 0) >= (Number(player?.age || 0) <= 21 ? 70 : 73) && Number(season?.appearances || 0) >= 12 && Number(season?.rating || 0) >= 6.75;
+  const group = player?.position === 'GK' ? 'keeper' : ['ST', 'SS', 'LW', 'RW'].includes(player?.position) ? 'attack' : 'other';
+  const appearances = supplied ? Number(supplied.appearances || supplied.apps || 0) : eligible ? clamp(Math.round(2 + (Number(season.rating) - 6.5) * 5 + Number(player.ovr - 70) / 8), 2, 12) : 0;
+  const goals = supplied ? Number(supplied.goals || 0) : eligible && group !== 'keeper' ? Math.max(0, Math.round(appearances * (group === 'attack' ? .28 : .08))) : 0;
+  season.nationalTeam = { team, calledUp: eligible, appearances, goals };
+  season.nationalAppearances = appearances;
+  season.nationalGoals = goals;
+  const previous = state.career.nationalTeam || { team, calledUp: false, appearances: 0, goals: 0 };
+  state.career.nationalTeam = { team, calledUp: previous.calledUp || eligible, appearances: Number(previous.appearances || 0) + appearances, goals: Number(previous.goals || 0) + goals };
+  if (eligible && !previous.calledUp) {
+    const title = `首次入选${team}国家队`;
+    state.career.history.unshift({ date: state.simulation.date, type: '国家队', title, summary: `${player.name}凭借俱乐部表现获得国家队征召。` });
+    addNews(state, { id: `national-callup-${state.simulation.date}-${player.name}`, date: state.simulation.date, type: '国家队', title, copy: `${player.name}将在国际比赛窗口加入${team}国家队。`, importance: 3, scope: 'player' });
+  }
+  return season.nationalTeam;
+}
+
 function simulatedHonor(id, name, season, club, category) {
   const assetId = /金靴|Golden Boot/.test(name) ? 'golden-boot' : /年轻|Young/.test(name) ? 'young' : /最佳|Player/.test(name) ? 'player-year' : /杯|Champion/.test(name) ? 'league' : 'legend';
   const generatedId = id.slice(id.lastIndexOf(':') + 1);
@@ -117,6 +138,8 @@ export function settleSeason(state) {
   const key = `${season.year}:${player?.clubId || club}`;
   const existing = honors.seasons.find(record => record.id === key);
   if (existing) return { alreadySettled: true, trophies: [], personalAwards: [], record: existing };
+
+  settleNationalTeamSeason(state);
 
   const appearances = Number(season.appearances || 0);
   const goals = Number(season.goals || 0);
@@ -197,7 +220,7 @@ export function settleSeason(state) {
   state.training.currentOpportunity = null;
   state.training.completedWeek = 0;
   state.simulation.date = `${String(nextYear).slice(0, 4)}-07-01`;
-  state.season = { ...season, year: nextYear, week: 1, progress: 0, appearances: 0, starts: 0, minutes: 0, goals: 0, assists: 0, shots: 0, keyPasses: 0, tackles: 0, interceptions: 0, rating: 0, cleanSheets: 0, saves: 0, penaltySaves: 0, yellowCards: 0, redCards: 0, suspensions: 0, playerOfMatch: 0, injuryAbsences: 0, keyNodes: 0, startOvr: player?.ovr ?? endOvr, startMarketValue: state.career.marketValue, startStats: { ...(player?.stats || {}) }, highlights: [], injuries: [] };
+  state.season = { ...season, year: nextYear, week: 1, progress: 0, appearances: 0, starts: 0, minutes: 0, goals: 0, assists: 0, shots: 0, keyPasses: 0, tackles: 0, interceptions: 0, rating: 0, cleanSheets: 0, saves: 0, penaltySaves: 0, yellowCards: 0, redCards: 0, suspensions: 0, playerOfMatch: 0, injuryAbsences: 0, nationalTeam: null, nationalAppearances: 0, nationalGoals: 0, keyNodes: 0, startOvr: player?.ovr ?? endOvr, startMarketValue: state.career.marketValue, startStats: { ...(player?.stats || {}) }, highlights: [], injuries: [] };
   state.schedule = createRealFixtures(state);
   addNews(state, { id: `season-open-${nextYear}`, date: state.simulation.date, type: '赛季', title: `${nextYear}赛季注册完成`, copy: `${player?.club || club}已生成新赛程，年龄、身价、合同和能力快照已更新。`, read: false });
   return { alreadySettled: false, trophies, personalAwards, record };
@@ -239,9 +262,15 @@ export function retireCareer(state) {
     personalAwards: honors.personalAwards.length,
     totals,
     legendProfile: honors.legendProfile,
-    summary: `${totals.appearances} appearances, ${totals.goals} goals, ${honors.trophies.length + honors.personalAwards.length} honors`,
+    summary: `${totals.appearances} 次出场，${totals.goals} 个进球，${honors.trophies.length + honors.personalAwards.length} 项荣誉`,
     dataOrigin: 'generated-fallback'
   };
+  state.career.retired = true;
+  state.simulation.paused = true;
+  state.schedule = (state.schedule || []).filter(match => match.status === 'played');
+  if (state.training) state.training.currentOpportunity = null;
+  if (state.player) state.player.status = '已退役';
+  addNews(state, { id: `career-retirement-${state.simulation.date}-${state.player?.name}`, date: state.simulation.date, type: '退役', title: `${state.player?.name || '球员'}正式退役`, copy: honors.retirement.summary, importance: 3, scope: 'player' });
   return honors.retirement;
 }
 

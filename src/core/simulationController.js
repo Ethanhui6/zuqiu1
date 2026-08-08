@@ -114,6 +114,7 @@ export class CareerDirector {
     state.schedule=[...played,...createRealFixtures(state)];
   }
   nextNode(state=this.store.get()){
+    if (state.career?.honors?.retirement) return { type: 'retirement', label: '职业生涯已结束', action: 'career', blocked: true };
     if (state.career?.offSeason?.status === 'active') return { type: 'off-season', label: '安排休赛期', action: 'offSeason', blocked: true };
     if (state.events?.pending?.length) return { type: 'event', label: '处理待办事件', action: 'nextEvent', blocked: true };
     if (state.training?.currentOpportunity) return { type: 'training', label: '处理关键训练机会', action: 'training', blocked: true, target: state.training.currentOpportunity.createdAt };
@@ -164,6 +165,7 @@ export class CareerDirector {
   }
   async advance(action){
     if(this.running) return {status:'busy'};
+    if(this.store.get().career?.honors?.retirement) return {status:'retired',processed:0,autoMatches:0,stopReason:'retirement'};
     this.store.set(state=>{this.ensureFixtures(state);return state;});
     const desc=this.describe(action); if(!desc) throw new Error('未知推进方式');
     if(this.store.get().simulation.paused) return {status:'paused'};
