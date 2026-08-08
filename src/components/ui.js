@@ -21,7 +21,7 @@ export class OverlayManager {
     this.escapeHandler=e=>{if(dismissible&&e.key==='Escape')this.close();}; document.addEventListener('keydown',this.escapeHandler);
     this.root.append(overlay); this.active=overlay; (overlay.querySelector('[data-close-sheet]')||overlay.querySelector('button'))?.focus(); onMount?.(overlay); return overlay;
   }
-  dialog(title,content){ this.close(); lockPageScroll(); this.locked=true; const overlay=document.createElement('div');overlay.className='overlay dialog-wrap';overlay.innerHTML=`<section class="dialog" role="dialog" aria-modal="true"><div class="card-row"><h2 class="sheet-title">${title}</h2><button class="icon-button" data-close-sheet>${icon('close')}</button></div><div style="height:12px"></div>${content}</section>`;overlay.addEventListener('click',e=>{if(e.target===overlay||e.target.closest('[data-close-sheet]'))this.close();});this.root.append(overlay);this.active=overlay;return overlay;}
+  dialog(title,content){ this.close(); lockPageScroll(); this.locked=true; document.body.classList.add('has-open-sheet'); const overlay=document.createElement('div');overlay.className='overlay dialog-wrap';overlay.innerHTML=`<section class="dialog" role="dialog" aria-modal="true"><div class="card-row"><h2 class="sheet-title">${title}</h2><button class="icon-button" data-close-sheet>${icon('close')}</button></div><div style="height:12px"></div>${content}</section>`;overlay.addEventListener('click',e=>{if(e.target===overlay||e.target.closest('[data-close-sheet]'))this.close();});this.root.append(overlay);this.active=overlay;return overlay;}
 }
 
 export function playerDetail(player,state){

@@ -112,7 +112,7 @@ try {
     });
     assert.ok(geometry.scrollWidth <= width + 1, `match ${index + 1} overflows at ${width}px`);
     assert.deepEqual({ cta: geometry.ctaCount, lineup: geometry.lineupTriggerCount }, { cta: 1, lineup: 1 });
-    assert.equal(geometry.ctaEnabled, true, `match ${index + 1} CTA is disabled`);
+    assert.equal(geometry.ctaEnabled, status.label !== '未入选', `match ${index + 1} CTA availability is incorrect`);
     assert.equal(geometry.ctaHit && geometry.ctaVisible && geometry.barClearOfNav, true, `match ${index + 1} CTA is covered`);
     assert.equal(await page.locator('.match-preview__team').count(), 2);
     assert.equal(await page.locator('.match-preview__crest img').count(), 2);
@@ -158,11 +158,10 @@ try {
     await page.locator('.sheet [data-close-sheet]').click();
     assert.equal(await page.locator('#overlay-root .overlay').count(), 0);
 
-    await page.locator('[data-play]').click();
     if (status.label === '未入选') {
-      await page.locator('.toast').last().waitFor();
-      assert.match(await page.locator('.toast').last().innerText(), /未入选|名单要求|随队观察/);
+      assert.equal(await page.locator('[data-play]').getAttribute('aria-disabled'), 'true');
     } else {
+      await page.locator('[data-play]').click();
       await page.locator('.sheet [data-match-strategy]').first().waitFor();
       assert.equal(await page.locator('.sheet [data-match-strategy]').count(), 3);
       await page.locator('.sheet [data-close-sheet]').click();
