@@ -1,4 +1,4 @@
-import { generatePlayerName } from '../services/playerIdentity.js';
+import { LocalizedNameGenerator } from '../services/playerIdentity.js';
 
 export const DATA_ORIGINS = Object.freeze({
   OFFICIAL: 'official',
@@ -121,7 +121,7 @@ export function createGeneratedPlayer({ clubId = 'free-agent', country = '', pos
   const rnd = random(`${seed}|${clubId}|${pos}|${index}`);
   const attrs = Object.fromEntries(Object.entries(PROFILE[pos]).map(([key, value]) => [key, Math.round(value + (rnd() - 0.5) * 12)]));
   const ovr = Math.round(Object.values(attrs).reduce((sum, value) => sum + value, 0) / ATTRS.length);
-  const generatedName = Object.keys(nameProfiles).length ? generatePlayerName(country, `${seed}|${clubId}|${index}`, nameProfiles).displayName : `青年队球员 ${index + 1}-${hashSeed(`${clubId}|${seed}`) % 10000}`;
+  const generatedName = new LocalizedNameGenerator(nameProfiles).generate(country, `${seed}|${clubId}|${index}`).displayName;
   return {
     id: `generated-${clubId}-${pos}-${index}`,
     name: generatedName,
@@ -223,7 +223,7 @@ export function createWorldRegistry({ clubs = [], leagues = [], players = [], tr
       if (rosterCache.has(cacheKey)) return rosterCache.get(cacheKey);
       const result = [...this.realRosterForClub(clubId, { limit, seasonYear })];
       const club = clubById.get(clubId);
-      const scopeKey = `${year}|${seed}`;
+      const scopeKey = `${year}|${seed}|${club?.country || 'international'}`;
       const usedNames = generatedNamesByScope.get(scopeKey) || new Set();
       generatedNamesByScope.set(scopeKey, usedNames);
       for (let index = result.length; index < limit; index++) {

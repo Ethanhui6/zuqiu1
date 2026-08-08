@@ -14,6 +14,7 @@ const ORIGIN_REGIONS = {
   巴西: '南美洲', 阿根廷: '南美洲', 美国: '北美洲', 墨西哥: '北美洲', 沙特阿拉伯: '西亚', 尼日利亚: '非洲', 加纳: '非洲', 塞内加尔: '非洲', 摩洛哥: '非洲', 埃及: '非洲'
 };
 const STARTING_COUNTRY_FALLBACKS = { 尼日利亚: '南非', 加纳: '南非', 塞内加尔: '南非', 摩洛哥: '南非', 埃及: '卡塔尔' };
+const DEFAULT_NAME_PROFILE = { countryCode: 'OTHER', locale: 'en-US', givenNamesMale: ['Alex','Sam','Noah','Leo','Milan','Kai','Daniel','Adam'], familyNames: ['Morgan','Taylor','Lee','Martin','Silva','Novak','Wilson','Bennett'], nameOrder: 'given-family', separator: ' ' };
 export const CLUB_ENTRY_ROUTES = Object.freeze({
   DIRECT_CONTRACT: { label: '直接职业合同', squad: '一线队直接合同', contract: '职业合同' },
   ACADEMY: { label: '青训录取', squad: 'U18青训重点培养', contract: '青训合同' },
@@ -47,8 +48,9 @@ function expandedPools(profile) {
   const givenBase = (profile.givenNamesMale || []).map(value => typeof value === 'string' ? value : value.name).filter(Boolean);
   const familyBase = (profile.familyNames || []).map(value => typeof value === 'string' ? value : value.name).filter(Boolean);
   if (givenBase.length < 2 || familyBase.length < 2) return { givenNames: givenBase, familyNames: familyBase };
+  if (profile.nameOrder === 'family-given' && !separator) return { givenNames: givenBase, familyNames: familyBase };
   const givenNames = [...givenBase], familyNames = [...familyBase];
-  for (const first of givenBase) for (const second of givenBase) if (first !== second) givenNames.push(`${first}${separator}${second}`);
+  for (const first of givenBase) for (const second of givenBase) if (first !== second) givenNames.push(profile.displayScript === 'latin' ? `${first} ${[...second].slice(0,3).join('')}.` : `${first}${separator}${second}`);
   for (const first of familyBase) for (const second of familyBase) if (first !== second) familyNames.push(`${first}-${second}`);
   return { givenNames: [...new Set(givenNames)], familyNames: [...new Set(familyNames)] };
 }
@@ -72,13 +74,25 @@ export function generateFootballNickname(countryCode, seed, profiles = {}) {
   if (!profile?.nicknameRules?.length) return '';
   return pick(['小将', '闪电', '猎鹰', '新星', 'The Kid'], rng(`${seed}|nickname|${countryCode}`));
 }
-export function generatePlayerName(countryCode, seed = 'player', profiles = {}) {
-  const profile = profiles[fileFor(countryCode)] || profiles.other || { givenNamesMale: ['Alex'], familyNames: ['Morgan'], nameOrder: 'given-family', separator: ' ' };
+function buildPlayerName(countryCode, seed = 'player', profiles = {}) {
+  const profile = profiles[fileFor(countryCode)] || profiles.other || DEFAULT_NAME_PROFILE;
   const random = rng(`${seed}|name|${countryCode}`);
   const pools = fileFor(countryCode) === 'china' ? chinaPools(profile) : expandedPools(profile);
   const parts = fileFor(countryCode) === 'china' ? chineseParts(profile, random) : { givenName: weightedPick(pools.givenNames, random), familyName: weightedPick(pools.familyNames, random) };
   return { ...parts, displayName: formatPlayerName(parts, profile), nickname: generateFootballNickname(countryCode, seed, profiles), countryCode: profile.countryCode, locale: profile.locale };
 }
+export class LocalizedNameGenerator {
+  constructor(profiles = {}) { this.profiles = profiles; }
+  generate(countryCode, seed = 'player') { return buildPlayerName(countryCode, seed, this.profiles); }
+  generateUnique(countryCode, seed, reserved = new Set()) {
+    for (let attempt = 0; attempt < 4096; attempt++) {
+      const identity = this.generate(countryCode, `${seed}|unique|${attempt}`);
+      if (!reserved.has(identity.displayName)) { reserved.add(identity.displayName); return identity; }
+    }
+    throw new Error(`姓名池已耗尽：${countryCode}`);
+  }
+}
+export function generatePlayerName(countryCode, seed = 'player', profiles = {}) { return new LocalizedNameGenerator(profiles).generate(countryCode, seed); }
 export function createPlayerOriginProfile(nationality, worldState = {}) {
   const clubs = worldState.clubs || [], nameProfile = worldState.nameProfiles?.[fileFor(nationality)] || worldState.nameProfiles?.other || {};
   const localClubs = clubs.filter(club => club.country === nationality);
