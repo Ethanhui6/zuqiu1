@@ -30,6 +30,7 @@ const POOLS = Object.freeze({
 });
 
 const normalizePosition = value => String(value || '').toUpperCase();
+export const MAX_SEASON_TRAINING_NODES = 1;
 export function trainingPositionGroup(position) {
   const value = normalizePosition(position);
   if (value.includes('门将') || value === 'GK') return 'keeper';
@@ -61,7 +62,7 @@ export function trainingPlanById(id) {
 export function createTrainingOpportunity(state, { seed = state.simulation?.date || 'training', force = false } = {}) {
   state.training ??= {};
   if (state.training.currentOpportunity) return state.training.currentOpportunity;
-  if (!force && Number(state.training.seasonTrainingCount || 0) >= 2) return null;
+  if (!force && Number(state.training.seasonTrainingCount || 0) >= MAX_SEASON_TRAINING_NODES) return null;
   const pool = trainingPool(state.player?.position, state);
   if (!pool.length) return null;
   const group = pool.every(plan => plan.id === 'recovery-reset') ? 'recovery' : trainingPositionGroup(state.player?.position);

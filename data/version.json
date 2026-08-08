@@ -1,6 +1,6 @@
 {
-  "version": "20.37.0",
-  "channel": "strict-phase-7",
+  "version": "20.38.0",
+  "channel": "strict-phase-8",
   "buildDate": "2026-08-08",
   "schemaVersion": 35,
   "scoreVersion": "2026.08.08.2",
@@ -20,5 +20,5 @@
     "worldApi": true,
     "serverAuthoritativeScore": true
   },
-  "buildVersion": "20.37.0-20260808-3"
+  "buildVersion": "20.38.0-20260808-4"
 }

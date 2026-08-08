@@ -2,7 +2,7 @@ import { advanceInjury } from './injuryEngine.js';
 import { matchAvailability, recordMatchCard, serveSuspension } from './disciplineEngine.js';
 import { applyGrowthToState } from './playerDevelopmentEngine.js';
 import { keyedRandom } from '../services/rng.js';
-import { createTrainingOpportunity } from './trainingOpportunities.js';
+import { createTrainingOpportunity, MAX_SEASON_TRAINING_NODES } from './trainingOpportunities.js';
 import { addNews, generateWorldNews } from './newsEngine.js';
 import { dataRepository } from '../services/dataRepository.js';
 import { CLUBS } from '../data/clubs.js';
@@ -106,9 +106,9 @@ export function recordMatchResult(state,match,result={}){
 
 // Fast mode is intentionally a short career-management loop, not a timed simulation.
 export const FAST_SEASON_PACE=Object.freeze({
-  mode:'fast', trainingWeeks:Object.freeze([6,20]), eventWeeks:Object.freeze([12,32]), maxTrainingNodes:2, autoEventCheckDays:8,
-  targetSeconds:Object.freeze({min:20,max:35}), expectedActions:Object.freeze({advance:5,training:2,events:2}),
-  actionSeconds:Object.freeze({advance:2,training:7,event:2.5})
+  mode:'fast', trainingWeeks:Object.freeze([6]), eventWeeks:Object.freeze([12,32]), maxTrainingNodes:MAX_SEASON_TRAINING_NODES, autoEventCheckDays:8,
+  targetSeconds:Object.freeze({min:15,max:30}), expectedActions:Object.freeze({advance:4,training:1,events:2}),
+  actionSeconds:Object.freeze({advance:4,training:7,event:2.25})
 });
 export const CAREER_PACE_RULES=Object.freeze({
   immersive:Object.freeze({seasonsPerRound:1,matchMode:'interactive',eventMode:'pause'}),

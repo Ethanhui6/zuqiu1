@@ -1,7 +1,7 @@
 import { icon } from '../components/icons.js';
 import { metric } from '../components/ui.js';
 import { applyDevelopment } from '../core/playerDevelopmentEngine.js';
-import { trainingPlanById } from '../core/trainingOpportunities.js';
+import { trainingPlanById, MAX_SEASON_TRAINING_NODES } from '../core/trainingOpportunities.js';
 
 const ATTR_CN = { speed: '速度', shooting: '射门', passing: '传球', dribbling: '盘带', defending: '防守', physical: '身体' };
 const GROUP_CN = { attack: '前场', midfield: '中场', defense: '后场', keeper: '门将', recovery: '恢复' };
@@ -14,7 +14,7 @@ export function trainingPage(app, state) {
   const choices = opportunity?.choices || [];
   const positionLabel = player.position === 'GK' || player.position.includes('门将') ? '门将' : player.position;
   root.innerHTML = `<div class="page-head"><div><h1 class="page-title">训练机会</h1><p class="page-subtitle">训练只在关键节点出现，方案由位置、状态和近期表现生成</p></div><span class="badge ${opportunity ? 'orange' : 'blue'}">${opportunity ? '待选择' : '等待节点'}</span></div>
-    <section class="surface-card training-status"><div class="card-row"><div><div class="card-kicker">${icon('training', 'sm')} 本赛季参与</div><h2 class="card-title">${state.training.seasonTrainingCount || 0} / 2 次关键训练</h2><p class="card-copy">日常训练在后台模拟，只有这里的训练会进入可操作小游戏。</p></div><span class="badge ${positionLabel === '门将' ? 'purple' : 'green'}">${GROUP_CN[opportunity?.group] || positionLabel}</span></div>${metric('当前体能', player.fitness, { tone: player.fitness < 55 ? 'orange' : 'green' })}${metric('疲劳', player.fatigue, { tone: player.fatigue > 65 ? 'red' : 'orange' })}</section>
+    <section class="surface-card training-status"><div class="card-row"><div><div class="card-kicker">${icon('training', 'sm')} 本赛季参与</div><h2 class="card-title">${Math.min(MAX_SEASON_TRAINING_NODES, state.training.seasonTrainingCount || 0)} / ${MAX_SEASON_TRAINING_NODES} 次主要训练</h2><p class="card-copy">每季只选择一次主要计划；日常训练和能力成长在后台自动进行。</p></div><span class="badge ${positionLabel === '门将' ? 'purple' : 'green'}">${GROUP_CN[opportunity?.group] || positionLabel}</span></div>${metric('当前体能', player.fitness, { tone: player.fitness < 55 ? 'orange' : 'green' })}${metric('疲劳', player.fatigue, { tone: player.fatigue > 65 ? 'red' : 'orange' })}</section>
     ${opportunity ? `<section class="training-opportunity"><div class="section-heading"><div><div class="card-kicker">${opportunity.createdAt} · 第${opportunity.week}周</div><h2 class="card-title">教练组为你准备了 ${choices.length} 个方案</h2><p class="card-copy">${opportunity.position}训练池 · 选择后才会进入对应的实战小游戏。</p></div><span class="badge orange">关键节点</span></div><div class="training-opportunity-grid">${choices.map(plan => planCard(plan, player, state)).join('')}</div></section>` : `<section class="empty-training"><div class="icon-tile">${icon('calendar')}</div><h2 class="card-title">当前没有待处理训练</h2><p class="card-copy">日常训练正在后台进行。返回生涯首页可查看下一节点、等待时间和本阶段操作。</p><button class="app-button secondary" data-return-career>${icon('home', 'sm')}返回生涯首页</button></section>`}
     <section class="surface-card training-note"><div class="card-kicker">位置分流</div><div class="tag-row"><span class="badge blue">${player.position}</span><span class="badge green">短板优先</span><span class="badge purple">结果写入存档</span></div><p class="card-copy">门将只会收到扑救、反应、站位、手控球、出击和开球路线；场上球员不会看到门将专项。</p></section>`;
   root.addEventListener('click', event => {

@@ -133,7 +133,7 @@ try {
   assert.equal(report.seasons.length, 6, 'six fast seasons must complete');
   assert.deepEqual(report.seasons.map(item => item.age), [17, 18, 19, 20, 21, 22]);
   assert.ok(report.nodes.length >= 30, `expected at least 30 result nodes, received ${report.nodes.length}`);
-  assert.equal(report.nodes.filter(item => item.type === 'training').length, 12);
+  assert.equal(report.nodes.filter(item => item.type === 'training').length, 6);
   assert.ok(report.nodes.filter(item => item.type === 'event').length >= 12);
   assert.equal(report.nodes.filter(item => item.type === 'season-review').length, 6);
 
