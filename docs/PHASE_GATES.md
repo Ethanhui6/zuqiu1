@@ -33,8 +33,8 @@ Local repository state is the source of truth. A phase may move to `PASS` only a
 | 26 | Color and game feel | PASS |
 | 27 | Full career from age 16 to retirement | PASS |
 | 28 | Final mobile regression | PASS |
-| 29 | Final code cleanup | IN_PROGRESS |
-| 30 | Release | LOCKED |
+| 29 | Final code cleanup | PASS |
+| 30 | Release | IN_PROGRESS |
 
 ## Phase 0 Gate
 
@@ -482,3 +482,18 @@ Phase 28 gate result: `PASS` on 2026-08-08. Phase 29 is now the only unlocked ph
 - [x] Cloudflare Pages creates a successful native preview for implementation commit `74d10ed`: `https://8088f081.zuqiu-4tt.pages.dev`.
 
 Phase 29 gate result: `PASS` on 2026-08-08. Phase 30 is now the only unlocked phase.
+
+## Phase 30 Gate
+
+- [x] Release branch contains no secret, token, private key, local `.env`, generated `dist/`, or temporary artifact.
+- [x] Version 20.31.0 passes lint, JavaScript contracts (9/9), the full automated suite (150/150), repository hygiene (3/3), and production build.
+- [x] The complete three-season core browser flow passes against the local release build, including the transfer-request decision and result.
+- [ ] GitHub Actions and the Cloudflare Pages preview pass for the release Pull Request.
+- [ ] The release Pull Request is merged normally into `main` without force push.
+- [ ] Cloudflare Pages production deployment succeeds for the exact merged `main` SHA.
+- [ ] Production metadata reports version 20.31.0, channel `strict-phase-30`, schema 34, and a current build time.
+- [ ] The complete three-season core browser flow passes against the production URL.
+- [ ] A stable annotated Git tag provides the rollback checkpoint.
+- [ ] The final acceptance checklist has no `NO` answer.
+
+Phase 30 gate result: `IN_PROGRESS`. The release is not complete until every item passes.

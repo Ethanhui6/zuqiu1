@@ -38,3 +38,5 @@ Run this checklist at every phase gate. Add a dated evidence reference when a ga
 - [x] Keyboard, pointer, and touch-sized controls can complete the core flow.
 
 Phase 0 evidence date: 2026-08-08. Re-evaluate every item before a later phase is marked PASS.
+
+Phase 30 local release evidence date: 2026-08-08. All items were re-evaluated through the full automated suite, three-season browser flow, full-career gate, and final mobile gate.

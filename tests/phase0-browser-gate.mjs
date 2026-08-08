@@ -11,13 +11,14 @@ const executablePath = [
 
 assert.ok(executablePath, 'Chrome or Edge is required for the Phase 0 browser gate');
 
-const server = createAppServer();
-await new Promise(resolve => server.listen(0, '127.0.0.1', resolve));
+const targetUrl = process.env.TARGET_URL?.replace(/\/+$/u, '');
+const server = targetUrl ? null : createAppServer();
+if (server) await new Promise(resolve => server.listen(0, '127.0.0.1', resolve));
 const browser = await chromium.launch({ headless: true, executablePath });
 const page = await browser.newPage({ viewport: { width: 390, height: 844 }, hasTouch: true });
-const base = `http://127.0.0.1:${server.address().port}/?no-sw=1`;
+const base = targetUrl ? `${targetUrl}/?no-sw=1` : `http://127.0.0.1:${server.address().port}/?no-sw=1`;
 const errors = [];
-const report = { status: 'IN_PROGRESS', viewport: '390x844', operations: [], seasons: [], transferActions: 0 };
+const report = { status: 'IN_PROGRESS', target: targetUrl || 'current local build', viewport: '390x844', operations: [], seasons: [], transferActions: 0 };
 
 page.on('pageerror', error => errors.push(error.message));
 
@@ -118,6 +119,10 @@ try {
   report.operations.push({ action: 'open-club-directory', ...await snapshot() });
   await page.locator('[data-route="transfer"]').click();
   await page.locator('[data-transfer-action="transfer-request"]').click();
+  await page.locator('[data-club-choice]').first().click();
+  await page.locator('[data-club-interaction-result="transfer-request"]').waitFor();
+  await page.locator('[data-club-result-continue]').click();
+  await page.locator('.clubs-page').waitFor();
   report.transferActions += 1;
   report.operations.push({ action: 'request-transfer', ...await snapshot() });
   await page.locator('[data-route="career"]').click();
@@ -176,5 +181,5 @@ try {
 } finally {
   await page.close();
   await browser.close();
-  await new Promise(resolve => server.close(resolve));
+  if (server) await new Promise(resolve => server.close(resolve));
 }
