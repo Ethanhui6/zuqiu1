@@ -32,8 +32,8 @@ Local repository state is the source of truth. A phase may move to `PASS` only a
 | 25 | World news | PASS |
 | 26 | Color and game feel | PASS |
 | 27 | Full career from age 16 to retirement | PASS |
-| 28 | Final mobile regression | IN_PROGRESS |
-| 29 | Final code cleanup | LOCKED |
+| 28 | Final mobile regression | PASS |
+| 29 | Final code cleanup | IN_PROGRESS |
 | 30 | Release | LOCKED |
 
 ## Phase 0 Gate
@@ -465,7 +465,7 @@ Phase 27 gate result: `PASS` on 2026-08-08. Phase 28 is now the only unlocked ph
 - [x] Sheet and Dialog lifecycle state consistently locks and restores document scrolling.
 - [x] The existing 12-viewport audit, seven-width global layout gate, and ten-match Phase 3 match hub gate remain PASS.
 - [x] Full automated tests (150/150), production build, repository hygiene (3/3), Phase 5 pacing, Phase 6 lifecycle, ten-match Phase 3 gate, and 12-viewport responsive audit pass for version 20.29.0.
-- [ ] GitHub Actions `verify` passes for the Phase 28 Pull Request.
-- [ ] Cloudflare Pages creates a successful native preview for the Phase 28 implementation commit.
+- [x] GitHub Actions `verify` passes for Phase 28 Pull Request #61 and implementation commit `61b828d`.
+- [x] Cloudflare Pages creates a successful native preview for implementation commit `61b828d`: `https://09d982f5.zuqiu-4tt.pages.dev`.
 
-Phase 28 gate result: `IN_PROGRESS`. Phase 29 remains locked.
+Phase 28 gate result: `PASS` on 2026-08-08. Phase 29 is now the only unlocked phase.
