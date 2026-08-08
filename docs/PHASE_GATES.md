@@ -296,3 +296,19 @@ Phase 15 gate result: `PASS` on 2026-08-08. Phase 16 is now the only unlocked ph
 - [x] Cloudflare Pages creates a successful native preview for implementation commit `3d8ddcc`: `https://2127f03d.zuqiu-4tt.pages.dev`.
 
 Phase 16 gate result: `PASS` on 2026-08-08. Phase 17 is now the only unlocked phase.
+
+## Phase 17 Gate
+
+- [x] Real-player identity rows are stored in a local 2026 snapshot and require no runtime network request.
+- [x] Public identity provenance and project-estimated ratings remain explicitly separate.
+- [x] Wikidata entity URLs, club QIDs, capture date, method, and CC0 license are recorded locally.
+- [x] At least 50 important clubs expose one or more real players before generated squad fillers.
+- [x] The 50-club audit contains zero all-NPC squads in the snapshot season.
+- [x] Kylian Mbappé and Cristiano Ronaldo retain their full display names.
+- [x] Real players retire deterministically and do not remain active indefinitely in future seasons.
+- [x] Real Chromium validates a production club roster at 390x844 with no runtime error, technical placeholder, or horizontal overflow.
+- [x] Full automated tests (127/127), production build, repository hygiene, Phase 5 pacing, Phase 6 lifecycle, seven-phone-width layout, and 12-viewport mobile regressions pass for version 20.18.0.
+- [ ] GitHub Actions `verify` passes for the Phase 17 Pull Request.
+- [ ] Cloudflare Pages creates a successful native preview for the Phase 17 commit.
+
+Phase 17 gate result: `IN_PROGRESS`. Phase 18 remains locked.
