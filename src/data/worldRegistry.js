@@ -78,7 +78,7 @@ export function normalizeClub(club = {}) {
     opportunity: club.opportunity ?? club.youthUsage ?? 50,
     style: club.style || club.tactic || 'balanced',
     formation: club.formation || '4-3-3',
-    salary: club.salary || 'simulation range',
+    salary: club.salary || null,
     ...meta,
     isReal: club.isReal ?? meta.isReal,
     provenance: meta,
