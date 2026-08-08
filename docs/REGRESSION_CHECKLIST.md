@@ -40,3 +40,5 @@ Run this checklist at every phase gate. Add a dated evidence reference when a ga
 Phase 0 evidence date: 2026-08-08. Re-evaluate every item before a later phase is marked PASS.
 
 Phase 30 local release evidence date: 2026-08-08. All items were re-evaluated through the full automated suite, three-season browser flow, full-career gate, and final mobile gate.
+
+Phase 30 production evidence date: 2026-08-08. The same three-season core flow passed against `https://zuqiu-4tt.pages.dev` after deployment of main SHA `c4f4c57`.

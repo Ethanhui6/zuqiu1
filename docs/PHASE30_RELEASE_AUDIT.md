@@ -38,7 +38,40 @@ Date: 2026-08-08
 - Cloudflare preview: PASS at `https://223daa29.zuqiu-4tt.pages.dev`
 - Preview metadata: version 20.31.0, channel `strict-phase-30`, schema 34, built 2026-08-08T03:36:46.324Z
 - Preview three-season core flow: PASS, age 16 to 19 and three acknowledged reviews
-- Merge commit and production SHA: pending
-- Production metadata: pending
-- Production three-season core flow: pending
-- Stable rollback tag: pending
+- Release PR: `https://github.com/Ethanhui6/zuqiu1/pull/63`
+- Merge commit and production SHA: `c4f4c571a13b68b857d9b624038513f65f5d69b5`
+- Main GitHub Actions `verify`: PASS
+- Cloudflare production deployment: `https://4bd86985.zuqiu-4tt.pages.dev`
+- Stable production URL: `https://zuqiu-4tt.pages.dev`
+- Production metadata: version 20.31.0, channel `strict-phase-30`, schema 34, built 2026-08-08T03:45:48.770Z
+- Production three-season core flow: PASS, age 16 to 19 and three acknowledged reviews
+- Stable rollback tag: annotated `v20.31.0` -> `c4f4c57`
+
+## Final Acceptance
+
+- YES: A season needs only a few interactive matches while real appearances remain in the 20-40 range.
+- YES: Fast mode never silently skips an important result.
+- YES: Development follows youth growth, peak, and decline.
+- YES: High-potential talent grows materially faster.
+- YES: Veteran players decline.
+- YES: Goalkeepers use their own later development curve.
+- YES: The Match Hub no longer uses an excessively long stacked layout.
+- YES: The lineup is no longer rendered as 22 default rows.
+- YES: The primary match CTA is not duplicated.
+- YES: Every current-club action opens a real secondary interaction.
+- YES: Career-event quantity and quality gates pass.
+- YES: Mini-games expose materially different mechanisms.
+- YES: Strikers cannot receive goalkeeper-only styles.
+- YES: Nationality rerolls synchronize the starting-club pool.
+- YES: Important real clubs prioritize real roster snapshots.
+- YES: Generated squad players avoid mass duplicate names.
+- YES: Transfer windows generate proactive club invitations.
+- YES: Overseas clubs can proactively follow the player.
+- YES: Elite-club entry includes development routes beyond rejection.
+- YES: Club crest MISSING count is zero.
+- YES: Club crest BROKEN count is zero.
+- YES: Every obtainable major honor has a visual asset.
+- YES: Season Review is complete and acknowledged exactly once.
+- YES: World news covers other clubs and players.
+- YES: All required mobile widths remain operable.
+- YES: The latest local Git work was the sole release source.
