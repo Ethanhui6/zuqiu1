@@ -312,3 +312,18 @@ Phase 16 gate result: `PASS` on 2026-08-08. Phase 17 is now the only unlocked ph
 - [x] Cloudflare Pages creates a successful native preview for implementation commit `a93c96e`: `https://3bd163d1.zuqiu-4tt.pages.dev`.
 
 Phase 17 gate result: `PASS` on 2026-08-08. Phase 18 is now the only unlocked phase.
+
+## Phase 18 Gate
+
+- [x] Player creation, youth players, obscure clubs, and future squads use one deterministic `LocalizedNameGenerator`.
+- [x] Every major nationality produces 1,000 unique names with the correct locale and writing system.
+- [x] Japanese and Korean names use atomic local names rather than concatenated full given names.
+- [x] All 500 future club rosters contain zero same-team duplicate names.
+- [x] Missing profile data still produces normal names without numeric technical placeholders.
+- [x] Generated identities never expose `Academy Prospect`, `Player 24`, `Youth 31`, or numbered youth-name fallbacks.
+- [x] Real Chromium validates a Japanese 2045 roster at 390x844 with no duplicate, placeholder, runtime error, or horizontal overflow.
+- [x] Full automated tests (129/129), production build, repository hygiene, Phase 5 pacing, Phase 6 lifecycle, seven-phone-width layout, and 12-viewport mobile regressions pass for version 20.19.0.
+- [x] GitHub Actions `verify` passes for Phase 18 Pull Request #51.
+- [x] Cloudflare Pages creates a successful native preview for implementation commit `3d9c7fe`: `https://dd568567.zuqiu-4tt.pages.dev`.
+
+Phase 18 gate result: `PASS` on 2026-08-08. Phase 19 is now the only unlocked phase.
