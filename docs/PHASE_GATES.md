@@ -29,8 +29,8 @@ Local repository state is the source of truth. A phase may move to `PASS` only a
 | 22 | Trophies and awards | PASS |
 | 23 | Season review | PASS |
 | 24 | Injuries, cards, and suspensions | PASS |
-| 25 | World news | IN_PROGRESS |
-| 26 | Color and game feel | LOCKED |
+| 25 | World news | PASS |
+| 26 | Color and game feel | IN_PROGRESS |
 | 27 | Full career from age 16 to retirement | LOCKED |
 | 28 | Final mobile regression | LOCKED |
 | 29 | Final code cleanup | LOCKED |
@@ -425,7 +425,7 @@ Phase 24 gate result: `PASS` on 2026-08-08. Phase 25 is now the only unlocked ph
 - [x] World news never creates an interaction pause; the home page retains only three to five important headlines.
 - [x] Real Chromium validates the home broadcast and complete news center at 390x844 without runtime errors or horizontal overflow.
 - [x] Full automated tests (146/146), production build, repository hygiene (3/3), Phase 5 pacing, Phase 6 lifecycle, and 12-viewport responsive audits pass for version 20.26.0.
-- [ ] GitHub Actions `verify` passes for the Phase 25 Pull Request.
-- [ ] Cloudflare Pages creates a successful native preview for the Phase 25 implementation commit.
+- [x] GitHub Actions `verify` passes for Phase 25 Pull Request #58 and implementation commit `db85311`.
+- [x] Cloudflare Pages creates a successful native preview for implementation commit `db85311`: `https://3bae563e.zuqiu-4tt.pages.dev`.
 
-Phase 25 gate result: `IN_PROGRESS`. Phase 26 remains locked.
+Phase 25 gate result: `PASS` on 2026-08-08. Phase 26 is now the only unlocked phase.
