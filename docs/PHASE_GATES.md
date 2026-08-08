@@ -488,7 +488,7 @@ Phase 29 gate result: `PASS` on 2026-08-08. Phase 30 is now the only unlocked ph
 - [x] Release branch contains no secret, token, private key, local `.env`, generated `dist/`, or temporary artifact.
 - [x] Version 20.31.0 passes lint, JavaScript contracts (9/9), the full automated suite (150/150), repository hygiene (3/3), and production build.
 - [x] The complete three-season core browser flow passes against the local release build, including the transfer-request decision and result.
-- [ ] GitHub Actions and the Cloudflare Pages preview pass for the release Pull Request.
+- [x] GitHub Actions and Cloudflare Pages preview pass for release Pull Request #63 and commit `7499e18`; the preview three-season core flow also passes.
 - [ ] The release Pull Request is merged normally into `main` without force push.
 - [ ] Cloudflare Pages production deployment succeeds for the exact merged `main` SHA.
 - [ ] Production metadata reports version 20.31.0, channel `strict-phase-30`, schema 34, and a current build time.

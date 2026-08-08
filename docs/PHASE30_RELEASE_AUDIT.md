@@ -34,7 +34,10 @@ Date: 2026-08-08
 
 ## Remote Evidence
 
-- Cloudflare preview checks: pending
+- GitHub Actions `verify`: PASS for release candidate `7499e18`
+- Cloudflare preview: PASS at `https://223daa29.zuqiu-4tt.pages.dev`
+- Preview metadata: version 20.31.0, channel `strict-phase-30`, schema 34, built 2026-08-08T03:36:46.324Z
+- Preview three-season core flow: PASS, age 16 to 19 and three acknowledged reviews
 - Merge commit and production SHA: pending
 - Production metadata: pending
 - Production three-season core flow: pending
