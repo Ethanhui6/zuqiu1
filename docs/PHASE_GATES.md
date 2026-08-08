@@ -25,8 +25,8 @@ Local repository state is the source of truth. A phase may move to `PASS` only a
 | 18 | Random-name system | PASS |
 | 19 | Transfer invitations | PASS |
 | 20 | Clubs and competitions | PASS |
-| 21 | Club crests | IN_PROGRESS |
-| 22 | Trophies and awards | LOCKED |
+| 21 | Club crests | PASS |
+| 22 | Trophies and awards | IN_PROGRESS |
 | 23 | Season review | LOCKED |
 | 24 | Injuries, cards, and suspensions | LOCKED |
 | 25 | World news | LOCKED |
@@ -355,3 +355,16 @@ Phase 19 gate result: `PASS` on 2026-08-08. Phase 20 is now the only unlocked ph
 - [x] Cloudflare Pages creates a successful native preview for implementation commit `3b1081b`: `https://00cd84b9.zuqiu-4tt.pages.dev`.
 
 Phase 20 gate result: `PASS` on 2026-08-08. Phase 21 is now the only unlocked phase.
+
+## Phase 21 Gate
+
+- [x] Full 544-club audit reports `REAL 174`, `FALLBACK 370`, `MISSING 0`, and `BROKEN 0`.
+- [x] Every crest is a unique local asset whose filename maps exactly to its club ID and whose source record is present.
+- [x] All 370 project fallback crests use unique geometric marks with no letter placeholder.
+- [x] All 544 assets contain zero remote image references, Google thumbnails, or watermark markers.
+- [x] A deterministic random sample of 100 clubs reports zero incorrect mappings and loads 100/100 images in real Chromium.
+- [x] Full automated tests (136/136), production build, repository hygiene, Phase 5 pacing, Phase 6 lifecycle, and 12-viewport responsive regressions pass for version 20.22.0.
+- [x] GitHub Actions `verify` passes for Phase 21 Pull Request #54 and implementation commit `4e08ed9`.
+- [x] Cloudflare Pages creates a successful native preview for implementation commit `4e08ed9`: `https://87c42090.zuqiu-4tt.pages.dev`.
+
+Phase 21 gate result: `PASS` on 2026-08-08. Phase 22 is now the only unlocked phase.
