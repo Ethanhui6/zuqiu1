@@ -34,7 +34,7 @@ Local repository state is the source of truth. A phase may move to `PASS` only a
 | 27 | Full career from age 16 to retirement | PASS |
 | 28 | Final mobile regression | PASS |
 | 29 | Final code cleanup | PASS |
-| 30 | Release | IN_PROGRESS |
+| 30 | Release | PASS |
 
 ## Phase 0 Gate
 
@@ -489,11 +489,11 @@ Phase 29 gate result: `PASS` on 2026-08-08. Phase 30 is now the only unlocked ph
 - [x] Version 20.31.0 passes lint, JavaScript contracts (9/9), the full automated suite (150/150), repository hygiene (3/3), and production build.
 - [x] The complete three-season core browser flow passes against the local release build, including the transfer-request decision and result.
 - [x] GitHub Actions and Cloudflare Pages preview pass for release Pull Request #63 and commit `7499e18`; the preview three-season core flow also passes.
-- [ ] The release Pull Request is merged normally into `main` without force push.
-- [ ] Cloudflare Pages production deployment succeeds for the exact merged `main` SHA.
-- [ ] Production metadata reports version 20.31.0, channel `strict-phase-30`, schema 34, and a current build time.
-- [ ] The complete three-season core browser flow passes against the production URL.
-- [ ] A stable annotated Git tag provides the rollback checkpoint.
-- [ ] The final acceptance checklist has no `NO` answer.
+- [x] Release Pull Request #63 is merged normally into `main` without force push as `c4f4c571a13b68b857d9b624038513f65f5d69b5`.
+- [x] Cloudflare Pages production deployment succeeds for the exact merged `main` SHA at `https://4bd86985.zuqiu-4tt.pages.dev`.
+- [x] Production metadata reports version 20.31.0, channel `strict-phase-30`, schema 34, and build time 2026-08-08T03:45:48.770Z.
+- [x] The complete three-season core browser flow passes against `https://zuqiu-4tt.pages.dev`.
+- [x] Annotated tag `v20.31.0` points to production merge `c4f4c57` as the rollback checkpoint.
+- [x] The final acceptance checklist has 26 `YES` answers and no `NO` answer.
 
-Phase 30 gate result: `IN_PROGRESS`. The release is not complete until every item passes.
+Phase 30 gate result: `PASS` on 2026-08-08. All strict phases are complete.
