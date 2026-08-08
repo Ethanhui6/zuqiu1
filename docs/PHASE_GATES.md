@@ -24,8 +24,8 @@ Local repository state is the source of truth. A phase may move to `PASS` only a
 | 17 | Real-player database | PASS |
 | 18 | Random-name system | PASS |
 | 19 | Transfer invitations | PASS |
-| 20 | Clubs and competitions | IN_PROGRESS |
-| 21 | Club crests | LOCKED |
+| 20 | Clubs and competitions | PASS |
+| 21 | Club crests | IN_PROGRESS |
 | 22 | Trophies and awards | LOCKED |
 | 23 | Season review | LOCKED |
 | 24 | Injuries, cards, and suspensions | LOCKED |
@@ -351,7 +351,7 @@ Phase 19 gate result: `PASS` on 2026-08-08. Phase 20 is now the only unlocked ph
 - [x] Runtime scale reaches 544 clubs, 50 leagues, 40 countries, and 3 registered expansion competitions without altering the original 500-club snapshot.
 - [x] Real Chromium searches and renders one club from each new league at 390x844 with no runtime error or horizontal overflow.
 - [x] Full automated tests (134/134), production build, repository hygiene, Phase 5 pacing, Phase 6 lifecycle, and 12-viewport responsive regressions pass for version 20.21.0.
-- [ ] GitHub Actions `verify` passes for the Phase 20 Pull Request.
-- [ ] Cloudflare Pages creates a successful native preview for the Phase 20 implementation commit.
+- [x] GitHub Actions `verify` passes for Phase 20 Pull Request #53 and implementation commit `3b1081b`.
+- [x] Cloudflare Pages creates a successful native preview for implementation commit `3b1081b`: `https://00cd84b9.zuqiu-4tt.pages.dev`.
 
-Phase 20 gate result: `IN_PROGRESS`. Phase 21 remains locked until both remote checks pass.
+Phase 20 gate result: `PASS` on 2026-08-08. Phase 21 is now the only unlocked phase.
