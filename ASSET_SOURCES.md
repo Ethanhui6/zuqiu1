@@ -542,4 +542,4 @@ Notes:
 
 - FCLOGO/fclogo.top repository license is MIT; club marks remain the property of their respective rights holders.
 - Missing or incomplete license metadata does not block local matching, tests, builds, GitHub pushes, or Cloudflare Pages deployment.
-- Unmatched club records are intentionally listed without a fake crest; they are not silently replaced by a generated logo.
+- Clubs without a verified public crest use deterministic local geometric identity art from `scripts/generate-club-identity-crests.mjs`; these assets contain no letter placeholder, remote reference, or watermark.
