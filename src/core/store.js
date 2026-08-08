@@ -9,7 +9,7 @@ export function createDefaultState() {
     version: VERSION,
     route: 'career',
     createdAt: new Date().toISOString(),
-    settings: { mode: 'fast', theme: 'light', autoSkipLow: true, autoPauseCritical: true, motion: 'full', sound: true, haptics: true },
+    settings: { mode: 'standard', theme: 'light', autoSkipLow: true, autoPauseCritical: true, motion: 'full', sound: true, haptics: true },
     simulation: { paused: false, speed: 1, date: '2026-07-01', processedKeys: [], summaries: [], queue: [], lastKeyNode: null },
     player: null,
     season: { year: '2026/27', week: 1, progress: 0, appearances: 0, starts: 0, minutes: 0, goals: 0, assists: 0, shots: 0, keyPasses: 0, tackles: 0, interceptions: 0, saves: 0, cleanSheets: 0, penaltySaves: 0, yellowCards: 0, redCards: 0, suspensions: 0, playerOfMatch: 0, injuryAbsences: 0, injuries: [], objectives: [], startOvr: null, startMarketValue: 650000, startStats: null, keyNodes: 0 },
@@ -34,6 +34,7 @@ export function migrateState(input) {
   if (!input || typeof input !== 'object') return base;
   const state = { ...base, ...input };
   state.settings = { ...base.settings, ...(input.settings || {}) };
+  if (!['immersive','standard','fast','legend'].includes(state.settings.mode)) state.settings.mode = 'standard';
   if (!['system','dark','light'].includes(state.settings.theme)) state.settings.theme = 'light';
   state.simulation = { ...base.simulation, ...(input.simulation || {}) };
   state.simulation.processedKeys = Array.isArray(state.simulation.processedKeys) ? state.simulation.processedKeys : [];

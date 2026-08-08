@@ -1,4 +1,4 @@
-import {POSITION_CONFIG,CAREER_SETTINGS,ATTR_LABELS,PACE_MODES} from '../app/config.js';
+import {POSITION_CONFIG,CAREER_SETTINGS,ATTR_LABELS,CAREER_PACE_MODES,PACE_MODES} from '../app/config.js';
 import {createSeed} from '../services/rng.js';
 import {createTalentCandidates,generateAcademyOffers,createNewSave} from '../systems/career/careerSystem.js';
 import {calculateOvr} from '../systems/career/ovr.js';
@@ -186,7 +186,7 @@ export function renderOnboarding(root,{repo,onComplete,onCancel=null}){
     academy.append(list);
     const pace=el('section',{className:'final-setup-section'},[el('div',{className:'section-heading'},[el('div',{},[el('span',{className:'eyebrow',text:'职业节奏'}),el('h2',{text:'决定推进方式'})])])]);
     const paceGrid=el('div',{className:'pace-mode-grid'});
-    Object.values(PACE_MODES).forEach((mode,index)=>{
+    CAREER_PACE_MODES.forEach((mode,index)=>{
       const selected=draft.paceMode===mode.id;
       const card=button('',{className:`pace-mode-card ${selected?'is-selected':''}`,pressed:selected,onClick:()=>{draft.paceMode=mode.id;persist();render();}});
       card.append(

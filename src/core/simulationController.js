@@ -25,7 +25,7 @@ export function createRealFixtures(state,clubs=dataRepository.clubs?.length?data
   const opponents=leagueOpponents.length?leagueOpponents:order.slice(0,20);
   const count=Math.max(34,Math.min(40,leagueOpponents.length*2+4));
   const leagueName=current.leagueCn||current.league||player.league||'联赛';
-  const keyRounds=new Set(state.settings?.mode==='fast'?[]:[Math.floor(count*.48),count-1]);
+  const keyRounds=new Set(['fast','legend'].includes(state.settings?.mode)?[]:[Math.floor(count*.48),count-1]);
   const cupRounds=new Map([[Math.floor(count*.32),'国内杯赛'],[Math.floor(count*.72),'洲际赛事']]);
   return Array.from({length:count},(_,index)=>{
     const opponent=opponents[index%opponents.length],home=index%2===0;
@@ -91,6 +91,13 @@ export const FAST_SEASON_PACE=Object.freeze({
   targetSeconds:Object.freeze({min:20,max:35}), expectedActions:Object.freeze({advance:5,training:2,events:2}),
   actionSeconds:Object.freeze({advance:2,training:7,event:2.5})
 });
+export const CAREER_PACE_RULES=Object.freeze({
+  immersive:Object.freeze({seasonsPerRound:1,matchMode:'interactive',eventMode:'pause'}),
+  standard:Object.freeze({seasonsPerRound:2,matchMode:'ordinary-auto',eventMode:'important-pause'}),
+  fast:Object.freeze({seasonsPerRound:3,matchMode:'instant',eventMode:'career-turn-pause'}),
+  legend:Object.freeze({seasonsPerRound:3,matchMode:'instant',eventMode:'career-turn-pause',legacyAlias:'fast'})
+});
+export function seasonsPerRound(mode='standard'){return CAREER_PACE_RULES[mode]?.seasonsPerRound||1;}
 export const assessFastSeasonPace=({advanceActions=FAST_SEASON_PACE.expectedActions.advance,trainingChoices=FAST_SEASON_PACE.expectedActions.training,eventChoices=FAST_SEASON_PACE.expectedActions.events}={})=>{
   const estimatedSeconds=advanceActions*FAST_SEASON_PACE.actionSeconds.advance+trainingChoices*FAST_SEASON_PACE.actionSeconds.training+eventChoices*FAST_SEASON_PACE.actionSeconds.event;
   return {advanceActions,trainingChoices,eventChoices,estimatedSeconds,withinTarget:estimatedSeconds>=FAST_SEASON_PACE.targetSeconds.min&&estimatedSeconds<=FAST_SEASON_PACE.targetSeconds.max};
@@ -102,7 +109,12 @@ export class CareerDirector {
   resume(){ this.cancelled=false; this.store.set(s=>{s.simulation.paused=false;return s;}); }
   nextMatch(state){ return state.schedule.find(m=>m.status==='upcoming' && m.date>=state.simulation.date) || null; }
   isKeyMatch(match){ return Boolean(match?.important); }
-  shouldAutoSimulateMatch(match){ return Boolean(match)&&!this.isKeyMatch(match); }
+  shouldAutoSimulateMatch(match,state=this.store.get()){
+    if(!match)return false;
+    if(state.settings?.mode==='immersive')return false;
+    if(['fast','legend'].includes(state.settings?.mode))return true;
+    return !this.isKeyMatch(match);
+  }
   nextEventDate(state){ const offset=2+((state.events.history.length+state.season.week)%5); return addDays(state.simulation.date,offset); }
   seasonEndDate(state){ const date=new Date(`${state.simulation.date}T00:00:00Z`),year=date.getUTCFullYear(); return `${date.getUTCMonth()>=6?year+1:year}-06-30`; }
   ensureFixtures(state){
@@ -119,7 +131,7 @@ export class CareerDirector {
     if (state.events?.pending?.length) return { type: 'event', label: '处理待办事件', action: 'nextEvent', blocked: true };
     if (state.training?.currentOpportunity) return { type: 'training', label: '处理关键训练机会', action: 'training', blocked: true, target: state.training.currentOpportunity.createdAt };
     const match = this.nextMatch(state);
-    if (!match||this.shouldAutoSimulateMatch(match)) return { type: 'time', label: '快速结算到下一个职业节点', target: this.seasonEndDate(state), action: 'seasonEnd', match };
+    if (!match||this.shouldAutoSimulateMatch(match,state)) return { type: 'time', label: '快速结算到下一个职业节点', target: this.seasonEndDate(state), action: 'seasonEnd', match };
     if (match) return { type: 'match', label: `准备 ${match.competition}`, target: match.date, action: 'nextMatch', match };
     if (state.season?.progress >= 99) return { type: 'season', label: '赛季结算', target: state.simulation.date, action: 'seasonEnd' };
     return { type: 'time', label: '推进至下一关键节点', target: addDays(state.simulation.date, 30), action: 'month' };
@@ -172,7 +184,7 @@ export class CareerDirector {
     if(this.store.get().training.currentOpportunity)return {status:'needs-training',trainingOpportunity:this.store.get().training.currentOpportunity,processed:0,stopReason:'training'};
     const dueMatch=action==='nextMatch'&&this.nextMatch(this.store.get());
     if(dueMatch?.date===this.store.get().simulation.date){
-      if(this.shouldAutoSimulateMatch(dueMatch)||matchAvailability(this.store.get())){this.store.set(state=>{this.settleAutoMatch(state,dueMatch);return state;});return {status:'ok',processed:0,autoMatches:1,stopReason:'match-auto',event:null,match:dueMatch,description:desc};}
+      if(this.shouldAutoSimulateMatch(dueMatch,this.store.get())||matchAvailability(this.store.get())){this.store.set(state=>{this.settleAutoMatch(state,dueMatch);return state;});return {status:'ok',processed:0,autoMatches:1,stopReason:'match-auto',event:null,match:dueMatch,description:desc};}
       return {status:'ok',processed:0,stopReason:'match',event:null,match:dueMatch,description:desc};
     }
     this.running=true; this.cancelled=false;
@@ -204,7 +216,7 @@ export class CareerDirector {
       processed++;
       const state=this.store.get(); const match=this.nextMatch(state);
       if(match && match.date===state.simulation.date){
-        if(this.shouldAutoSimulateMatch(match)||matchAvailability(state)){this.store.set(next=>{this.settleAutoMatch(next,match);return next;});autoMatches++;continue;}
+        if(this.shouldAutoSimulateMatch(match,state)||matchAvailability(state)){this.store.set(next=>{this.settleAutoMatch(next,match);return next;});autoMatches++;continue;}
         matchReady=match; stopReason='match'; break;
       }
       const trainingKey=`training-node:${state.season.year}:${state.season.week}`;
@@ -223,8 +235,9 @@ export class CareerDirector {
       if(['week','month','halfSeason','window','seasonEnd'].includes(action)){
         const density=state.settings.mode==='legend'?3:state.settings.mode===FAST_SEASON_PACE.mode?FAST_SEASON_PACE.autoEventCheckDays:state.settings.mode==='ultra'?12:5;
         if(processed%density===0 && !state.events.pending.length && !(state.settings.mode===FAST_SEASON_PACE.mode&&state.settings.autoSkipLow!==false)){
-          this.store.set(s=>{generatedEvent=this.eventEngine.schedule(s,{priority:state.settings.mode==='legend'?'important':'normal'});return s;});
-          if(generatedEvent && state.settings.autoPauseCritical && generatedEvent.priority==='important'){stopReason='event';break;}
+          const priority=state.settings.mode==='immersive'||state.settings.mode==='legend'?'important':'normal';
+          this.store.set(s=>{generatedEvent=this.eventEngine.schedule(s,{priority});return s;});
+          if(generatedEvent && state.settings.autoPauseCritical && (generatedEvent.priority==='important'||state.settings.mode==='immersive')){stopReason='event';break;}
         }
       }
       await Promise.resolve();
