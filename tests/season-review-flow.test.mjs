@@ -12,7 +12,11 @@ test('season settlement records radar snapshots, rolls date forward, and gives a
   const save = state();
   const settled = settleSeason(save);
   assert.deepEqual(settled.record.startStats, { speed: 75, shooting: 70, passing: 69, dribbling: 74, defending: 47, physical: 66 });
-  assert.equal(settled.record.endStats.speed, 80);
+  assert.ok(settled.record.endStats.speed > 80);
+  assert.deepEqual(settled.record.endStats, save.player.stats);
+  assert.equal(settled.record.endOvr, save.player.ovr);
+  assert.equal(settled.record.endOvr, save.season.startOvr);
+  assert.equal(settled.record.ovrChange, Number((settled.record.endOvr - settled.record.startOvr).toFixed(2)));
   assert.equal(save.simulation.date, '2027-07-01');
   assert.equal(save.season.year, '2027/28');
   assert.equal(save.player.age, 21);

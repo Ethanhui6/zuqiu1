@@ -1,6 +1,8 @@
 const STORAGE_KEY = 'football-career-v20';
-const VERSION = 22;
+const VERSION = 23;
 import { normalizePlayer } from './playerDevelopmentEngine.js';
+import { playStyleEligibility, traitEligibility } from './positionResolver.js';
+import { PLAYER_STYLE_DEFINITIONS, SECONDARY_TRAITS } from '../data/playerProfiles.js';
 
 export function createDefaultState() {
   return {
@@ -10,11 +12,11 @@ export function createDefaultState() {
     settings: { mode: 'fast', theme: 'light', autoSkipLow: true, autoPauseCritical: true, motion: 'full', sound: true, haptics: true },
     simulation: { paused: false, speed: 1, date: '2026-07-01', processedKeys: [], summaries: [], queue: [], lastKeyNode: null },
     player: null,
-    season: { year: '2026/27', week: 1, progress: 0, appearances: 0, goals: 0, assists: 0, rating: 0, yellowCards: 0, redCards: 0, objectives: [], startOvr: null, startMarketValue: 650000, startStats: null, keyNodes: 0 },
+    season: { year: '2026/27', week: 1, progress: 0, appearances: 0, starts: 0, minutes: 0, goals: 0, assists: 0, shots: 0, keyPasses: 0, tackles: 0, interceptions: 0, saves: 0, cleanSheets: 0, penaltySaves: 0, yellowCards: 0, redCards: 0, suspensions: 0, playerOfMatch: 0, injuryAbsences: 0, injuries: [], objectives: [], startOvr: null, startMarketValue: 650000, startStats: null, keyNodes: 0 },
     schedule: [],
     injuries: [],
     discipline: { yellowCards: 0, redCards: 0, suspensions: [], history: [] },
-    relationships: { coach: 52, teammates: 48, captain: 45, fans: 1200, media: 36, rivalry: 18 },
+    relationships: { coach: 52, teammates: 48, captain: 45, management: 50, fans: 1200, media: 36, rivalry: 18 },
     career: { marketValue: 650000, weeklySalary: 1800, contractMonths: 30, clubInterest: [], achievements: [], growthLog: [], injuryLog: [], history: [], honors: { trophies: [], personalAwards: [], seasons: [], retirement: null, legendProfile: null } },
     training: { selectedPlan: null, completedWeek: 0, autoStrategy: 'balanced', plansUsed: [], lastResult: null, sessions: [], bestScores: {}, streak: 0, unlockedGames: [], challenge: { target: 3, progress: 0, reward: '教练信任 +3' }, facilityLevel: 1, coachBonus: 0, currentOpportunity: null, seasonTrainingCount: 0, opportunityHistory: [], resolvedNodes: [] },
     events: { pending: [], history: [], cooldowns: {}, sceneCooldowns: {}, sceneHistory: [], seasonCounts: {}, careerCounts: {}, characterMemory: {}, forcedPauses: 0, resolved: [], delayedEffects: [], chains: [], lastInteractionIds: [] },
@@ -22,7 +24,7 @@ export function createDefaultState() {
     random: { seed: null, history: [], last: null },
     creation: { rerollsUsed: 0, seed: null },
     clubInteractions: { cooldowns: {}, history: [] },
-    transfer: { continent: null, country: null, city: null, league: null, club: null, offers: [], watchlist: [], clubDirectory: {} },
+    transfer: { continent: null, country: null, city: null, league: null, club: null, offers: [], watchlist: [], inbox: [], negotiations: [], evaluatedMonths: [], pipelines: {}, activeTab: 'received', clubDirectory: {} },
   ui: { notices: [], lastFeedback: null, todos: [], lastOutcome: null, matchState: null }
   };
 }
@@ -37,6 +39,7 @@ export function migrateState(input) {
   state.simulation.processedKeys = Array.isArray(state.simulation.processedKeys) ? state.simulation.processedKeys : [];
   state.simulation.summaries = Array.isArray(state.simulation.summaries) ? state.simulation.summaries : [];
   state.season = { ...base.season, ...(input.season || {}) };
+  state.season.injuries = Array.isArray(state.season.injuries) ? state.season.injuries : [];
   state.relationships = { ...base.relationships, ...(input.relationships || {}) };
   state.career = { ...base.career, ...(input.career || {}) };
   state.career.honors = { ...base.career.honors, ...(input.career?.honors || {}) };
@@ -62,6 +65,9 @@ export function migrateState(input) {
   state.clubInteractions.history = Array.isArray(state.clubInteractions.history) ? state.clubInteractions.history : [];
   state.transfer = { ...base.transfer, ...(input.transfer || {}) };
   state.transfer.clubDirectory = state.transfer.clubDirectory && typeof state.transfer.clubDirectory === 'object' ? state.transfer.clubDirectory : {};
+  state.transfer.pipelines = state.transfer.pipelines && typeof state.transfer.pipelines === 'object' ? state.transfer.pipelines : {};
+  for (const key of ['offers','watchlist','inbox','negotiations','evaluatedMonths']) if (!Array.isArray(state.transfer[key])) state.transfer[key] = [];
+  if (!['received','agent','exploring','watchlist','history'].includes(state.transfer.activeTab)) state.transfer.activeTab = 'received';
   if (!state.transfer.city && state.transfer.club) {
     const club = Array.isArray(state.schedule) ? state.schedule.find(item => item.clubId === state.transfer.club) : null;
     state.transfer.city = club?.city || null;
@@ -72,7 +78,11 @@ export function migrateState(input) {
   if (state.season.startOvr == null && state.player) state.season.startOvr = state.player.ovr;
   if (!Number.isFinite(Number(state.season.startMarketValue))) state.season.startMarketValue = state.career.marketValue || base.season.startMarketValue;
   state.player = normalizePlayer(input.player);
-  if (state.player) state.player.previousStats = normalizeStats(input.player?.previousStats, state.player.stats);
+  if (state.player) {
+    state.player.style = playStyleEligibility.resolve(state.player.position, state.player.style, PLAYER_STYLE_DEFINITIONS);
+    state.player.secondaryTrait = traitEligibility.resolve(state.player.position, state.player.secondaryTrait, SECONDARY_TRAITS);
+    state.player.previousStats = normalizeStats(input.player?.previousStats, state.player.stats);
+  }
   if (!state.season.startStats || typeof state.season.startStats !== 'object') state.season.startStats = state.player ? { ...state.player.stats } : null;
   state.schedule = Array.isArray(input.schedule) ? input.schedule : [];
   state.injuries = Array.isArray(input.injuries) ? input.injuries : [];

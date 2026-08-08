@@ -1,22 +1,24 @@
 {
-  "version": "20.3.0",
-  "channel": "phase-7-14-complete",
+  "version": "20.31.0",
+  "channel": "strict-phase-30",
   "buildDate": "2026-08-08",
-  "schemaVersion": 23,
+  "schemaVersion": 34,
   "scoreVersion": "2026.08.08.1",
   "data": {
-    "clubs": 500,
+    "clubs": 544,
+    "realPlayers": 601,
+    "realRosterClubs": 73,
     "achievements": 330,
     "hiddenAchievements": 50,
-    "activeEvents": 1120,
-    "uniqueEventTitles": 640,
-    "eventChoices": 5600,
-    "effectiveEventCombinations": 12800
+    "activeEvents": 568,
+    "uniqueEventTitles": 568,
+    "eventChoices": 1704,
+    "effectiveEventCombinations": 3408
   },
   "leaderboard": {
     "local": true,
     "worldApi": true,
     "serverAuthoritativeScore": true
   },
-  "buildVersion": "20.3.0-20260808-1"
+  "buildVersion": "20.31.0-20260808-1"
 }

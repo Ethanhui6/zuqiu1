@@ -2,6 +2,8 @@
 
 Captured on 2026-08-08 from the public deployment at `https://career-sim.pages.dev/`.
 
+The first capture damaged Chinese strings in `data.js`, `events.js`, `sim.js`, and `game.js`. Those four files were recaptured from the same public deployment on 2026-08-08 and validated locally in Chromium. Checksums and the repeatable replay report are recorded in `docs/PHASE1_LEGACY_AUDIT.md`.
+
 ## Raw public artifacts
 
 - `style.css`
@@ -43,3 +45,4 @@ The goalkeeper route survived a browser-session timeout at age 34 and was resume
 - Development rises quickly before a late-20s peak, then declines toward retirement around age 40/41.
 - Transfers are narrative decisions rather than a club-management screen, and long careers can move through domestic, Asian, and European clubs.
 - Probability events briefly render an empty transition state before their result action becomes available; this is an animation delay, not a gameplay blocker.
+- UI rendering consumes the legacy simulator RNG, so the same seed is identical at initialization but can diverge after repeated rendered choices. Do not reproduce that coupling in the current engine.

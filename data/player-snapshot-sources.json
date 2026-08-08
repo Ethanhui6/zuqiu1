@@ -1,0 +1,610 @@
+{
+  "snapshotSeason": 2026,
+  "capturedAt": "2026-08-08",
+  "source": "Wikidata",
+  "sourceUrl": "https://query.wikidata.org/",
+  "license": "CC0-1.0",
+  "method": "Preferred-rank P54 club memberships without an end date; player identity is public data and ratings are project estimates.",
+  "clubs": [
+    {
+      "clubId": "ESP1-RMA",
+      "clubName": "皇家马德里",
+      "wikidataId": "Q8682",
+      "wikidataLabel": "Real Madrid CF",
+      "sourceReference": "https://www.wikidata.org/wiki/Q8682",
+      "players": 23
+    },
+    {
+      "clubId": "ENG1-MCI",
+      "clubName": "曼彻斯特城",
+      "wikidataId": "Q50602",
+      "wikidataLabel": "Manchester City F.C.",
+      "sourceReference": "https://www.wikidata.org/wiki/Q50602",
+      "players": 18
+    },
+    {
+      "clubId": "ESP1-BAR",
+      "clubName": "巴塞罗那",
+      "wikidataId": "Q7156",
+      "wikidataLabel": "FC Barcelona",
+      "sourceReference": "https://www.wikidata.org/wiki/Q7156",
+      "players": 19
+    },
+    {
+      "clubId": "GER1-FCB",
+      "clubName": "拜仁慕尼黑",
+      "wikidataId": "Q15789",
+      "wikidataLabel": "FC Bayern Munich",
+      "sourceReference": "https://www.wikidata.org/wiki/Q15789",
+      "players": 17
+    },
+    {
+      "clubId": "FRA1-PSG",
+      "clubName": "巴黎圣日耳曼",
+      "wikidataId": "Q483020",
+      "wikidataLabel": "Paris Saint-Germain FC",
+      "sourceReference": "https://www.wikidata.org/wiki/Q483020",
+      "players": 20
+    },
+    {
+      "clubId": "ENG1-LIV",
+      "clubName": "利物浦",
+      "wikidataId": "Q1130849",
+      "wikidataLabel": "Liverpool F.C.",
+      "sourceReference": "https://www.wikidata.org/wiki/Q1130849",
+      "players": 17
+    },
+    {
+      "clubId": "ITA1-INT",
+      "clubName": "国际米兰",
+      "wikidataId": "Q631",
+      "wikidataLabel": "Inter Milan",
+      "sourceReference": "https://www.wikidata.org/wiki/Q631",
+      "players": 12
+    },
+    {
+      "clubId": "ENG1-ARS",
+      "clubName": "阿森纳",
+      "wikidataId": "Q9617",
+      "wikidataLabel": "Arsenal F.C.",
+      "sourceReference": "https://www.wikidata.org/wiki/Q9617",
+      "players": 18
+    },
+    {
+      "clubId": "GER1-B04",
+      "clubName": "勒沃库森",
+      "wikidataId": "Q104761",
+      "wikidataLabel": "Bayer 04 Leverkusen",
+      "sourceReference": "https://www.wikidata.org/wiki/Q104761",
+      "players": 8
+    },
+    {
+      "clubId": "ESP1-ATM",
+      "clubName": "马德里竞技",
+      "wikidataId": "Q8701",
+      "wikidataLabel": "Atlético Madrid",
+      "sourceReference": "https://www.wikidata.org/wiki/Q8701",
+      "players": 15
+    },
+    {
+      "clubId": "ITA1-MIL",
+      "clubName": "AC米兰",
+      "wikidataId": "Q1543",
+      "wikidataLabel": "AC Milan",
+      "sourceReference": "https://www.wikidata.org/wiki/Q1543",
+      "players": 18
+    },
+    {
+      "clubId": "ITA1-JUV",
+      "clubName": "尤文图斯",
+      "wikidataId": "Q1422",
+      "wikidataLabel": "Juventus FC",
+      "sourceReference": "https://www.wikidata.org/wiki/Q1422",
+      "players": 19
+    },
+    {
+      "clubId": "ITA1-NAP",
+      "clubName": "那不勒斯",
+      "wikidataId": "Q2641",
+      "wikidataLabel": "SSC Napoli",
+      "sourceReference": "https://www.wikidata.org/wiki/Q2641",
+      "players": 13
+    },
+    {
+      "clubId": "POR1-SCP",
+      "clubName": "葡萄牙体育",
+      "wikidataId": "Q75729",
+      "wikidataLabel": "Sporting CP",
+      "sourceReference": "https://www.wikidata.org/wiki/Q75729",
+      "players": 1
+    },
+    {
+      "clubId": "BRA1-PAL",
+      "clubName": "帕尔梅拉斯",
+      "wikidataId": "Q80964",
+      "wikidataLabel": "SE Palmeiras",
+      "sourceReference": "https://www.wikidata.org/wiki/Q80964",
+      "players": 1
+    },
+    {
+      "clubId": "GER1-BVB",
+      "clubName": "多特蒙德",
+      "wikidataId": "Q41420",
+      "wikidataLabel": "Borussia Dortmund",
+      "sourceReference": "https://www.wikidata.org/wiki/Q41420",
+      "players": 11
+    },
+    {
+      "clubId": "NED1-PSV",
+      "clubName": "埃因霍温",
+      "wikidataId": "Q11938",
+      "wikidataLabel": "PSV Eindhoven",
+      "sourceReference": "https://www.wikidata.org/wiki/Q11938",
+      "players": 10
+    },
+    {
+      "clubId": "POR1-SLB",
+      "clubName": "本菲卡",
+      "wikidataId": "Q131499",
+      "wikidataLabel": "S.L. Benfica",
+      "sourceReference": "https://www.wikidata.org/wiki/Q131499",
+      "players": 7
+    },
+    {
+      "clubId": "KSA1-HIL",
+      "clubName": "利雅得新月",
+      "wikidataId": "Q73965",
+      "wikidataLabel": "Al Hilal SFC",
+      "sourceReference": "https://www.wikidata.org/wiki/Q73965",
+      "players": 6
+    },
+    {
+      "clubId": "BRA1-FLA",
+      "clubName": "弗拉门戈",
+      "wikidataId": "Q17479",
+      "wikidataLabel": "CR Flamengo",
+      "sourceReference": "https://www.wikidata.org/wiki/Q17479",
+      "players": 7
+    },
+    {
+      "clubId": "ARG1-RIV",
+      "clubName": "河床",
+      "wikidataId": "Q15799",
+      "wikidataLabel": "Club Atlético River Plate",
+      "sourceReference": "https://www.wikidata.org/wiki/Q15799",
+      "players": 6
+    },
+    {
+      "clubId": "ENG1-CHE",
+      "clubName": "切尔西",
+      "wikidataId": "Q9616",
+      "wikidataLabel": "Chelsea F.C.",
+      "sourceReference": "https://www.wikidata.org/wiki/Q9616",
+      "players": 25
+    },
+    {
+      "clubId": "GER1-RBL",
+      "clubName": "莱比锡",
+      "wikidataId": "Q702455",
+      "wikidataLabel": "RB Leipzig",
+      "sourceReference": "https://www.wikidata.org/wiki/Q702455",
+      "players": 4
+    },
+    {
+      "clubId": "ITA1-ATA",
+      "clubName": "亚特兰大",
+      "wikidataId": "Q1886",
+      "wikidataLabel": "Atalanta BC",
+      "sourceReference": "https://www.wikidata.org/wiki/Q1886",
+      "players": 6
+    },
+    {
+      "clubId": "POR1-FCP",
+      "clubName": "波尔图",
+      "wikidataId": "Q128446",
+      "wikidataLabel": "FC Porto",
+      "sourceReference": "https://www.wikidata.org/wiki/Q128446",
+      "players": 6
+    },
+    {
+      "clubId": "FRA1-ASM",
+      "clubName": "摩纳哥",
+      "wikidataId": "Q180305",
+      "wikidataLabel": "AS Monaco FC",
+      "sourceReference": "https://www.wikidata.org/wiki/Q180305",
+      "players": 12
+    },
+    {
+      "clubId": "NED1-FEY",
+      "clubName": "费耶诺德",
+      "wikidataId": "Q134241",
+      "wikidataLabel": "Feyenoord",
+      "sourceReference": "https://www.wikidata.org/wiki/Q134241",
+      "players": 3
+    },
+    {
+      "clubId": "TUR1-GAL",
+      "clubName": "加拉塔萨雷",
+      "wikidataId": "Q495299",
+      "wikidataLabel": "Galatasaray football team",
+      "sourceReference": "https://www.wikidata.org/wiki/Q495299",
+      "players": 5
+    },
+    {
+      "clubId": "TUR1-FEN",
+      "clubName": "费内巴切",
+      "wikidataId": "Q6601875",
+      "wikidataLabel": "Fenerbahçe football team",
+      "sourceReference": "https://www.wikidata.org/wiki/Q6601875",
+      "players": 18
+    },
+    {
+      "clubId": "KSA1-NAS",
+      "clubName": "利雅得胜利",
+      "wikidataId": "Q482764",
+      "wikidataLabel": "艾納斯足球會",
+      "sourceReference": "https://www.wikidata.org/wiki/Q482764",
+      "players": 5
+    },
+    {
+      "clubId": "KSA1-ITT",
+      "clubName": "吉达联合",
+      "wikidataId": "Q309480",
+      "wikidataLabel": "吉达联合俱乐部",
+      "sourceReference": "https://www.wikidata.org/wiki/Q309480",
+      "players": 5
+    },
+    {
+      "clubId": "ARG1-BOC",
+      "clubName": "博卡青年",
+      "wikidataId": "Q170703",
+      "wikidataLabel": "Boca Juniors",
+      "sourceReference": "https://www.wikidata.org/wiki/Q170703",
+      "players": 1
+    },
+    {
+      "clubId": "ENG1-MUN",
+      "clubName": "曼彻斯特联",
+      "wikidataId": "Q18656",
+      "wikidataLabel": "Manchester United F.C.",
+      "sourceReference": "https://www.wikidata.org/wiki/Q18656",
+      "players": 15
+    },
+    {
+      "clubId": "ENG1-TOT",
+      "clubName": "托特纳姆热刺",
+      "wikidataId": "Q18741",
+      "wikidataLabel": "Tottenham Hotspur F.C.",
+      "sourceReference": "https://www.wikidata.org/wiki/Q18741",
+      "players": 22
+    },
+    {
+      "clubId": "ENG1-NEW",
+      "clubName": "纽卡斯尔联",
+      "wikidataId": "Q18716",
+      "wikidataLabel": "Newcastle United F.C.",
+      "sourceReference": "https://www.wikidata.org/wiki/Q18716",
+      "players": 26
+    },
+    {
+      "clubId": "ESP1-ATH",
+      "clubName": "毕尔巴鄂竞技",
+      "wikidataId": "Q8687",
+      "wikidataLabel": "Athletic Club",
+      "sourceReference": "https://www.wikidata.org/wiki/Q8687",
+      "players": 4
+    },
+    {
+      "clubId": "ITA1-ROM",
+      "clubName": "罗马",
+      "wikidataId": "Q2739",
+      "wikidataLabel": "AS Roma",
+      "sourceReference": "https://www.wikidata.org/wiki/Q2739",
+      "players": 8
+    },
+    {
+      "clubId": "FRA1-OM",
+      "clubName": "马赛",
+      "wikidataId": "Q132885",
+      "wikidataLabel": "Olympique de Marseille",
+      "sourceReference": "https://www.wikidata.org/wiki/Q132885",
+      "players": 8
+    },
+    {
+      "clubId": "NED1-AJA",
+      "clubName": "阿贾克斯",
+      "wikidataId": "Q81888",
+      "wikidataLabel": "AFC Ajax",
+      "sourceReference": "https://www.wikidata.org/wiki/Q81888",
+      "players": 5
+    },
+    {
+      "clubId": "KSA1-AHL",
+      "clubName": "吉达国民",
+      "wikidataId": "Q44441",
+      "wikidataLabel": "Al Ahli FC",
+      "sourceReference": "https://www.wikidata.org/wiki/Q44441",
+      "players": 4
+    },
+    {
+      "clubId": "BRA1-BOT",
+      "clubName": "博塔弗戈",
+      "wikidataId": "Q80958",
+      "wikidataLabel": "Botafogo FR",
+      "sourceReference": "https://www.wikidata.org/wiki/Q80958",
+      "players": 2
+    },
+    {
+      "clubId": "MEX1-AME",
+      "clubName": "墨西哥美洲",
+      "wikidataId": "Q459090",
+      "wikidataLabel": "Club América",
+      "sourceReference": "https://www.wikidata.org/wiki/Q459090",
+      "players": 3
+    },
+    {
+      "clubId": "ENG1-AVL",
+      "clubName": "阿斯顿维拉",
+      "wikidataId": "Q18711",
+      "wikidataLabel": "Aston Villa F.C.",
+      "sourceReference": "https://www.wikidata.org/wiki/Q18711",
+      "players": 11
+    },
+    {
+      "clubId": "GER1-SGE",
+      "clubName": "法兰克福",
+      "wikidataId": "Q38245",
+      "wikidataLabel": "Eintracht Frankfurt",
+      "sourceReference": "https://www.wikidata.org/wiki/Q38245",
+      "players": 7
+    },
+    {
+      "clubId": "GER1-VFB",
+      "clubName": "斯图加特",
+      "wikidataId": "Q4512",
+      "wikidataLabel": "VfB Stuttgart",
+      "sourceReference": "https://www.wikidata.org/wiki/Q4512",
+      "players": 10
+    },
+    {
+      "clubId": "FRA1-LIL",
+      "clubName": "里尔",
+      "wikidataId": "Q19516",
+      "wikidataLabel": "Lille OSC",
+      "sourceReference": "https://www.wikidata.org/wiki/Q19516",
+      "players": 4
+    },
+    {
+      "clubId": "SCO1-CEL",
+      "clubName": "凯尔特人",
+      "wikidataId": "Q19593",
+      "wikidataLabel": "Celtic F.C.",
+      "sourceReference": "https://www.wikidata.org/wiki/Q19593",
+      "players": 3
+    },
+    {
+      "clubId": "BRA1-CAM",
+      "clubName": "米内罗竞技",
+      "wikidataId": "Q270995",
+      "wikidataLabel": "Clube Atlético Mineiro",
+      "sourceReference": "https://www.wikidata.org/wiki/Q270995",
+      "players": 2
+    },
+    {
+      "clubId": "MEX1-MON",
+      "clubName": "蒙特雷",
+      "wikidataId": "Q768253",
+      "wikidataLabel": "C.F. Monterrey",
+      "sourceReference": "https://www.wikidata.org/wiki/Q768253",
+      "players": 2
+    },
+    {
+      "clubId": "MEX1-TIG",
+      "clubName": "新莱昂自治大学老虎",
+      "wikidataId": "Q849823",
+      "wikidataLabel": "Tigres UANL",
+      "sourceReference": "https://www.wikidata.org/wiki/Q849823",
+      "players": 0
+    },
+    {
+      "clubId": "ESP1-RSO",
+      "clubName": "皇家社会",
+      "wikidataId": "Q10315",
+      "wikidataLabel": "Real Sociedad",
+      "sourceReference": "https://www.wikidata.org/wiki/Q10315",
+      "players": 7
+    },
+    {
+      "clubId": "ESP1-VIL",
+      "clubName": "比利亚雷亚尔",
+      "wikidataId": "Q12297",
+      "wikidataLabel": "Villarreal CF",
+      "sourceReference": "https://www.wikidata.org/wiki/Q12297",
+      "players": 10
+    },
+    {
+      "clubId": "ITA1-LAZ",
+      "clubName": "拉齐奥",
+      "wikidataId": "Q2609",
+      "wikidataLabel": "SS Lazio",
+      "sourceReference": "https://www.wikidata.org/wiki/Q2609",
+      "players": 5
+    },
+    {
+      "clubId": "ITA1-FIO",
+      "clubName": "佛罗伦萨",
+      "wikidataId": "Q2052",
+      "wikidataLabel": "ACF Fiorentina",
+      "sourceReference": "https://www.wikidata.org/wiki/Q2052",
+      "players": 5
+    },
+    {
+      "clubId": "ITA1-BOL",
+      "clubName": "博洛尼亚",
+      "wikidataId": "Q1893",
+      "wikidataLabel": "Bologna FC 1909",
+      "sourceReference": "https://www.wikidata.org/wiki/Q1893",
+      "players": 5
+    },
+    {
+      "clubId": "FRA1-OGC",
+      "clubName": "尼斯",
+      "wikidataId": "Q185163",
+      "wikidataLabel": "OGC Nice",
+      "sourceReference": "https://www.wikidata.org/wiki/Q185163",
+      "players": 2
+    },
+    {
+      "clubId": "SCO1-RAN",
+      "clubName": "格拉斯哥流浪者",
+      "wikidataId": "Q19597",
+      "wikidataLabel": "Rangers F.C.",
+      "sourceReference": "https://www.wikidata.org/wiki/Q19597",
+      "players": 2
+    },
+    {
+      "clubId": "BRA1-SAO",
+      "clubName": "圣保罗",
+      "wikidataId": "Q38568",
+      "wikidataLabel": "São Paulo FC",
+      "sourceReference": "https://www.wikidata.org/wiki/Q38568",
+      "players": 2
+    },
+    {
+      "clubId": "BRA1-FLU",
+      "clubName": "弗鲁米嫩塞",
+      "wikidataId": "Q80987",
+      "wikidataLabel": "Fluminense FC",
+      "sourceReference": "https://www.wikidata.org/wiki/Q80987",
+      "players": 2
+    },
+    {
+      "clubId": "AUT1-RBS",
+      "clubName": "萨尔茨堡红牛",
+      "wikidataId": "Q994811",
+      "wikidataLabel": "FC Red Bull Salzburg",
+      "sourceReference": "https://www.wikidata.org/wiki/Q994811",
+      "players": 1
+    },
+    {
+      "clubId": "GRE1-OLY",
+      "clubName": "奥林匹亚科斯",
+      "wikidataId": "Q19628",
+      "wikidataLabel": "Olympiacos F.C.",
+      "sourceReference": "https://www.wikidata.org/wiki/Q19628",
+      "players": 4
+    },
+    {
+      "clubId": "CZE1-SLA",
+      "clubName": "布拉格斯拉维亚",
+      "wikidataId": "Q194393",
+      "wikidataLabel": "SK Slavia Prague",
+      "sourceReference": "https://www.wikidata.org/wiki/Q194393",
+      "players": 0
+    },
+    {
+      "clubId": "CRO1-DIN",
+      "clubName": "萨格勒布迪纳摩",
+      "wikidataId": "Q172803",
+      "wikidataLabel": "GNK Dinamo Zagreb",
+      "sourceReference": "https://www.wikidata.org/wiki/Q172803",
+      "players": 1
+    },
+    {
+      "clubId": "SRB1-CZV",
+      "clubName": "贝尔格莱德红星",
+      "wikidataId": "Q173009",
+      "wikidataLabel": "Red Star Belgrade",
+      "sourceReference": "https://www.wikidata.org/wiki/Q173009",
+      "players": 8
+    },
+    {
+      "clubId": "ENG1-BHA",
+      "clubName": "布莱顿",
+      "wikidataId": "Q19453",
+      "wikidataLabel": "Brighton & Hove Albion F.C.",
+      "sourceReference": "https://www.wikidata.org/wiki/Q19453",
+      "players": 10
+    },
+    {
+      "clubId": "ESP1-BET",
+      "clubName": "皇家贝蒂斯",
+      "wikidataId": "Q8723",
+      "wikidataLabel": "Real Betis",
+      "sourceReference": "https://www.wikidata.org/wiki/Q8723",
+      "players": 7
+    },
+    {
+      "clubId": "ESP1-GIR",
+      "clubName": "赫罗纳",
+      "wikidataId": "Q11945",
+      "wikidataLabel": "Girona FC",
+      "sourceReference": "https://www.wikidata.org/wiki/Q11945",
+      "players": 9
+    },
+    {
+      "clubId": "FRA1-OL",
+      "clubName": "里昂",
+      "wikidataId": "Q704",
+      "wikidataLabel": "Olympique Lyonnais",
+      "sourceReference": "https://www.wikidata.org/wiki/Q704",
+      "players": 3
+    },
+    {
+      "clubId": "POR1-SCB",
+      "clubName": "布拉加",
+      "wikidataId": "Q75684",
+      "wikidataLabel": "S.C. Braga",
+      "sourceReference": "https://www.wikidata.org/wiki/Q75684",
+      "players": 3
+    },
+    {
+      "clubId": "BEL1-BRU",
+      "clubName": "布鲁日",
+      "wikidataId": "Q190916",
+      "wikidataLabel": "Club Brugge KV",
+      "sourceReference": "https://www.wikidata.org/wiki/Q190916",
+      "players": 3
+    },
+    {
+      "clubId": "BEL1-USG",
+      "clubName": "圣吉罗斯联合",
+      "wikidataId": "Q196160",
+      "wikidataLabel": "Royale Union Saint-Gilloise",
+      "sourceReference": "https://www.wikidata.org/wiki/Q196160",
+      "players": 2
+    },
+    {
+      "clubId": "TUR1-BJK",
+      "clubName": "贝西克塔斯",
+      "wikidataId": "Q172567",
+      "wikidataLabel": "Beşiktaş J.K.",
+      "sourceReference": "https://www.wikidata.org/wiki/Q172567",
+      "players": 6
+    },
+    {
+      "clubId": "USA1-MIA",
+      "clubName": "迈阿密国际",
+      "wikidataId": "Q16844931",
+      "wikidataLabel": "Inter Miami CF",
+      "sourceReference": "https://www.wikidata.org/wiki/Q16844931",
+      "players": 5
+    },
+    {
+      "clubId": "USA1-LAFC",
+      "clubName": "洛杉矶FC",
+      "wikidataId": "Q18380286",
+      "wikidataLabel": "Los Angeles FC",
+      "sourceReference": "https://www.wikidata.org/wiki/Q18380286",
+      "players": 2
+    },
+    {
+      "clubId": "BRA1-COR",
+      "clubName": "科林蒂安",
+      "wikidataId": "Q35933",
+      "wikidataLabel": "SC Corinthians Paulista",
+      "sourceReference": "https://www.wikidata.org/wiki/Q35933",
+      "players": 5
+    }
+  ]
+}

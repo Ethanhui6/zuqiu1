@@ -25,24 +25,38 @@ const GENERATED_FEEDBACK = Object.fromEntries(Array.from({length:120},(_,index)=
 export const FEEDBACK_CATALOG = Object.freeze({...BASE_FEEDBACK_CATALOG,...GENERATED_FEEDBACK,...MEANINGFUL_FEEDBACK_CATALOG});
 export const feedbackScenarioCount = Object.keys(FEEDBACK_CATALOG).length;
 export { meaningfulFeedbackCount };
+export const TOAST_COOLDOWN_MS=2000;
+export const MAX_PENDING_TOASTS=3;
+export const feedbackKey = type => String(type||'click');
 
 export class FeedbackDirector {
-  constructor(root=document.body){ this.root=root; this.stack=null; this.soundEnabled=true; }
+  constructor(root=document.body){ this.root=root; this.stack=null; this.soundEnabled=true; this.lastFeedback=null; this.activeToast=null; this.queue=[]; this.recent=new Map(); }
   setSoundEnabled(enabled){ this.soundEnabled=Boolean(enabled); audioManager.setMuted(!this.soundEnabled); }
   sound(kind='tap'){
     if(this.soundEnabled)audioManager.play(kind==='success'?'correct':kind==='failure'?'failure':'tap');
   }
-  ensureStack(){ if(!this.stack){ this.stack=document.createElement('div'); this.stack.className='toast-stack'; document.body.append(this.stack);} return this.stack; }
+  ensureStack(){ if(!this.stack){ this.stack=document.createElement('div'); this.stack.className='toast-stack'; this.stack.setAttribute?.('aria-live','polite'); (this.root||document.body).append(this.stack);} return this.stack; }
   emit(type, detail=''){
     const item=FEEDBACK_CATALOG[type]||FEEDBACK_CATALOG.click;
+    const key=feedbackKey(FEEDBACK_CATALOG[type]?type:'click'),now=Date.now();
+    for(const[recentKey,record]of this.recent)if(now-record.at>=TOAST_COOLDOWN_MS)this.recent.delete(recentKey);
+    if(this.recent.has(key))return this.recent.get(key).toast;
     const toast=document.createElement('div'); toast.className=`toast ${item.tone==='neutral'?'':item.tone}`;
     toast.dataset.effect=item.effect;
+    toast.setAttribute?.('role','status');
     toast.innerHTML=`${icon(item.icon)}<div><div class="toast-title">${item.title}</div>${detail?`<div class="toast-copy">${detail}</div>`:''}</div>`;
-    this.ensureStack().append(toast);
-    setTimeout(()=>toast.remove(),2600);
+    if(this.queue.length>=MAX_PENDING_TOASTS)this.queue.shift();
+    this.queue.push(toast);this.flush();
+    this.recent.set(key,{at:now,toast});
+    this.lastFeedback={key,at:now,toast};
     if(item.burst || ['attributeUp','talentReveal','award','hiddenEnding','recovered'].includes(type)) this.burst(item.title,item.icon,item.tone);
     if(item.sound) this.sound(item.sound); else if(['attributeUp','award','matchEnd','trainingComplete','recovered','failure','newEvent','newRecord','save','todo'].includes(type)) this.sound(item.tone==='danger'?'failure':type==='newRecord'||type==='award'?'record':type==='newEvent'?'event':item.tone==='success'?'success':'tap');
     return toast;
+  }
+  flush(){
+    if(this.activeToast||!this.queue.length)return;
+    const toast=this.queue.shift();this.activeToast=toast;this.ensureStack().append(toast);
+    setTimeout(()=>{toast.remove();if(this.activeToast===toast)this.activeToast=null;this.flush();},2600);
   }
   emitMiniGame(mechanic, success, detail='') { const id=miniGameFeedbackId(mechanic,success); return id ? this.emit(id,detail) : this.emit(success?'select':'failure',detail); }
   emitScenario(index, detail=''){

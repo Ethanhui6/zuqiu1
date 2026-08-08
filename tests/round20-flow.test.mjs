@@ -57,7 +57,7 @@ test('fast mode batches ordinary matches and stops at important matches', async 
 test('keeper radar uses the six goalkeeper fields and save migration keeps them', () => {
   const current = { speed: 70, shooting: 50, passing: 68, dribbling: 62, defending: 74, physical: 71, goalkeeping: { saves: 76, reaction: 81, positioning: 73, handling: 69, aerial: 65, distribution: 72 } };
   const html = radarChart(current, current, 90, 'GK');
-  for (const label of ['扑救', '反应', '站位', '手控球', '出击', '开球']) assert.match(html, new RegExp(label));
+  for (const label of ['扑救', '手控', '开球', '反应', '站位', '指挥']) assert.match(html, new RegExp(label));
   const migrated = migrateState({ player: { ...player, position: 'GK' } });
   assert.deepEqual(Object.keys(migrated.player.goalkeeping), ['saves', 'reaction', 'positioning', 'handling', 'aerial', 'distribution']);
 });

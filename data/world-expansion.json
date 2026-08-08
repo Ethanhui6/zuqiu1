@@ -1,0 +1,1890 @@
+{
+  "version": "20.21.0",
+  "leagues": [
+    {
+      "id": "THA1",
+      "cn": "泰国足球甲级联赛",
+      "native": "Thai League 1",
+      "country": "泰国",
+      "continent": "亚洲",
+      "level": 1,
+      "isReal": true
+    },
+    {
+      "id": "HUN1",
+      "cn": "匈牙利足球甲级联赛",
+      "native": "Nemzeti Bajnokság I",
+      "country": "匈牙利",
+      "continent": "欧洲",
+      "level": 1,
+      "isReal": true
+    },
+    {
+      "id": "ECU1",
+      "cn": "厄瓜多尔足球甲级联赛",
+      "native": "LigaPro Serie A",
+      "country": "厄瓜多尔",
+      "continent": "南美洲",
+      "level": 1,
+      "isReal": true
+    }
+  ],
+  "competitions": [
+    {
+      "id": "THA1-2026",
+      "leagueId": "THA1",
+      "nameZh": "泰国足球甲级联赛",
+      "nameEn": "Thai League 1",
+      "country": "泰国",
+      "continent": "亚洲",
+      "season": "2026",
+      "rules": {
+        "format": "double-round-robin",
+        "teamCount": 16,
+        "matchdays": 30,
+        "relegationPlaces": 3
+      },
+      "participantClubIds": [
+        "THA1-BUR",
+        "THA1-BUU",
+        "THA1-BGP",
+        "THA1-MUA",
+        "THA1-POR",
+        "THA1-RAT",
+        "THA1-PRC",
+        "THA1-UTH",
+        "THA1-NRM",
+        "THA1-LAM",
+        "THA1-SUK",
+        "THA1-RAY",
+        "THA1-NON",
+        "THA1-CHI",
+        "THA1-CHO",
+        "THA1-AYU"
+      ],
+      "honor": "泰国顶级联赛冠军",
+      "trophyId": "thai-league"
+    },
+    {
+      "id": "HUN1-2026",
+      "leagueId": "HUN1",
+      "nameZh": "匈牙利足球甲级联赛",
+      "nameEn": "Nemzeti Bajnokság I",
+      "country": "匈牙利",
+      "continent": "欧洲",
+      "season": "2026",
+      "rules": {
+        "format": "triple-round-robin",
+        "teamCount": 12,
+        "matchdays": 33,
+        "relegationPlaces": 2
+      },
+      "participantClubIds": [
+        "HUN1-FER",
+        "HUN1-PUS",
+        "HUN1-PAK",
+        "HUN1-GYO",
+        "HUN1-MTK",
+        "HUN1-DEB",
+        "HUN1-UJP",
+        "HUN1-DIO",
+        "HUN1-ZAL",
+        "HUN1-NYI",
+        "HUN1-KIS",
+        "HUN1-KAZ"
+      ],
+      "honor": "匈牙利顶级联赛冠军",
+      "trophyId": "hungarian-league"
+    },
+    {
+      "id": "ECU1-2026",
+      "leagueId": "ECU1",
+      "nameZh": "厄瓜多尔足球甲级联赛",
+      "nameEn": "LigaPro Serie A",
+      "country": "厄瓜多尔",
+      "continent": "南美洲",
+      "season": "2026",
+      "rules": {
+        "format": "league-and-final-stage",
+        "teamCount": 16,
+        "firstStageMatchdays": 30,
+        "finalStage": "championship-and-relegation-groups"
+      },
+      "participantClubIds": [
+        "ECU1-IDV",
+        "ECU1-BSC",
+        "ECU1-LDU",
+        "ECU1-EME",
+        "ECU1-NAC",
+        "ECU1-AUC",
+        "ECU1-UCA",
+        "ECU1-DCU",
+        "ECU1-ORE",
+        "ECU1-MRU",
+        "ECU1-MAC",
+        "ECU1-TEC",
+        "ECU1-DEL",
+        "ECU1-LIB",
+        "ECU1-MAN",
+        "ECU1-VIN"
+      ],
+      "honor": "厄瓜多尔顶级联赛冠军",
+      "trophyId": "ecuadorian-league"
+    }
+  ],
+  "trophies": [
+    {
+      "id": "thai-league",
+      "cn": "泰国顶级联赛冠军",
+      "native": "Thai League 1 Champions",
+      "image": "assets/trophies/thai-league.svg"
+    },
+    {
+      "id": "hungarian-league",
+      "cn": "匈牙利顶级联赛冠军",
+      "native": "Nemzeti Bajnokság I Champions",
+      "image": "assets/trophies/hungarian-league.svg"
+    },
+    {
+      "id": "ecuadorian-league",
+      "cn": "厄瓜多尔顶级联赛冠军",
+      "native": "LigaPro Serie A Champions",
+      "image": "assets/trophies/ecuadorian-league.svg"
+    }
+  ],
+  "clubs": [
+    {
+      "id": "THA1-BUR",
+      "code": "BUR",
+      "nameZh": "武里南联",
+      "nameEn": "Buriram United",
+      "cn": "武里南联",
+      "en": "Buriram United",
+      "native": "Buriram United",
+      "country": "泰国",
+      "countryCode": "THA",
+      "leagueId": "THA1",
+      "leagueCn": "泰国足球甲级联赛",
+      "leagueNative": "Thai League 1",
+      "level": 1,
+      "divisionLevel": 1,
+      "city": "武里南",
+      "rep": 76,
+      "reputation": 76,
+      "attack": 76,
+      "defense": 75,
+      "youth": 77,
+      "finance": 75,
+      "youthUsage": 72,
+      "needs": [
+        "ST",
+        "CB"
+      ],
+      "isReal": true,
+      "crest": "./assets/clubs/generated/tha1-bur.svg",
+      "crestSource": {
+        "repository": "Project-generated club identity",
+        "sourcePage": "scripts/generate-club-identity-crests.mjs",
+        "license": "Original project asset",
+        "generated": true
+      },
+      "dataSource": {
+        "crest": "project-generated deterministic club identifier"
+      }
+    },
+    {
+      "id": "THA1-BUU",
+      "code": "BUU",
+      "nameZh": "曼谷联",
+      "nameEn": "Bangkok United",
+      "cn": "曼谷联",
+      "en": "Bangkok United",
+      "native": "Bangkok United",
+      "country": "泰国",
+      "countryCode": "THA",
+      "leagueId": "THA1",
+      "leagueCn": "泰国足球甲级联赛",
+      "leagueNative": "Thai League 1",
+      "level": 1,
+      "divisionLevel": 1,
+      "city": "曼谷",
+      "rep": 74,
+      "reputation": 74,
+      "attack": 75,
+      "defense": 73,
+      "youth": 73,
+      "finance": 74,
+      "youthUsage": 66,
+      "needs": [
+        "CM",
+        "RW"
+      ],
+      "isReal": true,
+      "crest": "./assets/clubs/generated/tha1-buu.svg",
+      "crestSource": {
+        "repository": "Project-generated club identity",
+        "sourcePage": "scripts/generate-club-identity-crests.mjs",
+        "license": "Original project asset",
+        "generated": true
+      },
+      "dataSource": {
+        "crest": "project-generated deterministic club identifier"
+      }
+    },
+    {
+      "id": "THA1-BGP",
+      "code": "BGP",
+      "nameZh": "巴吞联",
+      "nameEn": "BG Pathum United",
+      "cn": "巴吞联",
+      "en": "BG Pathum United",
+      "native": "BG Pathum United",
+      "country": "泰国",
+      "countryCode": "THA",
+      "leagueId": "THA1",
+      "leagueCn": "泰国足球甲级联赛",
+      "leagueNative": "Thai League 1",
+      "level": 1,
+      "divisionLevel": 1,
+      "city": "巴吞他尼",
+      "rep": 73,
+      "reputation": 73,
+      "attack": 73,
+      "defense": 73,
+      "youth": 74,
+      "finance": 74,
+      "youthUsage": 68,
+      "needs": [
+        "GK",
+        "LB"
+      ],
+      "isReal": true,
+      "crest": "./assets/clubs/generated/tha1-bgp.svg",
+      "crestSource": {
+        "repository": "Project-generated club identity",
+        "sourcePage": "scripts/generate-club-identity-crests.mjs",
+        "license": "Original project asset",
+        "generated": true
+      },
+      "dataSource": {
+        "crest": "project-generated deterministic club identifier"
+      }
+    },
+    {
+      "id": "THA1-MUA",
+      "code": "MUA",
+      "nameZh": "蒙通联",
+      "nameEn": "Muangthong United",
+      "cn": "蒙通联",
+      "en": "Muangthong United",
+      "native": "Muangthong United",
+      "country": "泰国",
+      "countryCode": "THA",
+      "leagueId": "THA1",
+      "leagueCn": "泰国足球甲级联赛",
+      "leagueNative": "Thai League 1",
+      "level": 1,
+      "divisionLevel": 1,
+      "city": "暖武里",
+      "rep": 72,
+      "reputation": 72,
+      "attack": 73,
+      "defense": 71,
+      "youth": 76,
+      "finance": 71,
+      "youthUsage": 75,
+      "needs": [
+        "CAM",
+        "CDM"
+      ],
+      "isReal": true,
+      "crest": "./assets/clubs/generated/tha1-mua.svg",
+      "crestSource": {
+        "repository": "Project-generated club identity",
+        "sourcePage": "scripts/generate-club-identity-crests.mjs",
+        "license": "Original project asset",
+        "generated": true
+      },
+      "dataSource": {
+        "crest": "project-generated deterministic club identifier"
+      }
+    },
+    {
+      "id": "THA1-POR",
+      "code": "POR",
+      "nameZh": "泰港",
+      "nameEn": "Port FC",
+      "cn": "泰港",
+      "en": "Port FC",
+      "native": "Port FC",
+      "country": "泰国",
+      "countryCode": "THA",
+      "leagueId": "THA1",
+      "leagueCn": "泰国足球甲级联赛",
+      "leagueNative": "Thai League 1",
+      "level": 1,
+      "divisionLevel": 1,
+      "city": "曼谷",
+      "rep": 72,
+      "reputation": 72,
+      "attack": 72,
+      "defense": 72,
+      "youth": 70,
+      "finance": 73,
+      "youthUsage": 62,
+      "needs": [
+        "RB",
+        "LW"
+      ],
+      "isReal": true,
+      "crest": "./assets/clubs/generated/tha1-por.svg",
+      "crestSource": {
+        "repository": "Project-generated club identity",
+        "sourcePage": "scripts/generate-club-identity-crests.mjs",
+        "license": "Original project asset",
+        "generated": true
+      },
+      "dataSource": {
+        "crest": "project-generated deterministic club identifier"
+      }
+    },
+    {
+      "id": "THA1-RAT",
+      "code": "RAT",
+      "nameZh": "叻丕",
+      "nameEn": "Ratchaburi FC",
+      "cn": "叻丕",
+      "en": "Ratchaburi FC",
+      "native": "Ratchaburi FC",
+      "country": "泰国",
+      "countryCode": "THA",
+      "leagueId": "THA1",
+      "leagueCn": "泰国足球甲级联赛",
+      "leagueNative": "Thai League 1",
+      "level": 1,
+      "divisionLevel": 1,
+      "city": "叻丕",
+      "rep": 69,
+      "reputation": 69,
+      "attack": 69,
+      "defense": 70,
+      "youth": 69,
+      "finance": 67,
+      "youthUsage": 70,
+      "needs": [
+        "ST",
+        "CB"
+      ],
+      "isReal": true,
+      "crest": "./assets/clubs/generated/tha1-rat.svg",
+      "crestSource": {
+        "repository": "Project-generated club identity",
+        "sourcePage": "scripts/generate-club-identity-crests.mjs",
+        "license": "Original project asset",
+        "generated": true
+      },
+      "dataSource": {
+        "crest": "project-generated deterministic club identifier"
+      }
+    },
+    {
+      "id": "THA1-PRC",
+      "code": "PRC",
+      "nameZh": "巴蜀基利",
+      "nameEn": "Prachuap FC",
+      "cn": "巴蜀基利",
+      "en": "Prachuap FC",
+      "native": "Prachuap FC",
+      "country": "泰国",
+      "countryCode": "THA",
+      "leagueId": "THA1",
+      "leagueCn": "泰国足球甲级联赛",
+      "leagueNative": "Thai League 1",
+      "level": 1,
+      "divisionLevel": 1,
+      "city": "巴蜀",
+      "rep": 68,
+      "reputation": 68,
+      "attack": 67,
+      "defense": 69,
+      "youth": 68,
+      "finance": 65,
+      "youthUsage": 73,
+      "needs": [
+        "CM",
+        "RW"
+      ],
+      "isReal": true,
+      "crest": "./assets/clubs/generated/tha1-prc.svg",
+      "crestSource": {
+        "repository": "Project-generated club identity",
+        "sourcePage": "scripts/generate-club-identity-crests.mjs",
+        "license": "Original project asset",
+        "generated": true
+      },
+      "dataSource": {
+        "crest": "project-generated deterministic club identifier"
+      }
+    },
+    {
+      "id": "THA1-UTH",
+      "code": "UTH",
+      "nameZh": "乌泰他尼",
+      "nameEn": "Uthai Thani FC",
+      "cn": "乌泰他尼",
+      "en": "Uthai Thani FC",
+      "native": "Uthai Thani FC",
+      "country": "泰国",
+      "countryCode": "THA",
+      "leagueId": "THA1",
+      "leagueCn": "泰国足球甲级联赛",
+      "leagueNative": "Thai League 1",
+      "level": 1,
+      "divisionLevel": 1,
+      "city": "乌泰他尼",
+      "rep": 67,
+      "reputation": 67,
+      "attack": 68,
+      "defense": 66,
+      "youth": 68,
+      "finance": 65,
+      "youthUsage": 72,
+      "needs": [
+        "GK",
+        "LB"
+      ],
+      "isReal": true,
+      "crest": "./assets/clubs/generated/tha1-uth.svg",
+      "crestSource": {
+        "repository": "Project-generated club identity",
+        "sourcePage": "scripts/generate-club-identity-crests.mjs",
+        "license": "Original project asset",
+        "generated": true
+      },
+      "dataSource": {
+        "crest": "project-generated deterministic club identifier"
+      }
+    },
+    {
+      "id": "THA1-NRM",
+      "code": "NRM",
+      "nameZh": "呵叻",
+      "nameEn": "Nakhon Ratchasima Mazda",
+      "cn": "呵叻",
+      "en": "Nakhon Ratchasima Mazda",
+      "native": "Nakhon Ratchasima Mazda",
+      "country": "泰国",
+      "countryCode": "THA",
+      "leagueId": "THA1",
+      "leagueCn": "泰国足球甲级联赛",
+      "leagueNative": "Thai League 1",
+      "level": 1,
+      "divisionLevel": 1,
+      "city": "呵叻",
+      "rep": 67,
+      "reputation": 67,
+      "attack": 67,
+      "defense": 67,
+      "youth": 67,
+      "finance": 66,
+      "youthUsage": 69,
+      "needs": [
+        "CAM",
+        "CDM"
+      ],
+      "isReal": true,
+      "crest": "./assets/clubs/generated/tha1-nrm.svg",
+      "crestSource": {
+        "repository": "Project-generated club identity",
+        "sourcePage": "scripts/generate-club-identity-crests.mjs",
+        "license": "Original project asset",
+        "generated": true
+      },
+      "dataSource": {
+        "crest": "project-generated deterministic club identifier"
+      }
+    },
+    {
+      "id": "THA1-LAM",
+      "code": "LAM",
+      "nameZh": "南奔勇士",
+      "nameEn": "Lamphun Warriors",
+      "cn": "南奔勇士",
+      "en": "Lamphun Warriors",
+      "native": "Lamphun Warriors",
+      "country": "泰国",
+      "countryCode": "THA",
+      "leagueId": "THA1",
+      "leagueCn": "泰国足球甲级联赛",
+      "leagueNative": "Thai League 1",
+      "level": 1,
+      "divisionLevel": 1,
+      "city": "南奔",
+      "rep": 66,
+      "reputation": 66,
+      "attack": 67,
+      "defense": 65,
+      "youth": 66,
+      "finance": 64,
+      "youthUsage": 74,
+      "needs": [
+        "RB",
+        "LW"
+      ],
+      "isReal": true,
+      "crest": "./assets/clubs/generated/tha1-lam.svg",
+      "crestSource": {
+        "repository": "Project-generated club identity",
+        "sourcePage": "scripts/generate-club-identity-crests.mjs",
+        "license": "Original project asset",
+        "generated": true
+      },
+      "dataSource": {
+        "crest": "project-generated deterministic club identifier"
+      }
+    },
+    {
+      "id": "THA1-SUK",
+      "code": "SUK",
+      "nameZh": "素可泰",
+      "nameEn": "Sukhothai FC",
+      "cn": "素可泰",
+      "en": "Sukhothai FC",
+      "native": "Sukhothai FC",
+      "country": "泰国",
+      "countryCode": "THA",
+      "leagueId": "THA1",
+      "leagueCn": "泰国足球甲级联赛",
+      "leagueNative": "Thai League 1",
+      "level": 1,
+      "divisionLevel": 1,
+      "city": "素可泰",
+      "rep": 66,
+      "reputation": 66,
+      "attack": 66,
+      "defense": 66,
+      "youth": 66,
+      "finance": 64,
+      "youthUsage": 71,
+      "needs": [
+        "ST",
+        "CB"
+      ],
+      "isReal": true,
+      "crest": "./assets/clubs/generated/tha1-suk.svg",
+      "crestSource": {
+        "repository": "Project-generated club identity",
+        "sourcePage": "scripts/generate-club-identity-crests.mjs",
+        "license": "Original project asset",
+        "generated": true
+      },
+      "dataSource": {
+        "crest": "project-generated deterministic club identifier"
+      }
+    },
+    {
+      "id": "THA1-RAY",
+      "code": "RAY",
+      "nameZh": "罗勇",
+      "nameEn": "Rayong FC",
+      "cn": "罗勇",
+      "en": "Rayong FC",
+      "native": "Rayong FC",
+      "country": "泰国",
+      "countryCode": "THA",
+      "leagueId": "THA1",
+      "leagueCn": "泰国足球甲级联赛",
+      "leagueNative": "Thai League 1",
+      "level": 1,
+      "divisionLevel": 1,
+      "city": "罗勇",
+      "rep": 65,
+      "reputation": 65,
+      "attack": 65,
+      "defense": 65,
+      "youth": 66,
+      "finance": 63,
+      "youthUsage": 76,
+      "needs": [
+        "CM",
+        "RW"
+      ],
+      "isReal": true,
+      "crest": "./assets/clubs/generated/tha1-ray.svg",
+      "crestSource": {
+        "repository": "Project-generated club identity",
+        "sourcePage": "scripts/generate-club-identity-crests.mjs",
+        "license": "Original project asset",
+        "generated": true
+      },
+      "dataSource": {
+        "crest": "project-generated deterministic club identifier"
+      }
+    },
+    {
+      "id": "THA1-NON",
+      "code": "NON",
+      "nameZh": "廊莫那浦",
+      "nameEn": "Nongbua Pitchaya",
+      "cn": "廊莫那浦",
+      "en": "Nongbua Pitchaya",
+      "native": "Nongbua Pitchaya",
+      "country": "泰国",
+      "countryCode": "THA",
+      "leagueId": "THA1",
+      "leagueCn": "泰国足球甲级联赛",
+      "leagueNative": "Thai League 1",
+      "level": 1,
+      "divisionLevel": 1,
+      "city": "廊磨喃蒲",
+      "rep": 64,
+      "reputation": 64,
+      "attack": 64,
+      "defense": 64,
+      "youth": 65,
+      "finance": 62,
+      "youthUsage": 78,
+      "needs": [
+        "GK",
+        "LB"
+      ],
+      "isReal": true,
+      "crest": "./assets/clubs/generated/tha1-non.svg",
+      "crestSource": {
+        "repository": "Project-generated club identity",
+        "sourcePage": "scripts/generate-club-identity-crests.mjs",
+        "license": "Original project asset",
+        "generated": true
+      },
+      "dataSource": {
+        "crest": "project-generated deterministic club identifier"
+      }
+    },
+    {
+      "id": "THA1-CHI",
+      "code": "CHI",
+      "nameZh": "清莱联",
+      "nameEn": "Chiangrai United",
+      "cn": "清莱联",
+      "en": "Chiangrai United",
+      "native": "Chiangrai United",
+      "country": "泰国",
+      "countryCode": "THA",
+      "leagueId": "THA1",
+      "leagueCn": "泰国足球甲级联赛",
+      "leagueNative": "Thai League 1",
+      "level": 1,
+      "divisionLevel": 1,
+      "city": "清莱",
+      "rep": 68,
+      "reputation": 68,
+      "attack": 68,
+      "defense": 68,
+      "youth": 70,
+      "finance": 65,
+      "youthUsage": 75,
+      "needs": [
+        "CAM",
+        "CDM"
+      ],
+      "isReal": true,
+      "crest": "./assets/clubs/generated/tha1-chi.svg",
+      "crestSource": {
+        "repository": "Project-generated club identity",
+        "sourcePage": "scripts/generate-club-identity-crests.mjs",
+        "license": "Original project asset",
+        "generated": true
+      },
+      "dataSource": {
+        "crest": "project-generated deterministic club identifier"
+      }
+    },
+    {
+      "id": "THA1-CHO",
+      "code": "CHO",
+      "nameZh": "春武里",
+      "nameEn": "Chonburi FC",
+      "cn": "春武里",
+      "en": "Chonburi FC",
+      "native": "Chonburi FC",
+      "country": "泰国",
+      "countryCode": "THA",
+      "leagueId": "THA1",
+      "leagueCn": "泰国足球甲级联赛",
+      "leagueNative": "Thai League 1",
+      "level": 1,
+      "divisionLevel": 1,
+      "city": "春武里",
+      "rep": 69,
+      "reputation": 69,
+      "attack": 69,
+      "defense": 68,
+      "youth": 77,
+      "finance": 67,
+      "youthUsage": 82,
+      "needs": [
+        "RB",
+        "LW"
+      ],
+      "isReal": true,
+      "crest": "./assets/clubs/generated/tha1-cho.svg",
+      "crestSource": {
+        "repository": "Project-generated club identity",
+        "sourcePage": "scripts/generate-club-identity-crests.mjs",
+        "license": "Original project asset",
+        "generated": true
+      },
+      "dataSource": {
+        "crest": "project-generated deterministic club identifier"
+      }
+    },
+    {
+      "id": "THA1-AYU",
+      "code": "AYU",
+      "nameZh": "大城联",
+      "nameEn": "Ayutthaya United",
+      "cn": "大城联",
+      "en": "Ayutthaya United",
+      "native": "Ayutthaya United",
+      "country": "泰国",
+      "countryCode": "THA",
+      "leagueId": "THA1",
+      "leagueCn": "泰国足球甲级联赛",
+      "leagueNative": "Thai League 1",
+      "level": 1,
+      "divisionLevel": 1,
+      "city": "大城",
+      "rep": 64,
+      "reputation": 64,
+      "attack": 65,
+      "defense": 64,
+      "youth": 68,
+      "finance": 62,
+      "youthUsage": 80,
+      "needs": [
+        "ST",
+        "CB"
+      ],
+      "isReal": true,
+      "crest": "./assets/clubs/generated/tha1-ayu.svg",
+      "crestSource": {
+        "repository": "Project-generated club identity",
+        "sourcePage": "scripts/generate-club-identity-crests.mjs",
+        "license": "Original project asset",
+        "generated": true
+      },
+      "dataSource": {
+        "crest": "project-generated deterministic club identifier"
+      }
+    },
+    {
+      "id": "HUN1-FER",
+      "code": "FER",
+      "nameZh": "费伦茨瓦罗斯",
+      "nameEn": "Ferencvárosi TC",
+      "cn": "费伦茨瓦罗斯",
+      "en": "Ferencvárosi TC",
+      "native": "Ferencvárosi TC",
+      "country": "匈牙利",
+      "countryCode": "HUN",
+      "leagueId": "HUN1",
+      "leagueCn": "匈牙利足球甲级联赛",
+      "leagueNative": "Nemzeti Bajnokság I",
+      "level": 1,
+      "divisionLevel": 1,
+      "city": "布达佩斯",
+      "rep": 78,
+      "reputation": 78,
+      "attack": 79,
+      "defense": 77,
+      "youth": 77,
+      "finance": 78,
+      "youthUsage": 69,
+      "needs": [
+        "ST",
+        "CB"
+      ],
+      "isReal": true,
+      "crest": "./assets/clubs/generated/hun1-fer.svg",
+      "crestSource": {
+        "repository": "Project-generated club identity",
+        "sourcePage": "scripts/generate-club-identity-crests.mjs",
+        "license": "Original project asset",
+        "generated": true
+      },
+      "dataSource": {
+        "crest": "project-generated deterministic club identifier"
+      }
+    },
+    {
+      "id": "HUN1-PUS",
+      "code": "PUS",
+      "nameZh": "普斯卡什学院",
+      "nameEn": "Puskás Akadémia",
+      "cn": "普斯卡什学院",
+      "en": "Puskás Akadémia",
+      "native": "Puskás Akadémia",
+      "country": "匈牙利",
+      "countryCode": "HUN",
+      "leagueId": "HUN1",
+      "leagueCn": "匈牙利足球甲级联赛",
+      "leagueNative": "Nemzeti Bajnokság I",
+      "level": 1,
+      "divisionLevel": 1,
+      "city": "费尔丘特",
+      "rep": 74,
+      "reputation": 74,
+      "attack": 74,
+      "defense": 74,
+      "youth": 82,
+      "finance": 74,
+      "youthUsage": 78,
+      "needs": [
+        "CM",
+        "RW"
+      ],
+      "isReal": true,
+      "crest": "./assets/clubs/generated/hun1-pus.svg",
+      "crestSource": {
+        "repository": "Project-generated club identity",
+        "sourcePage": "scripts/generate-club-identity-crests.mjs",
+        "license": "Original project asset",
+        "generated": true
+      },
+      "dataSource": {
+        "crest": "project-generated deterministic club identifier"
+      }
+    },
+    {
+      "id": "HUN1-PAK",
+      "code": "PAK",
+      "nameZh": "帕克斯",
+      "nameEn": "Paksi FC",
+      "cn": "帕克斯",
+      "en": "Paksi FC",
+      "native": "Paksi FC",
+      "country": "匈牙利",
+      "countryCode": "HUN",
+      "leagueId": "HUN1",
+      "leagueCn": "匈牙利足球甲级联赛",
+      "leagueNative": "Nemzeti Bajnokság I",
+      "level": 1,
+      "divisionLevel": 1,
+      "city": "帕克斯",
+      "rep": 72,
+      "reputation": 72,
+      "attack": 73,
+      "defense": 71,
+      "youth": 72,
+      "finance": 70,
+      "youthUsage": 76,
+      "needs": [
+        "GK",
+        "LB"
+      ],
+      "isReal": true,
+      "crest": "./assets/clubs/generated/hun1-pak.svg",
+      "crestSource": {
+        "repository": "Project-generated club identity",
+        "sourcePage": "scripts/generate-club-identity-crests.mjs",
+        "license": "Original project asset",
+        "generated": true
+      },
+      "dataSource": {
+        "crest": "project-generated deterministic club identifier"
+      }
+    },
+    {
+      "id": "HUN1-GYO",
+      "code": "GYO",
+      "nameZh": "杰尔ETO",
+      "nameEn": "Győri ETO FC",
+      "cn": "杰尔ETO",
+      "en": "Győri ETO FC",
+      "native": "Győri ETO FC",
+      "country": "匈牙利",
+      "countryCode": "HUN",
+      "leagueId": "HUN1",
+      "leagueCn": "匈牙利足球甲级联赛",
+      "leagueNative": "Nemzeti Bajnokság I",
+      "level": 1,
+      "divisionLevel": 1,
+      "city": "杰尔",
+      "rep": 70,
+      "reputation": 70,
+      "attack": 70,
+      "defense": 70,
+      "youth": 73,
+      "finance": 69,
+      "youthUsage": 74,
+      "needs": [
+        "CAM",
+        "CDM"
+      ],
+      "isReal": true,
+      "crest": "./assets/clubs/generated/hun1-gyo.svg",
+      "crestSource": {
+        "repository": "Project-generated club identity",
+        "sourcePage": "scripts/generate-club-identity-crests.mjs",
+        "license": "Original project asset",
+        "generated": true
+      },
+      "dataSource": {
+        "crest": "project-generated deterministic club identifier"
+      }
+    },
+    {
+      "id": "HUN1-MTK",
+      "code": "MTK",
+      "nameZh": "布达佩斯MTK",
+      "nameEn": "MTK Budapest",
+      "cn": "布达佩斯MTK",
+      "en": "MTK Budapest",
+      "native": "MTK Budapest",
+      "country": "匈牙利",
+      "countryCode": "HUN",
+      "leagueId": "HUN1",
+      "leagueCn": "匈牙利足球甲级联赛",
+      "leagueNative": "Nemzeti Bajnokság I",
+      "level": 1,
+      "divisionLevel": 1,
+      "city": "布达佩斯",
+      "rep": 70,
+      "reputation": 70,
+      "attack": 71,
+      "defense": 69,
+      "youth": 80,
+      "finance": 69,
+      "youthUsage": 81,
+      "needs": [
+        "RB",
+        "LW"
+      ],
+      "isReal": true,
+      "crest": "./assets/clubs/generated/hun1-mtk.svg",
+      "crestSource": {
+        "repository": "Project-generated club identity",
+        "sourcePage": "scripts/generate-club-identity-crests.mjs",
+        "license": "Original project asset",
+        "generated": true
+      },
+      "dataSource": {
+        "crest": "project-generated deterministic club identifier"
+      }
+    },
+    {
+      "id": "HUN1-DEB",
+      "code": "DEB",
+      "nameZh": "德布勒森",
+      "nameEn": "Debreceni VSC",
+      "cn": "德布勒森",
+      "en": "Debreceni VSC",
+      "native": "Debreceni VSC",
+      "country": "匈牙利",
+      "countryCode": "HUN",
+      "leagueId": "HUN1",
+      "leagueCn": "匈牙利足球甲级联赛",
+      "leagueNative": "Nemzeti Bajnokság I",
+      "level": 1,
+      "divisionLevel": 1,
+      "city": "德布勒森",
+      "rep": 69,
+      "reputation": 69,
+      "attack": 69,
+      "defense": 69,
+      "youth": 73,
+      "finance": 68,
+      "youthUsage": 73,
+      "needs": [
+        "ST",
+        "CB"
+      ],
+      "isReal": true,
+      "crest": "./assets/clubs/generated/hun1-deb.svg",
+      "crestSource": {
+        "repository": "Project-generated club identity",
+        "sourcePage": "scripts/generate-club-identity-crests.mjs",
+        "license": "Original project asset",
+        "generated": true
+      },
+      "dataSource": {
+        "crest": "project-generated deterministic club identifier"
+      }
+    },
+    {
+      "id": "HUN1-UJP",
+      "code": "UJP",
+      "nameZh": "新佩斯",
+      "nameEn": "Újpest FC",
+      "cn": "新佩斯",
+      "en": "Újpest FC",
+      "native": "Újpest FC",
+      "country": "匈牙利",
+      "countryCode": "HUN",
+      "leagueId": "HUN1",
+      "leagueCn": "匈牙利足球甲级联赛",
+      "leagueNative": "Nemzeti Bajnokság I",
+      "level": 1,
+      "divisionLevel": 1,
+      "city": "布达佩斯",
+      "rep": 69,
+      "reputation": 69,
+      "attack": 69,
+      "defense": 68,
+      "youth": 75,
+      "finance": 70,
+      "youthUsage": 72,
+      "needs": [
+        "CM",
+        "RW"
+      ],
+      "isReal": true,
+      "crest": "./assets/clubs/generated/hun1-ujp.svg",
+      "crestSource": {
+        "repository": "Project-generated club identity",
+        "sourcePage": "scripts/generate-club-identity-crests.mjs",
+        "license": "Original project asset",
+        "generated": true
+      },
+      "dataSource": {
+        "crest": "project-generated deterministic club identifier"
+      }
+    },
+    {
+      "id": "HUN1-DIO",
+      "code": "DIO",
+      "nameZh": "迪欧斯捷尔",
+      "nameEn": "Diósgyőri VTK",
+      "cn": "迪欧斯捷尔",
+      "en": "Diósgyőri VTK",
+      "native": "Diósgyőri VTK",
+      "country": "匈牙利",
+      "countryCode": "HUN",
+      "leagueId": "HUN1",
+      "leagueCn": "匈牙利足球甲级联赛",
+      "leagueNative": "Nemzeti Bajnokság I",
+      "level": 1,
+      "divisionLevel": 1,
+      "city": "米什科尔茨",
+      "rep": 68,
+      "reputation": 68,
+      "attack": 68,
+      "defense": 68,
+      "youth": 71,
+      "finance": 67,
+      "youthUsage": 72,
+      "needs": [
+        "GK",
+        "LB"
+      ],
+      "isReal": true,
+      "crest": "./assets/clubs/generated/hun1-dio.svg",
+      "crestSource": {
+        "repository": "Project-generated club identity",
+        "sourcePage": "scripts/generate-club-identity-crests.mjs",
+        "license": "Original project asset",
+        "generated": true
+      },
+      "dataSource": {
+        "crest": "project-generated deterministic club identifier"
+      }
+    },
+    {
+      "id": "HUN1-ZAL",
+      "code": "ZAL",
+      "nameZh": "佐洛埃格塞格",
+      "nameEn": "Zalaegerszegi TE",
+      "cn": "佐洛埃格塞格",
+      "en": "Zalaegerszegi TE",
+      "native": "Zalaegerszegi TE",
+      "country": "匈牙利",
+      "countryCode": "HUN",
+      "leagueId": "HUN1",
+      "leagueCn": "匈牙利足球甲级联赛",
+      "leagueNative": "Nemzeti Bajnokság I",
+      "level": 1,
+      "divisionLevel": 1,
+      "city": "佐洛埃格塞格",
+      "rep": 67,
+      "reputation": 67,
+      "attack": 67,
+      "defense": 67,
+      "youth": 70,
+      "finance": 66,
+      "youthUsage": 75,
+      "needs": [
+        "CAM",
+        "CDM"
+      ],
+      "isReal": true,
+      "crest": "./assets/clubs/generated/hun1-zal.svg",
+      "crestSource": {
+        "repository": "Project-generated club identity",
+        "sourcePage": "scripts/generate-club-identity-crests.mjs",
+        "license": "Original project asset",
+        "generated": true
+      },
+      "dataSource": {
+        "crest": "project-generated deterministic club identifier"
+      }
+    },
+    {
+      "id": "HUN1-NYI",
+      "code": "NYI",
+      "nameZh": "尼赖吉哈佐",
+      "nameEn": "Nyíregyháza Spartacus",
+      "cn": "尼赖吉哈佐",
+      "en": "Nyíregyháza Spartacus",
+      "native": "Nyíregyháza Spartacus",
+      "country": "匈牙利",
+      "countryCode": "HUN",
+      "leagueId": "HUN1",
+      "leagueCn": "匈牙利足球甲级联赛",
+      "leagueNative": "Nemzeti Bajnokság I",
+      "level": 1,
+      "divisionLevel": 1,
+      "city": "尼赖吉哈佐",
+      "rep": 66,
+      "reputation": 66,
+      "attack": 66,
+      "defense": 66,
+      "youth": 69,
+      "finance": 65,
+      "youthUsage": 77,
+      "needs": [
+        "RB",
+        "LW"
+      ],
+      "isReal": true,
+      "crest": "./assets/clubs/generated/hun1-nyi.svg",
+      "crestSource": {
+        "repository": "Project-generated club identity",
+        "sourcePage": "scripts/generate-club-identity-crests.mjs",
+        "license": "Original project asset",
+        "generated": true
+      },
+      "dataSource": {
+        "crest": "project-generated deterministic club identifier"
+      }
+    },
+    {
+      "id": "HUN1-KIS",
+      "code": "KIS",
+      "nameZh": "基斯华达",
+      "nameEn": "Kisvárda FC",
+      "cn": "基斯华达",
+      "en": "Kisvárda FC",
+      "native": "Kisvárda FC",
+      "country": "匈牙利",
+      "countryCode": "HUN",
+      "leagueId": "HUN1",
+      "leagueCn": "匈牙利足球甲级联赛",
+      "leagueNative": "Nemzeti Bajnokság I",
+      "level": 1,
+      "divisionLevel": 1,
+      "city": "基斯华达",
+      "rep": 66,
+      "reputation": 66,
+      "attack": 66,
+      "defense": 65,
+      "youth": 70,
+      "finance": 65,
+      "youthUsage": 78,
+      "needs": [
+        "ST",
+        "CB"
+      ],
+      "isReal": true,
+      "crest": "./assets/clubs/generated/hun1-kis.svg",
+      "crestSource": {
+        "repository": "Project-generated club identity",
+        "sourcePage": "scripts/generate-club-identity-crests.mjs",
+        "license": "Original project asset",
+        "generated": true
+      },
+      "dataSource": {
+        "crest": "project-generated deterministic club identifier"
+      }
+    },
+    {
+      "id": "HUN1-KAZ",
+      "code": "KAZ",
+      "nameZh": "考津茨包尔齐考",
+      "nameEn": "Kazincbarcikai SC",
+      "cn": "考津茨包尔齐考",
+      "en": "Kazincbarcikai SC",
+      "native": "Kazincbarcikai SC",
+      "country": "匈牙利",
+      "countryCode": "HUN",
+      "leagueId": "HUN1",
+      "leagueCn": "匈牙利足球甲级联赛",
+      "leagueNative": "Nemzeti Bajnokság I",
+      "level": 1,
+      "divisionLevel": 1,
+      "city": "考津茨包尔齐考",
+      "rep": 63,
+      "reputation": 63,
+      "attack": 63,
+      "defense": 63,
+      "youth": 68,
+      "finance": 61,
+      "youthUsage": 81,
+      "needs": [
+        "CM",
+        "RW"
+      ],
+      "isReal": true,
+      "crest": "./assets/clubs/generated/hun1-kaz.svg",
+      "crestSource": {
+        "repository": "Project-generated club identity",
+        "sourcePage": "scripts/generate-club-identity-crests.mjs",
+        "license": "Original project asset",
+        "generated": true
+      },
+      "dataSource": {
+        "crest": "project-generated deterministic club identifier"
+      }
+    },
+    {
+      "id": "ECU1-IDV",
+      "code": "IDV",
+      "nameZh": "山谷独立",
+      "nameEn": "Independiente del Valle",
+      "cn": "山谷独立",
+      "en": "Independiente del Valle",
+      "native": "Independiente del Valle",
+      "country": "厄瓜多尔",
+      "countryCode": "ECU",
+      "leagueId": "ECU1",
+      "leagueCn": "厄瓜多尔足球甲级联赛",
+      "leagueNative": "LigaPro Serie A",
+      "level": 1,
+      "divisionLevel": 1,
+      "city": "桑戈尔基",
+      "rep": 78,
+      "reputation": 78,
+      "attack": 78,
+      "defense": 78,
+      "youth": 91,
+      "finance": 75,
+      "youthUsage": 88,
+      "needs": [
+        "ST",
+        "CB"
+      ],
+      "isReal": true,
+      "crest": "./assets/clubs/generated/ecu1-idv.svg",
+      "crestSource": {
+        "repository": "Project-generated club identity",
+        "sourcePage": "scripts/generate-club-identity-crests.mjs",
+        "license": "Original project asset",
+        "generated": true
+      },
+      "dataSource": {
+        "crest": "project-generated deterministic club identifier"
+      }
+    },
+    {
+      "id": "ECU1-BSC",
+      "code": "BSC",
+      "nameZh": "巴塞罗那竞技",
+      "nameEn": "Barcelona SC",
+      "cn": "巴塞罗那竞技",
+      "en": "Barcelona SC",
+      "native": "Barcelona SC",
+      "country": "厄瓜多尔",
+      "countryCode": "ECU",
+      "leagueId": "ECU1",
+      "leagueCn": "厄瓜多尔足球甲级联赛",
+      "leagueNative": "LigaPro Serie A",
+      "level": 1,
+      "divisionLevel": 1,
+      "city": "瓜亚基尔",
+      "rep": 77,
+      "reputation": 77,
+      "attack": 78,
+      "defense": 76,
+      "youth": 78,
+      "finance": 77,
+      "youthUsage": 71,
+      "needs": [
+        "CM",
+        "RW"
+      ],
+      "isReal": true,
+      "crest": "./assets/clubs/generated/ecu1-bsc.svg",
+      "crestSource": {
+        "repository": "Project-generated club identity",
+        "sourcePage": "scripts/generate-club-identity-crests.mjs",
+        "license": "Original project asset",
+        "generated": true
+      },
+      "dataSource": {
+        "crest": "project-generated deterministic club identifier"
+      }
+    },
+    {
+      "id": "ECU1-LDU",
+      "code": "LDU",
+      "nameZh": "基多大学体育",
+      "nameEn": "LDU Quito",
+      "cn": "基多大学体育",
+      "en": "LDU Quito",
+      "native": "LDU Quito",
+      "country": "厄瓜多尔",
+      "countryCode": "ECU",
+      "leagueId": "ECU1",
+      "leagueCn": "厄瓜多尔足球甲级联赛",
+      "leagueNative": "LigaPro Serie A",
+      "level": 1,
+      "divisionLevel": 1,
+      "city": "基多",
+      "rep": 77,
+      "reputation": 77,
+      "attack": 77,
+      "defense": 77,
+      "youth": 77,
+      "finance": 76,
+      "youthUsage": 70,
+      "needs": [
+        "GK",
+        "LB"
+      ],
+      "isReal": true,
+      "crest": "./assets/clubs/generated/ecu1-ldu.svg",
+      "crestSource": {
+        "repository": "Project-generated club identity",
+        "sourcePage": "scripts/generate-club-identity-crests.mjs",
+        "license": "Original project asset",
+        "generated": true
+      },
+      "dataSource": {
+        "crest": "project-generated deterministic club identifier"
+      }
+    },
+    {
+      "id": "ECU1-EME",
+      "code": "EME",
+      "nameZh": "埃梅莱克",
+      "nameEn": "CS Emelec",
+      "cn": "埃梅莱克",
+      "en": "CS Emelec",
+      "native": "CS Emelec",
+      "country": "厄瓜多尔",
+      "countryCode": "ECU",
+      "leagueId": "ECU1",
+      "leagueCn": "厄瓜多尔足球甲级联赛",
+      "leagueNative": "LigaPro Serie A",
+      "level": 1,
+      "divisionLevel": 1,
+      "city": "瓜亚基尔",
+      "rep": 74,
+      "reputation": 74,
+      "attack": 74,
+      "defense": 74,
+      "youth": 76,
+      "finance": 73,
+      "youthUsage": 72,
+      "needs": [
+        "CAM",
+        "CDM"
+      ],
+      "isReal": true,
+      "crest": "./assets/clubs/generated/ecu1-eme.svg",
+      "crestSource": {
+        "repository": "Project-generated club identity",
+        "sourcePage": "scripts/generate-club-identity-crests.mjs",
+        "license": "Original project asset",
+        "generated": true
+      },
+      "dataSource": {
+        "crest": "project-generated deterministic club identifier"
+      }
+    },
+    {
+      "id": "ECU1-NAC",
+      "code": "NAC",
+      "nameZh": "民族竞技",
+      "nameEn": "El Nacional",
+      "cn": "民族竞技",
+      "en": "El Nacional",
+      "native": "El Nacional",
+      "country": "厄瓜多尔",
+      "countryCode": "ECU",
+      "leagueId": "ECU1",
+      "leagueCn": "厄瓜多尔足球甲级联赛",
+      "leagueNative": "LigaPro Serie A",
+      "level": 1,
+      "divisionLevel": 1,
+      "city": "基多",
+      "rep": 72,
+      "reputation": 72,
+      "attack": 72,
+      "defense": 72,
+      "youth": 79,
+      "finance": 69,
+      "youthUsage": 82,
+      "needs": [
+        "RB",
+        "LW"
+      ],
+      "isReal": true,
+      "crest": "./assets/clubs/generated/ecu1-nac.svg",
+      "crestSource": {
+        "repository": "Project-generated club identity",
+        "sourcePage": "scripts/generate-club-identity-crests.mjs",
+        "license": "Original project asset",
+        "generated": true
+      },
+      "dataSource": {
+        "crest": "project-generated deterministic club identifier"
+      }
+    },
+    {
+      "id": "ECU1-AUC",
+      "code": "AUC",
+      "nameZh": "奥卡斯",
+      "nameEn": "SD Aucas",
+      "cn": "奥卡斯",
+      "en": "SD Aucas",
+      "native": "SD Aucas",
+      "country": "厄瓜多尔",
+      "countryCode": "ECU",
+      "leagueId": "ECU1",
+      "leagueCn": "厄瓜多尔足球甲级联赛",
+      "leagueNative": "LigaPro Serie A",
+      "level": 1,
+      "divisionLevel": 1,
+      "city": "基多",
+      "rep": 72,
+      "reputation": 72,
+      "attack": 73,
+      "defense": 71,
+      "youth": 73,
+      "finance": 70,
+      "youthUsage": 74,
+      "needs": [
+        "ST",
+        "CB"
+      ],
+      "isReal": true,
+      "crest": "./assets/clubs/generated/ecu1-auc.svg",
+      "crestSource": {
+        "repository": "Project-generated club identity",
+        "sourcePage": "scripts/generate-club-identity-crests.mjs",
+        "license": "Original project asset",
+        "generated": true
+      },
+      "dataSource": {
+        "crest": "project-generated deterministic club identifier"
+      }
+    },
+    {
+      "id": "ECU1-UCA",
+      "code": "UCA",
+      "nameZh": "天主教大学",
+      "nameEn": "Universidad Católica del Ecuador",
+      "cn": "天主教大学",
+      "en": "Universidad Católica del Ecuador",
+      "native": "Universidad Católica del Ecuador",
+      "country": "厄瓜多尔",
+      "countryCode": "ECU",
+      "leagueId": "ECU1",
+      "leagueCn": "厄瓜多尔足球甲级联赛",
+      "leagueNative": "LigaPro Serie A",
+      "level": 1,
+      "divisionLevel": 1,
+      "city": "基多",
+      "rep": 72,
+      "reputation": 72,
+      "attack": 72,
+      "defense": 72,
+      "youth": 76,
+      "finance": 71,
+      "youthUsage": 76,
+      "needs": [
+        "CM",
+        "RW"
+      ],
+      "isReal": true,
+      "crest": "./assets/clubs/generated/ecu1-uca.svg",
+      "crestSource": {
+        "repository": "Project-generated club identity",
+        "sourcePage": "scripts/generate-club-identity-crests.mjs",
+        "license": "Original project asset",
+        "generated": true
+      },
+      "dataSource": {
+        "crest": "project-generated deterministic club identifier"
+      }
+    },
+    {
+      "id": "ECU1-DCU",
+      "code": "DCU",
+      "nameZh": "昆卡体育",
+      "nameEn": "Deportivo Cuenca",
+      "cn": "昆卡体育",
+      "en": "Deportivo Cuenca",
+      "native": "Deportivo Cuenca",
+      "country": "厄瓜多尔",
+      "countryCode": "ECU",
+      "leagueId": "ECU1",
+      "leagueCn": "厄瓜多尔足球甲级联赛",
+      "leagueNative": "LigaPro Serie A",
+      "level": 1,
+      "divisionLevel": 1,
+      "city": "昆卡",
+      "rep": 69,
+      "reputation": 69,
+      "attack": 69,
+      "defense": 69,
+      "youth": 72,
+      "finance": 67,
+      "youthUsage": 75,
+      "needs": [
+        "GK",
+        "LB"
+      ],
+      "isReal": true,
+      "crest": "./assets/clubs/generated/ecu1-dcu.svg",
+      "crestSource": {
+        "repository": "Project-generated club identity",
+        "sourcePage": "scripts/generate-club-identity-crests.mjs",
+        "license": "Original project asset",
+        "generated": true
+      },
+      "dataSource": {
+        "crest": "project-generated deterministic club identifier"
+      }
+    },
+    {
+      "id": "ECU1-ORE",
+      "code": "ORE",
+      "nameZh": "奥伦斯",
+      "nameEn": "Orense SC",
+      "cn": "奥伦斯",
+      "en": "Orense SC",
+      "native": "Orense SC",
+      "country": "厄瓜多尔",
+      "countryCode": "ECU",
+      "leagueId": "ECU1",
+      "leagueCn": "厄瓜多尔足球甲级联赛",
+      "leagueNative": "LigaPro Serie A",
+      "level": 1,
+      "divisionLevel": 1,
+      "city": "马查拉",
+      "rep": 68,
+      "reputation": 68,
+      "attack": 68,
+      "defense": 68,
+      "youth": 70,
+      "finance": 66,
+      "youthUsage": 73,
+      "needs": [
+        "CAM",
+        "CDM"
+      ],
+      "isReal": true,
+      "crest": "./assets/clubs/generated/ecu1-ore.svg",
+      "crestSource": {
+        "repository": "Project-generated club identity",
+        "sourcePage": "scripts/generate-club-identity-crests.mjs",
+        "license": "Original project asset",
+        "generated": true
+      },
+      "dataSource": {
+        "crest": "project-generated deterministic club identifier"
+      }
+    },
+    {
+      "id": "ECU1-MRU",
+      "code": "MRU",
+      "nameZh": "穆舒克鲁纳",
+      "nameEn": "Mushuc Runa SC",
+      "cn": "穆舒克鲁纳",
+      "en": "Mushuc Runa SC",
+      "native": "Mushuc Runa SC",
+      "country": "厄瓜多尔",
+      "countryCode": "ECU",
+      "leagueId": "ECU1",
+      "leagueCn": "厄瓜多尔足球甲级联赛",
+      "leagueNative": "LigaPro Serie A",
+      "level": 1,
+      "divisionLevel": 1,
+      "city": "安巴托",
+      "rep": 68,
+      "reputation": 68,
+      "attack": 68,
+      "defense": 67,
+      "youth": 71,
+      "finance": 66,
+      "youthUsage": 77,
+      "needs": [
+        "RB",
+        "LW"
+      ],
+      "isReal": true,
+      "crest": "./assets/clubs/generated/ecu1-mru.svg",
+      "crestSource": {
+        "repository": "Project-generated club identity",
+        "sourcePage": "scripts/generate-club-identity-crests.mjs",
+        "license": "Original project asset",
+        "generated": true
+      },
+      "dataSource": {
+        "crest": "project-generated deterministic club identifier"
+      }
+    },
+    {
+      "id": "ECU1-MAC",
+      "code": "MAC",
+      "nameZh": "马卡拉",
+      "nameEn": "Macará",
+      "cn": "马卡拉",
+      "en": "Macará",
+      "native": "Macará",
+      "country": "厄瓜多尔",
+      "countryCode": "ECU",
+      "leagueId": "ECU1",
+      "leagueCn": "厄瓜多尔足球甲级联赛",
+      "leagueNative": "LigaPro Serie A",
+      "level": 1,
+      "divisionLevel": 1,
+      "city": "安巴托",
+      "rep": 67,
+      "reputation": 67,
+      "attack": 67,
+      "defense": 67,
+      "youth": 70,
+      "finance": 65,
+      "youthUsage": 75,
+      "needs": [
+        "ST",
+        "CB"
+      ],
+      "isReal": true,
+      "crest": "./assets/clubs/generated/ecu1-mac.svg",
+      "crestSource": {
+        "repository": "Project-generated club identity",
+        "sourcePage": "scripts/generate-club-identity-crests.mjs",
+        "license": "Original project asset",
+        "generated": true
+      },
+      "dataSource": {
+        "crest": "project-generated deterministic club identifier"
+      }
+    },
+    {
+      "id": "ECU1-TEC",
+      "code": "TEC",
+      "nameZh": "特克尼科大学",
+      "nameEn": "Técnico Universitario",
+      "cn": "特克尼科大学",
+      "en": "Técnico Universitario",
+      "native": "Técnico Universitario",
+      "country": "厄瓜多尔",
+      "countryCode": "ECU",
+      "leagueId": "ECU1",
+      "leagueCn": "厄瓜多尔足球甲级联赛",
+      "leagueNative": "LigaPro Serie A",
+      "level": 1,
+      "divisionLevel": 1,
+      "city": "安巴托",
+      "rep": 66,
+      "reputation": 66,
+      "attack": 66,
+      "defense": 66,
+      "youth": 69,
+      "finance": 64,
+      "youthUsage": 74,
+      "needs": [
+        "CM",
+        "RW"
+      ],
+      "isReal": true,
+      "crest": "./assets/clubs/generated/ecu1-tec.svg",
+      "crestSource": {
+        "repository": "Project-generated club identity",
+        "sourcePage": "scripts/generate-club-identity-crests.mjs",
+        "license": "Original project asset",
+        "generated": true
+      },
+      "dataSource": {
+        "crest": "project-generated deterministic club identifier"
+      }
+    },
+    {
+      "id": "ECU1-DEL",
+      "code": "DEL",
+      "nameZh": "德尔芬",
+      "nameEn": "Delfín SC",
+      "cn": "德尔芬",
+      "en": "Delfín SC",
+      "native": "Delfín SC",
+      "country": "厄瓜多尔",
+      "countryCode": "ECU",
+      "leagueId": "ECU1",
+      "leagueCn": "厄瓜多尔足球甲级联赛",
+      "leagueNative": "LigaPro Serie A",
+      "level": 1,
+      "divisionLevel": 1,
+      "city": "曼塔",
+      "rep": 67,
+      "reputation": 67,
+      "attack": 67,
+      "defense": 67,
+      "youth": 68,
+      "finance": 65,
+      "youthUsage": 72,
+      "needs": [
+        "GK",
+        "LB"
+      ],
+      "isReal": true,
+      "crest": "./assets/clubs/generated/ecu1-del.svg",
+      "crestSource": {
+        "repository": "Project-generated club identity",
+        "sourcePage": "scripts/generate-club-identity-crests.mjs",
+        "license": "Original project asset",
+        "generated": true
+      },
+      "dataSource": {
+        "crest": "project-generated deterministic club identifier"
+      }
+    },
+    {
+      "id": "ECU1-LIB",
+      "code": "LIB",
+      "nameZh": "洛哈自由",
+      "nameEn": "Libertad FC",
+      "cn": "洛哈自由",
+      "en": "Libertad FC",
+      "native": "Libertad FC",
+      "country": "厄瓜多尔",
+      "countryCode": "ECU",
+      "leagueId": "ECU1",
+      "leagueCn": "厄瓜多尔足球甲级联赛",
+      "leagueNative": "LigaPro Serie A",
+      "level": 1,
+      "divisionLevel": 1,
+      "city": "洛哈",
+      "rep": 64,
+      "reputation": 64,
+      "attack": 64,
+      "defense": 64,
+      "youth": 68,
+      "finance": 62,
+      "youthUsage": 80,
+      "needs": [
+        "CAM",
+        "CDM"
+      ],
+      "isReal": true,
+      "crest": "./assets/clubs/generated/ecu1-lib.svg",
+      "crestSource": {
+        "repository": "Project-generated club identity",
+        "sourcePage": "scripts/generate-club-identity-crests.mjs",
+        "license": "Original project asset",
+        "generated": true
+      },
+      "dataSource": {
+        "crest": "project-generated deterministic club identifier"
+      }
+    },
+    {
+      "id": "ECU1-MAN",
+      "code": "MAN",
+      "nameZh": "曼塔",
+      "nameEn": "Manta FC",
+      "cn": "曼塔",
+      "en": "Manta FC",
+      "native": "Manta FC",
+      "country": "厄瓜多尔",
+      "countryCode": "ECU",
+      "leagueId": "ECU1",
+      "leagueCn": "厄瓜多尔足球甲级联赛",
+      "leagueNative": "LigaPro Serie A",
+      "level": 1,
+      "divisionLevel": 1,
+      "city": "曼塔",
+      "rep": 64,
+      "reputation": 64,
+      "attack": 64,
+      "defense": 63,
+      "youth": 69,
+      "finance": 62,
+      "youthUsage": 81,
+      "needs": [
+        "RB",
+        "LW"
+      ],
+      "isReal": true,
+      "crest": "./assets/clubs/generated/ecu1-man.svg",
+      "crestSource": {
+        "repository": "Project-generated club identity",
+        "sourcePage": "scripts/generate-club-identity-crests.mjs",
+        "license": "Original project asset",
+        "generated": true
+      },
+      "dataSource": {
+        "crest": "project-generated deterministic club identifier"
+      }
+    },
+    {
+      "id": "ECU1-VIN",
+      "code": "VIN",
+      "nameZh": "厄瓜多尔葡萄酒红",
+      "nameEn": "Vinotinto Ecuador",
+      "cn": "厄瓜多尔葡萄酒红",
+      "en": "Vinotinto Ecuador",
+      "native": "Vinotinto Ecuador",
+      "country": "厄瓜多尔",
+      "countryCode": "ECU",
+      "leagueId": "ECU1",
+      "leagueCn": "厄瓜多尔足球甲级联赛",
+      "leagueNative": "LigaPro Serie A",
+      "level": 1,
+      "divisionLevel": 1,
+      "city": "基多",
+      "rep": 63,
+      "reputation": 63,
+      "attack": 63,
+      "defense": 63,
+      "youth": 68,
+      "finance": 61,
+      "youthUsage": 82,
+      "needs": [
+        "ST",
+        "CB"
+      ],
+      "isReal": true,
+      "crest": "./assets/clubs/generated/ecu1-vin.svg",
+      "crestSource": {
+        "repository": "Project-generated club identity",
+        "sourcePage": "scripts/generate-club-identity-crests.mjs",
+        "license": "Original project asset",
+        "generated": true
+      },
+      "dataSource": {
+        "crest": "project-generated deterministic club identifier"
+      }
+    }
+  ],
+  "sources": [
+    {
+      "competitionId": "THA1-2026",
+      "source": "https://thaileague.co.th/",
+      "note": "Club and competition identity reference; simulation ratings are project estimates."
+    },
+    {
+      "competitionId": "HUN1-2026",
+      "source": "https://en.mlsz.hu/",
+      "note": "Club and competition identity reference; simulation ratings are project estimates."
+    },
+    {
+      "competitionId": "ECU1-2026",
+      "source": "https://ligapro.ec/",
+      "note": "Club and competition identity reference; simulation ratings are project estimates."
+    }
+  ]
+}
