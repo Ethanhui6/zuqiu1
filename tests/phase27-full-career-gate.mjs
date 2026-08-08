@@ -42,6 +42,7 @@ try {
         const result = await director.advance('seasonEnd');
         if (result.stopReason === 'training') { training.resolveTrainingOpportunity(state, state.training.currentOpportunity.choices[0].id); continue; }
         if (result.stopReason === 'event') { while (state.events.pending.length) { const event = state.events.pending[0]; events.resolve(state, event.id, event.choices[0].id); } continue; }
+        if (result.stopReason === 'match') { const match = result.match || director.nextMatch(state); director.store.set(current => { director.settleAutoMatch(current, match); return current; }); continue; }
         if (result.stopReason !== 'target') throw new Error(`unexpected stop: ${result.stopReason}`);
         break;
       }
