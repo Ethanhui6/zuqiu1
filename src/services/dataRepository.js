@@ -12,7 +12,7 @@ export class DataRepository{
     ]);
     this.clubs=this.enrichClubs([...(clubs.clubs||clubs),...(expansion.clubs||[])]);this.leagues=[...(clubs.leagues||[]),...(expansion.leagues||[])];this.templates=templates;this.achievements=achievements;this.positions=positions;this.eventIndex=eventIndex;this.storyChains=Array.isArray(storyChains)?storyChains:(storyChains.events||[]);this.version=version;this.sources=sources;
     this.nameProfiles=Object.fromEntries(nameFiles.map((file,index)=>[file,names[index]]));this.careerEvents=Array.isArray(careerEvents)?careerEvents:(careerEvents.events||[]);this.positionEvents=Array.isArray(positionEvents)?positionEvents:(positionEvents.events||[]);
-    this.registry=createWorldRegistry({clubs:this.clubs,leagues:this.leagues,players,trophies:[...trophies,...(expansion.trophies||[])],competitions:expansion.competitions||[],nameProfiles:this.nameProfiles});
+    this.registry=createWorldRegistry({clubs:this.clubs,leagues:this.leagues,players,trophies:[...trophies,...(expansion.trophies||[])],competitions:expansion.competitions||[],nameProfiles:this.nameProfiles});this.audit=this.registry.audit;
     this.clubs=this.registry.clubs;this.leagues=this.registry.leagues;this.countries=this.registry.countries;this.players=this.registry.players;this.trophies=this.registry.trophies;this.competitions=this.registry.competitions;return this;
   }
   enrichClubs(clubs){
