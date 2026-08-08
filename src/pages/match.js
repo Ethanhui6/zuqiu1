@@ -39,7 +39,7 @@ export function matchPage(app,state){
   const awayLineup=expectedLineup(away,state,{includePlayer:!currentIsHome&&playerStatus.starts});
   root.innerHTML=`<div class="page-head match-hub-head"><div><h1 class="page-title">比赛中心</h1><p class="page-subtitle">${escapeHtml(match.competition||'比赛')} · ${escapeHtml(match.date||'待定')}</p></div><span class="badge ${match.important?'orange':'blue'}">${match.important?'关键比赛':'赛前'}</span></div>
     ${matchPreview(match,home,away,state,playerStatus)}
-    <div class="page-fixed-action match-fixed-action"><span><small>${playerStatus.available===false?'当前未入选':match.venue||'比赛场地'}</small><strong>${playerStatus.available===false?playerStatus.label:match.competition || '下一场比赛'}</strong></span><button class="app-button primary match-enter-button" data-play>${icon('play','sm')}进入比赛</button></div>`;
+    <div class="page-fixed-action match-fixed-action"><span><small>${playerStatus.available===false?'当前未入选':match.venue||'比赛场地'}</small><strong>${playerStatus.available===false?playerStatus.label:match.competition || '下一场比赛'}</strong></span><button class="app-button primary match-enter-button" data-play ${playerStatus.available===false?'disabled aria-disabled="true"':''}>${icon('play','sm')}${playerStatus.available===false?'本场无法出场':'进入比赛'}</button></div>`;
   root.querySelector('[data-lineups]')?.addEventListener('click',()=>openFormationSheet(app,{home,away,homeLineup,awayLineup,currentIsHome,playerStatus,state}));
   root.querySelector('[data-play]')?.addEventListener('click',()=>playerStatus.available===false?app.feedback.emit('failure',playerStatus.copy):app.openMatchStrategy(match));
   return root;

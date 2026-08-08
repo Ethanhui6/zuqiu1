@@ -12,7 +12,7 @@ export function createDefaultState() {
     settings: { mode: 'fast', theme: 'light', autoSkipLow: true, autoPauseCritical: true, motion: 'full', sound: true, haptics: true },
     simulation: { paused: false, speed: 1, date: '2026-07-01', processedKeys: [], summaries: [], queue: [], lastKeyNode: null },
     player: null,
-    season: { year: '2026/27', week: 1, progress: 0, appearances: 0, starts: 0, minutes: 0, goals: 0, assists: 0, shots: 0, keyPasses: 0, tackles: 0, interceptions: 0, saves: 0, cleanSheets: 0, penaltySaves: 0, yellowCards: 0, redCards: 0, playerOfMatch: 0, injuryAbsences: 0, objectives: [], startOvr: null, startMarketValue: 650000, startStats: null, keyNodes: 0 },
+    season: { year: '2026/27', week: 1, progress: 0, appearances: 0, starts: 0, minutes: 0, goals: 0, assists: 0, shots: 0, keyPasses: 0, tackles: 0, interceptions: 0, saves: 0, cleanSheets: 0, penaltySaves: 0, yellowCards: 0, redCards: 0, suspensions: 0, playerOfMatch: 0, injuryAbsences: 0, injuries: [], objectives: [], startOvr: null, startMarketValue: 650000, startStats: null, keyNodes: 0 },
     schedule: [],
     injuries: [],
     discipline: { yellowCards: 0, redCards: 0, suspensions: [], history: [] },
@@ -39,6 +39,7 @@ export function migrateState(input) {
   state.simulation.processedKeys = Array.isArray(state.simulation.processedKeys) ? state.simulation.processedKeys : [];
   state.simulation.summaries = Array.isArray(state.simulation.summaries) ? state.simulation.summaries : [];
   state.season = { ...base.season, ...(input.season || {}) };
+  state.season.injuries = Array.isArray(state.season.injuries) ? state.season.injuries : [];
   state.relationships = { ...base.relationships, ...(input.relationships || {}) };
   state.career = { ...base.career, ...(input.career || {}) };
   state.career.honors = { ...base.career.honors, ...(input.career?.honors || {}) };
