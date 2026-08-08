@@ -13,7 +13,7 @@ const items=[
 ];
 
 export function morePage(app,state){
-  const root=document.createElement('section');root.className='page';
+  const root=document.createElement('section');root.className='page more-page';
   root.innerHTML=`<div class="page-head"><div><h1 class="page-title">更多</h1><p class="page-subtitle">生涯档案与设置</p></div><span class="badge blue">V20</span></div><div class="stack">${group('信息',items.slice(0,3))}${group('生涯档案',items.slice(3,8))}${group('系统',items.slice(8))}</div>`;
   root.addEventListener('click',e=>{const key=e.target.closest('[data-more]')?.dataset.more;if(!key)return;({clubs:()=>app.navigate('clubs'),leaderboard:()=>app.openLeaderboard(),career:()=>app.openCareerHub(),share:()=>app.openCareerShare(),honors:()=>app.openHonors(),analytics:()=>app.openAnalytics(),settings:()=>app.openSettings(),theme:()=>app.openThemeSettings(),news:()=>app.openNewsCenter()})[key]?.();});
   return root;

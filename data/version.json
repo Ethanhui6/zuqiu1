@@ -1,8 +1,8 @@
 {
-  "version": "20.26.0",
-  "channel": "strict-phase-25",
+  "version": "20.27.0",
+  "channel": "strict-phase-26",
   "buildDate": "2026-08-08",
-  "schemaVersion": 29,
+  "schemaVersion": 30,
   "scoreVersion": "2026.08.08.1",
   "data": {
     "clubs": 544,
@@ -20,5 +20,5 @@
     "worldApi": true,
     "serverAuthoritativeScore": true
   },
-  "buildVersion": "20.26.0-20260808-1"
+  "buildVersion": "20.27.0-20260808-1"
 }
