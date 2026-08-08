@@ -26,8 +26,8 @@ Local repository state is the source of truth. A phase may move to `PASS` only a
 | 19 | Transfer invitations | PASS |
 | 20 | Clubs and competitions | PASS |
 | 21 | Club crests | PASS |
-| 22 | Trophies and awards | IN_PROGRESS |
-| 23 | Season review | LOCKED |
+| 22 | Trophies and awards | PASS |
+| 23 | Season review | IN_PROGRESS |
 | 24 | Injuries, cards, and suspensions | LOCKED |
 | 25 | World news | LOCKED |
 | 26 | Color and game feel | LOCKED |
@@ -378,7 +378,7 @@ Phase 21 gate result: `PASS` on 2026-08-08. Phase 22 is now the only unlocked ph
 - [x] The legacy `assist-king` producer mismatch is corrected to the canonical `assists-king` asset ID.
 - [x] Real Chromium loads and renders all 44 trophy and award assets without runtime errors.
 - [x] Full automated tests (139/139), production build, repository hygiene, Phase 5 pacing, Phase 6 lifecycle, and 12-viewport responsive regressions pass for version 20.23.0.
-- [ ] GitHub Actions `verify` passes for the Phase 22 Pull Request.
-- [ ] Cloudflare Pages creates a successful native preview for the Phase 22 implementation commit.
+- [x] GitHub Actions `verify` passes for Phase 22 Pull Request #55 and implementation commit `d15916e`.
+- [x] Cloudflare Pages creates a successful native preview for implementation commit `d15916e`: `https://2df9b027.zuqiu-4tt.pages.dev`.
 
-Phase 22 gate result: `IN_PROGRESS`. Phase 23 remains locked until both remote checks pass.
+Phase 22 gate result: `PASS` on 2026-08-08. Phase 23 is now the only unlocked phase.
