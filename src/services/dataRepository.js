@@ -33,6 +33,7 @@ export class DataRepository{
   getClub(id){return this.clubs.find(x=>x.id===id)||this.clubs[0]}
   searchClubs(query,limit=20){return this.registry?.search(query,limit)||[]}
   getTemplates(position){const target=position==='SS'?'CAM':position;return this.templates.filter(x=>x.position===target)}
+  contentAudit(){const counts=this.audit?.counts||{};return{valid:Boolean(this.audit?.valid),errors:[...(this.audit?.errors||[])],counts:{...counts,events:this.careerEvents?.length||0,achievements:Array.isArray(this.achievements)?this.achievements.length:0,trophies:this.trophies?.length||0},version:this.version?.contentVersion||this.version?.version||null}}
   async loadEventCategory(category){const path=`./data/events/${category}.json`;const data=await json(path);return Array.isArray(data)?data:(data.events||[])}
   rosterForClub(clubId,options){return this.registry?.rosterForClub(clubId,options)||[]}
 }

@@ -1,6 +1,9 @@
 {
-  "version": "20.41.0",
-  "channel": "strict-phase-11",
+  "version": "20.42.0",
+  "channel": "strict-phase-12",
+  "contentVersion": "2026.08.08.6",
+  "contentUpdatedAt": "2026-08-08",
+  "contentSource": "local versioned data packages",
   "buildDate": "2026-08-08",
   "schemaVersion": 35,
   "scoreVersion": "2026.08.08.4",
@@ -20,5 +23,27 @@
     "worldApi": true,
     "serverAuthoritativeScore": true
   },
-  "buildVersion": "20.41.0-20260808-7"
+  "buildVersion": "20.42.0-20260808-8",
+  "updateLog": [
+    {
+      "version": "2026.08.08.5",
+      "date": "2026-08-08",
+      "summary": "休赛期活动、下一赛季内容激活和历史版本记录",
+      "changes": {
+        "offSeasonActivities": 8,
+        "contentMetadata": 1,
+        "historicalSeasonIsolation": 1
+      }
+    },
+    {
+      "version": "2026.08.08.6",
+      "date": "2026-08-08",
+      "summary": "内容版本门禁与休赛期内容包激活",
+      "changes": {
+        "contentActivation": 1,
+        "offSeasonRoutes": 8,
+        "versionContract": 1
+      }
+    }
+  ]
 }

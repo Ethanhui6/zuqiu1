@@ -6,7 +6,7 @@ import versionJson from '../data/version.json' with { type: 'json' };
 
 test('product version stays aligned across runtime and release metadata', async () => {
   const config = await import(`../src/app/config.js?version-test=${Date.now()}`);
-  assert.equal(packageJson.version, '20.41.0');
+  assert.equal(packageJson.version, '20.42.0');
   assert.equal(versionJson.version, packageJson.version);
   assert.equal(config.APP_VERSION, packageJson.version);
   assert.equal(versionJson.buildVersion.startsWith(`${packageJson.version}-`), true);

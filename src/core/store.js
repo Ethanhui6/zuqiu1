@@ -25,6 +25,7 @@ export function createDefaultState() {
     creation: { rerollsUsed: 0, seed: null, wizardStep: 0, wizardDraft: null },
     clubInteractions: { cooldowns: {}, history: [] },
     transfer: { continent: null, country: null, city: null, league: null, club: null, offers: [], contractOffer: null, watchlist: [], inbox: [], negotiations: [], evaluatedMonths: [], pipelines: {}, activeTab: 'received', clubTab: 'current', clubDirectory: {} },
+    content: { version: null, programVersion: null, buildVersion: null, updatedAt: null, source: null, counts: {}, updateLog: [], pending: null },
   ui: { notices: [], lastFeedback: null, todos: [], lastOutcome: null, matchState: null }
   };
 }
@@ -70,6 +71,10 @@ export function migrateState(input) {
   state.transfer.clubDirectory = state.transfer.clubDirectory && typeof state.transfer.clubDirectory === 'object' ? state.transfer.clubDirectory : {};
   state.transfer.pipelines = state.transfer.pipelines && typeof state.transfer.pipelines === 'object' ? state.transfer.pipelines : {};
   for (const key of ['offers','watchlist','inbox','negotiations','evaluatedMonths']) if (!Array.isArray(state.transfer[key])) state.transfer[key] = [];
+  state.content = { ...base.content, ...(input.content || {}) };
+  state.content.counts = state.content.counts && typeof state.content.counts === 'object' ? state.content.counts : {};
+  state.content.updateLog = Array.isArray(state.content.updateLog) ? state.content.updateLog : [];
+  state.content.pending = state.content.pending && typeof state.content.pending === 'object' ? state.content.pending : null;
   if (!['received','agent','exploring','watchlist','history'].includes(state.transfer.activeTab)) state.transfer.activeTab = 'received';
   if (!['current','role','squad','contract','interest','offers','agent'].includes(state.transfer.clubTab)) state.transfer.clubTab = 'current';
   if (!state.transfer.city && state.transfer.club) {
