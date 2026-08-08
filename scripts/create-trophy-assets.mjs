@@ -9,7 +9,8 @@ const trophies = {
 };
 Object.assign(trophies, {
   'league-title': ['League Title', '#2f86c1', 'crown'], 'domestic-cup': ['Domestic Cup', '#b9782f', 'handles'], 'continental-title': ['Continental Title', '#586dc2', 'crown'], 'golden-glove': ['Golden Glove', '#72a9c0', 'keeper'], 'best-defender': ['Best Defender', '#4f8e77', 'wide'], 'young-player': ['Young Player', '#746ca5', 'ball'], 'player-of-season': ['Player of Season', '#b99542', 'slim'], 'world-player': ['World Player', '#936b2b', 'crown'],
-  'thai-league': ['泰国顶级联赛冠军', '#29684f', 'crown'], 'hungarian-league': ['匈牙利顶级联赛冠军', '#c43d45', 'handles'], 'ecuadorian-league': ['厄瓜多尔顶级联赛冠军', '#efb72d', 'ball']
+  'thai-league': ['泰国顶级联赛冠军', '#29684f', 'crown'], 'hungarian-league': ['匈牙利顶级联赛冠军', '#c43d45', 'handles'], 'ecuadorian-league': ['厄瓜多尔顶级联赛冠军', '#efb72d', 'ball'],
+  'best-midfielder': ['最佳中场', '#4976a8', 'wide'], 'best-forward': ['最佳前锋', '#bc4d55', 'ball'], 'golden-boy': ['金童奖', '#d2a72d', 'crown'], 'world-cup-golden-ball': ['世界杯金球奖', '#a77d2b', 'ball'], 'world-cup-golden-boot': ['世界杯金靴奖', '#b88531', 'slim'], 'world-cup-best-young': ['世界杯最佳年轻球员', '#6289a4', 'crown']
 });
 const escape = value => value.replace(/[&<>"']/g, char => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&apos;' }[char]));
 function art(id, [label, accent, shape]) {

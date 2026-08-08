@@ -10,8 +10,7 @@ test('phase 5: simulated season honors retain distinct award asset IDs', () => {
     career: { history: [], honors: null }
   };
   const settled = settleSeason(state);
-  assert.deepEqual(
-    [...settled.trophies, ...settled.personalAwards].map(honor => honor.assetId).sort(),
-    ['domestic-cup', 'golden-boot', 'league-title', 'player-of-season', 'young-player']
-  );
+  const assets = [...settled.trophies, ...settled.personalAwards].map(honor => honor.assetId);
+  for (const expected of ['domestic-cup', 'golden-boot', 'league-title', 'player-of-season', 'young-player']) assert.ok(assets.includes(expected));
+  assert.equal(new Set(assets).size, assets.length);
 });

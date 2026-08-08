@@ -368,3 +368,17 @@ Phase 20 gate result: `PASS` on 2026-08-08. Phase 21 is now the only unlocked ph
 - [x] Cloudflare Pages creates a successful native preview for implementation commit `4e08ed9`: `https://87c42090.zuqiu-4tt.pages.dev`.
 
 Phase 21 gate result: `PASS` on 2026-08-08. Phase 22 is now the only unlocked phase.
+
+## Phase 22 Gate
+
+- [x] The unified registry contains 25 competition trophies and 19 personal awards with 44 unique local assets.
+- [x] Every registry ID resolves to exactly one existing asset; broken, duplicate, unmapped, unregistered, and missing award counts are all zero.
+- [x] Best goalkeeper, defender, midfielder, forward, best XI, Golden Boy, Ballon d’Or, and world-player awards are obtainable through real season settlement states.
+- [x] World Cup Golden Ball, Golden Boot, and Best Young Player awards are obtainable through a World Cup season state.
+- [x] The legacy `assist-king` producer mismatch is corrected to the canonical `assists-king` asset ID.
+- [x] Real Chromium loads and renders all 44 trophy and award assets without runtime errors.
+- [x] Full automated tests (139/139), production build, repository hygiene, Phase 5 pacing, Phase 6 lifecycle, and 12-viewport responsive regressions pass for version 20.23.0.
+- [ ] GitHub Actions `verify` passes for the Phase 22 Pull Request.
+- [ ] Cloudflare Pages creates a successful native preview for the Phase 22 implementation commit.
+
+Phase 22 gate result: `IN_PROGRESS`. Phase 23 remains locked until both remote checks pass.
