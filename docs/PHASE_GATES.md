@@ -327,3 +327,17 @@ Phase 17 gate result: `PASS` on 2026-08-08. Phase 18 is now the only unlocked ph
 - [x] Cloudflare Pages creates a successful native preview for implementation commit `3d9c7fe`: `https://dd568567.zuqiu-4tt.pages.dev`.
 
 Phase 18 gate result: `PASS` on 2026-08-08. Phase 19 is now the only unlocked phase.
+
+## Phase 19 Gate
+
+- [x] System-initiated market activity progresses through scout attention, rumor, agent contact, club interest, and formal offer stages.
+- [x] Market evaluation uses OVR, potential, age, season performance, contract, position need, club reputation, nationality fit, and current-club level.
+- [x] Transfer Inbox exposes received activity, agent recommendations, active exploration, watchlist entries, and negotiation history.
+- [x] Formal offers appear only in January and July windows and can be answered through the existing negotiation flow.
+- [x] A 100-window simulation produces all five stages plus domestic, overseas, higher-level, and lower-level opportunities without offering the current club.
+- [x] Real Chromium validates all five inbox views and a persisted formal-offer negotiation at 390x844 without runtime errors or horizontal overflow.
+- [x] Full automated tests (131/131), production build, repository hygiene, Phase 5 pacing, Phase 6 lifecycle, seven-phone-width layout, and 12-viewport responsive regressions pass for version 20.20.0.
+- [ ] GitHub Actions `verify` passes for the Phase 19 Pull Request.
+- [ ] Cloudflare Pages creates a successful native preview for the Phase 19 implementation commit.
+
+Phase 19 gate result: `IN_PROGRESS`. Phase 20 remains locked.

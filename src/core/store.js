@@ -24,7 +24,7 @@ export function createDefaultState() {
     random: { seed: null, history: [], last: null },
     creation: { rerollsUsed: 0, seed: null },
     clubInteractions: { cooldowns: {}, history: [] },
-    transfer: { continent: null, country: null, city: null, league: null, club: null, offers: [], watchlist: [], clubDirectory: {} },
+    transfer: { continent: null, country: null, city: null, league: null, club: null, offers: [], watchlist: [], inbox: [], negotiations: [], evaluatedMonths: [], pipelines: {}, activeTab: 'received', clubDirectory: {} },
   ui: { notices: [], lastFeedback: null, todos: [], lastOutcome: null, matchState: null }
   };
 }
@@ -64,6 +64,9 @@ export function migrateState(input) {
   state.clubInteractions.history = Array.isArray(state.clubInteractions.history) ? state.clubInteractions.history : [];
   state.transfer = { ...base.transfer, ...(input.transfer || {}) };
   state.transfer.clubDirectory = state.transfer.clubDirectory && typeof state.transfer.clubDirectory === 'object' ? state.transfer.clubDirectory : {};
+  state.transfer.pipelines = state.transfer.pipelines && typeof state.transfer.pipelines === 'object' ? state.transfer.pipelines : {};
+  for (const key of ['offers','watchlist','inbox','negotiations','evaluatedMonths']) if (!Array.isArray(state.transfer[key])) state.transfer[key] = [];
+  if (!['received','agent','exploring','watchlist','history'].includes(state.transfer.activeTab)) state.transfer.activeTab = 'received';
   if (!state.transfer.city && state.transfer.club) {
     const club = Array.isArray(state.schedule) ? state.schedule.find(item => item.clubId === state.transfer.club) : null;
     state.transfer.city = club?.city || null;

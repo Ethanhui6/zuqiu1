@@ -39,6 +39,7 @@ import { resolveTrainingOpportunity } from './core/trainingOpportunities.js';
 import { trophyMarkup } from './components/trophyIcon.js';
 import { evaluateClubFit } from './services/playerIdentity.js';
 import { clubInteractionScenario, resolveClubInteraction as settleClubInteraction } from './core/clubInteractionEngine.js';
+import { recordTransferNegotiation } from './core/transferInboxEngine.js';
 
 const ROUTES={career:['home','生涯'],match:['match','比赛'],training:['training','训练'],transfer:['transfer','转会'],clubs:['club','俱乐部'],more:['settings','更多']};
 const ATTR_CN={speed:'速度',shooting:'射门',passing:'传球',dribbling:'盘带',defending:'防守',physical:'身体'};
@@ -215,11 +216,12 @@ class App {
     this.feedback.emit(result.animation==='offer-enter'?'transferOffer':'select',result.choiceLabel);
     this.overlay.sheet('沟通结果',`<section class="result-panel success-pop" data-club-interaction-result="${action}" data-result-animation="${result.animation}"><div class="card-kicker">${icon('check','sm')} 决策已落实</div><h3 class="card-title">${escapeHtml(result.choiceLabel)}</h3><p class="card-copy">${escapeHtml(result.result)}</p><div class="change-grid">${changes.map(([label,value])=>`<div class="change-item"><b>${escapeHtml(label)} ${typeof value==='number'&&value>0?'+':''}${escapeHtml(value)}</b><span>已写入当前职业存档</span></div>`).join('')}</div><div class="card-footer"><span class="card-copy">再次沟通日期：${result.cooldownUntil}</span></div></section><button class="app-button primary" style="width:100%;margin-top:12px" data-club-result-continue>返回俱乐部</button>`,{dismissible:false,onMount:el=>el.querySelector('[data-club-result-continue]').onclick=()=>{this.overlay.close();this.navigate('clubs');}});
   }
-  openTransferOffer(club){
-    const wage=Math.round((club.salary||club.finance*350||1800)/100)*100,role=club.fit?.role||(club.opportunity>80?'轮换承诺':'竞争位置'),clubName=club.cn||club.name;
+  openTransferOffer(club,sourceOffer=null){
+    const wage=Math.round((sourceOffer?.salary||club.salary||club.finance*350||1800)/100)*100,role=sourceOffer?.role||club.fit?.role||(club.opportunity>80?'轮换承诺':'竞争位置'),clubName=club.cn||club.name;
     this.overlay.sheet(`${clubName} · 经纪人沟通`,`<section class="surface-card"><div class="card-kicker">${icon('contract','sm')} 非正式方案</div><h3 class="card-title">周薪 €${wage.toLocaleString('en-US')} · ${role}</h3><p class="card-copy">青训 ${club.academy||club.youth||'—'} · 机会 ${club.opportunity||club.youthUsage||'—'} · 战术 ${club.style||club.tactic||'均衡'}</p></section><div style="height:12px"></div><div class="grid-2">${['接受意向','拒绝','请求更多信息','谈判','请求租借','继续比较'].map((x,i)=>`<button class="app-button ${i===0?'primary':'ghost'}" data-offer="${x}">${x}</button>`).join('')}</div>`,{onMount:el=>el.querySelectorAll('[data-offer]').forEach(btn=>btn.onclick=()=>{
       const action=btn.dataset.offer;
       if(action==='继续比较'){this.overlay.close();return;}
+      if(sourceOffer)this.store.set(state=>{recordTransferNegotiation(state,sourceOffer.id,action);return state;});
       if(action==='谈判')this.feedback.emit('counterOffer','已提出首发承诺与奖金要求');else if(action==='拒绝')this.feedback.emit('failure','报价已礼貌拒绝');else this.feedback.emit('negotiation',action);
       this.openAcknowledgement('经纪人沟通结果',`${clubName}：${action}已记录。`,{onContinue:()=>this.navigate('transfer')});
     })});

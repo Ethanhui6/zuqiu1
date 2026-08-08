@@ -6,6 +6,7 @@ import { createTrainingOpportunity } from './trainingOpportunities.js';
 import { addNews } from './newsEngine.js';
 import { dataRepository } from '../services/dataRepository.js';
 import { CLUBS } from '../data/clubs.js';
+import { generateTransferActivity } from './transferInboxEngine.js';
 
 const addDays=(date,days)=>{ const d=new Date(`${date}T00:00:00Z`); d.setUTCDate(d.getUTCDate()+days); return d.toISOString().slice(0,10); };
 const daysBetween=(a,b)=>Math.round((new Date(`${b}T00:00:00Z`)-new Date(`${a}T00:00:00Z`))/86400000);
@@ -189,6 +190,11 @@ export class CareerDirector {
         if(state.player && (state.season.week%2===0) && !state.simulation.processedKeys.includes(microKey)){
           applyGrowthToState(state,{passing:.02,physical:.015},{source:'日常成长',fatigue:state.player.fatigue||0,facility:74,coachQuality:72,mode:state.settings.mode,injured:state.injuries.some(x=>x.status==='active')});
           state.simulation.processedKeys.push(microKey);
+        }
+        if (nextDate.endsWith('-01')) {
+          const activity = generateTransferActivity(state, dataRepository.clubs?.length ? dataRepository.clubs : CLUBS, nextDate);
+          const offer = activity.find(item => item.stage === 'formal_offer');
+          if (offer) addNews(state, { id: offer.id, date: nextDate, type: '转会', title: `${offer.clubName} 发来正式报价`, copy: '经纪人已把合同方案放入转会收件箱。', read: false });
         }
         return state;
       });
