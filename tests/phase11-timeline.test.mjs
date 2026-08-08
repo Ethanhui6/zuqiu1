@@ -11,7 +11,7 @@ test('phase 11 timeline renders each season age, crest, OVR, data, honors and ma
   const save = state();
   settleSeason(save);
   const html = seasonHistory(save);
-  for (const value of ['20岁', './assets/clubs/test/crest.svg', 'OVR 70', 'Golden Boot', '重大节点', '完成职业生涯首个帽子戏法', '转会至 Elite FC']) assert.match(html, new RegExp(value));
+  for (const value of ['20岁', './assets/clubs/test/crest.svg', 'OVR 70', '金靴奖', '重大节点', '完成职业生涯首个帽子戏法', '转会至 Elite FC']) assert.match(html, new RegExp(value));
   assert.ok(buildCareerTimeline(save).some(node => node.type === 'season'));
   assert.equal(typeof careerPage, 'function');
 });

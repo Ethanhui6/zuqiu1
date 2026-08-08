@@ -310,7 +310,6 @@ export function settleSeason(state) {
     contract: season.contract || null, injuries, suspensions: Number.isFinite(Number(season.suspensions)) ? Number(season.suspensions) : Math.max(suspensionRecords.length, Number(season.redCards || 0)), nationalTeam: { team: national.team || national.name || player?.nation || player?.country || '未入选', calledUp: Boolean(national.calledUp || Number(season.nationalAppearances || national.appearances || national.apps || 0) > 0), appearances: Number(season.nationalAppearances || national.appearances || national.apps || 0), goals: Number(season.nationalGoals || national.goals || 0) }, teamRole: state.career?.teamRole || player?.status || player?.team || '未记录', acknowledgedAt: null, dataOrigin: 'generated-fallback'
   };
   honors.seasons.unshift(record);
-  honors.pendingReviewId = key;
   state.career.history.unshift({ date: state.simulation.date, type: 'season-summary', title: `${season.year} season summary`, recordId: key, dataOrigin: 'generated-fallback' });
   const nextYear = nextSeason(season.year);
   if (player) player.age = Number(player.age || 18) + 1;
@@ -333,6 +332,8 @@ export function settleSeason(state) {
   ensureSeasonObjectives(state);
   state.schedule = createRealFixtures(state);
   addNews(state, { id: `season-open-${nextYear}`, date: state.simulation.date, type: '赛季', title: `${nextYear}赛季注册完成`, copy: `${player?.club || club}已生成新赛程，年龄、身价、合同和能力快照已更新。`, read: false });
+  // The achievement pass normalizes the honors object, so write the gate last.
+  state.career.honors.pendingReviewId = key;
   return { alreadySettled: false, trophies, personalAwards, record };
 }
 

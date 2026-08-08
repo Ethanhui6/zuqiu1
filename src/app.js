@@ -142,10 +142,10 @@ class App {
 
   openTrainingStrategy(){const s=this.store.get();this.overlay.sheet('自动训练策略',`<div class="choice-grid">${[['balanced','平衡成长','均衡能力与疲劳'],['weakness','补齐短板','优先最低属性'],['strength','放大优势','强化最高属性'],['recovery','健康优先','伤病与疲劳优先']].map(([id,name,copy])=>`<button class="choice-card ${s.training.autoStrategy===id?'active':''}" data-strategy="${id}"><h3>${name}</h3><p>${copy}</p></button>`).join('')}</div>`,{onMount:el=>el.querySelectorAll('[data-strategy]').forEach(btn=>btn.onclick=()=>{this.store.set(st=>{st.training.autoStrategy=btn.dataset.strategy;return st;});this.feedback.emit('trainingSuggested',btn.textContent.trim());this.overlay.close();})});}
 
-  resolveMatchAfterInteraction(match,tactic=DEFAULT_MATCH_TACTIC,interactionId='shooting',input=null){
+  resolveMatchAfterInteraction(match,tactic=DEFAULT_MATCH_TACTIC,interactionId='shooting',input=null,playerStatus=null){
     const tacticStyle=tactic.style||tactic.id,s=this.store.get(),seed=new Date(match.date).getUTCDate()+s.player.ovr+s.season.appearances*7;
     const interaction=resolveMatchInteraction({id:interactionId,player:s.player,seed,input});
-    const played=60+(seed%31),rating=Number(clamp(6.1+(s.player.ovr-55)/30+tactic.mods.rating+interaction.ratingBonus+((seed%7)-3)/10,5.5,9.6).toFixed(1));
+    const starts=playerStatus?.starts!==false,played=starts?60+(seed%31):20+(seed%16),rating=Number(clamp(6.1+(s.player.ovr-55)/30+tactic.mods.rating+interaction.ratingBonus+((seed%7)-3)/10,5.5,9.6).toFixed(1));
     const goals=(seed%9===0||rating>8.4||(interaction.goalChance>0&&seed%10<Math.round(interaction.goalChance*10)))?1:0;
     const assists=(seed%7===0||tacticStyle==='creative'&&seed%3===0||interaction.option.id==='passing'&&interaction.success)?1:0;
     const teamGoals=goals+1+(seed%3),oppGoals=seed%3,liveHighlight=input?.matchState?.highlights?.at(-1),card=liveHighlight?.card;
@@ -158,7 +158,7 @@ class App {
       st.player.fatigue=clamp(st.player.fatigue+tactic.mods.fatigue,0,100);st.player.fitness=clamp(100-st.player.fatigue*.72,10,100);st.player.morale=clamp(st.player.morale+(teamGoals>=oppGoals?5:-4),0,100);st.player.coachTrust=clamp(st.player.coachTrust+Math.round((rating-6.5)*2),0,100);
       const group=st.player.position==='GK'?'keeper':['CB','LB','RB','LWB','RWB','DM','CDM'].includes(st.player.position)?'defense':['CM','CAM','AM','LM','RM'].includes(st.player.position)?'midfield':'attack';
       const stats={shots:group==='keeper'?0:Math.max(goals,group==='attack'?2+seed%4:group==='midfield'?1+seed%3:seed%3),keyPasses:group==='midfield'?2+seed%3:group==='keeper'?seed%2:seed%3,tackles:group==='defense'?3+seed%4:group==='midfield'?1+seed%3:seed%2,interceptions:group==='defense'?2+seed%4:group==='midfield'?seed%3:0,saves:group==='keeper'?3+seed%5:0,cleanSheets:oppGoals===0&&['keeper','defense'].includes(group)?1:0};
-      recordMatchResult(st,match,{played:true,starts:true,minutes:played,goals,assists,rating,...stats,score:`${teamGoals}-${oppGoals}`,card,history:{interaction:interaction.option.name,strategy:tactic.name||'平衡执行',timeline,matchState:input?.matchState||null,card}});
+      recordMatchResult(st,match,{played:true,starts,minutes:played,goals,assists,rating,...stats,score:`${teamGoals}-${oppGoals}`,card,history:{interaction:interaction.option.name,strategy:tactic.name||'平衡执行',timeline,matchState:input?.matchState||null,card}});
       st.career.marketValue+=Math.round((rating-6)*35000+goals*90000+assists*65000);
       addNews(st,{id:`match-${match.id}`,date:st.simulation.date,type:'比赛',title:`${interaction.option.name}${interaction.success?'处理成功':'出现波动'}`,copy:`${match.competition}结束，${st.player.club} ${teamGoals}-${oppGoals} ${match.opponent}，评分 ${rating}${card?`，${card==='red'?'红牌':'黄牌'}`:''}。`,read:false});st.ui.matchState=null;return st;
     });
@@ -168,14 +168,14 @@ class App {
 
   continueAfterMatch(){this.overlay.close();this.navigate('career');}
 
-  openMatchStrategy(match){if(!match)return;const state=this.store.get(),profile=getPositionProfile(state.player.position),strategies=matchStrategiesForPosition(state.player.position);this.overlay.sheet('本场个人策略',`<section class="surface-card"><div class="card-kicker">${icon('tactics','sm')} ${profile.label}职责</div><h3 class="card-title">选择本场执行重点</h3><p class="card-copy">策略会改变场景出现倾向，但比赛仍会产生意外。</p></section><div style="height:12px"></div><div class="stack">${strategies.map(strategy=>`<button class="surface-card decision-card interactive" data-match-strategy="${strategy.id}"><div class="card-row"><strong>${strategy.name}</strong><span class="badge ${strategy.style==='aggressive'?'orange':strategy.style==='creative'?'purple':'blue'}">${strategy.style==='aggressive'?'主动':strategy.style==='creative'?'创造':'稳健'}</span></div><p class="card-copy">${strategy.copy}</p></button>`).join('')}</div>`,{onMount:el=>el.querySelectorAll('[data-match-strategy]').forEach(button=>button.onclick=()=>{const strategy=strategies.find(item=>item.id===button.dataset.matchStrategy);if(!strategy)return;this.feedback.emit('select',strategy.name);this.overlay.close();this.playMatch(match,strategy);})});}
+  openMatchStrategy(match,playerStatus=null){if(!match)return;const state=this.store.get(),profile=getPositionProfile(state.player.position),strategies=matchStrategiesForPosition(state.player.position),bench=playerStatus?.label==='替补待命';this.overlay.sheet('本场个人策略',`<section class="surface-card"><div class="card-kicker">${icon('tactics','sm')} ${profile.label}职责</div><h3 class="card-title">${bench?'替补登场窗口':'选择本场执行重点'}</h3><p class="card-copy">${bench?'你将从替补席开始，选择策略代表等待登场；也可以记录本场未获得出场时间。':'策略会改变场景出现倾向，但比赛仍会产生意外。'}</p></section><div style="height:12px"></div><div class="stack">${strategies.map(strategy=>`<button class="surface-card decision-card interactive" data-match-strategy="${strategy.id}"><div class="card-row"><strong>${strategy.name}</strong><span class="badge ${strategy.style==='aggressive'?'orange':strategy.style==='creative'?'purple':'blue'}">${strategy.style==='aggressive'?'主动':strategy.style==='creative'?'创造':'稳健'}</span></div><p class="card-copy">${strategy.copy}</p></button>`).join('')}</div>${bench?'<button class="app-button ghost" data-match-no-appearance style="width:100%;margin-top:10px">本场替补未登场</button>':''}`,{onMount:el=>{el.querySelectorAll('[data-match-strategy]').forEach(button=>button.onclick=()=>{const strategy=strategies.find(item=>item.id===button.dataset.matchStrategy);if(!strategy)return;this.feedback.emit('select',strategy.name);this.overlay.close();this.playMatch(match,strategy,null,playerStatus);});el.querySelector('[data-match-no-appearance]')?.addEventListener('click',()=>{this.store.set(current=>{recordMatchResult(current,match,{played:false,auto:false,unavailable:'bench',summary:`${current.player.name}替补未登场`});return current;});this.overlay.close();this.feedback.emit('matchEnd','本场替补未登场，球队赛果已记录');this.navigate('career');});}});}
 
-  playMatch(match,tactic=DEFAULT_MATCH_TACTIC,interactionId=null){
+  playMatch(match,tactic=DEFAULT_MATCH_TACTIC,interactionId=null,playerStatus=null){
     const state=this.store.get(),unavailable=matchAvailability(state);if(unavailable){this.feedback.emit('failure',unavailable.copy);return false;}const seed=Date.parse(`${match.date}T00:00:00Z`)+state.player.ovr+state.season.appearances*7;const matchState=createMatchState({match,player:state.player,seed,tactic:tactic.id});const director=new HighlightDirector({seed});const matchEvent=new MatchEventEngine(dataRepository.positionEvents||[]).next(matchState,{tactic});let highlight=matchEvent||director.next(matchState);const selectedId=interactionId||highlight.interactionId;const option=MATCH_INTERACTIONS.find(item=>item.id===selectedId)||MATCH_INTERACTIONS[0];const miniGameContext=createMiniGameContext({gameId:selectedId,player:state.player,opponent:{defense:match.opponentDefense||60},match:{pressure:matchState.pressure,importanceValue:match.competition?.includes('杯')?65:50}});const miniGame={...miniGameContext.game,difficulty:miniGameContext.difficulty,...createMiniGameSession(miniGameContext.game.id,'interactiveMatch')};matchState.miniGame=miniGame;matchState.currentEvent=matchEvent?{id:matchEvent.id,templateId:matchEvent.templateId,title:matchEvent.title,interactionId:selectedId}:null;highlight={...highlight,miniGame};
     this.store.set(current=>{current.ui.matchState=matchState;return current;});
     this.overlay.sheet(`比赛模式 · ${match.opponent}`,`<div data-interactive-match-host></div>`,{wide:true,onMount:overlay=>{
       const host=overlay.querySelector('[data-interactive-match-host]');
-      const game=createInteractiveMatch({option,player:this.store.get().player,seed,matchState,highlight,onComplete:result=>{this.overlay.close();this.resolveMatchAfterInteraction(match,tactic,selectedId,result);},onSkip:result=>{this.overlay.close();this.resolveMatchAfterInteraction(match,tactic,selectedId,result);}});
+      const game=createInteractiveMatch({option,player:this.store.get().player,seed,matchState,highlight,onComplete:result=>{this.overlay.close();this.resolveMatchAfterInteraction(match,tactic,selectedId,result,playerStatus);},onSkip:result=>{this.overlay.close();this.resolveMatchAfterInteraction(match,tactic,selectedId,result,playerStatus);}});
       host?.append(game);
       this.overlay.onClose?.(()=>game.destroy?.());
     }});
@@ -294,12 +294,14 @@ function matchResultHtml(s,match,r,next){const step=matchNextStep(next),beforeOv
 const app=new App();
 app.runSimulation=async function(action){
   this.overlay.close();
-  const round=action==='seasonEnd'?seasonsPerRound(this.store.get().settings.mode):1,records=[];
+  const round=action==='seasonEnd'?seasonsPerRound(this.store.get().settings.mode):1;
+  const records=action==='seasonEnd'?(this.pendingSeasonRecords||(this.pendingSeasonRecords=[])):[];
   let result=null;
-  for(let index=0;index<round;index++){
+  for(let index=records.length;index<round;index++){
     result=await this.simulation.advance(action);
     if(result.status==='paused')return this.feedback.emit('pause','请先处理当前暂停节点');
     if(result.status==='needs-training'||result.trainingOpportunity){this.feedback.emit('trainingSuggested','关键训练机会已生成');return this.navigate('training');}
+    if(result.stopReason==='event'){this.pendingSeasonRecords=records;return this.navigate('career');}
     if(action==='seasonEnd'&&result.stopReason==='target'&&result.processed){
       let settled;
       this.store.set(state=>{settled=settleSeason(state);if(settled.trophies.length||settled.personalAwards.length)this.feedback.emit('newRecord',`${settled.record.year} 赛季荣誉 ${settled.trophies.length+settled.personalAwards.length} 项`);return state;});
@@ -308,6 +310,7 @@ app.runSimulation=async function(action){
         this.store.set(state=>{completeOffSeason(state);acknowledgeSeasonReview(state,settled.record.id);return state;});
         continue;
       }
+      this.pendingSeasonRecords=null;
       if(records.length>1)return this.openSeasonBatchReview(records);
       if(records.length===1)return this.openSeasonReview(records[0]);
       return this.navigate('career');

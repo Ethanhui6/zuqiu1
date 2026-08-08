@@ -11,8 +11,8 @@ const executablePath = [
 
 async function createCareer(page, position) {
   await page.locator('[data-next]').click();
-  await page.locator(`[data-position="${position}"]`).click();
   await page.locator('[data-next]').click();
+  await page.locator(`[data-position="${position}"]`).click();
   await page.locator('[data-style]').first().click();
   await page.locator('[data-next]').click();
   await page.locator('[data-next]').click();

@@ -24,8 +24,8 @@ assert.ok(clubs.length >= 20, 'Phase 3 requires at least twenty clubs');
 
 async function createCareer(page) {
   await page.locator('[data-next]').click();
-  await page.locator('[data-position="CM"]').click();
   await page.locator('[data-next]').click();
+  await page.locator('[data-position="CM"]').click();
   await page.locator('[data-style]').first().click();
   await page.locator('[data-next]').click();
   await page.locator('[data-next]').click();

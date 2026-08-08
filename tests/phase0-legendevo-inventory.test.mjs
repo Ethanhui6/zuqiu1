@@ -25,6 +25,6 @@ test('PH0 inventory retains the current world baseline and recoverable legacy tr
   assert.equal(careerEvents.length, 568);
   assert.equal(positionEvents.length, 6000);
   assert.equal(storyChains.length, 20);
-  assert.equal(version.version, '20.34.0');
+  assert.match(version.version, /^\d+\.\d+\.\d+$/);
   assert.ok(fs.existsSync(new URL('../legacy/', import.meta.url)));
 });

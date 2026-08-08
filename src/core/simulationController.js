@@ -23,14 +23,21 @@ export function createRealFixtures(state,clubs=dataRepository.clubs?.length?data
     return priority(a)-priority(b)||fixtureHash(`${state.season?.year}:${current.id}:${a.id}`)-fixtureHash(`${state.season?.year}:${current.id}:${b.id}`);
   });
   const leagueOpponents=order.filter(club=>league(club)===league(current));
-  const opponents=leagueOpponents.length?leagueOpponents:order.slice(0,20);
-  const count=Math.max(34,Math.min(40,leagueOpponents.length*2+4));
+  const leagueFixtures=leagueOpponents.length
+    ? [...leagueOpponents.map((opponent,index)=>({opponent,home:index%2===0,competition:'league'})),...leagueOpponents.map((opponent,index)=>({opponent,home:index%2!==0,competition:'league'}))]
+    : order.slice(0,17).map((opponent,index)=>({opponent,home:index%2===0,competition:'league'}));
+  const extraCount=Math.max(0,Math.min(4,55-leagueFixtures.length));
+  const extraFixtures=order.slice(0,extraCount).map((opponent,index)=>({opponent,home:index%2===0,competition:index%2===0?'domestic-cup':'continental'}));
+  const opponentPool=leagueOpponents.length?leagueOpponents:order.slice(0,20);
+  const fixtures=[...leagueFixtures,...extraFixtures];
+  for(let index=fixtures.length;index<34;index++) fixtures.push({opponent:opponentPool[index%opponentPool.length],home:index%2===0,competition:'league'});
+  const count=Math.max(34,fixtures.length);
   const leagueName=current.leagueCn||current.league||player.league||'联赛';
   const keyRounds=new Set(['fast','legend'].includes(state.settings?.mode)?[]:[Math.floor(count*.48),count-1]);
-  const cupRounds=new Map([[Math.floor(count*.32),'国内杯赛'],[Math.floor(count*.72),'洲际赛事']]);
   return Array.from({length:count},(_,index)=>{
-    const opponent=opponents[index%opponents.length],home=index%2===0;
-    return {id:`${state.season?.year||'season'}-${current.id}-${opponent.id}-${index}`,date:addDays(state.simulation.date,7+Math.round(index*322/(count-1))),competition:cupRounds.get(index)||leagueName,opponent:opponent.cn||opponent.name,opponentId:opponent.id,opponentCrest:opponent.crest||opponent.crestPath||null,opponentLeague:opponent.leagueCn||opponent.league||null,venue:home?'主场':'客场',home,status:'upcoming',important:keyRounds.has(index),round:index+1,season:state.season?.year};
+    const fixture=fixtures[index],opponent=fixture.opponent,home=fixture.home;
+    const competition=fixture.competition==='league'?leagueName:fixture.competition==='domestic-cup'?'\u56fd\u5185\u676f\u8d5b':'\u6d32\u9645\u8d5b\u4e8b';
+    return {id:`${state.season?.year||'season'}-${current.id}-${opponent.id}-${index}`,date:addDays(state.simulation.date,7+Math.round(index*322/Math.max(1,count-1))),competition,competitionType:fixture.competition,opponent:opponent.cn||opponent.name,opponentId:opponent.id,opponentCrest:opponent.crest||opponent.crestPath||null,opponentLeague:opponent.leagueCn||opponent.league||null,venue:home?'主场':'客场',home,status:'upcoming',important:keyRounds.has(index)||fixture.competition!=='league'&&index===count-1,round:index+1,season:state.season?.year};
   });
 }
 
@@ -50,6 +57,16 @@ function positionGroup(position){
   if(['CB','LB','RB','LWB','RWB','DM','CDM'].includes(position))return 'defense';
   if(['CM','CAM','AM','LM','RM'].includes(position))return 'midfield';
   return 'attack';
+}
+
+function selectionAvailability(state) {
+  const player = state.player;
+  if (!player) return null;
+  const clubs = dataRepository.clubs?.length ? dataRepository.clubs : CLUBS;
+  const club = clubs.find(item => item.id === player.clubId) || clubs.find(item => (item.cn || item.name) === player.club);
+  const strength = Number(club?.rep ?? club?.reputation ?? 58);
+  if (Number(player.ovr || 0) < Math.max(45, strength - 25)) return { type: 'selection', label: '未入选', copy: '当前队内顺位未达到比赛名单要求。' };
+  return null;
 }
 
 function simulatedPlayerStats(player,rng,{played,starts,minutes,goals,assists,opponentGoals,rating}){
@@ -113,6 +130,7 @@ export class CareerDirector {
   isKeyMatch(match){ return Boolean(match?.important); }
   shouldAutoSimulateMatch(match,state=this.store.get()){
     if(!match)return false;
+    if(selectionAvailability(state))return true;
     if(state.settings?.mode==='immersive')return false;
     if(['fast','legend'].includes(state.settings?.mode))return true;
     return !this.isKeyMatch(match);
@@ -154,7 +172,7 @@ export class CareerDirector {
   settleAutoMatch(state,match){
     const fixture=state.schedule.find(item=>item.id===match?.id);
     if(!state.player||!fixture||fixture.status!=='upcoming')return false;
-    const unavailable=matchAvailability(state);
+    const unavailable=matchAvailability(state)||selectionAvailability(state);
     if(unavailable)return recordMatchResult(state,fixture,{played:false,auto:true,unavailable:unavailable.type,summary:`${state.player.club} 缺阵 ${fixture.opponent}`});
     const rng=keyedRandom(fixture.id,fixture.date,state.player.ovr,state.season.appearances);
     const played=rng.bool(.84);
