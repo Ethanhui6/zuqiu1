@@ -160,5 +160,19 @@
     "cn": "年度最佳阵容",
     "native": "Team of the Year",
     "image": "assets/trophies/best-xi.svg"
-  }
+  },
+  { "id": "league-title", "cn": "联赛冠军", "native": "League Champion", "image": "assets/trophies/league-title.svg" },
+  { "id": "domestic-cup", "cn": "国内杯赛冠军", "native": "Domestic Cup Champion", "image": "assets/trophies/domestic-cup.svg" },
+  { "id": "continental-title", "cn": "洲际俱乐部冠军", "native": "Continental Club Champion", "image": "assets/trophies/continental-title.svg" },
+  { "id": "golden-glove", "cn": "金手套奖", "native": "Golden Glove", "image": "assets/trophies/golden-glove.svg" },
+  { "id": "best-defender", "cn": "最佳后卫", "native": "Best Defender", "image": "assets/trophies/best-defender.svg" },
+  { "id": "young-player", "cn": "赛季最佳年轻球员", "native": "Young Player of the Season", "image": "assets/trophies/young-player.svg" },
+  { "id": "player-of-season", "cn": "赛季最佳球员", "native": "Player of the Season", "image": "assets/trophies/player-of-season.svg" },
+  { "id": "world-player", "cn": "世界年度最佳球员", "native": "World Player of the Year", "image": "assets/trophies/world-player.svg" },
+  { "id": "best-midfielder", "cn": "最佳中场", "native": "Best Midfielder", "image": "assets/trophies/best-midfielder.svg" },
+  { "id": "best-forward", "cn": "最佳前锋", "native": "Best Forward", "image": "assets/trophies/best-forward.svg" },
+  { "id": "golden-boy", "cn": "金童奖", "native": "Golden Boy", "image": "assets/trophies/golden-boy.svg" },
+  { "id": "world-cup-golden-ball", "cn": "世界杯金球奖", "native": "World Cup Golden Ball", "image": "assets/trophies/world-cup-golden-ball.svg" },
+  { "id": "world-cup-golden-boot", "cn": "世界杯金靴奖", "native": "World Cup Golden Boot", "image": "assets/trophies/world-cup-golden-boot.svg" },
+  { "id": "world-cup-best-young", "cn": "世界杯最佳年轻球员", "native": "World Cup Best Young Player", "image": "assets/trophies/world-cup-best-young.svg" }
 ]

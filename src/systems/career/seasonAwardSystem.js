@@ -45,11 +45,15 @@ export function settleSeasonAwards(save,club){
 
   if(apps>=12){
     if(ATTACKERS.has(save.player.position)&&goals>=Math.max(18,Math.round(24+(club.rep-75)*.18))){const a=addAward(save,{id:'golden-boot',name:'联赛金靴',clubId:club.id,league:club.leagueCn,season,detail:`赛季打入${goals}球`});if(a){awards.push(a);records.goldenBoots++}}
-    if(CREATORS.has(save.player.position)&&assists>=Math.max(12,Math.round(15+(club.rep-75)*.10))){const a=addAward(save,{id:'assist-king',name:'联赛助攻王',clubId:club.id,league:club.leagueCn,season,detail:`赛季送出${assists}次助攻`});if(a){awards.push(a);records.assistAwards++}}
+    if(CREATORS.has(save.player.position)&&assists>=Math.max(12,Math.round(15+(club.rep-75)*.10))){const a=addAward(save,{id:'assists-king',name:'联赛助攻王',clubId:club.id,league:club.leagueCn,season,detail:`赛季送出${assists}次助攻`});if(a){awards.push(a);records.assistAwards++}}
     if(save.player.position==='GK'&&cleanSheets>=14){const a=addAward(save,{id:'golden-glove',name:'联赛金手套',clubId:club.id,league:club.leagueCn,season,detail:`赛季完成${cleanSheets}场零封`});if(a){awards.push(a);records.goldenGloves++}}
     if(DEFENDERS.has(save.player.position)&&cleanSheets>=12&&rating>=7.15){const a=addAward(save,{id:'best-defender',name:'赛季最佳后卫',clubId:club.id,league:club.leagueCn,season,detail:'凭借稳定防守表现获奖'});if(a){awards.push(a);records.bestDefenderAwards++}}
     if(save.player.age<=21&&rating>=7.25&&apps>=18){const a=addAward(save,{id:'young-player',name:'最佳年轻球员',clubId:club.id,league:club.leagueCn,season,detail:'青年球员赛季表现突出'});if(a){awards.push(a);records.youngPlayerAwards++}}
     if(rating>=7.75&&apps>=22){const a=addAward(save,{id:'player-of-season',name:'赛季最佳球员',clubId:club.id,league:club.leagueCn,season,detail:`赛季平均评分${rating}`});if(a){awards.push(a);records.playerAwards++}}
+    if(CREATORS.has(save.player.position)&&assists>=10&&rating>=7.45){const a=addAward(save,{id:'best-midfielder',name:'赛季最佳中场',clubId:club.id,league:club.leagueCn,season,detail:'组织与创造表现领先'});if(a)awards.push(a)}
+    if(ATTACKERS.has(save.player.position)&&goals>=15&&rating>=7.45){const a=addAward(save,{id:'best-forward',name:'赛季最佳前锋',clubId:club.id,league:club.leagueCn,season,detail:'进攻表现领先'});if(a)awards.push(a)}
+    if(rating>=7.5&&apps>=20){const a=addAward(save,{id:'best-xi',name:'赛季最佳阵容',clubId:club.id,league:club.leagueCn,season,detail:'入选赛季最佳阵容'});if(a)awards.push(a)}
+    if(save.player.age<=21&&rating>=7.8&&apps>=20){const a=addAward(save,{id:'golden-boy',name:'金童奖',clubId:club.id,league:club.leagueCn,season,detail:'年度青年球员综合表现领先'});if(a)awards.push(a)}
     const globalScore=save.player.ovr+(rating-7)*7+goals*.12+assists*.10+records.continentalTitles*1.2;
     if(globalScore>=91&&chance(rng,.16+(globalScore-91)*.055)){
       const a=addAward(save,{id:'world-player',name:'世界年度最佳球员',clubId:club.id,league:club.leagueCn,season,detail:'在俱乐部与国际赛场综合表现领先'});if(a){awards.push(a);records.ballonDors++}
@@ -60,6 +64,9 @@ export function settleSeasonAwards(save,club){
     const nationalScore=save.player.ovr+(rating-6.5)*4+save.player.hidden.bigMatch*.05;
     if(nationalScore>=80&&chance(rng,.08+(nationalScore-80)*.025)){
       const a=addAward(save,{id:'world-cup',name:'国家队世界冠军',type:'国家队冠军',season,detail:`代表${save.player.nation}赢得世界大赛`});if(a){awards.push(a);records.worldCups++;save.career.careerStats.titles++}
+      if(rating>=8){const b=addAward(save,{id:'world-cup-golden-ball',name:'世界杯金球奖',season,detail:'世界大赛综合表现最佳'});if(b)awards.push(b)}
+      if(goals>=8){const b=addAward(save,{id:'world-cup-golden-boot',name:'世界杯金靴奖',season,detail:'世界大赛进球表现领先'});if(b)awards.push(b)}
+      if(save.player.age<=21&&rating>=7.4){const b=addAward(save,{id:'world-cup-best-young',name:'世界杯最佳年轻球员',season,detail:'世界大赛青年球员表现领先'});if(b)awards.push(b)}
     }
   }
   if(awards.length){applyFanChange(save,{club:awards.length*4200,global:awards.length*9500,social:awards.length*7200,heat:Math.min(14,awards.length*3),commercial:Math.min(6,awards.length),sentiment:5,reason:'赛季荣誉'});save.career.history.push({type:'awards',year:save.career.year,season,title:'赛季荣誉',text:awards.map(x=>x.name).join('、'),awards:awards.map(x=>x.key)})}

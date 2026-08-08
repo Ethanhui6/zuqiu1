@@ -88,7 +88,7 @@ function addOnce(list, item) {
 function simulatedHonor(id, name, season, club, category) {
   const assetId = /金靴|Golden Boot/.test(name) ? 'golden-boot' : /年轻|Young/.test(name) ? 'young' : /最佳|Player/.test(name) ? 'player-year' : /杯|Champion/.test(name) ? 'league' : 'legend';
   const generatedId = id.slice(id.lastIndexOf(':') + 1);
-  return { id, assetId: { league: 'league-title', domestic: 'domestic-cup', 'golden-boot': 'golden-boot', 'player-year': 'player-of-season', young: 'young-player' }[generatedId] || assetId, name, season, club, category, dataOrigin: 'generated-fallback', source: 'career simulation' };
+  return { id, assetId: { league: 'league-title', domestic: 'domestic-cup', 'golden-boot': 'golden-boot', 'player-year': 'player-of-season', young: 'young-player', 'best-keeper': 'best-keeper', 'best-defender': 'best-defender', 'best-midfielder': 'best-midfielder', 'best-forward': 'best-forward', 'best-xi': 'best-xi', 'golden-boy': 'golden-boy', ballon: 'ballon', 'world-player': 'world-player', 'world-cup-golden-ball': 'world-cup-golden-ball', 'world-cup-golden-boot': 'world-cup-golden-boot', 'world-cup-best-young': 'world-cup-best-young' }[generatedId] || assetId, name, season, club, category, dataOrigin: 'generated-fallback', source: 'career simulation' };
 }
 
 export function settleSeason(state) {
@@ -110,6 +110,19 @@ export function settleSeason(state) {
   if (goals >= 10) personalAwards.push(simulatedHonor(`${key}:golden-boot`, 'Golden Boot', season.year, club, 'personal'));
   if (rating >= 7.8 && appearances >= 15) personalAwards.push(simulatedHonor(`${key}:player-year`, 'Player of the Year', season.year, club, 'personal'));
   if (player?.age <= 21 && rating >= 7.2 && appearances >= 12) personalAwards.push(simulatedHonor(`${key}:young`, 'Young Player of the Year', season.year, club, 'personal'));
+  const position = player?.position || 'CM';
+  if (position === 'GK' && season.cleanSheets >= 12) personalAwards.push(simulatedHonor(`${key}:best-keeper`, 'Best Goalkeeper', season.year, club, 'personal'));
+  if (['CB', 'LB', 'RB', 'CDM'].includes(position) && rating >= 7.3 && appearances >= 15) personalAwards.push(simulatedHonor(`${key}:best-defender`, 'Best Defender', season.year, club, 'personal'));
+  if (['CAM', 'CM', 'CDM'].includes(position) && rating >= 7.4 && assists >= 8) personalAwards.push(simulatedHonor(`${key}:best-midfielder`, 'Best Midfielder', season.year, club, 'personal'));
+  if (['ST', 'SS', 'LW', 'RW'].includes(position) && rating >= 7.4 && goals >= 12) personalAwards.push(simulatedHonor(`${key}:best-forward`, 'Best Forward', season.year, club, 'personal'));
+  if (rating >= 7.5 && appearances >= 15) personalAwards.push(simulatedHonor(`${key}:best-xi`, 'Team of the Year', season.year, club, 'personal'));
+  if (player?.age <= 21 && rating >= 7.8 && appearances >= 15) personalAwards.push(simulatedHonor(`${key}:golden-boy`, 'Golden Boy', season.year, club, 'personal'));
+  if (rating >= 8.4 && appearances >= 20) personalAwards.push(simulatedHonor(`${key}:ballon`, 'Ballon d’Or', season.year, club, 'personal'));
+  if (rating >= 8.1 && appearances >= 20) personalAwards.push(simulatedHonor(`${key}:world-player`, 'World Player of the Year', season.year, club, 'personal'));
+  const worldCup = season.competitionId === 'world-cup' || season.nationalTournament === 'world-cup';
+  if (worldCup && rating >= 8) personalAwards.push(simulatedHonor(`${key}:world-cup-golden-ball`, 'World Cup Golden Ball', season.year, club, 'personal'));
+  if (worldCup && goals >= 5) personalAwards.push(simulatedHonor(`${key}:world-cup-golden-boot`, 'World Cup Golden Boot', season.year, club, 'personal'));
+  if (worldCup && player?.age <= 21 && rating >= 7.4) personalAwards.push(simulatedHonor(`${key}:world-cup-best-young`, 'World Cup Best Young Player', season.year, club, 'personal'));
   trophies.forEach(item => addOnce(honors.trophies, item));
   personalAwards.forEach(item => addOnce(honors.personalAwards, item));
 
