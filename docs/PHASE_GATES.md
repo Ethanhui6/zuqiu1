@@ -469,3 +469,16 @@ Phase 27 gate result: `PASS` on 2026-08-08. Phase 28 is now the only unlocked ph
 - [x] Cloudflare Pages creates a successful native preview for implementation commit `61b828d`: `https://09d982f5.zuqiu-4tt.pages.dev`.
 
 Phase 28 gate result: `PASS` on 2026-08-08. Phase 29 is now the only unlocked phase.
+
+## Phase 29 Gate
+
+- [x] The 54-module production import graph passes native Node syntax validation.
+- [x] Player-facing creation, career, match, training, transfer, clubs, and more surfaces expose no development-only values.
+- [x] Missing club salary data uses structured absence instead of a technical fallback string.
+- [x] `openSimulation` has one implementation with route and off-season guards.
+- [x] Lint, JavaScript contract validation (9/9), full automated tests (150/150), repository hygiene (3/3), and production build pass for version 20.30.0.
+- [x] Phase 5 pacing, Phase 6 lifecycle (30 consecutive result nodes), and Phase 28 final mobile regressions (154 checks) remain green.
+- [x] GitHub Actions `verify` passes for Phase 29 Pull Request #62 and implementation commit `74d10ed`.
+- [x] Cloudflare Pages creates a successful native preview for implementation commit `74d10ed`: `https://8088f081.zuqiu-4tt.pages.dev`.
+
+Phase 29 gate result: `PASS` on 2026-08-08. Phase 30 is now the only unlocked phase.
