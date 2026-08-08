@@ -414,3 +414,18 @@ Phase 23 gate result: `PASS` on 2026-08-08. Phase 24 is now the only unlocked ph
 - [x] Cloudflare Pages creates a successful native preview for implementation commit `94df463`: `https://2d4c00dd.zuqiu-4tt.pages.dev`.
 
 Phase 24 gate result: `PASS` on 2026-08-08. Phase 25 is now the only unlocked phase.
+
+## Phase 25 Gate
+
+- [x] Monthly world news covers leagues, transfers, champions, relegation, awards, national teams, coaches, injuries, rising stars, retirements, and records.
+- [x] Three consecutive seasons produce 72 world stories across all 11 required topics.
+- [x] News IDs, titles, and copy remain duplicate-free across the three-season gate.
+- [x] World stories outnumber player stories and never use the career player or current club as their subject.
+- [x] Ordinary auto-match news is limited to notable performances instead of flooding the news center.
+- [x] World news never creates an interaction pause; the home page retains only three to five important headlines.
+- [x] Real Chromium validates the home broadcast and complete news center at 390x844 without runtime errors or horizontal overflow.
+- [x] Full automated tests (146/146), production build, repository hygiene (3/3), Phase 5 pacing, Phase 6 lifecycle, and 12-viewport responsive audits pass for version 20.26.0.
+- [ ] GitHub Actions `verify` passes for the Phase 25 Pull Request.
+- [ ] Cloudflare Pages creates a successful native preview for the Phase 25 implementation commit.
+
+Phase 25 gate result: `IN_PROGRESS`. Phase 26 remains locked.
