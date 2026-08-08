@@ -308,7 +308,7 @@ Phase 16 gate result: `PASS` on 2026-08-08. Phase 17 is now the only unlocked ph
 - [x] Real players retire deterministically and do not remain active indefinitely in future seasons.
 - [x] Real Chromium validates a production club roster at 390x844 with no runtime error, technical placeholder, or horizontal overflow.
 - [x] Full automated tests (127/127), production build, repository hygiene, Phase 5 pacing, Phase 6 lifecycle, seven-phone-width layout, and 12-viewport mobile regressions pass for version 20.18.0.
-- [ ] GitHub Actions `verify` passes for the Phase 17 Pull Request.
-- [ ] Cloudflare Pages creates a successful native preview for the Phase 17 commit.
+- [x] GitHub Actions `verify` passes for Pull Request #50 and implementation commit `a93c96e`.
+- [x] Cloudflare Pages creates a successful native preview for implementation commit `a93c96e`: `https://3bd163d1.zuqiu-4tt.pages.dev`.
 
-Phase 17 gate result: `IN_PROGRESS`. Phase 18 remains locked.
+Phase 17 gate result: `PASS` on 2026-08-08. Phase 18 is now the only unlocked phase.
