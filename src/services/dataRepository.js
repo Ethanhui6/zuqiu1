@@ -6,14 +6,14 @@ async function json(path){if(cache.has(path))return cache.get(path);const p=fetc
 export class DataRepository{
   async init(){
     const nameFiles=['china','japan','south-korea','england','scotland','wales','ireland','france','germany','spain','portugal','italy','netherlands','belgium','brazil','argentina','usa','mexico','saudi-arabia','turkey','nigeria','ghana','senegal','morocco','egypt','other'];
-    const [clubs,templates,achievements,positions,eventIndex,storyChains,version,players,trophies,sources,careerEvents,positionEvents,...names]=await Promise.all([
-      json('./data/clubs.json'),json('./data/legend-templates.json'),json('./data/achievements.json'),json('./data/positions.json'),json('./data/events/index.json'),json('./data/events/story-chains.json'),json('./data/version.json'),json('./data/players.json'),json('./data/trophies.json'),json('./data/data-sources.json'),json('./data/events/career-events.json'),json('./data/events/position-events.json')
+    const [clubs,expansion,templates,achievements,positions,eventIndex,storyChains,version,players,trophies,sources,careerEvents,positionEvents,...names]=await Promise.all([
+      json('./data/clubs.json'),json('./data/world-expansion.json'),json('./data/legend-templates.json'),json('./data/achievements.json'),json('./data/positions.json'),json('./data/events/index.json'),json('./data/events/story-chains.json'),json('./data/version.json'),json('./data/players.json'),json('./data/trophies.json'),json('./data/data-sources.json'),json('./data/events/career-events.json'),json('./data/events/position-events.json')
       ,...nameFiles.map(file=>json(`./data/names/${file}.json`))
     ]);
-    this.clubs=this.enrichClubs(clubs.clubs||clubs);this.leagues=clubs.leagues||[];this.templates=templates;this.achievements=achievements;this.positions=positions;this.eventIndex=eventIndex;this.storyChains=Array.isArray(storyChains)?storyChains:(storyChains.events||[]);this.version=version;this.sources=sources;
+    this.clubs=this.enrichClubs([...(clubs.clubs||clubs),...(expansion.clubs||[])]);this.leagues=[...(clubs.leagues||[]),...(expansion.leagues||[])];this.templates=templates;this.achievements=achievements;this.positions=positions;this.eventIndex=eventIndex;this.storyChains=Array.isArray(storyChains)?storyChains:(storyChains.events||[]);this.version=version;this.sources=sources;
     this.nameProfiles=Object.fromEntries(nameFiles.map((file,index)=>[file,names[index]]));this.careerEvents=Array.isArray(careerEvents)?careerEvents:(careerEvents.events||[]);this.positionEvents=Array.isArray(positionEvents)?positionEvents:(positionEvents.events||[]);
-    this.registry=createWorldRegistry({clubs:this.clubs,leagues:this.leagues,players,trophies,nameProfiles:this.nameProfiles});
-    this.clubs=this.registry.clubs;this.leagues=this.registry.leagues;this.countries=this.registry.countries;this.players=this.registry.players;this.trophies=this.registry.trophies;return this;
+    this.registry=createWorldRegistry({clubs:this.clubs,leagues:this.leagues,players,trophies:[...trophies,...(expansion.trophies||[])],competitions:expansion.competitions||[],nameProfiles:this.nameProfiles});
+    this.clubs=this.registry.clubs;this.leagues=this.registry.leagues;this.countries=this.registry.countries;this.players=this.registry.players;this.trophies=this.registry.trophies;this.competitions=this.registry.competitions;return this;
   }
   enrichClubs(clubs){
     const tactics=['控球推进','高位压迫','快速反击','边路传中','中路渗透','稳守反击'];

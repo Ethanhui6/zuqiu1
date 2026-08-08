@@ -19,13 +19,13 @@ Local repository state is the source of truth. A phase may move to `PASS` only a
 | 12 | Career events | PASS |
 | 13 | Mini-games | PASS |
 | 14 | Position, play style, and trait isolation | PASS |
-| 15 | Elite-club entry | IN_PROGRESS |
-| 16 | Nationality, name, and starting-club synchronization | LOCKED |
-| 17 | Real-player database | LOCKED |
-| 18 | Random-name system | LOCKED |
-| 19 | Transfer invitations | LOCKED |
-| 20 | Clubs and competitions | LOCKED |
-| 21 | Club crests | LOCKED |
+| 15 | Elite-club entry | PASS |
+| 16 | Nationality, name, and starting-club synchronization | PASS |
+| 17 | Real-player database | PASS |
+| 18 | Random-name system | PASS |
+| 19 | Transfer invitations | PASS |
+| 20 | Clubs and competitions | PASS |
+| 21 | Club crests | IN_PROGRESS |
 | 22 | Trophies and awards | LOCKED |
 | 23 | Season review | LOCKED |
 | 24 | Injuries, cards, and suspensions | LOCKED |
@@ -341,3 +341,17 @@ Phase 18 gate result: `PASS` on 2026-08-08. Phase 19 is now the only unlocked ph
 - [x] Cloudflare Pages creates a successful native preview for implementation commit `1576aec`: `https://a5c74320.zuqiu-4tt.pages.dev`.
 
 Phase 19 gate result: `PASS` on 2026-08-08. Phase 20 is now the only unlocked phase.
+
+## Phase 20 Gate
+
+- [x] Three complete top-flight snapshots add 44 clubs across Asia, Europe, and South America: Thailand 16, Hungary 12, and Ecuador 16.
+- [x] Every added club has an ID, Chinese and English names, country, league, level, local crest, strength, academy, and reputation at runtime.
+- [x] Every added competition defines rules, exact participant IDs, an honor, and an independent local trophy asset.
+- [x] World registry validation resolves all added club, league, competition, participant, and trophy references with zero errors.
+- [x] Runtime scale reaches 544 clubs, 50 leagues, 40 countries, and 3 registered expansion competitions without altering the original 500-club snapshot.
+- [x] Real Chromium searches and renders one club from each new league at 390x844 with no runtime error or horizontal overflow.
+- [x] Full automated tests (134/134), production build, repository hygiene, Phase 5 pacing, Phase 6 lifecycle, and 12-viewport responsive regressions pass for version 20.21.0.
+- [x] GitHub Actions `verify` passes for Phase 20 Pull Request #53 and implementation commit `3b1081b`.
+- [x] Cloudflare Pages creates a successful native preview for implementation commit `3b1081b`: `https://00cd84b9.zuqiu-4tt.pages.dev`.
+
+Phase 20 gate result: `PASS` on 2026-08-08. Phase 21 is now the only unlocked phase.
