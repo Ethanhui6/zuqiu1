@@ -12,7 +12,7 @@ const ORIGIN_VALUES = new Set(Object.values(DATA_ORIGINS));
 export const REAL_SQUAD_SNAPSHOT_SEASON = 2026;
 const POSITIONS = ['ST', 'LW', 'RW', 'CAM', 'CM', 'CDM', 'LB', 'RB', 'CB', 'GK'];
 const ATTRS = ['pac', 'sho', 'pas', 'dri', 'def', 'phy'];
-const CONTINENT_BY_PREFIX = { CHN: '亚洲', JPN: '亚洲', KOR: '亚洲', KSA: '亚洲', AUS: '大洋洲', ENG: '欧洲', ESP: '欧洲', GER: '欧洲', ITA: '欧洲', FRA: '欧洲', NED: '欧洲', POR: '欧洲', ARG: '南美洲', BRA: '南美洲', COL: '南美洲', CHI: '南美洲', URU: '南美洲', USA: '北美洲', MEX: '北美洲', RSA: '非洲' };
+const CONTINENT_BY_PREFIX = { CHN: '亚洲', JPN: '亚洲', KOR: '亚洲', KSA: '亚洲', THA: '亚洲', AUS: '大洋洲', ENG: '欧洲', ESP: '欧洲', GER: '欧洲', ITA: '欧洲', FRA: '欧洲', NED: '欧洲', POR: '欧洲', HUN: '欧洲', ARG: '南美洲', BRA: '南美洲', COL: '南美洲', CHI: '南美洲', URU: '南美洲', ECU: '南美洲', USA: '北美洲', MEX: '北美洲', RSA: '非洲' };
 const PROFILE = {
   ST: { pac: 72, sho: 68, pas: 48, dri: 60, def: 30, phy: 62 },
   LW: { pac: 75, sho: 58, pas: 52, dri: 70, def: 30, phy: 48 },
@@ -70,6 +70,7 @@ export function normalizeClub(club = {}) {
     name: club.name || club.cn || club.native || club.id,
     league: club.league || club.leagueCn || club.leagueId,
     continent: club.continent || CONTINENT_BY_PREFIX[id.slice(0, 3)] || '欧洲',
+    strength: club.strength ?? Math.round(((Number(club.attack) || Number(club.rep) || 50) + (Number(club.defense) || Number(club.rep) || 50)) / 2),
     x: club.x ?? 8 + hash % 84,
     y: club.y ?? 10 + (hash >>> 8) % 80,
     academy: club.academy ?? club.youth ?? 50,
@@ -139,7 +140,7 @@ export function createGeneratedPlayer({ clubId = 'free-agent', country = '', pos
   };
 }
 
-export function validateRegistry({ clubs = [], leagues = [], players = [] } = {}) {
+export function validateRegistry({ clubs = [], leagues = [], players = [], trophies = [], competitions = [] } = {}) {
   const errors = [];
   const unique = (items, label) => {
     const ids = new Set();
@@ -149,9 +150,10 @@ export function validateRegistry({ clubs = [], leagues = [], players = [] } = {}
       ids.add(item.id);
     }
   };
-  unique(clubs, 'club'); unique(leagues, 'league'); unique(players, 'player');
+  unique(clubs, 'club'); unique(leagues, 'league'); unique(players, 'player'); unique(trophies, 'trophy'); unique(competitions, 'competition');
   const clubIds = new Set(clubs.map(club => club.id));
   const leagueIds = new Set(leagues.map(league => league.id));
+  const trophyIds = new Set(trophies.map(trophy => trophy.id));
   for (const club of clubs) if (club.leagueId && !leagueIds.has(club.leagueId)) errors.push(`club ${club.id} references missing league ${club.leagueId}`);
   for (const player of players) {
     if (player.clubId && !clubIds.has(player.clubId)) errors.push(`player ${player.id} references missing club ${player.clubId}`);
@@ -163,12 +165,17 @@ export function validateRegistry({ clubs = [], leagues = [], players = [] } = {}
     if (typeof club.isReal !== 'boolean') errors.push(`club ${club.id} missing isReal`);
     if (!club.provenance?.dataOrigin) errors.push(`club ${club.id} missing provenance`);
   }
-  return { valid: errors.length === 0, errors, counts: { clubs: clubs.length, leagues: leagues.length, players: players.length } };
+  for (const competition of competitions) {
+    if (!leagueIds.has(competition.leagueId)) errors.push(`competition ${competition.id} references missing league ${competition.leagueId}`);
+    if (!trophyIds.has(competition.trophyId)) errors.push(`competition ${competition.id} references missing trophy ${competition.trophyId}`);
+    for (const clubId of competition.participantClubIds || []) if (!clubIds.has(clubId)) errors.push(`competition ${competition.id} references missing club ${clubId}`);
+  }
+  return { valid: errors.length === 0, errors, counts: { clubs: clubs.length, leagues: leagues.length, players: players.length, competitions: competitions.length } };
 }
 
 function searchable(item) { return [item.id, item.name, item.cn, item.native, item.country, item.league, item.leagueCn, item.nation].filter(Boolean).join(' ').toLocaleLowerCase(); }
 
-export function createWorldRegistry({ clubs = [], leagues = [], players = [], trophies = [], nameProfiles = {}, snapshotSeason = REAL_SQUAD_SNAPSHOT_SEASON } = {}) {
+export function createWorldRegistry({ clubs = [], leagues = [], players = [], trophies = [], competitions = [], nameProfiles = {}, snapshotSeason = REAL_SQUAD_SNAPSHOT_SEASON } = {}) {
   const normalizedClubs = clubs.map(normalizeClub);
   const normalizedPlayers = players.map(player => normalizePlayer(player, snapshotSeason));
   const normalizedLeagues = leagues.map(league => ({
@@ -178,9 +185,24 @@ export function createWorldRegistry({ clubs = [], leagues = [], players = [], tr
     provenance: provenance(league, 'identity', DATA_ORIGINS.CURATED),
     dataOrigin: sourceOrigin(league, 'identity', DATA_ORIGINS.CURATED)
   }));
-  const validation = validateRegistry({ clubs: normalizedClubs, leagues: normalizedLeagues, players: normalizedPlayers });
+  const normalizedTrophies = trophies.map(trophy => ({
+    ...trophy,
+    isReal: trophy.isReal ?? true,
+    provenance: provenance(trophy, 'identity', DATA_ORIGINS.CURATED),
+    dataOrigin: sourceOrigin(trophy, 'identity', DATA_ORIGINS.CURATED)
+  }));
+  const normalizedCompetitions = competitions.map(competition => ({
+    ...competition,
+    id: String(competition.id || ''),
+    participantClubIds: [...(competition.participantClubIds || [])],
+    isReal: competition.isReal ?? true,
+    provenance: provenance(competition, 'identity', DATA_ORIGINS.CURATED),
+    dataOrigin: sourceOrigin(competition, 'identity', DATA_ORIGINS.CURATED)
+  }));
+  const validation = validateRegistry({ clubs: normalizedClubs, leagues: normalizedLeagues, players: normalizedPlayers, trophies: normalizedTrophies, competitions: normalizedCompetitions });
   const clubById = new Map(normalizedClubs.map(club => [club.id, club]));
   const leagueById = new Map(normalizedLeagues.map(league => [league.id, league]));
+  const competitionById = new Map(normalizedCompetitions.map(competition => [competition.id, competition]));
   const countries = [...new Set(normalizedClubs.map(club => club.country).filter(Boolean))].map(name => ({ id: name, name, isReal: true, dataOrigin: DATA_ORIGINS.CURATED }));
   const playersByClub = new Map();
   for (const player of normalizedPlayers) {
@@ -195,17 +217,16 @@ export function createWorldRegistry({ clubs = [], leagues = [], players = [], tr
     clubs: normalizedClubs,
     leagues: normalizedLeagues,
     players: normalizedPlayers,
-    trophies: trophies.map(trophy => ({
-      ...trophy,
-      isReal: trophy.isReal ?? true,
-      provenance: provenance(trophy, 'identity', DATA_ORIGINS.CURATED),
-      dataOrigin: sourceOrigin(trophy, 'identity', DATA_ORIGINS.CURATED)
-    })),
+    trophies: normalizedTrophies,
+    competitions: normalizedCompetitions,
     validation,
     countries,
-    stats: { ...validation.counts, realPlayers: normalizedPlayers.filter(player => player.isReal).length, availablePlayers: normalizedClubs.length * 18, trophies: trophies.length, countries: countries.length },
+    stats: { ...validation.counts, realPlayers: normalizedPlayers.filter(player => player.isReal).length, availablePlayers: normalizedClubs.length * 18, trophies: normalizedTrophies.length, countries: countries.length },
     getClub(id) { return clubById.get(id) || normalizedClubs[0] || null; },
     getLeague(id) { return leagueById.get(id) || normalizedLeagues[0] || null; },
+    getCompetition(id) { return competitionById.get(id) || null; },
+    competitionForLeague(leagueId) { return normalizedCompetitions.find(competition => competition.leagueId === leagueId) || null; },
+    competitionsForClub(clubId) { return normalizedCompetitions.filter(competition => competition.participantClubIds.includes(clubId)); },
     leaguesForCountry(country) { return normalizedLeagues.filter(league => league.country === country); },
     clubsForLeague(leagueId) { return normalizedClubs.filter(club => club.leagueId === leagueId || club.league === leagueId); },
     search(query, limit = 20) {

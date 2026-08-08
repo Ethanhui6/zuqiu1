@@ -1,11 +1,11 @@
 {
-  "version": "20.20.0",
-  "channel": "strict-phase-19",
+  "version": "20.21.0",
+  "channel": "strict-phase-20",
   "buildDate": "2026-08-08",
-  "schemaVersion": 23,
+  "schemaVersion": 24,
   "scoreVersion": "2026.08.08.1",
   "data": {
-    "clubs": 500,
+    "clubs": 544,
     "realPlayers": 601,
     "realRosterClubs": 73,
     "achievements": 330,
@@ -20,5 +20,5 @@
     "worldApi": true,
     "serverAuthoritativeScore": true
   },
-  "buildVersion": "20.20.0-20260808-1"
+  "buildVersion": "20.21.0-20260808-1"
 }
