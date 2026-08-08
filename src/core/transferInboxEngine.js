@@ -1,4 +1,5 @@
 import { keyedRandom } from '../services/rng.js';
+import { addNews } from './newsEngine.js';
 
 export const TRANSFER_STAGES = Object.freeze([
   { id: 'scout_attention', label: '球探关注' },
@@ -114,6 +115,33 @@ export function recordTransferNegotiation(state, offerId, action) {
   const record = { id: `negotiation-${state.simulation?.date}-${offerId}-${transfer.negotiations.length}`, date: state.simulation?.date, offerId, clubId: offer.clubId, action, status };
   transfer.negotiations.unshift(record);
   transfer.negotiations = transfer.negotiations.slice(0, 80);
+  return record;
+}
+
+export function acceptTransferOffer(state, club, offerId = null) {
+  const transfer = ensureTransferInbox(state);
+  if (!state.player || !club?.id || club.id === state.player.clubId) return null;
+  const offer = transfer.offers.find(item => item.id === offerId) || null;
+  if (offer) recordTransferNegotiation(state, offer.id, '接受意向');
+  const previous = { id: state.player.clubId, name: state.player.club, country: state.player.clubCountry || null };
+  const clubName = club.cn || club.name || club.nameZh || club.id;
+  const salary = Math.max(500, Number(offer?.salary) || Math.round(Number(state.career?.weeklySalary || 1800) * 1.2));
+  const record = { date: state.simulation?.date, type: '转会', title: `转会至 ${clubName}`, summary: `${state.player.name} 从 ${previous.name} 转会至 ${clubName}。`, fromClubId: previous.id, fromClub: previous.name, fromCountry: previous.country, clubId: club.id, club: clubName, country: club.country || '', offerId: offer?.id || null };
+  state.player.clubId = club.id;
+  state.player.club = clubName;
+  state.player.clubCountry = club.country || '';
+  state.player.league = club.leagueCn || club.league || '';
+  state.player.crestPath = club.crestPath || club.crest || null;
+  state.career.weeklySalary = salary;
+  state.career.contractMonths = Math.max(24, Number(offer?.contractMonths || 36));
+  state.career.history ??= [];
+  state.career.history.push(record);
+  state.season ??= {};
+  state.season.transfer = { ...record, salary };
+  state.season.highlights = [...new Set([...(state.season.highlights || []), record.title])];
+  state.schedule = (state.schedule || []).filter(match => match.status === 'played');
+  transfer.club = club.id;
+  addNews(state, { id: `transfer-complete-${state.simulation?.date}-${club.id}`, date: state.simulation?.date, type: '转会', title: record.title, copy: record.summary, relatedClubId: club.id, relatedClub: clubName, importance: 3, scope: 'player' });
   return record;
 }
 

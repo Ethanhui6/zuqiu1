@@ -442,3 +442,17 @@ Phase 25 gate result: `PASS` on 2026-08-08. Phase 26 is now the only unlocked ph
 - [x] Cloudflare Pages creates a successful native preview for implementation commit `cc7232a`: `https://5590821c.zuqiu-4tt.pages.dev`.
 
 Phase 26 gate result: `PASS` on 2026-08-08. Phase 27 is now the only unlocked phase.
+
+## Phase 27 Gate
+
+- [x] Ten complete production careers run from age 16 through retirement and cover ST, RW, CM, CB, and GK.
+- [x] The career set covers high potential, low potential, Late Bloomer, elite clubs, long-term one-club careers, international transfers, and major injuries.
+- [x] Every career retains match statistics, growth, transfer, national-team, honor, injury, news, Timeline, season-review, and retirement records.
+- [x] Accepted offers perform a real club and contract transfer instead of changing only the inbox status.
+- [x] Retirement blocks further simulation and matches, archives the complete Timeline, and exposes no technical `null` milestone type.
+- [x] Real Chromium validates a 22-season retirement at 390x844 with 606 appearances, all required milestone types, zero runtime errors, and zero horizontal overflow.
+- [x] Full automated tests (150/150), production build, repository hygiene (3/3), Phase 5 pacing, Phase 6 lifecycle, and 12-viewport responsive audits pass for version 20.28.0.
+- [ ] GitHub Actions `verify` passes for the Phase 27 Pull Request.
+- [ ] Cloudflare Pages creates a successful native preview for the Phase 27 implementation commit.
+
+Phase 27 gate result: `IN_PROGRESS`. Phase 28 remains locked.
