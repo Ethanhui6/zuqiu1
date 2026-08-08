@@ -2,7 +2,7 @@ import { icon } from '../components/icons.js';
 import { statGrid } from '../components/ui.js';
 import { CLUBS } from '../data/clubs.js';
 import { dataRepository } from '../services/dataRepository.js';
-import { CLUB_TRANSFER_TABS, ensureContractOffer, ensureTransferInbox } from '../core/transferInboxEngine.js';
+import { CLUB_TRANSFER_TABS, ensureContractOffer, ensureTransferInbox, transferMarketHeat } from '../core/transferInboxEngine.js';
 
 const money = value => `€${Math.max(0, Math.round(Number(value) || 0)).toLocaleString('en-US')}`;
 const safe = value => String(value ?? '').replace(/[&<>"']/g, character => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[character]);
@@ -27,14 +27,16 @@ export function transferPage(app, state) {
   const activeClubTab = CLUB_TRANSFER_TABS.some(tab => tab.id === transfer.clubTab) ? transfer.clubTab : 'current';
   const selected = availableTransferClubs(state, clubs).find(club => club.id === transfer.club);
   const activeOffers = [...transfer.offers, ...(contractOffer ? [contractOffer] : [])].filter(offer => ['pending', 'inquiry', 'negotiating'].includes(offer.status));
+  const heat = transferMarketHeat(state);
   const root = document.createElement('section');
   root.className = 'page transfer-page';
-  root.innerHTML = `<div class="page-head"><div><h1 class="page-title">转会中心</h1><p class="page-subtitle">市场会主动关注你的表现，正式接触集中进入收件箱</p></div><span class="badge ${activeOffers.length ? 'orange' : 'blue'}">${activeOffers.length} 份待处理</span></div>
+  root.innerHTML = `<div class="page-head"><div><h1 class="page-title">转会世界</h1><p class="page-subtitle">球队会根据表现主动考察、联系并报价</p></div><span class="badge ${activeOffers.length ? 'orange' : 'blue'}">${activeOffers.length} 份待处理</span></div>
+    ${marketOverview(state, transfer, heat)}
     <section class="surface-card transfer-contract"><div class="card-row"><div><div class="card-kicker">${icon('contract', 'sm')} 当前合同</div><h2 class="card-title">${safe(state.player.club)}</h2><p class="card-copy">剩余 ${Number(state.career.contractMonths || 0)} 个月 · 周薪 ${money(state.career.weeklySalary)} · 身价 ${money(state.career.marketValue)}</p></div><span class="badge blue">OVR ${state.player.ovr}</span></div>${statGrid([['经纪人建议', agentSummary(transfer)], ['赛季评分', state.season.rating || '—'], ['关注球队', transfer.watchlist.length], ['市场动态', transfer.inbox.length]])}<div class="transfer-contract-actions"><button class="app-button ghost" data-transfer-action="stay">留队争取位置</button><button class="app-button ghost" data-transfer-action="renew">请求续约</button><button class="app-button ghost" data-transfer-action="loan">请求外租</button><button class="app-button ghost" data-transfer-action="transfer-request">申请转会</button><button class="app-button secondary" data-transfer-action="agent-report">请求经纪人调查</button></div></section>
     <section class="surface-card transfer-inbox"><div class="card-row"><div><div class="card-kicker">${icon('message', 'sm')} Transfer Inbox</div><h2 class="card-title">转会收件箱</h2></div><span class="badge ${transfer.inbox.some(item => item.unread) ? 'orange' : 'green'}">${transfer.inbox.filter(item => item.unread).length} 条新动态</span></div><div class="transfer-inbox-tabs" role="tablist">${TABS.map(([id, label]) => `<button class="${transfer.activeTab === id ? 'active' : ''}" role="tab" aria-selected="${transfer.activeTab === id}" data-transfer-tab="${id}">${label}</button>`).join('')}</div><div class="transfer-inbox-panel">${inboxPanel(transfer.activeTab, state, clubs)}</div></section>
+    ${clubTransferHubMarkup(activeClubTab, state, current, clubs, transfer, contractOffer)}
     <section class="surface-card transfer-focus"><div class="card-row"><div><div class="card-kicker">${icon('club', 'sm')} 主动探索入口</div><h2 class="card-title">按国家、赛事和位置寻找下一站</h2><p class="card-copy">主动接触会与系统发来的球探关注、传闻和正式报价分开记录。</p></div><button class="icon-button" data-open-clubs aria-label="打开俱乐部目录">${icon('chevron')}</button></div></section>
     ${selected ? `<section class="surface-card"><div class="card-row"><div><div class="card-kicker">${icon('club', 'sm')} 球队详情</div><h2 class="card-title">${safe(selected.cn || selected.name)}</h2><p class="card-copy">${safe([selected.city, selected.leagueCn || selected.league].filter(Boolean).join(' · '))}</p></div><span class="badge green">适配 ${Math.round(((selected.academy || selected.youth || 60) + (selected.opportunity || selected.youthUsage || 60)) / 2)}%</span></div><div class="card-row" style="margin-top:14px"><button class="app-button ghost" data-club-action="compare">加入比较</button><button class="app-button secondary" data-club-action="agent">经纪人接触</button><button class="app-button primary" data-club-action="contact">请求沟通</button></div></section>` : ''}`;
-  root.insertAdjacentHTML('afterbegin', clubTransferHubMarkup(activeClubTab, state, current, clubs, transfer, contractOffer));
   root.addEventListener('click', event => {
     if (event.target.closest('[data-open-clubs]')) return app.navigate('clubs');
     const clubTab = event.target.closest('[data-club-transfer-tab]')?.dataset.clubTransferTab;
@@ -57,6 +59,13 @@ export function transferPage(app, state) {
     }
   });
   return root;
+}
+
+function marketOverview(state, transfer, heat) {
+  const months = Number(state.career?.contractMonths || 0);
+  const contract = months <= 0 ? '已到期' : months <= 6 ? `${months}个月 · 待续约` : `${months}个月`;
+  const rumor = heat.recentRumor ? `${heat.recentRumor.clubName} · ${heat.recentRumor.copy}` : '暂无转会传闻';
+  return `<section class="surface-card transfer-market-overview" data-market-heat="${heat.id}"><div class="transfer-market-head"><div><div class="card-kicker">Market Heat</div><h2 class="card-title">${heat.label} <span>${heat.score}</span></h2></div><span class="badge ${heat.tone}">${heat.formalOffers ? `${heat.formalOffers} 份报价` : `${heat.interestedClubs} 家关注`}</span></div><div class="transfer-market-facts"><div><small>球队兴趣</small><strong>${heat.interestedClubs ? `${heat.interestedClubs} 家` : '暂无'}</strong></div><div><small>合同状态</small><strong>${contract}</strong></div><div><small>经纪人建议</small><strong>${agentSummary(transfer)}</strong></div></div><p class="transfer-market-rumor"><span>近期传闻</span>${safe(rumor)}</p></section>`;
 }
 
 function clubTransferHubMarkup(tab, state, current, clubs, transfer, contractOffer) {
@@ -101,4 +110,4 @@ function activityList(items, transfer, clubs, title, copy) {
 function empty(title, copy) { return `<div class="transfer-inbox-empty"><span>${icon('message')}</span><div><strong>${title}</strong><p>${copy}</p></div></div>`; }
 function agentSummary(transfer) { return transfer.inbox.some(item => item.stage === 'formal_offer') ? '优先处理报价' : transfer.inbox.some(item => item.stage === 'agent_contact') ? '已有俱乐部接触' : '保持开放'; }
 function levelLabel(level) { return level === 'higher' ? '更高平台' : level === 'lower' ? '更稳出场' : '同级'; }
-function statusLabel(status) { return status === 'accepted' ? '已接受' : status === 'rejected' ? '已拒绝' : status === 'negotiating' ? '谈判中' : '待处理'; }
+function statusLabel(status) { return status === 'accepted' ? '已接受' : status === 'rejected' ? '已拒绝' : status === 'negotiating' ? '谈判中' : status === 'terms-agreed' ? '已达成' : status === 'counter-rejected' ? '未达成' : '待处理'; }

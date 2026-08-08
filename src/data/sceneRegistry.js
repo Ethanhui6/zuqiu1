@@ -27,17 +27,35 @@ const groups = [
   ]]
 ];
 
-const byCategory = Object.fromEntries(groups.map(([category, items]) => [category, items.map(([id]) => id)]));
+const artById = {
+  'mixed-zone': 'press-microphone', 'post-match-press': 'press-microphone', 'pre-match-press': 'press-microphone',
+  'touchline-interview': 'stadium-wide', 'training-interview': 'training-action', 'tv-studio': 'office',
+  'sports-headline': 'press-microphone', 'social-feed': 'stadium-crowd', 'reporter-crowd': 'stadium-crowd', 'breaking-news': 'press-microphone',
+  'gym-strength': 'gym', 'outdoor-sprint': 'training-action', 'indoor-recovery': 'medical-treatment',
+  'tactics-room': 'office', 'shooting-ground': 'training-goal', 'keeper-training': 'training-goal',
+  'free-kick-ground': 'training-cones', 'dribble-obstacles': 'training-cones', 'passing-lanes': 'training-action', 'rehab-room': 'medical-treatment',
+  'player-tunnel': 'players-tunnel', 'home-warmup': 'stadium-wide', 'away-warmup': 'stadium-crowd',
+  'night-stadium': 'night-stadium', 'rain-match': 'rain-field', 'snow-match': 'rain-field', 'heat-match': 'stadium-wide',
+  'penalty-moment': 'training-goal', 'goal-celebration': 'stadium-crowd', 'keeper-save': 'training-goal',
+  'card-dispute': 'stadium-crowd', 'stoppage-time': 'night-stadium', 'halftime-locker': 'locker-room', 'post-match-wave': 'stadium-crowd',
+  'coach-office': 'office', 'locker-talk': 'locker-room', 'teammate-dispute': 'locker-room', 'birthday-celebration': 'locker-room',
+  'medical-diagnosis': 'medical-lab', 'agent-office': 'office', 'contract-room': 'signing-hands', 'transfer-room': 'signing-hands',
+  'team-bus': 'team-bus', 'airport-departure': 'airport-lounge', 'award-ceremony': 'trophy', 'champion-locker': 'trophy',
+  'family-rest': 'home', 'endorsement-shoot': 'office', 'charity-day': 'stadium-crowd', 'fan-meet': 'stadium-crowd',
+  'night-solo-training': 'night-stadium', 'nutrition-plan': 'home', 'social-storm': 'press-microphone', 'sponsor-event': 'trophy',
+  'city-street': 'airport-lounge', 'national-call': 'players-tunnel'
+};
+
 const entries = groups.flatMap(([category, items]) => items.map(([id, name, motif], index) => ({
   id: `scene-${id}`,
   name,
   category,
   motif,
   accent: ['#1677ff', '#22a06b', '#8a5cf6', '#e8872b', '#d95065'][index % 5],
-  art: `./assets/scenes/scene-${id}.svg`,
+  art: `./assets/event-scenes/${artById[id]}.jpg`,
   ratio: '16 / 9',
   loading: 'lazy',
-  license: '项目自制矢量图，MIT，无外部素材'
+  license: 'See ASSET_SOURCES.md'
 })));
 
 export const SCENE_REGISTRY = Object.freeze(entries);
@@ -57,4 +75,3 @@ export function selectScene(event, { recentIds = [], seed = 0 } = {}) {
   const pool = candidates.length ? candidates : scenesForCategory(category);
   return pool[Math.abs(Number(seed) || 0) % pool.length] || SCENE_REGISTRY[0];
 }
-

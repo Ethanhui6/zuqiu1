@@ -1,5 +1,379 @@
 # Phase Gates
 
+## Active strict rebuild (2026-08-08)
+
+The local worktree is the only source of truth for this rebuild. Cloudflare and
+remote `main` are reference and acceptance targets only; neither may overwrite
+local uncommitted work.
+
+- Repository: `C:\Users\Administrator\Documents\GitHub\-1`
+- Branch: `codex/legendevo-ph0-audit`
+- Baseline HEAD: `1053aa3925181e450252ea7b2f48c4c24d1f2c51`
+- Remote: `https://github.com/Ethanhui6/zuqiu1.git`
+- Preserved user files: `docs/vnext-acceptance-2026-08-06 (1).md`, `src/pages/clubs (1).js`
+
+| Phase | Scope | Status |
+| ---: | --- | --- |
+| 0 | Audit the current local build | PASS |
+| 1 | Study both legacy versions | PASS |
+| 2 | Replace the UI framework and design system | PASS |
+| 3 | Rebuild player creation | PASS |
+| 4 | Rebuild names, nationality, and real-player data | PASS |
+| 5 | Rebuild position competition | PASS |
+| 6 | Rebuild transfers | PASS |
+| 7 | Rebuild transfer events and negotiation UI | PASS |
+| 8 | Rebuild the event system | PASS |
+| 9 | Add event random-result animation | PASS |
+| 10 | Replace event imagery | IN_PROGRESS |
+| 11 | Rebuild trophies and honors | LOCKED |
+| 12 | Rebuild mini-games | LOCKED |
+| 13 | Reorganize matches | LOCKED |
+| 14 | Rebuild career growth from legacy evidence | LOCKED |
+| 15 | Expand career events to 500+ | LOCKED |
+| 16 | Rebuild the club page | LOCKED |
+| 17 | Expand the real football world | LOCKED |
+| 18 | Complete the crest audit | LOCKED |
+| 19 | Upgrade world news | LOCKED |
+| 20 | Rebuild season review and reveals | LOCKED |
+| 21 | Run the second global UI audit | LOCKED |
+| 22 | Run full-career acceptance | LOCKED |
+| 23 | Complete final code cleanup | LOCKED |
+| 24 | Release | LOCKED |
+
+### Strict rebuild Phase 0 gate
+
+- [x] Current local branch, HEAD, remote, and uncommitted user files recorded.
+- [x] Current local build exercised from creation through signing, club, transfer,
+  events, training, season review, off-season, and the next season.
+- [x] Visible Chromium replay completed three seasons at 390 x 844 with 27 UI
+  operations, seven event decisions, ten advances, three training stops, and no
+  dead end at 2029-07-01.
+- [x] A current Chromium career completed 22 seasons from age 16 to 38 at
+  390 x 844, including 597 appearances, transfer, injury, national team, honors,
+  retirement, and a complete Timeline without runtime errors or overflow.
+- [x] Independent current engine replay completed 19 seasons and 216 phase
+  transitions, and the 20-season stress run retained 800 matches, 304 opponents,
+  and 139 unique events.
+- [x] `npm run check` passes: lint, type contracts, 170 tests, and production build
+  version 20.42.0.
+- [x] Confirmed P0/P1 defects and their source-level root causes are recorded in
+  `docs/PHASE0_REPLAY_REPORT.md`.
+- [x] No product code was changed during the audit.
+
+Strict rebuild Phase 0 result: `PASS` on 2026-08-08. Phase 1 is the only
+unlocked phase.
+
+### Strict rebuild Phase 1 gate
+
+- [x] `legendevo.com` replayed at 390 x 844 and 1440 x 900 through creation,
+  academy invitations, signing, season batching, decision, reveal, and result.
+- [x] `career-sim.pages.dev` replayed at 390 x 844 and 1440 x 900 through
+  retirement, creation, first-club selection, and the first career decision.
+- [x] Recovered `career-sim` build rerun for ten browser-driven careers across
+  all three modes and seven positions: 217 seasons and 465 visible operations.
+- [x] `docs/NEW_UI_ARCHITECTURE.md` defines the new shell, route hierarchy,
+  stage surfaces, creation structure, visual system, and responsive contract.
+- [x] `docs/NEW_CAREER_LOOP.md` defines the canonical state machine, mode
+  budgets, pause priority, persistence invariants, and result lifecycle.
+- [x] No Phase 2 product implementation was mixed into the research phase.
+
+Strict rebuild Phase 1 result: `PASS` on 2026-08-08. Phase 2 is the only
+unlocked phase.
+
+### Strict rebuild Phase 2 gate
+
+- [x] `src/components/appShell.js` is the single production owner of Header,
+  MainViewport, ActionDock, and BottomNavigation mounting regions.
+- [x] `src/app.js` no longer constructs a competing application shell.
+- [x] MainViewport is the only vertical page scroll owner; route changes reset
+  it directly instead of scrolling the document.
+- [x] Career and Match contribute at most one primary action, which the shell
+  moves into the shared ActionDock above BottomNavigation.
+- [x] Premium light is the default presentation and dark mode remains available.
+- [x] System Chromium passes the PH2 layout gate at seven required phone widths
+  plus 1440 x 900, with no duplicate surfaces, overflow, overlap, or blocked hit target.
+- [x] The relocated Career primary command opens its real business Sheet from ActionDock.
+- [x] Mobile and desktop screenshots were visually inspected.
+- [x] Full automated tests pass: 170/170.
+- [x] Production build passes: version 20.43.0.
+
+Strict rebuild Phase 2 result: `PASS` on 2026-08-08. Phase 3 is the only
+active phase.
+
+### Strict rebuild Phase 3 gate
+
+- [x] The five-step creation flow retains career speed, identity, body and
+  position, player data, and first-club selection with persisted back/forward state.
+- [x] Immersive, Standard, and Fast are independent cards with an icon,
+  expected duration, interaction volume, target player, pace label, and explicit
+  selected state.
+- [x] Every creation position exposes at least five valid play styles.
+- [x] Player-data rerolls remain integer-based and capped at ten per save.
+- [x] Starting-club selection exposes at least three distinct real-club offers.
+- [x] System Chromium passes the PH3 creation gate at 320, 375, 390, 393, 414,
+  428, 430, and 1440 px with no horizontal overflow, covered action, card
+  misalignment, text overlap, or giant wrapper card.
+- [x] Mobile and desktop screenshots were visually inspected.
+- [x] Full automated tests pass: 170/170.
+- [x] Production build passes: version 20.44.0.
+
+Strict rebuild Phase 3 result: `PASS` on 2026-08-08. Phase 4 is the only
+active phase.
+
+### Strict rebuild Phase 4 gate
+
+- [x] The offline 2026 snapshot retains 601 raw records and 598 unique runtime
+  real players, including 519 Wikidata identities across 73 clubs.
+- [x] Fifty important clubs with public squad data begin with real players
+  instead of all-generated rosters.
+- [x] Runtime players expose `playerId`, localized and Latin names, club,
+  nationality, birth year, and normalized position fields.
+- [x] The only missing verified-player nationality was checked against a public
+  source and recorded with its source reference.
+- [x] LocalizedNameGenerator no longer creates truncated middle names or
+  synthetic compound surnames such as `Jack Eth. Bennett-Harrison`.
+- [x] Vietnam and Thailand have local name profiles and coherent starting-club
+  fallbacks; the existing 22 nationality profiles remain available.
+- [x] A 2,400-name sample passes locale, script, formatting, and uniqueness
+  checks; future club rosters remain duplicate-free.
+- [x] Chinese, Japanese, and Korean players do not repeat a forced Latin副名
+  in the normal club roster UI.
+- [x] The 390 x 844 browser gate passes with no runtime error or overflow.
+- [x] Full automated tests pass: 170/170.
+- [x] Production build passes: version 20.45.0, content version 2026.08.08.7.
+
+Strict rebuild Phase 4 result: `PASS` on 2026-08-08. Phase 5 is the only
+active phase.
+
+### Strict rebuild Phase 5 gate
+
+- [x] The existing same-position Rank List now shows player, OVR, age, role,
+  expected order, and recent form without introducing a second roster UI.
+- [x] Real snapshot players lead the competition list when available; generated
+  fallback names contain no technical Program Name placeholders.
+- [x] Every competition row is a single-click target and opens a Player Quick
+  Sheet with OVR, age, rank, role, source, and form.
+- [x] Missing birth years use a bounded fallback instead of rendering impossible
+  ages; browser acceptance enforces 16–45 years.
+- [x] The 390 x 844 and 1440 x 900 browser gates pass with six competitors,
+  real-player coverage, no overflow, and working Quick Sheets.
+- [x] Mobile and desktop screenshots were visually inspected.
+- [x] Full automated tests pass: 170/170.
+- [x] Production build passes: version 20.46.0.
+
+Strict rebuild Phase 5 result: `PASS` on 2026-08-08. Phase 6 is the only
+active phase.
+
+### Strict rebuild Phase 6 gate
+
+- [x] Transfer World exposes received invitations, agent recommendations,
+  active exploration, watched clubs, and negotiation history without adding a
+  second transfer engine.
+- [x] Market Heat has the five required levels: 冷淡, 观察, 升温, 热门, and
+  抢手; the first screen also shows club interest, contract status, agent advice,
+  and the latest rumor.
+- [x] Clubs proactively progress through 球探关注, 转会传闻, 经纪人联系,
+  俱乐部兴趣, and 正式报价, with real offer handling and negotiation history.
+- [x] The 100-window gate produces zero, one, and multiple market activities,
+  including domestic, overseas, higher-level, and lower-level clubs.
+- [x] System Chromium passes at 390 x 844 and 1440 x 900 with all five market
+  stages visible, working tabs and negotiation, no runtime error, and no
+  horizontal overflow.
+- [x] Mobile and desktop screenshots were visually inspected.
+- [x] Full automated tests pass: 170/170.
+- [x] Production build passes: version 20.47.0.
+
+Strict rebuild Phase 6 result: `PASS` on 2026-08-08. Phase 7 is the only
+active phase.
+
+### Strict rebuild Phase 7 gate
+
+- [x] Formal offers expose three distinct role-negotiation choices with dynamic
+  success rates, risk, potential reward, and failure loss instead of repeated
+  static percentages.
+- [x] Probability calculation includes OVR, potential, age, form, morale,
+  fitness, reputation, agent ability, club need, contract leverage, management
+  relationship, league fit, offer interest, and the save's deterministic seed.
+- [x] Negotiation outcomes persist success or failure, the agreed role, club
+  interest change, relationship change, roll, probability, and negotiation round.
+- [x] Informal contact can only request further interest and can no longer bypass
+  a formal offer to complete a transfer.
+- [x] The 1,000-event gate produces descending low/medium/high-risk probability
+  bands with more than 60 distinct values; no single value appears in 20% or more
+  of any option band.
+- [x] System Chromium validates the complete formal-offer negotiation and history
+  flow at 390 x 844 and 1440 x 900 with no runtime error or horizontal overflow.
+- [x] Mobile and desktop negotiation screenshots were visually inspected.
+- [x] Full automated tests pass: 172/172.
+- [x] Production build passes: version 20.48.0.
+
+Strict rebuild Phase 7 result: `PASS` on 2026-08-08. Phase 8 is the only
+active phase.
+
+### Strict rebuild Phase 8 gate
+
+- [x] Event sheets expose a clear header, visual scene, context, important
+  characters, location, choices, possible rewards, risks, random judgment, and result.
+- [x] Choice cards explain likely effects and risk in player language without
+  revealing the final outcome before selection.
+- [x] Choice and result surfaces contain no raw decimal effects, technical keys,
+  internal float-growth labels, flags, event weights, or random seeds.
+- [x] Eight position-specific events resolve once, persist once, and keep three
+  playable choices without runtime errors or horizontal overflow at 390 x 844.
+- [x] The 30-resolution mobile and desktop event interaction regression passes.
+- [x] The stable 390 x 844 event screenshot was visually inspected.
+- [x] Full automated tests pass: 172/172.
+- [x] Production build passes: version 20.49.0.
+
+Strict rebuild Phase 8 result: `PASS` on 2026-08-08. Phase 9 is the only
+active phase.
+
+### Strict rebuild Phase 9 gate
+
+- [x] Event choices lock once, transition to a dimmed judgment stage, roll a
+  visible number through a probability ring and animated motif, show a verdict,
+  and only then reveal the persisted result.
+- [x] Low-probability successes receive the stronger `RARE SUCCESS` treatment.
+- [x] Fifty-four deterministic feedback variants reuse the existing result and
+  random animation registries across ball, card, pointer, light, and trail motifs.
+- [x] One hundred consecutive browser-driven events all displayed a real
+  judgment stage before result reveal and persisted exactly one history record.
+- [x] The 100-event gate exercised 48 animation variants at 390 x 844 with no
+  runtime error; the judgment screenshot was visually inspected.
+- [x] Full automated tests pass: 174/174.
+- [x] Production build passes: version 20.50.0.
+
+Strict rebuild Phase 9 result: `PASS` on 2026-08-08. Phase 10 is the only
+active phase.
+
+### Strict rebuild Phase 10 gate
+
+- [x] All 56 stable event scene IDs resolve to 19 reusable documentary-style
+  JPEG photographs with semantic scene mapping and unified 16:9 framing.
+- [x] All photographs decode at 960 x 540; broken images and browser runtime
+  errors are both zero across the complete 56-scene registry.
+- [x] All 56 abstract event SVG files were removed and production references
+  to the legacy `assets/scenes` path are zero.
+- [x] The event sheet uses a local documentary photo fallback if a scene asset
+  cannot load.
+- [x] Internal source pages, creators, and license names are recorded in
+  `ASSET_SOURCES.md` without adding attribution text to the game UI.
+- [x] The focused six-test media contract and the Phase 10 Chromium image gate
+  pass; the stable 56-scene screenshot was visually inspected.
+- [x] The milestone run passed 173 non-version tests; its single stale version
+  expectation was corrected and passed its focused rerun.
+- [x] Production build passes: version 20.51.0.
+
+Strict rebuild Phase 10 result: `PASS` on 2026-08-08. Phase 11 is the only
+active phase.
+
+## Strict Rebuild Phase 11 Gate
+
+- [x] The complete LegendEvo 399-club catalog is retained locally: 204 source
+  clubs resolve to current records and 195 genuinely missing clubs are added.
+- [x] All 195 newly imported clubs use downloaded local legacy crest assets;
+  browser Broken 0 and runtime errors 0.
+- [x] The complete 63-item LegendEvo trophy and award catalog is copied locally.
+- [x] All 44 currently obtainable competition and award IDs resolve through one
+  `TrophyRegistry`; none of the production mappings uses the custom SVG set.
+- [x] All 19 obtainable personal awards have independent assets; missing assets,
+  invalid competition mappings, and duplicate award assets are all zero.
+- [x] Runtime data resolves 739 clubs, 73 leagues, and 107 trophy records.
+- [x] Focused tests pass 10/10; the PH11 Chromium asset gate checks 239 images
+  at 390x844 with Broken 0 and no browser errors.
+- [x] One final SHA-256 transfer-integrity manifest covers all 258 imported
+  club-crest and trophy files.
+- [x] Full automated tests pass 176/176 and production build 20.52.0 passes.
+
+Strict rebuild Phase 11 result: `PASS` on 2026-08-08. Phase 12 is the only
+active phase.
+
+## Strict Rebuild Phase 12 Gate
+
+- [x] Fifty registered mechanics resolve through real training or interactive
+  match renderers; 39 training games plus 16 match interactions expose 55
+  production gameplay entries.
+- [x] Position, match situation, training type, player attributes, opponent,
+  fatigue, pressure, match importance, and position fit affect selection or
+  difficulty.
+- [x] The library covers tap, hold, swipe, drag, draw, aim, timing, curve,
+  reaction, memory, sequence, prediction, target, and multi-stage interaction.
+- [x] Football, goal, player, defender, goalkeeper, route, and target scene
+  elements are present in the advanced gameplay renderer.
+- [x] Every session follows READY, ACTIVE, RESULT without resolving twice.
+- [x] One Chromium run completes 100/100 rounds, surfaces 36 distinct games and
+  19 advanced visual mechanisms, with overflow 0 and browser errors 0.
+- [x] The unchanged implementation reused the successful 176/176 milestone
+  suite; only the previously unrun 100-round browser gate was added.
+
+Strict rebuild Phase 12 result: `PASS` on 2026-08-08. Phase 13 is the only
+active phase.
+
+## Strict Rebuild Phase 13 Gate
+
+- [x] Real season fixtures are generated for every tested player and all
+  fixtures reach a played or recorded unavailable terminal state.
+- [x] Ordinary fixtures use automatic settlement in standard mode; important
+  fixtures pause for interactive handling.
+- [x] One hundred independent seasons complete with 3,486 automatic matches
+  and 200 key interactive matches.
+- [x] Interactive matches remain a small minority at 5.4%; average player
+  appearances are 30.81 and every season stays within 20-55 appearances.
+- [x] The PH13 simulation gate passes with no duplicate result recording.
+
+Strict rebuild Phase 13 result: `PASS` on 2026-08-09. Phase 14 is the only
+active phase.
+
+## Strict Rebuild Phase 14 Gate
+
+- [x] The age curve implements fast growth at 16-18, clear growth at 19-21,
+  maturity at 22-24, peak years at 25-29, stability/soft decline at 30-32,
+  and visible decline from 33 onward.
+- [x] Wonderkid, balanced, late-bloomer, injury-setback, and early-peak
+  trajectories produce distinct outcomes across 100 outfield simulations.
+- [x] Injury-setback players show a measurable injury-window cost; growth is
+  dynamic and neither fixed at +1 nor fixed at +5 each year.
+- [x] Goalkeepers use a separate later-peak curve and peaked after the sampled
+  outfield cohort.
+- [x] PH14 gate passes for 101 players from age 16 through 36.
+
+Strict rebuild Phase 14 result: `PASS` on 2026-08-09. Phase 15 is the only
+active phase.
+
+## Strict Rebuild Phase 15 Gate
+
+- [x] The runtime career event pack contains 568 events with three divergent
+  choices and persisted success/failure outcomes.
+- [x] All 21 career categories are represented; the separate finance pack adds
+  32 explicit money-management events without collapsing them into network or
+  sponsor content.
+- [x] Eight position groups each have at least eight dedicated events.
+- [x] Event titles, conflicts, choice labels, and visible copy are unique after
+  normalization; duplicate visible copy is zero.
+- [x] The event pack exposes 17 distinct risk values and no technical fields in
+  player-facing text.
+- [x] Gameplay depth audit passes with 32,504 effective outcome combinations;
+  the Chromium event gate passes all eight position routes and the rolling
+  judgement animation is active.
+
+Strict rebuild Phase 15 result: `PASS` on 2026-08-09. Phase 16 is the only
+active phase.
+
+## Strict Rebuild Phase 16 Gate
+
+- [x] Current-club actions open concrete scene-based flows instead of a toast:
+  coach meeting, minutes, position, training, loan, stay, transfer request,
+  teammate, captain, and management.
+- [x] Every action exposes three choices, a result animation, a cooldown, and
+  persisted relationship, morale, fatigue, training, intent, or transfer data.
+- [x] Chromium covers all 30 action routes across 320, 390, and 430 pixels;
+  choices tested 90, horizontal overflow 0, browser errors 0.
+
+Strict rebuild Phase 16 result: `PASS` on 2026-08-09. Phase 17 is the only
+active phase.
+
+## Historical 20.42.0 gate record
+
 Local repository state is the source of truth. A phase may move to `PASS` only after its implementation, automated tests, local runtime test, applicable mobile test, and acceptance evidence all pass.
 
 | Phase | Scope | Status |

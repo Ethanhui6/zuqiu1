@@ -1,5 +1,5 @@
 {
-  "version": "20.21.0",
+  "version": "20.58.0",
   "leagues": [
     {
       "id": "THA1",
@@ -27,6 +27,21 @@
       "continent": "南美洲",
       "level": 1,
       "isReal": true
+    },
+    {
+      "id": "VNM1",
+      "cn": "越南足球甲级联赛",
+      "native": "V.League 1",
+      "country": "越南",
+      "countryCode": "VNM",
+      "continent": "亚洲",
+      "level": 1,
+      "isReal": true,
+      "dataSource": {
+        "identity": "Vietnam Professional Football league reference",
+        "sourceName": "VPF",
+        "sourceReference": "https://vpf.vn/"
+      }
     }
   ],
   "competitions": [
@@ -1868,6 +1883,30 @@
       "dataSource": {
         "crest": "project-generated deterministic club identifier"
       }
+    },
+    {
+      "id": "VNM1-HAN", "code": "HAN", "nameZh": "河内FC", "nameEn": "Hanoi FC", "cn": "河内FC", "en": "Hanoi FC", "native": "Hà Nội FC",
+      "country": "越南", "countryCode": "VNM", "continent": "亚洲", "leagueId": "VNM1", "leagueCn": "越南足球甲级联赛", "leagueNative": "V.League 1",
+      "level": 1, "divisionLevel": 1, "city": "河内", "rep": 73, "reputation": 73, "attack": 73, "defense": 72, "youth": 75, "finance": 70, "youthUsage": 72,
+      "needs": ["ST", "CB"], "isReal": true, "crest": "./assets/clubs/vietnam/vnm1-han.svg",
+      "crestSource": { "repository": "Wikipedia file repository", "sourcePage": "https://en.wikipedia.org/wiki/File:HN_FC_Logo.svg", "license": "Fair use", "generated": false },
+      "dataSource": { "identity": "Vietnam Professional Football club identity", "sourceName": "VPF / Wikipedia", "sourceReference": "https://vpf.vn/team/ha-noi/", "verified": true, "crest": "https://en.wikipedia.org/wiki/File:HN_FC_Logo.svg" }
+    },
+    {
+      "id": "VNM1-VIE", "code": "VIE", "nameZh": "体工电信", "nameEn": "The Cong Viettel FC", "cn": "体工电信", "en": "The Cong Viettel FC", "native": "Thể Công – Viettel FC",
+      "country": "越南", "countryCode": "VNM", "continent": "亚洲", "leagueId": "VNM1", "leagueCn": "越南足球甲级联赛", "leagueNative": "V.League 1",
+      "level": 1, "divisionLevel": 1, "city": "河内", "rep": 72, "reputation": 72, "attack": 72, "defense": 72, "youth": 77, "finance": 72, "youthUsage": 76,
+      "needs": ["CM", "RW"], "isReal": true, "crest": "./assets/clubs/vietnam/vnm1-vie.svg",
+      "crestSource": { "repository": "Vietnamese Wikipedia file repository", "sourcePage": "https://vi.wikipedia.org/wiki/T%E1%BA%ADp_tin:Logo_CLB_TC-VT.svg", "license": "Sử dụng hợp lý / fair use", "generated": false },
+      "dataSource": { "identity": "Vietnam Professional Football club identity", "sourceName": "VPF / Wikipedia", "sourceReference": "https://vpf.vn/team/viettel/", "verified": true, "crest": "https://vi.wikipedia.org/wiki/T%E1%BA%ADp_tin:Logo_CLB_TC-VT.svg" }
+    },
+    {
+      "id": "VNM1-CAH", "code": "CAH", "nameZh": "河内公安", "nameEn": "Cong An Ha Noi FC", "cn": "河内公安", "en": "Cong An Ha Noi FC", "native": "Công An Hà Nội FC",
+      "country": "越南", "countryCode": "VNM", "continent": "亚洲", "leagueId": "VNM1", "leagueCn": "越南足球甲级联赛", "leagueNative": "V.League 1",
+      "level": 1, "divisionLevel": 1, "city": "河内", "rep": 74, "reputation": 74, "attack": 74, "defense": 74, "youth": 72, "finance": 75, "youthUsage": 68,
+      "needs": ["GK", "LB"], "isReal": true, "crest": "./assets/clubs/vietnam/vnm1-cah.svg",
+      "crestSource": { "repository": "Vietnamese Wikipedia file repository", "sourcePage": "https://vi.wikipedia.org/wiki/T%E1%BA%ADp_tin:Logo_CAHN_FC.svg", "license": "Sử dụng hợp lý / fair use", "generated": false },
+      "dataSource": { "identity": "Vietnam Professional Football club identity", "sourceName": "VPF / Wikipedia", "sourceReference": "https://vpf.vn/team/cong-an-ha-noi/", "verified": true, "crest": "https://vi.wikipedia.org/wiki/T%E1%BA%ADp_tin:Logo_CAHN_FC.svg" }
     }
   ],
   "sources": [
@@ -1885,6 +1924,11 @@
       "competitionId": "ECU1-2026",
       "source": "https://ligapro.ec/",
       "note": "Club and competition identity reference; simulation ratings are project estimates."
+    },
+    {
+      "leagueId": "VNM1",
+      "source": "https://vpf.vn/",
+      "note": "League and club identity reference; simulation ratings are project estimates."
     }
   ]
 }

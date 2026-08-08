@@ -31,11 +31,11 @@ test('visual registry exposes 500 unique SVG assets and 100 feedback scenarios',
   assert.ok(FEEDBACK_CATALOG['scenario-100']);
 });
 
-test('production shell keeps the dark football baseline', () => {
+test('production shell starts light and keeps dark mode available', () => {
   const css = fs.readFileSync(new URL('../styles.css', import.meta.url), 'utf8');
   const html = fs.readFileSync(new URL('../index.html', import.meta.url), 'utf8');
-  assert.match(css, /color-scheme:\s*dark/);
-  assert.match(css, /--bg:\s*#0b1017/);
-  assert.doesNotMatch(css, /color-scheme:\s*light/);
-  assert.match(html, /theme-color" content="#0b1017"/);
+  assert.match(css, /:root:not\(\[data-theme\]\)\s*{[\s\S]*?color-scheme:\s*light/);
+  assert.match(css, /--bg:\s*#f4f7fb/);
+  assert.match(css, /:root\[data-theme="dark"\]\s*{\s*color-scheme:\s*dark/);
+  assert.match(html, /theme-color" content="#f4f7fb"/);
 });

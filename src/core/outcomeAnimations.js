@@ -8,9 +8,15 @@ export const RANDOM_ANIMATIONS = Object.freeze([
   'coin-flip', 'dual-route', 'ball-zone', 'var-review', 'penalty-direction', 'keeper-dive', 'draw-ball', 'offer-counter', 'agent-call', 'medical-scan', 'weather-shift', 'referee-delay', 'pass-intercept', 'post-bounce', 'crowd-swing', 'headline-cut', 'coach-roll', 'national-list', 'award-roll', 'cup-draw', 'contract-reveal', 'medical-terms', 'family-reaction', 'season-surprise'
 ]);
 
+export const EVENT_JUDGEMENT_ANIMATIONS = Object.freeze([...RESULT_ANIMATIONS, ...RANDOM_ANIMATIONS]);
+
 export function pickOutcomeAnimation(type = 'success', seed = 'outcome') {
   const pool = type === 'random' ? RANDOM_ANIMATIONS : RESULT_ANIMATIONS;
   return keyedRandom(seed, type, pool.length).pick(pool);
+}
+
+export function pickEventJudgementAnimation(seed = 'event') {
+  return keyedRandom(seed, 'event-judgement', EVENT_JUDGEMENT_ANIMATIONS.length).pick(EVENT_JUDGEMENT_ANIMATIONS);
 }
 
 export function resolveRandomOutcome(state, key, kind = 'random') {

@@ -1,18 +1,27 @@
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { TROPHY_LIST, TROPHY_REGISTRY } from '../src/data/trophyRegistry.js';
+import { OBTAINABLE_AWARD_IDS } from '../src/components/trophyIcon.js';
+
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
-const base = JSON.parse(await fs.readFile(path.join(root, 'data', 'trophies.json'), 'utf8'));
+const legacy = JSON.parse(await fs.readFile(path.join(root, 'data', 'legendevo-trophies.json'), 'utf8'));
 const expansion = JSON.parse(await fs.readFile(path.join(root, 'data', 'world-expansion.json'), 'utf8'));
-const { TROPHY_ASSETS, OBTAINABLE_AWARD_IDS } = await import('../src/components/trophyIcon.js');
-const trophies = [...base, ...expansion.trophies];
-const checked = await Promise.all(trophies.map(async item => ({ item, ok: await fs.access(path.join(root, item.image.replace(/^\.\//, ''))).then(() => true).catch(() => false) })));
-const broken = checked.filter(item => !item.ok);
-const duplicateAssets = trophies.filter((item, index) => trophies.findIndex(other => other.image === item.image) !== index);
-const unmapped = trophies.filter(item => TROPHY_ASSETS[item.id]?.replace(/^\.\//, '') !== item.image.replace(/^\.\//, ''));
-const trophyIds = new Set(trophies.map(item => item.id));
-const unregistered = Object.keys(TROPHY_ASSETS).filter(id => !trophyIds.has(id));
-const missingAwards = OBTAINABLE_AWARD_IDS.filter(id => !trophyIds.has(id));
-const result = { status: 'PASS', total: trophies.length, competitions: trophies.length - OBTAINABLE_AWARD_IDS.length, awards: OBTAINABLE_AWARD_IDS.length, uniqueAssets: new Set(trophies.map(item => item.image)).size, broken: broken.length, duplicateAssets: duplicateAssets.length, unmapped: unmapped.length, unregistered: unregistered.length, missingAwards: missingAwards.length };
-if ([broken, duplicateAssets, unmapped, unregistered, missingAwards].some(items => items.length)) throw new Error(JSON.stringify({ ...result, status: 'FAIL' }));
+const missing = [];
+for (const item of [...TROPHY_LIST, ...legacy]) {
+  const asset = item.asset || `./${item.image}`;
+  try { await fs.access(path.join(root, asset.replace(/^\.\//, ''))); }
+  catch { missing.push(item.id); }
+}
+const awards = TROPHY_LIST.filter(item => item.kind === 'award');
+const badCompetitionRefs = (expansion.competitions || []).filter(item => TROPHY_REGISTRY[item.trophyId]?.kind !== 'competition');
+const result = {
+  status: 'PASS', currentMappings: TROPHY_LIST.length, legacyCatalog: legacy.length,
+  competitions: TROPHY_LIST.length - awards.length, awards: awards.length,
+  missing: missing.length, nonLegacySvgMappings: TROPHY_LIST.filter(item => item.asset.endsWith('.svg')).length,
+  duplicateAwardAssets: awards.length - new Set(awards.map(item => item.asset)).size,
+  badCompetitionRefs: badCompetitionRefs.length,
+  missingAwards: OBTAINABLE_AWARD_IDS.filter(id => TROPHY_REGISTRY[id]?.kind !== 'award').length
+};
+if (Object.entries(result).some(([key, value]) => !['currentMappings','legacyCatalog','competitions','awards'].includes(key) && key !== 'status' && value)) throw new Error(JSON.stringify({ ...result, status: 'FAIL' }));
 console.log(JSON.stringify(result));

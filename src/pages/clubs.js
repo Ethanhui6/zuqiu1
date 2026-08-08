@@ -66,6 +66,8 @@ export function clubsPage(app, state) {
   });
   root.querySelector('[data-club-query]')?.addEventListener('input', event => app.store.set(current => { current.transfer.clubDirectory = { ...(current.transfer.clubDirectory || {}), query: event.target.value }; return current; }, { persist: false }));
   root.addEventListener('click', event => {
+    const competitor = event.target.closest('[data-competition-player]');
+    if (competitor) return app.overlay.sheet('球员竞争详情', competitionPlayerSheet(competitor.dataset));
     const action = event.target.closest('[data-club-action]')?.dataset.clubAction;
     if (action) return app.handleClubAction(action, selected);
     const clubId = event.target.closest('[data-club]')?.dataset.club;
@@ -139,15 +141,24 @@ function squadSection(club, state, current) {
   const position = rosterPosition(rawPosition);
   const seasonYear = Number(String(state.simulation?.date || '2026').slice(0, 4));
   const roster = (dataRepository.rosterForClub(club.id, { limit: 50, seed: player.name || 'career', seasonYear }) || []).filter(item => item.position === position).slice(0, 5);
-  const rows = [...roster, { id: 'player', cn: player.name || '你的球员', name: player.name || '你的球员', position, ovr: number(player.ovr, 60), isPlayer: true }].sort((a, b) => number(b.ovr) - number(a.ovr));
-  return `<section class="club-roster-section"><div class="section-heading"><div><div class="card-kicker">${icon('users','sm')} 阵容竞争 · ${POSITION_NAMES[rawPosition] || POSITION_NAMES[position] || rawPosition}</div><h2 class="card-title">同位置出场顺位</h2><p class="card-copy">只比较${POSITION_NAMES[rawPosition] || POSITION_NAMES[position] || position}，不会把门将和场上球员放在同一条竞争线上。</p></div><span class="badge blue">${rows.length} 人</span></div><div class="club-roster-table">${rows.map((item, index) => rosterRow(item, index, club, current)).join('')}</div></section>`;
+  const rows = [...roster, { id: 'player', cn: player.name || '你的球员', name: player.name || '你的球员', position, ovr: number(player.ovr, 60), age: number(player.age, 16), isPlayer: true }].sort((a, b) => number(b.ovr) - number(a.ovr));
+  return `<section class="club-roster-section"><div class="section-heading"><div><div class="card-kicker">${icon('users','sm')} 阵容竞争 · ${POSITION_NAMES[rawPosition] || POSITION_NAMES[position] || rawPosition}</div><h2 class="card-title">同位置出场顺位</h2><p class="card-copy">只比较${POSITION_NAMES[rawPosition] || POSITION_NAMES[position] || position}，点击球员可查看竞争详情。</p></div><span class="badge blue">${rows.length} 人</span></div><div class="club-roster-table">${rows.map((item, index) => rosterRow(item, index, club, seasonYear)).join('')}</div></section>`;
 }
 
-function rosterRow(item, index, club, current) {
+function rosterRow(item, index, club, seasonYear) {
   const name = item.isPlayer ? item.name : item.cn || item.name || '青年球员';
+  const hideLatinName = ['中国', '中國', '日本', '韩国', '韓國', '南韓'].includes(item.nationality || item.nation);
   const status = item.isPlayer ? '你' : index === 0 ? '核心' : index === 1 ? '主力' : index < 3 ? '轮换' : '替补';
   const trend = item.isPlayer ? '近期可提升' : (number(item.ovr) + number(club.rep)) % 3 === 0 ? '状态上升' : '稳定';
-  return `<div class="club-roster-row ${item.isPlayer ? 'is-player' : ''}"><span class="roster-rank">${String(index + 1).padStart(2, '0')}</span><div class="roster-avatar">${escapeHtml(name.slice(0, 1))}</div><div class="roster-name"><strong>${escapeHtml(name)}</strong><span>${item.isPlayer ? '当前存档' : escapeHtml(item.name && item.cn ? item.name : item.nation || '模拟阵容')}</span></div><span class="roster-position">${item.position}</span><strong class="roster-ovr">${Math.round(number(item.ovr, 60))}</strong><span class="badge ${item.isPlayer ? 'green' : index < 2 ? 'orange' : 'blue'}">${status}</span><span class="roster-form">${trend}</span></div>`;
+  const birthYear = Number(item.birthYear);
+  const age = item.isPlayer ? number(item.age, 16) : Number.isInteger(birthYear) && birthYear > 1900 ? Math.max(16, number(seasonYear) - birthYear) : 20;
+  const source = item.isPlayer ? '当前存档' : item.isReal ? '真实阵容' : '青训补位';
+  const subtitle = item.name && item.cn && !hideLatinName ? item.name : item.nationality || item.nation || source;
+  return `<button type="button" class="club-roster-row ${item.isPlayer ? 'is-player' : ''}" data-competition-player="${escapeHtml(item.id || name)}" data-player-name="${escapeHtml(name)}" data-player-age="${age}" data-player-position="${escapeHtml(item.position)}" data-player-ovr="${Math.round(number(item.ovr, 60))}" data-player-role="${status}" data-player-rank="${index + 1}" data-player-form="${trend}" data-player-source="${source}"><span class="roster-rank">#${index + 1}</span><div class="roster-avatar">${escapeHtml(name.slice(0, 1))}</div><div class="roster-name"><strong>${escapeHtml(name)}</strong><span>${escapeHtml(subtitle)} · ${trend}</span></div><span class="roster-position">${escapeHtml(item.position)} · ${age}岁</span><strong class="roster-ovr">${Math.round(number(item.ovr, 60))}</strong><span class="badge ${item.isPlayer ? 'green' : index < 2 ? 'orange' : 'blue'}">${status}</span><span class="roster-form">${trend}</span></button>`;
+}
+
+function competitionPlayerSheet(player) {
+  return `<section class="surface-card competition-player-sheet"><div class="card-row"><div><div class="card-kicker">${icon('club','sm')} ${escapeHtml(player.playerSource)}</div><h3 class="card-title">${escapeHtml(player.playerName)}</h3><p class="card-copy">${escapeHtml(player.playerPosition)} · ${escapeHtml(player.playerAge)}岁 · 预计第 ${escapeHtml(player.playerRank)} 顺位</p></div><span class="badge ${player.playerRole === '你' ? 'green' : 'blue'}">${escapeHtml(player.playerRole)}</span></div>${statGrid([['OVR', player.playerOvr], ['年龄', `${player.playerAge}岁`], ['预计顺位', `#${player.playerRank}`], ['近期状态', player.playerForm]])}</section>`;
 }
 
 function tacticsSection(club, state) {

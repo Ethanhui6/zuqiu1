@@ -19,6 +19,8 @@ test('phase 17 stores a sourced offline snapshot for fifty important clubs',()=>
   assert.ok(wikidataPlayers.every(player=>player.isReal&&player.snapshotSeason===REAL_SQUAD_SNAPSHOT_SEASON));
   assert.ok(wikidataPlayers.every(player=>player.sourceReference?.startsWith('https://www.wikidata.org/wiki/Q')));
   assert.ok(wikidataPlayers.every(player=>player.dataOrigin?.identity==='verified-public'&&player.dataOrigin?.ratings==='estimated'));
+  const normalized=registry.players.filter(player=>player.sourceName==='Wikidata');
+  assert.ok(normalized.every(player=>player.playerId&&player.nameZh&&player.nameLatin&&player.nameLocal&&player.clubId&&player.nationality&&player.birthYear&&player.position));
   assert.ok(sources.license==='CC0-1.0'&&sources.clubs.length>=75);
 });
 

@@ -1,0 +1,11 @@
+{
+  "countryCode": "VN",
+  "locale": "vi-VN",
+  "givenNamesMale": ["Anh", "Bảo", "Công", "Duy", "Hải", "Hùng", "Khánh", "Long", "Minh", "Nam", "Phong", "Quang", "Sơn", "Thành", "Tuấn", "Việt"],
+  "familyNames": ["Nguyễn", "Trần", "Lê", "Phạm", "Hoàng", "Huỳnh", "Phan", "Vũ", "Võ", "Đặng", "Bùi", "Đỗ", "Hồ", "Ngô", "Dương", "Lý"],
+  "nameOrder": "family-given",
+  "separator": " ",
+  "displayScript": "latin",
+  "romanizationOptional": false,
+  "nicknameRules": []
+}

@@ -9,14 +9,16 @@ const packageJson = JSON.parse(await fs.readFile(path.join(root, 'package.json')
 const { version } = packageJson;
 const baseWorld = JSON.parse(await fs.readFile(path.join(root, 'data', 'clubs.json'), 'utf8'));
 const expansion = JSON.parse(await fs.readFile(path.join(root, 'data', 'world-expansion.json'), 'utf8'));
+const legacyClubs = JSON.parse(await fs.readFile(path.join(root, 'data', 'legendevo-clubs.json'), 'utf8'));
 const trophies = JSON.parse(await fs.readFile(path.join(root, 'data', 'trophies.json'), 'utf8'));
+const legacyTrophies = JSON.parse(await fs.readFile(path.join(root, 'data', 'legendevo-trophies.json'), 'utf8'));
 const players = JSON.parse(await fs.readFile(path.join(root, 'data', 'players.json'), 'utf8'));
 const versionMetadata = JSON.parse(await fs.readFile(path.join(root, 'data', 'version.json'), 'utf8'));
 const world = createWorldRegistry({
-  clubs: [...baseWorld.clubs, ...expansion.clubs],
-  leagues: [...baseWorld.leagues, ...expansion.leagues],
+  clubs: [...baseWorld.clubs, ...expansion.clubs, ...legacyClubs.clubs],
+  leagues: [...baseWorld.leagues, ...expansion.leagues, ...legacyClubs.leagues],
   players,
-  trophies: [...trophies, ...(expansion.trophies || [])],
+  trophies: [...trophies, ...(expansion.trophies || []), ...legacyTrophies],
   competitions: expansion.competitions || []
 });
 if (!world.audit.valid) throw new Error(`世界数据审计失败：${world.audit.errors.join('; ')}`);

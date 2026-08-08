@@ -1,0 +1,52 @@
+const legacy = id => `./assets/trophies/legendevo/${id}.webp`;
+const recovered = id => `./assets/trophies/trophy_${String(id).padStart(2, '0')}.png`;
+
+const definitions = [
+  ['world-cup', '世界杯', 'competition', legacy('world-cup')],
+  ['champions', '欧洲冠军联赛', 'competition', legacy('champions-league')],
+  ['ballon', '金球奖', 'award', legacy('ballon-dor')],
+  ['league', '顶级联赛冠军', 'competition', legacy('liga-mx')],
+  ['domestic', '国内杯冠军', 'competition', legacy('arg-copa-argentina')],
+  ['golden-boot', '金靴奖', 'award', legacy('golden-boot')],
+  ['young', '最佳年轻球员', 'award', legacy('young-player')],
+  ['national', '洲际国家队冠军', 'competition', legacy('gold-cup')],
+  ['club-world', '世俱杯', 'competition', legacy('club-world-cup')],
+  ['supercup', '超级杯', 'competition', recovered(0)],
+  ['player-year', '年度最佳球员', 'award', legacy('player-of-year')],
+  ['legend', '传奇名人堂', 'award', recovered(1)],
+  ['premier-league', '英超冠军', 'competition', legacy('premier-league')],
+  ['fa-cup', '足总杯冠军', 'competition', legacy('eng-fa-cup')],
+  ['league-cup', '联赛杯冠军', 'competition', recovered(2)],
+  ['la-liga', '西甲冠军', 'competition', legacy('laliga')],
+  ['bundesliga', '德甲冠军', 'competition', legacy('bundesliga')],
+  ['serie-a', '意甲冠军', 'competition', legacy('serie-a')],
+  ['ligue-1', '法甲冠军', 'competition', legacy('ligue-1')],
+  ['europa', '欧联杯冠军', 'competition', legacy('europa-league')],
+  ['afc', '亚冠冠军', 'competition', legacy('afc-champions-elite')],
+  ['euros', '欧洲杯冠军', 'competition', legacy('euro')],
+  ['copa-america', '美洲杯冠军', 'competition', legacy('copa-america')],
+  ['asian-cup', '亚洲杯冠军', 'competition', legacy('asian-cup')],
+  ['best-keeper', '最佳门将', 'award', recovered(3)],
+  ['assists-king', '助攻王', 'award', legacy('playmaker')],
+  ['best-xi', '年度最佳阵容', 'award', recovered(4)],
+  ['league-title', '联赛冠军', 'competition', legacy('brasileirao')],
+  ['domestic-cup', '国内杯赛冠军', 'competition', legacy('bra-copa-do-brasil')],
+  ['continental-title', '洲际俱乐部冠军', 'competition', legacy('libertadores')],
+  ['golden-glove', '金手套奖', 'award', legacy('golden-glove')],
+  ['best-defender', '最佳后卫', 'award', legacy('best-defender')],
+  ['young-player', '赛季最佳年轻球员', 'award', recovered(5)],
+  ['player-of-season', '赛季最佳球员', 'award', recovered(6)],
+  ['world-player', '世界年度最佳球员', 'award', recovered(7)],
+  ['best-midfielder', '最佳中场', 'award', legacy('best-midfielder')],
+  ['best-forward', '最佳前锋', 'award', recovered(8)],
+  ['golden-boy', '金童奖', 'award', recovered(9)],
+  ['world-cup-golden-ball', '世界杯金球奖', 'award', legacy('copa-de-primera')],
+  ['world-cup-golden-boot', '世界杯金靴奖', 'award', legacy('mex-copa-mx')],
+  ['world-cup-best-young', '世界杯最佳年轻球员', 'award', legacy('liga-bolivia')],
+  ['thai-league', '泰国顶级联赛冠军', 'competition', legacy('liga-de-primera')],
+  ['hungarian-league', '匈牙利顶级联赛冠军', 'competition', legacy('liga-dimayor')],
+  ['ecuadorian-league', '厄瓜多尔顶级联赛冠军', 'competition', legacy('ligapro-serie-a')]
+];
+
+export const TROPHY_LIST = Object.freeze(definitions.map(([id, name, kind, asset]) => Object.freeze({ id, name, kind, asset })));
+export const TROPHY_REGISTRY = Object.freeze(Object.fromEntries(TROPHY_LIST.map(item => [item.id, item])));

@@ -8,7 +8,7 @@ const executablePath = [
   'C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe',
   'C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe'
 ].find(fs.existsSync);
-const viewports = [[320, 568], [375, 812], [390, 844], [393, 852], [414, 896], [428, 926], [430, 932]];
+const viewports = [[320, 568], [375, 812], [390, 844], [393, 852], [414, 896], [428, 926], [430, 932], [1440, 900]];
 const requiredVariables = [
   '--header-height', '--bottom-nav-height', '--action-bar-height', '--safe-top', '--safe-bottom',
   '--page-padding', '--page-bottom-space', '--z-content', '--z-header', '--z-action', '--z-nav',
@@ -44,9 +44,21 @@ async function layoutSnapshot(page) {
       scrollWidth: document.documentElement.scrollWidth,
       header: rect('.app-topbar'),
       main: rect('.app-main'),
+      actionDock: rect('.app-action-dock:not([hidden])'),
       action: rect('.page-fixed-action'),
       nav: rect('.glass-tabbar'),
       actionHit: Boolean(actionButton && (hit === actionButton || hit?.closest('.app-button') === actionButton)),
+      actionInDock: Boolean(actionButton?.closest('.app-action-dock')),
+      surfaceCounts: {
+        header: document.querySelectorAll('.app-topbar').length,
+        action: document.querySelectorAll('.page-fixed-action').length,
+        nav: document.querySelectorAll('.glass-tabbar').length
+      },
+      scrollOwner: {
+        body: getComputedStyle(document.body).overflowY,
+        main: getComputedStyle(document.querySelector('.app-main')).overflowY
+      },
+      theme: document.documentElement.dataset.theme,
       variables: Object.fromEntries(names.map(name => [name, style.getPropertyValue(name).trim()]))
     };
   }, requiredVariables);
@@ -70,12 +82,28 @@ try {
     const geometry = await layoutSnapshot(page);
     assert.ok(Object.values(geometry.variables).every(Boolean), `${width}px is missing a layout variable`);
     assert.ok(geometry.scrollWidth <= width + 1, `${width}px has horizontal overflow`);
-    assert.ok(geometry.header && geometry.main && geometry.action && geometry.nav, `${width}px is missing a global surface`);
+    assert.ok(geometry.header && geometry.main && geometry.actionDock && geometry.action && geometry.nav, `${width}px is missing a global surface`);
+    assert.deepEqual(geometry.surfaceCounts, { header: 1, action: 1, nav: 1 }, `${width}px duplicates a global surface`);
+    assert.equal(geometry.theme, 'light', `${width}px does not start in the light theme`);
+    assert.equal(geometry.scrollOwner.body, 'hidden', `${width}px body is an extra scroll owner`);
+    assert.ok(['auto', 'scroll'].includes(geometry.scrollOwner.main), `${width}px main is not the scroll owner`);
     assert.ok(geometry.header.top >= 0 && geometry.header.bottom <= height, `${width}px header is outside viewport`);
     assert.ok(geometry.nav.left >= 0 && geometry.nav.right <= width && geometry.nav.bottom <= height, `${width}px nav is outside viewport`);
+    assert.ok(geometry.main.top >= geometry.header.bottom - 1 && geometry.main.bottom <= geometry.actionDock.top + 1, `${width}px main escapes the shared shell grid`);
+    assert.ok(geometry.actionDock.bottom <= geometry.nav.top + 1, `${width}px action dock overlaps navigation`);
     assert.ok(geometry.action.left >= 0 && geometry.action.right <= width, `${width}px action bar is outside viewport`);
     assert.ok(geometry.action.bottom <= geometry.nav.top + 1, `${width}px action bar overlaps navigation`);
+    assert.equal(geometry.actionInDock, true, `${width}px primary action is not owned by ActionDock`);
     assert.equal(geometry.actionHit, true, `${width}px action button is covered`);
+
+    if (width === 390) {
+      await page.locator('.app-action-dock .page-fixed-action .app-button').click();
+      const actionOverlay = page.locator('#overlay-root .overlay');
+      await actionOverlay.waitFor();
+      assert.equal(await actionOverlay.count(), 1, 'ActionDock primary command does not reach the page handler');
+      await actionOverlay.locator('[data-close-sheet]').click();
+      assert.equal(await page.locator('#overlay-root .overlay').count(), 0);
+    }
 
     assert.ok(await page.locator('.toast').count() <= 3, `${width}px shows more than three creation toasts`);
     await page.locator('[data-top-save]').click();

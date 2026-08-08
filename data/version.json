@@ -1,14 +1,14 @@
 {
-  "version": "20.42.0",
-  "channel": "strict-phase-12",
-  "contentVersion": "2026.08.08.6",
-  "contentUpdatedAt": "2026-08-08",
+  "version": "20.60.0",
+  "channel": "strict-rebuild-phase-21",
+  "contentVersion": "2026.08.09.3",
+  "contentUpdatedAt": "2026-08-09",
   "contentSource": "local versioned data packages",
-  "buildDate": "2026-08-08",
+  "buildDate": "2026-08-09",
   "schemaVersion": 35,
   "scoreVersion": "2026.08.08.4",
   "data": {
-    "clubs": 544,
+    "clubs": 742,
     "realPlayers": 598,
     "realRosterClubs": 73,
     "achievements": 330,
@@ -23,8 +23,38 @@
     "worldApi": true,
     "serverAuthoritativeScore": true
   },
-  "buildVersion": "20.42.0-20260808-8",
+  "buildVersion": "20.60.0-20260809-3",
   "updateLog": [
+    {
+      "version": "2026.08.09.3",
+      "date": "2026-08-09",
+      "summary": "PH21 移动端交互遮挡修复",
+      "changes": {
+        "mobileViewports": 7,
+        "mobileGeometryChecks": 161,
+        "coveredControls": 0
+      }
+    },
+    {
+      "version": "2026.08.09.2",
+      "date": "2026-08-09",
+      "summary": "全量运行世界队徽审计与浏览器加载校验",
+      "changes": {
+        "crestAuditClubs": 742,
+        "crestAuditAssets": 742,
+        "browserBrokenCrests": 0
+      }
+    },
+    {
+      "version": "2026.08.09.1",
+      "date": "2026-08-09",
+      "summary": "补齐越南 V.League 1 地区覆盖与三家真实俱乐部队徽",
+      "changes": {
+        "newLeagues": 1,
+        "newClubs": 3,
+        "realCrests": 3
+      }
+    },
     {
       "version": "2026.08.08.5",
       "date": "2026-08-08",
@@ -43,6 +73,26 @@
         "contentActivation": 1,
         "offSeasonRoutes": 8,
         "versionContract": 1
+      }
+    },
+    {
+      "version": "2026.08.08.7",
+      "date": "2026-08-08",
+      "summary": "真实球员字段统一、越南与泰国姓名档案及生成姓名质量修复",
+      "changes": {
+        "realPlayerNationalityFixes": 1,
+        "nameProfiles": 2,
+        "localizedNameGenerator": 1
+      }
+    },
+    {
+      "version": "2026.08.08.8",
+      "date": "2026-08-08",
+      "summary": "迁移 LegendEvo 完整 399 队目录、缺失真实队徽和旧站奖杯资源",
+      "changes": {
+        "legacyClubCatalog": 399,
+        "newlyImportedClubs": 195,
+        "legacyTrophyAssets": 63
       }
     }
   ]
