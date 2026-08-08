@@ -136,6 +136,36 @@ body:has(.app-shell) { min-height:100svh; min-height:100dvh; height:auto; overfl
 .app-main { min-height:0; overflow:visible; overscroll-behavior-y:auto; -webkit-overflow-scrolling:touch; }
 body.has-open-sheet { overflow:hidden; }
 
+/* Phase 26 semantic accents: one quiet material system, distinct football meanings. */
+:root {
+  --match:#35b77c; --match-soft:rgba(53,183,124,.18);
+  --growth:#a78bfa; --growth-soft:rgba(167,139,250,.18);
+  --honor:#e2b84d; --honor-soft:rgba(226,184,77,.18);
+  --transfer:#33b8b5; --transfer-soft:rgba(51,184,181,.18);
+  --injury:#ef6b7b; --injury-soft:rgba(239,107,123,.18);
+  --media:#d779b7; --media-soft:rgba(215,121,183,.18);
+  --fitness:#44bd81; --fitness-soft:rgba(68,189,129,.18);
+  --pressure:#f29b52; --pressure-soft:rgba(242,155,82,.18);
+  --national:#5f8edb; --national-soft:rgba(95,142,219,.18);
+}
+:root[data-theme="light"] {
+  --match:#147a50; --match-soft:rgba(20,122,80,.11);
+  --growth:#7048b8; --growth-soft:rgba(112,72,184,.11);
+  --honor:#8d6508; --honor-soft:rgba(141,101,8,.11);
+  --transfer:#08797a; --transfer-soft:rgba(8,121,122,.11);
+  --injury:#b52d42; --injury-soft:rgba(181,45,66,.11);
+  --media:#9b3f7a; --media-soft:rgba(155,63,122,.11);
+  --fitness:#137a4d; --fitness-soft:rgba(19,122,77,.11);
+  --pressure:#ad5310; --pressure-soft:rgba(173,83,16,.11);
+  --national:#234f91; --national-soft:rgba(35,79,145,.11);
+}
+.career-page { --page-accent:var(--fitness); --page-accent-soft:var(--fitness-soft); }
+.match-hub-page { --page-accent:var(--match); --page-accent-soft:var(--match-soft); }
+.training-page { --page-accent:var(--growth); --page-accent-soft:var(--growth-soft); }
+.transfer-page { --page-accent:var(--transfer); --page-accent-soft:var(--transfer-soft); }
+.clubs-page { --page-accent:var(--national); --page-accent-soft:var(--national-soft); }
+.more-page { --page-accent:var(--media); --page-accent-soft:var(--media-soft); }
+
 .season-review{display:grid;gap:12px}.season-review-hero{display:grid;grid-template-columns:64px minmax(0,1fr);gap:14px;align-items:center}.season-review-crest{width:64px;height:64px;display:grid;place-items:center}.season-review-crest .club-crest{width:64px;height:64px;padding:0;border-radius:0;background:transparent}.season-review-grid{align-items:start}.season-review-grid>.surface-card{min-width:0}.season-review-honors{display:grid;gap:8px;margin-top:10px}.season-review-honors>div{display:grid;grid-template-columns:40px minmax(0,1fr);gap:9px;align-items:center;min-width:0;padding:7px;border-radius:12px;background:var(--surface-muted)}.season-review-honors span,.season-review-events span{overflow-wrap:anywhere;font-size:11px;font-weight:750}.season-review-events{display:flex;flex-wrap:wrap;gap:7px;margin-top:10px}.season-review-events span{padding:6px 8px;border-radius:10px;background:var(--surface-muted);color:var(--text-2)}.season-review-continue{width:100%;min-height:50px}
 @media(max-width:520px){.season-review-grid{grid-template-columns:1fr}.season-review-hero{grid-template-columns:54px minmax(0,1fr);gap:10px}.season-review-crest,.season-review-crest .club-crest{width:54px;height:54px}.season-review .surface-card{padding:13px}.season-review .stat-grid{gap:6px}.season-review .stat-cell{padding:9px 7px}.season-review .stat-value{font-size:14px}}
 
@@ -761,3 +791,29 @@ button.surface-card:active, .surface-card[role="button"]:active { transform:scal
 .field--date .input::-webkit-date-and-time-value { min-width:0; text-align:left; }
 .field--date .input::-webkit-calendar-picker-indicator { margin:0; opacity:.86; }
 body.has-open-sheet { overflow:hidden; }
+
+/* Phase 26 final cascade: semantic feedback must win over the legacy baseline. */
+.page-head { position:relative; padding-bottom:12px; border-bottom:1px solid color-mix(in srgb,var(--page-accent,var(--blue)) 18%,var(--line)); }
+.page-head::after { content:""; position:absolute; left:0; bottom:-1px; width:38px; height:2px; border-radius:2px; background:var(--page-accent,var(--blue)); }
+.page-head > .badge { color:var(--page-accent,var(--blue)); background:var(--page-accent-soft,var(--blue-soft)); }
+.match-hub-page .match-preview { border-top:3px solid var(--match); }
+.match-hub-page .match-enter-button { background:var(--match); box-shadow:0 10px 22px color-mix(in srgb,var(--match) 22%,transparent); }
+.training-page .training-opportunity-card.is-selected,
+.training-page .training-opportunity-card:hover { border-color:color-mix(in srgb,var(--growth) 38%,var(--line)); }
+.training-page .icon-tile,.growth-highlight .icon-tile { color:var(--growth); background:var(--growth-soft); }
+.growth-feedback { border-color:color-mix(in srgb,var(--growth) 24%,var(--line)); }
+.growth-attribute.is-changed { border-color:color-mix(in srgb,var(--growth) 28%,var(--line)); }
+.growth-attribute.is-changed b,.radar-label.is-changed { color:var(--growth); fill:var(--growth); }
+.transfer-page .transfer-inbox-tabs button.active { color:var(--transfer); background:var(--transfer-soft); box-shadow:inset 0 0 0 1px color-mix(in srgb,var(--transfer) 32%,transparent); }
+.transfer-page .transfer-stage-icon { color:var(--transfer); background:var(--transfer-soft); }
+.transfer-page .transfer-inbox-item.is-new { border-color:color-mix(in srgb,var(--transfer) 34%,var(--line)); }
+.honor-card,.club-honors-grid article { border-top:2px solid var(--honor); }
+.season-review-honors > div { background:var(--honor-soft); }
+.notice-card.critical { border-color:color-mix(in srgb,var(--injury) 28%,var(--line)); }
+.notice-card.critical .notice-icon { color:var(--injury); background:var(--injury-soft); }
+.news-broadcast { border-left:3px solid var(--media); }
+.news-broadcast .section-heading .card-kicker { color:var(--media); }
+.metric-fill.green { background:var(--fitness); }
+.metric-fill.orange { background:var(--pressure); }
+.career-timeline-node--milestone.is-national .career-timeline-marker { color:var(--national); background:var(--national-soft); }
+.career-timeline-node--milestone.is-transfer .career-timeline-marker { color:var(--transfer); background:var(--transfer-soft); }

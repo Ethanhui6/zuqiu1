@@ -30,8 +30,8 @@ Local repository state is the source of truth. A phase may move to `PASS` only a
 | 23 | Season review | PASS |
 | 24 | Injuries, cards, and suspensions | PASS |
 | 25 | World news | PASS |
-| 26 | Color and game feel | IN_PROGRESS |
-| 27 | Full career from age 16 to retirement | LOCKED |
+| 26 | Color and game feel | PASS |
+| 27 | Full career from age 16 to retirement | IN_PROGRESS |
 | 28 | Final mobile regression | LOCKED |
 | 29 | Final code cleanup | LOCKED |
 | 30 | Release | LOCKED |
@@ -429,3 +429,16 @@ Phase 24 gate result: `PASS` on 2026-08-08. Phase 25 is now the only unlocked ph
 - [x] Cloudflare Pages creates a successful native preview for implementation commit `db85311`: `https://3bae563e.zuqiu-4tt.pages.dev`.
 
 Phase 25 gate result: `PASS` on 2026-08-08. Phase 26 is now the only unlocked phase.
+
+## Phase 26 Gate
+
+- [x] Nine shared semantic color pairs cover matches, growth, honors, transfers, injuries, media, fitness, pressure, and national-team context.
+- [x] Career, match, training, transfer, clubs, and more use six distinct restrained page accents while preserving the light-first visual baseline.
+- [x] Match, growth, transfer, honor, injury, news, fitness, pressure, and timeline components expose their intended semantic feedback.
+- [x] Club profiles retain a deterministic team-specific accent independent of the clubs-page accent.
+- [x] Real Chromium validates all six tabs at 390x844 and 1440x900 with distinct computed colors, zero runtime errors, and zero horizontal overflow.
+- [x] Full automated tests (148/148), production build, repository hygiene (3/3), Phase 5 pacing, Phase 6 lifecycle, and 12-viewport responsive audits pass for version 20.27.0.
+- [x] GitHub Actions `verify` passes for Phase 26 Pull Request #59 and implementation commit `cc7232a`.
+- [x] Cloudflare Pages creates a successful native preview for implementation commit `cc7232a`: `https://5590821c.zuqiu-4tt.pages.dev`.
+
+Phase 26 gate result: `PASS` on 2026-08-08. Phase 27 is now the only unlocked phase.
