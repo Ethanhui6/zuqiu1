@@ -23,7 +23,8 @@ Date: 2026-08-08
 
 ## Remote Evidence
 
-- Implementation commit: pending.
-- Pull Request: pending.
-- GitHub Actions `verify`: pending.
-- Native Cloudflare Pages preview: pending.
+- Implementation commit: `cc7232a29889f563fc3dcca26feceaf428e03010`.
+- Pull Request: `https://github.com/Ethanhui6/zuqiu1/pull/59`.
+- GitHub Actions `verify`: PASS for the implementation commit.
+- Native Cloudflare Pages preview: `https://5590821c.zuqiu-4tt.pages.dev` (PASS, commit `cc7232a`).
+- Preview metadata: HTTP 200, version 20.27.0, channel `strict-phase-26`, schema metadata 30.
