@@ -22,7 +22,7 @@ export function createDefaultState() {
     events: { pending: [], history: [], cooldowns: {}, sceneCooldowns: {}, sceneHistory: [], seasonCounts: {}, careerCounts: {}, characterMemory: {}, forcedPauses: 0, resolved: [], delayedEffects: [], chains: [], lastInteractionIds: [] },
     news: { items: [], unread: 0 },
     random: { seed: null, history: [], last: null },
-    creation: { rerollsUsed: 0, seed: null },
+    creation: { rerollsUsed: 0, seed: null, wizardStep: 0, wizardDraft: null },
     clubInteractions: { cooldowns: {}, history: [] },
     transfer: { continent: null, country: null, city: null, league: null, club: null, offers: [], watchlist: [], inbox: [], negotiations: [], evaluatedMonths: [], pipelines: {}, activeTab: 'received', clubDirectory: {} },
   ui: { notices: [], lastFeedback: null, todos: [], lastOutcome: null, matchState: null }
@@ -60,6 +60,8 @@ export function migrateState(input) {
   state.creation = { ...base.creation, ...(input.creation || {}) };
   state.creation.rerollsUsed = Math.max(0, Math.min(10, Number(state.creation.rerollsUsed || 0)));
   state.creation.seed = state.creation.seed || `${state.createdAt}:identity`;
+  state.creation.wizardStep = Math.max(0, Math.min(4, Number(state.creation.wizardStep || 0)));
+  state.creation.wizardDraft = state.creation.wizardDraft && typeof state.creation.wizardDraft === 'object' ? state.creation.wizardDraft : null;
   state.clubInteractions = { ...base.clubInteractions, ...(input.clubInteractions || {}) };
   state.clubInteractions.cooldowns = state.clubInteractions.cooldowns && typeof state.clubInteractions.cooldowns === 'object' ? state.clubInteractions.cooldowns : {};
   state.clubInteractions.history = Array.isArray(state.clubInteractions.history) ? state.clubInteractions.history : [];

@@ -40,9 +40,10 @@ function snapshot() {
 }
 
 async function createCareer() {
+  await page.locator('[data-pace="standard"]').click();
+  await page.locator('[data-next]').click();
   await page.locator('[data-next]').click();
   await page.locator('[data-position="CM"]').click();
-  await page.locator('[data-next]').click();
   await page.locator('[data-style]').first().click();
   await page.locator('[data-next]').click();
   await page.locator('[data-next]').click();
