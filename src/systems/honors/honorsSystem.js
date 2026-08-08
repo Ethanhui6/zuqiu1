@@ -21,6 +21,7 @@ export function ensureHonors(state) {
     trophies: [],
     personalAwards: [],
     seasons: [],
+    pendingReviewId: null,
     retirement: null,
     legendProfile: null,
     ...(state.career.honors || {})
@@ -29,6 +30,22 @@ export function ensureHonors(state) {
   honors.personalAwards = Array.isArray(honors.personalAwards) ? honors.personalAwards : [];
   honors.seasons = Array.isArray(honors.seasons) ? honors.seasons : [];
   return honors;
+}
+
+function seasonPositionStats(position, season) {
+  const items = position === 'GK'
+    ? [['saves', '扑救'], ['cleanSheets', '零封'], ['penaltySaves', '扑点']]
+    : ['CB', 'LB', 'RB'].includes(position)
+      ? [['tackles', '抢断'], ['interceptions', '拦截'], ['cleanSheets', '零封']]
+      : ['CM', 'CDM', 'CAM', 'LM', 'RM'].includes(position)
+        ? [['keyPasses', '关键传球'], ['tackles', '抢断'], ['assists', '助攻']]
+        : [['shots', '射门'], ['goals', '进球'], ['assists', '助攻']];
+  return items.map(([key, label]) => ({ key, label, value: Number(season[key] || 0) }));
+}
+
+function seasonCompetitions(state, season, player) {
+  const names = [...new Set((state.schedule || []).filter(item => !item.season || item.season === season.year).map(item => item.competition).filter(Boolean))];
+  return String(season.competition || season.competitionName || player?.league || names.slice(0, 3).join('、') || '未记录');
 }
 
 function nextSeason(year) {
@@ -97,7 +114,8 @@ export function settleSeason(state) {
   let player = state.player;
   const club = player?.club || 'Unknown club';
   const key = `${season.year}:${player?.clubId || club}`;
-  if (honors.seasons.some(record => record.id === key)) return { alreadySettled: true, trophies: [], personalAwards: [], record: null };
+  const existing = honors.seasons.find(record => record.id === key);
+  if (existing) return { alreadySettled: true, trophies: [], personalAwards: [], record: existing };
 
   const appearances = Number(season.appearances || 0);
   const goals = Number(season.goals || 0);
@@ -141,16 +159,25 @@ export function settleSeason(state) {
   const transferClub = season.transfer?.club || season.transfer?.clubName || season.transfer?.name;
   const highlights = [...new Set([...recordedHighlights, ...trophies.map(item => `赢得 ${item.name}`), ...personalAwards.map(item => `获得 ${item.name}`), ...(transferClub ? [`转会至 ${transferClub}`] : [])])];
   const grade = rating >= 8.4 ? 'SSS' : rating >= 7.8 ? 'SS' : rating >= 7.2 ? 'S' : 'A';
+  const coachTrustEnd = Number(player?.coachTrust ?? state.relationships?.coach ?? 0);
+  const coachTrustStart = Number(season.startCoachTrust ?? coachTrustEnd - Number(season.coachTrustChange || 0));
+  const seasonStart = `${String(season.year).slice(0, 4)}-07-01`;
+  const injuries = (season.injuries?.length ? season.injuries : state.injuries || []).filter(item => !item.createdAt || item.createdAt >= seasonStart).map(item => ({ type: item.type || '伤病', status: item.status || null, days: Number(item.originalDays || item.remainingDays || 0) }));
+  const suspensionRecords = Array.isArray(season.suspensions) ? season.suspensions : (state.discipline?.suspensions || []).filter(item => !item.issuedAt || item.issuedAt >= seasonStart);
+  const national = season.nationalTeam || state.career?.nationalTeam || {};
   const record = {
     id: key, year: season.year, club, clubId: player?.clubId || null, crestPath: player?.crestPath || null,
+    clubRank: Number.isFinite(Number(season.clubRank ?? season.leagueRank)) && Number(season.clubRank ?? season.leagueRank) > 0 ? Number(season.clubRank ?? season.leagueRank) : null,
+    competition: seasonCompetitions(state, season, player),
     age: player?.age ?? null, position: player?.position || '未知', appearances, starts: Number(season.starts || 0), minutes: Number(season.minutes || 0), goals, assists,
     shots: Number(season.shots || 0), keyPasses: Number(season.keyPasses || 0), tackles: Number(season.tackles || 0), interceptions: Number(season.interceptions || 0), cleanSheets: Number(season.cleanSheets || 0), saves: Number(season.saves || 0), penaltySaves: Number(season.penaltySaves || 0), yellowCards: Number(season.yellowCards || 0), redCards: Number(season.redCards || 0), injuryAbsences: Number(season.injuryAbsences || 0),
-    rating, playerOfMatch: Number(season.playerOfMatch || 0), trophies: trophies.map(item => item.name), personalAwards: personalAwards.map(item => item.name),
+    rating, playerOfMatch: Number(season.playerOfMatch || 0), positionStats: seasonPositionStats(position, season), trophies: trophies.map(item => item.name), personalAwards: personalAwards.map(item => item.name), trophyItems: trophies.map(item => ({ ...item })), personalAwardItems: personalAwards.map(item => ({ ...item })),
     startOvr, endOvr, ovrChange: Number((endOvr - startOvr).toFixed(2)), startValue, endValue, valueChange: endValue - startValue,
-    coachTrustChange: Number(season.coachTrustChange || 0), grade, highlights, startStats, endStats, transfer: season.transfer || null,
-    contract: season.contract || null, injuries: season.injuries || [], teamRole: player?.status || state.career?.teamRole || null, dataOrigin: 'generated-fallback'
+    weeklySalary: Number(state.career?.weeklySalary || 0), coachTrustStart, coachTrustEnd, coachTrustChange: Number((coachTrustEnd - coachTrustStart).toFixed(2)), grade, highlights, majorEvents: highlights, startStats, endStats, transfer: season.transfer || null,
+    contract: season.contract || null, injuries, suspensions: Number.isFinite(Number(season.suspensions)) ? Number(season.suspensions) : Math.max(suspensionRecords.length, Number(season.redCards || 0)), nationalTeam: { team: national.team || national.name || player?.nation || player?.country || '未入选', calledUp: Boolean(national.calledUp || Number(season.nationalAppearances || national.appearances || national.apps || 0) > 0), appearances: Number(season.nationalAppearances || national.appearances || national.apps || 0), goals: Number(season.nationalGoals || national.goals || 0) }, teamRole: state.career?.teamRole || player?.status || player?.team || '未记录', acknowledgedAt: null, dataOrigin: 'generated-fallback'
   };
   honors.seasons.unshift(record);
+  honors.pendingReviewId = key;
   state.career.history.unshift({ date: state.simulation.date, type: 'season-summary', title: `${season.year} season summary`, recordId: key, dataOrigin: 'generated-fallback' });
   const nextYear = nextSeason(season.year);
   if (player) player.age = Number(player.age || 18) + 1;
@@ -177,6 +204,15 @@ export function settleSeason(state) {
   state.news.items = state.news.items.slice(0, 40);
   state.news.unread = state.news.items.filter(item => !item.read).length;
   return { alreadySettled: false, trophies, personalAwards, record };
+}
+
+export function acknowledgeSeasonReview(state, recordId) {
+  const honors = ensureHonors(state);
+  const record = honors.seasons.find(item => item.id === recordId);
+  if (!record || honors.pendingReviewId !== recordId || record.acknowledgedAt) return false;
+  record.acknowledgedAt = state.simulation?.date || new Date().toISOString().slice(0, 10);
+  honors.pendingReviewId = null;
+  return true;
 }
 
 export function seasonReviewNext(state) {
