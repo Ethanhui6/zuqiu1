@@ -19,7 +19,7 @@ const OFF_SEASON_COMPLETION_RECOVERY = { fatigue: -8, fitness: 6, morale: 2, rec
 
 const HONOR_TEXT = Object.freeze({
   leagueChampion: '\u8054\u8d5b\u51a0\u519b', domesticCup: '\u56fd\u5185\u676f\u8d5b\u51a0\u519b',
-  goldenBoot: '\u91d1\u9774\u5956', playerOfYear: '\u8d5b\u5b63\u6700\u4f73\u7403\u5458', youngPlayer: '\u8d5b\u5b63\u6700\u4f73\u5e74\u8f7b\u7403\u5458',
+  goldenBoot: '\u91d1\u9774\u5956', assistsKing: '\u52a9\u653b\u738b', playerOfYear: '\u8d5b\u5b63\u6700\u4f73\u7403\u5458', youngPlayer: '\u8d5b\u5b63\u6700\u4f73\u5e74\u8f7b\u7403\u5458',
   goldenGlove: '\u91d1\u624b\u5957\u5956', bestDefender: '\u6700\u4f73\u540e\u536b', bestMidfielder: '\u6700\u4f73\u4e2d\u573a',
   bestForward: '\u6700\u4f73\u524d\u950b', bestXi: '\u8d5b\u5b63\u6700\u4f73\u9635\u5bb9', goldenBoy: '\u91d1\u7ae5\u5956',
   ballon: '\u91d1\u7403\u5956', nationalDebut: '\u56fd\u5bb6\u961f\u9996\u79c0', leagueTitle: '\u8054\u8d5b\u51a0\u519b\u6210\u5c31'
@@ -255,6 +255,7 @@ export function settleSeason(state) {
   if (leagueChampion) trophies.push(simulatedHonor(`${key}:league`, `${leagueLabel(player)}${HONOR_TEXT.leagueChampion}`, season.year, club, 'team', 'league-title'));
   if (domesticChampion) trophies.push(simulatedHonor(`${key}:domestic`, HONOR_TEXT.domesticCup, season.year, club, 'team', 'domestic-cup'));
   if (goals >= 10) personalAwards.push(simulatedHonor(`${key}:golden-boot`, HONOR_TEXT.goldenBoot, season.year, club, 'personal', 'golden-boot'));
+  if (assists >= 10) personalAwards.push(simulatedHonor(`${key}:assists-king`, HONOR_TEXT.assistsKing, season.year, club, 'personal', 'assists-king'));
   if (rating >= 7.8 && appearances >= 15) personalAwards.push(simulatedHonor(`${key}:player-year`, HONOR_TEXT.playerOfYear, season.year, club, 'personal', 'player-of-season'));
   if (player?.age <= 21 && rating >= 7.2 && appearances >= 12) personalAwards.push(simulatedHonor(`${key}:young`, HONOR_TEXT.youngPlayer, season.year, club, 'personal', 'young-player'));
   const position = player?.position || 'CM';
