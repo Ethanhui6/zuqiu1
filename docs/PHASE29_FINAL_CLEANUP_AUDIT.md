@@ -31,3 +31,6 @@ The unused application copies and unreachable legacy modules identified by the r
 - Phase 5 pacing: PASS
 - Phase 6 persistent result lifecycle: PASS, 30 consecutive nodes
 - Phase 28 final mobile regression: PASS, 7 viewports, 14 surfaces, 154 checks
+- GitHub Actions `verify`: PASS for commit `74d10ed`
+- Cloudflare Pages preview: PASS at `https://8088f081.zuqiu-4tt.pages.dev`
+- Preview metadata: version 20.30.0, channel `strict-phase-29`, schema 33, built 2026-08-08T03:25:54.142Z
