@@ -5,15 +5,16 @@ const COUNTRY_FILES = {
   '西班牙': 'spain', ES: 'spain', '葡萄牙': 'portugal', PT: 'portugal', '意大利': 'italy', IT: 'italy',
   '荷兰': 'netherlands', NL: 'netherlands', '比利时': 'belgium', BE: 'belgium', '巴西': 'brazil', BR: 'brazil',
   '阿根廷': 'argentina', AR: 'argentina', '美国': 'usa', US: 'usa', '墨西哥': 'mexico', MX: 'mexico',
+  '越南': 'vietnam', VN: 'vietnam', '泰国': 'thailand', TH: 'thailand',
   '沙特阿拉伯': 'saudi-arabia', SA: 'saudi-arabia', '土耳其': 'turkey', TR: 'turkey', '尼日利亚': 'nigeria', NG: 'nigeria',
   '加纳': 'ghana', GH: 'ghana', '塞内加尔': 'senegal', SN: 'senegal', '摩洛哥': 'morocco', MA: 'morocco', '埃及': 'egypt', EG: 'egypt'
 };
 const NEIGHBORS = { 中国: ['日本', '韩国'], 日本: ['韩国', '中国'], 韩国: ['日本', '中国'], 英格兰: ['苏格兰', '威尔士'], 巴西: ['阿根廷', '葡萄牙'], 阿根廷: ['巴西', '西班牙'], 西班牙: ['葡萄牙', '法国'], 葡萄牙: ['西班牙', '巴西'], 德国: ['荷兰', '法国'], 法国: ['比利时', '德国'], 意大利: ['法国', '德国'] };
 const ORIGIN_REGIONS = {
   中国: '东亚', 日本: '东亚', 韩国: '东亚', 英格兰: '欧洲', 西班牙: '欧洲', 葡萄牙: '欧洲', 法国: '欧洲', 德国: '欧洲', 意大利: '欧洲', 荷兰: '欧洲', 比利时: '欧洲', 土耳其: '欧洲',
-  巴西: '南美洲', 阿根廷: '南美洲', 美国: '北美洲', 墨西哥: '北美洲', 沙特阿拉伯: '西亚', 尼日利亚: '非洲', 加纳: '非洲', 塞内加尔: '非洲', 摩洛哥: '非洲', 埃及: '非洲'
+  巴西: '南美洲', 阿根廷: '南美洲', 美国: '北美洲', 墨西哥: '北美洲', 越南: '东南亚', 泰国: '东南亚', 沙特阿拉伯: '西亚', 尼日利亚: '非洲', 加纳: '非洲', 塞内加尔: '非洲', 摩洛哥: '非洲', 埃及: '非洲'
 };
-const STARTING_COUNTRY_FALLBACKS = { 尼日利亚: '南非', 加纳: '南非', 塞内加尔: '南非', 摩洛哥: '南非', 埃及: '卡塔尔' };
+const STARTING_COUNTRY_FALLBACKS = { 越南: '泰国', 尼日利亚: '南非', 加纳: '南非', 塞内加尔: '南非', 摩洛哥: '南非', 埃及: '卡塔尔' };
 const DEFAULT_NAME_PROFILE = { countryCode: 'OTHER', locale: 'en-US', givenNamesMale: ['Alex','Sam','Noah','Leo','Milan','Kai','Daniel','Adam'], familyNames: ['Morgan','Taylor','Lee','Martin','Silva','Novak','Wilson','Bennett'], nameOrder: 'given-family', separator: ' ' };
 export const CLUB_ENTRY_ROUTES = Object.freeze({
   DIRECT_CONTRACT: { label: '直接职业合同', squad: '一线队直接合同', contract: '职业合同' },
@@ -49,10 +50,10 @@ function expandedPools(profile) {
   const familyBase = (profile.familyNames || []).map(value => typeof value === 'string' ? value : value.name).filter(Boolean);
   if (givenBase.length < 2 || familyBase.length < 2) return { givenNames: givenBase, familyNames: familyBase };
   if (profile.nameOrder === 'family-given' && !separator) return { givenNames: givenBase, familyNames: familyBase };
-  const givenNames = [...givenBase], familyNames = [...familyBase];
-  for (const first of givenBase) for (const second of givenBase) if (first !== second) givenNames.push(profile.displayScript === 'latin' ? `${first} ${[...second].slice(0,3).join('')}.` : `${first}${separator}${second}`);
-  for (const first of familyBase) for (const second of familyBase) if (first !== second) familyNames.push(`${first}-${second}`);
-  return { givenNames: [...new Set(givenNames)], familyNames: [...new Set(familyNames)] };
+  const givenNames = givenBase.map(name => ({ name, weight: 8 }));
+  for (const first of givenBase) for (const second of givenBase) if (first !== second) givenNames.push({ name: `${first}${separator}${second}`, weight: 3 });
+  for (const first of givenBase) for (const second of givenBase) for (const third of givenBase) if (first !== second && second !== third && first !== third) givenNames.push({ name: `${first}${separator}${second}${separator}${third}`, weight: .25 });
+  return { givenNames, familyNames: familyBase };
 }
 function chineseParts(profile, random) {
   const pools = chinaPools(profile);
@@ -96,7 +97,8 @@ export function generatePlayerName(countryCode, seed = 'player', profiles = {}) 
 export function createPlayerOriginProfile(nationality, worldState = {}) {
   const clubs = worldState.clubs || [], nameProfile = worldState.nameProfiles?.[fileFor(nationality)] || worldState.nameProfiles?.other || {};
   const localClubs = clubs.filter(club => club.country === nationality);
-  const fallbackCountry = STARTING_COUNTRY_FALLBACKS[nationality] || clubs[0]?.country || nationality;
+  const preferredFallback = STARTING_COUNTRY_FALLBACKS[nationality];
+  const fallbackCountry = clubs.some(club => club.country === preferredFallback) ? preferredFallback : clubs[0]?.country || nationality;
   const startingCountry = localClubs.length ? nationality : fallbackCountry;
   const startingClubs = localClubs.length ? localClubs : clubs.filter(club => club.country === startingCountry);
   return {

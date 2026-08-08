@@ -26,7 +26,7 @@ const positions = [
   { id: 'GK', name: '门将', group: '门将', x: 50, y: 91, desc: '扑救、出击、指挥防线', focus: '扑救 · 反应 · 站位' }
 ];
 const styles = PLAYER_STYLES;
-const countries = ['中国', '日本', '韩国', '英格兰', '西班牙', '葡萄牙', '法国', '德国', '意大利', '荷兰', '比利时', '巴西', '阿根廷', '美国', '墨西哥', '沙特阿拉伯', '土耳其', '尼日利亚', '加纳', '塞内加尔', '摩洛哥', '埃及'];
+const countries = ['中国', '日本', '韩国', '英格兰', '西班牙', '葡萄牙', '法国', '德国', '意大利', '荷兰', '比利时', '巴西', '阿根廷', '美国', '墨西哥', '越南', '泰国', '沙特阿拉伯', '土耳其', '尼日利亚', '加纳', '塞内加尔', '摩洛哥', '埃及'];
 const birthplaceMap = { 中国: ['辽宁', '山东', '上海', '北京', '广东', '河南河北', '新疆', '江浙', '巴蜀'] };
 const personalities = ['沉着自律', '外向自信', '低调务实', '好胜果断', '团队优先', '创造力强'];
 const families = ['普通工薪家庭', '体育家庭', '单亲家庭', '小城商户家庭', '足球教练家庭', '跨国家庭'];
@@ -63,7 +63,7 @@ export function createPlayerWizard(app) {
   const render = () => {
     const report = scoutDraft(draft);
     const identity = generatedIdentity(draft);
-    root.innerHTML = `<div class="wizard"><div class="wizard-top"><div><div class="card-kicker">绿茵浮沉 · 创建球员</div><h1 class="page-title">${labels[step]}</h1></div><span class="badge blue">${step + 1}/${labels.length}</span></div><div class="stepper">${labels.map((_, index) => `<span class="step-dot ${index <= step ? 'active' : ''}"></span>`).join('')}</div><div class="wizard-body">${body(report, identity)}</div>${step === 4 ? '<div class="card-copy wizard-hint">点击球队卡片确认入口并进入生涯</div>' : `<div class="card-row wizard-actions"><button class="app-button ghost" data-prev ${step === 0 ? 'disabled' : ''}>${icon('back', 'sm')}上一步</button><button class="app-button primary" data-next>${step === 3 ? '查看球队机会' : '继续'}${icon('chevron', 'sm')}</button></div>`}</div>`;
+    root.innerHTML = `<div class="wizard"><div class="wizard-top"><div><div class="card-kicker">绿茵浮沉 · 创建球员</div><h1 class="page-title">${labels[step]}</h1></div><span class="badge blue">${step + 1}/${labels.length}</span></div><div class="stepper">${labels.map((_, index) => `<span class="step-dot ${index <= step ? 'active' : ''}"></span>`).join('')}</div><div class="wizard-body">${body(report, identity)}</div><div class="card-row wizard-actions ${step === 4 ? 'wizard-actions--final' : ''}"><button class="app-button ghost" data-prev ${step === 0 ? 'disabled' : ''}>${icon('back', 'sm')}上一步</button>${step === 4 ? '<span class="card-copy wizard-hint">选择球队卡片，确认后直接开始生涯</span>' : `<button class="app-button primary" data-next>${step === 3 ? '查看球队机会' : '继续'}${icon('chevron', 'sm')}</button>`}</div></div>`;
     bind();
   };
   const body = (report, identity) => {
@@ -97,7 +97,7 @@ export function createPlayerWizard(app) {
     root.querySelectorAll('[data-height-range]').forEach(element => element.addEventListener('input', () => { draft.height = Number(element.value); draft.weight = recommendedWeight(draft.height, draft.bodyType, draft.position); persistWizard(); render(); }));
     root.querySelectorAll('[data-pace]').forEach(element => { element.onclick = () => { draft.paceMode = element.dataset.pace; persistWizard(); app.feedback.emit('select', PACE_MODES[draft.paceMode]?.name || draft.paceMode); render(); }; });
     root.querySelectorAll('[data-lock]').forEach(element => element.addEventListener('change', () => { const key = element.dataset.lock; draft[`lock${key[0].toUpperCase()}${key.slice(1)}`] = element.checked; if (key === 'name') draft.lockedIdentity = element.checked && !draft.name.trim() ? generatedIdentity(draft) : null; persistWizard(); render(); }));
-    root.querySelectorAll('[data-position]').forEach(element => { element.onclick = () => { draft.position = element.dataset.position; normalizeSelections(draft); draft.weight = recommendedWeight(draft.height, draft.bodyType, draft.position); persistWizard(); navigator.vibrate?.(16); render(); }; });
+    root.querySelectorAll('[data-position]').forEach(element => { element.onclick = () => { draft.position = element.dataset.position; normalizeSelections(draft); draft.weight = recommendedWeight(draft.height, draft.bodyType, draft.position); persistWizard(); navigator.vibrate?.(16); element.scrollIntoView({ block: 'center', inline: 'nearest' }); render(); window.setTimeout(() => root.querySelector(`[data-position="${draft.position}"]`)?.scrollIntoView({ block: 'center', inline: 'nearest' }), 0); }; });
     root.querySelectorAll('[data-style]').forEach(element => { element.onclick = () => { draft.style = element.dataset.style; persistWizard(); app.feedback.emit('select', draft.style); render(); }; });
     root.querySelector('[data-reroll]')?.addEventListener('click', () => { const used = Number(app.store.get().creation?.rerollsUsed || 0); if (used >= 10) return app.feedback.emit('failure', '重新生成次数已用完'); Object.assign(draft, rerollPlayerDraft(draft, used + 1, originWorld())); persistWizard(); app.store.set(current => { current.creation.rerollsUsed = used + 1; current.creation.seed = draft.previewSeed; return current; }); const report = scoutDraft(draft); app.feedback.emit(report.potential >= 89 ? 'newTrait' : 'select', report.potential >= 89 ? `${report.tier}潜力` : `已重新生成，剩余 ${9 - used} 次`); render(); });
     root.querySelectorAll('[data-club]').forEach(element => { element.onclick = () => { if (locked || element.disabled) return; locked = true; root.classList.add('is-signing'); root.querySelectorAll('[data-club]').forEach(card => { card.disabled = true; }); app.feedback.emit('clubSelect', element.dataset.clubName); window.setTimeout(() => startCareer(element.dataset.club), 440); }; });
@@ -121,11 +121,11 @@ export function createPlayerWizard(app) {
 
 function paceStep(draft) {
   const modes = [
-    { id: 'immersive', label: '沉浸模式', duration: '约15—25分钟', copy: '每回合推进1个赛季，保留比赛、事件、关系和颁奖节点。', pause: '重要节点逐一确认' },
-    { id: 'standard', label: '标准模式', duration: '约8—12分钟', copy: '每回合推进2个赛季，普通比赛自动模拟，关键节点暂停。', pause: '重大事件与决赛暂停' },
-    { id: 'fast', label: '极速模式', duration: '约4—6分钟', copy: '每回合推进3个赛季，每季独立结算并保留完整历史。', pause: '只暂停职业转折节点' }
+    { id: 'immersive', icon: 'calendar', label: '沉浸模式', duration: '约15—25分钟', interactions: '30—50次', audience: '重视过程与选择', pace: '逐节点推进', copy: '每回合推进1个赛季，保留比赛、事件、关系和颁奖节点。' },
+    { id: 'standard', icon: 'play', label: '标准模式', duration: '约8—12分钟', interactions: '15—25次', audience: '平衡体验与效率', pace: '关键节点暂停', copy: '每回合推进2个赛季，普通比赛自动模拟，关键节点暂停。' },
+    { id: 'fast', icon: 'fast', label: '极速模式', duration: '约4—6分钟', interactions: '6—12次', audience: '快速体验多条生涯', pace: '只停职业转折', copy: '每回合推进3个赛季，每季独立结算并保留完整历史。' }
   ].filter(mode => CREATION_PACE_OPTIONS.includes(mode.id));
-  return `<section class="surface-card pace-selection-step"><div class="card-kicker">选择你的旧站生涯节奏</div><h2 class="card-title">决定每次推进多少内容</h2><p class="card-copy">三种模式只改变操作次数，不会删减比赛、奖杯、荣誉或历史数据。</p><div class="pace-mode-grid">${modes.map(mode => `<button class="pace-mode-card ${draft.paceMode === mode.id ? 'is-selected' : ''}" data-pace="${mode.id}" aria-pressed="${draft.paceMode === mode.id}"><div class="pace-mode-card__top"><span class="pace-mode-card__icon">${mode.id === 'immersive' ? '◌' : mode.id === 'standard' ? '▶' : '»'}</span><div><h3>${mode.label}</h3><small>${mode.duration}</small></div><span class="selection-check">${draft.paceMode === mode.id ? '✓' : ''}</span></div><p class="card-copy">${mode.copy}</p><span class="badge blue">${mode.pause}</span></button>`).join('')}</div></section>`;
+  return `<section class="pace-selection-step"><header class="pace-selection-intro"><div class="card-kicker">选择你的旧站生涯节奏</div><h2 class="card-title">决定每次推进多少内容</h2><p class="card-copy">只改变操作次数，不删减比赛、奖杯、荣誉或历史数据。</p></header><div class="pace-mode-grid">${modes.map(mode => `<button class="pace-mode-card ${draft.paceMode === mode.id ? 'is-selected' : ''}" data-pace="${mode.id}" aria-pressed="${draft.paceMode === mode.id}"><div class="pace-mode-card__top"><span class="pace-mode-card__icon">${icon(mode.icon)}</span><div><h3>${mode.label}</h3><small>${mode.duration}</small></div><span class="selection-check" aria-hidden="true">${draft.paceMode === mode.id ? icon('check', 'sm') : ''}</span></div><p>${mode.copy}</p><dl class="pace-mode-card__facts"><div><dt>交互量</dt><dd>${mode.interactions}</dd></div><div><dt>适合</dt><dd>${mode.audience}</dd></div></dl><span class="pace-mode-card__label">${mode.pace}</span></button>`).join('')}</div></section>`;
 }
 
 function bodyTypes() { return ['瘦弱', '苗条', '普通', '健硕', '强壮']; }

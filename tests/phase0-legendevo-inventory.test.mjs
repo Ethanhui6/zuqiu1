@@ -17,7 +17,7 @@ const version = read('data/version.json');
 
 test('PH0 inventory retains the current world baseline and recoverable legacy tree', () => {
   assert.ok((clubs.clubs || clubs).length >= 399);
-  assert.equal((clubs.clubs || clubs).length + (expansion.clubs || []).length, 544);
+  assert.equal((clubs.clubs || clubs).length + (expansion.clubs || []).length, 547);
   assert.equal(players.length, 601);
   assert.equal(new Set(players.map(player => player.clubId)).size, 73);
   assert.equal(achievements.length, 330);

@@ -1,4 +1,70 @@
-# Phase 1 Legacy Site Audit
+# Strict Rebuild Phase 1 Legacy Site Audit
+
+Date: 2026-08-08
+
+## Public-site replay
+
+`https://legendevo.com/` was replayed at 390 x 844 and 1440 x 900 through:
+
+- landing and the immersive/standard/fast selector;
+- the complete identity, body, nationality, position, and style screen;
+- the player-status surface and three academy invitations;
+- signing, standard two-season preparation, season simulation, a probabilistic
+  career decision, the reveal delay, and the persisted result;
+- the desktop player strip, main season panel, and expandable timeline rail.
+
+`https://career-sim.pages.dev/` was replayed at 390 x 844 and 1440 x 900 through:
+
+- retirement summary, trophy cabinet, and next-life actions;
+- origin, position, identity, and first-club selection;
+- the persistent player summary and first career decision.
+
+The public pages were read and played only. No external site was modified.
+
+## Current ten-route replay
+
+The locally recovered `career-sim` public build was rerun in system Chromium at
+390 x 844. Ten careers covered long, normal, and express modes plus ST, LW, RW,
+CM, CDM, CB, and GK. The run completed 465 visible operations: 201 choices and
+264 result acknowledgements.
+
+- Total simulated seasons: 217.
+- Career end ages: 31 to 41.
+- Clubs per career: 1 to 12.
+- Peak OVR range: 63 to 88.
+- Median peak age: 30.
+- Coverage: domestic and overseas careers, top-five leagues, low seasons,
+  injuries, national-team selection, trophies, active retirement, and age
+  retirement.
+
+## Accepted migration decisions
+
+- Adopt `legendevo` player information hierarchy, desktop two-column layout,
+  three-mode batching, season records, probability explanation, reveal delay,
+  and timeline detail.
+- Adopt `career-sim` one-decision/one-result cadence, short copy, immediate next
+  action, varied life routes, and measurable interaction budgets.
+- Reject `career-sim` fictional-team data and narrow desktop column.
+- Reject `legendevo` creation-page length and any layout that requires the main
+  action to sit below all supporting detail.
+- Keep the current local project as the only implementation source.
+
+## Gate artifacts
+
+- `docs/NEW_UI_ARCHITECTURE.md`
+- `docs/NEW_CAREER_LOOP.md`
+- `test-results/phase1-legacy-replay.json`
+- `legacy-recovery/career-sim.pages.dev/`
+
+`PHASE 1 STATUS: PASS`
+
+The phase passes because both public versions were replayed, ten recovered-site
+careers were rerun, and the required UI architecture and career loop are now
+explicit implementation contracts.
+
+---
+
+# Historical Phase 1 Legacy Site Audit
 
 Date: 2026-08-08
 

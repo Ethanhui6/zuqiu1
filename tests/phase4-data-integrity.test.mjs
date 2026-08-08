@@ -16,8 +16,8 @@ const registry = createWorldRegistry({
 
 test('PH4 release audit validates the full real-world registry', () => {
   assert.equal(registry.audit.valid, true, registry.audit.errors.join('; '));
-  assert.deepEqual(registry.audit.counts, { clubs: 544, leagues: 50, players: 598, realPlayers: 598, competitions: 3 });
-  assert.deepEqual(registry.audit.roster, { min: 30, max: 30, clubs: 544, missingPositions: [] });
+  assert.deepEqual(registry.audit.counts, { clubs: 547, leagues: 51, players: 598, realPlayers: 598, competitions: 3 });
+  assert.deepEqual(registry.audit.roster, { min: 30, max: 30, clubs: 547, missingPositions: [] });
   assert.equal(new Set(registry.players.map(player => player.id)).size, registry.players.length);
   assert.ok(registry.players.every(player => !player.id.startsWith('generated-')));
 });

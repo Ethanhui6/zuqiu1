@@ -10,11 +10,15 @@ import { createDefaultState, migrateState } from '../src/core/store.js';
 import { EventEngine } from '../src/core/eventEngine.js';
 import { EVENT_TEMPLATES } from '../src/data/events.js';
 
-test('scene registry ships 56 unique self-authored local assets', () => {
+test('scene registry maps 56 scenes to local 16:9 documentary photos', () => {
   assert.equal(SCENE_COUNT, 56);
   assert.equal(new Set(SCENE_REGISTRY.map(scene => scene.id)).size, SCENE_COUNT);
-  assert.equal(new Set(SCENE_REGISTRY.map(scene => scene.art)).size, SCENE_COUNT);
-  for (const scene of SCENE_REGISTRY) assert.equal(fs.existsSync(new URL(`../${scene.art.slice(2)}`, import.meta.url)), true, scene.id);
+  assert.ok(new Set(SCENE_REGISTRY.map(scene => scene.art)).size >= 19);
+  for (const scene of SCENE_REGISTRY) {
+    assert.match(scene.art, /^\.\/assets\/event-scenes\/[a-z-]+\.jpg$/);
+    assert.equal(scene.ratio, '16 / 9');
+    assert.equal(fs.existsSync(new URL(`../${scene.art.slice(2)}`, import.meta.url)), true, scene.id);
+  }
 });
 
 test('training games expose thirty-nine different input mechanisms', () => {
@@ -49,7 +53,7 @@ test('event scheduling chooses a registered scene and records cooldown history',
   const template = EVENT_TEMPLATES.find(item => item.category === '媒体');
   const event = eventEngine.schedule(state, { forceTemplate: template });
   assert.ok(event.sceneId.startsWith('scene-'));
-  assert.ok(event.art.endsWith('.svg'));
+  assert.ok(event.art.endsWith('.jpg'));
   assert.equal(state.events.sceneHistory.at(-1), event.sceneId);
   assert.ok(state.events.sceneCooldowns[event.sceneId]);
 });

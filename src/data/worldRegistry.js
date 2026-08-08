@@ -99,10 +99,19 @@ export function normalizePlayer(player = {}, snapshotSeason = REAL_SQUAD_SNAPSHO
   const id = String(player.id || `${isReal ? 'real' : 'generated'}-${idPart(player.clubId || 'free')}-${idPart(playerName)}`);
   const sourceSeason = Number(player.snapshotSeason || player.snapshotYear || snapshotSeason);
   const simulatedEndSeason = Number(player.simulatedEndSeason || sourceSeason + 4 + (hashSeed(id) % 7));
+  const nameZh = player.nameZh || player.cn || '';
+  const nameLatin = player.nameLatin || player.name || '';
+  const nationality = player.nationality || player.nation || '';
   return {
     ...player,
     id,
+    playerId: id,
     name: player.name || player.cn || player.id,
+    nameZh,
+    nameLatin,
+    nameLocal: player.nameLocal || player.native || nameZh || nameLatin,
+    nationality,
+    birthYear: Number(player.birthYear || String(player.birthDate || '').slice(0, 4)) || null,
     position,
     clubId: player.clubId || null,
     ovr: Number(player.ovr || 0),

@@ -40,7 +40,8 @@ export function careerPage(app, state) {
     const nodeCopy = root.querySelector('.career-next-node small');
     if (nodeCopy) nodeCopy.textContent = '完整履历已归档，可随时查看';
   }
-  root.addEventListener('click', event => { const trackNode = event.target.closest('[data-season-node]'); if (trackNode && trackNode.dataset.status !== 'upcoming') { app.openCareerData(); return; } const action = event.target.closest('[data-action]')?.dataset.action; if (action) handle(action, app, state); });
+  root.querySelectorAll('[data-action]').forEach(control => control.addEventListener('click', () => handle(control.dataset.action, app, state)));
+  root.addEventListener('click', event => { const trackNode = event.target.closest('[data-season-node]'); if (trackNode && trackNode.dataset.status !== 'upcoming') app.openCareerData(); });
   if (state.career?.offSeason?.status === 'active') {
     const button = document.createElement('button');
     button.className = 'app-button primary';

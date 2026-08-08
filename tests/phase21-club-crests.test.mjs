@@ -8,7 +8,7 @@ const clubs = [...read('clubs.json').clubs, ...read('world-expansion.json').club
 const hash = value => [...value].reduce((total, char) => Math.imul(total ^ char.codePointAt(0), 16777619) >>> 0, 2166136261);
 
 test('phase 21 has no missing, broken, duplicated, remote, watermarked or letter-placeholder crest', () => {
-  assert.equal(clubs.length, 544);
+  assert.equal(clubs.length, 547);
   assert.equal(new Set(clubs.map(club => club.crest)).size, clubs.length);
   for (const club of clubs) {
     assert.match(club.crest, /^\.\/assets\/clubs\/[^/]+\/[^/]+\.(svg|png|webp)$/i, club.id);

@@ -1,77 +1,59 @@
-# Phase 2 Global Layout Audit
+# Strict Rebuild Phase 2 UI Shell Audit
 
 Date: 2026-08-08
+Version: 20.43.0
 
-Phase 2 unified the global layout contract without changing the established geometry. Header, page content, fixed action, bottom navigation, sheets, dialogs, and toasts now share named spacing and stacking variables.
+Phase 2 replaced the duplicated application-shell wiring with one production shell component. Domain pages and creation behavior were intentionally left for later phases.
 
-## Layout contract
+## Implemented contract
 
-The production stylesheet now exposes and uses these variables:
-
-- `--header-height`
-- `--bottom-nav-height`
-- `--action-bar-height`
-- `--safe-top`
-- `--safe-bottom`
-- `--page-padding`
-- `--page-bottom-space`
-- `--z-content`
-- `--z-header`
-- `--z-action`
-- `--z-nav`
-- `--z-sheet`
-- `--z-modal`
-- `--z-toast`
-
-The existing viewport spacing and component dimensions remain unchanged. The variables replace duplicated layout arithmetic and provide one contract for later phases.
-
-## Blocking defect fixed
-
-Player creation could leave seven simultaneous feedback toasts at 320 px. The toast stack covered the fixed career action and each toast accepted pointer input, so the visible CTA was not the actual hit target.
-
-The feedback director now keeps only the three latest visible toasts. Toasts remain visible feedback but do not intercept pointer input. The browser gate verifies both the queue limit and the CTA hit target while a toast is present.
+- `src/components/appShell.js` owns the Header host, MainViewport, ActionDock, and BottomNavigation host.
+- `src/app.js` mounts and renders that component instead of constructing another shell string.
+- The page MainViewport is the only vertical scroll owner while the application shell is active.
+- A page may render one `.page-fixed-action`; the shell moves it into the shared ActionDock.
+- ActionDock and BottomNavigation are separate grid rows and cannot cover one another or the page body.
+- Route navigation resets MainViewport scroll rather than scrolling the document.
+- The default presentation is premium light; explicit dark and system preferences remain supported.
+- Shared safe-area, spacing, height, and stacking tokens remain the geometry source of truth.
 
 ## Browser gate
 
-`tests/phase2-layout-gate.mjs` drives a real player creation flow in system Chromium and checks the production application at:
+`node tests/phase2-layout-gate.mjs` passed in system Chromium at:
 
-| Width | Height | Result |
-| ---: | ---: | --- |
-| 320 | 568 | PASS |
-| 375 | 812 | PASS |
-| 390 | 844 | PASS |
-| 393 | 852 | PASS |
-| 414 | 896 | PASS |
-| 428 | 926 | PASS |
-| 430 | 932 | PASS |
+| Viewport | Result |
+| --- | --- |
+| 320 x 568 | PASS |
+| 375 x 812 | PASS |
+| 390 x 844 | PASS |
+| 393 x 852 | PASS |
+| 414 x 896 | PASS |
+| 428 x 926 | PASS |
+| 430 x 932 | PASS |
+| 1440 x 900 | PASS |
 
-Each viewport passed these checks:
+The gate verifies one Header, one visible primary action, one ActionDock, one BottomNavigation, light-first startup, one page scroll owner, no horizontal overflow, no action/navigation overlap, action hit testing, real Career primary-command dispatch, Toast bounds, Sheet lifecycle, dialog bounds, and compact dynamic viewport behavior.
 
-- every required layout variable resolves to a value;
-- no document-level horizontal overflow;
-- Header, content, fixed action, and BottomNav are present and in bounds;
-- the fixed action does not overlap BottomNav and remains the pointer hit target;
-- no more than three toasts are visible and they do not intercept input;
-- Toast remains inside the viewport and clear of Header;
-- Sheet is in bounds after its entry animation, its close button is clickable, and scroll lock is cleaned up;
-- the retirement dialog is in bounds and closes cleanly;
-- the 390 x 650 dynamic viewport keeps fixed controls separated.
+## Visual inspection
 
-Detailed ignored output: `test-results/phase2-layout-gate.json`.
+Current production modules were exercised through player creation into the Career page and captured at 390 x 844 and 1440 x 900. Header, content, ActionDock, and BottomNavigation remained ordered and visible. Mobile exposed the current node and its primary command without overlap. Desktop preserved the existing two-column Career content pending its later page-specific rebuild.
 
-## Regression results
+Generated screenshots:
+
+- `test-results/phase2-shell-mobile.png`
+- `test-results/phase2-shell-desktop.png`
+
+## Verification
 
 | Check | Result |
 | --- | --- |
-| `npm test` | PASS, 108/108 |
-| `npm run build` | PASS, version 20.4.0 |
-| `npm run test:repo` | PASS, 3/3 |
-| `node tests/mobile-layout-audit.mjs` | PASS, 12 viewports |
-| `node tests/phase2-layout-gate.mjs` | PASS, 7 viewports |
-| `git diff --check` | PASS |
+| `node --test tests/version-contract.test.mjs` | PASS, 1/1 |
+| `node tests/phase2-layout-gate.mjs` | PASS, 8 viewports |
+| `node --test tests/football-update.test.mjs` | PASS, 3/3 after replacing the obsolete dark-default assertion |
+| `npm test` | PASS, 170/170 |
+| `npm run build` | PASS, version 20.43.0 |
 
-Generated screenshots were visually checked at 320 x 568 and 1280 x 720. No clipping, overlap, horizontal overflow, or inaccessible action was observed. Physical Safari remains outside the local Windows test environment; safe-area behavior is covered by the production CSS contract and Chromium viewport checks.
+One combined independent review was used because the shared shell is a high-risk foundation. It found that moving the Career primary action outside the page event-delegation root disconnected its command. Career actions now use direct handlers that survive ActionDock relocation, and the browser gate clicks the relocated command and verifies its business Sheet opens. Focused and final full verification passed after the fix.
 
 ## Gate result
 
-Phase 2 PASS. Phase 3 is unlocked as the only active phase.
+Strict rebuild Phase 2: `PASS`. Phase 3 is the only active phase.

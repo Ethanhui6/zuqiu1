@@ -8,6 +8,7 @@ const executablePath = [
   'C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe',
   'C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe'
 ].find(fs.existsSync);
+const forbiddenEventLanguage = /[+-]\s*\d+\.\d+|EventWeight|\bFlag\b|fatigue|transferInterest|内部浮点|随机种子/i;
 
 async function createCareer(page, position) {
   await page.locator('[data-next]').click();
@@ -49,7 +50,8 @@ async function resolveEvent(page, expectedHistory) {
   await choice.waitFor();
   await choice.scrollIntoViewIfNeeded();
   const eventText = await page.locator('#overlay-root .overlay').innerText();
-  assert.doesNotMatch(eventText, /可能影响：|消耗：|当前状态适配|后续Flag/);
+  for (const label of ['情境', '重要角色', '选择', '可能收益', '风险', '随机判定']) assert.match(eventText, new RegExp(label));
+  assert.doesNotMatch(eventText, forbiddenEventLanguage);
   const hit = await choice.evaluate(element => {
     const box = element.getBoundingClientRect();
     const top = document.elementFromPoint(box.left + box.width / 2, box.top + box.height / 2);
@@ -68,6 +70,7 @@ async function resolveEvent(page, expectedHistory) {
   assert.equal(hit.hit, true, JSON.stringify(hit));
   await choice.evaluate(element => { element.click(); element.click(); });
   await page.locator('[data-result-back]').waitFor();
+  assert.doesNotMatch(await page.locator('#overlay-root .overlay').innerText(), forbiddenEventLanguage);
   const resolved = await page.evaluate(() => JSON.parse(localStorage.getItem('football-career-v20')));
   assert.equal(resolved.events.pending.length, 0);
   assert.equal(resolved.events.history.length, expectedHistory);

@@ -19,11 +19,20 @@ export const CLUB_TRANSFER_TABS = Object.freeze([
   { id: 'agent', label: '经纪人' }
 ]);
 
+export const TRANSFER_MARKET_HEAT_LEVELS = Object.freeze([
+  { id: 'cold', label: '冷淡', min: 0, tone: 'blue' },
+  { id: 'watching', label: '观察', min: 42, tone: 'green' },
+  { id: 'warming', label: '升温', min: 56, tone: 'purple' },
+  { id: 'hot', label: '热门', min: 68, tone: 'orange' },
+  { id: 'wanted', label: '抢手', min: 80, tone: 'gold' }
+]);
+
 const clamp = value => Math.max(0, Math.min(100, Number(value) || 0));
 const clubRep = club => Number(club?.rep ?? club?.reputation ?? club?.competition ?? 60);
 const clubName = club => club.cn || club.name || club.nameZh || club.id;
 const isWindow = date => ['01', '07'].includes(String(date).slice(5, 7));
 const stageCeiling = (score, date) => score >= 76 && isWindow(date) ? 4 : score >= 66 ? 3 : score >= 57 ? 2 : score >= 49 ? 1 : 0;
+const ROLE_LADDER = Object.freeze(['替补', '轮换', '主力', '核心', '绝对核心', '建队核心']);
 
 export function ensureTransferInbox(state) {
   state.transfer ??= {};
@@ -132,6 +141,80 @@ export function transferInterestScore(state, club, currentClub) {
   return clamp(Number(player.ovr || 50) * .66 + youth + performance + contract + positionNeed + levelFit + nationalityFit - currentGap);
 }
 
+export function transferMarketHeat(state) {
+  const transfer = ensureTransferInbox(state);
+  const activeStatuses = new Set(['pending', 'inquiry', 'negotiating']);
+  const activity = transfer.inbox.filter(item => item.clubId && item.clubId !== state.player?.clubId && item.source !== 'player-request');
+  const clubIds = new Set(activity.map(item => item.clubId));
+  const formalOffers = transfer.offers.filter(offer => offer.clubId !== state.player?.clubId && activeStatuses.has(offer.status));
+  const strongestSignal = activity.reduce((best, item) => Math.max(best, Number(item.score) || 0), 0);
+  const score = Math.round(clamp(strongestSignal + Math.min(12, Math.max(0, clubIds.size - 1) * 2) + formalOffers.length * 4));
+  const level = [...TRANSFER_MARKET_HEAT_LEVELS].reverse().find(item => score >= item.min) || TRANSFER_MARKET_HEAT_LEVELS[0];
+  return { ...level, score, interestedClubs: clubIds.size, formalOffers: formalOffers.length, recentRumor: activity.find(item => item.stage === 'rumor') || null };
+}
+
+export function transferNegotiationChoices(state, club, offer = {}) {
+  const player = state.player || {};
+  const season = state.season || {};
+  const management = Number(state.relationships?.management ?? 50);
+  const agent = Number(state.career?.agent?.negotiation ?? management);
+  const marketValue = Number(state.career?.marketValue || 0);
+  const reputation = Number(player.reputation ?? clamp(Number(player.ovr || 50) * .45 + marketValue / 2000000));
+  const needs = club?.needs || club?.need || [];
+  const needFit = needs.includes(player.position) || needs.includes('所有位置') ? 8 : -2;
+  const age = Number(player.age || 24);
+  const leagueFit = club?.league && club.league === player.league ? 3 : club?.country && [player.country, player.nation, player.nationality].includes(club.country) ? 1 : -2;
+  const seed = state.random?.seed || state.createdAt || 'career';
+  const base = 42
+    + (Number(player.ovr || 50) - clubRep(club)) * .8
+    + Math.max(0, Number(player.potential || player.ovr || 50) - Number(player.ovr || 50)) * .25
+    + (age <= 23 ? (24 - age) * .45 : -Math.max(0, age - 29) * .7)
+    + (Number(season.rating || 6.2) - 6.5) * 7
+    + (Number(player.morale ?? 60) - 50) * .08
+    + (Number(player.fitness ?? 75) - 70) * .06
+    + (reputation - 50) * .06
+    + (agent - 50) * .08
+    + needFit
+    + Math.max(-3, Math.min(5, (24 - Number(state.career?.contractMonths || 24)) * .2))
+    + (management - 50) * .08
+    + leagueFit
+    + (Number(offer.interestScore || 70) - 70) * .25;
+  const offeredRole = String(offer.role || (Number(club?.opportunity ?? club?.youthUsage ?? 60) >= 78 ? '轮换' : '替补'));
+  const offeredRank = offeredRole.includes('竞争') || offeredRole.includes('替补') ? 0 : offeredRole.includes('轮换') ? 1 : offeredRole.includes('主力') ? 2 : offeredRole.includes('绝对') ? 4 : offeredRole.includes('核心') ? 3 : 0;
+  const roles = [offeredRank, Math.min(5, Math.max(1, offeredRank + 1)), Math.min(5, Math.max(2, offeredRank + 2))].map(rank => ROLE_LADDER[rank]);
+  const definitions = [
+    { id: 'accept-role', label: `接受${roles[0]}承诺`, role: roles[0], offset: 24, risk: '低', reward: '俱乐部兴趣 +2 · 关系 +2 · 正式报价稳定', failure: '维持原角色条件' },
+    { id: 'request-rotation', label: `要求${roles[1]}`, role: roles[1], offset: -2, risk: '中', reward: `争取${roles[1]}出场承诺`, failure: '俱乐部兴趣 -4' },
+    { id: 'insist-starter', label: `坚持${roles[2]}`, role: roles[2], offset: -30, risk: '高', reward: `高收益：${roles[2]}定位`, failure: '俱乐部兴趣 -9 · 关系 -5' }
+  ];
+  const raw = definitions.map(item => Math.round(clamp(base + item.offset + (keyedRandom(seed, 'transfer-negotiation', offer.id || club?.id, item.id, state.simulation?.date).next() * 10 - 5))));
+  const probabilities = [Math.max(55, raw[0]), Math.max(20, Math.min(raw[1], raw[0] - 8)), Math.max(5, Math.min(raw[2], raw[1] - 8))];
+  return definitions.map((item, index) => ({ ...item, probability: probabilities[index] }));
+}
+
+export function resolveTransferNegotiation(state, club, offerId, choiceId) {
+  const transfer = ensureTransferInbox(state);
+  const offer = transfer.offers.find(item => item.id === offerId) || (transfer.contractOffer?.id === offerId ? transfer.contractOffer : null);
+  if (!offer) return null;
+  const choice = transferNegotiationChoices(state, club, offer).find(item => item.id === choiceId);
+  if (!choice) return null;
+  const round = Number(offer.negotiationRound || 0);
+  const roll = Math.floor(keyedRandom(state.random?.seed || state.createdAt || 'career', 'transfer-negotiation-result', offer.id, choice.id, round).next() * 100) + 1;
+  const success = roll <= choice.probability;
+  const interestDelta = success ? choice.id === 'accept-role' ? 2 : choice.id === 'request-rotation' ? 4 : 7 : choice.id === 'accept-role' ? -1 : choice.id === 'request-rotation' ? -4 : -9;
+  const relationshipDelta = success ? choice.id === 'accept-role' ? 2 : 1 : choice.id === 'insist-starter' ? -5 : -2;
+  offer.negotiationRound = round + 1;
+  offer.status = 'negotiating';
+  offer.interestScore = Math.round(clamp(Number(offer.interestScore || 70) + interestDelta));
+  if (success) offer.role = choice.role;
+  state.relationships ??= {};
+  state.relationships.management = Math.round(clamp(Number(state.relationships.management ?? 50) + relationshipDelta));
+  const record = { id: `negotiation-${state.simulation?.date}-${offer.id}-${transfer.negotiations.length}`, date: state.simulation?.date, offerId: offer.id, clubId: offer.clubId, action: choice.label, status: success ? 'terms-agreed' : 'counter-rejected', success, probability: choice.probability, roll, role: success ? choice.role : offer.role, interestDelta, relationshipDelta };
+  transfer.negotiations.unshift(record);
+  transfer.negotiations = transfer.negotiations.slice(0, 80);
+  return record;
+}
+
 export function generateTransferActivity(state, clubs, date = state.simulation?.date) {
   const transfer = ensureTransferInbox(state);
   ensureContractOffer(state, clubs, date);
@@ -154,7 +237,9 @@ export function generateTransferActivity(state, clubs, date = state.simulation?.
   const higher = ranked.find(item => clubRep(item.club) >= clubRep(current) + 5);
   const lower = ranked.find(item => clubRep(item.club) <= clubRep(current) - 5);
   const levelPick = transfer.evaluatedMonths.length % 2 ? higher : lower;
-  const picks = [...new Map([domestic, overseas, levelPick].filter(Boolean).map(item => [item.club.id, item])).values()];
+  const strongestScore = ranked[0]?.score || 0;
+  const activityLimit = strongestScore < 49 ? 1 : strongestScore < 66 ? 2 : 3;
+  const picks = [...new Map([domestic, overseas, levelPick].filter(Boolean).map(item => [item.club.id, item])).values()].slice(0, activityLimit);
   if (!picks.length) picks.push(ranked[0]);
 
   const created = [];

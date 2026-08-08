@@ -16,8 +16,8 @@ const registry = createWorldRegistry({
 });
 
 test('phase 20 adds complete Asian, European and American league snapshots', () => {
-  assert.equal(expansion.clubs.length, 44);
-  assert.deepEqual(Object.fromEntries(expansion.leagues.map(league => [league.id, expansion.clubs.filter(club => club.leagueId === league.id).length])), { THA1: 16, HUN1: 12, ECU1: 16 });
+  assert.equal(expansion.clubs.length, 47);
+  assert.deepEqual(Object.fromEntries(expansion.leagues.map(league => [league.id, expansion.clubs.filter(club => club.leagueId === league.id).length])), { THA1: 16, HUN1: 12, ECU1: 16, VNM1: 3 });
   for (const source of expansion.clubs) {
     const club = registry.getClub(source.id);
     for (const value of [club.id, club.nameZh, club.nameEn, club.country, club.leagueId, club.crest]) assert.ok(value, `${source.id} missing required identity`);
@@ -42,7 +42,7 @@ test('phase 20 competitions resolve rules, participants, honors and local trophi
 
 test('phase 20 world registry validates the expanded runtime scale', () => {
   assert.equal(registry.validation.valid, true, registry.validation.errors.join('; '));
-  assert.deepEqual({ clubs: registry.stats.clubs, leagues: registry.stats.leagues, countries: registry.stats.countries, competitions: registry.stats.competitions }, { clubs: 544, leagues: 50, countries: 40, competitions: 3 });
+  assert.deepEqual({ clubs: registry.stats.clubs, leagues: registry.stats.leagues, countries: registry.stats.countries, competitions: registry.stats.competitions }, { clubs: 547, leagues: 51, countries: 41, competitions: 3 });
   assert.equal(registry.getClub('THA1-BUR').continent, '亚洲');
   assert.equal(registry.getClub('HUN1-FER').continent, '欧洲');
   assert.equal(registry.getClub('ECU1-IDV').continent, '南美洲');

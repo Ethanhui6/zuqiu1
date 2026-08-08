@@ -1,0 +1,821 @@
+[
+  {
+    "id": "legendevo-ballon-dor",
+    "cn": "ballon-dor",
+    "native": "ballon-dor",
+    "image": "assets/trophies/legendevo/ballon-dor.webp",
+    "isReal": true,
+    "dataSource": {
+      "identity": "LegendEvo legacy honor catalog",
+      "sourceName": "LegendEvo",
+      "sourceReference": "https://legendevo.com/assets/honours/icons/ballon-dor.webp",
+      "verified": true
+    }
+  },
+  {
+    "id": "legendevo-golden-boot",
+    "cn": "golden-boot",
+    "native": "golden-boot",
+    "image": "assets/trophies/legendevo/golden-boot.webp",
+    "isReal": true,
+    "dataSource": {
+      "identity": "LegendEvo legacy honor catalog",
+      "sourceName": "LegendEvo",
+      "sourceReference": "https://legendevo.com/assets/honours/icons/golden-boot.webp",
+      "verified": true
+    }
+  },
+  {
+    "id": "legendevo-playmaker",
+    "cn": "playmaker",
+    "native": "playmaker",
+    "image": "assets/trophies/legendevo/playmaker.webp",
+    "isReal": true,
+    "dataSource": {
+      "identity": "LegendEvo legacy honor catalog",
+      "sourceName": "LegendEvo",
+      "sourceReference": "https://legendevo.com/assets/honours/icons/playmaker.webp",
+      "verified": true
+    }
+  },
+  {
+    "id": "legendevo-best-midfielder",
+    "cn": "best-midfielder",
+    "native": "best-midfielder",
+    "image": "assets/trophies/legendevo/best-midfielder.webp",
+    "isReal": true,
+    "dataSource": {
+      "identity": "LegendEvo legacy honor catalog",
+      "sourceName": "LegendEvo",
+      "sourceReference": "https://legendevo.com/assets/honours/icons/best-midfielder.webp",
+      "verified": true
+    }
+  },
+  {
+    "id": "legendevo-best-defender",
+    "cn": "best-defender",
+    "native": "best-defender",
+    "image": "assets/trophies/legendevo/best-defender.webp",
+    "isReal": true,
+    "dataSource": {
+      "identity": "LegendEvo legacy honor catalog",
+      "sourceName": "LegendEvo",
+      "sourceReference": "https://legendevo.com/assets/honours/icons/best-defender.webp",
+      "verified": true
+    }
+  },
+  {
+    "id": "legendevo-golden-glove",
+    "cn": "golden-glove",
+    "native": "golden-glove",
+    "image": "assets/trophies/legendevo/golden-glove.webp",
+    "isReal": true,
+    "dataSource": {
+      "identity": "LegendEvo legacy honor catalog",
+      "sourceName": "LegendEvo",
+      "sourceReference": "https://legendevo.com/assets/honours/icons/golden-glove.webp",
+      "verified": true
+    }
+  },
+  {
+    "id": "legendevo-young-player",
+    "cn": "young-player",
+    "native": "young-player",
+    "image": "assets/trophies/legendevo/young-player.webp",
+    "isReal": true,
+    "dataSource": {
+      "identity": "LegendEvo legacy honor catalog",
+      "sourceName": "LegendEvo",
+      "sourceReference": "https://legendevo.com/assets/honours/icons/young-player.webp",
+      "verified": true
+    }
+  },
+  {
+    "id": "legendevo-player-of-year",
+    "cn": "player-of-year",
+    "native": "player-of-year",
+    "image": "assets/trophies/legendevo/player-of-year.webp",
+    "isReal": true,
+    "dataSource": {
+      "identity": "LegendEvo legacy honor catalog",
+      "sourceName": "LegendEvo",
+      "sourceReference": "https://legendevo.com/assets/honours/icons/player-of-year.webp",
+      "verified": true
+    }
+  },
+  {
+    "id": "legendevo-liga-mx",
+    "cn": "liga-mx",
+    "native": "liga-mx",
+    "image": "assets/trophies/legendevo/liga-mx.webp",
+    "isReal": true,
+    "dataSource": {
+      "identity": "LegendEvo legacy honor catalog",
+      "sourceName": "LegendEvo",
+      "sourceReference": "https://legendevo.com/assets/honours/icons/liga-mx.webp",
+      "verified": true
+    }
+  },
+  {
+    "id": "legendevo-bundesliga",
+    "cn": "bundesliga",
+    "native": "bundesliga",
+    "image": "assets/trophies/legendevo/bundesliga.webp",
+    "isReal": true,
+    "dataSource": {
+      "identity": "LegendEvo legacy honor catalog",
+      "sourceName": "LegendEvo",
+      "sourceReference": "https://legendevo.com/assets/honours/icons/bundesliga.webp",
+      "verified": true
+    }
+  },
+  {
+    "id": "legendevo-brasileirao",
+    "cn": "brasileirao",
+    "native": "brasileirao",
+    "image": "assets/trophies/legendevo/brasileirao.webp",
+    "isReal": true,
+    "dataSource": {
+      "identity": "LegendEvo legacy honor catalog",
+      "sourceName": "LegendEvo",
+      "sourceReference": "https://legendevo.com/assets/honours/icons/brasileirao.webp",
+      "verified": true
+    }
+  },
+  {
+    "id": "legendevo-premier-league",
+    "cn": "premier-league",
+    "native": "premier-league",
+    "image": "assets/trophies/legendevo/premier-league.webp",
+    "isReal": true,
+    "dataSource": {
+      "identity": "LegendEvo legacy honor catalog",
+      "sourceName": "LegendEvo",
+      "sourceReference": "https://legendevo.com/assets/honours/icons/premier-league.webp",
+      "verified": true
+    }
+  },
+  {
+    "id": "legendevo-laliga",
+    "cn": "laliga",
+    "native": "laliga",
+    "image": "assets/trophies/legendevo/laliga.webp",
+    "isReal": true,
+    "dataSource": {
+      "identity": "LegendEvo legacy honor catalog",
+      "sourceName": "LegendEvo",
+      "sourceReference": "https://legendevo.com/assets/honours/icons/laliga.webp",
+      "verified": true
+    }
+  },
+  {
+    "id": "legendevo-liga-profesional",
+    "cn": "liga-profesional",
+    "native": "liga-profesional",
+    "image": "assets/trophies/legendevo/liga-profesional.webp",
+    "isReal": true,
+    "dataSource": {
+      "identity": "LegendEvo legacy honor catalog",
+      "sourceName": "LegendEvo",
+      "sourceReference": "https://legendevo.com/assets/honours/icons/liga-profesional.webp",
+      "verified": true
+    }
+  },
+  {
+    "id": "legendevo-ligue-1",
+    "cn": "ligue-1",
+    "native": "ligue-1",
+    "image": "assets/trophies/legendevo/ligue-1.webp",
+    "isReal": true,
+    "dataSource": {
+      "identity": "LegendEvo legacy honor catalog",
+      "sourceName": "LegendEvo",
+      "sourceReference": "https://legendevo.com/assets/honours/icons/ligue-1.webp",
+      "verified": true
+    }
+  },
+  {
+    "id": "legendevo-serie-a",
+    "cn": "serie-a",
+    "native": "serie-a",
+    "image": "assets/trophies/legendevo/serie-a.webp",
+    "isReal": true,
+    "dataSource": {
+      "identity": "LegendEvo legacy honor catalog",
+      "sourceName": "LegendEvo",
+      "sourceReference": "https://legendevo.com/assets/honours/icons/serie-a.webp",
+      "verified": true
+    }
+  },
+  {
+    "id": "legendevo-copa-de-primera",
+    "cn": "copa-de-primera",
+    "native": "copa-de-primera",
+    "image": "assets/trophies/legendevo/copa-de-primera.webp",
+    "isReal": true,
+    "dataSource": {
+      "identity": "LegendEvo legacy honor catalog",
+      "sourceName": "LegendEvo",
+      "sourceReference": "https://legendevo.com/assets/honours/icons/copa-de-primera.webp",
+      "verified": true
+    }
+  },
+  {
+    "id": "legendevo-liga-bolivia",
+    "cn": "liga-bolivia",
+    "native": "liga-bolivia",
+    "image": "assets/trophies/legendevo/liga-bolivia.webp",
+    "isReal": true,
+    "dataSource": {
+      "identity": "LegendEvo legacy honor catalog",
+      "sourceName": "LegendEvo",
+      "sourceReference": "https://legendevo.com/assets/honours/icons/liga-bolivia.webp",
+      "verified": true
+    }
+  },
+  {
+    "id": "legendevo-liga-de-primera",
+    "cn": "liga-de-primera",
+    "native": "liga-de-primera",
+    "image": "assets/trophies/legendevo/liga-de-primera.webp",
+    "isReal": true,
+    "dataSource": {
+      "identity": "LegendEvo legacy honor catalog",
+      "sourceName": "LegendEvo",
+      "sourceReference": "https://legendevo.com/assets/honours/icons/liga-de-primera.webp",
+      "verified": true
+    }
+  },
+  {
+    "id": "legendevo-liga-dimayor",
+    "cn": "liga-dimayor",
+    "native": "liga-dimayor",
+    "image": "assets/trophies/legendevo/liga-dimayor.webp",
+    "isReal": true,
+    "dataSource": {
+      "identity": "LegendEvo legacy honor catalog",
+      "sourceName": "LegendEvo",
+      "sourceReference": "https://legendevo.com/assets/honours/icons/liga-dimayor.webp",
+      "verified": true
+    }
+  },
+  {
+    "id": "legendevo-liga-futve",
+    "cn": "liga-futve",
+    "native": "liga-futve",
+    "image": "assets/trophies/legendevo/liga-futve.webp",
+    "isReal": true,
+    "dataSource": {
+      "identity": "LegendEvo legacy honor catalog",
+      "sourceName": "LegendEvo",
+      "sourceReference": "https://legendevo.com/assets/honours/icons/liga-futve.webp",
+      "verified": true
+    }
+  },
+  {
+    "id": "legendevo-liga-uruguaya",
+    "cn": "liga-uruguaya",
+    "native": "liga-uruguaya",
+    "image": "assets/trophies/legendevo/liga-uruguaya.webp",
+    "isReal": true,
+    "dataSource": {
+      "identity": "LegendEvo legacy honor catalog",
+      "sourceName": "LegendEvo",
+      "sourceReference": "https://legendevo.com/assets/honours/icons/liga-uruguaya.webp",
+      "verified": true
+    }
+  },
+  {
+    "id": "legendevo-liga1",
+    "cn": "liga1",
+    "native": "liga1",
+    "image": "assets/trophies/legendevo/liga1.webp",
+    "isReal": true,
+    "dataSource": {
+      "identity": "LegendEvo legacy honor catalog",
+      "sourceName": "LegendEvo",
+      "sourceReference": "https://legendevo.com/assets/honours/icons/liga1.webp",
+      "verified": true
+    }
+  },
+  {
+    "id": "legendevo-ligapro-serie-a",
+    "cn": "ligapro-serie-a",
+    "native": "ligapro-serie-a",
+    "image": "assets/trophies/legendevo/ligapro-serie-a.webp",
+    "isReal": true,
+    "dataSource": {
+      "identity": "LegendEvo legacy honor catalog",
+      "sourceName": "LegendEvo",
+      "sourceReference": "https://legendevo.com/assets/honours/icons/ligapro-serie-a.webp",
+      "verified": true
+    }
+  },
+  {
+    "id": "legendevo-2-bundesliga",
+    "cn": "2-bundesliga",
+    "native": "2-bundesliga",
+    "image": "assets/trophies/legendevo/2-bundesliga.webp",
+    "isReal": true,
+    "dataSource": {
+      "identity": "LegendEvo legacy honor catalog",
+      "sourceName": "LegendEvo",
+      "sourceReference": "https://legendevo.com/assets/honours/icons/2-bundesliga.webp",
+      "verified": true
+    }
+  },
+  {
+    "id": "legendevo-championship",
+    "cn": "championship",
+    "native": "championship",
+    "image": "assets/trophies/legendevo/championship.webp",
+    "isReal": true,
+    "dataSource": {
+      "identity": "LegendEvo legacy honor catalog",
+      "sourceName": "LegendEvo",
+      "sourceReference": "https://legendevo.com/assets/honours/icons/championship.webp",
+      "verified": true
+    }
+  },
+  {
+    "id": "legendevo-laliga-2",
+    "cn": "laliga-2",
+    "native": "laliga-2",
+    "image": "assets/trophies/legendevo/laliga-2.webp",
+    "isReal": true,
+    "dataSource": {
+      "identity": "LegendEvo legacy honor catalog",
+      "sourceName": "LegendEvo",
+      "sourceReference": "https://legendevo.com/assets/honours/icons/laliga-2.webp",
+      "verified": true
+    }
+  },
+  {
+    "id": "legendevo-ligue-2",
+    "cn": "ligue-2",
+    "native": "ligue-2",
+    "image": "assets/trophies/legendevo/ligue-2.webp",
+    "isReal": true,
+    "dataSource": {
+      "identity": "LegendEvo legacy honor catalog",
+      "sourceName": "LegendEvo",
+      "sourceReference": "https://legendevo.com/assets/honours/icons/ligue-2.webp",
+      "verified": true
+    }
+  },
+  {
+    "id": "legendevo-serie-b",
+    "cn": "serie-b",
+    "native": "serie-b",
+    "image": "assets/trophies/legendevo/serie-b.webp",
+    "isReal": true,
+    "dataSource": {
+      "identity": "LegendEvo legacy honor catalog",
+      "sourceName": "LegendEvo",
+      "sourceReference": "https://legendevo.com/assets/honours/icons/serie-b.webp",
+      "verified": true
+    }
+  },
+  {
+    "id": "legendevo-primera-nacional",
+    "cn": "primera-nacional",
+    "native": "primera-nacional",
+    "image": "assets/trophies/legendevo/primera-nacional.webp",
+    "isReal": true,
+    "dataSource": {
+      "identity": "LegendEvo legacy honor catalog",
+      "sourceName": "LegendEvo",
+      "sourceReference": "https://legendevo.com/assets/honours/icons/primera-nacional.webp",
+      "verified": true
+    }
+  },
+  {
+    "id": "legendevo-usa-mls",
+    "cn": "usa-mls",
+    "native": "usa-mls",
+    "image": "assets/trophies/legendevo/usa-mls.webp",
+    "isReal": true,
+    "dataSource": {
+      "identity": "LegendEvo legacy honor catalog",
+      "sourceName": "LegendEvo",
+      "sourceReference": "https://legendevo.com/assets/honours/icons/usa-mls.webp",
+      "verified": true
+    }
+  },
+  {
+    "id": "legendevo-arg-copa-argentina",
+    "cn": "arg-copa-argentina",
+    "native": "arg-copa-argentina",
+    "image": "assets/trophies/legendevo/arg-copa-argentina.webp",
+    "isReal": true,
+    "dataSource": {
+      "identity": "LegendEvo legacy honor catalog",
+      "sourceName": "LegendEvo",
+      "sourceReference": "https://legendevo.com/assets/honours/icons/arg-copa-argentina.webp",
+      "verified": true
+    }
+  },
+  {
+    "id": "legendevo-bol-copa-bolivia",
+    "cn": "bol-copa-bolivia",
+    "native": "bol-copa-bolivia",
+    "image": "assets/trophies/legendevo/bol-copa-bolivia.webp",
+    "isReal": true,
+    "dataSource": {
+      "identity": "LegendEvo legacy honor catalog",
+      "sourceName": "LegendEvo",
+      "sourceReference": "https://legendevo.com/assets/honours/icons/bol-copa-bolivia.webp",
+      "verified": true
+    }
+  },
+  {
+    "id": "legendevo-bra-copa-do-brasil",
+    "cn": "bra-copa-do-brasil",
+    "native": "bra-copa-do-brasil",
+    "image": "assets/trophies/legendevo/bra-copa-do-brasil.webp",
+    "isReal": true,
+    "dataSource": {
+      "identity": "LegendEvo legacy honor catalog",
+      "sourceName": "LegendEvo",
+      "sourceReference": "https://legendevo.com/assets/honours/icons/bra-copa-do-brasil.webp",
+      "verified": true
+    }
+  },
+  {
+    "id": "legendevo-chi-copa-chile",
+    "cn": "chi-copa-chile",
+    "native": "chi-copa-chile",
+    "image": "assets/trophies/legendevo/chi-copa-chile.webp",
+    "isReal": true,
+    "dataSource": {
+      "identity": "LegendEvo legacy honor catalog",
+      "sourceName": "LegendEvo",
+      "sourceReference": "https://legendevo.com/assets/honours/icons/chi-copa-chile.webp",
+      "verified": true
+    }
+  },
+  {
+    "id": "legendevo-col-copa-colombia",
+    "cn": "col-copa-colombia",
+    "native": "col-copa-colombia",
+    "image": "assets/trophies/legendevo/col-copa-colombia.webp",
+    "isReal": true,
+    "dataSource": {
+      "identity": "LegendEvo legacy honor catalog",
+      "sourceName": "LegendEvo",
+      "sourceReference": "https://legendevo.com/assets/honours/icons/col-copa-colombia.webp",
+      "verified": true
+    }
+  },
+  {
+    "id": "legendevo-ecu-copa-ecuador",
+    "cn": "ecu-copa-ecuador",
+    "native": "ecu-copa-ecuador",
+    "image": "assets/trophies/legendevo/ecu-copa-ecuador.webp",
+    "isReal": true,
+    "dataSource": {
+      "identity": "LegendEvo legacy honor catalog",
+      "sourceName": "LegendEvo",
+      "sourceReference": "https://legendevo.com/assets/honours/icons/ecu-copa-ecuador.webp",
+      "verified": true
+    }
+  },
+  {
+    "id": "legendevo-eng-fa-cup",
+    "cn": "eng-fa-cup",
+    "native": "eng-fa-cup",
+    "image": "assets/trophies/legendevo/eng-fa-cup.webp",
+    "isReal": true,
+    "dataSource": {
+      "identity": "LegendEvo legacy honor catalog",
+      "sourceName": "LegendEvo",
+      "sourceReference": "https://legendevo.com/assets/honours/icons/eng-fa-cup.webp",
+      "verified": true
+    }
+  },
+  {
+    "id": "legendevo-esp-copa-del-rey",
+    "cn": "esp-copa-del-rey",
+    "native": "esp-copa-del-rey",
+    "image": "assets/trophies/legendevo/esp-copa-del-rey.webp",
+    "isReal": true,
+    "dataSource": {
+      "identity": "LegendEvo legacy honor catalog",
+      "sourceName": "LegendEvo",
+      "sourceReference": "https://legendevo.com/assets/honours/icons/esp-copa-del-rey.webp",
+      "verified": true
+    }
+  },
+  {
+    "id": "legendevo-fra-coupe-de-france",
+    "cn": "fra-coupe-de-france",
+    "native": "fra-coupe-de-france",
+    "image": "assets/trophies/legendevo/fra-coupe-de-france.webp",
+    "isReal": true,
+    "dataSource": {
+      "identity": "LegendEvo legacy honor catalog",
+      "sourceName": "LegendEvo",
+      "sourceReference": "https://legendevo.com/assets/honours/icons/fra-coupe-de-france.webp",
+      "verified": true
+    }
+  },
+  {
+    "id": "legendevo-ger-dfb-pokal",
+    "cn": "ger-dfb-pokal",
+    "native": "ger-dfb-pokal",
+    "image": "assets/trophies/legendevo/ger-dfb-pokal.webp",
+    "isReal": true,
+    "dataSource": {
+      "identity": "LegendEvo legacy honor catalog",
+      "sourceName": "LegendEvo",
+      "sourceReference": "https://legendevo.com/assets/honours/icons/ger-dfb-pokal.webp",
+      "verified": true
+    }
+  },
+  {
+    "id": "legendevo-ita-coppa-italia",
+    "cn": "ita-coppa-italia",
+    "native": "ita-coppa-italia",
+    "image": "assets/trophies/legendevo/ita-coppa-italia.webp",
+    "isReal": true,
+    "dataSource": {
+      "identity": "LegendEvo legacy honor catalog",
+      "sourceName": "LegendEvo",
+      "sourceReference": "https://legendevo.com/assets/honours/icons/ita-coppa-italia.webp",
+      "verified": true
+    }
+  },
+  {
+    "id": "legendevo-mex-copa-mx",
+    "cn": "mex-copa-mx",
+    "native": "mex-copa-mx",
+    "image": "assets/trophies/legendevo/mex-copa-mx.webp",
+    "isReal": true,
+    "dataSource": {
+      "identity": "LegendEvo legacy honor catalog",
+      "sourceName": "LegendEvo",
+      "sourceReference": "https://legendevo.com/assets/honours/icons/mex-copa-mx.webp",
+      "verified": true
+    }
+  },
+  {
+    "id": "legendevo-par-copa-paraguay",
+    "cn": "par-copa-paraguay",
+    "native": "par-copa-paraguay",
+    "image": "assets/trophies/legendevo/par-copa-paraguay.webp",
+    "isReal": true,
+    "dataSource": {
+      "identity": "LegendEvo legacy honor catalog",
+      "sourceName": "LegendEvo",
+      "sourceReference": "https://legendevo.com/assets/honours/icons/par-copa-paraguay.webp",
+      "verified": true
+    }
+  },
+  {
+    "id": "legendevo-uru-copa-uruguay",
+    "cn": "uru-copa-uruguay",
+    "native": "uru-copa-uruguay",
+    "image": "assets/trophies/legendevo/uru-copa-uruguay.webp",
+    "isReal": true,
+    "dataSource": {
+      "identity": "LegendEvo legacy honor catalog",
+      "sourceName": "LegendEvo",
+      "sourceReference": "https://legendevo.com/assets/honours/icons/uru-copa-uruguay.webp",
+      "verified": true
+    }
+  },
+  {
+    "id": "legendevo-usa-us-open",
+    "cn": "usa-us-open",
+    "native": "usa-us-open",
+    "image": "assets/trophies/legendevo/usa-us-open.webp",
+    "isReal": true,
+    "dataSource": {
+      "identity": "LegendEvo legacy honor catalog",
+      "sourceName": "LegendEvo",
+      "sourceReference": "https://legendevo.com/assets/honours/icons/usa-us-open.webp",
+      "verified": true
+    }
+  },
+  {
+    "id": "legendevo-ven-copa-venezuela",
+    "cn": "ven-copa-venezuela",
+    "native": "ven-copa-venezuela",
+    "image": "assets/trophies/legendevo/ven-copa-venezuela.webp",
+    "isReal": true,
+    "dataSource": {
+      "identity": "LegendEvo legacy honor catalog",
+      "sourceName": "LegendEvo",
+      "sourceReference": "https://legendevo.com/assets/honours/icons/ven-copa-venezuela.webp",
+      "verified": true
+    }
+  },
+  {
+    "id": "legendevo-world-cup",
+    "cn": "world-cup",
+    "native": "world-cup",
+    "image": "assets/trophies/legendevo/world-cup.webp",
+    "isReal": true,
+    "dataSource": {
+      "identity": "LegendEvo legacy honor catalog",
+      "sourceName": "LegendEvo",
+      "sourceReference": "https://legendevo.com/assets/honours/icons/world-cup.webp",
+      "verified": true
+    }
+  },
+  {
+    "id": "legendevo-club-world-cup",
+    "cn": "club-world-cup",
+    "native": "club-world-cup",
+    "image": "assets/trophies/legendevo/club-world-cup.webp",
+    "isReal": true,
+    "dataSource": {
+      "identity": "LegendEvo legacy honor catalog",
+      "sourceName": "LegendEvo",
+      "sourceReference": "https://legendevo.com/assets/honours/icons/club-world-cup.webp",
+      "verified": true
+    }
+  },
+  {
+    "id": "legendevo-champions-league",
+    "cn": "champions-league",
+    "native": "champions-league",
+    "image": "assets/trophies/legendevo/champions-league.webp",
+    "isReal": true,
+    "dataSource": {
+      "identity": "LegendEvo legacy honor catalog",
+      "sourceName": "LegendEvo",
+      "sourceReference": "https://legendevo.com/assets/honours/icons/champions-league.webp",
+      "verified": true
+    }
+  },
+  {
+    "id": "legendevo-libertadores",
+    "cn": "libertadores",
+    "native": "libertadores",
+    "image": "assets/trophies/legendevo/libertadores.webp",
+    "isReal": true,
+    "dataSource": {
+      "identity": "LegendEvo legacy honor catalog",
+      "sourceName": "LegendEvo",
+      "sourceReference": "https://legendevo.com/assets/honours/icons/libertadores.webp",
+      "verified": true
+    }
+  },
+  {
+    "id": "legendevo-concacaf-champions",
+    "cn": "concacaf-champions",
+    "native": "concacaf-champions",
+    "image": "assets/trophies/legendevo/concacaf-champions.webp",
+    "isReal": true,
+    "dataSource": {
+      "identity": "LegendEvo legacy honor catalog",
+      "sourceName": "LegendEvo",
+      "sourceReference": "https://legendevo.com/assets/honours/icons/concacaf-champions.webp",
+      "verified": true
+    }
+  },
+  {
+    "id": "legendevo-afc-champions-elite",
+    "cn": "afc-champions-elite",
+    "native": "afc-champions-elite",
+    "image": "assets/trophies/legendevo/afc-champions-elite.webp",
+    "isReal": true,
+    "dataSource": {
+      "identity": "LegendEvo legacy honor catalog",
+      "sourceName": "LegendEvo",
+      "sourceReference": "https://legendevo.com/assets/honours/icons/afc-champions-elite.webp",
+      "verified": true
+    }
+  },
+  {
+    "id": "legendevo-caf-champions",
+    "cn": "caf-champions",
+    "native": "caf-champions",
+    "image": "assets/trophies/legendevo/caf-champions.webp",
+    "isReal": true,
+    "dataSource": {
+      "identity": "LegendEvo legacy honor catalog",
+      "sourceName": "LegendEvo",
+      "sourceReference": "https://legendevo.com/assets/honours/icons/caf-champions.webp",
+      "verified": true
+    }
+  },
+  {
+    "id": "legendevo-ofc-champions",
+    "cn": "ofc-champions",
+    "native": "ofc-champions",
+    "image": "assets/trophies/legendevo/ofc-champions.webp",
+    "isReal": true,
+    "dataSource": {
+      "identity": "LegendEvo legacy honor catalog",
+      "sourceName": "LegendEvo",
+      "sourceReference": "https://legendevo.com/assets/honours/icons/ofc-champions.webp",
+      "verified": true
+    }
+  },
+  {
+    "id": "legendevo-europa-league",
+    "cn": "europa-league",
+    "native": "europa-league",
+    "image": "assets/trophies/legendevo/europa-league.webp",
+    "isReal": true,
+    "dataSource": {
+      "identity": "LegendEvo legacy honor catalog",
+      "sourceName": "LegendEvo",
+      "sourceReference": "https://legendevo.com/assets/honours/icons/europa-league.webp",
+      "verified": true
+    }
+  },
+  {
+    "id": "legendevo-conference-league",
+    "cn": "conference-league",
+    "native": "conference-league",
+    "image": "assets/trophies/legendevo/conference-league.webp",
+    "isReal": true,
+    "dataSource": {
+      "identity": "LegendEvo legacy honor catalog",
+      "sourceName": "LegendEvo",
+      "sourceReference": "https://legendevo.com/assets/honours/icons/conference-league.webp",
+      "verified": true
+    }
+  },
+  {
+    "id": "legendevo-euro",
+    "cn": "euro",
+    "native": "euro",
+    "image": "assets/trophies/legendevo/euro.webp",
+    "isReal": true,
+    "dataSource": {
+      "identity": "LegendEvo legacy honor catalog",
+      "sourceName": "LegendEvo",
+      "sourceReference": "https://legendevo.com/assets/honours/icons/euro.webp",
+      "verified": true
+    }
+  },
+  {
+    "id": "legendevo-copa-america",
+    "cn": "copa-america",
+    "native": "copa-america",
+    "image": "assets/trophies/legendevo/copa-america.webp",
+    "isReal": true,
+    "dataSource": {
+      "identity": "LegendEvo legacy honor catalog",
+      "sourceName": "LegendEvo",
+      "sourceReference": "https://legendevo.com/assets/honours/icons/copa-america.webp",
+      "verified": true
+    }
+  },
+  {
+    "id": "legendevo-gold-cup",
+    "cn": "gold-cup",
+    "native": "gold-cup",
+    "image": "assets/trophies/legendevo/gold-cup.webp",
+    "isReal": true,
+    "dataSource": {
+      "identity": "LegendEvo legacy honor catalog",
+      "sourceName": "LegendEvo",
+      "sourceReference": "https://legendevo.com/assets/honours/icons/gold-cup.webp",
+      "verified": true
+    }
+  },
+  {
+    "id": "legendevo-afcon",
+    "cn": "afcon",
+    "native": "afcon",
+    "image": "assets/trophies/legendevo/afcon.webp",
+    "isReal": true,
+    "dataSource": {
+      "identity": "LegendEvo legacy honor catalog",
+      "sourceName": "LegendEvo",
+      "sourceReference": "https://legendevo.com/assets/honours/icons/afcon.webp",
+      "verified": true
+    }
+  },
+  {
+    "id": "legendevo-asian-cup",
+    "cn": "asian-cup",
+    "native": "asian-cup",
+    "image": "assets/trophies/legendevo/asian-cup.webp",
+    "isReal": true,
+    "dataSource": {
+      "identity": "LegendEvo legacy honor catalog",
+      "sourceName": "LegendEvo",
+      "sourceReference": "https://legendevo.com/assets/honours/icons/asian-cup.webp",
+      "verified": true
+    }
+  },
+  {
+    "id": "legendevo-ofc-nations",
+    "cn": "ofc-nations",
+    "native": "ofc-nations",
+    "image": "assets/trophies/legendevo/ofc-nations.webp",
+    "isReal": true,
+    "dataSource": {
+      "identity": "LegendEvo legacy honor catalog",
+      "sourceName": "LegendEvo",
+      "sourceReference": "https://legendevo.com/assets/honours/icons/ofc-nations.webp",
+      "verified": true
+    }
+  }
+]

@@ -9,6 +9,7 @@ assert.ok(executablePath,'Chrome or Edge is required for the Phase 12 gate');
 const server=createAppServer();await new Promise(resolve=>server.listen(0,'127.0.0.1',resolve));
 const browser=await chromium.launch({headless:true,executablePath}),report=[];
 const positions=['GK','CB','LB','CDM','CM','CAM','LW','ST'];
+const forbiddenEventLanguage=/[+-]\s*\d+\.\d+|EventWeight|\bFlag\b|fatigue|transferInterest|内部浮点|随机种子/i;
 
 try{
   const page=await browser.newPage({viewport:{width:390,height:844},hasTouch:true}),errors=[];page.on('pageerror',error=>errors.push(error.message));
@@ -23,8 +24,22 @@ try{
       localStorage.setItem('football-career-v20',JSON.stringify(state));return{count:dataRepository.careerEvents.length,templateId:event.templateId,title:event.title};
     },position);
     assert.equal(runtime.count,568);await page.reload({waitUntil:'networkidle'});await page.locator('.app-shell').waitFor();
-    await page.locator('.app-button[data-action="event"]').click();const choices=page.locator('[data-choice]');assert.equal(await choices.count(),3);await choices.nth(positions.indexOf(position)%3).click();
+    await page.locator('.app-button[data-action="event"]').click();
+    const structure=page.locator('[data-event-structure]');await structure.waitFor();
+    const eventText=await page.locator('#overlay-root .overlay').innerText();
+    for(const label of ['情境','重要角色','选择','可能收益','风险','随机判定'])assert.match(eventText,new RegExp(label));
+    assert.doesNotMatch(eventText,forbiddenEventLanguage);
+    if(position==='GK'){
+      fs.mkdirSync(path.resolve('test-results'),{recursive:true});
+      await page.waitForTimeout(450);
+      await page.screenshot({path:path.resolve('test-results/phase8-event-structure-390.png'),fullPage:true});
+    }
+    const choices=page.locator('[data-choice]');assert.equal(await choices.count(),3);await choices.nth(positions.indexOf(position)%3).click();
+    const judgement=page.locator('[data-event-judgement]');await judgement.waitFor();assert.equal(await judgement.getAttribute('data-phase'),'rolling');assert.ok(await judgement.getAttribute('data-animation-id'));
+    assert.notEqual(await judgement.locator('.event-roll-ring').evaluate(node=>getComputedStyle(node).animationName),'none');
+    if(position==='GK')await page.screenshot({path:path.resolve('test-results/phase9-event-judgement-390.png'),fullPage:true});
     const result=page.locator('[data-result-animation]');await result.waitFor();assert.ok((await result.locator('.card-copy').first().textContent()).trim().length>10);
+    assert.doesNotMatch(await page.locator('#overlay-root .overlay').innerText(),forbiddenEventLanguage);
     const saved=await page.evaluate(()=>JSON.parse(localStorage.getItem('football-career-v20')));assert.equal(saved.events.pending.length,0);assert.equal(saved.events.history.length,1);assert.ok(saved.events.history[0].resultText);
     assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth>document.documentElement.clientWidth),false);report.push({position,templateId:runtime.templateId,choices:3,persisted:true});
     await page.locator('[data-result-continue]').click();
