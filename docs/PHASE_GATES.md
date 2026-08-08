@@ -31,8 +31,8 @@ Local repository state is the source of truth. A phase may move to `PASS` only a
 | 24 | Injuries, cards, and suspensions | PASS |
 | 25 | World news | PASS |
 | 26 | Color and game feel | PASS |
-| 27 | Full career from age 16 to retirement | IN_PROGRESS |
-| 28 | Final mobile regression | LOCKED |
+| 27 | Full career from age 16 to retirement | PASS |
+| 28 | Final mobile regression | IN_PROGRESS |
 | 29 | Final code cleanup | LOCKED |
 | 30 | Release | LOCKED |
 
@@ -452,7 +452,7 @@ Phase 26 gate result: `PASS` on 2026-08-08. Phase 27 is now the only unlocked ph
 - [x] Retirement blocks further simulation and matches, archives the complete Timeline, and exposes no technical `null` milestone type.
 - [x] Real Chromium validates a 22-season retirement at 390x844 with 606 appearances, all required milestone types, zero runtime errors, and zero horizontal overflow.
 - [x] Full automated tests (150/150), production build, repository hygiene (3/3), Phase 5 pacing, Phase 6 lifecycle, and 12-viewport responsive audits pass for version 20.28.0.
-- [ ] GitHub Actions `verify` passes for the Phase 27 Pull Request.
-- [ ] Cloudflare Pages creates a successful native preview for the Phase 27 implementation commit.
+- [x] GitHub Actions `verify` passes for Phase 27 Pull Request #60 and implementation commit `c53864b`.
+- [x] Cloudflare Pages creates a successful native preview for implementation commit `c53864b`: `https://34796bd3.zuqiu-4tt.pages.dev`.
 
-Phase 27 gate result: `IN_PROGRESS`. Phase 28 remains locked.
+Phase 27 gate result: `PASS` on 2026-08-08. Phase 28 is now the only unlocked phase.
